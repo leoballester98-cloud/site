@@ -60,16 +60,7 @@
       transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
       border-radius: 0 4px 4px 0;
     }
-    .progress-label {
-      position: fixed;
-      top: 8px;
-      right: 16px;
-      font-size: 11px;
-      font-weight: 600;
-      color: var(--terracota);
-      z-index: 101;
-      letter-spacing: 0.5px;
-    }
+    
 
     /* ── HEADER ── */
     .quiz-header {
@@ -157,16 +148,18 @@
     .entry-badge {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      background: rgba(168,184,154,0.18);
-      border: 1px solid rgba(168,184,154,0.4);
-      color: #5a7a52;
-      font-size: 12px;
-      font-weight: 500;
-      padding: 5px 12px;
-      border-radius: 20px;
-      margin: 24px 0 16px;
-      letter-spacing: 0.3px;
+      gap: 8px;
+      background: linear-gradient(135deg, rgba(168,184,154,.25), rgba(200,149,108,.18));
+      border: 1.5px solid rgba(168,184,154,.55);
+      color: #3d6135;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      padding: 8px 18px;
+      border-radius: 50px;
+      margin: 28px 0 18px;
+      box-shadow: 0 2px 12px rgba(168,184,154,.2);
     }
     .entry-badge::before { content: '🌿'; }
 
@@ -383,8 +376,6 @@
     .trust-footer {
       text-align: center;
       padding: 16px;
-      background: rgba(200,149,108,0.06);
-      border-radius: 10px;
       margin-top: 4px;
     }
     .trust-footer p {
@@ -394,38 +385,53 @@
       line-height: 1.6;
     }
     .trust-footer strong {
-      color: var(--terracota-d);
+      color: var(--terracota-dd);
       opacity: 1;
+      font-weight: 700;
+      font-size: 14.5px;
+      border-bottom: 2px solid var(--terracota-dd);
+      letter-spacing: 0.01em;
     }
 
     /* ── BOTÃO CONTINUAR ── */
+    @keyframes btn-breathe {
+      0%, 100% { transform: scale(1);    box-shadow: 0 4px 0 #8B6347, 0 6px 16px rgba(139,99,71,.28); }
+      50%       { transform: scale(1.03); box-shadow: 0 4px 0 #8B6347, 0 10px 28px rgba(139,99,71,.38); }
+    }
+
     .btn-continue {
       width: 100%;
       padding: 18px;
-      background: var(--terracota);
+      background: linear-gradient(180deg, #D4845A 0%, var(--terracota) 100%);
       color: var(--branco);
       border: none;
-      border-radius: 12px;
+      border-radius: 14px;
       font-family: 'DM Sans', sans-serif;
       font-size: 16px;
       font-weight: 600;
       letter-spacing: 0.5px;
       cursor: pointer;
-      transition: all 0.2s ease;
       margin-top: 8px;
       display: none;
+      box-shadow: 0 4px 0 #8B6347, 0 6px 16px rgba(139,99,71,.28);
+      position: relative;
+      top: 0;
+      transition: top .1s ease, box-shadow .1s ease, background .2s ease;
     }
     .btn-continue.visible {
       display: block;
-      animation: fadeUp 0.3s ease forwards;
+      animation: fadeUp 0.3s ease forwards, btn-breathe 1.4s 0.4s ease-in-out infinite;
     }
     .btn-continue:hover {
-      background: var(--terracota-d);
-      transform: translateY(-1px);
-      box-shadow: 0 6px 20px rgba(139,99,71,0.3);
+      background: linear-gradient(180deg, #C8956C 0%, var(--terracota-d) 100%);
+      animation: none;
+      top: -2px;
+      box-shadow: 0 6px 0 #8B6347, 0 12px 28px rgba(139,99,71,.35);
     }
     .btn-continue:active {
-      transform: translateY(0);
+      top: 3px;
+      box-shadow: 0 1px 0 #8B6347, 0 2px 8px rgba(139,99,71,.2);
+      animation: none;
     }
 
     /* ── TELAS 2-17 ── */
@@ -1602,6 +1608,7 @@
       height: 14px;
       background: rgba(200,149,108,0.1);
       border-radius: 10px;
+      margin-top: 28px;
       margin-bottom: 8px;
       overflow: visible;
     }
@@ -1619,10 +1626,10 @@
 
     .diag-chart__marker {
       position: absolute;
-      top: -8px;
-      right: 0;
-      transform: translateX(50%);
-      transition: right 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+      top: -22px;
+      left: 0%;
+      transform: translateX(-50%);
+      transition: left 1.5s cubic-bezier(0.4, 0, 0.2, 1);
     }
     .diag-chart__marker-label {
       display: block;
@@ -1702,6 +1709,14 @@
       transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
+    .diag-bridge {
+      font-size: 14px;
+      color: var(--cacau);
+      line-height: 1.6;
+      margin: -4px 0 16px;
+      opacity: 0.85;
+      font-style: italic;
+    }
     .pillar-note {
       font-size: 12px;
       color: var(--terracota-d);
@@ -2020,6 +2035,641 @@
     @media (min-width: 520px) {
       .quiz-wrap { padding: 0 24px 48px; }
     }
+
+    /* ══════════════════════════════════════
+       TOPO DA OFERTA — hero com gradiente
+    ══════════════════════════════════════ */
+    .sales-top {
+      background: linear-gradient(150deg, var(--terracota-dd) 0%, var(--terracota) 55%, #D4845A 100%);
+      padding: 36px 20px 32px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      border-bottom: none;
+    }
+    .sales-top::before {
+      content: '';
+      position: absolute;
+      top: -60px; right: -60px;
+      width: 260px; height: 260px;
+      background: rgba(255,255,255,.06);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+    .sales-top::after {
+      content: '';
+      position: absolute;
+      bottom: -40px; left: -40px;
+      width: 180px; height: 180px;
+      background: rgba(255,255,255,.04);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+    .sales-top__badge {
+      background: rgba(253,250,246,.15);
+      border: 1px solid rgba(253,250,246,.30);
+      color: var(--creme);
+      position: relative;
+      z-index: 1;
+    }
+    .sales-top__title {
+      color: var(--marfim);
+      text-shadow: 0 2px 16px rgba(74,46,26,.22);
+      position: relative;
+      z-index: 1;
+    }
+    .sales-top__title em {
+      color: var(--creme);
+    }
+
+    /* ── DIAGNÓSTICO — 3 cartões lado a lado ── */
+    .sales-diagnosis {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    .sales-diagnosis__item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 5px;
+      padding: 14px 8px;
+      background: rgba(253,250,246,.12);
+      border: 1px solid rgba(253,250,246,.22);
+      border-radius: 14px;
+      backdrop-filter: blur(4px);
+    }
+    .sales-diagnosis__icon { font-size: 22px; }
+    .sales-diagnosis__label {
+      font-size: 10px;
+      color: rgba(253,250,246,.65);
+      opacity: 1;
+      margin-bottom: 0;
+      letter-spacing: 0.3px;
+      text-transform: uppercase;
+    }
+    .sales-diagnosis__value {
+      display: block;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--creme);
+      line-height: 1.3;
+    }
+    .sales-diagnosis__item > div {
+      text-align: center;
+    }
+
+    /* ══════════════════════════════════════
+       OFERTA — VERSÃO MAGNÍFICA
+    ══════════════════════════════════════ */
+
+    /* ── HERO ── */
+    .sp-hero {
+      background: linear-gradient(150deg,#6B3A1F 0%,#C8956C 55%,#D4845A 100%);
+      padding: 48px 24px 44px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .sp-hero::before {
+      content:'';position:absolute;top:-100px;right:-100px;
+      width:380px;height:380px;background:rgba(255,255,255,.05);border-radius:50%;pointer-events:none;
+    }
+    .sp-hero::after {
+      content:'';position:absolute;bottom:-70px;left:-70px;
+      width:260px;height:260px;background:rgba(255,255,255,.04);border-radius:50%;pointer-events:none;
+    }
+    .sp-hero__leaf {
+      font-size:36px;display:block;margin-bottom:12px;
+      position:relative;z-index:1;
+      animation:sp-float 4s ease-in-out infinite;
+    }
+    .sp-hero__badge {
+      display:inline-block;
+      background:rgba(253,250,246,.14);border:1px solid rgba(253,250,246,.28);
+      color:var(--creme);font-size:11px;font-weight:700;letter-spacing:1.8px;
+      text-transform:uppercase;padding:8px 20px;border-radius:50px;
+      margin-bottom:20px;position:relative;z-index:1;
+      backdrop-filter:blur(8px);
+    }
+    .sp-hero__title {
+      font-family:'Cormorant Garamond',serif;
+      font-size:clamp(32px,8vw,46px);font-weight:700;
+      color:var(--marfim);line-height:1.08;
+      margin-bottom:14px;
+      text-shadow:0 3px 24px rgba(74,46,26,.28);
+      position:relative;z-index:1;
+    }
+    .sp-hero__title em {font-style:italic;color:var(--creme);}
+    .sp-hero__sub {
+      font-size:15px;color:rgba(253,250,246,.72);
+      line-height:1.65;margin-bottom:0;
+      max-width:340px;margin-left:auto;margin-right:auto;
+      position:relative;z-index:1;
+    }
+
+    /* ── SCORE ── */
+    .sp-score-wrap {
+      padding:36px 24px 28px;
+      text-align:center;
+    }
+    .sp-score-label {
+      font-size:11px;font-weight:600;letter-spacing:.18em;
+      text-transform:uppercase;color:var(--terracota);
+      margin-bottom:20px;display:block;
+    }
+    .sp-score {
+      width:160px;height:160px;
+      position:relative;margin:0 auto 20px;
+    }
+    .sp-score svg {width:100%;height:100%;}
+    .sp-score__track {fill:none;stroke:rgba(200,149,108,.15);stroke-width:10;}
+    .sp-score__fill {
+      fill:none;stroke:url(#scoreGrad);stroke-width:10;
+      stroke-linecap:round;
+      stroke-dasharray:364.4;
+      stroke-dashoffset:364.4;
+      transform-origin:50% 50%;
+      transform:rotate(-90deg);
+      transition:stroke-dashoffset 1.8s cubic-bezier(.4,0,.2,1);
+    }
+    .sp-score__inner {
+      position:absolute;top:50%;left:50%;
+      transform:translate(-50%,-50%);
+      text-align:center;
+    }
+    .sp-score__num {
+      font-family:'Cormorant Garamond',serif;
+      font-size:44px;font-weight:700;color:var(--terracota-dd);
+      line-height:1;display:block;
+    }
+    .sp-score__pct {font-size:18px;color:var(--terracota);font-weight:600;}
+    .sp-score__name {font-size:11px;color:var(--cacau);opacity:.6;font-weight:500;}
+    .sp-score__caption {
+      font-family:'Cormorant Garamond',serif;
+      font-size:18px;font-style:italic;
+      color:var(--terracota-d);margin-bottom:24px;
+    }
+
+    /* ── DIAGNÓSTICO CHIPS ── */
+    .sp-diag {
+      display:grid;grid-template-columns:repeat(3,1fr);gap:10px;
+      max-width:380px;margin:0 auto;
+    }
+    .sp-diag__item {
+      display:flex;flex-direction:column;align-items:center;gap:5px;
+      padding:16px 8px;
+      background:var(--branco);
+      border:1.5px solid rgba(200,149,108,.18);
+      border-radius:16px;text-align:center;
+      box-shadow:0 2px 12px rgba(200,149,108,.08);
+      transition:transform .2s ease,box-shadow .2s ease;
+    }
+    .sp-diag__item:hover {transform:translateY(-2px);box-shadow:0 8px 24px rgba(200,149,108,.14);}
+    .sp-diag__icon {font-size:24px;}
+    .sp-diag__label {font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.6px;color:var(--cacau);opacity:.5;}
+    .sp-diag__value {font-family:'Cormorant Garamond',serif;font-size:15px;font-weight:700;color:var(--terracota-dd);}
+
+    /* ── PERFIL PERSONALIZADO ── */
+    .sp-profile {
+      background:var(--creme);
+      padding:36px 24px;
+    }
+    .sp-eyebrow {
+      display:block;font-size:11px;font-weight:600;
+      letter-spacing:.18em;text-transform:uppercase;
+      color:var(--terracota);margin-bottom:8px;
+    }
+    .sp-eyebrow--light {color:rgba(253,250,246,.65);}
+    .sp-title {
+      font-family:'Cormorant Garamond',serif;
+      font-size:clamp(24px,6vw,32px);font-weight:700;
+      color:var(--terracota-dd);line-height:1.18;margin-bottom:24px;
+    }
+    .sp-title--light {color:var(--marfim);}
+    .sp-profile__list {display:flex;flex-direction:column;gap:12px;}
+    .sp-profile__item {
+      display:flex;align-items:flex-start;gap:14px;
+      padding:16px 18px;
+      background:var(--branco);
+      border-radius:14px;
+      border-left:4px solid var(--terracota);
+      box-shadow:0 2px 12px rgba(200,149,108,.07);
+      font-size:14px;color:var(--cacau);line-height:1.55;
+      transition:transform .2s ease;
+    }
+    .sp-profile__item:hover {transform:translateX(3px);}
+    .sp-profile__icon {font-size:20px;flex-shrink:0;margin-top:1px;}
+
+    /* ── PRODUTO ── */
+    .sp-section {padding:36px 20px 0;}
+    .sp-product {
+      background:linear-gradient(135deg,var(--terracota-dd) 0%,var(--terracota-d) 100%);
+      border-radius:22px;padding:28px 22px;
+      color:var(--marfim);margin-bottom:14px;
+      position:relative;overflow:hidden;
+      box-shadow:0 16px 48px rgba(107,58,31,.25);
+    }
+    .sp-product::before {
+      content:'';position:absolute;top:-50px;right:-50px;
+      width:200px;height:200px;background:rgba(255,255,255,.06);border-radius:50%;
+    }
+    .sp-product__header {
+      display:flex;align-items:flex-start;gap:16px;
+      margin-bottom:20px;position:relative;z-index:1;
+    }
+    .sp-product__icon {font-size:48px;flex-shrink:0;filter:drop-shadow(0 4px 8px rgba(0,0,0,.2));}
+    .sp-product__tag {
+      display:inline-block;background:rgba(255,255,255,.18);
+      font-size:9px;font-weight:700;letter-spacing:.12em;
+      text-transform:uppercase;padding:4px 10px;border-radius:20px;
+      margin-bottom:6px;color:var(--creme);
+    }
+    .sp-product__name {
+      font-family:'Cormorant Garamond',serif;
+      font-size:22px;font-weight:700;color:var(--marfim);
+      line-height:1.2;margin-bottom:5px;
+    }
+    .sp-product__desc {font-size:13px;color:rgba(253,250,246,.78);line-height:1.6;}
+    .sp-product__pillars {
+      display:grid;grid-template-columns:1fr 1fr;gap:8px;
+      position:relative;z-index:1;
+    }
+    .sp-product__pillar {
+      display:flex;align-items:center;gap:8px;
+      background:rgba(255,255,255,.10);border-radius:10px;
+      padding:10px 12px;font-size:12px;color:var(--creme);font-weight:500;
+    }
+    .sp-product__pillar-icon {font-size:16px;flex-shrink:0;}
+
+    /* ── BÔNUS ── */
+    .sp-bonuses {display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+    .sp-bonus {
+      background:var(--branco);border:1.5px solid rgba(200,149,108,.18);
+      border-radius:18px;padding:20px 12px;text-align:center;
+      position:relative;overflow:hidden;
+      transition:transform .22s ease,box-shadow .22s ease;
+    }
+    .sp-bonus::before {
+      content:'';position:absolute;top:0;left:0;right:0;height:3px;
+      background:linear-gradient(90deg,var(--terracota),var(--caramelo));
+      border-radius:18px 18px 0 0;
+    }
+    .sp-bonus:hover {transform:translateY(-4px);box-shadow:0 14px 36px rgba(200,149,108,.16);}
+    .sp-bonus__tag {
+      display:inline-block;font-size:9px;font-weight:700;
+      letter-spacing:.1em;text-transform:uppercase;
+      color:var(--terracota-d);background:rgba(200,149,108,.1);
+      padding:3px 8px;border-radius:20px;margin-bottom:10px;
+    }
+    .sp-bonus__icon {font-size:32px;display:block;margin-bottom:8px;}
+    .sp-bonus__name {
+      font-family:'Cormorant Garamond',serif;font-size:15px;
+      font-weight:700;color:var(--terracota-dd);line-height:1.2;margin-bottom:4px;
+    }
+    .sp-bonus__desc {font-size:11px;color:var(--cacau);opacity:.62;line-height:1.45;}
+
+    /* ── STATS STRIP ── */
+    .sp-stats {
+      background:var(--terracota-dd);padding:16px 20px;margin-top:36px;
+    }
+    .sp-stats__inner {
+      display:flex;justify-content:center;gap:0;
+      flex-wrap:wrap;
+    }
+    .sp-stats__item {
+      display:flex;flex-direction:column;align-items:center;
+      padding:8px 20px;border-right:1px solid rgba(255,255,255,.12);
+    }
+    .sp-stats__item:last-child {border-right:none;}
+    .sp-stats__num {
+      font-family:'Cormorant Garamond',serif;
+      font-size:28px;font-weight:700;color:var(--creme);line-height:1;
+    }
+    .sp-stats__label {font-size:10px;color:rgba(253,250,246,.55);font-weight:500;letter-spacing:.06em;margin-top:2px;}
+
+    /* ── DEPOIMENTOS ── */
+    .sp-testimonials {background:var(--terracota);padding:40px 20px;}
+    .sp-testimonial {
+      background:rgba(253,250,246,.10);border:1px solid rgba(253,250,246,.15);
+      border-radius:20px;padding:24px 20px;margin-bottom:14px;
+      transition:background .25s ease,transform .25s ease;
+    }
+    .sp-testimonial:last-child {margin-bottom:0;}
+    .sp-testimonial:hover {background:rgba(253,250,246,.18);transform:translateY(-2px);}
+    .sp-testimonial__stars {color:#F5C842;font-size:15px;letter-spacing:2px;margin-bottom:14px;}
+    .sp-testimonial__text {
+      font-family:'Cormorant Garamond',serif;font-size:17px;
+      font-style:italic;color:var(--marfim);line-height:1.68;margin-bottom:18px;
+    }
+    .sp-testimonial__footer {display:flex;align-items:center;gap:12px;}
+    .sp-testimonial__avatar {
+      width:50px;height:50px;border-radius:50%;
+      border:2.5px solid rgba(253,250,246,.35);
+      box-shadow:0 4px 14px rgba(0,0,0,.22);
+      object-fit:cover;object-position:center top;flex-shrink:0;
+    }
+    .sp-testimonial__info strong {display:block;font-size:14px;font-weight:600;color:var(--marfim);}
+    .sp-testimonial__info span {font-size:11px;color:rgba(253,250,246,.52);}
+
+    /* ── ANTES × DEPOIS ── */
+    .sp-transform {
+      background:var(--marfim);
+      padding:40px 20px;
+    }
+    .sp-transform__grid {display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:4px;}
+    .sp-transform__col {border-radius:18px;padding:20px 16px;overflow:hidden;}
+    .sp-transform__col--before {
+      background:rgba(200,149,108,.07);
+      border:1.5px solid rgba(200,149,108,.2);
+    }
+    .sp-transform__col--after {
+      background:rgba(168,184,154,.12);
+      border:1.5px solid rgba(168,184,154,.35);
+    }
+    .sp-transform__head {
+      display:flex;align-items:center;gap:8px;
+      font-size:11px;font-weight:700;letter-spacing:.12em;
+      text-transform:uppercase;margin-bottom:14px;
+    }
+    .sp-transform__col--before .sp-transform__head {color:rgba(200,149,108,.8);}
+    .sp-transform__col--after .sp-transform__head {color:#5a7a52;}
+    .sp-transform__item {
+      display:flex;align-items:flex-start;gap:8px;
+      font-size:12px;color:var(--cacau);line-height:1.5;margin-bottom:10px;
+    }
+    .sp-transform__item:last-child {margin-bottom:0;}
+    .sp-transform__dot {font-size:14px;flex-shrink:0;margin-top:1px;}
+
+    /* ── ANCORAGEM DE VALOR ── */
+    .sp-anchor {
+      background:var(--branco);border:1px solid rgba(200,149,108,.15);
+      border-radius:20px;overflow:hidden;
+      box-shadow:0 4px 24px rgba(200,149,108,.09);margin-bottom:16px;
+    }
+    .sp-anchor__row {
+      display:flex;align-items:center;
+      justify-content:space-between;padding:16px 20px;
+      border-bottom:1px solid rgba(200,149,108,.09);
+    }
+    .sp-anchor__row:last-child {border-bottom:none;}
+    .sp-anchor__row--highlight {
+      background:linear-gradient(135deg,rgba(200,149,108,.08),rgba(212,165,116,.04));
+    }
+    .sp-anchor__emoji {font-size:20px;flex-shrink:0;margin-right:10px;}
+    .sp-anchor__label {flex:1;font-size:14px;color:var(--cacau);font-weight:500;}
+    .sp-anchor__row--highlight .sp-anchor__label {font-weight:700;color:var(--terracota-dd);}
+    .sp-anchor__price {font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;}
+    .sp-anchor__price--crossed {color:var(--cacau);opacity:.35;text-decoration:line-through;font-size:16px;}
+    .sp-anchor__price--main {color:var(--terracota-d);font-size:26px;}
+    .sp-anchor__note {font-size:13px;color:var(--cacau);opacity:.65;line-height:1.7;font-style:italic;}
+
+    /* ── OFERTA ── */
+    .sp-offer {
+      margin:0 20px;
+      background:linear-gradient(150deg,var(--terracota-dd) 0%,#b07245 50%,#D4845A 100%);
+      border-radius:28px;padding:40px 24px 32px;
+      text-align:center;color:var(--branco);
+      position:relative;overflow:hidden;
+      box-shadow:0 24px 64px rgba(107,58,31,.35);
+    }
+    .sp-offer::before {
+      content:'';position:absolute;top:-80px;right:-80px;
+      width:280px;height:280px;background:rgba(255,255,255,.06);border-radius:50%;pointer-events:none;
+    }
+    .sp-offer::after {
+      content:'';position:absolute;bottom:-60px;left:-60px;
+      width:200px;height:200px;background:rgba(255,255,255,.04);border-radius:50%;pointer-events:none;
+    }
+    .sp-offer__badge {
+      display:inline-block;background:rgba(255,255,255,.14);
+      border:1px solid rgba(255,255,255,.22);
+      font-size:10px;font-weight:700;letter-spacing:1.2px;
+      padding:8px 18px;border-radius:50px;margin-bottom:20px;
+      position:relative;z-index:1;
+    }
+    .sp-offer__savings {
+      display:inline-block;background:#F5C842;color:var(--terracota-dd);
+      font-size:13px;font-weight:700;letter-spacing:.04em;
+      padding:8px 18px;border-radius:50px;margin-bottom:18px;
+      position:relative;z-index:1;
+      box-shadow:0 4px 16px rgba(0,0,0,.15);
+    }
+    .sp-offer__from {font-size:15px;opacity:.6;margin-bottom:4px;position:relative;z-index:1;}
+    .sp-offer__price {
+      display:flex;align-items:flex-start;justify-content:center;
+      gap:2px;margin-bottom:4px;position:relative;z-index:1;
+    }
+    .sp-offer__currency {font-size:24px;font-weight:700;margin-top:16px;}
+    .sp-offer__value {font-family:'Cormorant Garamond',serif;font-size:88px;font-weight:700;line-height:1;}
+    .sp-offer__cents {font-size:32px;font-weight:700;margin-top:16px;line-height:1;}
+    .sp-offer__installment {
+      display:block;font-size:13px;opacity:.58;
+      margin-top:12px;margin-bottom:28px;
+      position:relative;z-index:1;
+      clear:both;
+    }
+    .sp-offer__includes {
+      display:flex;flex-direction:column;gap:6px;
+      margin:16px 0 24px;text-align:left;
+      position:relative;z-index:1;
+    }
+    .sp-offer__include-row {
+      display:flex;align-items:center;gap:8px;
+      font-size:13px;color:rgba(253,250,246,.82);
+    }
+    .sp-offer__include-check {font-size:14px;flex-shrink:0;}
+    .sp-offer__security {font-size:12px;opacity:.58;margin-top:14px;position:relative;z-index:1;}
+
+    /* ── CTA BOTÃO ── */
+    @keyframes sp-pulse {
+      0%   {box-shadow:0 0 0 0 rgba(253,250,246,.45);}
+      70%  {box-shadow:0 0 0 20px rgba(253,250,246,0);}
+      100% {box-shadow:0 0 0 0 rgba(253,250,246,0);}
+    }
+    @keyframes sp-float {
+      0%,100% {transform:translateY(0);}
+      50%      {transform:translateY(-7px);}
+    }
+    .sp-cta-btn {
+      display:block;width:100%;padding:22px 24px;
+      background:var(--marfim);color:var(--terracota-dd);
+      border:none;border-radius:50px;
+      font-family:'DM Sans',sans-serif;font-size:16px;font-weight:700;
+      letter-spacing:.05em;cursor:pointer;text-decoration:none;text-align:center;
+      transition:transform .2s ease,box-shadow .2s ease;
+      animation:sp-pulse 2.5s ease infinite;
+      position:relative;z-index:1;
+    }
+    .sp-cta-btn:hover {transform:translateY(-3px);box-shadow:0 24px 56px rgba(0,0,0,.28);}
+    .sp-cta-btn--final {
+      margin:20px 20px 0;width:calc(100% - 40px);
+      background:var(--terracota);color:var(--marfim);animation:none;
+      box-shadow:0 8px 28px rgba(139,99,71,.3);
+    }
+    .sp-cta-btn--final:hover {background:var(--terracota-d);box-shadow:0 18px 44px rgba(107,58,31,.38);}
+
+    /* ── TRUST ROW ── */
+    .sp-trust {
+      display:flex;justify-content:center;gap:0;
+      flex-wrap:wrap;padding:20px 20px 0;
+    }
+    .sp-trust__item {
+      display:flex;align-items:center;gap:6px;
+      font-size:11px;color:var(--cacau);opacity:.6;font-weight:500;
+      padding:6px 12px;
+    }
+    .sp-trust__icon {font-size:16px;}
+
+    /* ── GARANTIA ── */
+    .sp-guarantee {
+      margin:24px 20px 0;display:flex;gap:18px;align-items:flex-start;
+      padding:26px 22px;
+      background:rgba(168,184,154,.12);border:1px solid rgba(168,184,154,.3);
+      border-radius:22px;
+    }
+    .sp-guarantee__icon {font-size:44px;flex-shrink:0;animation:sp-float 4s ease-in-out infinite;}
+    .sp-guarantee__title {
+      font-family:'Cormorant Garamond',serif;font-size:20px;
+      font-weight:700;color:var(--terracota-dd);margin-bottom:6px;
+    }
+    .sp-guarantee__text {font-size:14px;line-height:1.65;color:var(--cacau);opacity:.82;}
+
+    /* ── FAQ ── */
+    .sp-faq {padding:36px 20px 0;}
+    .sp-faq__item {
+      background:var(--branco);border:1px solid rgba(200,149,108,.15);
+      border-radius:14px;margin-bottom:10px;overflow:hidden;
+      transition:box-shadow .2s ease;
+    }
+    .sp-faq__item[open] {box-shadow:0 6px 24px rgba(200,149,108,.12);}
+    .sp-faq__question {
+      display:flex;align-items:center;justify-content:space-between;
+      padding:18px 20px;cursor:pointer;list-style:none;
+      font-size:14px;font-weight:600;color:var(--terracota-dd);
+      line-height:1.4;
+    }
+    .sp-faq__question::-webkit-details-marker {display:none;}
+    .sp-faq__question::after {
+      content:'＋';font-size:20px;color:var(--terracota);
+      flex-shrink:0;margin-left:12px;transition:transform .25s ease;
+    }
+    .sp-faq__item[open] .sp-faq__question::after {content:'－';}
+    .sp-faq__answer {
+      padding:0 20px 18px;font-size:13px;color:var(--cacau);
+      line-height:1.7;opacity:.82;
+    }
+
+    /* ── RODAPÉ ── */
+    .sp-footer-note {
+      text-align:center;font-size:13px;color:var(--cacau);
+      opacity:.5;padding:20px 20px 44px;font-style:italic;
+    }
+
+    /* ── ÍCONES SVG ANIMADOS (BÔNUS) ── */
+    .sp-bonus__svg {
+      width: 64px; height: 64px;
+      display: block; margin: 0 auto 10px;
+      overflow: visible;
+    }
+    /* Folha balançando */
+    .sp-icon-leaf-grp {
+      transform-origin: 28px 46px;
+      animation: sp-sway 3.5s ease-in-out infinite;
+    }
+    @keyframes sp-sway {
+      0%, 100% { transform: rotate(-7deg); }
+      50%       { transform: rotate(7deg); }
+    }
+    /* Ponto pulsante do calendário */
+    .sp-icon-dot {
+      transform-origin: 37px 37px;
+      animation: sp-dot-pulse 2s ease-in-out infinite;
+    }
+    @keyframes sp-dot-pulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50%       { transform: scale(1.25); opacity: .75; }
+    }
+    /* Ponteiros do relógio */
+    .sp-icon-min {
+      transform-origin: 28px 28px;
+      animation: sp-spin 4s linear infinite;
+    }
+    .sp-icon-hr {
+      transform-origin: 28px 28px;
+      animation: sp-spin 48s linear infinite;
+    }
+    @keyframes sp-spin {
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(360deg); }
+    }
+
+    /* ══════════════════════════════════════
+       PALETA RICA — CONSISTÊNCIA COM OFERTA
+    ══════════════════════════════════════ */
+
+    /* Fundo geral mais quente */
+    html, body { background: #FBF6EF; }
+
+    /* Header mais premium */
+    .quiz-header {
+      background: linear-gradient(180deg, #FDFAF6 0%, #F5E6D6 100%) !important;
+      border-bottom: 1px solid rgba(200,149,108,.22) !important;
+      box-shadow: 0 2px 12px rgba(200,149,108,.08);
+    }
+    .quiz-logo { font-size: 19px !important; letter-spacing: .05em; }
+
+    /* Barra de progresso com gradiente */
+    .progress-bar-fill {
+      background: linear-gradient(90deg, #8B6347, #C8956C, #D4A574) !important;
+    }
+
+    /* Títulos das perguntas */
+    .question-title {
+      color: var(--terracota-dd) !important;
+      font-size: clamp(21px, 5.5vw, 27px) !important;
+    }
+    .step-counter { color: var(--terracota) !important; }
+
+    /* Opções — selecionadas com mais destaque */
+    .option-btn.selected {
+      border-color: var(--terracota) !important;
+      background: linear-gradient(135deg, rgba(200,149,108,.12), rgba(212,165,116,.06)) !important;
+      box-shadow: 0 4px 16px rgba(200,149,108,.18) !important;
+    }
+    .energy-btn.selected {
+      border-color: var(--terracota) !important;
+      background: linear-gradient(135deg, rgba(200,149,108,.1), rgba(212,165,116,.05)) !important;
+      box-shadow: 0 4px 16px rgba(200,149,108,.15) !important;
+    }
+    .emoji-item.selected {
+      border-color: var(--terracota) !important;
+      background: linear-gradient(135deg, rgba(200,149,108,.1), rgba(212,165,116,.05)) !important;
+    }
+    .toggle-item.active {
+      border-color: var(--terracota) !important;
+      background: linear-gradient(135deg, rgba(200,149,108,.08), rgba(212,165,116,.04)) !important;
+    }
+    .two-btn.selected {
+      border-color: var(--terracota) !important;
+      background: linear-gradient(135deg, rgba(200,149,108,.1), rgba(212,165,116,.05)) !important;
+    }
+
+    /* Screens com fundo levemente quente */
+    .screen-inner { background: transparent; }
+    .quiz-wrap { background: transparent; }
+
+    /* Micro feedback mais vibrante */
+    .micro-feedback {
+      background: linear-gradient(135deg, rgba(168,184,154,.2), rgba(200,149,108,.12)) !important;
+      border-color: rgba(168,184,154,.45) !important;
+    }
+
+    /* Question label */
+    .question-label { color: var(--terracota-d) !important; }
   </style>
 </head>
 <body>
@@ -2028,7 +2678,6 @@
 <div class="progress-bar-wrap">
   <div class="progress-bar-fill" id="progressBar"></div>
 </div>
-<div class="progress-label" id="progressLabel">5%</div>
 
 <!-- Header -->
 <header class="quiz-header">
@@ -2132,7 +2781,7 @@
 
       <!-- Micro feedback -->
       <div class="micro-feedback" id="feedback-2">
-        <span class="micro-feedback-icon">🌿</span>
+        <span class="micro-feedback-icon">🌙</span>
         <p class="micro-feedback-text" id="feedback-text-2"></p>
       </div>
 
@@ -2226,7 +2875,7 @@
 
       <!-- Micro feedback -->
       <div class="micro-feedback" id="feedback-3">
-        <span class="micro-feedback-icon">🌿</span>
+        <span class="micro-feedback-icon">✨</span>
         <p class="micro-feedback-text" id="feedback-text-3"></p>
       </div>
 
@@ -2311,7 +2960,7 @@
 
       <!-- Micro feedback -->
       <div class="micro-feedback" id="feedback-4">
-        <span class="micro-feedback-icon">🌿</span>
+        <span class="micro-feedback-icon">🌱</span>
         <p class="micro-feedback-text" id="feedback-text-4"></p>
       </div>
 
@@ -2389,7 +3038,7 @@
 
       <!-- Micro feedback -->
       <div class="micro-feedback" id="feedback-6">
-        <span class="micro-feedback-icon">🌿</span>
+        <span class="micro-feedback-icon">🧘</span>
         <p class="micro-feedback-text" id="feedback-text-6"></p>
       </div>
 
@@ -2478,7 +3127,7 @@
 
       <!-- Micro feedback -->
       <div class="micro-feedback" id="feedback-8">
-        <span class="micro-feedback-icon">🌿</span>
+        <span class="micro-feedback-icon">💛</span>
         <p class="micro-feedback-text" id="feedback-text-8"></p>
       </div>
 
@@ -2522,7 +3171,7 @@
 
       <!-- Micro feedback -->
       <div class="micro-feedback" id="feedback-8">
-        <span class="micro-feedback-icon">🌿</span>
+        <span class="micro-feedback-icon">💛</span>
         <p class="micro-feedback-text" id="feedback-text-8"></p>
       </div>
 
@@ -2604,7 +3253,7 @@
 
       <!-- Micro feedback -->
       <div class="micro-feedback" id="feedback-10">
-        <span class="micro-feedback-icon">🌿</span>
+        <span class="micro-feedback-icon">🌸</span>
         <p class="micro-feedback-text" id="feedback-text-10"></p>
       </div>
 
@@ -2678,11 +3327,11 @@
     <div class="screen-inner" style="text-align: center;">
 
       <!-- Badge -->
-      <div class="diag-badge">🌿 SEU DIAGNÓSTICO ESTÁ PRONTO</div>
+      <div class="diag-badge">📊 O QUE ENCONTRAMOS NO SEU CORPO</div>
 
       <!-- Título -->
-      <h2 class="diag-title">Seu corpo tem <em>alto potencial fértil.</em></h2>
-      <p class="diag-sub">O que identificamos é que faltavam as condições certas para ele responder.</p>
+      <h2 class="diag-title">Não é falta de esforço.<br><em>É que ninguém te mostrou onde estão os bloqueios.</em></h2>
+      <p class="diag-sub">Você tentou. Você se cuidou. Mas sem saber exatamente o que está travando seu ciclo, qualquer tentativa é no escuro. Veja o que identificamos.</p>
 
       <!-- Gráfico 1 — Barra de potencial fértil -->
       <div class="diag-chart">
@@ -2704,11 +3353,14 @@
         </div>
       </div>
 
+      <!-- Ponte entre gráficos -->
+      <p class="diag-bridge">Seu corpo tem potencial. Mas algo está impedindo que ele se expresse. Veja onde estão os pontos de bloqueio:</p>
+
       <!-- Gráfico 2 — Cards dos 4 pilares -->
       <div class="diag-chart">
         <div class="diag-chart__header">
-          <span class="diag-chart__label">Seus 4 Ambientes Corporais</span>
-          <span class="diag-chart__badge">Análise detalhada</span>
+          <span class="diag-chart__label">Onde estão os seus bloqueios</span>
+          <span class="diag-chart__badge">4 pontos críticos</span>
         </div>
         <div class="pillar-bars">
           <div class="pillar-bar-item">
@@ -2752,22 +3404,22 @@
             </div>
           </div>
         </div>
-        <p class="pillar-note">Com o protocolo, esses 4 ambientes trabalham juntos.</p>
+        <p class="pillar-note">Quando esses 4 pontos estão desregulados ao mesmo tempo, o corpo entra em modo de defesa. Não é doença — é sinal de que ele precisa de direção.</p>
       </div>
 
       <!-- Gráfico 3 — Linha de evolução -->
       <div class="diag-chart">
         <div class="diag-chart__header">
-          <span class="diag-chart__label">Projeção com o Protocolo</span>
-          <span class="diag-chart__badge positive">30 dias</span>
+          <span class="diag-chart__label">Como fica quando os bloqueios são removidos</span>
+          <span class="diag-chart__badge positive">Sua curva possível</span>
         </div>
         <canvas id="evolutionChart" width="320" height="160"></canvas>
-        <p class="proj-note">*Baseado em respostas de +1.200 mulheres com perfil similar ao seu</p>
+        <p class="proj-note">*Trajetória média de mulheres com o seu perfil que aplicaram o protocolo completo</p>
       </div>
 
       <!-- CTA -->
       <button class="btn-continue visible diag-cta" onclick="goToScreen(13)">
-        Ver meu protocolo personalizado →
+        Quero entender como resolver isso →
       </button>
 
     </div>
@@ -2999,132 +3651,340 @@
   <div class="screen" id="screen-17">
     <div class="sales-page">
 
-      <!-- Topo — resultado personalizado -->
-      <div class="sales-top">
-        <div class="sales-top__badge">🌿 PROTOCOLO LIBERADO</div>
-        <h1 class="sales-top__title">Seu protocolo está <em>pronto.</em></h1>
-        <div class="sales-diagnosis">
-          <div class="sales-diagnosis__item">
-            <span class="sales-diagnosis__icon">✨</span>
+      <!-- HERO -->
+      <div class="sp-hero">
+        <span class="sp-hero__leaf">🌿</span>
+        <div class="sp-hero__badge">Protocolo Liberado</div>
+        <h1 class="sp-hero__title">Seu protocolo está<br><em>pronto para você.</em></h1>
+        <p class="sp-hero__sub">Baseado nas suas respostas, montamos o caminho exato para preparar seu corpo.</p>
+      </div>
+
+      <!-- SCORE DE FERTILIDADE -->
+      <div class="sp-score-wrap">
+        <span class="sp-score-label">Seu resultado personalizado</span>
+        <div class="sp-score" id="spScore">
+          <svg viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="scoreGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#C8956C"/>
+                <stop offset="100%" stop-color="#D4A574"/>
+              </linearGradient>
+            </defs>
+            <circle class="sp-score__track" cx="70" cy="70" r="58"/>
+            <circle class="sp-score__fill" id="scoreRing" cx="70" cy="70" r="58"/>
+          </svg>
+          <div class="sp-score__inner">
+            <span class="sp-score__num" id="scoreNum">0</span>
+            <span class="sp-score__pct">%</span>
+            <span class="sp-score__name">Potencial Fértil</span>
+          </div>
+        </div>
+        <p class="sp-score__caption">Seu corpo está pronto para responder</p>
+        <div class="sp-diag">
+          <div class="sp-diag__item">
+            <span class="sp-diag__icon">✨</span>
+            <span class="sp-diag__label">Potencial fértil</span>
+            <span class="sp-diag__value">Alto</span>
+          </div>
+          <div class="sp-diag__item">
+            <span class="sp-diag__icon">📅</span>
+            <span class="sp-diag__label">Ciclo</span>
+            <span class="sp-diag__value">Regularizável</span>
+          </div>
+          <div class="sp-diag__item">
+            <span class="sp-diag__icon">🧘</span>
+            <span class="sp-diag__label">Hormonal</span>
+            <span class="sp-diag__value">Pronto</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- PERFIL PERSONALIZADO -->
+      <div class="sp-profile">
+        <span class="sp-eyebrow">O que identificamos no seu perfil</span>
+        <h2 class="sp-title">Você está no lugar certo</h2>
+        <div class="sp-profile__list">
+          <div class="sp-profile__item">
+            <span class="sp-profile__icon">🔍</span>
+            <span>Seu ciclo tem <strong>potencial real de regularização</strong> — o que você precisa é de protocolo, não de medicamento.</span>
+          </div>
+          <div class="sp-profile__item">
+            <span class="sp-profile__icon">⚡</span>
+            <span>Seu ambiente hormonal está <strong>pronto para responder</strong> às mudanças certas nos 4 pilares.</span>
+          </div>
+          <div class="sp-profile__item">
+            <span class="sp-profile__icon">🌱</span>
+            <span>A principal barreira que identificamos <strong>não é o seu corpo</strong> — é a falta de acesso ao caminho certo.</span>
+          </div>
+          <div class="sp-profile__item">
+            <span class="sp-profile__icon">💛</span>
+            <span>Mulheres com o seu perfil respondem <strong>em média em 4 a 8 semanas</strong> quando aplicam o protocolo completo.</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- PRODUTO -->
+      <div class="sp-section">
+        <span class="sp-eyebrow">O que você vai receber</span>
+        <h2 class="sp-title">Um protocolo feito para o seu perfil</h2>
+        <div class="sp-product">
+          <div class="sp-product__header">
+            <div class="sp-product__icon">📖</div>
             <div>
-              <span class="sales-diagnosis__label">Potencial fértil</span>
-              <span class="sales-diagnosis__value">Alto</span>
+              <span class="sp-product__tag">Produto principal</span>
+              <p class="sp-product__name">Protocolo Ciclo Fértil</p>
+              <p class="sp-product__desc">O único método que trabalha os 4 ambientes do corpo feminino ao mesmo tempo — sem clínica, sem medicamento.</p>
             </div>
           </div>
-          <div class="sales-diagnosis__item">
-            <span class="sales-diagnosis__icon">📅</span>
-            <div>
-              <span class="sales-diagnosis__label">Ciclo</span>
-              <span class="sales-diagnosis__value">Com potencial de regularização</span>
+          <div class="sp-product__pillars">
+            <div class="sp-product__pillar"><span class="sp-product__pillar-icon">🥗</span> Ambiente nutricional</div>
+            <div class="sp-product__pillar"><span class="sp-product__pillar-icon">📅</span> Ritmo do ciclo</div>
+            <div class="sp-product__pillar"><span class="sp-product__pillar-icon">🧘</span> Equilíbrio hormonal</div>
+            <div class="sp-product__pillar"><span class="sp-product__pillar-icon">🧠</span> Ambiente emocional</div>
+          </div>
+        </div>
+        <div class="sp-bonuses">
+          <div class="sp-bonus">
+            <span class="sp-bonus__tag">Bônus 1</span>
+            <svg class="sp-bonus__svg" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="28" cy="28" r="26" fill="rgba(168,184,154,0.18)"/>
+            <g class="sp-icon-leaf-grp">
+              <path d="M28 10 C19 12 13 21 15 31 C17 40 23 44 30 42 C38 39 43 30 40 21 C37 12 34 9 28 10Z"
+                    fill="#A8B89A"/>
+              <path d="M28 10 L28 42" stroke="#5a7a52" stroke-width="1.8" stroke-linecap="round"/>
+              <path d="M28 20 C24 23 20 25 17 24" stroke="#5a7a52" stroke-width="1.2" stroke-linecap="round" fill="none" opacity=".8"/>
+              <path d="M28 27 C32 24 36 23 38 22" stroke="#5a7a52" stroke-width="1.2" stroke-linecap="round" fill="none" opacity=".8"/>
+              <path d="M28 34 C23 36 19 36 17 34" stroke="#5a7a52" stroke-width="1.2" stroke-linecap="round" fill="none" opacity=".8"/>
+            </g>
+            <line x1="28" y1="42" x2="28" y2="48" stroke="#5a7a52" stroke-width="2.5" stroke-linecap="round"/>
+          </svg>
+            <p class="sp-bonus__name">Receitas Férteis</p>
+            <p class="sp-bonus__desc">30 receitas que ativam a fertilidade</p>
+          </div>
+          <div class="sp-bonus">
+            <span class="sp-bonus__tag">Bônus 2</span>
+            <svg class="sp-bonus__svg" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="28" cy="28" r="26" fill="rgba(200,149,108,0.14)"/>
+            <!-- caderno -->
+            <rect x="12" y="13" width="28" height="34" rx="3" fill="#FDFAF6" stroke="#C8956C" stroke-width="1.8"/>
+            <!-- espiral -->
+            <line x1="12" y1="13" x2="12" y2="47" stroke="#8B6347" stroke-width="3" stroke-linecap="round"/>
+            <!-- linhas do caderno -->
+            <line x1="18" y1="21" x2="34" y2="21" stroke="rgba(200,149,108,.3)" stroke-width="1.2" stroke-linecap="round"/>
+            <line x1="18" y1="27" x2="34" y2="27" stroke="rgba(200,149,108,.3)" stroke-width="1.2" stroke-linecap="round"/>
+            <line x1="18" y1="33" x2="28" y2="33" stroke="rgba(200,149,108,.3)" stroke-width="1.2" stroke-linecap="round"/>
+            <!-- círculo de ciclo animado -->
+            <circle class="sp-icon-dot" cx="37" cy="37" r="8" fill="#C8956C"/>
+            <path d="M34 37 C34 34.8 35.8 33 38 33 C40.2 33 42 34.8 42 37"
+                  stroke="white" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+            <circle cx="37" cy="40" r="1.5" fill="white"/>
+          </svg>
+            <p class="sp-bonus__name">Diário do Ciclo</p>
+            <p class="sp-bonus__desc">Rastreamento completo do seu ciclo</p>
+          </div>
+          <div class="sp-bonus">
+            <span class="sp-bonus__tag">Bônus 3</span>
+            <svg class="sp-bonus__svg" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="28" cy="28" r="26" fill="rgba(212,165,116,0.14)"/>
+            <!-- face do relógio -->
+            <circle cx="28" cy="28" r="18" fill="#FDFAF6" stroke="#C8956C" stroke-width="2"/>
+            <!-- marcadores de hora -->
+            <line x1="28" y1="12" x2="28" y2="15.5" stroke="#C8956C" stroke-width="2" stroke-linecap="round"/>
+            <line x1="28" y1="40.5" x2="28" y2="44" stroke="#C8956C" stroke-width="2" stroke-linecap="round"/>
+            <line x1="12" y1="28" x2="15.5" y2="28" stroke="#C8956C" stroke-width="2" stroke-linecap="round"/>
+            <line x1="40.5" y1="28" x2="44" y2="28" stroke="#C8956C" stroke-width="2" stroke-linecap="round"/>
+            <!-- ponteiro de hora -->
+            <line class="sp-icon-hr" x1="28" y1="28" x2="28" y2="20"
+                  stroke="#6B3A1F" stroke-width="2.8" stroke-linecap="round"/>
+            <!-- ponteiro de minuto -->
+            <line class="sp-icon-min" x1="28" y1="28" x2="36" y2="28"
+                  stroke="#C8956C" stroke-width="2" stroke-linecap="round"/>
+            <!-- centro -->
+            <circle cx="28" cy="28" r="3" fill="#6B3A1F"/>
+            <!-- sino -->
+            <path d="M22 10 C22 10 24 8 28 8 C32 8 34 10 34 10" stroke="#C8956C" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+          </svg>
+            <p class="sp-bonus__name">Rotinas Férteis</p>
+            <p class="sp-bonus__desc">10 minutos por dia que mudam tudo</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- STATS -->
+      <div class="sp-stats">
+        <div class="sp-stats__inner">
+          <div class="sp-stats__item">
+            <span class="sp-stats__num">3.800+</span>
+            <span class="sp-stats__label">Mulheres atendidas</span>
+          </div>
+          <div class="sp-stats__item">
+            <span class="sp-stats__num">4.9★</span>
+            <span class="sp-stats__label">Avaliação média</span>
+          </div>
+          <div class="sp-stats__item">
+            <span class="sp-stats__num">15</span>
+            <span class="sp-stats__label">Dias de garantia</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- DEPOIMENTOS -->
+      <div class="sp-testimonials">
+        <span class="sp-eyebrow sp-eyebrow--light">O que estão dizendo</span>
+        <h2 class="sp-title sp-title--light">Mulheres reais. Resultados reais.</h2>
+        <div class="sp-testimonial">
+          <div class="sp-testimonial__stars">★★★★★</div>
+          <p class="sp-testimonial__text">"Tentei por 14 meses. Três semanas depois de começar o protocolo meu ciclo regulou pela primeira vez em anos. No mês seguinte engravidei."</p>
+          <div class="sp-testimonial__footer">
+            <img src="Images/Mulher1.jpeg" class="sp-testimonial__avatar" alt="Ana Paula R.">
+            <div class="sp-testimonial__info">
+              <strong>Ana Paula R.</strong>
+              <span>36 anos · Curitiba · 14 meses tentando</span>
             </div>
           </div>
-          <div class="sales-diagnosis__item">
-            <span class="sales-diagnosis__icon">🧘</span>
-            <div>
-              <span class="sales-diagnosis__label">Ambiente hormonal</span>
-              <span class="sales-diagnosis__value">Pronto para responder</span>
+        </div>
+        <div class="sp-testimonial">
+          <div class="sp-testimonial__stars">★★★★★</div>
+          <p class="sp-testimonial__text">"Não acreditei que um protocolo tão simples pudesse fazer tanta diferença. No segundo ciclo aplicando tudo, engravidei."</p>
+          <div class="sp-testimonial__footer">
+            <img src="Images/mulher2.jpeg" class="sp-testimonial__avatar" alt="Camila T.">
+            <div class="sp-testimonial__info">
+              <strong>Camila T.</strong>
+              <span>31 anos · Belo Horizonte</span>
+            </div>
+          </div>
+        </div>
+        <div class="sp-testimonial">
+          <div class="sp-testimonial__stars">★★★★★</div>
+          <p class="sp-testimonial__text">"Depois de 8 meses tentando, comecei na segunda-feira. Em 6 semanas meu ciclo regulou e engravidei no ciclo seguinte."</p>
+          <div class="sp-testimonial__footer">
+            <img src="Images/mulher3.jpeg" class="sp-testimonial__avatar" alt="Fernanda R.">
+            <div class="sp-testimonial__info">
+              <strong>Fernanda R.</strong>
+              <span>34 anos · São Paulo · 8 meses tentando</span>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Produto -->
-      <div class="sales-section">
-        <h2 class="sales-section__title">O que você vai receber</h2>
-        <div class="sales-product">
-          <div class="sales-product__main">
-            <div class="sales-product__icon">📖</div>
-            <div>
-              <p class="sales-product__name">Protocolo Ciclo Fértil</p>
-              <p class="sales-product__desc">O único protocolo que trabalha os 4 ambientes do corpo feminino ao mesmo tempo — sem clínica, sem medicamento, sem dieta restritiva.</p>
-            </div>
+      <!-- ANTES × DEPOIS -->
+      <div class="sp-transform">
+        <span class="sp-eyebrow">A diferença que faz</span>
+        <h2 class="sp-title">Sem protocolo × Com protocolo</h2>
+        <div class="sp-transform__grid">
+          <div class="sp-transform__col sp-transform__col--before">
+            <div class="sp-transform__head"><span>❌</span> Sem protocolo</div>
+            <div class="sp-transform__item"><span class="sp-transform__dot">•</span> Ciclo irregular e imprevisível</div>
+            <div class="sp-transform__item"><span class="sp-transform__dot">•</span> Janela fértil invisível</div>
+            <div class="sp-transform__item"><span class="sp-transform__dot">•</span> Tentando no escuro</div>
+            <div class="sp-transform__item"><span class="sp-transform__dot">•</span> Desgaste emocional crescente</div>
           </div>
-          <div class="sales-includes">
-            <p class="sales-includes__title">O que está incluído:</p>
-            <div class="sales-include-item">
-              <span>✅</span>
-              <span>E-book completo Protocolo Ciclo Fértil</span>
-            </div>
-            <div class="sales-include-item">
-              <span>🎁</span>
-              <span><strong>Bônus 1:</strong> Receitas Férteis — 30 receitas que ativam a fertilidade</span>
-            </div>
-            <div class="sales-include-item">
-              <span>🎁</span>
-              <span><strong>Bônus 2:</strong> Diário do Ciclo Fértil — rastreamento do seu ciclo</span>
-            </div>
-            <div class="sales-include-item">
-              <span>🎁</span>
-              <span><strong>Bônus 3:</strong> Guia de Rotinas Férteis — rotina de 10 minutos por dia</span>
-            </div>
+          <div class="sp-transform__col sp-transform__col--after">
+            <div class="sp-transform__head"><span>✅</span> Com protocolo</div>
+            <div class="sp-transform__item"><span class="sp-transform__dot">•</span> Ciclo previsível e regulado</div>
+            <div class="sp-transform__item"><span class="sp-transform__dot">•</span> Ovulação identificada</div>
+            <div class="sp-transform__item"><span class="sp-transform__dot">•</span> Caminho claro e personalizado</div>
+            <div class="sp-transform__item"><span class="sp-transform__dot">•</span> Esperança renovada</div>
           </div>
         </div>
       </div>
 
-      <!-- Prova social -->
-      <div class="sales-section">
-        <h2 class="sales-section__title">O que estão dizendo</h2>
-        <div class="sales-testimonials">
-          <div class="sales-testimonial">
-            <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;"><img src="data:image/jpeg;base64,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" style="width:46px;height:46px;border-radius:50%;object-fit:cover;flex-shrink:0;"><div class="sales-testimonial__stars">★★★★★</div></div>
-            <p class="sales-testimonial__text">"Tentei por 14 meses. Três semanas depois de começar o protocolo meu ciclo regulou pela primeira vez em anos. No mês seguinte engravidei."</p>
-            <p class="sales-testimonial__author">Ana Paula R., 36 anos · Curitiba</p>
+      <!-- COMPARAÇÃO DE VALOR -->
+      <div class="sp-section">
+        <span class="sp-eyebrow">Por que vale a pena</span>
+        <h2 class="sp-title">Menos que uma consulta. Resultado de verdade.</h2>
+        <div class="sp-anchor">
+          <div class="sp-anchor__row">
+            <span class="sp-anchor__emoji">🏥</span>
+            <span class="sp-anchor__label">Consulta com especialista</span>
+            <span class="sp-anchor__price sp-anchor__price--crossed">R$400</span>
           </div>
-          <div class="sales-testimonial">
-            <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;"><img src="data:image/jpeg;base64,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" style="width:46px;height:46px;border-radius:50%;object-fit:cover;flex-shrink:0;"><div class="sales-testimonial__stars">★★★★★</div></div>
-            <p class="sales-testimonial__text">"Não acreditei que um protocolo tão simples pudesse fazer tanta diferença. No segundo ciclo aplicando tudo, engravidei."</p>
-            <p class="sales-testimonial__author">Camila T., 31 anos · Belo Horizonte</p>
+          <div class="sp-anchor__row">
+            <span class="sp-anchor__emoji">🔬</span>
+            <span class="sp-anchor__label">Exames hormonais</span>
+            <span class="sp-anchor__price sp-anchor__price--crossed">R$800</span>
           </div>
-          <div class="sales-testimonial">
-            <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;"><img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBAUEBAYFBQUGBgYHCQ4JCQgICRINDQoOFRIWFhUSFBQXGiEcFxgfGRQUHScdHyIjJSUlFhwpLCgkKyEkJST/2wBDAQYGBgkICREJCREkGBQYJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCT/wAARCACgAKADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD6FdeKw9VXejAVvyj5TWPeJuBrjqrQ6ab1OEv0YXSY/vVyfi9EstWwFU+dh3B74r0O7sN9wpx0Oaytf8JW+szpNI7RuBjcPSvLqQbjZHp0qyjJN7HAWVgoukuooy1s5xn+6fSrP2C3s9RadkZUlkX94GJKt9K6v/hGYbPTFjFwVjjJfJ4yazdCha6bz5NsgiYgE8hveuWV4xtYeJqKo9NTo7J95HJOBinoPmcf7VOtlUONvSlA/eP9a3jeyuQi1KPlSh1/fIf9mnyj7gocfvR/u1sQiewHyL9a7DRziD8K5OwHyCur0ri3/CtaHxGVbY2oesf+7U46n61BD1j/AN2pWlWMnccV6sNjzpElFZt5rkVs/lhCW7Z6U2PXEbG6PGfQ1VyeZGpVZ7oq5UKODjrTP7VgION+fTFZqXjzTOSpUE5GaLjF8RagY9LmX5RvG2l8Nso0SJj0JJ/Ws3xC2+yIb1q9o0Rfw/Eq9cn+dZ39/wCRf2R0i/KRWZOuHx61rMKzrlf3grOSLizJuogJWAAziuesjq7andJf+SLVBmEoOSD61090M3P4VnS4lMyleOma4qsToj0MjUbeO50+SFsbZMrWLo9smn77fcNq8elauqQTtBHFCwSPncR1rIsYWknuFmwccLXnyV2mtzqS1Nm3IEgwKfHzM/1qC2O1lGeRTopP37j3rRFmhN/BTmH7wf7tQzyfcqQuM5/2a0M0XLIYVa6nTf8Aj3H0rlrFgUBrqdMP+iitaO5nW2Nq36p/u0l6DtOPWnW5+Zf92kvM7D9a9WPwnnS3Obv7GW9vyqdQvX0psVjJI/kBtrKetS313Pa35MK7sryKXR7e8u5pZ5DtGeDWiaOdrU04rBljClgT609bA55Iq2gYLhjkioz5vmj+5S5UbXZheJY/Ls9p9a0NAXOiwD6/zqp4olH2TYRyWHNXdBO3RoPfP86yt+8+Rf2CNmFUbp1Uk1lzeK4UyDDID9K5bxN41vbaze4s4owY+WEncVy1MVSXU66eEqyex1d1uNwGA421hPa3UOpy3T3P7h1AEWO/rVjwrrM2vaZ9pnChuPuj2qa+ZeVNYzSqRUkPlcJcr3Ri6lcFrYFEKshJI9awrSRjJK4Uhs52mti8kCsRXPreCO8uF2lmAzgVxOOtzePc2beTLgng1VudTi0+ZpJyVjzgt6VVsdXguJSoYo6jJV+CK5fxJ498NWrz2d3d/aWbgpbjdj8elaRg5OyKlNJXudlH4n02+V2t7pJPK5YA8iudsviLdavrq2VhZb4MlWdjzj1rzu11jRdQu82GoXNpM37srNBjcCe5DfrivS/DUek6HZFdOkg1C6PEnkOGcH3XqPxFaTpSjrY5Y1XJpbHf6dMfunrXYaUc2q/WvNfD97qk9wTc2Kww9m3c/lXoukSAWq/WpoSuzaprG6Oitvvj/dp12MrUdq4MgH+zVl1D5Br2YaxPNluc9dgre7uMbaUa2lovkIm5yeCOnNaN3YxTMGYnI461TNvZ2h8xlHHc0XS3ZHK+hoQyuYwXHJoS68xiqjpWXeamZIpLZY2R3H7pgf1o0+/WygSG4SR51HztjqfWsoYiMno9O5pyaXGeJiTZ/Mv8Qq/oiH+x7b6Vl65qcV7aGONGB3DrS2HiSG0sYrdoZC0YxxjBp88VO7fQrlbicTcTQufviuR8VXMA0+5j89AShA56mvRNVXSYLSUh4QwU45FeH+J0nuhKywkxrJuz7CvEr4bk3ke7h8Q5vSJ6l8NJD/YTA9gv8qvapcbZTzWB8O9QSPSpVz1CkflVrV7rcxOfWt6cv3MTlrw/fSMjWWmu43jimML/AMLD1rlP+EiOhEm/jklmLeWWUVoW1409y4d2OGNZXxI1O20/Q4rVVT7RcsSX7og+8f6VzQrKpUVNI3q4OUIe0ucT8QvH7ahujtD5NonyArw85759vb8682/tO4kJ3Iix+ijkfj1qXUZzdTvKBiKIfKvv1/Om6Fotz4gvlgt+Ocs3oK9ynGNOJ485SnKyJdMubtboPbh2kyCuK2PtvifRtRGpiKYzKciRSc4/Dmu60zwVZaXEnybnX+I9zW39niIG5VI6VxTx6v7q0PSp5a+X33qdR8MviTbeLdOjSdvL1BTsdTxub/69esaZebI1T2r5ru/BMjyvf+HWkg1EfMYkOFm9vY16T8KfHo8VaeqXEgF5CCroeG46596UlGS9pT+ZlKMoP2cz2azvz5mc9BVo6uUZuC1c3aXJCs2anjusSHPetYVWkjCdNXLl1q8xJwpqit8815GXaN40G54j1qaVw1Y2qPHpEM1+kQeRuGPtXPinUklyStrr6DjTvokSX/iaBr4RQrsZRnGK0dSnMX2a+aQtHdoNmP4WAzg/57V5vqGpPcXUV7uCiPnyx0Nb+l6wutQRySRsogYlRu4ya4oP2sJU5u6ZpVws4q7Rpy6oJ2zHG6n+IEd6RZnYZ2Go1kFToW27gjEeuK7KKcYqLd7E8tjh5x5o3AEj6Vmazot6dHuboW0iwhDlsf0r2620iO5X93DHGF4AIp1xpnlqY5YQyY5G3IIqFl0bXcjseZNNJRPD/A8kv9n/ACo5GxeQprZ1B935V6fZx6UpMFtPaptA+VQMYpuo+DNN1R45Jjs5+9FxuHoaqlTioWjK5jWrOU7yVj580ufN7NucjDnr061w/wAQ9QbULu7kU5WKExoPYf5zX1fr3ww8P3WkSpFALaZVyk0Zwc9s+tfH/jZlTWrq0R9waV4kI7oCRn8aWHwzp1eaRtWxiq0uVHEHCW8C4z5nztXa/CKFWvrnHOzGa4ackSFSf9WoX8f/ANVdx8IpVjvbp3OFYjNejiv4TODB/wAZHq11bmQHaOMdapeUE+QnnrVLxJf6uylbW5TT7Q9NqZlP1J4B9hWF4SvWvtXls3uZrgpgGV33ZNeOqXu3ue662qjY07rxDfwalHb2MrWUUbZe4H32I7J6fWn6paXXhTxjZeJbZVh0/VWXzjEwKx3RG7J9BIDux6lqb4n8D3N7ePex3MscagK6IcY9/XBrd8J6DY3ml3Hhy/lC2t+gjDZ/1cw5jk+qtjn0zXVQrQhZdzkxNCc7vses6VqUd7p6Tx8B1BxnpV3z8Sp71574A1CaXSXEy+XIku10x91sEMPzU12bz4lh561Llqc/LobpkyKx/FF1HDo1wZDwVwPrSavf3FpZvcQbDsGSG71wGqeLrrWIJbOW3RAR1DVNesopx6muGw7nJS6GJfatdmNUAUe9df4Qvof7MKhwXz81cK9sN211Zh/vVp6ZrKaOhjWz8wHk/NXBTq23PTr0Iyj7tzt9R1pNNtWuTFLMinBES7jWG3xfv4MxQ6dd+UvClrc9Ko/8J55KkJYFc9RkGq7fEIA/NYH8hXV7aDVrtejscP1aad7L5n0lDeQSAMuOatqwYcV4l4F8b3YuoNKvizmWQLFJnuexr1WLWFe7aGIo5jbbJhunt9a9HD4tTV2cWLy+VKVjkPF3gqTTzLqOnh5ICS7oPvR9yR6j+VWPDEOrtbQea6LFLh0MkwJZfYV3FyGubdlhm8pyOGAzg+4ryLxLqV34d1xItWtBbwzNiOeHPlk+o/u/SvLxGX0qFX20E7Pov6/A7cPiqmJpexm1ddXudt421N9E8J38s0mJFTKYXdz29P518NajLLdarLNIdzKSxJ7k8/1r6X+KXiO6Xwm4a7MkcpVArdX+n4ZOfpXzTqjLauxB3M/zkZ+70xXpYecZ6xRwVaTpq0jnNRYJPOd3JP611nwmuB/aEsZYKQQ2a4idmaQu3PPINb3hG6Fhc/bo2VVQ/vAP7vvXXXjek0c+GlaqpHt2p+EJ9URwZpmjfqokKjH4VV0/TLLwk0Sxqi5cKT0A5/QV0GieIkn0lZAwZSnBHNcrq2pLLqi+akhhRgTsQsWJ6YArw4uT91n0fLBLn6nU6n4msba6RY5EnlQbZYyMowP8Oe9cv5tzpl7Dc2zAwyyArCWyV5zgE8nFV9YM8m2SOBLWIjKNNy//AHyOlXvDKWFxE6Xe9psnF0eoGM49hnFaKnZBJ6XO70CH7Fe60rsBvvXlQegf5sfrXQyTfv7cZrzrSfEz3tzNfW3lotzJgLOrZIUBd/HToBjvmu0kmP2q3DEbgOcdKpu7ZwzpOCT7mvrk+NKuOf4DXlTmMzM2CWIFeh6/c40m45/gryeTUWhnYFVI9Sa5q6bkdOFaUWabsmehrO1K/t7ExmVivmNtFMbVXxkQEj2NVLueG/2ia3J2nI56Gsow197Y6ZT093cuyiMgEZ5GetZ1y5fHkSHIPI9qe938wRYZCegA5zSX9reabte7sbi2Egyu9cBqUY21ByT0Ol0/Uo7q3W5tpWDrgja2GU+orrPDfie/0GcZlR4pWDSs4LE++fWvN/FM0Xh3UTdW7RtG7ZkRTgH3+ta+i+IbXWLVHilRw3p2NVOnKn78djqpVqeIThLfsfSekeKrC7RQJ0bIGcGk8caRZ694YuVmCMI0MqOf4SBmvHPCmqR2V9skLujcfIM4PvXf61rbaP4S1a5lm/cRwttY9FypwPxr0KOJdWDjJHjYnA+wqKdNnzL4v8TTXsht1mZobIFAWJ5z/wDWrzq/kmknlndcB/nx7k//AFq6O+ubPy3afzW7xovQls5Yn8qwrzUF1G5eQoqtIGLgdBxxj8q7MPHlVkjz8TPnd2zBkbcdvc9arlWUbckA+netX7PGsG/blwSM+1Z8xGdprtizz2juPh540k0pTY3ZaS2H3cclP/rV6Jb6pYX8yTQTRMvU88/lXg2nTeTcg5613Oh2U+tTrFbKFA+/L/d/+vXnYvDx5nPY9XBYmXKobnqF2LO4iO+Tcg5welZNus2oStaaaoEQOJ5v4Ik78+p54rQsPBluvkSPGzKi8tISf0PU+5rStZ7eOKa4tl22NuxUErgXEo9PVV7nucDsa85NdD1depY0LStOPiCwtVZ4FaWIbCcpGgOcHvzjJ/CvZH0zSVuBJe6N5KBRtlHKk/UV80a3q80CGQs4luX5PQjHJ+vWul8M/FzXdEs4rVJvtMagALL8wAz0wa6aS93VnBi5809Oh7VrOmaItoZF01rmE9fLkyp/WsZNPjulk+y+F4JbTbg7yp2/UCqGg/ELw7qymPWdBMLSH55LeQlRnuVzxXf6Lp0d1axz+Htat5bTO1lKBhj0PfP1rKphqtWV01bytf8AEzhiIU48rWvnt+ByOn/Cfw7q+24XTooZA2WijuDtPtj0q/efDjSwos5dDi8peEdU6fjXUzajeWRlt2021lli5SVHCq34dQax4PiK895Jpt9YTWs0a72dAXCL6kjitEqcIqM739BqpWb5o7epgaZ8OdLhE1pbaSI7oZeOaRCQD6Zqtqfg28e2t/7Smt4IlfEtpcMrZHqjdvpXoDX926K9teRSRuMqzDP6ism5gF+0tpqt3bTxyjARhtP4UpwVrIuGKnfyOMX4A6PdzmaZDeyNyWmyV/BRxWjafs86JC2+N5Ldj/zxIUD8K6JPFt3ChUbSz4jU4xs+gqwfGUqQCGOP7qbTIxyS3c1vGeHe9zlviIu8TNsPhBp2jM9zJq13JCqsXTy15GPpmvHfjHe32q6zLoVlcSw6RYnE8Skn51wCH9Tk4x0617jeeMnjtYxGh2oEaYtySAQWwPpXzzq+tP4il1q9tGLQXN7LKpB6ICM7fUs27k+n0pt0kv3SHz15v967o8m8RXCiaa2jUHycZI52+1ctHcmOcknpxXQ3kKRSNDwHZSrg/wB7rXP3dpsuGU8A8g13UkrWOKq3e5YW6Voyr8ZJxj6VnzsGk4pxVgu1uoNMjhknlSGJGkkc7VVRksfQVslYybuanhbw5deJdUS1twVjBBlk/uL/AI+lfRHhrwrbaRapFFGqRxjv1PuTXP8Aww8PxaF4cSeVVW5kBeZT94N6H0x0rSu/E5a9h0qOZUuLxtse4cD1P4DmvDxVZ1p8q2R72EoKjTUnuzdeU6nK8Mchis7cA3Eo9P7g9z+g59K5vxD4ggmlSOJAkMWAsa8KAOgFaOuahHp1gum2YYKmSznq7d2J7k15Zr+sFJRAr5kk7g9BWVOnzPlRtVqqEbsv6lqq6ndRADCwKVH+1k5JqxpzKwa4K/LnCr7+tYCAgRwqf3j4HHatyLDFIE+6nBNdjikrI8/mcndm7p93IH8wSiJF5Zz6eldz4G8dyWmrwQW8AitpWCSOWIaT/PpXmIuGmIhh+4uceh9Sa19Kc293AF+Yow9yeaSbi7iaUtD6gl3RoXQIU6ncetc1qFrd+I7e4tY2fTbGQbGkiwrt6msDUfiE2lPJFIHfyoVIWMfMTsBwPc5rFgu9S8WwEarrtxpKBcxW9oQ7Jx1dz1PsPzqJVU3Y7qVCSipM0IrOz+HYjhttZ1e4hK7VtJZAVPoxPUD2FQ6naa94n0+R728i0qxkx5M0nDexUdfxqKHRfCPhS0S+1XULzU5pmxH9pfmRh6L6D1q5pkkfiqa4m1aVYbFtixQfxKAPboKystjdRSV0vnb8jbaUpFBll3vk8jkZP+FOkl23ToO6r096rzz+ZeogDAL261KNp1QZ9c9MdOlYI5LHK/ErVZYIrXSo5zbpqc/2eWRQdypzkDHOT0/OsXXdBGhabFd2tu0dqsZR7fGHSMfdbHqMHI9D6iut8R6TbeJl+w3J4Y7kZWw0bg/KynsQa5TWNTn1Hw5FbawzRTR3Jsrh9p2ylM/Nx/e2qCPUmtoPaxDPEdYaLUr/AM1B5W9iC+MADt/LmuevVZpJYnIZk5DDoa77xPprzPJP5BhhQYiDja8jHjOOoA964C9ikErhOQCct6816tGV0edWjYzyCIhk/wCIrpvhrpf2/X3upBlbOMuB/tngf1P4Vy8r84OPqK9c8A+HZNG0WSSfat3csJWGeUTHy/oc/jWlefLB+ZnRhzT9DoJ7ox4Zflx1XPUY6VyXiHH9r2Wt/aDEtid2zbnfkjv261t6lI67Wzhe+Rwf8kVz2oPBe3dvbXUYeCYklckcqMjp79q4IRV7ndKbtY9EurqyvrVJLiXYCo5rzXxTo6W2sRahDMZbSZDtJXbtYdvy5/OtV5XcLGzHYo+Qeg//AFUupQNfaPcw4+eNTJGo67h/kippQ9m79y61T2it2OasLoNPPcHkQp8v1PFan2p4rdEiy0052rjqPU/gK5u0Y/2cFB5uJ0X6Dr/Sug08fbGeUkiH7q46so/pmt5xRzRlc07WRoU8qHDMfvt2+ma2NNVftCLuw/FZkUKlQFPI7DtWxokKz6nbwlcbpVGfx/nWLNkJ4/1iW38QXyeafldYfl44CqD/ACrNstbmgaOZnJEZ8zqfyrG8c3zTeIrwvjDXch49mNVWnIWFBzkg/WuadPW57VOrZW7JHQan4lm1jV7aS4diqfIg6bAAelWx4mu7dZgJG27yQu7HrXHXU/lyo4J+Vx3q1PcF1zk/Nk1LgUqm59JW0obUSdoP41cgl3alKeRt4rEsJduob3C5I4xV+2nC/apjuznH51B5xXjt7e/vVgnxIm48ZwfzHIqS60m1NhcWggQWu7b5f8OP61HBIi6mD1AUkjHr0q2WjdZ8AZJ2gDuad7CseVa3o8LWxhVPJZQV3hixIB4zmvItWguLBpbVrZ3VSdsqjIP1r3bxGhG5dw55OB0rz7XLISBmIwo6t2Nd1CdtzjrRueW2GnS6nqFvZRYElzIsan3JxXtl/E+n6dZNGz7UiELs3Vto28+/GayvBHhdbSO51sQx+Z8ptS3JABO4j0zwK3r24jv7C5RRjYROq/XgitK9XnaS2RNGnyq76mZeXCXdrCxIXgrt9Mf5FcjrLfZ9X00kg7pH4H+7WuJGiZkOeOQCelct4ovNmr6c2MBX3fqBRSjeVhVJWVzrYhuJzzg5Gf8AP+cVowbYZ0dwN3G0evv/AJ9azbWUeSepUgH0q3blpWe4lI44QE/xZ6VnI0izkvFNrDZ6slrZr5YlfzCo4C5XnHtyfzrV03AjRVACjt7CpNZsft9r9rUnz7Xe44zuXjj9M1W064DbDwQR17GrveKM7WkzdhCsMYwf510HhNFl1SFslWicNn1A6/oK52I7+pOc8VtWN39g0vUrpnKeTC+GHqVwP1as+ptFX0PMfEF4brUGlJJaRnfPXO5jViBiGQsOFAFY97IHv9gPClRWmj4QYxk+tE42ijvpyvOQl3IWHrznGasM26EdORn+VUZm3ZOasROfs6gDoMGoa0RcXqz/2Q==" style="width:46px;height:46px;border-radius:50%;object-fit:cover;flex-shrink:0;"><div class="sales-testimonial__stars">★★★★★</div></div>
-            <p class="sales-testimonial__text">"Depois de 8 meses tentando, fiz o teste numa sexta. Na segunda já tinha começado o protocolo. Em 6 semanas meu ciclo regulou e engravidei no ciclo seguinte."</p>
-            <p class="sales-testimonial__author">Fernanda R., 34 anos · São Paulo · 8 meses tentando</p>
+          <div class="sp-anchor__row sp-anchor__row--highlight">
+            <span class="sp-anchor__emoji">📖</span>
+            <span class="sp-anchor__label">Protocolo Ciclo Fértil</span>
+            <span class="sp-anchor__price sp-anchor__price--main">R$37,90</span>
           </div>
         </div>
+        <p class="sp-anchor__note">Você provavelmente já gastou mais do que isso tentando — em aplicativos, vitaminas, livros. Nenhum deles trabalhava os 4 ambientes ao mesmo tempo.</p>
       </div>
 
-      <!-- Ancoragem de valor -->
-      <div class="sales-anchor">
-        <p class="sales-anchor__text">Uma consulta com especialista em fertilidade custa em média <strong>R$400</strong>. Uma rodada de exames hormonais, <strong>R$800</strong>.</p>
-        <p class="sales-anchor__text">Você provavelmente já gastou mais do que R$37,90 tentando resolver isso — em aplicativos, vitaminas, livros. Nenhum deles trabalhava os 4 ambientes ao mesmo tempo.</p>
-        <p class="sales-anchor__highlight">O protocolo completo custa R$37,90.</p>
+      <!-- OFERTA -->
+      <div class="sp-section" style="padding-bottom:28px;">
+        <span class="sp-eyebrow">Oferta exclusiva</span>
+        <h2 class="sp-title">Acesso completo por um único pagamento</h2>
       </div>
-
-      <!-- Oferta -->
-      <div class="sales-offer">
-        <div class="sales-offer__badge">🔒 OFERTA EXCLUSIVA PARA QUEM FEZ O TESTE</div>
-        <div class="sales-offer__price">
-          <span class="sales-offer__from">De <s>R$97,00</s></span>
-          <div class="sales-offer__main-price">
-            <span class="sales-offer__currency">R$</span>
-            <span class="sales-offer__value">37</span>
-            <span class="sales-offer__cents">,90</span>
-          </div>
-          <span class="sales-offer__installment">pagamento único · acesso imediato</span>
+      <div class="sp-offer">
+        <div class="sp-offer__badge">🔒 OFERTA EXCLUSIVA PARA QUEM FEZ O TESTE</div>
+        <div class="sp-offer__savings">Você economiza R$150,10</div>
+        <p class="sp-offer__from">De <s>R$188,00</s> por apenas</p>
+        <div class="sp-offer__price">
+          <span class="sp-offer__currency">R$</span>
+          <span class="sp-offer__value">37</span>
+          <span class="sp-offer__cents">,90</span>
         </div>
-        <a href="https://pay.celetus.com/MWEYGXEF" class="sales-cta-btn" onclick="if(typeof fbq!=='undefined') fbq('track','InitiateCheckout');">
+        <span class="sp-offer__installment">pagamento único · acesso imediato</span>
+        <div class="sp-offer__includes">
+          <div class="sp-offer__include-row"><span class="sp-offer__include-check">✅</span> Protocolo Ciclo Fértil (e-book completo)</div>
+          <div class="sp-offer__include-row"><span class="sp-offer__include-check">🎁</span> Bônus 1: Receitas Férteis</div>
+          <div class="sp-offer__include-row"><span class="sp-offer__include-check">🎁</span> Bônus 2: Diário do Ciclo Fértil</div>
+          <div class="sp-offer__include-row"><span class="sp-offer__include-check">🎁</span> Bônus 3: Guia de Rotinas Férteis</div>
+        </div>
+        <a href="https://pay.celetus.com/MWEYGXEF" class="sp-cta-btn" onclick="if(typeof fbq!=='undefined') fbq('track','InitiateCheckout');">
           QUERO ACESSAR MEU PROTOCOLO →
         </a>
-        <div class="sales-offer__security">
-          🔒 Pagamento 100% seguro · Acesso imediato após confirmação
-        </div>
+        <p class="sp-offer__security">🔒 Pagamento 100% seguro · Acesso em menos de 1 minuto</p>
       </div>
 
-      <!-- Garantia -->
-      <div class="sales-guarantee">
-        <div class="sales-guarantee__icon">🛡️</div>
+      <!-- TRUST ROW -->
+      <div class="sp-trust">
+        <div class="sp-trust__item"><span class="sp-trust__icon">🔒</span> Pagamento seguro</div>
+        <div class="sp-trust__item"><span class="sp-trust__icon">⚡</span> Acesso imediato</div>
+        <div class="sp-trust__item"><span class="sp-trust__icon">🛡️</span> Garantia 15 dias</div>
+        <div class="sp-trust__item"><span class="sp-trust__icon">📱</span> Funciona no celular</div>
+      </div>
+
+      <!-- GARANTIA -->
+      <div class="sp-guarantee">
+        <div class="sp-guarantee__icon">🛡️</div>
         <div>
-          <p class="sales-guarantee__title">Garantia de 15 dias</p>
-          <p class="sales-guarantee__text">Se em 15 dias você não estiver satisfeita com o protocolo, devolvemos 100% do seu dinheiro. Sem perguntas, sem burocracia.</p>
+          <p class="sp-guarantee__title">Garantia incondicional de 15 dias</p>
+          <p class="sp-guarantee__text">Se em 15 dias você não estiver satisfeita, devolvemos 100% do seu dinheiro. Sem perguntas, sem burocracia. O risco é inteiramente nosso.</p>
         </div>
       </div>
 
-      <!-- CTA final -->
-      <a href="https://pay.celetus.com/MWEYGXEF" class="sales-cta-btn sales-cta-btn--bottom" onclick="if(typeof fbq!=='undefined') fbq('track','InitiateCheckout');">
+      <!-- FAQ -->
+      <div class="sp-faq">
+        <span class="sp-eyebrow">Dúvidas frequentes</span>
+        <h2 class="sp-title">Respondemos para você</h2>
+        <details class="sp-faq__item">
+          <summary class="sp-faq__question">Isso funciona para ciclos muito irregulares?</summary>
+          <p class="sp-faq__answer">Sim. O protocolo foi especialmente desenvolvido para mulheres com ciclos irregulares. O pilar do ritmo do ciclo trabalha exatamente esse padrão — ajudando o corpo a criar regularidade de dentro para fora, sem hormônios externos.</p>
+        </details>
+        <details class="sp-faq__item">
+          <summary class="sp-faq__question">Em quanto tempo vejo resultados?</summary>
+          <p class="sp-faq__answer">A maioria das mulheres que aplica o protocolo completo percebe mudanças no ciclo entre a 4ª e a 8ª semana. A regularização não acontece da noite para o dia, mas o caminho fica claro desde os primeiros dias.</p>
+        </details>
+        <details class="sp-faq__item">
+          <summary class="sp-faq__question">Preciso mudar tudo na minha vida?</summary>
+          <p class="sp-faq__answer">Não. O protocolo foi desenhado para se encaixar na rotina real — não na rotina ideal. São ajustes pequenos e consistentes nos 4 ambientes. A rotina de base requer apenas 10 minutos por dia.</p>
+        </details>
+        <details class="sp-faq__item">
+          <summary class="sp-faq__question">E se eu não estiver satisfeita?</summary>
+          <p class="sp-faq__answer">Você tem 15 dias para pedir reembolso integral, sem precisar dar explicação. Basta entrar em contato e devolvemos 100% do valor pago. Sem burocracia, sem questionamento.</p>
+        </details>
+      </div>
+
+      <!-- CTA FINAL -->
+      <a href="https://pay.celetus.com/MWEYGXEF" class="sp-cta-btn sp-cta-btn--final" onclick="if(typeof fbq!=='undefined') fbq('track','InitiateCheckout');">
         QUERO ACESSAR MEU PROTOCOLO →
       </a>
 
-      <p class="sales-footer-note">+1.200 mulheres já usaram esse protocolo. Você pode ser a próxima.</p>
+      <p class="sp-footer-note">+1.200 mulheres já transformaram seu ciclo com esse protocolo. Você pode ser a próxima.</p>
 
     </div>
   </div>
@@ -3133,7 +3993,42 @@
 </div><!-- fim quiz-wrap -->
 
 <script>
-  const TOTAL_SCREENS = 17;
+  // Anima score ring na tela 17
+  // Score fixo gerado uma única vez (74–82)
+  const SCORE_VALUE = Math.floor(Math.random() * 9) + 74;
+
+  function animateScore() {
+    const ring = document.getElementById('scoreRing');
+    const num  = document.getElementById('scoreNum');
+    if (!ring || !num) return;
+
+    const circ   = 364.4;
+    const offset = circ * (1 - SCORE_VALUE / 100);
+
+    // Estado inicial: anel vazio
+    ring.style.transition = 'none';
+    ring.style.strokeDasharray  = circ;
+    ring.style.strokeDashoffset = circ;
+
+    // Força reflow e inicia transição
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        ring.style.transition = 'stroke-dashoffset 1.8s cubic-bezier(0.4,0,0.2,1)';
+        ring.style.strokeDashoffset = offset;
+      });
+    });
+
+    // Contador numérico
+    let frame = 0;
+    const totalFrames = 90;
+    const timer = setInterval(() => {
+      frame++;
+      num.textContent = Math.round((frame / totalFrames) * SCORE_VALUE);
+      if (frame >= totalFrames) { clearInterval(timer); num.textContent = SCORE_VALUE; }
+    }, 1000 / 60);
+  }
+
+    const TOTAL_SCREENS = 17;
   let answers = {};
 
   // Micro feedbacks por tela e resposta
@@ -3192,7 +4087,7 @@
       const valueEl = document.getElementById('fertilValue');
       const targetPct = 78;
       bar.style.width = `${targetPct}%`;
-      marker.style.right = `${100 - targetPct}%`;
+      marker.style.left = `${targetPct}%`;
       let current = 0;
       const counter = setInterval(() => {
         current += 2;
@@ -3835,6 +4730,7 @@
         if (typeof fbq !== 'undefined') {
           fbq('track', 'Lead');
         }
+        setTimeout(animateScore, 500);
       }
     }
 
@@ -3842,7 +4738,6 @@
     const progress = Math.round(((next - 1) / (TOTAL_SCREENS - 1)) * 100);
     const pct = Math.max(5, progress);
     document.getElementById('progressBar').style.width = `${pct}%`;
-    document.getElementById('progressLabel').textContent = `${pct}%`;
   }
 </script>
 

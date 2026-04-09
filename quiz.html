@@ -2307,31 +2307,34 @@
     .sp-product__pillar-icon {font-size:16px;flex-shrink:0;}
 
     /* ── BÔNUS ── */
-    .sp-bonuses {display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+    .sp-bonuses {display:flex;flex-direction:column;gap:12px;}
     .sp-bonus {
       background:var(--branco);border:1.5px solid rgba(200,149,108,.18);
-      border-radius:18px;padding:20px 12px;text-align:center;
+      border-radius:18px;padding:16px 18px;
+      display:flex;align-items:center;gap:16px;
       position:relative;overflow:hidden;
       transition:transform .22s ease,box-shadow .22s ease;
     }
     .sp-bonus::before {
-      content:'';position:absolute;top:0;left:0;right:0;height:3px;
-      background:linear-gradient(90deg,var(--terracota),var(--caramelo));
-      border-radius:18px 18px 0 0;
+      content:'';position:absolute;top:0;left:0;bottom:0;width:3px;
+      background:linear-gradient(180deg,var(--terracota),var(--caramelo));
+      border-radius:18px 0 0 18px;
     }
-    .sp-bonus:hover {transform:translateY(-4px);box-shadow:0 14px 36px rgba(200,149,108,.16);}
+    .sp-bonus:hover {transform:translateY(-2px);box-shadow:0 14px 36px rgba(200,149,108,.16);}
+    .sp-bonus__svg {width:48px;height:48px;flex-shrink:0;}
+    .sp-bonus__body {display:flex;flex-direction:column;flex:1;}
     .sp-bonus__tag {
       display:inline-block;font-size:9px;font-weight:700;
       letter-spacing:.1em;text-transform:uppercase;
       color:var(--terracota-d);background:rgba(200,149,108,.1);
-      padding:3px 8px;border-radius:20px;margin-bottom:10px;
+      padding:3px 8px;border-radius:20px;margin-bottom:6px;width:fit-content;
     }
     .sp-bonus__icon {font-size:32px;display:block;margin-bottom:8px;}
     .sp-bonus__name {
-      font-family:'Cormorant Garamond',serif;font-size:15px;
+      font-family:'Cormorant Garamond',serif;font-size:16px;
       font-weight:700;color:var(--terracota-dd);line-height:1.2;margin-bottom:4px;
     }
-    .sp-bonus__desc {font-size:11px;color:var(--cacau);opacity:.62;line-height:1.45;}
+    .sp-bonus__desc {font-size:12px;color:var(--cacau);opacity:.7;line-height:1.5;}
 
     /* ── STATS STRIP ── */
     .sp-stats {
@@ -3536,7 +3539,7 @@
         </svg>
       </div>
 
-      <p class="result-sub">Não era falta de esforço. Não era falta de vontade. Era falta de informação sobre como preparar os 4 ambientes do seu corpo ao mesmo tempo.</p>
+      <p class="result-sub">Não foi falta de esforço. Não foi falta de vontade. Foi falta de informação que ninguém te deu — sobre como preparar os 4 ambientes do seu corpo ao mesmo tempo. Os aplicativos não ensinaram. O Google não organizou. Ninguém sentou com você e mostrou o caminho certo.</p>
 
       <p class="result-cta-text">Existe um protocolo criado exatamente para isso:</p>
 
@@ -3544,19 +3547,19 @@
       <div class="result-bullets">
         <div class="result-bullet">
           <span class="result-bullet__check">✅</span>
-          <span class="result-bullet__text">Alimentos que ativam a fertilidade, sem dieta restritiva</span>
+          <span class="result-bullet__text">Alimentos que ativam a fertilidade, escolhidos para a sua rotina real, sem cortar o que você gosta</span>
         </div>
         <div class="result-bullet">
           <span class="result-bullet__check">✅</span>
-          <span class="result-bullet__text">Rotina de 10 minutos que reduz o cortisol que bloqueia a ovulação</span>
+          <span class="result-bullet__text">Rotina de 10 minutos por dia que reduz o cortisol, o hormônio que bloqueia a ovulação sem você perceber</span>
         </div>
         <div class="result-bullet">
           <span class="result-bullet__check">✅</span>
-          <span class="result-bullet__text">Como identificar sua janela fértil real, não a do aplicativo</span>
+          <span class="result-bullet__text">Como identificar sua janela fértil real, não uma média genérica, mas o seu momento exato</span>
         </div>
         <div class="result-bullet">
           <span class="result-bullet__check">✅</span>
-          <span class="result-bullet__text">Como eliminar os disruptores hormonais invisíveis da sua rotina</span>
+          <span class="result-bullet__text">Como eliminar os disruptores hormonais invisíveis da sua rotina, os que estão sabotando seu ciclo sem você saber</span>
         </div>
       </div>
 
@@ -3572,30 +3575,14 @@
   <div class="screen" id="screen-15">
     <div class="screen-inner" style="text-align: center;">
 
-      <div class="commit-icon">🌿</div>
-
       <h2 class="question-title">Você está pronta para dar o próximo passo?</h2>
 
       <p class="question-sub">Seu protocolo personalizado está esperando por você</p>
 
-      <div class="two-btn-list" data-screen="15" style="margin-top: 32px;">
-
-        <button class="two-btn commit-yes" onclick="selectTwoBtn(this, 15, 'Sim, quero começar agora'); setTimeout(() => goToScreen(16), 400);">
-          <div class="two-btn__icon">💚</div>
-          <div class="two-btn__content">
-            <span class="two-btn__title">Sim</span>
-            <span class="two-btn__sub">Quero começar agora</span>
-          </div>
+      <div style="margin-top: 32px;">
+        <button class="btn-continue visible" onclick="goToScreen(16)" style="display:block;">
+          Quero começar agora →
         </button>
-
-        <button class="two-btn commit-maybe" onclick="selectTwoBtn(this, 15, 'Preciso pensar um pouco mais'); setTimeout(() => goToScreen(16), 400);">
-          <div class="two-btn__icon">🤍</div>
-          <div class="two-btn__content">
-            <span class="two-btn__title">Talvez</span>
-            <span class="two-btn__sub">Preciso pensar mais</span>
-          </div>
-        </button>
-
       </div>
 
       <p class="commit-note">Qualquer que seja sua resposta, seu protocolo estará disponível para você.</p>
@@ -3758,67 +3745,59 @@
         </div>
         <div class="sp-bonuses">
           <div class="sp-bonus">
-            <span class="sp-bonus__tag">Bônus 1</span>
             <svg class="sp-bonus__svg" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
             <circle cx="28" cy="28" r="26" fill="rgba(168,184,154,0.18)"/>
             <g class="sp-icon-leaf-grp">
-              <path d="M28 10 C19 12 13 21 15 31 C17 40 23 44 30 42 C38 39 43 30 40 21 C37 12 34 9 28 10Z"
-                    fill="#A8B89A"/>
+              <path d="M28 10 C19 12 13 21 15 31 C17 40 23 44 30 42 C38 39 43 30 40 21 C37 12 34 9 28 10Z" fill="#A8B89A"/>
               <path d="M28 10 L28 42" stroke="#5a7a52" stroke-width="1.8" stroke-linecap="round"/>
               <path d="M28 20 C24 23 20 25 17 24" stroke="#5a7a52" stroke-width="1.2" stroke-linecap="round" fill="none" opacity=".8"/>
               <path d="M28 27 C32 24 36 23 38 22" stroke="#5a7a52" stroke-width="1.2" stroke-linecap="round" fill="none" opacity=".8"/>
               <path d="M28 34 C23 36 19 36 17 34" stroke="#5a7a52" stroke-width="1.2" stroke-linecap="round" fill="none" opacity=".8"/>
             </g>
             <line x1="28" y1="42" x2="28" y2="48" stroke="#5a7a52" stroke-width="2.5" stroke-linecap="round"/>
-          </svg>
-            <p class="sp-bonus__name">Guia de Receitas Férteis</p>
-            <p class="sp-bonus__desc">7 receitas prontas em até 10 minutos e 4 chás que nutrem os hormônios da fertilidade — sem dieta, sem restrição</p>
+            </svg>
+            <div class="sp-bonus__body">
+              <span class="sp-bonus__tag">Bônus 1</span>
+              <p class="sp-bonus__name">Guia de Receitas Férteis</p>
+              <p class="sp-bonus__desc">7 receitas prontas em até 10 minutos e 4 chás que nutrem os hormônios da fertilidade — sem dieta, sem restrição</p>
+            </div>
           </div>
           <div class="sp-bonus">
-            <span class="sp-bonus__tag">Bônus 2</span>
             <svg class="sp-bonus__svg" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
             <circle cx="28" cy="28" r="26" fill="rgba(200,149,108,0.14)"/>
-            <!-- caderno -->
             <rect x="12" y="13" width="28" height="34" rx="3" fill="#FDFAF6" stroke="#C8956C" stroke-width="1.8"/>
-            <!-- espiral -->
             <line x1="12" y1="13" x2="12" y2="47" stroke="#8B6347" stroke-width="3" stroke-linecap="round"/>
-            <!-- linhas do caderno -->
             <line x1="18" y1="21" x2="34" y2="21" stroke="rgba(200,149,108,.3)" stroke-width="1.2" stroke-linecap="round"/>
             <line x1="18" y1="27" x2="34" y2="27" stroke="rgba(200,149,108,.3)" stroke-width="1.2" stroke-linecap="round"/>
             <line x1="18" y1="33" x2="28" y2="33" stroke="rgba(200,149,108,.3)" stroke-width="1.2" stroke-linecap="round"/>
-            <!-- círculo de ciclo animado -->
             <circle class="sp-icon-dot" cx="37" cy="37" r="8" fill="#C8956C"/>
-            <path d="M34 37 C34 34.8 35.8 33 38 33 C40.2 33 42 34.8 42 37"
-                  stroke="white" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+            <path d="M34 37 C34 34.8 35.8 33 38 33 C40.2 33 42 34.8 42 37" stroke="white" stroke-width="1.8" stroke-linecap="round" fill="none"/>
             <circle cx="37" cy="40" r="1.5" fill="white"/>
-          </svg>
-            <p class="sp-bonus__name">Diário do Ciclo Fértil</p>
-            <p class="sp-bonus__desc">Descubra o dia exato da sua ovulação rastreando temperatura e muco — sem aplicativo, sem achismo</p>
+            </svg>
+            <div class="sp-bonus__body">
+              <span class="sp-bonus__tag">Bônus 2</span>
+              <p class="sp-bonus__name">Diário do Ciclo Fértil</p>
+              <p class="sp-bonus__desc">Descubra o dia exato da sua ovulação rastreando temperatura e muco — sem aplicativo, sem achismo</p>
+            </div>
           </div>
           <div class="sp-bonus">
-            <span class="sp-bonus__tag">Bônus 3</span>
             <svg class="sp-bonus__svg" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
             <circle cx="28" cy="28" r="26" fill="rgba(212,165,116,0.14)"/>
-            <!-- face do relógio -->
             <circle cx="28" cy="28" r="18" fill="#FDFAF6" stroke="#C8956C" stroke-width="2"/>
-            <!-- marcadores de hora -->
             <line x1="28" y1="12" x2="28" y2="15.5" stroke="#C8956C" stroke-width="2" stroke-linecap="round"/>
             <line x1="28" y1="40.5" x2="28" y2="44" stroke="#C8956C" stroke-width="2" stroke-linecap="round"/>
             <line x1="12" y1="28" x2="15.5" y2="28" stroke="#C8956C" stroke-width="2" stroke-linecap="round"/>
             <line x1="40.5" y1="28" x2="44" y2="28" stroke="#C8956C" stroke-width="2" stroke-linecap="round"/>
-            <!-- ponteiro de hora -->
-            <line class="sp-icon-hr" x1="28" y1="28" x2="28" y2="20"
-                  stroke="#6B3A1F" stroke-width="2.8" stroke-linecap="round"/>
-            <!-- ponteiro de minuto -->
-            <line class="sp-icon-min" x1="28" y1="28" x2="36" y2="28"
-                  stroke="#C8956C" stroke-width="2" stroke-linecap="round"/>
-            <!-- centro -->
+            <line class="sp-icon-hr" x1="28" y1="28" x2="28" y2="20" stroke="#6B3A1F" stroke-width="2.8" stroke-linecap="round"/>
+            <line class="sp-icon-min" x1="28" y1="28" x2="36" y2="28" stroke="#C8956C" stroke-width="2" stroke-linecap="round"/>
             <circle cx="28" cy="28" r="3" fill="#6B3A1F"/>
-            <!-- sino -->
             <path d="M22 10 C22 10 24 8 28 8 C32 8 34 10 34 10" stroke="#C8956C" stroke-width="1.5" stroke-linecap="round" fill="none"/>
-          </svg>
-            <p class="sp-bonus__name">Guia de Rotinas Férteis</p>
-            <p class="sp-bonus__desc">15 hábitos organizados por manhã, dia e noite para preparar o corpo sem precisar mudar sua rotina</p>
+            </svg>
+            <div class="sp-bonus__body">
+              <span class="sp-bonus__tag">Bônus 3</span>
+              <p class="sp-bonus__name">Guia de Rotinas Férteis</p>
+              <p class="sp-bonus__desc">15 hábitos organizados por manhã, dia e noite para preparar o corpo sem precisar mudar sua rotina</p>
+            </div>
           </div>
         </div>
       </div>
@@ -3946,7 +3925,7 @@
         <h2 class="sp-title">Acesso completo por um único pagamento</h2>
       </div>
       <div class="sp-offer">
-        <div class="sp-offer__badge">🔒 OFERTA EXCLUSIVA PARA QUEM FEZ O TESTE</div>
+        <div class="sp-offer__badge">🔒 OFERTA EXCLUSIVA PARA QUEM FEZ O TESTE — disponível apenas nessa sessão</div>
         <p class="sp-offer__from">De <s>R$188,00</s> por apenas</p>
         <div class="sp-offer__price">
           <span class="sp-offer__currency">R$</span>
@@ -3963,16 +3942,11 @@
         <a href="https://pay.celetus.com/MWEYGXEF" class="sp-cta-btn" onclick="if(typeof fbq!=='undefined') fbq('track','InitiateCheckout');">
           QUERO ACESSAR MEU PROTOCOLO
         </a>
-        <p class="sp-offer__security">🔒 Pagamento 100% seguro · Acesso em menos de 1 minuto</p>
+        <p style="font-family:'DM Sans',sans-serif;font-size:13px;color:rgba(253,250,246,.7);text-align:center;margin:12px 0 8px;line-height:1.6;position:relative;z-index:1;">Cada mês sem preparar os 4 ambientes é mais um mês tentando no escuro.</p>
       </div>
 
       <!-- TRUST ROW -->
-      <div class="sp-trust">
-        <div class="sp-trust__item"><span class="sp-trust__icon">🔒</span> Pagamento seguro</div>
-        <div class="sp-trust__item"><span class="sp-trust__icon">⚡</span> Acesso imediato</div>
-        <div class="sp-trust__item"><span class="sp-trust__icon">🛡️</span> Garantia 30 dias</div>
-        <div class="sp-trust__item"><span class="sp-trust__icon">📱</span> Funciona no celular</div>
-      </div>
+      <p style="font-family:'DM Sans',sans-serif;font-size:13px;color:var(--cacau);opacity:0.6;text-align:center;margin:16px 0;">🔒 Pagamento 100% seguro · Acesso em menos de 1 minuto</p>
 
       <!-- GARANTIA -->
       <div class="sp-guarantee">
@@ -4010,7 +3984,6 @@
         QUERO ACESSAR MEU PROTOCOLO
       </a>
 
-      <p class="sp-footer-note">+1.200 mulheres já transformaram seu ciclo com esse protocolo. Você pode ser a próxima.</p>
 
     </div>
   </div>

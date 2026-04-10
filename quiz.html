@@ -2508,20 +2508,29 @@
       50%      {transform:translateY(-7px);}
     }
     .sp-cta-btn {
-      display:block;width:100%;padding:22px 24px;
-      background:var(--marfim);color:var(--terracota-dd);
-      border:none;border-radius:50px;
+      display:block;width:100%;padding:20px 24px;
+      background:linear-gradient(180deg, #D4845A 0%, var(--terracota) 100%);
+      color:var(--branco);
+      border:none;border-radius:14px;
       font-family:'DM Sans',sans-serif;font-size:16px;font-weight:700;
       letter-spacing:.05em;cursor:pointer;text-decoration:none;text-align:center;
-      transition:transform .2s ease,box-shadow .2s ease;
-      animation:sp-pulse 2.5s ease infinite;
-      position:relative;z-index:1;
+      box-shadow:0 4px 0 #8B6347, 0 6px 16px rgba(139,99,71,.28);
+      position:relative;top:0;z-index:1;
+      transition:top .1s ease, box-shadow .1s ease, background .2s ease;
+      animation:btn-breathe 1.4s 0.4s ease-in-out infinite;
     }
-    .sp-cta-btn:hover {transform:translateY(-3px);box-shadow:0 24px 56px rgba(0,0,0,.28);}
+    .sp-cta-btn:hover {
+      background:linear-gradient(180deg, #C8956C 0%, var(--terracota-d) 100%);
+      animation:none;top:-2px;
+      box-shadow:0 6px 0 #8B6347, 0 12px 28px rgba(139,99,71,.35);
+    }
+    .sp-cta-btn:active {
+      top:3px;
+      box-shadow:0 1px 0 #8B6347, 0 2px 8px rgba(139,99,71,.2);
+      animation:none;
+    }
     .sp-cta-btn--final {
       margin:20px 20px 0;width:calc(100% - 40px);
-      background:var(--terracota);color:var(--marfim);animation:none;
-      box-shadow:0 8px 28px rgba(139,99,71,.3);
     }
     .sp-cta-btn--final:hover {background:var(--terracota-d);box-shadow:0 18px 44px rgba(107,58,31,.38);}
 
@@ -3727,6 +3736,7 @@
       <div class="sp-section">
         <span class="sp-eyebrow">O que você vai receber</span>
         <h2 class="sp-title">Um protocolo feito para o seu perfil</h2>
+        <p style="font-family:'DM Sans',sans-serif;font-size:14px;line-height:1.75;color:var(--cacau);opacity:0.8;margin:16px 0 24px;text-align:center;">A maioria das mulheres foca no momento certo. Mas momento certo em corpo despreparado não funciona. É como plantar numa terra que ainda não está pronta. O Protocolo Ciclo Fértil prepara os 4 ambientes do seu corpo — para que quando o momento certo chegar, ele encontre o terreno fértil.</p>
         <div class="sp-product">
           <div class="sp-product__header">
             <div class="sp-product__icon">📖</div>

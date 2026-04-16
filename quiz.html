@@ -4784,10 +4784,10 @@
       gtag('event', 'quiz_etapa', { etapa_numero: numero, etapa_nome: nome });
     }
 
-    // Google Sheets — envia para a planilha via GET (sem bloqueio de CORS)
+    // Google Sheets — envia para a planilha via pixel (segue redirecionamentos do Google)
     if (APPS_SCRIPT_URL !== 'COLE_A_URL_AQUI') {
       const url = APPS_SCRIPT_URL + '?sessao=' + SESSAO_ID + '&etapa=' + numero;
-      fetch(url, { mode: 'no-cors' }).catch(() => {});
+      new Image().src = url;
     }
   }
 

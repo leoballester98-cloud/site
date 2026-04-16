@@ -4784,14 +4784,10 @@
       gtag('event', 'quiz_etapa', { etapa_numero: numero, etapa_nome: nome });
     }
 
-    // Google Sheets — envia para a planilha
+    // Google Sheets — envia para a planilha via GET (sem bloqueio de CORS)
     if (APPS_SCRIPT_URL !== 'COLE_A_URL_AQUI') {
-      fetch(APPS_SCRIPT_URL, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ sessao: SESSAO_ID, etapa: numero, nome: nome })
-      }).catch(() => {}); // silencioso em caso de erro
+      const url = APPS_SCRIPT_URL + '?sessao=' + SESSAO_ID + '&etapa=' + numero;
+      fetch(url, { mode: 'no-cors' }).catch(() => {});
     }
   }
 

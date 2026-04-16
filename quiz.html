@@ -22,6 +22,17 @@
     src="https://www.facebook.com/tr?id=1394696569075471&ev=PageView&noscript=1"/>
   </noscript>
   <!-- Fim Meta Pixel -->
+
+  <!-- Google Analytics 4 (substitua G-XXXXXXXXXX pelo seu ID do GA4) -->
+  <!-- Para ativar: crie uma conta em analytics.google.com, copie o ID e cole abaixo -->
+  <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX');
+  </script> -->
+  <!-- Fim Google Analytics 4 -->
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -4733,11 +4744,63 @@
     }
   }
 
+  // ── RASTREAMENTO DE FUNIL ──
+  const NOMES_ETAPAS = {
+    1:  'Etapa 1 - Inicio do Quiz',
+    2:  'Etapa 2 - Pergunta 1',
+    3:  'Etapa 3 - Pergunta 2',
+    4:  'Etapa 4 - Pergunta 3',
+    5:  'Etapa 5 - Pergunta 4',
+    6:  'Etapa 6 - Pergunta 5',
+    7:  'Etapa 7 - Pergunta 6',
+    8:  'Etapa 8 - Pergunta 7',
+    9:  'Etapa 9 - Pergunta 8',
+    10: 'Etapa 10 - Pergunta 9',
+    11: 'Etapa 11 - Carregando Analise',
+    12: 'Etapa 12 - Diagnostico',
+    13: 'Etapa 13 - Carregando Resultado',
+    14: 'Etapa 14 - Resultado',
+    15: 'Etapa 15 - Resultado Final',
+    16: 'Etapa 16 - Carregando Oferta',
+    17: 'Etapa 17 - Pagina de Vendas'
+  };
+
+  // ID único por sessão para identificar cada visitante
+  const SESSAO_ID = Math.random().toString(36).substring(2, 12) + Date.now().toString(36);
+
+  // Cole aqui a URL do seu Google Apps Script após publicar
+  const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxl0S5SWEEEBU_hb6w8p678QXYf1I9FCAXhMYvZp9gOraH8NHNkcvrOhiOTX8G92ibGkA/exec';
+
+  function trackEtapa(numero) {
+    const nome = NOMES_ETAPAS[numero] || ('Etapa ' + numero);
+
+    // Facebook Pixel — evento personalizado por etapa
+    if (typeof fbq !== 'undefined') {
+      fbq('trackCustom', 'QuizEtapa', { etapa: numero, nome: nome });
+    }
+
+    // Google Analytics 4 — se estiver ativado
+    if (typeof gtag !== 'undefined') {
+      gtag('event', 'quiz_etapa', { etapa_numero: numero, etapa_nome: nome });
+    }
+
+    // Google Sheets — envia para a planilha
+    if (APPS_SCRIPT_URL !== 'COLE_A_URL_AQUI') {
+      fetch(APPS_SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ sessao: SESSAO_ID, etapa: numero, nome: nome })
+      }).catch(() => {}); // silencioso em caso de erro
+    }
+  }
+
   function showScreen(next) {
     const nextScreen = document.getElementById(`screen-${next}`);
     if (nextScreen) {
       nextScreen.classList.add('active');
       window.scrollTo({ top: 0, behavior: 'smooth' });
+      trackEtapa(next);
 
       // Disparar loading na tela 11
       if (next === 11) setTimeout(startLoading, 400);

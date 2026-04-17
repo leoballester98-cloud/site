@@ -112,10 +112,29 @@ var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n
      HERO
   ══════════════════════════════════════ */
   .hero {
-    background: linear-gradient(150deg, var(--terracota-dd) 0%, var(--terracota) 55%, #D4845A 100%);
     position: relative;
     overflow: hidden;
     padding: 64px 0 72px;
+    background: var(--terracota-dd);
+  }
+  .hero__bg {
+    position: absolute;
+    inset: 0;
+    background-image: url('Images/h1.1.png');
+    background-size: cover;
+    background-position: center top;
+    background-repeat: no-repeat;
+    z-index: 0;
+  }
+  .hero__overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(74,46,26,.82) 0%, rgba(139,75,45,.70) 60%, rgba(74,46,26,.55) 100%);
+    z-index: 1;
+  }
+  .hero .container {
+    position: relative;
+    z-index: 2;
   }
   .hero::before {
     content: '';
@@ -153,7 +172,7 @@ var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n
     margin-left: auto;
     margin-right: auto;
     text-align: center;
-    text-shadow: 0 2px 16px rgba(74,46,26,.2);
+    text-shadow: 0 2px 16px rgba(74,46,26,.4);
   }
   .hero__title em {
     font-style: italic;
@@ -227,7 +246,7 @@ var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n
   ══════════════════════════════════════ */
   .proof-strip {
     background: var(--terracota-dd);
-    padding: 14px 0;
+    padding: 14px 24px;
     overflow: hidden;
     border-bottom: 1px solid rgba(255,255,255,.06);
   }
@@ -241,12 +260,15 @@ var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n
   .proof-strip__item {
     display: flex;
     align-items: center;
+    justify-content: center;
+    text-align: center;
     gap: 8px;
     color: var(--creme);
     font-size: 12.5px;
     font-weight: 500;
     letter-spacing: .06em;
     text-transform: uppercase;
+    width: 100%;
   }
   .proof-strip__dot {
     width: 5px; height: 5px;
@@ -1129,13 +1151,15 @@ var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n
 
     /* Hero */
     .hero { padding: 52px 0 60px; }
+    .hero__bg { background-position: center top; background-size: cover; }
     .hero__title { font-size: 26px; }
     .hero__subtitle { font-size: 15px; }
     .hero__promise { font-size: 15px; padding: 16px 18px; }
     .hero__leaf { width: 38px; height: 38px; }
 
     /* Proof strip */
-    .proof-strip__inner { flex-direction: column; align-items: center; gap: 10px; }
+    .proof-strip__inner { flex-direction: column; align-items: center; gap: 6px; }
+    .proof-strip__item { flex-direction: column; gap: 4px; text-align: center; }
 
     /* Seções */
     .section-title { font-size: 28px; }
@@ -1483,58 +1507,24 @@ var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n
 
 <!-- ══ HERO ══════════════════════════════════════════════════════ -->
 <section class="hero text-center">
+  <div class="hero__bg"></div>
+  <div class="hero__overlay"></div>
   <div class="container">
-    <div class="hero__leaf fade-up">
-      <svg viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M26 6 C38 14 42 26 26 46 C10 26 14 14 26 6Z" fill="rgba(253,250,246,0.35)"/>
-        <path d="M26 6 C38 14 42 26 26 46" stroke="rgba(253,250,246,0.6)" stroke-width="1" fill="none"/>
-        <line x1="26" y1="46" x2="26" y2="52" stroke="rgba(253,250,246,0.4)" stroke-width="1.5" stroke-linecap="round"/>
-        <circle cx="26" cy="8" r="3" fill="rgba(253,250,246,0.5)"/>
-      </svg>
-    </div>
     <span class="hero__eyebrow fade-up">Protocolo Ciclo Fértil</span>
     <h1 class="hero__title fade-up-2">
-      Para as mulheres que tentam engravidar há meses.
+      Não é sorte.<br>Mulheres que engravidam rápido<br>prepararam 4 pontos do corpo.
     </h1>
     <p class="hero__subtitle fade-up-3">
-      O protocolo explica por que ainda não aconteceu e o que fazer nos próximos 30 dias para seu corpo começar a responder.
-    </p>
-    <div class="hero__promise fade-up-4">
-      "Estou fazendo tudo certo. Então por que ainda não aconteceu?"<br/>
-      <small style="font-size:14px; opacity:.7; font-style:normal;">Se você já se perguntou isso, esse protocolo foi feito para você.</small>
-    </div>
-    <p class="hero__shame fade-up-4">
       Na maioria das vezes não é infertilidade. É o corpo esperando por condições que ninguém nunca te ensinou a criar.
     </p>
+    <a href="#aprenda" class="btn-cta fade-up-4">Descubra qual está travando você</a>
   </div>
 </section>
 
 <!-- ══ PROOF STRIP ════════════════════════════════════════════════ -->
 <div class="proof-strip">
-  <div class="proof-strip__inner">
-    <div class="proof-strip__item"><span class="proof-strip__dot"></span> Acesso imediato após o pagamento</div>
-    <div class="proof-strip__item"><span class="proof-strip__dot"></span> 100% digital leia no celular</div>
-    <div class="proof-strip__item"><span class="proof-strip__dot"></span> 7 dias de garantia</div>
-    <div class="proof-strip__item"><span class="proof-strip__dot"></span> 4 materiais completos</div>
-  </div>
-</div>
-
-<!-- ══ PROVA SOCIAL ══════════════════════════════════════════════ -->
-<div class="social-proof-bar">
-  <div class="container">
-    <div class="social-proof-bar__inner">
-      <div class="social-proof-bar__stars">★★★★★</div>
-      <p class="social-proof-bar__text">
-        <strong>+1.200 mulheres</strong> já usam o Protocolo Ciclo Fértil para preparar o corpo naturalmente
-      </p>
-      <div class="social-proof-bar__avatars">
-        <img src="Images/img_1.jpg" class="social-proof-bar__avatar-img" alt=""/>
-        <img src="Images/Mulher1.jpeg" class="social-proof-bar__avatar-img" alt=""/>
-        <img src="Images/mulher5.jpeg" class="social-proof-bar__avatar-img" alt=""/>
-        <img src="Images/mulher4.jpeg" class="social-proof-bar__avatar-img" alt=""/>
-        <img src="Images/mulher3.jpeg" class="social-proof-bar__avatar-img" alt=""/>
-      </div>
-    </div>
+  <div class="proof-strip__inner" style="justify-content:center;">
+    <div class="proof-strip__item"><span style="color:#FFD700;">★★★★★</span> &nbsp;+1.200 mulheres já usam o Protocolo Ciclo Fértil para preparar o corpo naturalmente</div>
   </div>
 </div>
 
@@ -1720,7 +1710,7 @@ var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n
 </section>
 
 <!-- ══ O QUE VOCÊ VAI APRENDER ═══════════════════════════════════ -->
-<section class="learns">
+<section class="learns" id="aprenda">
   <div class="container">
     <span class="section-eyebrow">Na prática</span>
     <h2 class="section-title">Tudo que você para de improvisar e passa a fazer com certeza</h2>

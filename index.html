@@ -262,8 +262,11 @@
   }
   .section-title {
     font-size: clamp(32px, 5vw, 48px);
-    color: var(--terracota-d);
     margin-bottom: 16px;
+    background: linear-gradient(135deg, var(--cacau) 0%, var(--terracota) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
   .section-lead {
     font-size: 17px;
@@ -609,7 +612,7 @@
   /* ══════════════════════════════════════
      AUTORIDADE
   ══════════════════════════════════════ */
-  .authority { background: var(--marfim); padding: 64px 0; }
+  .authority { background: var(--creme); padding: 72px 0; }
   .authority__eyebrow {
     font-size: 12px; font-weight: 500; letter-spacing: .12em;
     text-transform: uppercase; color: var(--terracota);
@@ -621,30 +624,35 @@
   }
   .authority__title em { font-style: normal; color: var(--terracota); }
   .authority__stats {
-    display: grid; grid-template-columns: repeat(3, 1fr);
-    gap: 24px; margin-bottom: 36px;
+    display: flex; align-items: center; justify-content: center;
+    gap: 0; margin-bottom: 36px;
+    border-radius: 20px; overflow: hidden;
+    background: var(--cacau);
+    box-shadow: 0 16px 48px rgba(74,46,26,.25);
   }
   .authority__stat {
-    background: var(--creme); border-radius: 16px;
-    padding: 28px 20px; text-align: center;
-    border: 1px solid rgba(200,149,108,.15);
+    flex: 1; text-align: center; padding: 36px 16px;
   }
-  .authority__stat-icon {
-    width: 56px; height: 56px; border-radius: 50%;
-    background: rgba(200,149,108,.12);
-    display: flex; align-items: center; justify-content: center;
-    margin: 0 auto 14px; color: var(--terracota);
+  .authority__stat-number {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 64px; font-weight: 700;
+    color: var(--caramelo); line-height: 1;
+    margin-bottom: 10px;
   }
-  .authority__stat-text {
-    font-size: 15px; font-weight: 500; color: var(--cacau); line-height: 1.4;
+  .authority__stat-label {
+    font-size: 13px; color: rgba(245,230,214,.75); line-height: 1.4;
+  }
+  .authority__stat-divider {
+    width: 1px; height: 70px; background: rgba(255,255,255,.15); flex-shrink: 0;
   }
   .authority__text {
     font-size: 16px; line-height: 1.75; color: var(--terracota-d);
     font-style: italic; text-align: center;
     max-width: 620px; margin: 0 auto;
     padding: 24px 28px;
-    background: var(--creme); border-radius: 12px;
+    background: #fff; border-radius: 12px;
     border-left: 3px solid var(--terracota);
+    box-shadow: 0 4px 20px rgba(74,46,26,.08);
   }
 
   .carousel-arrow { display: none; }
@@ -844,38 +852,39 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
+    gap: 10px;
     margin: 24px 0 6px;
     flex-wrap: wrap;
     line-height: 1;
+    background: rgba(200,149,108,.1);
+    border: 1px solid rgba(200,149,108,.25);
+    border-radius: 40px;
+    padding: 10px 24px;
+    width: fit-content;
+    margin-left: auto; margin-right: auto;
   }
   .offer__price-anchor-label {
-    font-size: 12px;
+    font-size: 13px;
     color: var(--terracota-dd);
-    opacity: 1;
     text-transform: uppercase;
     letter-spacing: .08em;
-    font-weight: 500;
+    font-weight: 600;
     line-height: 1;
   }
   .offer__price-anchor-value {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 20px;
-    font-weight: 600;
+    font-size: 24px;
+    font-weight: 700;
     color: var(--terracota-dd);
-    opacity: 1;
     text-decoration: line-through;
     text-decoration-color: var(--terracota);
     text-decoration-thickness: 2px;
     line-height: 1;
-    vertical-align: middle;
-    display: inline-flex;
-    align-items: center;
   }
   .offer__price-anchor-arrow {
-    font-size: 18px;
-    color: var(--terracota-dd);
-    opacity: 1;
+    font-size: 20px;
+    color: var(--terracota);
+    font-weight: 700;
   }
   .offer__price--highlight {
     color: var(--terracota-dd) !important;
@@ -1251,9 +1260,12 @@
 
     /* Proof strip */
     .proof-strip__inner { flex-direction: column; align-items: center; gap: 6px; }
-    .proof-strip__item { flex-direction: column; gap: 4px; text-align: center; }
+    .proof-strip__item { flex-direction: column; gap: 4px; text-align: center; font-size: 11px; white-space: nowrap; }
 
     /* Seções */
+    .section-title,
+    .section-eyebrow,
+    .section-lead { text-align: center !important; }
     .section-title { font-size: 28px; }
     .section-lead { font-size: 15px; }
 
@@ -1264,7 +1276,11 @@
     .pillar-card { padding: 22px 18px; }
 
     /* Autoridade */
-    .authority__stats { grid-template-columns: 1fr; gap: 16px; }
+    .authority__stats { flex-direction: row; }
+    .authority__stat { padding: 20px 8px; }
+    .authority__stat-number { font-size: 48px; }
+    .authority__stat-label { font-size: 11px; }
+    .authority__stat-divider { width: 1px; height: 50px; }
     .insights__grid { grid-template-columns: 1fr; }
     .pillars__grid {
       grid-template-columns: 1fr 1fr;
@@ -1650,7 +1666,7 @@
       <span class="hero-line">Em 30 dias seu corpo estará pronto.</span> <span class="hero-line">Ciclo regulado, hormônios equilibrados,</span> <span class="hero-line">chances reais de engravidar.</span>
     </h1>
     <p class="hero__subtitle fade-up-3">
-      Se você já tentou engravidar e ainda não conseguiu e sente que precisa ajustar melhor seu corpo antes do positivo, esse protocolo vai te ajudar.
+      Se você já tentou engravidar e ainda não conseguiu e sente que precisa de ajuda, esse protocolo é para você.
     </p>
     <a href="#oferta" class="btn-cta fade-up-4">Quero preparar meu corpo agora</a>
   </div>
@@ -1659,7 +1675,7 @@
 <!-- ══ PROOF STRIP ════════════════════════════════════════════════ -->
 <div class="proof-strip">
   <div class="proof-strip__inner" style="justify-content:center;">
-    <div class="proof-strip__item"><span style="color:#FFD700;">★★★★★</span> &nbsp;+1.200 mulheres já usam o Protocolo Ciclo Fértil para preparar o corpo naturalmente</div>
+    <div class="proof-strip__item"><span style="color:#FFD700;">★★★★★</span> &nbsp;Testado e aprovado por quem tentava há meses sem resultado</div>
   </div>
 </div>
 
@@ -1862,7 +1878,7 @@
       </div>
       <div class="insight-card">
         <div class="insight-card__icon">✦</div>
-        <p>O mecanismo do cortisol que desliga a ovulação — e o que fazer antes do suplemento</p>
+        <p>O mecanismo do cortisol que desliga a ovulação e o que fazer antes do suplemento</p>
       </div>
       <div class="insight-card">
         <div class="insight-card__icon">✦</div>
@@ -1878,30 +1894,26 @@
 
 <!-- ══ AUTORIDADE ══════════════════════════════════════════════════ -->
 <section class="authority">
-  <div class="container">
+  <div class="container--wide">
     <div class="authority__eyebrow">Por que funciona</div>
     <h2 class="authority__title">Um protocolo construído sobre <em>resultados reais</em></h2>
     <div class="authority__stats">
       <div class="authority__stat">
-        <div class="authority__stat-icon">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2v-4M9 21H5a2 2 0 0 1-2-2v-4m0 0h18"/></svg>
-        </div>
-        <div class="authority__stat-text">Mais de 80 estudos revisados sobre fertilidade feminina</div>
+        <div class="authority__stat-number">80+</div>
+        <div class="authority__stat-label">estudos revisados sobre fertilidade feminina</div>
       </div>
+      <div class="authority__stat-divider"></div>
       <div class="authority__stat">
-        <div class="authority__stat-icon">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-        </div>
-        <div class="authority__stat-text">60 mulheres acompanhadas ciclo a ciclo</div>
+        <div class="authority__stat-number">60</div>
+        <div class="authority__stat-label">mulheres acompanhadas ciclo a ciclo</div>
       </div>
+      <div class="authority__stat-divider"></div>
       <div class="authority__stat">
-        <div class="authority__stat-icon">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-        </div>
-        <div class="authority__stat-text">3 anos refinando o protocolo</div>
+        <div class="authority__stat-number">3</div>
+        <div class="authority__stat-label">anos refinando o protocolo</div>
       </div>
     </div>
-    <p class="authority__text">"O Protocolo Ciclo Fértil não foi criado em teoria. Foi construído a partir de pesquisa aprofundada, testado com mulheres reais e refinado ciclo a ciclo — até chegar no protocolo que você está prestes a acessar."</p>
+    <p class="authority__text">"O Protocolo Ciclo Fértil não foi criado em teoria. Foi construído a partir de pesquisa aprofundada, testado com mulheres reais e refinado ciclo a ciclo, até chegar no protocolo que você está prestes a acessar."</p>
   </div>
 </section>
 
@@ -1986,7 +1998,8 @@
       <div class="offer__price offer__price--highlight">
         <span class="offer__price-rs">R$</span><span class="offer__price-int">37</span><span class="offer__price-dec">,90</span>
       </div>
-      <p style="font-family:'Cormorant Garamond',serif; font-size:clamp(17px,2.5vw,22px); font-style:italic; color:var(--terracota-d); text-align:center; margin-bottom:16px; line-height:1.5;">Você não está tentando de menos.<br/>Está tentando sem saber o que falta.</p>
+      <p style="font-family:'Cormorant Garamond',serif; font-size:clamp(17px,2.5vw,22px); font-style:italic; color:var(--terracota-d); text-align:center; margin-bottom:8px; line-height:1.5;">Você não está tentando de menos.<br/>Está tentando sem saber o que falta.</p>
+      <p style="font-family:'DM Sans',sans-serif; font-size:clamp(13px,1.8vw,15px); color:var(--terracota); text-align:center; margin-bottom:20px; font-weight:500;">Quem começa hoje aplica no próximo ciclo. Quem espera, perde mais um mês.</p>
       <a href="https://pay.celetus.com/MWEYGXEF" class="btn-cta" style="display:block; text-align:center; margin-bottom:12px">
         Quero acesso ao Protocolo Ciclo Fértil
       </a>
@@ -2110,24 +2123,24 @@
       </div>
       <div class="faq__item">
         <button class="faq__question" onclick="toggleFaq(this)">
-          Preciso mudar toda a minha rotina para seguir o protocolo?
+          Serve para quem faz FIV/inseminação?
           <span class="faq__toggle">+</span>
         </button>
-        <div class="faq__answer">Não. O protocolo foi criado para a rotina real de quem trabalha e tem vida corrida. Os hábitos mais importantes levam menos de 5 minutos por dia. Você não precisa mudar tudo de uma vez. Só começar por um pilar.</div>
+        <div class="faq__answer">Sim. O protocolo prepara o ambiente interno do corpo, o que é benéfico independente do caminho escolhido. Mulheres em processo de FIV relatam que chegaram mais preparadas após aplicar o protocolo.</div>
       </div>
       <div class="faq__item">
         <button class="faq__question" onclick="toggleFaq(this)">
-          Em quanto tempo começo a ver resultados?
+          Como recebo o material?
           <span class="faq__toggle">+</span>
         </button>
-        <div class="faq__answer">Os primeiros sinais aparecem ainda no primeiro ciclo: mais energia, sono melhor, ciclo mais previsível. Resultados mais profundos como regularização hormonal e identificação clara da janela fértil aparecem entre o segundo e o terceiro ciclo de aplicação.</div>
+        <div class="faq__answer">O acesso é 100% digital e imediato. Após a confirmação do pagamento, você recebe o link de acesso direto no seu e-mail. Sem espera, sem frete.</div>
       </div>
       <div class="faq__item">
         <button class="faq__question" onclick="toggleFaq(this)">
-          E se eu não gostar ou não funcionar para mim?
+          Tenho suporte em caso de dúvidas?
           <span class="faq__toggle">+</span>
         </button>
-        <div class="faq__answer">Você tem 30 dias de garantia total. Se por qualquer motivo não ficar satisfeita, basta enviar um e-mail e devolvemos 100% do seu investimento. Sem perguntas, sem burocracia. O risco é zero.</div>
+        <div class="faq__answer">Sim. Você pode entrar em contato pelo e-mail de suporte e a resposta chega em até 48 horas úteis.</div>
       </div>
     </div>
   </div>

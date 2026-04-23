@@ -294,12 +294,14 @@
     width: 100%; max-width: 520px;
     border-radius: 20px; overflow: hidden;
     box-shadow: 0 12px 40px rgba(74,46,26,.18);
+    font-size: 0; line-height: 0;
   }
   .spo__photo {
-    width: 100%; height: 760px;
-    object-fit: cover; object-position: center 85%;
+    width: 100%; height: 100%;
+    object-fit: cover; object-position: top;
     display: block;
   }
+  .spo__photo-wrap { aspect-ratio: 1 / 0.94; }
   .spo__whatsapp {
     position: absolute; bottom: 16px; left: 50%; transform: translateX(-50%);
     width: 94%;
@@ -1335,7 +1337,7 @@
     .authority__stat-label { font-size: 11px; }
     .authority__stat-divider { width: 1px; height: 50px; }
     .insights__grid { grid-template-columns: 1fr; }
-    .spo__photo { height: 680px; }
+    .spo__photo { height: auto; }
     .spo__whatsapp { width: 90%; }
     .pillars__grid {
       grid-template-columns: 1fr 1fr;
@@ -1723,7 +1725,6 @@
     <p class="hero__subtitle fade-up-3">
       Se você já tentou engravidar e ainda não conseguiu e sente que precisa de ajuda, esse protocolo é para você.
     </p>
-    <a href="#oferta" class="btn-cta fade-up-4">Quero preparar meu corpo agora</a>
   </div>
 </section>
 
@@ -1742,10 +1743,7 @@
     <h2 class="section-title" style="text-align:center; margin-bottom:24px;">Com sensação que não passa...</h2>
     <div class="spo__wrapper">
       <div class="spo__photo-wrap">
-        <img src="Images/1.jpg" alt="Depoimento real" class="spo__photo" loading="lazy"/>
-        <div class="spo__whatsapp">
-          <img src="Images/nova03.png" alt="Depoimento WhatsApp" style="width:100%; display:block;"/>
-        </div>
+        <img src="Images/toma.jpg" alt="Depoimento real" class="spo__photo" loading="lazy"/>
       </div>
     </div>
   </div>
@@ -1966,6 +1964,82 @@
   </div>
 </section>
 
+<!-- ══ DEPOIMENTOS ════════════════════════════════════════════════ -->
+<section class="testimonials">
+  <div class="container--wide">
+    <div class="testimonials__header">
+      <div class="testimonials__eyebrow">♡ &nbsp;Depoimentos Reais</div>
+      <h2 class="testimonials__title">O que dizem as <em>futuras mamães</em></h2>
+      <p class="testimonials__sub">Histórias reais de mulheres que prepararam o corpo com o Protocolo Ciclo Fértil</p>
+      <p class="testimonials__subhead">★ &nbsp;Resultados que inspiram &nbsp;★</p>
+    </div>
+    <div class="testimonials__carousel-wrapper">
+    <button class="carousel-arrow carousel-arrow--prev" id="carouselPrev" onclick="carouselNav(-1)" aria-label="Anterior">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+    </button>
+    <div class="testimonials__grid">
+
+      <div class="testimonial-card">
+        <img src="Images/depo1.jpg" alt="Mariana S." class="testimonial-card__img" style="object-position: center 30%;" loading="lazy"/>
+        <div class="testimonial-card__overlay">
+          <div class="testimonial-card__bubble">
+            <p>"Tentava há 14 meses. Percebi que estava tentando na semana errada o tempo todo. No terceiro ciclo aplicando o protocolo, engravidei."</p>
+          </div>
+          <div class="testimonial-card__footer">
+            <img src="Images/img.png" alt="" class="testimonial-avatar-img" loading="lazy"/>
+            <div class="testimonial-card__info">
+              <span class="testimonial-card__author">Mariana S.</span>
+              <span class="testimonial-card__location">36 anos · São Paulo · Ciclo regulado em 3 semanas</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial-card">
+        <img src="Images/depo2.jpg" alt="Fernanda R." class="testimonial-card__img" style="object-position: center 30%;" loading="lazy"/>
+        <div class="testimonial-card__overlay">
+          <div class="testimonial-card__bubble">
+            <p>"Me sentia muito sozinha nisso. Esse protocolo me devolveu a esperança e me deu um caminho concreto. Simples e pra quem tem vida real."</p>
+          </div>
+          <div class="testimonial-card__footer">
+            <img src="Images/depoimento1.jpeg" alt="" class="testimonial-avatar-img" loading="lazy"/>
+            <div class="testimonial-card__info">
+              <span class="testimonial-card__author">Fernanda R.</span>
+              <span class="testimonial-card__location">31 anos · Fortaleza · Ovulação identificada no 2º ciclo</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial-card">
+        <img src="Images/depo3.jpg" alt="Camila T." class="testimonial-card__img" loading="lazy"/>
+        <div class="testimonial-card__overlay">
+          <div class="testimonial-card__bubble">
+            <p>"Com 41 anos me disseram que seria difícil. Apliquei o protocolo por 2 ciclos e engravidei naturalmente. Não acreditei quando vi o positivo."</p>
+          </div>
+          <div class="testimonial-card__footer">
+            <img src="Images/depoimento3.jpeg" alt="" class="testimonial-avatar-img" loading="lazy"/>
+            <div class="testimonial-card__info">
+              <span class="testimonial-card__author">Camila T.</span>
+              <span class="testimonial-card__location">41 anos · Belo Horizonte · Gravidez confirmada no 2º ciclo</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <button class="carousel-arrow carousel-arrow--next" id="carouselNext" onclick="carouselNav(1)" aria-label="Próximo">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+    </button>
+    </div>
+    <div class="testimonial-dots" id="testimonialDots" style="display:none">
+      <button class="testimonial-dot active" onclick="scrollToCard(0)"></button>
+      <button class="testimonial-dot" onclick="scrollToCard(1)"></button>
+      <button class="testimonial-dot" onclick="scrollToCard(2)"></button>
+    </div>
+  </div>
+</section>
+
 <!-- ══ OFERTA ══════════════════════════════════════════════════════ -->
 <section class="offer" id="oferta">
   <div class="container">
@@ -2056,82 +2130,6 @@
         <p style="font-size:13px; font-weight:700; color:var(--terracota-d); margin:0 0 4px 0;">🛡️ Garantia de 30 dias</p>
         <p style="font-size:12px; color:var(--cacau); opacity:.7; margin:0;"><span style="display:block; margin-bottom:4px;">Se não ficar satisfeita, devolvemos 100% do seu dinheiro.</span><span style="display:block;">Sem perguntas.</span></p>
       </div>
-    </div>
-  </div>
-</section>
-
-<!-- ══ DEPOIMENTOS ════════════════════════════════════════════════ -->
-<section class="testimonials">
-  <div class="container--wide">
-    <div class="testimonials__header">
-      <div class="testimonials__eyebrow">♡ &nbsp;Depoimentos Reais</div>
-      <h2 class="testimonials__title">O que dizem as <em>futuras mamães</em></h2>
-      <p class="testimonials__sub">Histórias reais de mulheres que prepararam o corpo com o Protocolo Ciclo Fértil</p>
-      <p class="testimonials__subhead">★ &nbsp;Resultados que inspiram &nbsp;★</p>
-    </div>
-    <div class="testimonials__carousel-wrapper">
-    <button class="carousel-arrow carousel-arrow--prev" id="carouselPrev" onclick="carouselNav(-1)" aria-label="Anterior">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
-    </button>
-    <div class="testimonials__grid">
-
-      <div class="testimonial-card">
-        <img src="Images/depo1.jpg" alt="Mariana S." class="testimonial-card__img" style="object-position: center 30%;" loading="lazy"/>
-        <div class="testimonial-card__overlay">
-          <div class="testimonial-card__bubble">
-            <p>"Tentava há 14 meses. Percebi que estava tentando na semana errada o tempo todo. No terceiro ciclo aplicando o protocolo, engravidei."</p>
-          </div>
-          <div class="testimonial-card__footer">
-            <img src="Images/img.png" alt="" class="testimonial-avatar-img" loading="lazy"/>
-            <div class="testimonial-card__info">
-              <span class="testimonial-card__author">Mariana S.</span>
-              <span class="testimonial-card__location">36 anos · São Paulo · Ciclo regulado em 3 semanas</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="testimonial-card">
-        <img src="Images/depo2.jpg" alt="Fernanda R." class="testimonial-card__img" style="object-position: center 30%;" loading="lazy"/>
-        <div class="testimonial-card__overlay">
-          <div class="testimonial-card__bubble">
-            <p>"Me sentia muito sozinha nisso. Esse protocolo me devolveu a esperança e me deu um caminho concreto. Simples e pra quem tem vida real."</p>
-          </div>
-          <div class="testimonial-card__footer">
-            <img src="Images/depoimento1.jpeg" alt="" class="testimonial-avatar-img" loading="lazy"/>
-            <div class="testimonial-card__info">
-              <span class="testimonial-card__author">Fernanda R.</span>
-              <span class="testimonial-card__location">31 anos · Fortaleza · Ovulação identificada no 2º ciclo</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="testimonial-card">
-        <img src="Images/depo3.jpg" alt="Camila T." class="testimonial-card__img" loading="lazy"/>
-        <div class="testimonial-card__overlay">
-          <div class="testimonial-card__bubble">
-            <p>"Com 41 anos me disseram que seria difícil. Apliquei o protocolo por 2 ciclos e engravidei naturalmente. Não acreditei quando vi o positivo."</p>
-          </div>
-          <div class="testimonial-card__footer">
-            <img src="Images/depoimento3.jpeg" alt="" class="testimonial-avatar-img" loading="lazy"/>
-            <div class="testimonial-card__info">
-              <span class="testimonial-card__author">Camila T.</span>
-              <span class="testimonial-card__location">41 anos · Belo Horizonte · Gravidez confirmada no 2º ciclo</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-    </div>
-    <button class="carousel-arrow carousel-arrow--next" id="carouselNext" onclick="carouselNav(1)" aria-label="Próximo">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
-    </button>
-    </div>
-    <div class="testimonial-dots" id="testimonialDots" style="display:none">
-      <button class="testimonial-dot active" onclick="scrollToCard(0)"></button>
-      <button class="testimonial-dot" onclick="scrollToCard(1)"></button>
-      <button class="testimonial-dot" onclick="scrollToCard(2)"></button>
     </div>
   </div>
 </section>

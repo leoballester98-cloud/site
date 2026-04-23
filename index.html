@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
-<link rel="preload" as="image" href="Images/h1.1.png"/>
+<link rel="preload" as="image" href="Images/nova.jpg"/>
 <style>
   :root {
     --terracota: #C8956C;
@@ -86,7 +86,7 @@
   .hero__bg {
     position: absolute;
     inset: 0;
-    background-image: url('Images/h1.1.png');
+    background-image: url('Images/nova.jpg');
     background-size: cover;
     background-position: center 40%;
     background-repeat: no-repeat;
@@ -118,8 +118,8 @@
     background: rgba(255,255,255,.04);
     border-radius: 50%;
   }
-  .br-desktop { display: block; }
-  @media (max-width: 768px) { .br-desktop { display: none; } }
+  .hero-line { display: block; }
+  @media (max-width: 768px) { .hero-line { display: inline; } }
 
   .hero__eyebrow {
     display: inline-block;
@@ -133,11 +133,11 @@
     margin-bottom: 20px;
   }
   .hero__title {
-    font-size: clamp(30px, 4vw, 48px);
+    font-size: clamp(26px, 2.6vw, 36px);
     color: var(--marfim);
     margin-bottom: 16px;
-    line-height: 1.18;
-    max-width: 660px;
+    line-height: 1.25;
+    max-width: 860px;
     margin-left: auto;
     margin-right: auto;
     text-align: center;
@@ -1515,7 +1515,7 @@
   <div class="container">
     <span class="hero__eyebrow fade-up">Protocolo Ciclo Fértil</span>
     <h1 class="hero__title fade-up-2">
-      Em 30 dias seu corpo pode estar pronto.<br class="br-desktop">Ciclo regulado, hormônios equilibrados,<br class="br-desktop">chances reais de engravidar.
+      <span class="hero-line">Em 30 dias seu corpo pode estar pronto.</span> <span class="hero-line">Ciclo regulado, hormônios equilibrados,</span> <span class="hero-line">chances reais de engravidar.</span>
     </h1>
     <p class="hero__subtitle fade-up-3">
       Se você já tentou engravidar e ainda não conseguiu e sente que precisa ajustar melhor seu corpo antes do positivo, esse protocolo vai te ajudar.
@@ -1826,6 +1826,69 @@
   </div>
 </section>
 
+<!-- ══ DEPOIMENTOS ════════════════════════════════════════════════ -->
+<section class="testimonials">
+  <div class="container--wide">
+    <div class="testimonials__header">
+      <div class="testimonials__eyebrow">♡ &nbsp;Depoimentos Reais</div>
+      <h2 class="testimonials__title">O que dizem as <em>futuras mamães</em></h2>
+      <p class="testimonials__sub">Histórias reais de mulheres que prepararam o corpo com o Protocolo Ciclo Fértil</p>
+      <p class="testimonials__subhead">★ &nbsp;Resultados que inspiram &nbsp;★</p>
+    </div>
+    <div class="testimonials__grid">
+
+      <div class="testimonial-card">
+        <img src="Images/depo1.jpg" alt="Mariana S." class="testimonial-card__img" style="object-position: center 30%;" loading="lazy"/>
+        <div class="testimonial-card__overlay">
+          <div class="testimonial-card__bubble">
+            <p>"Tentava há 14 meses. Percebi que estava tentando na semana errada o tempo todo. No terceiro ciclo aplicando o protocolo, engravidei."</p>
+          </div>
+          <div class="testimonial-card__footer">
+            <img src="Images/img.png" alt="" class="testimonial-avatar-img" loading="lazy"/>
+            <div class="testimonial-card__info">
+              <span class="testimonial-card__author">Mariana S.</span>
+              <span class="testimonial-card__location">36 anos · São Paulo · Ciclo regulado em 3 semanas</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial-card">
+        <img src="Images/depo2.jpg" alt="Fernanda R." class="testimonial-card__img" style="object-position: center 30%;" loading="lazy"/>
+        <div class="testimonial-card__overlay">
+          <div class="testimonial-card__bubble">
+            <p>"Me sentia muito sozinha nisso. Esse protocolo me devolveu a esperança e me deu um caminho concreto. Simples e pra quem tem vida real."</p>
+          </div>
+          <div class="testimonial-card__footer">
+            <img src="Images/depoimento1.jpeg" alt="" class="testimonial-avatar-img" loading="lazy"/>
+            <div class="testimonial-card__info">
+              <span class="testimonial-card__author">Fernanda R.</span>
+              <span class="testimonial-card__location">31 anos · Fortaleza · Ovulação identificada no 2º ciclo</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial-card">
+        <img src="Images/depo3.jpg" alt="Camila T." class="testimonial-card__img" loading="lazy"/>
+        <div class="testimonial-card__overlay">
+          <div class="testimonial-card__bubble">
+            <p>"Nunca imaginei que produtos do dia a dia interferiam nos meus hormônios. Fiz as trocas simples e meu ciclo regulou em 6 semanas."</p>
+          </div>
+          <div class="testimonial-card__footer">
+            <img src="Images/depoimento3.jpeg" alt="" class="testimonial-avatar-img" loading="lazy"/>
+            <div class="testimonial-card__info">
+              <span class="testimonial-card__author">Camila T.</span>
+              <span class="testimonial-card__location">29 anos · Belo Horizonte · Gravidez confirmada no 4º mês</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
 <!-- ══ OBJEÇÕES ══════════════════════════════════════════════════ -->
 <section class="objections">
   <div class="container">
@@ -1860,69 +1923,6 @@
         </div>
         <p class="objection-card__answer">O método foi criado para a rotina real de quem trabalha e tem vida corrida. Os hábitos mais importantes levam menos de 5 minutos por dia. Não é mais uma coisa na sua lista. É só fazer diferente o que você já faz.</p>
       </div>
-    </div>
-  </div>
-</section>
-
-<!-- ══ DEPOIMENTOS ════════════════════════════════════════════════ -->
-<section class="testimonials">
-  <div class="container--wide">
-    <div class="testimonials__header">
-      <div class="testimonials__eyebrow">♡ &nbsp;Depoimentos Reais</div>
-      <h2 class="testimonials__title">O que dizem as <em>futuras mamães</em></h2>
-      <p class="testimonials__sub">Histórias reais de mulheres que prepararam o corpo com o Protocolo Ciclo Fértil</p>
-      <p class="testimonials__subhead">★ &nbsp;Resultados que inspiram &nbsp;★</p>
-    </div>
-    <div class="testimonials__grid">
-
-      <div class="testimonial-card">
-        <img src="Images/depoimentos2.jpeg" alt="Mariana S." class="testimonial-card__img" loading="lazy"/>
-        <div class="testimonial-card__overlay">
-          <div class="testimonial-card__bubble">
-            <p>"Tentava há 14 meses. Percebi que estava tentando na semana errada o tempo todo. No terceiro ciclo aplicando o protocolo, engravidei."</p>
-          </div>
-          <div class="testimonial-card__footer">
-            <img src="Images/depoimentos2.jpeg" alt="" class="testimonial-avatar-img" loading="lazy"/>
-            <div class="testimonial-card__info">
-              <span class="testimonial-card__author">Mariana S.</span>
-              <span class="testimonial-card__location">36 anos · São Paulo · Ciclo regulado em 3 semanas</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="testimonial-card">
-        <img src="Images/depoimento1.jpeg" alt="Fernanda R." class="testimonial-card__img" loading="lazy"/>
-        <div class="testimonial-card__overlay">
-          <div class="testimonial-card__bubble">
-            <p>"Me sentia muito sozinha nisso. Esse protocolo me devolveu a esperança e me deu um caminho concreto. Simples e pra quem tem vida real."</p>
-          </div>
-          <div class="testimonial-card__footer">
-            <img src="Images/depoimento1.jpeg" alt="" class="testimonial-avatar-img" loading="lazy"/>
-            <div class="testimonial-card__info">
-              <span class="testimonial-card__author">Fernanda R.</span>
-              <span class="testimonial-card__location">31 anos · Fortaleza · Ovulação identificada no 2º ciclo</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="testimonial-card">
-        <img src="Images/depoimento3.jpeg" alt="Camila T." class="testimonial-card__img" loading="lazy"/>
-        <div class="testimonial-card__overlay">
-          <div class="testimonial-card__bubble">
-            <p>"Nunca imaginei que produtos do dia a dia interferiam nos meus hormônios. Fiz as trocas simples e meu ciclo regulou em 6 semanas."</p>
-          </div>
-          <div class="testimonial-card__footer">
-            <img src="Images/depoimento3.jpeg" alt="" class="testimonial-avatar-img" loading="lazy"/>
-            <div class="testimonial-card__info">
-              <span class="testimonial-card__author">Camila T.</span>
-              <span class="testimonial-card__location">29 anos · Belo Horizonte · Gravidez confirmada no 4º mês</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
     </div>
   </div>
 </section>

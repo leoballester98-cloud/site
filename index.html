@@ -10,6 +10,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" media="print" onload="this.media='all'"/>
 <noscript><link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/></noscript>
 <link rel="preload" as="image" href="Images/nova.jpg"/>
+<link rel="preload" as="image" href="Images/toma_c.jpg"/>
 <style>
   :root {
     --terracota: #C8956C;
@@ -311,77 +312,7 @@
     overflow: hidden;
     box-shadow: 0 8px 32px rgba(0,0,0,.28), 0 2px 8px rgba(0,0,0,.18);
   }
-  .spo__wa-header {
-    background: #075E54;
-    display: flex; align-items: center; gap: 10px;
-    padding: 8px 12px;
-  }
-  .spo__wa-avatar {
-    width: 28px; height: 28px; border-radius: 50%;
-    background: rgba(255,255,255,.3);
-    flex-shrink: 0;
-  }
-  .spo__wa-name {
-    font-size: 13px; font-weight: 600; color: #fff;
-    font-family: 'DM Sans', sans-serif;
-  }
-  .spo__wa-bubble {
-    background: #DCF8C6;
-    margin: 8px; border-radius: 8px;
-    padding: 10px 12px;
-  }
-  .spo__wa-bubble p {
-    font-size: 13px; line-height: 1.5;
-    color: #111; margin: 0 0 4px; font-family: 'DM Sans', sans-serif;
-  }
-  .spo__wa-bubble p:last-of-type { margin-bottom: 0; }
-  .spo__wa-time {
-    font-size: 10px; color: #666;
-    display: block; text-align: right; margin-top: 4px;
-  }
-
   .pain { background: var(--creme); }
-  .pain__list {
-    list-style: none;
-    display: grid;
-    gap: 14px;
-    margin-top: 32px;
-  }
-  .pain__item {
-    display: flex;
-    align-items: center;
-    gap: 18px;
-    background: var(--marfim);
-    border-radius: 14px;
-    padding: 20px 22px;
-    font-size: 15px;
-    line-height: 1.55;
-    box-shadow: 0 2px 12px rgba(200,149,108,.07);
-    transition: transform .2s ease, box-shadow .2s ease;
-  }
-  .pain__item:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(200,149,108,.13);
-  }
-  .pain__icon {
-    flex-shrink: 0;
-    width: 46px; height: 46px;
-    background: var(--terracota);
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-  }
-  .pain__icon svg {
-    width: 22px; height: 22px;
-    stroke: #fff; fill: none;
-    stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round;
-  }
-  .pain__item::before {
-    content: '';
-    color: var(--terracota);
-    font-size: 20px;
-    line-height: 1.2;
-    flex-shrink: 0;
-  }
 
   /* ══════════════════════════════════════
      REVELAÇÃO / ÂNGULO
@@ -1744,7 +1675,7 @@
     <h2 class="section-title" style="text-align:center; margin-bottom:24px;">Com sensação que não passa...</h2>
     <div class="spo__wrapper">
       <div class="spo__photo-wrap">
-        <img src="Images/toma_c.jpg" alt="Depoimento real" class="spo__photo" loading="lazy"/>
+        <img src="Images/toma_c.jpg" alt="Depoimento real" class="spo__photo" width="1080" height="1080" loading="lazy"/>
       </div>
     </div>
   </div>
@@ -1981,7 +1912,7 @@
     <div class="testimonials__grid">
 
       <div class="testimonial-card">
-        <img src="Images/depo1.jpg" alt="Mariana S." class="testimonial-card__img" style="object-position: center 30%;" loading="lazy"/>
+        <img src="Images/depo1.jpg" alt="Mariana S." class="testimonial-card__img" width="506" height="900" style="object-position: center 30%;" loading="lazy"/>
         <div class="testimonial-card__overlay">
           <div class="testimonial-card__bubble">
             <p>"Tentava há 14 meses. Percebi que estava tentando na semana errada o tempo todo. No terceiro ciclo aplicando o protocolo, engravidei."</p>
@@ -1997,7 +1928,7 @@
       </div>
 
       <div class="testimonial-card">
-        <img src="Images/depo2.jpg" alt="Fernanda R." class="testimonial-card__img" style="object-position: center 30%;" loading="lazy"/>
+        <img src="Images/depo2.jpg" alt="Fernanda R." class="testimonial-card__img" width="720" height="900" style="object-position: center 30%;" loading="lazy"/>
         <div class="testimonial-card__overlay">
           <div class="testimonial-card__bubble">
             <p>"Me sentia muito sozinha nisso. Esse protocolo me devolveu a esperança e me deu um caminho concreto. Simples e pra quem tem vida real."</p>
@@ -2013,7 +1944,7 @@
       </div>
 
       <div class="testimonial-card">
-        <img src="Images/depo3.jpg" alt="Camila T." class="testimonial-card__img" loading="lazy"/>
+        <img src="Images/depo3.jpg" alt="Camila T." class="testimonial-card__img" width="523" height="900" loading="lazy"/>
         <div class="testimonial-card__overlay">
           <div class="testimonial-card__bubble">
             <p>"Com 41 anos me disseram que seria difícil. Apliquei o protocolo por 2 ciclos e engravidei naturalmente. Não acreditei quando vi o positivo."</p>

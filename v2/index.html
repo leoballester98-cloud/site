@@ -1,0 +1,2236 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<link rel="icon" type="image/png" href="../Images/logo.png"/>
+<title>Protocolo Ciclo Fértil Prepare seu corpo para engravidar naturalmente</title>
+<link rel="preload" href="fonts.css" as="style" onload="this.onload=null;this.rel='stylesheet'"/>
+<noscript><link rel="stylesheet" href="fonts.css"/></noscript>
+<link rel="preload" as="image" href="../Images/nova.jpg"/>
+<link rel="preload" as="image" href="../Images/toma_c.jpg"/>
+<style>
+  :root {
+    --terracota: #C8956C;
+    --terracota-d: #8B6347;
+    --terracota-dd: #6B3A1F;
+    --creme: #F5E6D6;
+    --caramelo: #D4A574;
+    --cacau: #4A2E1A;
+    --salvia: #A8B89A;
+    --salvia-d: #6B8F5E;
+    --marfim: #FDFAF6;
+    --branco: #ffffff;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  img { max-width: 100%; height: auto; display: block; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--marfim);
+    color: var(--cacau);
+    overflow-x: hidden;
+  }
+
+  /* ── TIPOGRAFIA ── */
+  h1, h2, h3 { font-family: 'Cormorant Garamond', serif; font-weight: 700; line-height: 1.2; }
+  .serif { font-family: 'Cormorant Garamond', serif; }
+
+  /* ── UTILITÁRIOS ── */
+  .container { max-width: 760px; margin: 0 auto; padding: 0 24px; }
+  .container--wide { max-width: 900px; margin: 0 auto; padding: 0 24px; }
+  .text-center { text-align: center; }
+  .text-terracota { color: var(--terracota); }
+  .text-terracota-d { color: var(--terracota-d); }
+
+  /* ── ANIMAÇÕES ── */
+  @keyframes pulse-cta {
+    0%, 100% { box-shadow: 0 8px 32px rgba(107,58,31,.35); transform: translateY(0); }
+    50%       { box-shadow: 0 12px 40px rgba(107,58,31,.55); transform: translateY(-3px); }
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(28px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50%       { transform: translateY(-8px); }
+  }
+  @keyframes pulse-ring {
+    0%   { box-shadow: 0 0 0 0 rgba(200,149,108,.35); }
+    70%  { box-shadow: 0 0 0 18px rgba(200,149,108,0); }
+    100% { box-shadow: 0 0 0 0 rgba(200,149,108,0); }
+  }
+  @keyframes shimmer {
+    0%   { background-position: -400px 0; }
+    100% { background-position: 400px 0; }
+  }
+
+  .fade-up { animation: fadeUp .8s ease both; }
+  .fade-up-2 { animation: fadeUp .8s .2s ease both; }
+  .fade-up-3 { animation: fadeUp .8s .4s ease both; }
+  .fade-up-4 { animation: fadeUp .8s .6s ease both; }
+
+  /* ══════════════════════════════════════
+     HERO
+  ══════════════════════════════════════ */
+  .hero {
+    position: relative;
+    overflow: hidden;
+    padding: 64px 0 72px;
+    background: var(--terracota-dd);
+  }
+  .hero__bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+  .hero__bg img {
+    width: 100%; height: 100%;
+    object-fit: cover; object-position: center 40%;
+    display: block;
+  }
+  .hero__overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(74,46,26,.55) 0%, rgba(139,75,45,.40) 60%, rgba(74,46,26,.30) 100%);
+    z-index: 1;
+  }
+  .hero .container {
+    position: relative;
+    z-index: 2;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -80px; right: -80px;
+    width: 420px; height: 420px;
+    background: rgba(255,255,255,.06);
+    border-radius: 50%;
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: -60px; left: -60px;
+    width: 300px; height: 300px;
+    background: rgba(255,255,255,.04);
+    border-radius: 50%;
+  }
+  .hero-line { display: block; }
+  @media (max-width: 768px) { .hero-line { display: inline; } }
+
+  .hero__eyebrow {
+    display: inline-block;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: var(--creme);
+    opacity: .75;
+    margin-bottom: 20px;
+  }
+  .hero__title {
+    font-size: clamp(26px, 2.6vw, 36px);
+    color: var(--marfim);
+    margin-bottom: 16px;
+    line-height: 1.25;
+    max-width: 860px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    text-shadow: 0 2px 16px rgba(74,46,26,.4);
+  }
+  .hero__title em {
+    font-style: italic;
+    color: var(--creme);
+  }
+  .hero__subtitle {
+    font-family: 'DM Sans', sans-serif;
+    font-size: clamp(16px, 2.5vw, 19px);
+    color: var(--creme);
+    opacity: .88;
+    max-width: 560px;
+    margin: 0 auto 20px;
+    line-height: 1.7;
+    font-weight: 300;
+  }
+  .hero__promise {
+    background: rgba(253,250,246,.13);
+    border: 1px solid rgba(253,250,246,.28);
+    border-radius: 14px;
+    padding: 20px 28px;
+    max-width: 540px;
+    margin: 0 auto 28px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 19px;
+    font-style: italic;
+    color: var(--marfim);
+    line-height: 1.65;
+    backdrop-filter: blur(4px);
+  }
+  .hero__leaf {
+    width: 40px; height: 40px;
+    margin: 0 auto 16px;
+    animation: float 4s ease-in-out infinite;
+  }
+  .hero__leaf svg { width: 100%; height: 100%; }
+
+  /* ── CTA HERO ── */
+  .btn-cta {
+    display: inline-block;
+    background: var(--cacau);
+    color: var(--marfim);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    padding: 20px 52px;
+    border-radius: 50px;
+    text-decoration: none;
+    transition: transform .2s ease, box-shadow .2s ease;
+    animation: pulse-ring 2.5s ease infinite;
+    letter-spacing: .02em;
+    box-shadow: 0 4px 20px rgba(74,46,26,.18);
+  }
+  .btn-cta:hover { transform: translateY(-3px); box-shadow: 0 16px 40px rgba(107,58,31,.28); }
+  .btn-cta--secondary {
+    background: var(--terracota);
+    color: var(--marfim);
+    border: 2px solid var(--marfim);
+    animation: none;
+  }
+  .btn-cta--secondary:hover { background: var(--terracota-d); }
+
+  .hero__price-hint {
+    margin-top: 14px;
+    font-size: 13px;
+    color: var(--creme);
+    opacity: .65;
+  }
+
+  /* ══════════════════════════════════════
+     FAIXA DE PROVA
+  ══════════════════════════════════════ */
+  .proof-strip {
+    background: var(--terracota-dd);
+    padding: 14px 24px;
+    overflow: hidden;
+    border-bottom: 1px solid rgba(255,255,255,.06);
+  }
+  .proof-strip__inner {
+    display: flex;
+    gap: 40px;
+    justify-content: center;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .proof-strip__item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 8px;
+    color: var(--creme);
+    font-size: 12.5px;
+    font-weight: 500;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    width: 100%;
+  }
+  .proof-strip__dot {
+    width: 5px; height: 5px;
+    background: var(--caramelo);
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  /* ══════════════════════════════════════
+     SEÇÕES GERAIS
+  ══════════════════════════════════════ */
+  section { padding: 72px 0; }
+  .section-eyebrow {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: var(--terracota);
+    margin-bottom: 12px;
+    display: block;
+  }
+  .section-title {
+    font-size: clamp(32px, 5vw, 48px);
+    margin-bottom: 16px;
+    background: linear-gradient(135deg, var(--cacau) 0%, var(--terracota) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .section-lead {
+    font-size: 17px;
+    line-height: 1.8;
+    color: var(--cacau);
+    opacity: .85;
+    max-width: 600px;
+    font-weight: 300;
+  }
+  hr.divider {
+    border: none;
+    border-top: 1px solid var(--caramelo);
+    opacity: .4;
+    margin: 40px 0;
+  }
+
+  /* ══════════════════════════════════════
+     DOR / IDENTIFICAÇÃO
+  ══════════════════════════════════════ */
+  /* ══ PROVA SOCIAL ABERTURA ══ */
+  .social-proof-opener { background: var(--marfim); padding: 48px 0 40px; }
+  .spo__wrapper { display: flex; justify-content: center; }
+  .spo__photo-wrap {
+    position: relative;
+    width: 100%; max-width: 520px;
+    border-radius: 20px; overflow: hidden;
+    box-shadow: 0 12px 40px rgba(74,46,26,.18);
+    font-size: 0; line-height: 0;
+  }
+  .spo__photo {
+    width: 100%; height: 100%;
+    object-fit: cover; object-position: top;
+    display: block;
+  }
+  .spo__photo-wrap { aspect-ratio: 1 / 1.2; max-width: 100%; }
+  .spo__whatsapp {
+    position: absolute; bottom: 16px; left: 50%; transform: translateX(-50%);
+    width: 94%;
+    background: transparent;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(0,0,0,.28), 0 2px 8px rgba(0,0,0,.18);
+  }
+  .pain { background: var(--creme); }
+
+  /* ══════════════════════════════════════
+     REVELAÇÃO / ÂNGULO
+  ══════════════════════════════════════ */
+  .reveal { background: var(--marfim); }
+  .reveal__quote {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(22px, 3.5vw, 32px);
+    font-style: italic;
+    color: var(--terracota-d);
+    line-height: 1.5;
+    border-left: 4px solid var(--terracota);
+    padding: 20px 28px;
+    margin: 32px 0;
+    background: var(--creme);
+    border-radius: 0 8px 8px 0;
+  }
+
+  /* ══════════════════════════════════════
+     PILARES
+  ══════════════════════════════════════ */
+  .pillars { background: var(--marfim); padding: 64px 0; }
+  .pillars__grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    margin-top: 48px;
+    position: relative;
+  }
+  .pillars__grid::before {
+    content: '';
+    position: absolute;
+    top: 28px; left: 10%; right: 10%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--terracota), var(--caramelo), var(--terracota), transparent);
+    z-index: 0;
+  }
+  .pillar-card {
+    display: flex; flex-direction: column; align-items: center;
+    text-align: center; padding: 0 16px 0;
+    position: relative; z-index: 1;
+  }
+  @keyframes iconFloat {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-5px); }
+  }
+  @keyframes iconPulseRing {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(200,149,108,.45), 0 0 0 0 rgba(200,149,108,.2); }
+    50% { box-shadow: 0 0 0 8px rgba(200,149,108,0), 0 0 0 16px rgba(200,149,108,0); }
+  }
+  @keyframes iconRotate {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  @keyframes iconBreathe {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.12); }
+  }
+
+  .pillar-card__icon {
+    width: 80px; height: 80px;
+    background: var(--terracota);
+    border: 2px solid var(--terracota);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--creme);
+    margin-bottom: 20px;
+    position: relative; z-index: 1;
+    line-height: 1;
+  }
+  .pillar-card__icon i {
+    color: var(--creme);
+    line-height: 1;
+  }
+  .pillar-card:nth-child(1) .pillar-card__icon {
+    animation: iconFloat 3s ease-in-out infinite, iconPulseRing 3s ease-in-out infinite;
+  }
+  .pillar-card:nth-child(2) .pillar-card__icon {
+    animation: iconPulseRing 2.5s ease-in-out infinite 0.4s;
+  }
+  .pillar-card:nth-child(2) .pillar-card__icon svg {
+    animation: iconRotate 12s linear infinite;
+  }
+  .pillar-card:nth-child(3) .pillar-card__icon {
+    animation: iconFloat 3.5s ease-in-out infinite 0.8s, iconPulseRing 3.5s ease-in-out infinite 0.8s;
+  }
+  .pillar-card:nth-child(4) .pillar-card__icon {
+    animation: iconPulseRing 3s ease-in-out infinite 1.2s;
+  }
+  .pillar-card:nth-child(4) .pillar-card__icon svg {
+    animation: iconBreathe 3s ease-in-out infinite;
+  }
+  .pillar-card__tag {
+    font-size: 10px; font-weight: 500;
+    letter-spacing: .12em; text-transform: uppercase;
+    color: var(--salvia-d); margin-bottom: 8px; display: block;
+  }
+  .pillar-card__title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px; font-weight: 700;
+    color: var(--terracota-d); margin-bottom: 8px;
+  }
+  .pillar-card__text {
+    font-size: 13px; line-height: 1.6;
+    color: var(--cacau); opacity: .75;
+  }
+
+  .insights__header { text-align: center; margin-top: 56px; margin-bottom: 28px; }
+  .insights__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+  .insight-card {
+    background: var(--terracota);
+    border-radius: 16px;
+    padding: 20px 20px 20px 18px;
+    display: flex; gap: 14px; align-items: flex-start;
+  }
+  .insight-card__icon {
+    font-size: 14px; color: var(--caramelo);
+    flex-shrink: 0; margin-top: 3px; line-height: 1;
+  }
+  .insight-card p {
+    font-size: 14px; line-height: 1.65; color: rgba(255,255,255,.88); margin: 0;
+  }
+
+  /* ══════════════════════════════════════
+     AVATAR / PARA QUEM É
+  ══════════════════════════════════════ */
+  .avatar { background: var(--marfim); }
+  .avatar__checks {
+    list-style: none;
+    display: grid;
+    gap: 12px;
+    margin-top: 28px;
+  }
+  .avatar__check {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    font-size: 15px;
+    line-height: 1.6;
+  }
+  .avatar__check-icon {
+    width: 22px; height: 22px;
+    background: var(--salvia);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .avatar__check-icon::after {
+    content: '✓';
+    color: var(--marfim);
+    font-size: 12px;
+    font-weight: 700;
+  }
+
+  /* ══════════════════════════════════════
+     O QUE VOCÊ VAI APRENDER
+  ══════════════════════════════════════ */
+  .learns { background: var(--creme); }
+  .learns__list {
+    list-style: none;
+    display: grid;
+    gap: 10px;
+    margin-top: 28px;
+  }
+  .learns__item {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    font-size: 15px;
+    line-height: 1.65;
+    padding: 14px 18px;
+    background: var(--marfim);
+    border-radius: 10px;
+    border-left: 3px solid transparent;
+    transition: border-color .2s, box-shadow .2s;
+  }
+  .learns__item:hover {
+    border-left-color: var(--terracota);
+    box-shadow: 0 4px 16px rgba(200,149,108,.1);
+  }
+  .learns__bullet {
+    width: 9px; height: 9px;
+    background: var(--terracota);
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-top: 6px;
+  }
+
+  /* ══════════════════════════════════════
+     DEPOIMENTOS
+  ══════════════════════════════════════ */
+  .testimonials { background: var(--marfim); }
+  .testimonials__header { text-align: center; margin-bottom: 12px; }
+  .testimonials__eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--marfim);
+    border: 1px solid rgba(200,149,108,.25);
+    border-radius: 999px;
+    padding: 6px 18px;
+    font-size: 12px; font-weight: 500; letter-spacing: .1em;
+    text-transform: uppercase; color: var(--terracota-d);
+    margin-bottom: 20px;
+  }
+  .testimonials__title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(28px, 4vw, 44px);
+    font-weight: 700; color: var(--cacau);
+    line-height: 1.2; margin-bottom: 12px;
+  }
+  .testimonials__title em { font-style: normal; color: var(--terracota); }
+  .testimonials__sub {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px; color: var(--cacau); opacity: .6;
+    margin-bottom: 36px;
+  }
+  .testimonials__subhead {
+    text-align: center;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px; font-weight: 600;
+    color: var(--terracota-d);
+    letter-spacing: .06em;
+    margin-bottom: 24px;
+  }
+  .testimonials__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  .testimonial-card {
+    border-radius: 18px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 4px 24px rgba(74,46,26,.12);
+    transition: transform .25s ease, box-shadow .25s ease;
+    background: #000;
+  }
+  .testimonial-card:hover { transform: translateY(-4px); box-shadow: 0 10px 32px rgba(74,46,26,.18); }
+  .testimonial-card__img {
+    width: 100%; height: 380px;
+    object-fit: cover; object-position: center top;
+    display: block;
+    opacity: .88;
+  }
+  .testimonial-card__overlay {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    background: linear-gradient(to top, rgba(0,0,0,.85) 0%, rgba(0,0,0,.2) 40%, transparent 70%);
+    padding: 24px 18px 20px;
+  }
+  .testimonial-card__bubble {
+    background: rgba(255,255,255,.72);
+    backdrop-filter: blur(4px);
+    border-radius: 12px;
+    padding: 12px 14px;
+    margin-bottom: 10px;
+  }
+  .testimonial-card__bubble p {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px; line-height: 1.5;
+    color: var(--cacau);
+  }
+  .testimonial-card__footer {
+    display: flex; align-items: center; gap: 10px;
+  }
+  .testimonial-avatar-img {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    object-fit: cover; object-position: center top;
+    border: 2px solid rgba(255,255,255,.6);
+    flex-shrink: 0;
+  }
+  .testimonial-card__info { display: flex; flex-direction: column; gap: 1px; }
+  .testimonial-card__author { font-size: 13px; font-weight: 600; color: #fff; }
+  .testimonial-card__location { font-size: 11px; color: rgba(255,255,255,.7); }
+
+  /* ══════════════════════════════════════
+     OFERTA / PACOTE
+  ══════════════════════════════════════ */
+  /* ══════════════════════════════════════
+     AUTORIDADE
+  ══════════════════════════════════════ */
+  .authority { background: var(--marfim); padding: 72px 0; }
+  .authority__eyebrow {
+    font-size: 12px; font-weight: 500; letter-spacing: .12em;
+    text-transform: uppercase; color: var(--terracota);
+    margin-bottom: 12px; text-align: center;
+  }
+  .authority__title {
+    font-size: clamp(26px, 3.2vw, 38px);
+    text-align: center; margin-bottom: 40px; color: var(--cacau);
+  }
+  .authority__title em { font-style: normal; color: var(--terracota); }
+  .authority__stats {
+    display: flex; align-items: center; justify-content: center;
+    gap: 0; margin-bottom: 36px;
+    border-radius: 20px; overflow: hidden;
+    background: var(--cacau);
+    box-shadow: 0 16px 48px rgba(74,46,26,.25);
+  }
+  .authority__stat {
+    flex: 1; text-align: center; padding: 36px 16px;
+  }
+  .authority__stat-number {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 64px; font-weight: 700;
+    color: var(--caramelo); line-height: 1;
+    margin-bottom: 10px;
+  }
+  .authority__stat-label {
+    font-size: 13px; color: rgba(245,230,214,.75); line-height: 1.4;
+  }
+  .authority__stat-divider {
+    width: 1px; height: 70px; background: rgba(255,255,255,.15); flex-shrink: 0;
+  }
+  .authority__text {
+    font-size: 16px; line-height: 1.75; color: var(--terracota-d);
+    font-style: italic; text-align: center;
+    max-width: 620px; margin: 0 auto;
+    padding: 24px 28px;
+    background: #fff; border-radius: 12px;
+    border-left: 3px solid var(--terracota);
+    box-shadow: 0 4px 20px rgba(74,46,26,.08);
+  }
+
+  .carousel-arrow { display: none; }
+  .testimonials__carousel-wrapper { display: block; }
+  .offer { background: var(--marfim); }
+  .offer__box {
+    background: var(--creme);
+    border: 2px solid var(--terracota);
+    border-radius: 28px;
+    padding: 52px 44px;
+    max-width: 620px;
+    margin: 0 auto;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 24px 64px rgba(107,58,31,.12);
+  }
+  .offer__box::before {
+    content: '';
+    position: absolute;
+    top: -40px; right: -40px;
+    width: 160px; height: 160px;
+    background: var(--terracota);
+    opacity: .06;
+    border-radius: 50%;
+  }
+  .offer__badge {
+    display: inline-block;
+    background: var(--terracota);
+    color: var(--marfim);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    padding: 6px 18px;
+    border-radius: 50px;
+    margin-bottom: 24px;
+  }
+  .offer__product-title {
+    font-size: clamp(26px, 4vw, 36px);
+    color: var(--terracota-d);
+    margin-bottom: 28px;
+  }
+  .offer__items {
+    list-style: none;
+    text-align: left;
+    display: grid;
+    gap: 12px;
+    margin-bottom: 32px;
+  }
+  .offer__item {
+    font-size: 15px;
+    background: var(--marfim);
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid rgba(200,149,108,.15);
+    transition: box-shadow .2s;
+  }
+  .offer__item:hover { box-shadow: 0 4px 18px rgba(200,149,108,.13); }
+  .offer__item-trigger {
+    width: 100%;
+    background: none;
+    border: none;
+    padding: 14px 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-align: left;
+    transition: background .2s;
+  }
+  .offer__item-trigger:hover { background: rgba(200,149,108,.06); }
+  .offer__item-icon {
+    width: 38px; height: 38px;
+    background: var(--salvia);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .offer__item-icon svg {
+    width: 22px; height: 22px;
+    stroke: #fff;
+    fill: none;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .offer__item-name { font-weight: 700; color: var(--terracota-d); flex: 1; }
+  .offer__item-value {
+    font-size: 18px;
+    font-weight: 400;
+    color: var(--terracota-d);
+    opacity: .75;
+    text-decoration: line-through;
+    white-space: nowrap;
+  }
+  .offer__item-chevron {
+    width: 22px; height: 22px;
+    background: var(--terracota);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--marfim);
+    font-size: 13px;
+    flex-shrink: 0;
+    transition: transform .3s;
+    line-height: 1;
+  }
+  .offer__item.open .offer__item-chevron { transform: rotate(45deg); }
+  .offer__item-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height .35s ease, padding .35s;
+    padding: 0 16px;
+  }
+  .offer__item.open .offer__item-body {
+    max-height: 300px;
+    padding: 0 16px 14px;
+  }
+  .offer__item-bullets {
+    list-style: none;
+    display: grid;
+    gap: 5px;
+    padding-left: 40px;
+  }
+  .offer__item-bullets li {
+    font-size: 13px;
+    color: var(--cacau);
+    opacity: .75;
+    line-height: 1.5;
+    padding-left: 14px;
+    position: relative;
+  }
+  .offer__item-bullets li::before {
+    content: '•';
+    color: var(--terracota);
+    position: absolute;
+    left: 0;
+    font-size: 14px;
+    line-height: 1.3;
+  }
+  .offer__total {
+    margin: 24px 0 8px;
+    font-size: 13px;
+    color: var(--cacau);
+    opacity: .55;
+  }
+  .offer__total-strike {
+    font-size: 18px;
+    color: var(--terracota-dd);
+    opacity: 1;
+    text-decoration: line-through;
+    margin-bottom: 4px;
+  }
+  .offer__price-label {
+    font-size: 13px;
+    color: var(--terracota);
+    font-weight: 500;
+    margin-bottom: 4px;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+  }
+  .offer__price {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 700;
+    color: var(--terracota);
+    line-height: 1;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 0;
+  }
+  .offer__price-rs {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 14px;
+    margin-right: 4px;
+  }
+  .offer__price-int {
+    font-size: 80px;
+    font-weight: 700;
+    line-height: 1;
+  }
+  .offer__price-dec {
+    font-size: 32px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    margin-left: 2px;
+  }
+  .offer__installment {
+    font-size: 13px;
+    color: var(--cacau);
+    opacity: .55;
+    margin-top: 14px;
+    margin-bottom: 32px;
+  }
+  .offer__price-anchor {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin: 24px 0 6px;
+    flex-wrap: wrap;
+    line-height: 1;
+    background: rgba(200,149,108,.1);
+    border: 1px solid rgba(200,149,108,.25);
+    border-radius: 40px;
+    padding: 10px 24px;
+    width: fit-content;
+    margin-left: auto; margin-right: auto;
+  }
+  .offer__price-anchor-label {
+    font-size: 13px;
+    color: var(--terracota-dd);
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    font-weight: 600;
+    line-height: 1;
+  }
+  .offer__price-anchor-value {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--terracota-dd);
+    text-decoration: line-through;
+    text-decoration-color: var(--terracota);
+    text-decoration-thickness: 2px;
+    line-height: 1;
+  }
+  .offer__price-anchor-arrow {
+    font-size: 20px;
+    color: var(--terracota);
+    font-weight: 700;
+  }
+  @keyframes price-reveal {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .offer__price--highlight {
+    color: var(--terracota-dd) !important;
+    text-shadow: 0 2px 12px rgba(107,58,31,.18);
+    opacity: 0;
+  }
+  .offer__guarantee {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--marfim);
+    border-radius: 10px;
+    padding: 14px 18px;
+    margin-top: 24px;
+    text-align: left;
+    font-size: 13px;
+    color: var(--cacau);
+    opacity: .75;
+  }
+  .offer__guarantee-icon { font-size: 22px; flex-shrink: 0; }
+
+  /* ══════════════════════════════════════
+     GARANTIA
+  ══════════════════════════════════════ */
+  .guarantee { background: var(--creme); }
+  .guarantee__box {
+    max-width: 580px;
+    margin: 0 auto;
+    text-align: center;
+    padding: 48px 40px;
+    border: 1px solid var(--caramelo);
+    border-radius: 24px;
+    background: var(--marfim);
+    box-shadow: 0 8px 40px rgba(200,149,108,.1);
+  }
+  .guarantee__icon { font-size: 56px; margin-bottom: 16px; }
+  .guarantee__title {
+    font-size: 28px;
+    color: var(--terracota-d);
+    margin-bottom: 12px;
+  }
+  .guarantee__text {
+    font-size: 15px;
+    line-height: 1.8;
+    color: var(--cacau);
+    opacity: .8;
+  }
+
+  /* ══════════════════════════════════════
+     FAQ
+  ══════════════════════════════════════ */
+  .faq { background: var(--marfim); }
+  .faq__list { margin-top: 32px; display: grid; gap: 12px; }
+  .faq__item {
+    border: 1px solid rgba(200,149,108,.22);
+    border-radius: 14px;
+    overflow: hidden;
+    transition: box-shadow .2s ease;
+  }
+  .faq__item:hover {
+    box-shadow: 0 4px 20px rgba(200,149,108,.12);
+  }
+  .faq__question {
+    width: 100%;
+    background: none;
+    border: none;
+    padding: 18px 20px;
+    text-align: left;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--terracota-d);
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    transition: background .2s;
+  }
+  .faq__question:hover { background: var(--creme); }
+  .faq__toggle {
+    width: 24px; height: 24px;
+    background: var(--terracota);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--marfim);
+    font-size: 16px;
+    flex-shrink: 0;
+    transition: transform .3s;
+  }
+  .faq__item.open .faq__toggle { transform: rotate(45deg); }
+  .faq__answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height .35s ease, padding .35s;
+    padding: 0 20px;
+    font-size: 14px;
+    line-height: 1.8;
+    color: var(--cacau);
+    opacity: .8;
+  }
+  .faq__item.open .faq__answer {
+    max-height: 300px;
+    padding: 0 20px 18px;
+  }
+
+  /* ══════════════════════════════════════
+     CTA FINAL
+  ══════════════════════════════════════ */
+  .cta-final {
+    background: linear-gradient(150deg, var(--terracota-dd) 0%, var(--terracota) 60%, #D4845A 100%);
+    padding: 96px 0;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .cta-final::before {
+    content: '';
+    position: absolute;
+    top: -100px; right: -100px;
+    width: 450px; height: 450px;
+    background: rgba(255,255,255,.05);
+    border-radius: 50%;
+  }
+  .cta-final::after {
+    content: '';
+    position: absolute;
+    bottom: -80px; left: -80px;
+    width: 320px; height: 320px;
+    background: rgba(255,255,255,.04);
+    border-radius: 50%;
+  }
+  .cta-final__title {
+    font-size: clamp(32px, 5vw, 52px);
+    color: var(--marfim);
+    margin-bottom: 16px;
+  }
+  .cta-final__subtitle {
+    font-size: 17px;
+    color: var(--creme);
+    opacity: .85;
+    max-width: 500px;
+    margin: 0 auto 36px;
+    line-height: 1.7;
+    font-weight: 300;
+  }
+  .cta-final__price {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 56px;
+    font-weight: 700;
+    color: var(--marfim);
+    margin-bottom: 8px;
+  }
+  .cta-final__price-hint {
+    font-size: 13px;
+    color: var(--creme);
+    opacity: .6;
+    margin-bottom: 28px;
+  }
+
+  /* ══════════════════════════════════════
+     FOOTER
+  ══════════════════════════════════════ */
+  footer {
+    background: var(--terracota-dd);
+    padding: 32px 0;
+    text-align: center;
+  }
+  footer p {
+    font-size: 12px;
+    color: var(--creme);
+    opacity: .5;
+    line-height: 1.8;
+  }
+  footer a { color: var(--creme); opacity: .6; }
+
+  .sticky-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: var(--terracota-d);
+    padding: 14px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    z-index: 1000;
+    transform: translateY(100%);
+    transition: transform .35s cubic-bezier(.4,0,.2,1);
+    box-shadow: 0 -4px 24px rgba(107,58,31,.3);
+  }
+  .sticky-bar.visible { transform: translateY(0); }
+  .sticky-bar__text {
+    font-size: 14px;
+    color: var(--creme);
+    font-weight: 500;
+  }
+  .sticky-bar__price {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--marfim);
+    white-space: nowrap;
+  }
+  .sticky-bar .btn-cta {
+    font-size: 14px;
+    padding: 12px 28px;
+    animation: none;
+    white-space: nowrap;
+  }
+
+  /* ══════════════════════════════════════
+     ILUSTRAÇÃO MULHER
+  ══════════════════════════════════════ */
+  .woman-section { background: var(--marfim); padding: 64px 0; }
+  .woman-section__inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    align-items: center;
+  }
+  .woman-section__illustration {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .woman-svg {
+    width: 100%;
+    max-width: 280px;
+    filter: drop-shadow(0 12px 32px rgba(200,149,108,0.18));
+    animation: float 5s ease-in-out infinite;
+  }
+  .woman-section__title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(24px, 3.5vw, 36px);
+    color: var(--terracota-d);
+    margin-bottom: 16px;
+    line-height: 1.3;
+  }
+  .woman-section__title em { color: var(--terracota); font-style: italic; }
+  .woman-section__desc {
+    font-size: 15px;
+    line-height: 1.8;
+    color: var(--cacau);
+    opacity: .82;
+    margin-bottom: 12px;
+    font-weight: 300;
+  }
+  .woman-section__highlight {
+    background: var(--creme);
+    border-left: 3px solid var(--terracota);
+    border-radius: 0 8px 8px 0;
+    padding: 16px 20px;
+    margin-top: 20px;
+  }
+  .woman-section__highlight-text {
+    display: block;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 16px;
+    color: var(--terracota-d);
+    line-height: 1.6;
+    margin-bottom: 8px;
+  }
+  .woman-section__highlight-author {
+    font-size: 12px;
+    color: var(--cacau);
+    opacity: .55;
+    font-weight: 500;
+  }
+
+  /* ══════════════════════════════════════
+     URGÊNCIA EMOCIONAL
+  ══════════════════════════════════════ */
+  .urgency-bar {
+    background: var(--terracota-d);
+    padding: 18px 24px;
+    text-align: center;
+  }
+  .urgency-bar__text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(16px, 2.5vw, 20px);
+    font-style: italic;
+    color: var(--marfim);
+    line-height: 1.5;
+  }
+  .urgency-bar__text strong {
+    font-style: normal;
+    color: var(--caramelo);
+  }
+
+  /* ══ PROVA SOCIAL ══ */
+  .social-proof-bar {
+    background: var(--marfim);
+    border-top: 1px solid rgba(200,149,108,.15);
+    border-bottom: 1px solid rgba(200,149,108,.15);
+    padding: 20px 0;
+  }
+  .social-proof-bar__inner {
+    display: flex; align-items: center;
+    justify-content: center; gap: 16px; flex-wrap: wrap;
+  }
+  .social-proof-bar__stars { color: #F5C842; font-size: 18px; letter-spacing: 2px; }
+  .social-proof-bar__text { font-size: 15px; color: var(--cacau); }
+  .social-proof-bar__text strong { color: var(--terracota-d); font-weight: 600; }
+  .social-proof-bar__avatars { display: flex; align-items: center; }
+  .social-proof-bar__avatar-img {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    border: 2px solid var(--marfim);
+    object-fit: cover;
+    object-position: center top;
+    margin-left: -10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+    transition: transform .2s;
+  }
+  .social-proof-bar__avatar-img:first-child { margin-left: 0; }
+  .social-proof-bar__avatar-img:hover { transform: scale(1.12); z-index: 2; }
+
+  /* ══ OBJEÇÕES ══ */
+  .objections { background: var(--creme); }
+  .objections__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px; margin-top: 36px;
+  }
+  @media (max-width: 600px) {
+    .objections__grid { grid-template-columns: 1fr; }
+  }
+  .objection-card {
+    background: var(--marfim); border-radius: 16px;
+    padding: 28px 24px; border: 1px solid rgba(200,149,108,.15);
+    transition: transform .2s, box-shadow .2s;
+  }
+  .objection-card:hover { transform: translateY(-3px); box-shadow: 0 12px 32px rgba(107,58,31,.08); }
+  .objection-card__question {
+    display: flex; align-items: flex-start; gap: 10px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px; font-weight: 600; color: var(--terracota-d);
+    margin-bottom: 14px; line-height: 1.4;
+  }
+  .objection-card__icon {
+    width: 26px; height: 26px; min-width: 26px;
+    background: var(--terracota); color: var(--marfim);
+    border-radius: 50%; display: flex; align-items: center;
+    justify-content: center; font-size: 14px;
+    font-family: 'DM Sans', sans-serif; font-weight: 700; margin-top: 2px;
+  }
+  .objection-card__answer { font-size: 14px; line-height: 1.75; color: var(--cacau); opacity: .82; }
+
+  @media (max-width: 600px) {
+    .woman-section__inner { grid-template-columns: 1fr; gap: 32px; }
+    .woman-svg { max-width: 200px; }
+  }
+  /* ── TABLET ── */
+  @media (max-width: 768px) {
+    .pillars__grid { grid-template-columns: 1fr 1fr; }
+    .proof-strip__inner { gap: 20px; }
+    .offer__box { padding: 36px 24px; }
+  }
+
+  /* ── MOBILE ── */
+  @media (max-width: 600px) {
+    section { padding: 32px 0; }
+
+    /* Hero */
+    .hero { padding: 52px 0 60px; }
+    .hero__bg img { object-position: center top; }
+    .hero__title { font-size: 26px; }
+    .hero__subtitle { font-size: 15px; }
+    .hero__promise { font-size: 15px; padding: 16px 18px; }
+    .hero__leaf { width: 38px; height: 38px; }
+
+    /* Proof strip */
+    .proof-strip__inner { flex-direction: column; align-items: center; gap: 6px; }
+    .proof-strip__item { flex-direction: column; gap: 4px; text-align: center; font-size: 12px; white-space: normal; padding: 0 16px; }
+
+    /* Seções */
+    .section-title,
+    .section-eyebrow,
+    .section-lead { text-align: center !important; }
+    .section-title { font-size: 28px; }
+    .section-lead { font-size: 15px; }
+
+    /* Pilares */
+    .pillars .section-eyebrow,
+    .pillars .section-title { text-align: center; }
+    .pillars__grid { grid-template-columns: 1fr; gap: 14px; }
+    .pillar-card { padding: 22px 18px; }
+
+    /* Autoridade */
+    .authority__stats { flex-direction: row; }
+    .authority__stat { padding: 20px 8px; }
+    .authority__stat-number { font-size: 48px; }
+    .authority__stat-label { font-size: 11px; }
+    .authority__stat-divider { width: 1px; height: 50px; }
+    .insights__grid { grid-template-columns: 1fr; }
+    .spo__photo { height: auto; }
+    .spo__whatsapp { width: 90%; }
+    .pillars__grid {
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+    .pillars__grid::before { display: none; }
+
+    /* Depoimentos — carrossel mobile */
+    .testimonials__carousel-wrapper {
+      position: relative; display: flex; align-items: center; gap: 8px;
+    }
+    .carousel-arrow {
+      display: flex; align-items: center; justify-content: center;
+      width: 36px; height: 36px; border-radius: 50%;
+      background: var(--creme); border: 1px solid rgba(200,149,108,.3);
+      color: var(--terracota); cursor: pointer; flex-shrink: 0;
+      transition: background .2s;
+    }
+    .carousel-arrow:hover { background: rgba(200,149,108,.2); }
+    .testimonials__grid {
+      display: flex;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      gap: 16px;
+      padding-bottom: 8px;
+      scrollbar-width: none;
+    }
+    .testimonials__grid::-webkit-scrollbar { display: none; }
+    .testimonial-card {
+      flex: 0 0 85%;
+      scroll-snap-align: center;
+    }
+    .testimonial-card__img { height: 460px; }
+    .testimonial-dots { display: flex; justify-content: center; gap: 8px; margin-top: 16px; }
+    .testimonial-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: rgba(200,149,108,.3); border: none; padding: 0; cursor: pointer;
+      transition: background .25s;
+    }
+    .testimonial-dot.active { background: var(--terracota); }
+
+    /* Oferta */
+    .offer__box { padding: 28px 16px; }
+    .offer__price-int { font-size: 64px; }
+    .offer__price-dec { font-size: 26px; margin-bottom: 8px; }
+    .offer__price-rs { font-size: 15px; margin-bottom: 11px; }
+    .offer__price-anchor { gap: 6px; }
+    .offer__price-anchor-value { font-size: 22px; }
+    .offer__item-header { flex-wrap: wrap; gap: 8px; }
+    .offer__item-bullets { padding-left: 10px; }
+
+    /* FAQ */
+    .faq__question { font-size: 14px; }
+
+    /* CTA final */
+    .cta-final { padding: 56px 0; }
+    .cta-final__title { font-size: 28px; }
+    .cta-final__subtitle { font-size: 15px; }
+    .cta-final__price { font-size: 42px; }
+
+    /* Sticky bar */
+    .sticky-bar { padding: 12px 16px; }
+    .sticky-bar__text { display: none; }
+    .sticky-bar__price { font-size: 18px; }
+    .sticky-bar .btn-cta { font-size: 13px; padding: 13px 20px; min-height: 44px; }
+
+    /* Botão CTA */
+    .btn-cta { font-size: 15px; padding: 16px 28px; }
+
+    /* Garantia */
+    .guarantee__box { padding: 28px 20px; }
+    .guarantee__icon { font-size: 42px; }
+
+    /* Textos secundários — legibilidade mínima em 375px */
+    .hero__eyebrow,
+    .section-eyebrow      { font-size: 12px; }
+    .pillar-card__tag,
+    .offer__badge         { font-size: 12px; }
+    .testimonial-card__location,
+    .offer__price-anchor-label { font-size: 13px; }
+    footer p              { font-size: 13px; }
+  }
+
+  /* ── PADDING PARA STICKY BAR ── */
+  body { padding-bottom: 0; }
+  body.sticky-active { padding-bottom: 58px; }
+
+  /* ── MOBILE PEQUENO (iPhone SE etc) ── */
+  @media (max-width: 380px) {
+    .hero__title { font-size: 22px; }
+    .offer__price-int { font-size: 56px; }
+    .section-title { font-size: 24px; }
+  }
+
+  /* ══ GARANTIA, dado numérico ══ */
+  .guarantee__stat {
+    margin-top: 14px;
+    font-size: 13.5px;
+    color: var(--cacau);
+    opacity: .75;
+    font-style: italic;
+    border-top: 1px solid rgba(200,149,108,.2);
+    padding-top: 12px;
+  }
+  .guarantee__stat strong {
+    color: var(--terracota-d);
+    font-style: normal;
+  }
+
+  /* ══ CTA ÂNCORA PÓS-PILARES ══ */
+  .anchor-cta-bar {
+    background: var(--creme);
+    padding: 28px 0;
+    border-top: 1px solid rgba(200,149,108,.15);
+    border-bottom: 1px solid rgba(200,149,108,.15);
+  }
+  .anchor-cta-bar__text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px;
+    color: var(--terracota-d);
+    margin-bottom: 14px;
+    font-style: italic;
+  }
+  .anchor-cta-bar__btn {
+    display: inline-block;
+    background: transparent;
+    border: 1.5px solid var(--terracota);
+    color: var(--terracota-d);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 11px 28px;
+    border-radius: 50px;
+    text-decoration: none;
+    letter-spacing: .3px;
+    transition: background .2s, color .2s;
+  }
+  .anchor-cta-bar__btn:hover {
+    background: var(--terracota);
+    color: var(--marfim);
+  }
+
+  /* ══ VERGONHA, hero ══ */
+  .hero__shame {
+    margin-top: 20px;
+    font-size: clamp(15px, 2vw, 17px);
+    color: var(--marfim);
+    opacity: .78;
+    line-height: 1.7;
+    font-style: italic;
+    font-weight: 300;
+  }
+  .hero__shame em {
+    font-style: normal;
+    font-weight: 500;
+    opacity: 1;
+  }
+
+  /* ══ SEM CULPA, revelação ══ */
+  .reveal__no-blame {
+    background: var(--creme);
+    border-left: 3px solid var(--terracota);
+    border-radius: 0 8px 8px 0;
+    padding: 20px 24px;
+    margin: 28px 0;
+    display: grid;
+    grid-template-columns: 1fr 120px;
+    gap: 24px;
+    align-items: center;
+  }
+  .reveal__no-blame-text {
+    font-size: 16px;
+    line-height: 1.85;
+    color: var(--cacau);
+    font-style: italic;
+  }
+  .reveal__no-blame strong {
+    font-style: normal;
+    color: var(--terracota-d);
+    font-size: 17px;
+  }
+  /* Teste positivo — animações */
+  @keyframes ptFadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes ptLine1 {
+    0%,25% { transform: scaleX(0); opacity: 0; }
+    55%    { transform: scaleX(1); opacity: 1; }
+    100%   { transform: scaleX(1); opacity: 1; }
+  }
+  @keyframes ptLine2 {
+    0%,50% { transform: scaleX(0); opacity: 0; }
+    80%    { transform: scaleX(1); opacity: 1; }
+    100%   { transform: scaleX(1); opacity: 1; }
+  }
+  @keyframes ptGlow {
+    0%,100% { filter: drop-shadow(0 0 3px rgba(200,149,108,0)); }
+    65%     { filter: drop-shadow(0 0 10px rgba(200,149,108,.55)); }
+  }
+  @keyframes ptFloat {
+    0%,100% { transform: translateY(0); }
+    50%     { transform: translateY(-5px); }
+  }
+  @keyframes ptSparkle {
+    0%,100% { opacity: 0; transform: scale(0) rotate(0deg); }
+    50%     { opacity: 1; transform: scale(1) rotate(180deg); }
+  }
+  .pt-body   { animation: ptFadeIn .6s ease forwards, ptFloat 3.5s 1s ease-in-out infinite; }
+  .pt-line1  { transform-origin: left center; animation: ptLine1 2.8s .5s ease forwards; }
+  .pt-line2  { transform-origin: left center; animation: ptLine2 2.8s .5s ease forwards; }
+  .pt-window { animation: ptGlow 2.8s .5s ease forwards; }
+  .pt-sp1    { transform-origin: 50% 50%; animation: ptSparkle 2.4s 1.9s ease infinite; }
+  .pt-sp2    { transform-origin: 50% 50%; animation: ptSparkle 2.4s 2.3s ease infinite; }
+  .pt-sp3    { transform-origin: 50% 50%; animation: ptSparkle 2.4s 2.7s ease infinite; }
+
+  /* ══ EPIFANIA ══ */
+  .reveal__epiphany {
+    background: linear-gradient(135deg, var(--terracota-d) 0%, var(--terracota) 100%);
+    border-radius: 20px;
+    padding: 40px 44px;
+    margin: 36px 0;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 16px 48px rgba(107,58,31,.22);
+  }
+  .reveal__epiphany::before {
+    content: '';
+    position: absolute;
+    top: -30px; right: -30px;
+    width: 140px; height: 140px;
+    border-radius: 50%;
+    background: rgba(253,250,246,0.06);
+  }
+  .reveal__epiphany::after {
+    content: '';
+    position: absolute;
+    bottom: -20px; left: -20px;
+    width: 100px; height: 100px;
+    border-radius: 50%;
+    background: rgba(253,250,246,0.04);
+  }
+  .reveal__epiphany-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(20px, 3vw, 26px);
+    font-weight: 700;
+    color: var(--marfim);
+    margin-bottom: 20px;
+    line-height: 1.3;
+  }
+  .reveal__epiphany-text {
+    font-size: 15px;
+    line-height: 1.85;
+    color: var(--creme);
+    opacity: .9;
+    margin-bottom: 14px;
+  }
+  .reveal__epiphany-text strong {
+    color: var(--marfim);
+    font-weight: 600;
+  }
+  .reveal__epiphany-divider {
+    width: 48px;
+    height: 2px;
+    background: rgba(253,250,246,0.3);
+    margin: 20px 0;
+    border-radius: 2px;
+  }
+  .reveal__epiphany-highlight {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(18px, 2.5vw, 22px);
+    font-style: italic;
+    color: var(--marfim);
+    margin-top: 8px;
+    line-height: 1.4;
+  }
+
+  /* ══ LINHA DE SINAL — REVELAÇÃO ══ */
+  .reveal__epiphany-title,
+  .reveal__epiphany-text,
+  .reveal__epiphany-divider,
+  .reveal__epiphany-highlight { position: relative; z-index: 1; }
+  @keyframes drawSignal {
+    0%   { stroke-dashoffset: 920; opacity: 0; }
+    6%   { opacity: .55; }
+    72%  { stroke-dashoffset: 0; opacity: .42; }
+    86%  { stroke-dashoffset: 0; opacity: 0; }
+    100% { stroke-dashoffset: 920; opacity: 0; }
+  }
+  .reveal__signal {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 72px;
+    pointer-events: none;
+    overflow: hidden;
+  }
+  .signal-line {
+    stroke-dasharray: 920;
+    stroke-dashoffset: 920;
+    animation: drawSignal 5.5s ease-in-out infinite;
+  }
+
+  /* ══ MANDALA — 2 COLUNAS ══════════════════════════════════════════ */
+  .reveal__two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    align-items: center;
+    margin-top: 40px;
+  }
+  .reveal__mandala-wrap {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .reveal__mandala-svg {
+    width: 100%;
+    max-width: 380px;
+    height: auto;
+    overflow: visible;
+  }
+  .mandala-ring-outer {
+    transform-origin: 150px 150px;
+    animation: mandalaSpin 40s linear infinite;
+  }
+  @keyframes mandalaSpin {
+    to { transform: rotate(360deg); }
+  }
+  .mandala-seg-0 { animation: segPulse 8s 0s   ease-in-out infinite; }
+  .mandala-seg-1 { animation: segPulse 8s 2s   ease-in-out infinite; }
+  .mandala-seg-2 { animation: segPulse 8s 4s   ease-in-out infinite; }
+  .mandala-seg-3 { animation: segPulse 8s 6s   ease-in-out infinite; }
+  @keyframes segPulse {
+    0%,100% { opacity: .78; }
+    12.5%   { opacity: 1; }
+    25%     { opacity: .78; }
+  }
+  .mandala-center-dot {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: centerPulse 3.2s ease-in-out infinite alternate;
+  }
+  @keyframes centerPulse {
+    from { transform: scale(0.75); opacity: .35; }
+    to   { transform: scale(1.25); opacity: .75; }
+  }
+  @media (max-width: 640px) {
+    .reveal__two-col { grid-template-columns: 1fr; }
+    .reveal__mandala-wrap { order: -1; }
+    .reveal__mandala-svg { max-width: 300px; }
+  }
+
+  /* ══ PARTÍCULAS FLUTUANTES — CTA FINAL ══ */
+  @keyframes particleRise {
+    0%   { transform: translateY(0) rotate(0deg);   opacity: 0; }
+    12%  { opacity: .55; }
+    88%  { opacity: .2; }
+    100% { transform: translateY(-140px) rotate(200deg); opacity: 0; }
+  }
+  .cta-final__particles {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+  .cta-particle {
+    position: absolute;
+    bottom: 24px;
+    animation: particleRise linear infinite;
+  }
+</style>
+</head>
+<body>
+
+<!-- ══ HERO ══════════════════════════════════════════════════════ -->
+<section class="hero text-center">
+  <div class="hero__bg"><img src="../Images/nova.jpg" alt="" width="1024" height="1024" fetchpriority="high"/></div>
+  <div class="hero__overlay"></div>
+  <div class="container">
+    <span class="hero__eyebrow fade-up">Protocolo Ciclo Fértil</span>
+    <h1 class="hero__title fade-up-2">
+      <span class="hero-line">Em 30 dias seu corpo vai estar pronto</span> <span class="hero-line">para receber o positivo.</span>
+    </h1>
+    <p class="hero__subtitle fade-up-3">
+      Ciclo regulado, hormônios equilibrados, as maiores chances de engravidar que você já teve.
+    </p>
+    <div style="margin-top:24px; padding:12px 0; border-top:1px solid rgba(255,255,255,.15);">
+      <div class="proof-strip__item" style="color:var(--creme); font-size:12px; text-transform:uppercase; letter-spacing:.06em;"><span style="color:#FFD700;">★★★★★</span> &nbsp;Testado e aprovado por quem tentava há meses</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ DOR ════════════════════════════════════════════════════════ -->
+<!-- ══ PROVA SOCIAL ABERTURA ═══════════════════════════════════════ -->
+<section class="social-proof-opener">
+  <div class="container--wide">
+    <span class="section-eyebrow" style="text-align:center; display:block; margin-bottom:12px;">Você se identifica?</span>
+    <h2 class="section-title" style="text-align:center; margin-bottom:24px;">Com sensação que não passa...</h2>
+    <div class="spo__wrapper">
+      <div class="spo__photo-wrap">
+        <img src="../Images/novaimg.jpg" alt="Depoimento real" class="spo__photo" width="1080" height="1080" loading="lazy"/>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ REVELAÇÃO ══════════════════════════════════════════════════ -->
+<section class="reveal">
+  <div class="container">
+    <span class="section-eyebrow">O problema nunca foi seu corpo.</span>
+    <h2 class="section-title">Foi o que ninguém te ensinou sobre ele.</h2>
+    <div class="reveal__no-blame">
+      <!-- Coluna texto -->
+      <div class="reveal__no-blame-text">
+        <strong>E é exatamente isso que você vai saber a partir de agora.</strong>
+      </div>
+
+      <!-- Coluna ilustração: teste de gravidez positivo -->
+      <svg viewBox="0 0 100 160" xmlns="http://www.w3.org/2000/svg" aria-label="Teste de gravidez positivo" role="img" style="width:100%;height:auto;overflow:visible;">
+        <g class="pt-body">
+          <!-- Sombra -->
+          <ellipse cx="50" cy="155" rx="22" ry="4" fill="rgba(200,149,108,.15)"/>
+          <!-- Cabo -->
+          <rect x="38" y="4" width="24" height="18" rx="4" fill="#EDD5BE" stroke="#C8956C" stroke-width="1.2"/>
+          <!-- Corpo -->
+          <rect x="30" y="16" width="40" height="132" rx="8" fill="#F5E6D6" stroke="#C8956C" stroke-width="1.5"/>
+          <!-- Janela -->
+          <g class="pt-window">
+            <rect x="36" y="36" width="28" height="44" rx="5" fill="white" stroke="#C8956C" stroke-width="1.2"/>
+            <text x="38" y="48" font-size="5" fill="#C8956C" font-family="DM Sans,sans-serif" opacity=".7">C</text>
+            <text x="38" y="62" font-size="5" fill="#C8956C" font-family="DM Sans,sans-serif" opacity=".7">T</text>
+            <!-- Linha controle -->
+            <rect class="pt-line1" x="43" y="44" width="16" height="4" rx="2" fill="#8B6347"/>
+            <!-- Linha resultado -->
+            <rect class="pt-line2" x="43" y="57" width="16" height="4" rx="2" fill="#C8956C"/>
+          </g>
+          <!-- POSITIVO -->
+          <text x="50" y="98" text-anchor="middle" font-size="6.5" font-weight="700" letter-spacing="1.2" fill="#8B6347" font-family="DM Sans,sans-serif">POSITIVO</text>
+          <!-- Linhas decorativas -->
+          <rect x="38" y="108" width="24" height="1.2" rx="1" fill="rgba(200,149,108,.3)"/>
+          <rect x="42" y="114" width="16" height="1.2" rx="1" fill="rgba(200,149,108,.2)"/>
+          <!-- Estrelinhas -->
+          <g class="pt-sp1" transform="translate(20,42)">
+            <path d="M0,-6 L1.2,-1.2 L6,0 L1.2,1.2 L0,6 L-1.2,1.2 L-6,0 L-1.2,-1.2 Z" fill="#C8956C" opacity=".8"/>
+          </g>
+          <g class="pt-sp2" transform="translate(80,55)">
+            <path d="M0,-5 L1,-1 L5,0 L1,1 L0,5 L-1,1 L-5,0 L-1,-1 Z" fill="#D4A574" opacity=".75"/>
+          </g>
+          <g class="pt-sp3" transform="translate(22,72)">
+            <path d="M0,-4 L.8,-.8 L4,0 L.8,.8 L0,4 L-.8,.8 L-4,0 L-.8,-.8 Z" fill="#C8956C" opacity=".7"/>
+          </g>
+        </g>
+      </svg>
+    </div>
+
+    <div class="reveal__two-col">
+      <!-- Coluna texto — intacto -->
+      <div class="reveal__two-col-text">
+        <p class="section-lead">O Protocolo Ciclo Fértil trabalha os 4 ambientes do corpo feminino ao mesmo tempo, porque fertilidade não é uma coisa só.</p>
+      </div>
+
+      <!-- Coluna mandala animada -->
+      <div class="reveal__mandala-wrap">
+        <svg class="reveal__mandala-svg" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Mandala dos 4 ambientes do Protocolo Ciclo Fértil: Corpo, Ciclo, Ambiente e Mente">
+
+          <!-- Halo de fundo -->
+          <circle cx="150" cy="150" r="128" fill="rgba(200,149,108,0.07)" stroke="none"/>
+
+          <!-- Anel externo decorativo girando -->
+          <g class="mandala-ring-outer">
+            <circle cx="150" cy="150" r="126" fill="none" stroke="rgba(200,149,108,0.25)" stroke-width="1" stroke-dasharray="3 9"/>
+            <!-- Marcadores nos 4 pontos cardeais do anel -->
+            <circle cx="150" cy="24"  r="3" fill="rgba(200,149,108,0.45)"/>
+            <circle cx="276" cy="150" r="3" fill="rgba(200,149,108,0.45)"/>
+            <circle cx="150" cy="276" r="3" fill="rgba(200,149,108,0.45)"/>
+            <circle cx="24"  cy="150" r="3" fill="rgba(200,149,108,0.45)"/>
+          </g>
+
+          <!-- ── Segmentos donut (R_outer=110, R_inner=50, ±40°) ── -->
+
+          <!-- Corpo — topo — terracota -->
+          <path class="mandala-seg-0"
+            d="M 117.9,111.7 L 79.3,65.7 A 110,110 0 0,1 220.7,65.7 L 182.1,111.7 A 50,50 0 0,0 117.9,111.7 Z"
+            fill="#C8956C"/>
+
+          <!-- Ciclo — direita — caramelo -->
+          <path class="mandala-seg-1"
+            d="M 188.3,117.9 L 234.3,79.3 A 110,110 0 0,1 234.3,220.7 L 188.3,182.1 A 50,50 0 0,0 188.3,117.9 Z"
+            fill="#D4A574"/>
+
+          <!-- Ambiente — base — sálvia -->
+          <path class="mandala-seg-2"
+            d="M 182.1,188.3 L 220.7,234.3 A 110,110 0 0,1 79.3,234.3 L 117.9,188.3 A 50,50 0 0,0 182.1,188.3 Z"
+            fill="#A8B89A"/>
+
+          <!-- Mente — esquerda — cacau -->
+          <path class="mandala-seg-3"
+            d="M 111.7,182.1 L 65.7,220.7 A 110,110 0 0,1 65.7,79.3 L 111.7,117.9 A 50,50 0 0,0 111.7,182.1 Z"
+            fill="#8B6347"/>
+
+          <!-- Círculo interno decorativo -->
+          <circle cx="150" cy="150" r="48" fill="var(--marfim)" stroke="rgba(200,149,108,0.35)" stroke-width="1.5"/>
+          <circle class="mandala-center-dot" cx="150" cy="150" r="22" fill="rgba(200,149,108,0.35)"/>
+          <!-- Símbolo central -->
+          <text x="150" y="156" text-anchor="middle" font-size="20" fill="#8B6347" opacity="0.8" font-family="serif">✦</text>
+
+          <!-- ── Labels ── -->
+          <!-- Corpo (topo, raio 80, θ=0°) -->
+          <text x="150" y="68" text-anchor="middle" font-family="DM Sans, sans-serif" font-size="9.5" font-weight="600" letter-spacing="1.2" fill="#FDFAF6">CORPO</text>
+
+          <!-- Ciclo (direita, raio 80, θ=90°) -->
+          <text x="231" y="154" text-anchor="middle" font-family="DM Sans, sans-serif" font-size="9.5" font-weight="600" letter-spacing="1.2" fill="rgba(255,255,255,0.92)">CICLO</text>
+
+          <!-- Ambiente (base, raio 80, θ=180°) -->
+          <text x="150" y="233" text-anchor="middle" font-family="DM Sans, sans-serif" font-size="8" font-weight="600" letter-spacing="1" fill="rgba(75,60,40,0.9)">AMBIENTE</text>
+
+          <!-- Mente (esquerda, raio 80, θ=270°) -->
+          <text x="69" y="154" text-anchor="middle" font-family="DM Sans, sans-serif" font-size="9.5" font-weight="600" letter-spacing="1.2" fill="rgba(255,255,255,0.92)">MENTE</text>
+
+        </svg>
+      </div>
+    </div>
+    <div style="text-align:center; margin-top:48px;">
+      <a href="#oferta" onclick="document.getElementById('oferta').scrollIntoView({behavior:'instant'}); return false;" class="btn-cta btn-cta--secondary" style="display:inline-block; padding:16px 44px; font-size:1rem; letter-spacing:.04em; border:none; box-shadow:0 6px 0 rgba(80,35,10,.35), 0 8px 24px rgba(107,58,31,.25); animation:pulse-cta 2s infinite;">
+        Quero começar agora
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ══ PILARES ════════════════════════════════════════════════════ -->
+<section class="pillars" id="aprenda">
+  <div class="container">
+    <span class="section-eyebrow">O que você vai receber</span>
+    <h2 class="section-title">4 pilares que trabalham juntos</h2>
+    <div class="pillars__grid">
+      <div class="pillar-card">
+        <div class="pillar-card__icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg>
+        </div>
+        <h3 class="pillar-card__title">Prepare o Corpo</h3>
+        <p class="pillar-card__text">O que colocar, o que tirar e o que suplementar.</p>
+      </div>
+      <div class="pillar-card">
+        <div class="pillar-card__icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/><path d="M20 3v4"/><path d="M22 5h-4"/></svg>
+        </div>
+        <h3 class="pillar-card__title">Domine seu Ciclo</h3>
+        <p class="pillar-card__text">Pare de tentar no dia errado.</p>
+      </div>
+      <div class="pillar-card">
+        <div class="pillar-card__icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+        </div>
+        <h3 class="pillar-card__title">Limpe o Ambiente</h3>
+        <p class="pillar-card__text">Trocas simples que não custam mais caro.</p>
+      </div>
+      <div class="pillar-card">
+        <div class="pillar-card__icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96-.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 1.98-3A2.5 2.5 0 0 1 9.5 2Z"/><path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96-.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-1.98-3A2.5 2.5 0 0 0 14.5 2Z"/></svg>
+        </div>
+        <h3 class="pillar-card__title">Acalme a Mente</h3>
+        <p class="pillar-card__text">Regular o cortisol em menos de 5 minutos.</p>
+      </div>
+    </div>
+
+    <div class="insights__header">
+      <span class="section-eyebrow">Na prática</span>
+      <h2 class="section-title">Tudo que você para de improvisar<br>e passa a fazer com certeza</h2>
+    </div>
+    <div class="insights__grid">
+      <div class="insight-card">
+        <div class="insight-card__icon">✦</div>
+        <p>O sinal 3 dias antes da ovulação que ninguém te ensinou a reconhecer</p>
+      </div>
+      <div class="insight-card">
+        <div class="insight-card__icon">✦</div>
+        <p>O mecanismo do cortisol que desliga a ovulação e o que fazer antes do suplemento</p>
+      </div>
+      <div class="insight-card">
+        <div class="insight-card__icon">✦</div>
+        <p>O checklist que separa o corpo que tenta do corpo que está pronto</p>
+      </div>
+      <div class="insight-card">
+        <div class="insight-card__icon">✦</div>
+        <p>O que ajustar na alimentação nos 7 dias antes da ovulação para aumentar a qualidade do muco cervical</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ DEPOIMENTOS ════════════════════════════════════════════════ -->
+<section class="testimonials">
+  <div class="container--wide">
+    <div class="testimonials__header">
+      <div class="testimonials__eyebrow">♡ &nbsp;Depoimentos Reais</div>
+      <h2 class="testimonials__title">O que dizem as <em>futuras mamães</em></h2>
+      <p class="testimonials__sub">Histórias reais de mulheres que prepararam o corpo com o Protocolo Ciclo Fértil</p>
+      <p class="testimonials__subhead">★ &nbsp;Resultados que inspiram &nbsp;★</p>
+    </div>
+    <div class="testimonials__carousel-wrapper">
+    <button class="carousel-arrow carousel-arrow--prev" id="carouselPrev" onclick="carouselNav(-1)" aria-label="Anterior">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+    </button>
+    <div class="testimonials__grid">
+
+      <div class="testimonial-card">
+        <img src="../Images/depo1.jpg" alt="Mariana S." class="testimonial-card__img" width="506" height="900" style="object-position: center 30%;" loading="lazy"/>
+        <div class="testimonial-card__overlay">
+          <div class="testimonial-card__bubble">
+            <p>"Tentava há 14 meses. Percebi que estava tentando na semana errada o tempo todo. No terceiro ciclo aplicando o protocolo, engravidei."</p>
+          </div>
+          <div class="testimonial-card__footer">
+            <img src="../Images/img.png" alt="" class="testimonial-avatar-img" loading="lazy"/>
+            <div class="testimonial-card__info">
+              <span class="testimonial-card__author">Mariana S.</span>
+              <span class="testimonial-card__location">36 anos · São Paulo · Ciclo regulado em 3 semanas</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial-card">
+        <img src="../Images/depo2.jpg" alt="Fernanda R." class="testimonial-card__img" width="720" height="900" style="object-position: center 30%;" loading="lazy"/>
+        <div class="testimonial-card__overlay">
+          <div class="testimonial-card__bubble">
+            <p>"Me sentia muito sozinha nisso. Esse protocolo me devolveu a esperança e me deu um caminho concreto. Simples e pra quem tem vida real."</p>
+          </div>
+          <div class="testimonial-card__footer">
+            <img src="../Images/depoimento1.jpeg" alt="" class="testimonial-avatar-img" loading="lazy"/>
+            <div class="testimonial-card__info">
+              <span class="testimonial-card__author">Fernanda R.</span>
+              <span class="testimonial-card__location">31 anos · Fortaleza · Ovulação identificada no 2º ciclo</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial-card">
+        <img src="../Images/depo3.jpg" alt="Camila T." class="testimonial-card__img" width="523" height="900" loading="lazy"/>
+        <div class="testimonial-card__overlay">
+          <div class="testimonial-card__bubble">
+            <p>"Com 41 anos me disseram que seria difícil. Apliquei o protocolo por 2 ciclos e engravidei naturalmente. Não acreditei quando vi o positivo."</p>
+          </div>
+          <div class="testimonial-card__footer">
+            <img src="../Images/depoimento3.jpeg" alt="" class="testimonial-avatar-img" loading="lazy"/>
+            <div class="testimonial-card__info">
+              <span class="testimonial-card__author">Camila T.</span>
+              <span class="testimonial-card__location">41 anos · Belo Horizonte · Gravidez confirmada no 2º ciclo</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <button class="carousel-arrow carousel-arrow--next" id="carouselNext" onclick="carouselNav(1)" aria-label="Próximo">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+    </button>
+    </div>
+    <div class="testimonial-dots" id="testimonialDots" style="display:none">
+      <button class="testimonial-dot active" onclick="scrollToCard(0)"></button>
+      <button class="testimonial-dot" onclick="scrollToCard(1)"></button>
+      <button class="testimonial-dot" onclick="scrollToCard(2)"></button>
+    </div>
+  </div>
+</section>
+
+<!-- ══ OFERTA ══════════════════════════════════════════════════════ -->
+<section class="offer" id="oferta">
+  <div class="container">
+    <div class="text-center" style="margin-bottom:40px">
+      <h2 class="section-title">Tudo que você precisa em um só lugar</h2>
+    </div>
+    <div class="offer__box">
+      <span class="offer__badge">Acesso imediato</span>
+      <h3 class="offer__product-title">Protocolo Ciclo Fértil</h3>
+      <div class="offer__price-anchor">
+        <span class="offer__price-anchor-label">De</span>
+        <span class="offer__price-anchor-value">R$ 188,00</span>
+        <span class="offer__price-anchor-arrow">&#8594;</span>
+        <span class="offer__price-anchor-label">por apenas</span>
+      </div>
+      <div class="offer__price offer__price--highlight">
+        <span class="offer__price-rs">R$</span><span class="offer__price-int">37</span><span class="offer__price-dec">,90</span>
+      </div>
+      <p style="font-family:'Cormorant Garamond',serif; font-size:clamp(17px,2.5vw,22px); font-style:italic; color:var(--terracota-d); text-align:center; margin-bottom:8px; line-height:1.5;">Você não está tentando de menos.<br/>Está tentando sem saber o que falta.</p>
+      <p style="font-family:'DM Sans',sans-serif; font-size:clamp(13px,1.8vw,15px); color:var(--terracota); text-align:center; margin-bottom:20px; font-weight:500;">Quem começa hoje aplica no próximo ciclo. Quem espera, perde mais um mês.</p>
+      <ul class="offer__items">
+        <li class="offer__item open">
+          <button class="offer__item-trigger" onclick="toggleOfferItem(this)" aria-expanded="true">
+            <span class="offer__item-name">Protocolo Ciclo Fértil</span>
+            <span class="offer__item-value">R$ 97,00</span>
+            <span class="offer__item-chevron">+</span>
+          </button>
+          <div class="offer__item-body">
+            <ul class="offer__item-bullets">
+              <li>Corpo: o que preparar no seu organismo antes mesmo de tentar de novo</li>
+              <li>Ciclo: como identificar sua janela fértil real e ler os sinais do corpo</li>
+              <li>Ambiente: o que está ao seu redor sabotando seus hormônios</li>
+              <li>Mente: a conexão entre estresse, cortisol e ovulação</li>
+            </ul>
+          </div>
+        </li>
+        <li class="offer__item">
+          <button class="offer__item-trigger" onclick="toggleOfferItem(this)" aria-expanded="false">
+            <span class="offer__item-name">Bônus Guia de Receitas Férteis</span>
+            <span class="offer__item-value">R$ 37,00</span>
+            <span class="offer__item-chevron">+</span>
+          </button>
+          <div class="offer__item-body">
+            <ul class="offer__item-bullets">
+              <li>7 receitas simples com até 4 ingredientes e menos de 10 minutos de preparo</li>
+              <li>4 chás validados pela ciência para equilibrar os hormônios</li>
+              <li>Tudo com ingredientes baratos e fáceis de encontrar em qualquer mercado</li>
+            </ul>
+          </div>
+        </li>
+        <li class="offer__item">
+          <button class="offer__item-trigger" onclick="toggleOfferItem(this)" aria-expanded="false">
+            <span class="offer__item-name">Bônus Diário do Ciclo Fértil</span>
+            <span class="offer__item-value">R$ 27,00</span>
+            <span class="offer__item-chevron">+</span>
+          </button>
+          <div class="offer__item-body">
+            <ul class="offer__item-bullets">
+              <li>Tabela de monitoramento diário com 35 dias por ciclo</li>
+              <li>Campos para temperatura basal, muco cervical, humor e sensações físicas</li>
+              <li>Página de resumo mensal para identificar padrões ao longo dos ciclos</li>
+            </ul>
+          </div>
+        </li>
+        <li class="offer__item">
+          <button class="offer__item-trigger" onclick="toggleOfferItem(this)" aria-expanded="false">
+            <span class="offer__item-name">Bônus Guia de Rotinas Férteis</span>
+            <span class="offer__item-value">R$ 27,00</span>
+            <span class="offer__item-chevron">+</span>
+          </button>
+          <div class="offer__item-body">
+            <ul class="offer__item-bullets">
+              <li>15 hábitos organizados por manhã, dia, noite e semana</li>
+              <li>Planner semanal com checklist pronto para usar todo dia</li>
+              <li>Rotinas pensadas para a realidade de quem tem agenda corrida</li>
+            </ul>
+          </div>
+        </li>
+      </ul>
+      <a href="https://pay.celetus.com/MWEYGXEF" class="btn-cta" style="display:block; text-align:center; margin-bottom:12px">
+        Quero receber o meu positivo
+      </a>
+      <div style="background:var(--creme); border-radius:10px; padding:14px 20px; margin-top:8px; text-align:center;">
+        <p style="font-size:13px; font-weight:700; color:var(--terracota-d); margin:0 0 4px 0;">🛡️ Garantia de 30 dias</p>
+        <p style="font-size:12px; color:var(--cacau); opacity:.7; margin:0;">Se não ficar satisfeita, devolvemos 100% do seu dinheiro. Sem perguntas.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ FAQ ════════════════════════════════════════════════════════ -->
+<section class="faq">
+  <div class="container">
+    <span class="section-eyebrow">Dúvidas frequentes</span>
+    <h2 class="section-title">Perguntas e respostas</h2>
+    <div class="faq__list">
+      <div class="faq__item">
+        <button class="faq__question" onclick="toggleFaq(this)">
+          "Mas será que só informação resolve?"
+          <span class="faq__toggle">+</span>
+        </button>
+        <div class="faq__answer">Não é um e-book para ler e guardar. É um método com passos concretos: o que comer para equilibrar os hormônios, como identificar os dias certos do seu ciclo, o que tirar do ambiente que está sabotando sua fertilidade sem você saber. Quem segue como proposto chega ao final de 30 dias com ciclo regulado, janela fértil identificada e o corpo mais preparado que já esteve para receber o positivo.</div>
+      </div>
+      <div class="faq__item">
+        <button class="faq__question" onclick="toggleFaq(this)">
+          "Já tentei de tudo e não funcionou..."
+          <span class="faq__toggle">+</span>
+        </button>
+        <div class="faq__answer">Provavelmente você nunca teve acesso a essa informação específica. A maioria das mulheres que tentam não conhece nem 30% do que está neste protocolo. Não é falta de esforço. É falta de acesso.</div>
+      </div>
+      <div class="faq__item">
+        <button class="faq__question" onclick="toggleFaq(this)">
+          "Vale mesmo a pena investir nisso?"
+          <span class="faq__toggle">+</span>
+        </button>
+        <div class="faq__answer">O problema nunca foi dinheiro. Foi acesso à informação certa. E com 30 dias de garantia total, você não tem absolutamente nada a perder. Testa, aplica, e só decide depois.</div>
+      </div>
+      <div class="faq__item">
+        <button class="faq__question" onclick="toggleFaq(this)">
+          "Não tenho tempo para seguir um protocolo..."
+          <span class="faq__toggle">+</span>
+        </button>
+        <div class="faq__answer">O protocolo não exige rotina nova. Você ajusta o que já faz: o que come, como dorme, o que observa no corpo. Os passos principais levam menos de 5 minutos por dia. Se você tem tempo para tentar, tem tempo para tentar certo.</div>
+      </div>
+      <div class="faq__item">
+        <button class="faq__question" onclick="toggleFaq(this)">
+          Serve para quem faz FIV/inseminação?
+          <span class="faq__toggle">+</span>
+        </button>
+        <div class="faq__answer">Sim. O protocolo prepara o ambiente interno do corpo, o que é benéfico independente do caminho escolhido. Mulheres em processo de FIV relatam que chegaram mais preparadas após aplicar o protocolo.</div>
+      </div>
+      <div class="faq__item">
+        <button class="faq__question" onclick="toggleFaq(this)">
+          Como recebo o material?
+          <span class="faq__toggle">+</span>
+        </button>
+        <div class="faq__answer">O acesso é 100% digital e imediato. Após a confirmação do pagamento, você recebe o link de acesso direto no seu e-mail. Sem espera, sem frete.</div>
+      </div>
+      <div class="faq__item">
+        <button class="faq__question" onclick="toggleFaq(this)">
+          Tenho suporte em caso de dúvidas?
+          <span class="faq__toggle">+</span>
+        </button>
+        <div class="faq__answer">Sim. Se tiver qualquer dúvida sobre o material ou como aplicar, é só mandar um e-mail para metodociclofertil@gmail.com. A resposta chega em até 48 horas úteis. Você não vai ficar sozinha nisso.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<!-- ══ FOOTER ═════════════════════════════════════════════════════ -->
+<footer>
+  <div class="container text-center">
+    <p>© 2026 Protocolo Ciclo Fértil. Todos os direitos reservados.</p>
+    <p style="margin-top:6px"><a href="#">Política de Privacidade</a> · <a href="#">Termos de Uso</a> · <a href="#">Suporte</a></p>
+    <p style="margin-top:12px; max-width:500px; margin-left:auto; margin-right:auto">Este produto é um guia educativo digital. Não substitui diagnóstico, orientação ou tratamento médico. Consulte sempre um profissional de saúde qualificado.</p>
+  </div>
+</footer>
+
+<script>
+  // ── OFFER ACCORDION ──────────────────────────────────────────────
+  function toggleOfferItem(btn) {
+    const item = btn.closest('.offer__item');
+    const isOpen = item.classList.contains('open');
+    item.classList.toggle('open', !isOpen);
+    btn.setAttribute('aria-expanded', String(!isOpen));
+  }
+
+  // ── CARROSSEL DEPOIMENTOS ─────────────────────────────────────
+  (function() {
+    const grid = document.querySelector('.testimonials__grid');
+    const dots = document.getElementById('testimonialDots');
+    const dotBtns = dots ? dots.querySelectorAll('.testimonial-dot') : [];
+    const prevBtn = document.getElementById('carouselPrev');
+    const nextBtn = document.getElementById('carouselNext');
+    let currentIdx = 0;
+
+    function isMobile() { return window.innerWidth <= 600; }
+
+    function getCards() { return grid ? grid.querySelectorAll('.testimonial-card') : []; }
+
+    function showControls(show) {
+      if (dots) dots.style.display = show ? 'flex' : 'none';
+      if (prevBtn) prevBtn.style.display = show ? 'flex' : 'none';
+      if (nextBtn) nextBtn.style.display = show ? 'flex' : 'none';
+    }
+
+    function goToCard(idx) {
+      const cards = getCards();
+      if (!cards.length) return;
+      currentIdx = Math.max(0, Math.min(idx, cards.length - 1));
+      const cardWidth = cards[0].offsetWidth + 16;
+      grid.scrollTo({ left: currentIdx * cardWidth, behavior: 'smooth' });
+      dotBtns.forEach((d, i) => d.classList.toggle('active', i === currentIdx));
+    }
+
+    function updateDots() {
+      if (!grid || !isMobile()) return;
+      const cards = getCards();
+      const cardWidth = cards[0] ? cards[0].offsetWidth + 16 : 1;
+      currentIdx = Math.round(grid.scrollLeft / cardWidth);
+      dotBtns.forEach((d, i) => d.classList.toggle('active', i === currentIdx));
+    }
+
+    window.scrollToCard = goToCard;
+    window.carouselNav = function(dir) { goToCard(currentIdx + dir); };
+
+    if (grid) grid.addEventListener('scroll', updateDots, { passive: true });
+
+    function init() { showControls(isMobile()); }
+    window.addEventListener('resize', init);
+    init();
+  })();
+
+  // ── FAQ TOGGLE ────────────────────────────────────────────────
+  function toggleFaq(btn) {
+    const item = btn.closest('.faq__item');
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq__item.open').forEach(el => el.classList.remove('open'));
+    if (!isOpen) item.classList.add('open');
+  }
+
+  // ── SCROLL REVEAL ─────────────────────────────────────────────
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.style.opacity = '1';
+        e.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.pillar-card, .pain__item, .learns__item, .testimonial-card, .avatar__check').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(24px)';
+    el.style.transition = 'opacity .6s ease, transform .6s ease';
+    observer.observe(el);
+  });
+
+  // Animação de entrada do preço
+  const priceEl = document.querySelector('.offer__price--highlight');
+  if (priceEl) {
+    const priceObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          priceEl.style.animation = 'price-reveal 0.6s ease forwards';
+          priceObserver.unobserve(priceEl);
+        }
+      });
+    }, { threshold: 0.5 });
+    priceObserver.observe(priceEl);
+  }
+</script>
+<!-- Microsoft Clarity -->
+<script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "w4kf2gdmt9");
+</script>
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '2064178880653362');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=2064178880653362&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+<!-- TikTok Pixel Code Start -->
+<script>
+!function (w, d, t) {
+  w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];ttq.methods=["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie","holdConsent","revokeConsent","grantConsent"],ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}};for(var i=0;i<ttq.methods.length;i++)ttq.setAndDefer(ttq,ttq.methods[i]);ttq.instance=function(t){for(
+var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n]);return e},ttq.load=function(e,n){var r="https://analytics.tiktok.com/i18n/pixel/events.js",o=n&&n.partner;ttq._i=ttq._i||{},ttq._i[e]=[],ttq._i[e]._u=r,ttq._t=ttq._t||{},ttq._t[e]=+new Date,ttq._o=ttq._o||{},ttq._o[e]=n||{};n=document.createElement("script")
+;n.type="text/javascript",n.async=!0,n.src=r+"?sdkid="+e+"&lib="+t;e=document.getElementsByTagName("script")[0];e.parentNode.insertBefore(n,e)};
+  ttq.load('D7FA0MJC77U6KV5ABNUG');
+  ttq.page();
+}(window, document, 'ttq');
+</script>
+<!-- TikTok Pixel Code End -->
+</body>
+</html>

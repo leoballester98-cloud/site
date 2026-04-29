@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nutra Vida — Suplemento Ciclo Fértil</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800&family=Cormorant+Garamond:wght@500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+    :root{
+      --terracota:#C8956C;
+      --terracota-d:#8B6347;
+      --terracota-dd:#6B3A1F;
+      --creme:#F5E6D6;
+      --caramelo:#D4A574;
+      --cacau:#4A2E1A;
+      --salvia:#A8B89A;
+      --salvia-d:#6B8F5E;
+      --marfim:#FDFAF6;
+      --branco:#ffffff;
+      --nutra:#7c2d9c;
+      --nutra-d:#581c87;
+      --nutra-light:#a855f7;
+      --nutra-soft:#f5f0ff;
+      --text:#2a1a0e;
+    }
+
+    html{scroll-behavior:smooth}
+    body{font-family:'DM Sans',sans-serif;color:var(--text);background:var(--marfim);overflow-x:hidden;line-height:1.5}
+    img{max-width:100%;display:block}
+    .container{max-width:700px;margin:0 auto;padding:0 20px}
+    h1,h2,h3{font-family:'Cormorant Garamond',serif;font-weight:700;line-height:1.15}
+
+    /* ── URGENCY BAR ── */
+    .urgency-bar{
+      background:var(--cacau);
+      color:var(--creme);
+      text-align:center;
+      padding:10px 16px;
+      font-size:13px;
+      font-weight:600;
+      letter-spacing:.3px;
+      position:sticky;top:0;z-index:100;
+    }
+    .urgency-bar span{color:var(--caramelo)}
+
+    /* ── BTN ── */
+    .btn{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+      background:linear-gradient(180deg,var(--terracota) 0%,var(--terracota-dd) 100%);
+      color:var(--branco);
+      font-family:'DM Sans',sans-serif;
+      font-size:16px;
+      font-weight:700;
+      text-decoration:none;
+      padding:18px 32px;
+      border-radius:60px;
+      border:none;
+      cursor:pointer;
+      box-shadow:0 8px 24px rgba(74,46,26,.3);
+      transition:transform .2s,box-shadow .2s;
+      text-align:center;
+      line-height:1.25;
+      width:100%;
+    }
+    .btn:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(74,46,26,.45)}
+
+    /* ── HERO ── */
+    .hero{
+      background:var(--marfim);
+      padding:40px 0 48px;
+    }
+    .approved-badge{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      background:#e8f5e9;
+      color:#2e7d32;
+      font-size:13px;font-weight:700;
+      padding:7px 14px;border-radius:30px;
+      margin-bottom:20px;
+      border:1.5px solid #a5d6a7;
+    }
+    .hero h1{
+      font-size:clamp(32px,8vw,52px);
+      font-weight:700;
+      color:var(--cacau);
+      margin-bottom:18px;
+    }
+    .hero h1 .accent{color:var(--nutra)}
+    .hero p.lead{
+      font-size:16px;line-height:1.65;
+      color:#4a3020;
+      margin-bottom:28px;
+    }
+    .hero-product{
+      text-align:center;
+      margin:36px 0 32px;
+    }
+    .hero-product img{
+      max-width:260px;
+      margin:0 auto;
+      filter:drop-shadow(0 16px 32px rgba(0,0,0,.14));
+    }
+
+    /* ── TICKER ── */
+    .ticker-wrap{
+      background:var(--cacau);
+      overflow:hidden;
+      padding:15px 0;
+    }
+    .ticker{
+      display:flex;
+      width:max-content;
+      animation:tick 30s linear infinite;
+    }
+    .ticker span{
+      color:var(--creme);
+      font-size:13px;font-weight:600;
+      text-transform:uppercase;letter-spacing:.5px;
+      padding:0 18px;white-space:nowrap;
+    }
+    .ticker .dot{color:var(--caramelo);padding:0 4px}
+    @keyframes tick{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+    /* ── BRIDGE ── */
+    .bridge{
+      background:var(--creme);
+      padding:52px 0;
+    }
+    .bridge h2{
+      font-size:clamp(28px,7vw,42px);
+      color:var(--cacau);
+      margin-bottom:18px;
+    }
+    .bridge p{
+      font-size:15px;line-height:1.7;
+      color:#4a3020;
+      margin-bottom:16px;
+    }
+    .bridge p strong{color:var(--cacau)}
+    .gap-list{list-style:none;margin:20px 0 32px}
+    .gap-list li{
+      display:flex;align-items:flex-start;gap:12px;
+      padding:11px 0;
+      font-size:14px;color:var(--cacau);
+      border-bottom:1px solid rgba(74,46,26,.1);
+    }
+    .gap-list li:last-child{border:none}
+    .gap-list .ic{
+      width:22px;height:22px;flex-shrink:0;
+      background:var(--nutra);border-radius:50%;
+      display:flex;align-items:center;justify-content:center;
+      color:#fff;font-size:11px;font-weight:700;margin-top:1px;
+    }
+
+    /* ── INGREDIENTS ── */
+    .combo{
+      background:var(--marfim);
+      padding:52px 0;
+    }
+    .combo-head{text-align:center;margin-bottom:36px}
+    .combo-head h2{
+      font-size:clamp(28px,7vw,42px);
+      color:var(--cacau);margin-bottom:14px;
+    }
+    .combo-head p{font-size:15px;line-height:1.7;color:#4a3020}
+    .combo-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:14px;
+    }
+    .combo-card{
+      background:var(--branco);
+      border-radius:20px;
+      padding:22px 18px;
+      box-shadow:0 4px 18px rgba(74,46,26,.07);
+      border-top:3px solid var(--nutra);
+    }
+    .bubble{
+      width:56px;height:56px;
+      margin:0 auto 14px;
+      border-radius:50%;
+      background:radial-gradient(circle at 30% 30%,var(--nutra-light),var(--nutra) 60%,var(--nutra-d) 100%);
+      display:flex;align-items:center;justify-content:center;
+      box-shadow:0 6px 16px rgba(124,45,156,.25);
+    }
+    .bubble .label{
+      color:#fff;font-weight:800;
+      font-size:9px;text-align:center;
+      letter-spacing:.3px;line-height:1.15;
+      padding:0 4px;
+    }
+    .combo-card h3{
+      font-family:'Cormorant Garamond',serif;
+      font-size:19px;font-weight:700;
+      color:var(--cacau);margin-bottom:8px;
+    }
+    .combo-card p{font-size:13px;line-height:1.6;color:#555}
+    .vd-badge{
+      display:inline-block;
+      background:var(--nutra-soft);color:var(--nutra);
+      font-size:11px;font-weight:700;
+      padding:3px 10px;border-radius:20px;margin-top:10px;
+    }
+
+    /* ── TESTIMONIALS ── */
+    .testimonials{
+      background:var(--creme);
+      padding:52px 0;
+    }
+    .testimonials-head{text-align:center;margin-bottom:32px}
+    .testimonials-head h2{
+      font-size:clamp(28px,7vw,42px);
+      color:var(--cacau);margin-bottom:12px;
+    }
+    .testimonials-head p{font-size:15px;color:#4a3020;line-height:1.7}
+    .depo-grid{
+      display:grid;
+      grid-template-columns:1fr;
+      gap:14px;
+    }
+    .depo-card{
+      border-radius:16px;
+      overflow:hidden;
+      box-shadow:0 4px 16px rgba(0,0,0,.1);
+    }
+    .depo-card img{width:100%;display:block}
+
+    /* ── PRICING ── */
+    .pricing{
+      background:var(--cacau);
+      padding:56px 0;
+    }
+    .pricing-head{text-align:center;color:var(--creme);margin-bottom:32px}
+    .pricing-head h2{
+      font-size:clamp(26px,7vw,40px);
+      color:var(--marfim);margin-bottom:12px;
+    }
+    .pricing-head p{font-size:15px;color:var(--creme);opacity:.9}
+
+    .offer-card{
+      background:var(--marfim);
+      border-radius:24px;
+      overflow:hidden;
+      max-width:420px;
+      margin:0 auto;
+      box-shadow:0 20px 48px rgba(0,0,0,.35);
+    }
+    .offer-badge{
+      background:var(--nutra);color:#fff;
+      text-align:center;padding:13px 16px;
+      font-size:14px;font-weight:700;
+      letter-spacing:.3px;
+    }
+    .offer-img{
+      background:linear-gradient(180deg,var(--creme),var(--marfim));
+      padding:28px;text-align:center;
+    }
+    .offer-img img{max-width:210px;margin:0 auto;filter:drop-shadow(0 8px 20px rgba(0,0,0,.12))}
+    .free-tag{
+      display:inline-block;
+      background:var(--nutra);color:#fff;
+      font-size:13px;font-weight:800;
+      padding:5px 16px;border-radius:20px;margin-top:14px;
+    }
+    .offer-body{padding:28px 22px 24px}
+    .offer-title{
+      font-family:'Cormorant Garamond',serif;
+      font-size:22px;font-weight:700;
+      color:var(--cacau);text-align:center;
+      margin-bottom:20px;line-height:1.25;
+    }
+    .offer-divider{height:1px;background:#e5d5c5;margin-bottom:22px}
+    .offer-price{text-align:center;margin-bottom:6px}
+    .offer-price .prefix{font-size:16px;font-weight:600;vertical-align:top;margin-top:10px;display:inline-block;color:var(--cacau)}
+    .offer-price .main{font-size:52px;font-weight:800;color:var(--cacau);letter-spacing:-2px}
+    .offer-price .cents{font-size:26px;font-weight:700;color:var(--cacau)}
+    .offer-vista{text-align:center;font-size:13px;color:#888;margin-bottom:24px}
+    .offer-perks{list-style:none;margin-bottom:26px}
+    .offer-perks li{
+      display:flex;align-items:center;gap:10px;
+      padding:10px 0;
+      font-size:14px;color:var(--cacau);
+      border-bottom:1px solid rgba(74,46,26,.08);
+    }
+    .offer-perks li:last-child{border:none}
+    .offer-perks .ck{
+      width:20px;height:20px;flex-shrink:0;
+      background:var(--nutra);color:#fff;
+      border-radius:50%;display:flex;
+      align-items:center;justify-content:center;
+      font-size:11px;font-weight:700;
+    }
+    .offer-no{
+      display:block;text-align:center;margin-top:16px;
+      font-size:12px;color:#bbb;text-decoration:underline;cursor:pointer;
+    }
+
+    /* ── TRUST ── */
+    .trust-section{
+      background:var(--creme);
+      padding:48px 0 36px;
+    }
+    .trust-head{text-align:center;margin-bottom:30px}
+    .trust-head h2{font-size:clamp(22px,6vw,30px);color:var(--cacau);margin-bottom:8px}
+    .trust-head p{font-size:14px;color:#4a3020}
+    .trust-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:12px;
+    }
+    .trust-card{
+      background:var(--marfim);border-radius:14px;
+      padding:18px 14px;text-align:center;
+      box-shadow:0 2px 10px rgba(74,46,26,.06);
+    }
+    .trust-card .ic{
+      width:34px;height:34px;margin:0 auto 10px;
+      display:flex;align-items:center;justify-content:center;
+      color:var(--nutra);
+    }
+    .trust-card p{font-size:13px;line-height:1.4;color:var(--cacau);font-weight:500}
+
+    /* ── GUARANTEE ── */
+    .guarantee{
+      background:var(--marfim);
+      padding:52px 0;
+      text-align:center;
+    }
+    .guarantee h2{
+      font-size:clamp(26px,7vw,40px);
+      color:var(--cacau);margin-bottom:14px;
+    }
+    .guarantee h2 .nutra{color:var(--nutra)}
+    .guarantee p{
+      font-size:15px;line-height:1.7;color:#4a3020;
+      max-width:520px;margin:0 auto 28px;
+    }
+    .shield-wrap{margin-bottom:24px}
+
+    /* ── FAQ ── */
+    .faq{background:var(--creme);padding:52px 0}
+    .faq h2{
+      text-align:center;
+      font-size:clamp(26px,7vw,40px);
+      color:var(--cacau);margin-bottom:36px;
+    }
+    .faq-list{max-width:640px;margin:0 auto}
+    .faq-item{
+      margin-bottom:10px;border-radius:14px;
+      overflow:hidden;background:var(--cacau);
+      box-shadow:0 4px 12px rgba(74,46,26,.15);
+    }
+    .faq-q{
+      width:100%;background:var(--cacau);color:var(--creme);
+      border:none;padding:17px 20px;
+      text-align:left;font-size:15px;font-weight:700;
+      font-family:'DM Sans',sans-serif;
+      cursor:pointer;display:flex;
+      justify-content:space-between;align-items:center;gap:14px;
+    }
+    .faq-q .sign{font-size:20px;font-weight:300;flex-shrink:0;transition:transform .3s}
+    .faq-item.open .sign{transform:rotate(45deg)}
+    .faq-a{max-height:0;overflow:hidden;transition:max-height .35s ease;background:var(--marfim)}
+    .faq-item.open .faq-a{max-height:320px}
+    .faq-a-inner{padding:17px 20px;font-size:14px;line-height:1.7;color:var(--cacau)}
+
+    /* ── FOOTER ── */
+    footer{
+      background:var(--cacau);
+      padding:36px 20px;text-align:center;
+    }
+    .footer-brand{
+      font-family:'Cormorant Garamond',serif;
+      font-size:24px;font-weight:700;
+      color:var(--creme);margin-bottom:12px;
+    }
+    footer p{font-size:11px;color:rgba(253,250,246,.45);line-height:1.8;margin-bottom:2px}
+
+    /* ── NOTIFICATION ── */
+    .notif{
+      position:fixed;bottom:18px;right:14px;
+      background:var(--marfim);color:var(--cacau);
+      padding:10px 16px 10px 12px;border-radius:50px;
+      font-size:13px;font-weight:600;
+      display:flex;align-items:center;gap:8px;
+      box-shadow:0 6px 20px rgba(74,46,26,.2);
+      border:1.5px solid var(--creme);
+      z-index:99;max-width:270px;
+      transition:opacity .4s,transform .4s;
+      opacity:0;transform:translateY(20px);pointer-events:none;
+    }
+    .notif.show{opacity:1;transform:translateY(0)}
+    .notif .badge-ic{
+      width:22px;height:22px;background:var(--nutra);
+      border-radius:50%;display:flex;align-items:center;
+      justify-content:center;color:#fff;font-size:11px;flex-shrink:0;
+    }
+  </style>
+</head>
+<body>
+
+<!-- URGENCY BAR -->
+<div class="urgency-bar">⏱ Oferta exclusiva — <span>disponível apenas nessa tela</span></div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <div class="approved-badge">✓ Compra do Protocolo Ciclo Fértil aprovada!</div>
+    <h1>
+      O Protocolo te dá o mapa.<br/>
+      O Nutra Vida dá o <span class="accent">combustível.</span>
+    </h1>
+    <p class="lead">
+      Mulheres que combinam o método com o suplemento chegam ao positivo mais rápido.
+      Antes de fechar essa página, confira esta oferta exclusiva.
+    </p>
+    <div class="hero-product">
+      <img src="Images/2-meses.png" alt="Nutra Vida — 2 potes" />
+    </div>
+    <a href="https://ev.braip.com/campanhas/cpa/camj2m1y7" class="btn">
+      Sim! Quero adicionar ao meu pedido →
+    </a>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker-wrap">
+  <div class="ticker">
+    <span>+ CICLO REGULADO</span><span class="dot">·</span>
+    <span>+ OVULAÇÃO</span><span class="dot">·</span>
+    <span>+ FERRO 193% VD</span><span class="dot">·</span>
+    <span>+ ÁCIDO FÓLICO</span><span class="dot">·</span>
+    <span>+ ZINCO</span><span class="dot">·</span>
+    <span>+ FENO GREGO</span><span class="dot">·</span>
+    <span>+ MAGNÉSIO</span><span class="dot">·</span>
+    <span>+ CICLO REGULADO</span><span class="dot">·</span>
+    <span>+ OVULAÇÃO</span><span class="dot">·</span>
+    <span>+ FERRO 193% VD</span><span class="dot">·</span>
+    <span>+ ÁCIDO FÓLICO</span><span class="dot">·</span>
+    <span>+ ZINCO</span><span class="dot">·</span>
+    <span>+ FENO GREGO</span><span class="dot">·</span>
+    <span>+ MAGNÉSIO</span><span class="dot">·</span>
+  </div>
+</div>
+
+<!-- BRIDGE -->
+<section class="bridge">
+  <div class="container">
+    <h2>O mapa já está na sua mão. Mas o corpo precisa de combustível.</h2>
+    <p>
+      O Protocolo Ciclo Fértil te mostra o que fazer, quando observar e como preparar seu ciclo. Mas mesmo seguindo tudo direitinho, existe um problema que pode estar travando seus resultados:
+    </p>
+    <p>
+      <strong>Deficiência de ferro, ácido fólico ou zinco — mesmo leve — bloqueia a ovulação, prejudica a qualidade dos óvulos e dificulta a implantação.</strong>
+    </p>
+    <ul class="gap-list">
+      <li>
+        <span class="ic">✗</span>
+        Sem ferro suficiente, o útero não recebe oxigênio em quantidade ideal para a implantação
+      </li>
+      <li>
+        <span class="ic">✗</span>
+        Sem ácido fólico antes da concepção, o risco de má-formação aumenta nas primeiras semanas
+      </li>
+      <li>
+        <span class="ic">✗</span>
+        Sem zinco na dose certa, a divisão celular do óvulo fica comprometida
+      </li>
+      <li>
+        <span class="ic">✗</span>
+        Sem feno grego, o ciclo fica irregular e a ovulação imprevisível
+      </li>
+    </ul>
+    <a href="https://ev.braip.com/campanhas/cpa/camj2m1y7" class="btn">Quero completar meu tratamento →</a>
+  </div>
+</section>
+
+<!-- INGREDIENTS -->
+<section class="combo">
+  <div class="container">
+    <div class="combo-head">
+      <h2>O que o Nutra Vida entrega ao seu corpo</h2>
+      <p>10 nutrientes essenciais em doses acima da recomendação diária.<br/>2 cápsulas por dia. Simples assim.</p>
+    </div>
+    <div class="combo-grid">
+
+      <div class="combo-card">
+        <div class="bubble"><span class="label">FENO GREGO</span></div>
+        <h3>Feno Grego</h3>
+        <p>Regula o ciclo, estimula a ovulação e melhora a qualidade dos óvulos. O principal ativo do Nutra Vida.</p>
+        <span class="vd-badge">150mg Saponinas</span>
+      </div>
+
+      <div class="combo-card">
+        <div class="bubble"><span class="label">FERRO</span></div>
+        <h3>Ferro</h3>
+        <p>Essencial para a ovulação e para que o útero esteja preparado para nutrir o embrião desde o início.</p>
+        <span class="vd-badge">193% da dose diária</span>
+      </div>
+
+      <div class="combo-card">
+        <div class="bubble"><span class="label">ÁC. FÓLICO B9</span></div>
+        <h3>Ácido Fólico</h3>
+        <p>Protege o bebê desde antes da concepção. Deve ser tomado antes de engravidar — não depois de descobrir.</p>
+        <span class="vd-badge">150% da dose diária</span>
+      </div>
+
+      <div class="combo-card">
+        <div class="bubble"><span class="label">ZINCO</span></div>
+        <h3>Zinco</h3>
+        <p>Melhora a qualidade dos óvulos e apoia a divisão celular. Fundamental nos dias que antecedem a ovulação.</p>
+        <span class="vd-badge">109% da dose diária</span>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials">
+  <div class="container">
+    <div class="testimonials-head">
+      <h2>Elas acreditaram.<br/>Hoje são mamães.</h2>
+      <p>Resultados reais de mulheres que combinaram o método com o suplemento.</p>
+    </div>
+    <div class="depo-grid">
+      <div class="depo-card">
+        <img src="Images/depo1.jpg" alt="Depoimento resultado Nutra Vida" />
+      </div>
+      <div class="depo-card">
+        <img src="Images/depo2.jpg" alt="Depoimento resultado Nutra Vida" />
+      </div>
+      <div class="depo-card">
+        <img src="Images/depo3.jpg" alt="Depoimento resultado Nutra Vida" />
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing" id="pricing">
+  <div class="container">
+    <div class="pricing-head">
+      <h2>Oferta exclusiva para quem acabou de garantir o Protocolo</h2>
+      <p>Disponível apenas nessa tela. Não voltará a este preço.</p>
+    </div>
+
+    <div class="offer-card">
+      <div class="offer-badge">🎁 Compre 1 pote — Leve 2 + Frete Grátis</div>
+      <div class="offer-img">
+        <img src="Images/2-meses.png" alt="2 potes Nutra Vida" />
+        <span class="free-tag">+ 1 POTE GRÁTIS</span>
+      </div>
+      <div class="offer-body">
+        <div class="offer-title">Tratamento de 2 meses<br/>pelo preço de 1 pote</div>
+        <div class="offer-divider"></div>
+        <div class="offer-price">
+          <span class="prefix">R$</span><span class="main">216</span><span class="cents">,70</span>
+        </div>
+        <div class="offer-vista">à vista — ou parcelado no cartão</div>
+        <ul class="offer-perks">
+          <li><span class="ck">✓</span>2 potes Nutra Vida (60 dias de tratamento)</li>
+          <li><span class="ck">✓</span>+1 pote completamente grátis</li>
+          <li><span class="ck">✓</span>Frete grátis para todo o Brasil</li>
+          <li><span class="ck">✓</span>Garantia de 30 dias — risco zero</li>
+        </ul>
+        <a href="https://ev.braip.com/campanhas/cpa/camj2m1y7" class="btn">
+          Sim! Quero adicionar ao meu pedido →
+        </a>
+        <span class="offer-no">Não, obrigada — já tenho o que preciso.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TRUST -->
+<section class="trust-section">
+  <div class="container">
+    <div class="trust-head">
+      <h2>Compra 100% segura</h2>
+      <p>Seus dados e pagamento protegidos em todo o processo.</p>
+    </div>
+    <div class="trust-grid">
+      <div class="trust-card">
+        <div class="ic">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 7h13l4 4v6h-2"/><path d="M3 7v10h11"/><circle cx="7" cy="17" r="2"/><circle cx="17" cy="17" r="2"/></svg>
+        </div>
+        <p>Entrega no prazo combinado</p>
+      </div>
+      <div class="trust-card">
+        <div class="ic">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7z"/><circle cx="12" cy="12" r="2"/><path d="M12 14v3"/></svg>
+        </div>
+        <p>Dados protegidos e criptografados</p>
+      </div>
+      <div class="trust-card">
+        <div class="ic">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18"/><circle cx="17" cy="15" r="1.5"/></svg>
+        </div>
+        <p>Aceita todos os cartões em até 12x</p>
+      </div>
+      <div class="trust-card">
+        <div class="ic">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9 12l2 2 4-4"/></svg>
+        </div>
+        <p>Garantia de 30 dias — risco zero</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GUARANTEE -->
+<section class="guarantee">
+  <div class="container">
+    <div class="shield-wrap">
+      <svg width="80" height="90" viewBox="0 0 100 110" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="shg" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0" stop-color="#a855f7"/>
+            <stop offset="1" stop-color="#581c87"/>
+          </linearGradient>
+        </defs>
+        <path d="M50 5 L92 18 V55 C92 80 75 100 50 108 C25 100 8 80 8 55 V18 Z" fill="url(#shg)" stroke="#581c87" stroke-width="2"/>
+        <path d="M30 56 L46 72 L72 42" stroke="#fff" stroke-width="8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    <h2><span class="nutra">Satisfação garantida</span><br/>ou seu dinheiro de volta</h2>
+    <p>
+      Confiamos na eficácia do Nutra Vida. Se em 30 dias você não estiver satisfeita — por qualquer motivo — devolvemos 100% do valor pago. Sem burocracia, sem perguntas.
+    </p>
+    <a href="https://ev.braip.com/campanhas/cpa/camj2m1y7" class="btn">Quero garantir meu tratamento →</a>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq">
+  <div class="container">
+    <h2>Dúvidas frequentes</h2>
+    <div class="faq-list">
+
+      <div class="faq-item open">
+        <button class="faq-q">O Nutra Vida funciona junto com o Protocolo Ciclo Fértil?<span class="sign">+</span></button>
+        <div class="faq-a">
+          <div class="faq-a-inner">Sim. Eles foram feitos para andar juntos. O Protocolo te orienta sobre ciclo, ovulação e alimentação. O Nutra Vida entrega ao seu corpo os nutrientes que tornam isso possível — ferro, ácido fólico, zinco e feno grego nas doses certas.</div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">Em quanto tempo vejo resultado?<span class="sign">+</span></button>
+        <div class="faq-a">
+          <div class="faq-a-inner">A maioria das mulheres percebe melhora no ciclo e na regularidade entre 3 e 6 semanas. Para resultados mais completos — incluindo qualidade dos óvulos — recomendamos pelo menos 60 dias de uso contínuo.</div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">Posso tomar durante a gravidez?<span class="sign">+</span></button>
+        <div class="faq-a">
+          <div class="faq-a-inner">O Nutra Vida foi formulado para a fase de tentativa. Se descobrir a gravidez durante o uso, consulte seu médico antes de continuar. O ácido fólico e o ferro presentes na fórmula são habitualmente recomendados no pré-natal.</div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">E se eu não gostar? Como funciona a garantia?<span class="sign">+</span></button>
+        <div class="faq-a">
+          <div class="faq-a-inner">Você tem 30 dias de garantia total. Se por qualquer motivo não estiver satisfeita, é só enviar um e-mail para o suporte e devolvemos 100% do valor pago. Sem burocracia, sem perguntas.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-brand">Nutra Vida</div>
+  <p>© 2025 Nutra Vida. Todos os direitos reservados.</p>
+  <p>Suplemento alimentar. Não substitui tratamento médico.</p>
+  <p>Os resultados podem variar de pessoa para pessoa.</p>
+</footer>
+
+<!-- NOTIFICATION -->
+<div class="notif" id="notif">
+  <span class="badge-ic">✓</span>
+  <span id="notif-text">Camila acabou de garantir o Nutra Vida.</span>
+</div>
+
+<script>
+  document.querySelectorAll('.faq-q').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      btn.closest('.faq-item').classList.toggle('open');
+    });
+  });
+
+  const names=['Camila','Fernanda','Juliana','Tatiane','Raquel','Aline','Bruna','Patrícia','Renata','Mariana','Sabrina','Letícia'];
+  const notif=document.getElementById('notif');
+  const notifText=document.getElementById('notif-text');
+  function showNotif(){
+    const name=names[Math.floor(Math.random()*names.length)];
+    notifText.textContent=`${name} acabou de garantir o Nutra Vida.`;
+    notif.classList.add('show');
+    setTimeout(()=>notif.classList.remove('show'),4500);
+  }
+  setTimeout(showNotif,2500);
+  setInterval(showNotif,9000);
+</script>
+
+</body>
+</html>

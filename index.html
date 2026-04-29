@@ -562,7 +562,7 @@
   }
   .testimonial-card__overlay {
     position: absolute; bottom: 0; left: 0; right: 0;
-    background: linear-gradient(to top, rgba(0,0,0,.82) 0%, rgba(0,0,0,.4) 60%, transparent 100%);
+    background: linear-gradient(to top, rgba(0,0,0,.85) 0%, rgba(0,0,0,.2) 40%, transparent 70%);
     padding: 24px 18px 20px;
   }
   .testimonial-card__bubble {
@@ -1302,7 +1302,7 @@
       flex: 0 0 85%;
       scroll-snap-align: center;
     }
-    .testimonial-card__img { height: 340px; }
+    .testimonial-card__img { height: 460px; }
     .testimonial-dots { display: flex; justify-content: center; gap: 8px; margin-top: 16px; }
     .testimonial-dot {
       width: 8px; height: 8px; border-radius: 50%;
@@ -2076,7 +2076,7 @@
           "Mas será que só informação resolve?"
           <span class="faq__toggle">+</span>
         </button>
-        <div class="faq__answer">É exatamente o que a maioria das mulheres se pergunta. E a resposta é sim, porque o problema quase nunca é o corpo. É que ninguém ensinou como preparar o corpo. Alimentação, ciclo, ambiente, emoções: nenhum desses fatores aparece em exame. Mas todos influenciam diretamente a fertilidade.</div>
+        <div class="faq__answer">Não é um e-book para ler e guardar. É um método com passos concretos: o que comer para equilibrar os hormônios, como identificar os dias certos do seu ciclo, o que tirar do ambiente que está sabotando sua fertilidade sem você saber. Quem segue como proposto chega ao final de 30 dias com ciclo regulado, janela fértil identificada e o corpo mais preparado que já esteve para receber o positivo.</div>
       </div>
       <div class="faq__item">
         <button class="faq__question" onclick="toggleFaq(this)">
@@ -2097,7 +2097,7 @@
           "Não tenho tempo para seguir um protocolo..."
           <span class="faq__toggle">+</span>
         </button>
-        <div class="faq__answer">O protocolo foi criado para a rotina real de quem trabalha e tem vida corrida. Os hábitos mais importantes levam menos de 5 minutos por dia. Não é mais uma coisa na sua lista. É só fazer diferente o que você já faz.</div>
+        <div class="faq__answer">O protocolo não exige rotina nova. Você ajusta o que já faz — o que come, como dorme, o que observa no corpo. Os passos principais levam menos de 5 minutos por dia. Se você tem tempo para tentar, tem tempo para tentar certo.</div>
       </div>
       <div class="faq__item">
         <button class="faq__question" onclick="toggleFaq(this)">
@@ -2118,7 +2118,7 @@
           Tenho suporte em caso de dúvidas?
           <span class="faq__toggle">+</span>
         </button>
-        <div class="faq__answer">Sim. Você pode entrar em contato pelo e-mail de suporte e a resposta chega em até 48 horas úteis.</div>
+        <div class="faq__answer">Sim. Se tiver qualquer dúvida sobre o material ou como aplicar, é só mandar um e-mail para metodociclofertil@gmail.com. A resposta chega em até 48 horas úteis. Você não vai ficar sozinha nisso.</div>
       </div>
     </div>
   </div>
@@ -2167,7 +2167,8 @@
       const cards = getCards();
       if (!cards.length) return;
       currentIdx = Math.max(0, Math.min(idx, cards.length - 1));
-      cards[currentIdx].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+      const cardWidth = cards[0].offsetWidth + 16;
+      grid.scrollTo({ left: currentIdx * cardWidth, behavior: 'smooth' });
       dotBtns.forEach((d, i) => d.classList.toggle('active', i === currentIdx));
     }
 

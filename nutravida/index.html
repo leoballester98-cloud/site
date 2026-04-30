@@ -54,7 +54,8 @@
     .cd-sep{color:var(--caramelo);font-weight:700;font-size:15px}
 
     /* ── HERO ── */
-    .hero{
+    @keyframes heroIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+    .hero{animation:heroIn .5s ease both;}
       background:
         radial-gradient(ellipse at 85% 10%,rgba(200,149,108,.22) 0%,transparent 55%),
         radial-gradient(ellipse at 5% 85%,rgba(124,45,156,.09) 0%,transparent 50%),
@@ -149,7 +150,7 @@
       font-size:10px;font-weight:800;letter-spacing:.3px;
       padding:2px 8px;border-radius:20px;
     }
-    .ben-txt{font-size:13px;color:var(--cacau);line-height:1.35}
+    .ben-txt{font-size:14px;color:var(--cacau);line-height:1.4}
 
     /* ── TESTIMONIALS ── */
     .testimonials{background:var(--marfim);padding:52px 0}
@@ -177,7 +178,7 @@
     .carousel-wrap{position:relative}
     .carousel-arrow{
       position:absolute;top:50%;transform:translateY(-50%);z-index:10;
-      width:38px;height:38px;border-radius:50%;border:none;cursor:pointer;
+      width:44px;height:44px;border-radius:50%;border:none;cursor:pointer;
       background:var(--marfim);box-shadow:0 4px 14px rgba(0,0,0,.15);
       display:flex;align-items:center;justify-content:center;
       color:var(--nutra);transition:background .2s,box-shadow .2s;
@@ -209,12 +210,12 @@
     /* ── FOOTER ── */
     footer{background:var(--cacau);padding:36px 20px;text-align:center}
     .footer-brand{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:700;color:var(--creme);margin-bottom:12px}
-    footer p{font-size:11px;color:rgba(253,250,246,.4);line-height:1.8;margin-bottom:2px}
+    footer p{font-size:12px;color:rgba(253,250,246,.4);line-height:1.8;margin-bottom:2px}
 
     /* ── FLOATING CTA ── */
 
     /* ── NOTIFICATION ── */
-    .notif{position:fixed;bottom:76px;right:14px;background:var(--marfim);color:var(--cacau);padding:10px 14px 10px 12px;border-radius:50px;font-size:12px;font-weight:600;display:flex;align-items:center;gap:8px;box-shadow:0 6px 20px rgba(74,46,26,.2);border:1.5px solid var(--creme);z-index:99;max-width:240px;transition:opacity .4s,transform .4s;opacity:0;transform:translateY(20px);pointer-events:none}
+    .notif{position:fixed;bottom:76px;right:14px;background:var(--marfim);color:var(--cacau);padding:10px 14px 10px 12px;border-radius:50px;font-size:12px;font-weight:600;display:flex;align-items:center;gap:8px;box-shadow:0 6px 20px rgba(74,46,26,.2);border:1.5px solid var(--creme);z-index:250;max-width:240px;transition:opacity .4s,transform .4s;opacity:0;transform:translateY(20px);pointer-events:none}
     .notif.show{opacity:1;transform:translateY(0)}
     .notif-ic{width:20px;height:20px;background:var(--nutra);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:10px;flex-shrink:0}
   </style>
@@ -363,17 +364,28 @@
   const KEY='nv_secs';
   let secs=parseInt(sessionStorage.getItem(KEY)||0);
   if(!secs||secs<=0){secs=TOTAL;sessionStorage.setItem(KEY,secs);}
+  const cdMin=document.getElementById('cd-min');
+  const cdSec=document.getElementById('cd-sec');
+  function setDisplay(val){
+    const m=Math.floor(val/60);const s=val%60;
+    if(cdMin)cdMin.textContent=String(m).padStart(2,'0');
+    if(cdSec)cdSec.textContent=String(s).padStart(2,'0');
+  }
+  function fadeReset(){
+    [cdMin,cdSec].forEach(el=>{if(el)el.style.transition='opacity .4s';if(el)el.style.opacity='0';});
+    setTimeout(()=>{
+      secs=TOTAL;sessionStorage.setItem(KEY,secs);
+      setDisplay(TOTAL);
+      [cdMin,cdSec].forEach(el=>{if(el)el.style.opacity='1';});
+    },420);
+  }
   function update(){
     secs=Math.max(0,secs-1);
     sessionStorage.setItem(KEY,secs);
-    const display=secs>0?secs:TOTAL;
-    const m=Math.floor(display/60);const s=display%60;
-    const mm=String(m).padStart(2,'0');const ss=String(s).padStart(2,'0');
-    ['cd-min'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent=mm;});
-    ['cd-sec'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent=ss;});
-    if(secs<=0)secs=TOTAL;
+    if(secs<=0){fadeReset();return;}
+    setDisplay(secs);
   }
-  update();setInterval(update,1000);
+  setDisplay(secs);setInterval(update,1000);
 })();
 
 (function(){

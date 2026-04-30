@@ -657,7 +657,7 @@
 
 <script>
 (function(){
-  const TOTAL=20*60;
+  const TOTAL=4*60;
   const KEY='nv_secs';
   let secs=parseInt(sessionStorage.getItem(KEY)||0);
   if(!secs||secs<=0){secs=TOTAL;sessionStorage.setItem(KEY,secs);}

@@ -32,8 +32,9 @@
     h1,h2,h3{font-family:'Cormorant Garamond',serif;font-weight:700;line-height:1.15}
 
     /* ── REVEAL ── */
-    .reveal{opacity:0;transform:translateY(24px);transition:opacity .55s ease,transform .55s ease}
+    .reveal{opacity:0;transform:translateY(20px);transition:opacity .5s ease,transform .5s ease}
     .reveal.visible{opacity:1;transform:none}
+    .no-js .reveal{opacity:1;transform:none}
 
     /* ── URGENCY BAR ── */
     .urgency{
@@ -73,7 +74,7 @@
       margin-bottom:22px;
     }
     .hero h1{
-      font-size:clamp(34px,9.5vw,52px);
+      font-size:clamp(28px,8vw,52px);
       color:var(--cacau);margin-bottom:16px;
     }
     .hero h1 em{color:var(--nutra);font-style:normal}
@@ -684,28 +685,39 @@
 
 <script>
 (function(){
-  const KEY='nv_exp';
-  let exp=sessionStorage.getItem(KEY);
-  if(!exp){exp=Date.now()+20*60*1000;sessionStorage.setItem(KEY,exp);}
-  exp=parseInt(exp);
+  const TOTAL=20*60;
+  const KEY='nv_secs';
+  let secs=parseInt(sessionStorage.getItem(KEY)||0);
+  if(!secs||secs<=0){secs=TOTAL;sessionStorage.setItem(KEY,secs);}
   function update(){
-    const diff=Math.max(0,exp-Date.now());
-    const m=Math.floor(diff/60000);
-    const s=Math.floor((diff%60000)/1000);
+    secs=Math.max(0,secs-1);
+    sessionStorage.setItem(KEY,secs);
+    const display=secs>0?secs:TOTAL;
+    const m=Math.floor(display/60);
+    const s=display%60;
     const mm=String(m).padStart(2,'0');
     const ss=String(s).padStart(2,'0');
     ['cd-min','ot-min'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent=mm;});
     ['cd-sec','ot-sec'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent=ss;});
-    if(diff<=0){exp=Date.now()+5*60*1000;sessionStorage.setItem(KEY,exp);}
+    if(secs<=0)secs=TOTAL;
   }
   update();setInterval(update,1000);
 })();
 
 (function(){
+  const items=document.querySelectorAll('.reveal');
+  // marca imediatamente os que já estão na viewport ao carregar
+  function check(el){
+    const r=el.getBoundingClientRect();
+    return r.top<window.innerHeight&&r.bottom>0;
+  }
+  items.forEach(el=>{if(check(el))el.classList.add('visible');});
   const obs=new IntersectionObserver((entries)=>{
-    entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}});
-  },{threshold:0.1});
-  document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+    entries.forEach(e=>{
+      if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}
+    });
+  },{threshold:0.05,rootMargin:'0px 0px -30px 0px'});
+  items.forEach(el=>{if(!el.classList.contains('visible'))obs.observe(el);});
 })();
 
 (function(){

@@ -212,19 +212,6 @@
     footer p{font-size:11px;color:rgba(253,250,246,.4);line-height:1.8;margin-bottom:2px}
 
     /* ── FLOATING CTA ── */
-    .float-cta{
-      position:fixed;bottom:0;left:0;right:0;z-index:150;
-      background:var(--cacau);
-      padding:12px 20px;
-      display:flex;align-items:center;gap:14px;
-      box-shadow:0 -4px 20px rgba(0,0,0,.2);
-      transform:translateY(100%);
-      transition:transform .35s ease;
-    }
-    .float-cta.visible{transform:translateY(0)}
-    .float-text{color:var(--creme);font-size:12px;line-height:1.35;flex:1;min-width:0}
-    .float-text strong{color:var(--caramelo);display:block;font-size:14px;font-weight:800}
-    .float-btn{background:linear-gradient(180deg,var(--terracota) 0%,var(--terracota-dd) 100%);color:#fff;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:800;padding:12px 18px;border-radius:50px;text-decoration:none;white-space:nowrap;border:none;cursor:pointer;flex-shrink:0;box-shadow:0 4px 14px rgba(74,46,26,.3)}
 
     /* ── NOTIFICATION ── */
     .notif{position:fixed;bottom:76px;right:14px;background:var(--marfim);color:var(--cacau);padding:10px 14px 10px 12px;border-radius:50px;font-size:12px;font-weight:600;display:flex;align-items:center;gap:8px;box-shadow:0 6px 20px rgba(74,46,26,.2);border:1.5px solid var(--creme);z-index:99;max-width:240px;transition:opacity .4s,transform .4s;opacity:0;transform:translateY(20px);pointer-events:none}
@@ -364,14 +351,6 @@
 </footer>
 
 <!-- FLOATING CTA -->
-<div class="float-cta" id="float-cta">
-  <div class="float-text">
-    <strong>Compre 1 · Leve 2 grátis</strong>
-    Frete grátis · Garantia 30 dias
-  </div>
-  <a href="https://ev.braip.com/campanhas/cpa/camj2m1y7" class="float-btn">Garantir</a>
-</div>
-
 <!-- NOTIFICATION -->
 <div class="notif" id="notif">
   <span class="notif-ic">✓</span>
@@ -407,15 +386,6 @@
   items.forEach(el=>{if(!el.classList.contains('visible'))obs.observe(el);});
 })();
 
-(function(){
-  const hero=document.getElementById('hero-section');
-  const fc=document.getElementById('float-cta');
-  if(!hero||!fc)return;
-  const obs=new IntersectionObserver((entries)=>{
-    fc.classList.toggle('visible',!entries[0].isIntersecting);
-  },{threshold:0});
-  obs.observe(hero);
-})();
 
 (function(){
   const c=document.getElementById('depo-carousel');

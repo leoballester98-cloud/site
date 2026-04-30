@@ -139,10 +139,17 @@
     .ben-good{
       color:var(--cacau);font-size:13px;
       padding:14px 14px;
-      display:flex;align-items:center;gap:6px;
+      display:flex;align-items:center;gap:8px;
     }
     .ben-good .ci{color:var(--nutra);flex-shrink:0;font-size:14px;font-weight:800}
-    .ben-good strong{color:var(--nutra)}
+    .ben-inner{display:flex;flex-direction:column;gap:3px}
+    .ben-pct{
+      display:inline-block;width:fit-content;
+      background:var(--nutra-soft);color:var(--nutra);
+      font-size:10px;font-weight:800;letter-spacing:.3px;
+      padding:2px 8px;border-radius:20px;
+    }
+    .ben-txt{font-size:13px;color:var(--cacau);line-height:1.35}
 
     /* ── TESTIMONIALS ── */
     .testimonials{background:var(--marfim);padding:52px 0}
@@ -260,19 +267,19 @@
     <div class="ben-list">
       <div class="ben-row reveal">
         <div class="ben-bad"><span class="xi">✗</span> Sem ferro</div>
-        <div class="ben-good"><span class="ci">✓</span> <strong>193% VD</strong> · útero pronto para a implantação</div>
+        <div class="ben-good"><span class="ci">✓</span><div class="ben-inner"><span class="ben-pct">193% VD</span><span class="ben-txt">útero pronto para a implantação</span></div></div>
       </div>
       <div class="ben-row reveal">
         <div class="ben-bad"><span class="xi">✗</span> Sem zinco</div>
-        <div class="ben-good"><span class="ci">✓</span> <strong>109% VD</strong> · óvulos saudáveis no momento certo</div>
+        <div class="ben-good"><span class="ci">✓</span><div class="ben-inner"><span class="ben-pct">109% VD</span><span class="ben-txt">óvulos saudáveis no momento certo</span></div></div>
       </div>
       <div class="ben-row reveal">
         <div class="ben-bad"><span class="xi">✗</span> Sem ácido fólico</div>
-        <div class="ben-good"><span class="ci">✓</span> <strong>150% VD</strong> · proteção antes do positivo</div>
+        <div class="ben-good"><span class="ci">✓</span><div class="ben-inner"><span class="ben-pct">150% VD</span><span class="ben-txt">proteção antes do positivo</span></div></div>
       </div>
       <div class="ben-row reveal">
         <div class="ben-bad"><span class="xi">✗</span> Sem feno grego</div>
-        <div class="ben-good"><span class="ci">✓</span> ciclo regulado, ovulação previsível</div>
+        <div class="ben-good"><span class="ci">✓</span><div class="ben-inner"><span class="ben-txt">ciclo regulado, ovulação previsível</span></div></div>
       </div>
     </div>
   </div>

@@ -55,7 +55,8 @@
 
     /* ── HERO ── */
     @keyframes heroIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
-    .hero{animation:heroIn .5s ease both;}
+    .hero{
+      animation:heroIn .5s ease both;
       background:
         radial-gradient(ellipse at 85% 10%,rgba(200,149,108,.22) 0%,transparent 55%),
         radial-gradient(ellipse at 5% 85%,rgba(124,45,156,.09) 0%,transparent 50%),
@@ -64,12 +65,13 @@
       overflow:hidden;
     }
     .approved{
-      display:table;margin:0 auto 22px;
+      display:block;width:fit-content;max-width:100%;
+      margin:0 auto 22px;
       background:#e8f5e9;color:#2e7d32;
-      font-size:13px;font-weight:700;
-      padding:8px 16px;border-radius:30px;
+      font-size:12px;font-weight:700;
+      padding:7px 16px;border-radius:30px;
       border:1.5px solid #a5d6a7;
-      text-align:center;
+      white-space:nowrap;text-align:center;
     }
     .hero h1{
       font-size:clamp(28px,8vw,52px);

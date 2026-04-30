@@ -266,6 +266,18 @@
     .carousel-dots{display:flex;justify-content:center;gap:8px;margin-top:18px}
     .carousel-dots span{width:8px;height:8px;border-radius:50%;background:rgba(74,46,26,.18);transition:all .3s}
     .carousel-dots span.active{background:var(--nutra);width:22px;border-radius:4px}
+    .carousel-wrap{position:relative}
+    .carousel-arrow{
+      position:absolute;top:50%;transform:translateY(-50%);z-index:10;
+      width:38px;height:38px;border-radius:50%;border:none;cursor:pointer;
+      background:var(--marfim);box-shadow:0 4px 14px rgba(0,0,0,.15);
+      display:flex;align-items:center;justify-content:center;
+      color:var(--nutra);transition:background .2s,box-shadow .2s;
+    }
+    .carousel-arrow:hover{background:#fff;box-shadow:0 6px 20px rgba(0,0,0,.22)}
+    .carousel-arrow:disabled{opacity:.3;cursor:default}
+    .carousel-arrow.prev{left:6px}
+    .carousel-arrow.next{right:6px}
 
     /* ── PRICING ── */
     .pricing{background:var(--cacau);padding:56px 0}
@@ -532,10 +544,18 @@
       <p>Resultados reais de quem combinou o método com o suplemento.</p>
     </div>
   </div>
-  <div class="depo-carousel" id="depo-carousel">
-    <div class="depo-item"><img src="Images/depo1.jpg" alt="Depoimento Nutra Vida" loading="lazy" /></div>
-    <div class="depo-item"><img src="Images/depo2.jpg" alt="Depoimento Nutra Vida" loading="lazy" /></div>
-    <div class="depo-item"><img src="Images/depo3.jpg" alt="Depoimento Nutra Vida" loading="lazy" /></div>
+  <div class="carousel-wrap">
+    <button class="carousel-arrow prev" id="ca-prev" aria-label="Anterior">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+    </button>
+    <div class="depo-carousel" id="depo-carousel">
+      <div class="depo-item"><img src="Images/depo1.jpg" alt="Depoimento Nutra Vida" loading="lazy" /></div>
+      <div class="depo-item"><img src="Images/depo2.jpg" alt="Depoimento Nutra Vida" loading="lazy" /></div>
+      <div class="depo-item"><img src="Images/depo3.jpg" alt="Depoimento Nutra Vida" loading="lazy" /></div>
+    </div>
+    <button class="carousel-arrow next" id="ca-next" aria-label="Próximo">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+    </button>
   </div>
   <div class="carousel-dots" id="dots">
     <span class="active"></span><span></span><span></span>
@@ -737,11 +757,27 @@
 (function(){
   const c=document.getElementById('depo-carousel');
   const dots=document.querySelectorAll('#dots span');
+  const prev=document.getElementById('ca-prev');
+  const next=document.getElementById('ca-next');
   if(!c||!dots.length)return;
-  c.addEventListener('scroll',()=>{
-    const idx=Math.min(Math.round(c.scrollLeft/c.clientWidth),dots.length-1);
+  const items=Array.from(c.querySelectorAll('.depo-item'));
+  const total=items.length;
+  function getIdx(){
+    let closest=0,minDist=Infinity;
+    items.forEach((el,i)=>{const d=Math.abs(el.offsetLeft-c.scrollLeft);if(d<minDist){minDist=d;closest=i;}});
+    return closest;
+  }
+  function update(){
+    const idx=getIdx();
     dots.forEach((d,i)=>d.classList.toggle('active',i===idx));
-  },{passive:true});
+    if(prev)prev.disabled=idx===0;
+    if(next)next.disabled=idx===total-1;
+  }
+  function goTo(idx){c.scrollTo({left:items[idx].offsetLeft,behavior:'smooth'});}
+  if(prev)prev.addEventListener('click',()=>goTo(Math.max(0,getIdx()-1)));
+  if(next)next.addEventListener('click',()=>goTo(Math.min(total-1,getIdx()+1)));
+  c.addEventListener('scroll',update,{passive:true});
+  update();
 })();
 
 document.querySelectorAll('.faq-q').forEach(btn=>{

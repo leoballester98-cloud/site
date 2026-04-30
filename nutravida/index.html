@@ -100,23 +100,24 @@
 
     /* ── BTN ── */
     .btn{
-      display:flex;align-items:center;justify-content:center;
+      display:inline-flex;align-items:center;justify-content:center;
       background:linear-gradient(180deg,var(--terracota) 0%,var(--terracota-dd) 100%);
       color:#fff;font-family:'DM Sans',sans-serif;
-      font-size:16px;font-weight:800;
-      text-decoration:none;
-      padding:18px 28px;border-radius:60px;
-      border:none;cursor:pointer;width:100%;
-      box-shadow:0 8px 24px rgba(74,46,26,.3);
+      font-size:14px;font-weight:700;
+      text-decoration:none;letter-spacing:.3px;
+      padding:13px 28px;border-radius:60px;
+      border:none;cursor:pointer;width:auto;max-width:260px;
+      box-shadow:0 4px 16px rgba(74,46,26,.25);
       transition:transform .2s,box-shadow .2s;
       text-align:center;line-height:1.25;
     }
-    .btn:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(74,46,26,.45)}
+    .btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(74,46,26,.38)}
     .btn-nutra{
       background:linear-gradient(180deg,#9333ea 0%,var(--nutra-d) 100%);
-      box-shadow:0 8px 24px rgba(124,45,156,.35);
+      box-shadow:0 4px 16px rgba(124,45,156,.28);
     }
-    .btn-nutra:hover{box-shadow:0 12px 32px rgba(124,45,156,.5)}
+    .btn-nutra:hover{box-shadow:0 8px 24px rgba(124,45,156,.42)}
+    .btn-wrap{display:flex;justify-content:center}
 
     /* ── BENEFITS ── */
     .benefits{background:var(--creme);padding:48px 0}
@@ -246,7 +247,9 @@
     <img src="Images/2-meses.png" alt="Nutra Vida 2 potes" />
   </div>
   <div class="container" style="padding:28px 20px 44px">
-    <a href="https://ev.braip.com/campanhas/cpa/camj2m1y7" class="btn btn-nutra">Sim! Quero completar meu tratamento</a>
+    <div class="btn-wrap">
+      <a href="https://ev.braip.com/campanhas/cpa/camj2m1y7" class="btn btn-nutra">Sim! Quero completar meu tratamento</a>
+    </div>
   </div>
 </section>
 
@@ -313,7 +316,9 @@
     </div>
     <h2 class="reveal"><span class="nutra">Satisfação garantida</span><br/>ou seu dinheiro de volta</h2>
     <p class="reveal">Se em 30 dias você não estiver satisfeita, por qualquer motivo, devolvemos 100% do valor. Sem burocracia.</p>
-    <a href="https://ev.braip.com/campanhas/cpa/camj2m1y7" class="btn btn-nutra reveal">Quero garantir meu tratamento</a>
+    <div class="btn-wrap reveal">
+      <a href="https://ev.braip.com/campanhas/cpa/camj2m1y7" class="btn btn-nutra">Quero garantir meu tratamento</a>
+    </div>
   </div>
 </section>
 

@@ -198,12 +198,12 @@
   }
   .btn-cta:hover { transform: translateY(-3px); box-shadow: 0 16px 40px rgba(107,58,31,.28); }
   .btn-cta--secondary {
-    background: var(--terracota);
+    background: var(--terracota-dd);
     color: var(--marfim);
-    border: 2px solid var(--marfim);
+    border: none;
     animation: none;
   }
-  .btn-cta--secondary:hover { background: var(--terracota-d); }
+  .btn-cta--secondary:hover { background: var(--cacau); }
 
   .hero__price-hint {
     margin-top: 14px;
@@ -289,27 +289,68 @@
   ══════════════════════════════════════ */
   /* ══ PROVA SOCIAL ABERTURA ══ */
   .social-proof-opener { background: var(--marfim); padding: 48px 0 40px; }
-  .spo__wrapper { display: flex; justify-content: center; }
-  .spo__photo-wrap {
+  /* ── DECK SLIDESHOW ── */
+  .spo__wrapper { display: flex; justify-content: center; padding: 8px 8px 28px; }
+  .spo__deck {
     position: relative;
     width: 100%; max-width: 520px;
-    border-radius: 20px; overflow: hidden;
-    box-shadow: 0 12px 40px rgba(74,46,26,.18);
-    font-size: 0; line-height: 0;
+    padding-top: 32px;
+    overflow: visible;
   }
-  .spo__photo {
-    width: 100%; height: 100%;
-    object-fit: cover; object-position: top;
-    display: block;
-  }
-  .spo__photo-wrap { aspect-ratio: 1 / 1.2; max-width: 100%; }
-  .spo__whatsapp {
-    position: absolute; bottom: 16px; left: 50%; transform: translateX(-50%);
-    width: 94%;
-    background: transparent;
+  .spo__card {
     border-radius: 14px;
     overflow: hidden;
-    box-shadow: 0 8px 32px rgba(0,0,0,.28), 0 2px 8px rgba(0,0,0,.18);
+    background: #fff;
+    width: 96%;
+    transition: transform .55s cubic-bezier(.4,0,.2,1),
+                opacity .45s ease,
+                box-shadow .45s ease;
+  }
+  .spo__card img { width: 100%; height: auto; display: block; }
+
+  /* Carta da frente — centralizada, nítida, destaque total */
+  .spo__card.pos-front {
+    position: relative; margin: 0 auto;
+    z-index: 3; opacity: 1;
+    transform: rotate(0deg);
+    box-shadow: 0 10px 36px rgba(74,46,26,.22);
+    filter: none;
+  }
+  /* Carta do meio — levemente acima, rotação suave, desfocada */
+  .spo__card.pos-mid {
+    position: absolute; top: -12px; left: 50%;
+    z-index: 2; opacity: .7;
+    transform: translateX(-50%) rotate(3deg);
+    box-shadow: 0 4px 16px rgba(74,46,26,.12);
+    filter: blur(1.5px);
+  }
+  /* Carta de trás — mais acima, mais rotação, mais desfocada */
+  .spo__card.pos-back {
+    position: absolute; top: -22px; left: 50%;
+    z-index: 1; opacity: .45;
+    transform: translateX(-50%) rotate(-4deg);
+    box-shadow: 0 2px 10px rgba(74,46,26,.08);
+    filter: blur(3px);
+  }
+  .spo__dots {
+    display: flex; justify-content: center; gap: 6px;
+    padding: 14px 0 4px;
+  }
+  .spo__dots span {
+    width: 10px; height: 10px; border-radius: 50%;
+    background: rgba(74,46,26,.18); transition: all .3s;
+    cursor: pointer;
+    /* área de toque ampliada */
+    padding: 8px;
+    margin: -8px;
+  }
+  .spo__dots span.active {
+    background: var(--terracota); width: 24px; border-radius: 5px;
+  }
+  .spo__card.pos-hidden {
+    position: absolute; top: 0; left: 50%;
+    transform: translateX(-50%);
+    opacity: 0; pointer-events: none; z-index: 0;
   }
   .pain { background: var(--creme); }
 
@@ -1674,9 +1715,24 @@
     <span class="section-eyebrow" style="text-align:center; display:block; margin-bottom:12px;">Você se identifica?</span>
     <h2 class="section-title" style="text-align:center; margin-bottom:24px;">Com sensação que não passa...</h2>
     <div class="spo__wrapper">
-      <div class="spo__photo-wrap">
-        <img src="../Images/novaimg.jpg" alt="Depoimento real" class="spo__photo" width="1080" height="1080" loading="lazy"/>
+      <div class="spo__deck" id="spo-deck">
+        <div class="spo__card pos-back">
+          <img src="../Images/j7.jpeg" alt="Depoimento WhatsApp" loading="lazy"/>
+        </div>
+        <div class="spo__card pos-mid">
+          <img src="../Images/j6.jpeg" alt="Depoimento WhatsApp" loading="lazy"/>
+        </div>
+        <div class="spo__card pos-front">
+          <img src="../Images/j1.jpeg" alt="Depoimento WhatsApp" loading="lazy"/>
+        </div>
+        <div class="spo__card pos-hidden"><img src="../Images/j2.jpeg" alt="Depoimento WhatsApp" loading="lazy"/></div>
+        <div class="spo__card pos-hidden"><img src="../Images/j3.jpeg" alt="Depoimento WhatsApp" loading="lazy"/></div>
+        <div class="spo__card pos-hidden"><img src="../Images/j4.jpeg" alt="Depoimento WhatsApp" loading="lazy"/></div>
+        <div class="spo__card pos-hidden"><img src="../Images/j5.jpeg" alt="Depoimento WhatsApp" loading="lazy"/></div>
       </div>
+    </div>
+    <div class="spo__dots" id="spo-dots">
+      <span class="active"></span><span></span><span></span><span></span><span></span><span></span><span></span>
     </div>
   </div>
 </section>
@@ -1797,11 +1853,6 @@
         </svg>
       </div>
     </div>
-    <div style="text-align:center; margin-top:48px;">
-      <a href="#oferta" onclick="document.getElementById('oferta').scrollIntoView({behavior:'instant'}); return false;" class="btn-cta btn-cta--secondary" style="display:inline-block; padding:16px 44px; font-size:1rem; letter-spacing:.04em; border:none; box-shadow:0 6px 0 rgba(80,35,10,.35), 0 8px 24px rgba(107,58,31,.25); animation:pulse-cta 2s infinite;">
-        Quero começar agora
-      </a>
-    </div>
   </div>
 </section>
 
@@ -1862,6 +1913,11 @@
         <div class="insight-card__icon">✦</div>
         <p>O que ajustar na alimentação nos 7 dias antes da ovulação para aumentar a qualidade do muco cervical</p>
       </div>
+    </div>
+    <div style="text-align:center; margin-top:40px;">
+      <a href="#oferta" onclick="document.getElementById('oferta').scrollIntoView({behavior:'instant'}); return false;" class="btn-cta btn-cta--secondary" style="display:inline-block; padding:16px 44px; font-size:1rem; letter-spacing:.04em; border:none; box-shadow:0 6px 0 rgba(80,35,10,.35), 0 8px 24px rgba(107,58,31,.25); animation:pulse-cta 2s infinite;">
+        Quero começar agora
+      </a>
     </div>
   </div>
 </section>
@@ -2040,28 +2096,28 @@
     <div class="faq__list">
       <div class="faq__item">
         <button class="faq__question" onclick="toggleFaq(this)">
-          "Mas será que só informação resolve?"
+          Mas será que só informação resolve?
           <span class="faq__toggle">+</span>
         </button>
         <div class="faq__answer">Não é um e-book para ler e guardar. É um método com passos concretos: o que comer para equilibrar os hormônios, como identificar os dias certos do seu ciclo, o que tirar do ambiente que está sabotando sua fertilidade sem você saber. Quem segue como proposto chega ao final de 30 dias com ciclo regulado, janela fértil identificada e o corpo mais preparado que já esteve para receber o positivo.</div>
       </div>
       <div class="faq__item">
         <button class="faq__question" onclick="toggleFaq(this)">
-          "Já tentei de tudo e não funcionou..."
+          Já tentei de tudo e não funcionou...
           <span class="faq__toggle">+</span>
         </button>
         <div class="faq__answer">Provavelmente você nunca teve acesso a essa informação específica. A maioria das mulheres que tentam não conhece nem 30% do que está neste protocolo. Não é falta de esforço. É falta de acesso.</div>
       </div>
       <div class="faq__item">
         <button class="faq__question" onclick="toggleFaq(this)">
-          "Vale mesmo a pena investir nisso?"
+          Vale mesmo a pena investir nisso?
           <span class="faq__toggle">+</span>
         </button>
         <div class="faq__answer">O problema nunca foi dinheiro. Foi acesso à informação certa. E com 30 dias de garantia total, você não tem absolutamente nada a perder. Testa, aplica, e só decide depois.</div>
       </div>
       <div class="faq__item">
         <button class="faq__question" onclick="toggleFaq(this)">
-          "Não tenho tempo para seguir um protocolo..."
+          Não tenho tempo para seguir um protocolo...
           <span class="faq__toggle">+</span>
         </button>
         <div class="faq__answer">O protocolo não exige rotina nova. Você ajusta o que já faz: o que come, como dorme, o que observa no corpo. Os passos principais levam menos de 5 minutos por dia. Se você tem tempo para tentar, tem tempo para tentar certo.</div>
@@ -2232,5 +2288,35 @@ var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n
 }(window, document, 'ttq');
 </script>
 <!-- TikTok Pixel Code End -->
+
+<script>
+(function(){
+  const deck = document.getElementById('spo-deck');
+  const dots = document.querySelectorAll('#spo-dots span');
+  if(!deck) return;
+
+  const cards = Array.from(deck.querySelectorAll('.spo__card'));
+  const allPos = ['pos-front','pos-mid','pos-back','pos-hidden'];
+  let current = 0;
+
+  function goTo(idx){
+    current = (idx + cards.length) % cards.length;
+    cards.forEach(function(c, i){
+      c.classList.remove(...allPos);
+      if(i === current)                              c.classList.add('pos-front');
+      else if(i === (current+1) % cards.length)     c.classList.add('pos-mid');
+      else if(i === (current+2) % cards.length)     c.classList.add('pos-back');
+      else                                           c.classList.add('pos-hidden');
+    });
+    dots.forEach((d, i) => d.classList.toggle('active', i === current));
+  }
+
+  // Inicializa estado correto
+  goTo(0);
+
+  // Navegação manual pelos dots
+  dots.forEach((d, i) => d.addEventListener('click', ()=> goTo(i)));
+})();
+</script>
 </body>
 </html>

@@ -349,6 +349,10 @@
     padding: 0;
   }
   .spo__arrow:hover { opacity: 1; transform: scale(1.15); }
+  .spo__counter {
+    font-family: 'DM Sans', sans-serif; font-size: 12px;
+    color: var(--terracota-d); opacity: .7; flex-shrink: 0; white-space: nowrap;
+  }
   .spo__progress-track {
     flex: 1; height: 3px; border-radius: 2px;
     background: rgba(74,46,26,.12); overflow: hidden;
@@ -1750,6 +1754,7 @@
       <div class="spo__progress-track">
         <div class="spo__progress-fill" id="spo-fill"></div>
       </div>
+      <span class="spo__counter" id="spo-counter">1/7</span>
       <button class="spo__arrow" id="spo-next" aria-label="Próximo">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
       </button>
@@ -1809,7 +1814,7 @@
     <div class="reveal__two-col">
       <!-- Coluna texto — intacto -->
       <div class="reveal__two-col-text">
-        <p class="section-lead">O Ciclo Fértil é o método que une as 4 partes que a ciência validou e que orientações e conselhos de tentantes te deram aleatoriamente, sem um caminho claro para aplicar.</p>
+        <p class="section-lead">O Ciclo Fértil é o método que une as 4 peças que a ciência validou e que orientações e conselhos de tentantes te deram aleatoriamente, sem um caminho claro para aplicar.</p>
       </div>
 
       <!-- Coluna mandala animada -->
@@ -2311,6 +2316,7 @@ var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n
 (function(){
   const deck = document.getElementById('spo-deck');
   const fill = document.getElementById('spo-fill');
+  const counter = document.getElementById('spo-counter');
   const btnPrev = document.getElementById('spo-prev');
   const btnNext = document.getElementById('spo-next');
   if(!deck) return;
@@ -2329,6 +2335,7 @@ var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n
       else                                        c.classList.add('pos-hidden');
     });
     if(fill) fill.style.width = ((current + 1) / cards.length * 100).toFixed(2) + '%';
+    if(counter) counter.textContent = (current + 1) + '/' + cards.length;
   }
 
   goTo(0);

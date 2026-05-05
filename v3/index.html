@@ -368,6 +368,51 @@
     transform: translateX(-50%);
     opacity: 0; pointer-events: none; z-index: 0;
   }
+
+  /* ── Auto-rotating prints ── */
+  .autoprint-wrap {
+    max-width: 380px;
+    margin: 32px auto 0;
+    padding: 0 8px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .autoprint-img {
+    width: 100%;
+    border-radius: 16px;
+    box-shadow: 0 4px 24px rgba(74,46,26,.13);
+    position: absolute;
+    top: 0; left: 0;
+    opacity: 0;
+    transition: opacity .6s ease;
+    pointer-events: none;
+  }
+  .autoprint-img.active {
+    opacity: 1;
+    position: relative;
+    pointer-events: auto;
+  }
+  .autoprint-dots {
+    display: flex;
+    gap: 8px;
+    margin-top: 16px;
+    position: relative;
+    z-index: 2;
+  }
+  .autoprint-dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--caramelo);
+    opacity: .4;
+    transition: opacity .3s, background .3s;
+  }
+  .autoprint-dot.active {
+    opacity: 1;
+    background: var(--terracota);
+  }
+
   .pain { background: var(--creme); }
 
   /* ══════════════════════════════════════
@@ -1727,34 +1772,15 @@
   <div class="container--wide">
     <span class="section-eyebrow" style="text-align:center; display:block; margin-bottom:12px;">Por trás de cada orientação que não funcionou...</span>
     <h2 class="section-title" style="text-align:center; margin-bottom:24px;">Existe uma mulher que já pensou exatamente isso.</h2>
-    <div class="spo__wrapper">
-      <div class="spo__deck" id="spo-deck">
-        <div class="spo__card pos-back">
-          <img src="../Images/a7.jpeg" alt="Depoimento WhatsApp" loading="lazy"/>
-        </div>
-        <div class="spo__card pos-mid">
-          <img src="../Images/a6.jpeg" alt="Depoimento WhatsApp" loading="lazy"/>
-        </div>
-        <div class="spo__card pos-front">
-          <img src="../Images/a1.jpeg" alt="Depoimento WhatsApp" loading="lazy"/>
-        </div>
-        <div class="spo__card pos-hidden"><img src="../Images/a2.jpeg" alt="Depoimento WhatsApp" loading="lazy"/></div>
-        <div class="spo__card pos-hidden"><img src="../Images/a3.jpeg" alt="Depoimento WhatsApp" loading="lazy"/></div>
-        <div class="spo__card pos-hidden"><img src="../Images/a4.jpeg" alt="Depoimento WhatsApp" loading="lazy"/></div>
-        <div class="spo__card pos-hidden"><img src="../Images/a5.jpeg" alt="Depoimento WhatsApp" loading="lazy"/></div>
+    <div class="autoprint-wrap" id="autoprint">
+      <img class="autoprint-img active" src="../Images/a1.jpeg" alt="Depoimento WhatsApp"/>
+      <img class="autoprint-img" src="../Images/a2.jpeg" alt="Depoimento WhatsApp"/>
+      <img class="autoprint-img" src="../Images/a3.jpeg" alt="Depoimento WhatsApp"/>
+      <div class="autoprint-dots">
+        <span class="autoprint-dot active"></span>
+        <span class="autoprint-dot"></span>
+        <span class="autoprint-dot"></span>
       </div>
-    </div>
-    <div class="spo__nav">
-      <button class="spo__arrow" id="spo-prev" aria-label="Anterior">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
-      </button>
-      <div class="spo__progress-track">
-        <div class="spo__progress-fill" id="spo-fill"></div>
-      </div>
-      <span class="spo__counter" id="spo-counter">1/7</span>
-      <button class="spo__arrow" id="spo-next" aria-label="Próximo">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
-      </button>
     </div>
   </div>
 </section>
@@ -2311,34 +2337,17 @@ var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n
 
 <script>
 (function(){
-  const deck = document.getElementById('spo-deck');
-  const fill = document.getElementById('spo-fill');
-  const counter = document.getElementById('spo-counter');
-  const btnPrev = document.getElementById('spo-prev');
-  const btnNext = document.getElementById('spo-next');
-  if(!deck) return;
-
-  const cards = Array.from(deck.querySelectorAll('.spo__card'));
-  const allPos = ['pos-front','pos-mid','pos-back','pos-hidden'];
+  const imgs = document.querySelectorAll('.autoprint-img');
+  const dots = document.querySelectorAll('.autoprint-dot');
+  if(!imgs.length) return;
   let current = 0;
-
-  function goTo(idx){
-    current = (idx + cards.length) % cards.length;
-    cards.forEach(function(c, i){
-      c.classList.remove(...allPos);
-      if(i === current)                           c.classList.add('pos-front');
-      else if(i === (current+1) % cards.length)  c.classList.add('pos-mid');
-      else if(i === (current+2) % cards.length)  c.classList.add('pos-back');
-      else                                        c.classList.add('pos-hidden');
-    });
-    if(fill) fill.style.width = ((current + 1) / cards.length * 100).toFixed(2) + '%';
-    if(counter) counter.textContent = (current + 1) + '/' + cards.length;
-  }
-
-  goTo(0);
-
-  if(btnPrev) btnPrev.addEventListener('click', function(){ goTo(current - 1); });
-  if(btnNext) btnNext.addEventListener('click', function(){ goTo(current + 1); });
+  setInterval(function(){
+    imgs[current].classList.remove('active');
+    dots[current].classList.remove('active');
+    current = (current + 1) % imgs.length;
+    imgs[current].classList.add('active');
+    dots[current].classList.add('active');
+  }, 3000);
 })();
 </script>
 </body>

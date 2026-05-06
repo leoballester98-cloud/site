@@ -870,14 +870,12 @@
     background: none;
     border: none;
     padding: 14px 16px;
-    cursor: pointer;
+    cursor: default;
     display: flex;
     align-items: center;
     gap: 12px;
     text-align: left;
-    transition: background .2s;
   }
-  .offer__item-trigger:hover { background: rgba(200,149,108,.06); }
   .offer__item-icon {
     width: 38px; height: 38px;
     background: var(--salvia);
@@ -2134,12 +2132,11 @@
       <p style="font-family:'Cormorant Garamond',serif; font-size:clamp(17px,2.5vw,22px); font-style:italic; color:var(--terracota-d); text-align:center; margin-bottom:8px; line-height:1.5;">Você não está tentando de menos.<br/>Está tentando sem saber o que falta.</p>
       <p style="font-family:'DM Sans',sans-serif; font-size:clamp(13px,1.8vw,15px); color:var(--terracota); text-align:center; margin-bottom:20px; font-weight:500;">Cada mês sem método é mais um mês acumulando orientações que não chegam lá sozinhas.</p>
       <ul class="offer__items">
-        <li class="offer__item open">
-          <button class="offer__item-trigger" onclick="toggleOfferItem(this)" aria-expanded="true">
+        <li class="offer__item">
+          <div class="offer__item-trigger">
             <span class="offer__item-name">Protocolo Ciclo Fértil</span>
             <span class="offer__item-value">R$ 97,00</span>
-            <span class="offer__item-chevron">+</span>
-          </button>
+          </div>
           <div class="offer__item-body">
             <ul class="offer__item-bullets">
               <li>Corpo: o que preparar no seu organismo antes mesmo de tentar de novo</li>
@@ -2150,11 +2147,10 @@
           </div>
         </li>
         <li class="offer__item">
-          <button class="offer__item-trigger" onclick="toggleOfferItem(this)" aria-expanded="false">
+          <div class="offer__item-trigger">
             <span class="offer__item-name">Bônus Guia de Receitas Férteis</span>
             <span class="offer__item-value">R$ 37,00</span>
-            <span class="offer__item-chevron">+</span>
-          </button>
+          </div>
           <div class="offer__item-body">
             <ul class="offer__item-bullets">
               <li>7 receitas simples com até 4 ingredientes e menos de 10 minutos de preparo</li>
@@ -2164,11 +2160,10 @@
           </div>
         </li>
         <li class="offer__item">
-          <button class="offer__item-trigger" onclick="toggleOfferItem(this)" aria-expanded="false">
+          <div class="offer__item-trigger">
             <span class="offer__item-name">Bônus Diário do Ciclo Fértil</span>
             <span class="offer__item-value">R$ 27,00</span>
-            <span class="offer__item-chevron">+</span>
-          </button>
+          </div>
           <div class="offer__item-body">
             <ul class="offer__item-bullets">
               <li>Tabela de monitoramento diário com 35 dias por ciclo</li>
@@ -2178,11 +2173,10 @@
           </div>
         </li>
         <li class="offer__item">
-          <button class="offer__item-trigger" onclick="toggleOfferItem(this)" aria-expanded="false">
+          <div class="offer__item-trigger">
             <span class="offer__item-name">Bônus Guia de Rotinas Férteis</span>
             <span class="offer__item-value">R$ 27,00</span>
-            <span class="offer__item-chevron">+</span>
-          </button>
+          </div>
           <div class="offer__item-body">
             <ul class="offer__item-bullets">
               <li>15 hábitos organizados por manhã, dia, noite e semana</li>

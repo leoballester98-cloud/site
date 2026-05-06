@@ -2207,6 +2207,8 @@
 
     if (dots) dots.style.display = 'flex';
 
+    window.scrollToCard = function(idx) { currentIdx = idx; goToCard(idx); };
+
     setInterval(function() { goToCard(currentIdx + 1); }, 3500);
   })();
 

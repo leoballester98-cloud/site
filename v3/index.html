@@ -369,6 +369,22 @@
     opacity: 0; pointer-events: none; z-index: 0;
   }
 
+  /* ── Hero fade transition ── */
+  .hero-fade {
+    height: 140px;
+    background: linear-gradient(
+      to bottom,
+      transparent 0%,
+      rgba(245,230,214,.25) 40%,
+      rgba(245,230,214,.7) 70%,
+      var(--marfim) 100%
+    );
+    margin-top: -140px;
+    position: relative;
+    z-index: 10;
+    pointer-events: none;
+  }
+
   /* ── Hero bridge ── */
   .hero-bridge {
     background: var(--marfim);
@@ -1806,6 +1822,9 @@
     </div>
   </div>
 </section>
+
+<!-- ══ TRANSIÇÃO HERO → SEÇÃO 2 ══════════════════════════════════ -->
+<div class="hero-fade"></div>
 
 <!-- ══ DOR ════════════════════════════════════════════════════════ -->
 <!-- ══ PROVA SOCIAL ABERTURA ═══════════════════════════════════════ -->

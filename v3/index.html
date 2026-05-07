@@ -2125,7 +2125,13 @@
       <a href="https://pay.celetus.com/MWEYGXEF" class="btn-cta" style="display:block; text-align:center; margin-bottom:10px">
         Quero receber o meu positivo
       </a>
-      <p style="text-align:center; font-family:'DM Sans',sans-serif; font-size:13px; color:var(--terracota); font-weight:600; letter-spacing:.04em; margin-top:4px; opacity:.85;">✓ Você economiza R$ 150,10</p>
+      <div style="display:flex; align-items:center; justify-content:center; gap:12px; margin-top:4px; flex-wrap:wrap;">
+        <p style="font-family:'DM Sans',sans-serif; font-size:13px; color:var(--terracota); font-weight:600; letter-spacing:.04em; margin:0; opacity:.85;">✓ Você economiza R$ 150,10</p>
+        <div id="oferta-timer" style="display:flex; align-items:center; gap:6px; background:rgba(74,46,26,.07); border:1px solid rgba(200,149,108,.25); border-radius:20px; padding:4px 12px;">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--terracota)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+          <span id="timer-display" style="font-family:'DM Sans',sans-serif; font-size:13px; font-weight:700; color:var(--terracota-d); letter-spacing:.05em;">04:00</span>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -2324,6 +2330,21 @@ var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n
     dots[current].classList.add('active');
   }, 3000);
 })();
+
+  // ── TIMER OFERTA ─────────────────────────────────────────────────
+  (function() {
+    const display = document.getElementById('timer-display');
+    if (!display) return;
+    let total = 4 * 60; // 4 minutos em segundos
+    function update() {
+      const m = Math.floor(total / 60);
+      const s = total % 60;
+      display.textContent = String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
+      if (total > 0) total--;
+    }
+    update();
+    setInterval(update, 1000);
+  })();
 </script>
 </body>
 </html>

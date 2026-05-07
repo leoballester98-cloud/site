@@ -26,7 +26,7 @@
 
   img { max-width: 100%; height: auto; display: block; }
 
-  html { scroll-behavior: smooth; }
+  html { scroll-behavior: smooth; overflow-x: hidden; }
 
   body {
     font-family: 'DM Sans', sans-serif;
@@ -79,9 +79,8 @@
   ══════════════════════════════════════ */
   .hero {
     position: relative;
-    overflow: hidden;
     padding: 64px 0 160px;
-    background: var(--terracota-dd);
+    background: var(--marfim);
   }
   .hero__bg {
     position: absolute;
@@ -104,9 +103,17 @@
     background: linear-gradient(to bottom, rgba(30,12,4,.82) 0%, rgba(30,12,4,.55) 45%, rgba(30,12,4,.15) 75%, transparent 100%);
     z-index: 1;
   }
+  .hero__bottom-fade {
+    position: absolute;
+    bottom: -4px; left: 0; right: 0;
+    height: 140px;
+    background: linear-gradient(to bottom, transparent 0%, var(--marfim) 100%);
+    z-index: 9;
+    pointer-events: none;
+  }
   .hero .container {
     position: relative;
-    z-index: 2;
+    z-index: 11;
   }
   .hero::before {
     content: '';
@@ -292,7 +299,7 @@
      DOR / IDENTIFICAÇÃO
   ══════════════════════════════════════ */
   /* ══ PROVA SOCIAL ABERTURA ══ */
-  .social-proof-opener { background: var(--marfim); padding: 48px 0 40px; }
+  .social-proof-opener { background: var(--marfim); padding: 48px 0 40px; margin-top: -2px; }
   /* ── DECK SLIDESHOW ── */
   .spo__wrapper { display: flex; justify-content: center; padding: 8px 8px 28px; }
   .spo__deck {
@@ -375,18 +382,7 @@
 
   /* ── Hero fade transition ── */
   .hero-fade {
-    height: 140px;
-    background: linear-gradient(
-      to bottom,
-      transparent 0%,
-      rgba(245,230,214,.25) 40%,
-      rgba(245,230,214,.7) 70%,
-      var(--marfim) 100%
-    );
-    margin-top: -140px;
-    position: relative;
-    z-index: 10;
-    pointer-events: none;
+    display: none;
   }
 
   /* ── Hero bridge ── */
@@ -1827,6 +1823,7 @@
 <section class="hero text-center">
   <div class="hero__bg"><video src="../Images/video01.mp4" autoplay muted loop playsinline></video></div>
   <div class="hero__overlay"></div>
+  <div class="hero__bottom-fade"></div>
   <div class="container">
     <h1 class="hero__title fade-up-2">
       <span class="hero-line">Não tente errado mais uma vez.</span>

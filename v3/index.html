@@ -1757,8 +1757,85 @@
   }
   .reveal__mandala-wrap {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
+    gap: 0;
+    position: relative;
+  }
+
+  /* ── Mandala tooltip overlay ── */
+  .mandala-tooltip {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(.92);
+    background: rgba(253,250,246,.97);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(200,149,108,.45);
+    color: var(--cacau);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    line-height: 1.6;
+    padding: 20px 22px 18px;
+    border-radius: 22px;
+    width: 195px;
+    text-align: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .28s cubic-bezier(.34,1.3,.64,1), transform .28s cubic-bezier(.34,1.3,.64,1);
+    box-shadow: 0 24px 64px rgba(74,46,26,.18), 0 4px 16px rgba(74,46,26,.1), inset 0 1px 0 rgba(255,255,255,.8);
+    z-index: 20;
+  }
+  .mandala-tooltip.visible {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+    pointer-events: auto;
+  }
+  .mandala-tooltip__icon {
+    display: block;
+    font-size: 13px;
+    color: var(--terracota);
+    margin-bottom: 6px;
+    opacity: .7;
+  }
+  .mandala-tooltip strong {
+    display: block;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 17px;
+    font-weight: 700;
+    font-style: italic;
+    color: var(--terracota-d);
+    margin-bottom: 6px;
+    line-height: 1.2;
+  }
+  .mandala-tooltip span {
+    font-size: 12px;
+    color: var(--cacau);
+    opacity: .82;
+    line-height: 1.55;
+  }
+
+  /* ── Segmentos clicáveis ── */
+  .mandala-seg-btn {
+    cursor: pointer;
+    transition: opacity .25s ease;
+  }
+  .mandala-seg-btn path {
+    transition: filter .25s ease, transform .25s ease;
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+  .mandala-seg-btn:hover path {
+    filter: brightness(1.12);
+  }
+  .mandala-seg-btn.active path {
+    filter: brightness(1.15) drop-shadow(0 0 8px rgba(200,149,108,.55));
+    transform: scale(1.04);
+  }
+  .mandala-seg-btn.dimmed {
+    opacity: 0.28;
   }
   .reveal__mandala-svg {
     width: 100%;
@@ -1896,24 +1973,36 @@
           <!-- ── Segmentos donut (R_outer=110, R_inner=50, ±40°) ── -->
 
           <!-- Corpo — topo — terracota -->
-          <path class="mandala-seg-0"
-            d="M 117.9,111.7 L 79.3,65.7 A 110,110 0 0,1 220.7,65.7 L 182.1,111.7 A 50,50 0 0,0 117.9,111.7 Z"
-            fill="#C8956C"/>
+          <g class="mandala-seg-btn" data-seg="corpo" onclick="mandalaClick('corpo')">
+            <path class="mandala-seg-0"
+              d="M 117.9,111.7 L 79.3,65.7 A 110,110 0 0,1 220.7,65.7 L 182.1,111.7 A 50,50 0 0,0 117.9,111.7 Z"
+              fill="#C8956C"/>
+            <text x="150" y="68" text-anchor="middle" font-family="DM Sans, sans-serif" font-size="9.5" font-weight="600" letter-spacing="1.2" fill="#FDFAF6">CORPO</text>
+          </g>
 
           <!-- Ciclo — direita — caramelo -->
-          <path class="mandala-seg-1"
-            d="M 188.3,117.9 L 234.3,79.3 A 110,110 0 0,1 234.3,220.7 L 188.3,182.1 A 50,50 0 0,0 188.3,117.9 Z"
-            fill="#D4A574"/>
+          <g class="mandala-seg-btn" data-seg="ciclo" onclick="mandalaClick('ciclo')">
+            <path class="mandala-seg-1"
+              d="M 188.3,117.9 L 234.3,79.3 A 110,110 0 0,1 234.3,220.7 L 188.3,182.1 A 50,50 0 0,0 188.3,117.9 Z"
+              fill="#D4A574"/>
+            <text x="231" y="154" text-anchor="middle" font-family="DM Sans, sans-serif" font-size="9.5" font-weight="600" letter-spacing="1.2" fill="rgba(255,255,255,0.92)">CICLO</text>
+          </g>
 
           <!-- Ambiente — base — sálvia -->
-          <path class="mandala-seg-2"
-            d="M 182.1,188.3 L 220.7,234.3 A 110,110 0 0,1 79.3,234.3 L 117.9,188.3 A 50,50 0 0,0 182.1,188.3 Z"
-            fill="#A8B89A"/>
+          <g class="mandala-seg-btn" data-seg="ambiente" onclick="mandalaClick('ambiente')">
+            <path class="mandala-seg-2"
+              d="M 182.1,188.3 L 220.7,234.3 A 110,110 0 0,1 79.3,234.3 L 117.9,188.3 A 50,50 0 0,0 182.1,188.3 Z"
+              fill="#A8B89A"/>
+            <text x="150" y="233" text-anchor="middle" font-family="DM Sans, sans-serif" font-size="8" font-weight="600" letter-spacing="1" fill="rgba(75,60,40,0.9)">AMBIENTE</text>
+          </g>
 
           <!-- Mente — esquerda — cacau -->
-          <path class="mandala-seg-3"
-            d="M 111.7,182.1 L 65.7,220.7 A 110,110 0 0,1 65.7,79.3 L 111.7,117.9 A 50,50 0 0,0 111.7,182.1 Z"
-            fill="#8B6347"/>
+          <g class="mandala-seg-btn" data-seg="mente" onclick="mandalaClick('mente')">
+            <path class="mandala-seg-3"
+              d="M 111.7,182.1 L 65.7,220.7 A 110,110 0 0,1 65.7,79.3 L 111.7,117.9 A 50,50 0 0,0 111.7,182.1 Z"
+              fill="#8B6347"/>
+            <text x="69" y="154" text-anchor="middle" font-family="DM Sans, sans-serif" font-size="9.5" font-weight="600" letter-spacing="1.2" fill="rgba(255,255,255,0.92)">MENTE</text>
+          </g>
 
           <!-- Círculo interno decorativo -->
           <circle cx="150" cy="150" r="48" fill="var(--marfim)" stroke="rgba(200,149,108,0.35)" stroke-width="1.5"/>
@@ -1921,20 +2010,12 @@
           <!-- Símbolo central -->
           <text x="150" y="156" text-anchor="middle" font-size="20" fill="#8B6347" opacity="0.8" font-family="serif">✦</text>
 
-          <!-- ── Labels ── -->
-          <!-- Corpo (topo, raio 80, θ=0°) -->
-          <text x="150" y="68" text-anchor="middle" font-family="DM Sans, sans-serif" font-size="9.5" font-weight="600" letter-spacing="1.2" fill="#FDFAF6">CORPO</text>
-
-          <!-- Ciclo (direita, raio 80, θ=90°) -->
-          <text x="231" y="154" text-anchor="middle" font-family="DM Sans, sans-serif" font-size="9.5" font-weight="600" letter-spacing="1.2" fill="rgba(255,255,255,0.92)">CICLO</text>
-
-          <!-- Ambiente (base, raio 80, θ=180°) -->
-          <text x="150" y="233" text-anchor="middle" font-family="DM Sans, sans-serif" font-size="8" font-weight="600" letter-spacing="1" fill="rgba(75,60,40,0.9)">AMBIENTE</text>
-
-          <!-- Mente (esquerda, raio 80, θ=270°) -->
-          <text x="69" y="154" text-anchor="middle" font-family="DM Sans, sans-serif" font-size="9.5" font-weight="600" letter-spacing="1.2" fill="rgba(255,255,255,0.92)">MENTE</text>
-
         </svg>
+        <div class="mandala-tooltip" id="mandala-tooltip" onclick="mandalaClose()">
+          <strong id="mandala-tooltip-title"></strong>
+          <span id="mandala-tooltip-text"></span>
+          <em style="display:block; font-family:'DM Sans',sans-serif; font-size:10px; color:var(--terracota); opacity:.6; margin-top:10px; font-style:normal; letter-spacing:.06em;">toque para fechar</em>
+        </div>
       </div>
     </div>
   </div>
@@ -2317,6 +2398,57 @@ src="https://www.facebook.com/tr?id=2312041769604428&ev=PageView&noscript=1"
     dots[current].classList.add('active');
   }, 3000);
 })();
+
+  // ── MANDALA INTERATIVA ───────────────────────────────────────────
+  (function() {
+    const tips = {
+      corpo:    { title: 'Corpo', text: 'O que preparar no seu organismo antes mesmo de tentar de novo' },
+      ciclo:    { title: 'Ciclo', text: 'Como identificar sua janela fértil real e ler os sinais do corpo' },
+      ambiente: { title: 'Ambiente', text: 'O que está ao seu redor sabotando seus hormônios sem você saber' },
+      mente:    { title: 'Mente', text: 'A conexão entre estresse, cortisol e ovulação que ninguém te conta' }
+    };
+
+    const tooltip    = document.getElementById('mandala-tooltip');
+    const tipTitle   = document.getElementById('mandala-tooltip-title');
+    const tipText    = document.getElementById('mandala-tooltip-text');
+    const allBtns    = document.querySelectorAll('.mandala-seg-btn');
+
+    function closeTooltip() {
+      tooltip.classList.remove('visible');
+      tooltip.removeAttribute('data-active');
+      allBtns.forEach(b => b.classList.remove('active','dimmed'));
+    }
+
+    window.mandalaClose = closeTooltip;
+
+    window.mandalaClick = function(seg) {
+      const isActive = tooltip.getAttribute('data-active') === seg;
+
+      // Fecha se clicar no mesmo
+      if (isActive) { closeTooltip(); return; }
+
+      // Abre para o segmento clicado
+      tipTitle.textContent = tips[seg].title;
+      tipText.textContent  = tips[seg].text;
+      tooltip.setAttribute('data-active', seg);
+      tooltip.classList.add('visible');
+
+      allBtns.forEach(b => {
+        if (b.getAttribute('data-seg') === seg) {
+          b.classList.add('active');
+          b.classList.remove('dimmed');
+        } else {
+          b.classList.add('dimmed');
+          b.classList.remove('active');
+        }
+      });
+    };
+
+    // Fecha ao clicar fora
+    document.addEventListener('click', function(e) {
+      if (!e.target.closest('.reveal__mandala-wrap')) closeTooltip();
+    });
+  })();
 
   // ── TIMER OFERTA ─────────────────────────────────────────────────
   (function() {

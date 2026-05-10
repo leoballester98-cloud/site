@@ -103,26 +103,6 @@
     background: linear-gradient(to bottom, rgba(30,12,4,.82) 0%, rgba(30,12,4,.55) 45%, rgba(30,12,4,.15) 75%, transparent 100%);
     z-index: 1;
   }
-  .hero__play-btn {
-    display: none;
-    position: absolute;
-    top: 50%; left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 5;
-    width: 68px; height: 68px;
-    background: rgba(253,250,246,.18);
-    border: 1.5px solid rgba(253,250,246,.55);
-    border-radius: 50%;
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
-    cursor: pointer;
-    align-items: center;
-    justify-content: center;
-    transition: background .2s ease, transform .2s ease;
-  }
-  .hero__play-btn:hover { background: rgba(253,250,246,.28); transform: translate(-50%, -50%) scale(1.06); }
-  .hero__play-btn svg { margin-left: 4px; }
-  .hero__play-btn.visible { display: flex; }
   .hero__bottom-fade {
     position: absolute;
     bottom: -4px; left: 0; right: 0;
@@ -1920,9 +1900,6 @@
 <section class="hero text-center">
   <div class="hero__bg"><video id="hero-video" src="../Images/video01.mp4" poster="../Images/novaimg.jpg" autoplay muted loop playsinline></video></div>
   <div class="hero__overlay"></div>
-  <button class="hero__play-btn" id="hero-play-btn" aria-label="Reproduzir vídeo">
-    <svg width="26" height="26" viewBox="0 0 24 24" fill="rgba(253,250,246,.9)"><polygon points="5,3 19,12 5,21"/></svg>
-  </button>
   <div class="hero__bottom-fade"></div>
   <div class="container">
     <h1 class="hero__title fade-up-2">
@@ -2422,24 +2399,24 @@ src="https://www.facebook.com/tr?id=2312041769604428&ev=PageView&noscript=1"
   }, 3000);
 })();
 
-  // ── VÍDEO HERO: fallback para rede celular ────────────────────────
+  // ── VÍDEO HERO: autoplay com fallback em interação ───────────────
   (function() {
     const video = document.getElementById('hero-video');
-    const btn   = document.getElementById('hero-play-btn');
-    if (!video || !btn) return;
+    if (!video) return;
 
     const promise = video.play();
     if (promise !== undefined) {
       promise.catch(function() {
-        // Autoplay bloqueado — mostra botão de play customizado
-        btn.classList.add('visible');
+        // Autoplay bloqueado — inicia no primeiro toque/scroll do usuário
+        function startVideo() {
+          video.play().catch(function(){});
+          document.removeEventListener('touchstart', startVideo);
+          document.removeEventListener('scroll', startVideo);
+        }
+        document.addEventListener('touchstart', startVideo, { once: true, passive: true });
+        document.addEventListener('scroll', startVideo, { once: true, passive: true });
       });
     }
-
-    btn.addEventListener('click', function() {
-      video.play();
-      btn.classList.remove('visible');
-    });
   })();
 
   // ── MANDALA INTERATIVA ───────────────────────────────────────────

@@ -1898,7 +1898,7 @@
 
 <!-- ══ HERO ══════════════════════════════════════════════════════ -->
 <section class="hero text-center">
-  <div class="hero__bg"><video src="../Images/video01.mp4" autoplay muted loop playsinline></video></div>
+  <div class="hero__bg"><video id="hero-video" src="../Images/video01.mp4" poster="../Images/novaimg.jpg" autoplay muted loop playsinline></video></div>
   <div class="hero__overlay"></div>
   <div class="hero__bottom-fade"></div>
   <div class="container">
@@ -2398,6 +2398,20 @@ src="https://www.facebook.com/tr?id=2312041769604428&ev=PageView&noscript=1"
     dots[current].classList.add('active');
   }, 3000);
 })();
+
+  // ── VÍDEO HERO: fallback para rede celular ────────────────────────
+  (function() {
+    const video = document.getElementById('hero-video');
+    if (!video) return;
+    const promise = video.play();
+    if (promise !== undefined) {
+      promise.catch(function() {
+        // Autoplay bloqueado (rede celular/política do navegador)
+        // Esconde o vídeo — o poster (imagem estática) assume
+        video.style.display = 'none';
+      });
+    }
+  })();
 
   // ── MANDALA INTERATIVA ───────────────────────────────────────────
   (function() {

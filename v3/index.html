@@ -1898,7 +1898,10 @@
 
 <!-- ══ HERO ══════════════════════════════════════════════════════ -->
 <section class="hero text-center">
-  <div class="hero__bg"><video id="hero-video" src="../Images/video01.mp4" poster="../Images/novaimg.jpg" autoplay muted loop playsinline></video></div>
+  <div class="hero__bg">
+    <video id="hero-video" src="../Images/video01.mp4" autoplay muted loop playsinline></video>
+    <img id="hero-fallback" src="../Images/printhero.png" alt="" style="display:none; width:100%; height:100%; object-fit:cover; object-position:center;"/>
+  </div>
   <div class="hero__overlay"></div>
   <div class="hero__bottom-fade"></div>
   <div class="container">
@@ -2399,24 +2402,30 @@ src="https://www.facebook.com/tr?id=2312041769604428&ev=PageView&noscript=1"
   }, 3000);
 })();
 
-  // ── VÍDEO HERO: autoplay com fallback em interação ───────────────
+  // ── VÍDEO HERO: autoplay com fallback para imagem estática ───────
   (function() {
-    const video = document.getElementById('hero-video');
-    if (!video) return;
+    const video    = document.getElementById('hero-video');
+    const fallback = document.getElementById('hero-fallback');
+    if (!video || !fallback) return;
 
-    const promise = video.play();
-    if (promise !== undefined) {
-      promise.catch(function() {
-        // Autoplay bloqueado — inicia no primeiro toque/scroll do usuário
-        function startVideo() {
-          video.play().catch(function(){});
-          document.removeEventListener('touchstart', startVideo);
-          document.removeEventListener('scroll', startVideo);
-        }
-        document.addEventListener('touchstart', startVideo, { once: true, passive: true });
-        document.addEventListener('scroll', startVideo, { once: true, passive: true });
-      });
+    function showFallback() {
+      video.style.display = 'none';
+      fallback.style.display = 'block';
     }
+
+    function tryPlay() {
+      return video.play().then(function() {
+        // Vídeo tocando — garante que fallback está escondido
+        video.style.display = 'block';
+        fallback.style.display = 'none';
+      }).catch(showFallback);
+    }
+
+    tryPlay();
+
+    // Se o vídeo travar/parar inesperadamente, mostra a imagem
+    video.addEventListener('stalled', showFallback);
+    video.addEventListener('error',   showFallback);
   })();
 
   // ── MANDALA INTERATIVA ───────────────────────────────────────────

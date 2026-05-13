@@ -2408,18 +2408,26 @@ src="https://www.facebook.com/tr?id=2312041769604428&ev=PageView&noscript=1"
   }, 3000);
 })();
 
-  // ── VÍDEO HERO: imagem por padrão, vídeo só aparece quando confirma que está rodando ───
+  // ── VÍDEO HERO: mostra vídeo quando play() confirmar — fallback fica caso bloqueie ───
   (function() {
     var video    = document.getElementById('hero-video');
     var fallback = document.getElementById('hero-fallback');
     if (!video || !fallback) return;
-    video.addEventListener('playing', function() {
+
+    function showVideo() {
       video.classList.add('playing');
       fallback.style.opacity = '0';
       setTimeout(function() { fallback.style.display = 'none'; }, 600);
-    });
+    }
+
+    video.muted = true;
     var p = video.play();
-    if (p !== undefined) p.catch(function() {});
+    if (p !== undefined) {
+      p.then(showVideo).catch(function() { /* autoplay bloqueado — mantém imagem */ });
+    } else {
+      // navegador antigo sem Promise — usa evento
+      video.addEventListener('playing', showVideo);
+    }
   })();
 
   // ── MANDALA INTERATIVA ───────────────────────────────────────────

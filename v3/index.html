@@ -2402,6 +2402,14 @@ src="https://www.facebook.com/tr?id=2312041769604428&ev=PageView&noscript=1"
 })();
 
 
+  // ── VÍDEO HERO: força muted via JS para contornar bug de navegador ─
+  (function() {
+    var v = document.querySelector('.hero__bg video');
+    if (!v) return;
+    v.muted = true;
+    v.play().catch(function() {});
+  })();
+
   // ── MANDALA INTERATIVA ───────────────────────────────────────────
   (function() {
     const tips = {

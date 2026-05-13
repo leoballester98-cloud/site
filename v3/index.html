@@ -96,6 +96,13 @@
     width: 100%; height: 100%;
     object-fit: cover; object-position: center;
     display: block;
+    opacity: 0;
+    position: absolute;
+    inset: 0;
+    transition: opacity .6s ease;
+  }
+  .hero__bg video.playing {
+    opacity: 1;
   }
   .hero__overlay {
     position: absolute;
@@ -1899,7 +1906,7 @@
 <!-- ══ HERO ══════════════════════════════════════════════════════ -->
 <section class="hero text-center">
   <div class="hero__bg">
-    <img id="hero-fallback" src="../Images/printhero.jpg" alt="" style="display:none; width:100%; height:100%; object-fit:cover; object-position:center;"/>
+    <img id="hero-fallback" src="../Images/printhero.jpg" alt="" fetchpriority="high" style="width:100%; height:100%; object-fit:cover; object-position:center;"/>
     <video id="hero-video" src="../Images/video01.mp4" autoplay muted loop playsinline></video>
   </div>
   <div class="hero__overlay"></div>
@@ -2403,18 +2410,21 @@ src="https://www.facebook.com/tr?id=2312041769604428&ev=PageView&noscript=1"
 })();
 
 
-  // ── VÍDEO HERO: toca automaticamente; se falhar mostra imagem sem botão de play ─
+  // ── VÍDEO HERO ──────────────────────────────────────────────────────
+  // 1. Imagem visível por padrão
+  // 2. Vídeo toca em segundo plano (opacity:0)
+  // 3. Se tocar: fade-in do vídeo sobre a imagem
+  // 4. Se falhar: imagem fica, sem botão de play, sem flash escuro
   (function() {
     var video    = document.getElementById('hero-video');
     var fallback = document.getElementById('hero-fallback');
     if (!video || !fallback) return;
     video.muted = true;
     video.play().then(function() {
-      // vídeo tocando — mantém vídeo visível
+      video.classList.add('playing');
+      setTimeout(function() { fallback.style.display = 'none'; }, 650);
     }).catch(function() {
-      // autoplay bloqueado — esconde vídeo (sem botão de play) e mostra imagem
       video.style.display = 'none';
-      fallback.style.display = 'block';
     });
   })();
 

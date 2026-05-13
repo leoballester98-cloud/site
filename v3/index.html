@@ -95,12 +95,13 @@
   .hero__bg video {
     width: 100%; height: 100%;
     object-fit: cover; object-position: center;
-    display: none;
     position: absolute;
     inset: 0;
+    opacity: 0;
+    transition: opacity .6s ease;
   }
   .hero__bg video.playing {
-    display: block;
+    opacity: 1;
   }
   .hero__overlay {
     position: absolute;
@@ -2414,7 +2415,8 @@ src="https://www.facebook.com/tr?id=2312041769604428&ev=PageView&noscript=1"
     if (!video || !fallback) return;
     video.addEventListener('playing', function() {
       video.classList.add('playing');
-      fallback.style.display = 'none';
+      fallback.style.opacity = '0';
+      setTimeout(function() { fallback.style.display = 'none'; }, 600);
     });
     var p = video.play();
     if (p !== undefined) p.catch(function() {});

@@ -219,10 +219,14 @@ html, body {
   overflow: hidden;
 }
 @media (max-width: 480px) {
-  .hero-photo { width: 170px; height: 300px; margin-left: -8px; }
+  .age-intro { grid-template-columns: 1.2fr 0.8fr; gap: 10px; padding-right: 0; }
+  .hero-photo { position: relative; width: auto; height: auto; margin-left: -8px; align-self: stretch; min-height: 0; }
+  .hero-photo img { position: absolute !important; inset: 0 !important; width: 100% !important; height: 100% !important; object-fit: contain !important; object-position: center top !important; }
+  .age-intro .age-cards .age-row { min-height: 85px; }
 }
 @media (max-width: 380px) {
-  .hero-photo { width: 145px; height: 260px; margin-left: -6px; }
+  .hero-photo { margin-left: -6px; }
+  .age-intro .age-cards .age-row { min-height: 75px; }
 }
 .imgbox--row {
   width: 80px;
@@ -2166,6 +2170,14 @@ button:focus-visible, .row-card:focus-visible, .simple-opt:focus-visible,
   padding: 0 !important;
 }
 
+
+/* Mobile: image is square so use cover+top to fill the portrait container */
+@media (max-width: 480px) {
+  .age-intro .hero-photo img {
+    object-fit: cover !important;
+    object-position: top center !important;
+  }
+}
 
 /* ════════════════════════════════════════════════════
    DESKTOP OPTIMIZATIONS (v63)  fit-on-screen, centered

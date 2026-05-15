@@ -134,6 +134,11 @@ html, body {
 
 .screen { display: none; flex-direction: column; }
 .screen.active { display: flex; }
+
+#s2 img {
+  -webkit-mask-image: linear-gradient(to bottom, black 55%, transparent 100%);
+  mask-image: linear-gradient(to bottom, black 55%, transparent 100%);
+}
 .screen.entering {
   animation: enterIn 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
 }

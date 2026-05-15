@@ -2186,25 +2186,38 @@ button:focus-visible, .row-card:focus-visible, .simple-opt:focus-visible,
 
   /* Step 1: photo+cards side-by-side, tighter heights, fit viewport */
   .age-intro {
+    width: 100%;
     max-width: 760px;
     margin: 12px auto 18px;
     grid-template-columns: 1fr 1fr;
     gap: 24px;
-    align-items: center;
+    align-items: stretch;
   }
   .hero-photo {
-    max-height: 460px;
-    height: 460px;
+    position: relative;
     margin-left: 0;
-    align-self: center;
+    align-self: stretch;
+    min-height: 200px;
   }
-  .age-cards {
+  .hero-photo img {
+    position: absolute !important;
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: contain !important;
+    object-position: center bottom !important;
+  }
+  .age-intro .age-cards {
+    height: auto;
+    justify-content: center;
     gap: 12px;
   }
   .age-row {
-    padding: 18px 22px;
+    padding: 22px 22px;
     font-size: 16px;
-    min-height: 60px;
+  }
+  .age-intro .age-cards .age-row {
+    min-height: 100px;
   }
 
   /* Terms tighter */
@@ -2231,5 +2244,5 @@ button:focus-visible, .row-card:focus-visible, .simple-opt:focus-visible,
 @media (min-width: 1280px) {
   .wrap { max-width: 980px; padding-top: 70px; }
   .age-intro { max-width: 820px; gap: 32px; }
-  .hero-photo { height: 500px; max-height: 500px; }
+  .hero-photo { height: auto; max-height: none; }
 }

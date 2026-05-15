@@ -2150,3 +2150,85 @@ button:focus-visible, .row-card:focus-visible, .simple-opt:focus-visible,
 .footer-links--secondary { margin: 4px 0 14px; }
 .footer-links--secondary a { font-size: 11.5px; color: var(--ink-fade); }
 .footer-links--secondary a:hover { color: var(--ink-soft); }
+
+
+/* Hero photo image — clean mask + mirror (v62) */
+.hero-photo img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain !important;
+  object-position: center bottom !important;
+  display: block !important;
+  transform: scaleX(-1) !important;
+  -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 55%, rgba(0,0,0,0.7) 75%, rgba(0,0,0,0.25) 90%, transparent 100%) !important;
+          mask-image: linear-gradient(180deg, #000 0%, #000 55%, rgba(0,0,0,0.7) 75%, rgba(0,0,0,0.25) 90%, transparent 100%) !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+}
+
+
+/* ════════════════════════════════════════════════════
+   DESKTOP OPTIMIZATIONS (v63)  fit-on-screen, centered
+   ════════════════════════════════════════════════════ */
+@media (min-width: 900px) {
+  .wrap {
+    max-width: 880px;
+    padding: 80px 24px 24px;
+    margin: 0 auto;
+  }
+
+  /* Center text content */
+  .q-title, .q-title-lg, .q-sub {
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* Step 1: photo+cards side-by-side, tighter heights, fit viewport */
+  .age-intro {
+    max-width: 760px;
+    margin: 12px auto 18px;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    align-items: center;
+  }
+  .hero-photo {
+    max-height: 460px;
+    height: 460px;
+    margin-left: 0;
+  }
+  .age-cards {
+    gap: 12px;
+  }
+  .age-row {
+    padding: 18px 22px;
+    font-size: 16px;
+    min-height: 60px;
+  }
+
+  /* Terms tighter */
+  .terms { margin-top: 14px; max-width: 60ch; }
+
+  /* Header inner kept narrow for breathing */
+  .header__inner { max-width: 720px; }
+  .progress { max-width: none; }
+
+  /* Footer CTA stays centered in narrower band */
+  .footer-cta__inner { max-width: 540px; }
+
+  /* For card-based screens (row-cards / simple-list) keep them narrow */
+  .row-cards, .simple-list, .multi-list, .chips, .opts {
+    max-width: 520px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* Reduce footer-cta vertical padding on desktop */
+  .footer-cta { padding-top: 20px; padding-bottom: 20px; }
+}
+
+@media (min-width: 1280px) {
+  .wrap { max-width: 980px; padding-top: 70px; }
+  .age-intro { max-width: 820px; gap: 32px; }
+  .hero-photo { height: 500px; max-height: 500px; }
+}

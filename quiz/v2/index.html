@@ -1,0 +1,1354 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0"/>
+  <meta name="theme-color" content="#FDFAF6"/>
+  <title>Plano Personalizado · Protocolo Ciclo Fértil</title>
+
+  <script>
+    !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '1394696569075471');
+    fbq('track', 'PageView');
+  </script>
+  <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1394696569075471&ev=PageView&noscript=1"/></noscript>
+
+  <link rel="stylesheet" href="quiz-warm.css?v=61"/>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header__inner">
+    <button class="header__back" id="backBtn" aria-label="Voltar" disabled>←</button>
+    <span class="header__step" id="headerStep">Passo 1/30</span>
+    <span class="header__section" id="headerSection"><span class="header__icon">◎</span> METAS</span>
+  </div>
+  <div class="progress"><div class="progress__fill" id="progressFill"></div></div>
+</header>
+
+<div class="wrap">
+
+  <!-- ═══════ 1. IDADE (intro) ═══════ -->
+  <section class="screen active" id="s1" data-step="1" data-section="METAS" data-icon="◎" data-cta="hidden">
+    <h1 class="q-title-lg" style="max-width:28ch;">Protocolo de fertilidade personalizado para a sua idade</h1>
+    <p class="q-sub">Selecione sua idade<br>Questionário de 1 minuto</p>
+    <div class="age-intro">
+      <div class="hero-photo">
+        <img src="Images/hero-s1.png" alt="Mulher sorrindo" style="width:100%; height:100%; object-fit:contain; object-position:center bottom; display:block; transform: scaleX(-1); -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 55%, rgba(0,0,0,0.7) 75%, rgba(0,0,0,0.25) 90%, transparent 100%); mask-image: linear-gradient(180deg, #000 0%, #000 55%, rgba(0,0,0,0.7) 75%, rgba(0,0,0,0.25) 90%, transparent 100%);"/>: linear-gradient(180deg, #000 0%, #000 55%, rgba(0,0,0,0.7) 75%, rgba(0,0,0,0.25) 90%, transparent 100%); mask-image: linear-gradient(180deg, #000 0%, #000 55%, rgba(0,0,0,0.7) 75%, rgba(0,0,0,0.25) 90%, transparent 100%); padding: 0px"/>
+      </div>
+      <div class="age-cards">
+        <button class="age-row" data-val="18-25" data-next="s2">18-25 <span class="age-row__chev">›</span></button>
+        <button class="age-row" data-val="26-35" data-next="s2">26-35 <span class="age-row__chev">›</span></button>
+        <button class="age-row" data-val="36-45" data-next="s2">36-45 <span class="age-row__chev">›</span></button>
+        <button class="age-row" data-val="46+" data-next="s2">46+ <span class="age-row__chev">›</span></button>
+      </div>
+    </div>
+    <p class="terms">Ao continuar você confirma e garante que leu, entendeu e está de acordo com nossos <b>Termos de Uso</b>, <b>Política de Privacidade</b> e <b>Política de Reembolso</b>.</p>
+  </section>
+
+  <!-- ═══════ 2. PROVA SOCIAL ═══════ -->
+  <section class="screen" id="s2" data-step="2" data-section="METAS" data-icon="◎">
+    <h1 class="q-title-lg" style="margin-top:24px;">3.800 mulheres</h1>
+    <p class="q-sub" style="margin-top:-4px;">já aprenderam a ler os sinais do próprio ciclo com nosso protocolo</p>
+    <div class="imgbox imgbox--full" style="max-width:340px;margin:18px auto 0;">
+      <span class="imgbox__icon">🖼️</span>
+      <span>3 mulheres lado a lado</span>
+      <span class="imgbox__hint">Imagem ilustrativa</span>
+    </div>
+  </section>
+
+  <!-- ═══════ 3. OBJETIVO ═══════ -->
+  <section class="screen" id="s3" data-step="3" data-section="METAS" data-icon="◎">
+    <h2 class="q-title">Qual é o seu objetivo?</h2>
+    <div class="row-cards">
+      <button class="row-card" data-val="engravidar" data-next="s4">
+        <div class="row-card__body"><div class="row-card__title">Engravidar logo</div></div>
+        <div class="imgbox imgbox--row"><span class="imgbox__icon">🖼️</span></div>
+      </button>
+      <button class="row-card" data-val="regular" data-next="s4">
+        <div class="row-card__body"><div class="row-card__title">Regular meu ciclo</div></div>
+        <div class="imgbox imgbox--row"><span class="imgbox__icon">🖼️</span></div>
+      </button>
+    </div>
+  </section>
+
+  <!-- ═══════ 4. CICLO ATUAL ═══════ -->
+  <section class="screen" id="s4" data-step="4" data-section="METAS" data-icon="◎">
+    <h2 class="q-title">Selecione seu ciclo atual</h2>
+    <div class="row-cards">
+      <button class="row-card" data-val="regular" data-next="s5">
+        <div class="row-card__body"><div class="row-card__title">Regular</div></div>
+        <div class="imgbox imgbox--row"><span class="imgbox__icon">🖼️</span></div>
+      </button>
+      <button class="row-card" data-val="leve" data-next="s5">
+        <div class="row-card__body"><div class="row-card__title">Levemente irregular</div></div>
+        <div class="imgbox imgbox--row"><span class="imgbox__icon">🖼️</span></div>
+      </button>
+      <button class="row-card" data-val="muito" data-next="s5">
+        <div class="row-card__body"><div class="row-card__title">Muito irregular</div></div>
+        <div class="imgbox imgbox--row"><span class="imgbox__icon">🖼️</span></div>
+      </button>
+    </div>
+  </section>
+
+  <!-- ═══════ 5. CICLO META ═══════ -->
+  <section class="screen" id="s5" data-step="5" data-section="METAS" data-icon="◎">
+    <h2 class="q-title">Selecione a meta para o seu ciclo</h2>
+    <div class="row-cards">
+      <button class="row-card" data-val="previsivel" data-next="s6">
+        <div class="row-card__body"><div class="row-card__title">Previsível</div></div>
+        <div class="imgbox imgbox--row"><span class="imgbox__icon">🖼️</span></div>
+      </button>
+      <button class="row-card" data-val="sem-sintomas" data-next="s6">
+        <div class="row-card__body"><div class="row-card__title">Sem TPM e cólica</div></div>
+        <div class="imgbox imgbox--row"><span class="imgbox__icon">🖼️</span></div>
+      </button>
+      <button class="row-card" data-val="ovulacao-clara" data-next="s6">
+        <div class="row-card__body"><div class="row-card__title">Ovulação clara e fértil</div></div>
+        <div class="imgbox imgbox--row"><span class="imgbox__icon">🖼️</span></div>
+      </button>
+    </div>
+  </section>
+
+  <!-- ═══════ 6. MOTIVAÇÃO MULTI ═══════ -->
+  <section class="screen" id="s6" data-step="6" data-section="METAS" data-icon="◎" data-type="multi">
+    <h2 class="q-title">Qual é a sua motivação para fazer o protocolo?</h2>
+    <div class="multi-list">
+      <button class="multi-opt" data-val="filho">
+        <span class="multi-opt__radio"></span>
+        <span class="multi-opt__text">Ter um filho saudável</span>
+        <span class="multi-opt__icon">
+          <svg viewBox="0 0 24 24"><path d="M12 4a6 6 0 0 0-6 6 6 6 0 0 0 1.6 4.1A7 7 0 0 0 5 20.5V21h14v-.5a7 7 0 0 0-2.6-6.4A6 6 0 0 0 18 10a6 6 0 0 0-6-6zm-2.5 5.5a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm5 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2zM10 13.5h4a2 2 0 0 1-4 0z"/></svg>
+        </span>
+        </span>
+      </button>
+      <button class="multi-opt" data-val="hormonios">
+        <span class="multi-opt__radio"></span>
+        <span class="multi-opt__text">Equilibrar hormônios</span>
+        <span class="multi-opt__icon">
+          <svg viewBox="0 0 24 24"><path d="M12 21s-8-4.5-8-11a5 5 0 0 1 8-4 5 5 0 0 1 8 4c0 6.5-8 11-8 11zM8 11h2l1-2 1.5 4 1-2H16v1h-2l-1.5 2.5L11 10l-.5 1H8z" fill-rule="evenodd"/></svg>
+        </span>
+        </span>
+      </button>
+      <button class="multi-opt" data-val="energia">
+        <span class="multi-opt__radio"></span>
+        <span class="multi-opt__text">Recuperar energia e bem-estar</span>
+        <span class="multi-opt__icon">
+          <svg viewBox="0 0 24 24"><path d="M13 2 4 14h6l-1 8 9-12h-6l1-8z"/></svg>
+        </span>
+        </span>
+      </button>
+      <button class="multi-opt" data-val="autoestima">
+        <span class="multi-opt__radio"></span>
+        <span class="multi-opt__text">Resgatar autoestima e confiança</span>
+        <span class="multi-opt__icon">
+          <svg viewBox="0 0 24 24"><path d="M12 2l2.6 7.2H22l-6 4.6L18.4 22 12 17.5 5.6 22 8 13.8 2 9.2h7.4z"/></svg>
+        </span>
+        </span>
+      </button>
+      <button class="multi-opt" data-val="ciclo-leve">
+        <span class="multi-opt__radio"></span>
+        <span class="multi-opt__text">Ter ciclos mais leves</span>
+        <span class="multi-opt__icon">
+          <svg viewBox="0 0 24 24"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5z"/></svg>
+        </span>
+        </span>
+      </button>
+    </div>
+  </section>
+
+  <!-- ═══════ 7. ÁREAS-ALVO (body map) ═══════ -->
+  <section class="screen" id="s7" data-step="7" data-section="METAS" data-icon="◎" data-type="multi">
+    <h2 class="q-title">Escolha as suas áreas-alvo</h2>
+    <div class="bodymap">
+      <div class="bodymap__img">
+        <span class="imgbox__icon">🖼️</span>
+        <span>Imagem corpo<br>feminino</span>
+      </div>
+      <span class="bodymap__pin pin-utero" data-val="utero" style="top:42%; left:50%;"></span>
+      <span class="bodymap__pin pin-ovarios" data-val="ovarios" style="top:38%; left:38%;"></span>
+      <span class="bodymap__pin pin-tireoide" data-val="tireoide" style="top:15%; left:50%;"></span>
+      <span class="bodymap__pin pin-intestino" data-val="intestino" style="top:32%; left:60%;"></span>
+      <span class="bodymap__pin pin-mente" data-val="mente" style="top:6%; left:50%;"></span>
+      <span class="bodymap__label" data-val="tireoide" style="top:5%; left:-12px;">TIREOIDE</span>
+      <span class="bodymap__label" data-val="mente" style="top:5%; right:-12px;">MENTE</span>
+      <span class="bodymap__label" data-val="utero" style="top:42%; left:-12px;">ÚTERO</span>
+      <span class="bodymap__label" data-val="intestino" style="top:42%; right:-12px;">INTESTINO</span>
+      <span class="bodymap__label" data-val="ovarios" style="bottom:8%; left:50%; transform:translateX(-50%);">OVÁRIOS</span>
+    </div>
+  </section>
+
+  <!-- ═══════ 8. CICLO IDEAL ÚLTIMA VEZ ═══════ -->
+  <section class="screen" id="s8" data-step="8" data-section="METAS" data-icon="◎">
+    <h2 class="q-title">Quando você teve seu ciclo ideal pela última vez?</h2>
+    <div class="simple-list">
+      <button class="simple-opt" data-val="0-6" data-next="s9">0 a 6 meses atrás</button>
+      <button class="simple-opt" data-val="7-12" data-next="s9">7 a 12 meses atrás</button>
+      <button class="simple-opt" data-val="1-3" data-next="s9">De 1 a 3 anos atrás</button>
+      <button class="simple-opt" data-val="3+" data-next="s9">Mais de 3 anos atrás</button>
+      <button class="simple-opt" data-val="nunca" data-next="s9">Nunca</button>
+    </div>
+  </section>
+
+  <!-- ═══════ 9. INTERESSES (chips) ═══════ -->
+  <section class="screen" id="s9" data-step="9" data-section="METAS" data-icon="◎" data-type="multi">
+    <h2 class="q-title">Quais são os seus interesses?</h2>
+    <div class="chips" id="chipsS9">
+      <span class="chip" data-val="engravidar">Engravidar</span>
+      <span class="chip" data-val="regular-ciclo">Regular ciclo</span>
+      <span class="chip" data-val="reduzir-tpm">Reduzir TPM</span>
+      <span class="chip" data-val="reduzir-estresse">Reduzir estresse</span>
+      <span class="chip" data-val="hormonios">Equilibrar hormônios</span>
+      <span class="chip" data-val="energia">Ganhar energia</span>
+      <span class="chip" data-val="libido">Melhorar libido</span>
+      <span class="chip" data-val="pele">Melhorar pele</span>
+      <span class="chip" data-val="sono">Dormir melhor</span>
+      <span class="chip" data-val="ovulacao">Identificar ovulação</span>
+      <span class="chip" data-val="autoestima">Autoestima</span>
+      <span class="chip" data-val="emagrecer">Emagrecer</span>
+      <span class="chip" data-val="bem-estar">Bem-estar geral</span>
+    </div>
+  </section>
+
+  <!-- ═══════ 10. NÍVEL CONHECIMENTO ═══════ -->
+  <section class="screen" id="s10" data-step="10" data-section="LEITURA DO CICLO" data-icon="◐">
+    <h2 class="q-title">Qual seu nível de conhecimento sobre o próprio ciclo?</h2>
+    <div class="simple-list">
+      <button class="simple-opt" data-val="iniciante" data-score="0" data-next="s11">
+        <div class="simple-opt__title">Iniciante</div>
+        <div class="simple-opt__sub">Nunca prestei atenção nos sinais do corpo</div>
+      </button>
+      <button class="simple-opt" data-val="intermediario" data-score="1" data-next="s11">
+        <div class="simple-opt__title">Intermediário</div>
+        <div class="simple-opt__sub">Conheço algumas coisas, mas tenho dúvidas</div>
+      </button>
+      <button class="simple-opt" data-val="avancado" data-score="2" data-next="s11">
+        <div class="simple-opt__title">Avançado</div>
+        <div class="simple-opt__sub">Estudo o tema há um tempo</div>
+      </button>
+    </div>
+  </section>
+
+  <!-- ═══════ 11. TEMPO TENTANDO ═══════ -->
+  <section class="screen" id="s11" data-step="11" data-section="LEITURA DO CICLO" data-icon="◐">
+    <h2 class="q-title">Há quanto tempo está tentando engravidar?</h2>
+    <div class="simple-list">
+      <button class="simple-opt" data-val="ainda-nao" data-next="s12">Ainda não comecei</button>
+      <button class="simple-opt" data-val="menos-3" data-next="s12">Menos de 3 meses</button>
+      <button class="simple-opt" data-val="3-6" data-next="s12">Entre 3 e 6 meses</button>
+      <button class="simple-opt" data-val="6-12" data-next="s12">Entre 6 meses e 1 ano</button>
+      <button class="simple-opt" data-val="1-2" data-next="s12">Entre 1 e 2 anos</button>
+      <button class="simple-opt" data-val="2+" data-next="s12">Mais de 2 anos</button>
+    </div>
+  </section>
+
+  <!-- ═══════ 12. MUCO observa mudanças ═══════ -->
+  <section class="screen" id="s12" data-step="12" data-section="LEITURA DO CICLO" data-icon="💧">
+    <h2 class="q-title">Você observa mudanças no corrimento ao longo do mês?</h2>
+    <div class="simple-list">
+      <button class="simple-opt" data-val="sim" data-score="3" data-next="s13">Sim, percebo mudanças claras</button>
+      <button class="simple-opt" data-val="as-vezes" data-score="1" data-next="s13">Às vezes percebo</button>
+      <button class="simple-opt" data-val="nao" data-score="0" data-next="s13">Nunca prestei atenção nisso</button>
+    </div>
+  </section>
+
+  <!-- ═══════ 13. MUCO clara de ovo ═══════ -->
+  <section class="screen" id="s13" data-step="13" data-section="LEITURA DO CICLO" data-icon="💧">
+    <h2 class="q-title">Você já viu um corrimento tipo clara de ovo?</h2>
+    <p class="q-sub">Transparente, muito elástico, que estica entre os dedos sem quebrar.</p>
+    <div class="simple-list">
+      <button class="simple-opt" data-val="sim" data-score="3" data-next="s14">Sim, já vi isso</button>
+      <button class="simple-opt" data-val="acho" data-score="1" data-next="s14">Acho que sim, mas não tenho certeza</button>
+      <button class="simple-opt" data-val="nunca" data-score="0" data-next="s14">Nunca vi isso</button>
+      <button class="simple-opt" data-val="nao-sei" data-score="0" data-next="s14">Não sei o que é isso</button>
+    </div>
+  </section>
+
+  <!-- ═══════ 14. HIGIENE íntima ═══════ -->
+  <section class="screen" id="s14" data-step="14" data-section="LEITURA DO CICLO" data-icon="💧">
+    <h2 class="q-title">Você usa sabonete íntimo, ducha ou lenços umedecidos com frequência?</h2>
+    <p class="q-sub">Pode destruir o muco fértil sem você perceber. Selecione a opção mais adequada:</p>
+    <div class="simple-list">
+      <button class="simple-opt" data-val="nunca" data-score="3" data-next="s15">Nunca</button>
+      <button class="simple-opt" data-val="as-vezes" data-score="1" data-next="s15">Às vezes</button>
+      <button class="simple-opt" data-val="sim" data-score="0" data-next="s15">Sim, uso regularmente</button>
+    </div>
+  </section>
+
+  <!-- ═══════ 15. TEMPERATURA já mediu ═══════ -->
+  <section class="screen" id="s15" data-step="15" data-section="LEITURA DO CICLO" data-icon="🌡️">
+    <h2 class="q-title">Você já mediu a temperatura ao acordar para acompanhar o ciclo?</h2>
+    <div class="simple-list">
+      <button class="simple-opt" data-val="sim" data-score="3" data-next="s16">Sim, faço isso regularmente</button>
+      <button class="simple-opt" data-val="tentei" data-score="2" data-next="s16">Já tentei mas não mantive</button>
+      <button class="simple-opt" data-val="nunca" data-score="0" data-next="s16">Nunca fiz isso</button>
+    </div>
+  </section>
+
+  <!-- ═══════ 16. OVULAÇÃO sabe identificar ═══════ -->
+  <section class="screen" id="s16" data-step="16" data-section="LEITURA DO CICLO" data-icon="🌡️">
+    <h2 class="q-title">Você sabe em qual dia do seu ciclo costuma ovular?</h2>
+    <p class="q-sub">Pelos sinais físicos do corpo  não pelo aplicativo.</p>
+    <div class="simple-list">
+      <button class="simple-opt" data-val="sim" data-score="3" data-next="s17">Sim, sei identificar pelos sinais</button>
+      <button class="simple-opt" data-val="ideia" data-score="2" data-next="s17">Tenho uma ideia</button>
+      <button class="simple-opt" data-val="app" data-score="1" data-next="s17">Confio só no aplicativo</button>
+      <button class="simple-opt" data-val="nao" data-score="0" data-next="s17">Não tenho ideia</button>
+    </div>
+  </section>
+
+  <!-- ═══════ 17. DOR DE OVULAÇÃO ═══════ -->
+  <section class="screen" id="s17" data-step="17" data-section="LEITURA DO CICLO" data-icon="🌸">
+    <h2 class="q-title">Sente uma dor leve de um lado do baixo ventre no meio do ciclo?</h2>
+    <p class="q-sub">Dura algumas horas a um dia. Pode ser sinal da ovulação.</p>
+    <div class="simple-list">
+      <button class="simple-opt" data-val="sim" data-score="3" data-next="s18">
+        <span class="simple-opt__badge">SINAL FORTE</span>
+        Sim, quase todo mês
+      </button>
+      <button class="simple-opt" data-val="as-vezes" data-score="2" data-next="s18">Já senti algumas vezes</button>
+      <button class="simple-opt" data-val="nao" data-score="0" data-next="s18">Nunca percebi isso</button>
+    </div>
+  </section>
+
+  <!-- ═══════ 18. APP/LUBRIFICANTE (erros invisíveis) ═══════ -->
+  <section class="screen" id="s18" data-step="18" data-section="ERROS INVISÍVEIS" data-icon="⚠️">
+    <h2 class="q-title">Como você identifica seu período fértil?</h2>
+    <div class="row-cards">
+      <button class="row-card" data-val="so-app" data-score="0" data-next="s19">
+        <div class="row-card__body">
+          <div class="row-card__title">Pelo aplicativo</div>
+          <div class="row-card__sub">Confio na média que ele calcula</div>
+        </div>
+        <div class="imgbox imgbox--row"><span class="imgbox__icon">🖼️</span></div>
+      </button>
+      <button class="row-card" data-val="misto" data-score="2" data-next="s19">
+        <div class="row-card__body">
+          <div class="row-card__title">Aplicativo + alguns sinais</div>
+          <div class="row-card__sub">Uso o app mas observo o corpo</div>
+        </div>
+        <div class="imgbox imgbox--row"><span class="imgbox__icon">🖼️</span></div>
+      </button>
+      <button class="row-card" data-val="corpo" data-score="3" data-next="s19">
+        <div class="row-card__body">
+          <div class="row-card__title">Pelos sinais do corpo</div>
+          <div class="row-card__sub">Observo o muco e a temperatura</div>
+        </div>
+        <div class="imgbox imgbox--row"><span class="imgbox__icon">🖼️</span></div>
+      </button>
+    </div>
+  </section>
+
+  <!-- ═══════ 19. ESTRESSE / ROTINA ═══════ -->
+  <section class="screen" id="s19" data-step="19" data-section="ERROS INVISÍVEIS" data-icon="⚠️">
+    <h2 class="q-title">Como é o seu nível de estresse no dia a dia?</h2>
+    <p class="q-sub">Cortisol alto bloqueia a ovulação sem você perceber.</p>
+    <div class="simple-list">
+      <button class="simple-opt" data-val="intensa" data-score="0" data-next="s20">
+        <div class="simple-opt__title">Vivo no limite</div>
+        <div class="simple-opt__sub">Trabalho intenso, raramente desligo</div>
+      </button>
+      <button class="simple-opt" data-val="organizada" data-score="1" data-next="s20">
+        <div class="simple-opt__title">Médio</div>
+        <div class="simple-opt__sub">Estresso mas consigo relaxar</div>
+      </button>
+      <button class="simple-opt" data-val="caseira" data-score="2" data-next="s20">
+        <div class="simple-opt__title">Controlado</div>
+        <div class="simple-opt__sub">Tenho rotina equilibrada</div>
+      </button>
+      <button class="simple-opt" data-val="leve" data-score="3" data-next="s20">
+        <div class="simple-opt__title">Baixo</div>
+        <div class="simple-opt__sub">Consigo descansar bem</div>
+      </button>
+    </div>
+  </section>
+
+  <!-- ═══════ 20. DURAÇÃO MÉDIA DO CICLO (substitui Altura) ═══════ -->
+  <section class="screen" id="s20" data-step="20" data-section="DETALHES PESSOAIS" data-icon="◔">
+    <h2 class="q-title">Quantos dias dura seu ciclo em média?</h2>
+    <div class="unit-toggle">
+      <button class="unit-toggle__btn active" data-unit="dias">dias</button>
+    </div>
+    <div class="big-number">
+      <span class="big-number__value" id="heightValue" contenteditable="true" inputmode="numeric" data-empty="true">0</span>
+      <span class="big-number__unit" id="heightUnitLabel">dias</span>
+    </div>
+    <div class="info-box">
+      <span class="info-box__icon">☝️</span>
+      <div class="info-box__body">
+        <p class="info-box__title">Vamos calibrar a janela fértil</p>
+        <p class="info-box__text">Cada mulher ovula em um dia diferente do ciclo. A duração média ajuda o protocolo a personalizar sua leitura, em vez de usar uma média genérica de 28 dias.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ 21. DIAS DE MENSTRUAÇÃO (substitui Peso) ═══════ -->
+  <section class="screen" id="s21" data-step="21" data-section="DETALHES PESSOAIS" data-icon="◔">
+    <h2 class="q-title">Quantos dias dura sua menstruação?</h2>
+    <div class="unit-toggle">
+      <button class="unit-toggle__btn active" data-unit="dias">dias</button>
+    </div>
+    <div class="big-number">
+      <span class="big-number__value" id="weightValue" contenteditable="true" inputmode="numeric" data-empty="true">0</span>
+      <span class="big-number__unit" id="weightUnitLabel">dias</span>
+    </div>
+    <div class="alert-box" id="bmiAlert" style="display:none;">
+      <span class="alert-box__icon">‼️</span>
+      <div class="alert-box__body">
+        <p class="alert-box__title" id="bmiAlertTitle">Padrão registrado</p>
+        <p class="alert-box__text" id="bmiAlertText">Vamos cruzar essa informação com os sinais que você percebe para construir seu Nível de Leitura do Ciclo.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ 22. CONHECE FASE LÚTEA? (substitui Meta peso) ═══════ -->
+  <section class="screen" id="s22" data-step="22" data-section="DETALHES PESSOAIS" data-icon="◔">
+    <h2 class="q-title">Em quantos dias seu desejo sexual aumenta no mês?</h2>
+    <p class="q-sub">Se você não percebe, deixe 0. Esse é um dos sinais secundários da ovulação.</p>
+    <div class="unit-toggle">
+      <button class="unit-toggle__btn active" data-unit="dias">dias</button>
+    </div>
+    <div class="big-number">
+      <span class="big-number__value" id="targetValue" contenteditable="true" inputmode="numeric" data-empty="true">0</span>
+      <span class="big-number__unit">dias</span>
+    </div>
+  </section>
+
+  <!-- ═══════ 23. IDADE EXATA ═══════ -->
+  <section class="screen" id="s23" data-step="23" data-section="DETALHES PESSOAIS" data-icon="◔">
+    <h2 class="q-title">Qual é a sua idade?</h2>
+    <div class="big-number" style="margin: 40px 0 24px;">
+      <span class="big-number__value" id="ageValue" contenteditable="true" inputmode="numeric" data-empty="true">0</span>
+    </div>
+    <div class="info-box">
+      <span class="info-box__icon">☝️</span>
+      <div class="info-box__body">
+        <p class="info-box__title">A idade é usada para personalizar seu protocolo</p>
+        <p class="info-box__text">Cada faixa etária responde de forma diferente. Mulheres com mais de 35 têm protocolos com foco em qualidade do óvulo; mais novas têm foco em ovulação consistente.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ 24. RESUMO (NLC reveal) ═══════ -->
+  <section class="screen" id="s24" data-step="24" data-section="DETALHES PESSOAIS" data-icon="◔">
+    <h2 class="q-title-lg">Seu Nível de Leitura do Ciclo</h2>
+    <div class="imc-card">
+      <div class="imc-card__head">
+        <span class="imc-card__label">NLC  0 a 100</span>
+        <span class="imc-card__value" id="imcStatus"><b id="imcStatusVal">0</b></span>
+      </div>
+      <div class="imc-gauge">
+        <div class="imc-gauge__tooltip" id="imcTooltip">Você  0</div>
+        <div class="imc-gauge__marker" id="imcMarker"></div>
+      </div>
+      <div class="imc-gauge__scale">
+        <span>Invisível</span>
+        <span>Parcial</span>
+        <span>Consciente</span>
+      </div>
+    </div>
+
+    <div class="stat-rows-wrap">
+      <div class="stat-rows">
+        <div class="stat-row">
+          <span class="stat-row__icon">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 4a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm-2 16v-7H5l3.5-7h7L19 13h-5v7h-4z"/></svg>
+          </span>
+          <div class="stat-row__body">
+            <div class="stat-row__label">Leitura do muco cervical</div>
+            <div class="stat-row__value" id="resumeLifestyle">Não identificada</div>
+          </div>
+        </div>
+        <div class="stat-row">
+          <span class="stat-row__icon">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M14 14.76V3.5a2.5 2.5 0 0 0-5 0v11.26a4.5 4.5 0 1 0 5 0zM11 5a.5.5 0 0 1 1 0v9.55a3 3 0 1 1-2 0V8h1V5z"/></svg>
+          </span>
+          <div class="stat-row__body">
+            <div class="stat-row__label">Confirmação da ovulação</div>
+            <div class="stat-row__value" id="resumeCare">Estimada por app</div>
+          </div>
+        </div>
+        <div class="stat-row">
+          <span class="stat-row__icon">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8 5 6 9 6 13a6 6 0 0 0 12 0c0-4-2-8-6-11zm0 17a4 4 0 0 1-4-4c0-2 1-4 2-5 1 1 1 2 1 3a2 2 0 0 0 4 0c0-1 0-2 1-3 1 1 2 3 2 5a4 4 0 0 1-4 4z"/></svg>
+          </span>
+          <div class="stat-row__body">
+            <div class="stat-row__label">Sinais secundários</div>
+            <div class="stat-row__value" id="resumeActivity">Pouco percebidos</div>
+          </div>
+        </div>
+      </div>
+      <div class="imgbox imgbox--resume">
+        <span class="imgbox__icon">🖼️</span>
+        <span>Silhueta</span>
+        <span class="imgbox__hint">Mulher</span>
+      </div>
+    </div>
+
+    
+
+    <div class="alert-box">
+      <span class="alert-box__icon">☝️</span>
+      <div class="alert-box__body">
+        <p class="alert-box__title" id="nlcDiagTitle">Ciclo Invisível</p>
+        <p class="alert-box__text" id="nlcDiagText">Seu corpo está enviando todos os sinais certos. Você ainda não aprendeu a linguagem deles. Isso não é culpa sua. Ninguém ensinou. O Protocolo Ciclo Fértil resolve isso nos primeiros 14 dias.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ 25. OCASIÃO ESPECIAL ═══════ -->
+  <section class="screen" id="s25" data-step="25" data-section="DETALHES PESSOAIS" data-icon="◔">
+    <h2 class="q-title">Há alguma ocasião especial para a qual você deseja engravidar?</h2>
+    <p class="q-sub">É mais provável que você alcance a sua meta se tiver algo importante para almejar.</p>
+    <div class="simple-list">
+      <button class="simple-opt" data-val="aniversario" data-next="s26"><span style="margin-right:10px;">🎂</span>Aniversário</button>
+      <button class="simple-opt" data-val="casamento" data-next="s26"><span style="margin-right:10px;">💍</span>Aniversário de casamento</button>
+      <button class="simple-opt" data-val="data" data-next="s26"><span style="margin-right:10px;">⭐</span>Data importante</button>
+      <button class="simple-opt" data-val="viagem" data-next="s26"><span style="margin-right:10px;">✈️</span>Viagem importante</button>
+      <button class="simple-opt" data-val="familia" data-next="s26"><span style="margin-right:10px;">👨‍👩‍👧</span>Reunião familiar</button>
+      <button class="simple-opt" data-val="ano-novo" data-next="s26"><span style="margin-right:10px;">🎉</span>Próximo ano</button>
+      <button class="simple-opt" data-val="nenhuma" data-next="s26"><span style="margin-right:10px;">🌿</span>Nenhuma em especial</button>
+    </div>
+  </section>
+
+  <!-- ═══════ 26. DATA OCASIÃO ═══════ -->
+  <section class="screen" id="s26" data-step="26" data-section="DETALHES PESSOAIS" data-icon="◔">
+    <h2 class="q-title">Quando será a ocasião especial?</h2>
+    <p class="q-sub">Assim que soubermos disso, poderemos elaborar um plano para ajudar você. Os seus dados não serão compartilhados com terceiros.</p>
+    <div class="date-block">
+      <div class="date-block__label">Data</div>
+      <input type="date" class="date-block__input" id="occasionDate"/>
+    </div>
+  </section>
+
+  <!-- ═══════ 27. PROJEÇÃO ═══════ -->
+  <section class="screen" id="s27" data-step="27" data-section="DETALHES PESSOAIS" data-icon="◔">
+    <h2 class="q-title-lg">O único plano de que você precisa para engravidar</h2>
+    <p class="q-sub">Conforme as informações que você nos forneceu, você atingirá a sua meta de</p>
+    <div class="reveal-target">
+      <div class="reveal-target__value" id="projTarget">14 de agosto de 2026</div>
+    </div>
+    <p class="q-sub" style="margin-top:-12px;">Prepare-se para surpreender todo mundo em um dia especial</p>
+    <div class="proj-card">
+      <div class="proj-slider-track">
+        <div class="proj-slider-tooltip">Hoje</div>
+        <div class="proj-slider-thumb"></div>
+      </div>
+      <span class="proj-month">Mai</span>
+    </div>
+  </section>
+
+  <!-- ═══════ 28. LOADING ═══════ -->
+  <section class="screen" id="s28" data-step="28" data-section="" data-icon="" data-cta="hidden">
+    <div class="loading-screen">
+      <div class="loading-banner">
+        <div class="loading-banner__ring">
+          <svg viewBox="0 0 28 28">
+            <circle class="loading-banner__ring-track" cx="14" cy="14" r="12"/>
+            <circle class="loading-banner__ring-fill" id="loadingRing" cx="14" cy="14" r="12"/>
+          </svg>
+          <div class="loading-banner__pct" id="loadingPct">0%</div>
+        </div>
+        <span class="loading-banner__text">Calculando seu Nível de Leitura do Ciclo...</span>
+      </div>
+      <h1 class="loading-bigtitle">3.800 mulheres</h1>
+      <h2 class="loading-subtitle">já aprenderam a ler os sinais do próprio ciclo</h2>
+      <div class="avatar-cluster">
+        <div class="imgbox imgbox--circle" style="top:6%;left:8%;width:72px;height:72px;"><span class="imgbox__icon">🖼️</span></div>
+        <div class="imgbox imgbox--circle" style="top:0%;left:36%;width:60px;height:60px;"><span class="imgbox__icon">🖼️</span></div>
+        <div class="imgbox imgbox--circle" style="top:10%;left:58%;width:90px;height:90px;"><span class="imgbox__icon">🖼️</span></div>
+        <div class="imgbox imgbox--circle" style="top:4%;right:2%;width:64px;height:64px;"><span class="imgbox__icon">🖼️</span></div>
+        <div class="imgbox imgbox--circle" style="top:38%;left:2%;width:60px;height:60px;"><span class="imgbox__icon">🖼️</span></div>
+        <div class="imgbox imgbox--circle" style="top:40%;left:26%;width:84px;height:84px;"><span class="imgbox__icon">🖼️</span></div>
+        <div class="imgbox imgbox--circle" style="top:36%;left:52%;width:72px;height:72px;"><span class="imgbox__icon">🖼️</span></div>
+        <div class="imgbox imgbox--circle" style="top:34%;right:0%;width:62px;height:62px;"><span class="imgbox__icon">🖼️</span></div>
+        <div class="imgbox imgbox--circle" style="top:68%;left:12%;width:76px;height:76px;"><span class="imgbox__icon">🖼️</span></div>
+        <div class="imgbox imgbox--circle" style="top:70%;left:40%;width:64px;height:64px;"><span class="imgbox__icon">🖼️</span></div>
+        <div class="imgbox imgbox--circle" style="top:72%;right:12%;width:70px;height:70px;"><span class="imgbox__icon">🖼️</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ 29. CURVA FÉRTIL ═══════ -->
+  <section class="screen" id="s29" data-step="29" data-section="" data-icon="">
+    <div class="curve-block">
+      <div class="curve-block__head">Sua leitura do ciclo nas próximas 4 semanas</div>
+      <canvas id="curveChart" width="480" height="200"></canvas>
+      <p class="curve-note">Gráfico ilustrativo. Resultados podem variar para cada mulher.</p>
+    </div>
+    <h2 class="q-title-lg" style="margin-top:8px;">Seu plano de 4 semanas para engravidar está pronto!</h2>
+  </section>
+
+  <!-- ═══════ 30. PRICING ═══════ -->
+  <section class="screen" id="s30" data-step="30" data-section="" data-icon="" data-cta="hidden">
+    <div class="compare-tabs">
+      <button class="compare-tab active">Agora</button>
+      <button class="compare-tab">Objetivo</button>
+    </div>
+    <div class="compare-figure">
+      <div class="imgbox imgbox--compare">
+        <span class="imgbox__icon">🖼️</span>
+        <span>Comparação Agora » Objetivo</span>
+        <span class="imgbox__hint">Imagem única lado a lado</span>
+      </div>
+    </div>
+    <div class="compare-stats">
+      <div class="compare-stat">
+        <div class="compare-stat__label">Leitura do ciclo</div>
+        <div class="compare-stat__value" id="priceNlcNow">35/100</div>
+        <div class="compare-stat__bar"><div class="compare-stat__bar-fill" id="priceNlcBar" style="width:35%;background:var(--red);"></div></div>
+      </div>
+      <div class="compare-stat">
+        <div class="compare-stat__label">Leitura do ciclo</div>
+        <div class="compare-stat__value">88/100</div>
+        <div class="compare-stat__bar"><div class="compare-stat__bar-fill compare-stat__bar-fill--full" style="width:88%;"></div></div>
+      </div>
+      <div class="compare-stat">
+        <div class="compare-stat__label">Janela fértil</div>
+        <div class="compare-stat__value">1 dia estimado</div>
+        <div class="compare-stat__bar"><div class="compare-stat__bar-fill" style="width:20%;background:var(--red);"></div></div>
+      </div>
+      <div class="compare-stat">
+        <div class="compare-stat__label">Janela fértil</div>
+        <div class="compare-stat__value">5 dias rastreados</div>
+        <div class="compare-stat__bar"><div class="compare-stat__bar-fill compare-stat__bar-fill--full" style="width:100%;"></div></div>
+      </div>
+    </div>
+
+    <h2 class="q-title-lg" style="margin-bottom:8px;">O seu protocolo personalizado está pronto!</h2>
+
+    <div class="price-meta">
+      <div class="price-meta__item">
+        <div class="price-meta__label">Nível</div>
+        <div class="price-meta__value">📊 Intermediário</div>
+      </div>
+      <div class="price-meta__sep"></div>
+      <div class="price-meta__item">
+        <div class="price-meta__label">Programa</div>
+        <div class="price-meta__value">🗓️ 30 dias</div>
+      </div>
+    </div>
+
+    <div class="price-banner">
+      <span class="price-banner__icon">⏱️</span>
+      <span id="priceCountdown">A oferta expira em 09:47 min</span>
+    </div>
+
+    <div class="plan-section-label">Comece a sua mudança hoje</div>
+    <div class="plans">
+      <div class="plan-card selected" data-plan="full">
+        <div class="plan-card__radio"></div>
+        <div class="plan-card__body">
+          <div class="plan-card__name">PROTOCOLO COMPLETO</div>
+          <div class="plan-card__discount">Acesso vitalício · 4 ambientes</div>
+          <div class="plan-card__prices">
+            <span class="plan-card__old">R$188</span>
+            <span class="plan-card__new">R$37,90</span>
+          </div>
+        </div>
+        <div class="plan-card__pill">
+          <span class="plan-card__pill-num">37<sup style="font-size:0.55em;">,90</sup></span>
+          <span class="plan-card__pill-label">único</span>
+        </div>
+        <span class="plan-card__badge">MAIS POPULAR</span>
+      </div>
+    </div>
+
+    <a href="https://pay.celetus.com/MWEYGXEF" class="btn-primary" style="text-decoration:none;display:block;text-align:center;" onclick="if(typeof fbq!=='undefined') fbq('track','InitiateCheckout');">RECEBER O MEU PLANO</a>
+
+    <p class="plan-guarantee">Garantia de reembolso em 30 dias</p>
+
+    <h3 class="section-heading">Bônus inclusos no seu plano</h3>
+    <div class="bonus-grid">
+      <div class="bonus-item">
+        <div class="imgbox imgbox--bonus"><span class="imgbox__icon">🖼️</span><span>Bônus 1</span></div>
+        <div class="bonus-item__body">
+          <div class="bonus-item__name">Receitas Férteis</div>
+          <div class="bonus-item__desc">7 receitas em 10 min + 4 chás</div>
+        </div>
+      </div>
+      <div class="bonus-item">
+        <div class="imgbox imgbox--bonus"><span class="imgbox__icon">🖼️</span><span>Bônus 2</span></div>
+        <div class="bonus-item__body">
+          <div class="bonus-item__name">Diário do Ciclo Fértil</div>
+          <div class="bonus-item__desc">Rastreio de ovulação sem app</div>
+        </div>
+      </div>
+      <div class="bonus-item">
+        <div class="imgbox imgbox--bonus"><span class="imgbox__icon">🖼️</span><span>Bônus 3</span></div>
+        <div class="bonus-item__body">
+          <div class="bonus-item__name">Rotinas Férteis</div>
+          <div class="bonus-item__desc">15 hábitos para a rotina real</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="press-row">
+      <div class="press-row__label">Como visto em</div>
+      <div class="press-row__items">
+        <div class="imgbox imgbox--press"><span class="imgbox__icon">🖼️</span><span>Logo</span></div>
+        <div class="imgbox imgbox--press"><span class="imgbox__icon">🖼️</span><span>Logo</span></div>
+        <div class="imgbox imgbox--press"><span class="imgbox__icon">🖼️</span><span>Logo</span></div>
+        <div class="imgbox imgbox--press"><span class="imgbox__icon">🖼️</span><span>Logo</span></div>
+      </div>
+    </div>
+
+    <h3 class="section-heading section-heading--center">Histórias reais de quem aplicou o protocolo</h3>
+    <div class="reviews">
+      <div class="review">
+        <div class="review__header">
+          <div class="imgbox imgbox--avatar"><span class="imgbox__icon">🖼️</span></div>
+          <div class="review__meta">
+            <div class="review__name">Ana Paula R.</div>
+            <div class="review__sub">36 anos · Curitiba</div>
+          </div>
+          <div class="review__stars">★★★★★</div>
+        </div>
+        <p class="review__text">"Tentei por 14 meses. Aprendi a ler o muco em 3 semanas e engravidei no ciclo seguinte."</p>
+      </div>
+      <div class="review">
+        <div class="review__header">
+          <div class="imgbox imgbox--avatar"><span class="imgbox__icon">🖼️</span></div>
+          <div class="review__meta">
+            <div class="review__name">Camila T.</div>
+            <div class="review__sub">31 anos · Belo Horizonte</div>
+          </div>
+          <div class="review__stars">★★★★★</div>
+        </div>
+        <p class="review__text">"Não sabia que o sabonete íntimo estava sabotando tudo. Mudei a higiene e foi."</p>
+      </div>
+      <div class="review">
+        <div class="review__header">
+          <div class="imgbox imgbox--avatar"><span class="imgbox__icon">🖼️</span></div>
+          <div class="review__meta">
+            <div class="review__name">Fernanda M.</div>
+            <div class="review__sub">34 anos · São Paulo</div>
+          </div>
+          <div class="review__stars">★★★★★</div>
+        </div>
+        <p class="review__text">"Em 6 semanas comecei a reconhecer todos os sinais. Engravidei no mês seguinte."</p>
+      </div>
+      <div class="review">
+        <div class="review__header">
+          <div class="imgbox imgbox--avatar"><span class="imgbox__icon">🖼️</span></div>
+          <div class="review__meta">
+            <div class="review__name">Juliana B.</div>
+            <div class="review__sub">29 anos · Recife</div>
+          </div>
+          <div class="review__stars">★★★★★</div>
+        </div>
+        <p class="review__text">"O protocolo me devolveu a esperança. Mais que o resultado, foi entender o meu corpo pela primeira vez."</p>
+      </div>
+    </div>
+
+    <div class="guarantee-block">
+      <div class="guarantee-block__seal">
+        <div class="imgbox imgbox--seal"><span class="imgbox__icon">🖼️</span><span>Selo 30d</span></div>
+      </div>
+      <div class="guarantee-block__body">
+        <div class="guarantee-block__title">Garantia de 30 dias</div>
+        <p class="guarantee-block__text">Se em 30 dias você não sentir nenhuma diferença, devolvemos 100% do investimento. Sem burocracia, sem formulário.</p>
+      </div>
+    </div>
+
+    <h3 class="section-heading">Perguntas frequentes</h3>
+    <div class="faq">
+      <details class="faq__item">
+        <summary class="faq__q">E se eu não tiver resultado?</summary>
+        <p class="faq__a">Você tem 30 dias para pedir reembolso integral sem precisar dar explicação.</p>
+      </details>
+      <details class="faq__item">
+        <summary class="faq__q">Em quanto tempo vejo mudanças?</summary>
+        <p class="faq__a">A maioria reconhece os sinais do muco e da ovulação entre a 2ª e a 4ª semana.</p>
+      </details>
+      <details class="faq__item">
+        <summary class="faq__q">Funciona para ciclos muito irregulares?</summary>
+        <p class="faq__a">Sim. O Protocolo foi desenvolvido especialmente para ciclos irregulares.</p>
+      </details>
+      <details class="faq__item">
+        <summary class="faq__q">Preciso mudar minha rotina inteira?</summary>
+        <p class="faq__a">Não. Apenas 10 minutos por dia encaixados na sua rotina real.</p>
+      </details>
+      <details class="faq__item">
+        <summary class="faq__q">Como recebo o material?</summary>
+        <p class="faq__a">Acesso imediato por e-mail e WhatsApp após o pagamento.</p>
+      </details>
+    </div>
+
+    <a href="https://pay.celetus.com/MWEYGXEF" class="btn-primary" style="text-decoration:none;display:block;text-align:center;margin-top:8px;" onclick="if(typeof fbq!=='undefined') fbq('track','InitiateCheckout');">RECEBER O MEU PLANO</a>
+
+    <p class="plan-disclaimer">Pagamento único de R$37,90. Acesso imediato ao Protocolo Ciclo Fértil + 3 bônus. Sem renovação. Garantia incondicional de 30 dias.</p>
+
+    <!-- ═══ APP SHOWCASE ═══ -->
+    <h3 class="section-heading section-heading--center" style="margin-top:32px;">Use nosso app para acompanhar seu ciclo</h3>
+    <div class="phones-carousel">
+      <div class="phones-row">
+        <div class="imgbox imgbox--phone phone--side"><span class="imgbox__icon">📱</span><span>Tela timer<br/>ovulação</span></div>
+        <div class="imgbox imgbox--phone phone--center"><span class="imgbox__icon">📱</span><span>Tela plano<br/>do dia</span></div>
+        <div class="imgbox imgbox--phone phone--side"><span class="imgbox__icon">📱</span><span>Tela rotina<br/>matinal</span></div>
+      </div>
+      <div class="phones-dots"><span class="phones-dot active"></span><span class="phones-dot"></span><span class="phones-dot"></span></div>
+    </div>
+
+    <!-- ═══ #1 APP BADGE ═══ -->
+    <div class="number-one">
+      <div class="number-one__top">
+        <div class="number-one__laurel number-one__laurel--left">
+          <div class="imgbox imgbox--laurel"><span class="imgbox__icon">🌿</span></div>
+        </div>
+        <div class="number-one__center">
+          <div class="number-one__num">#1</div>
+          <div class="number-one__sub">app de fertilidade*</div>
+        </div>
+        <div class="number-one__laurel number-one__laurel--right">
+          <div class="imgbox imgbox--laurel"><span class="imgbox__icon">🌿</span></div>
+        </div>
+      </div>
+      <div class="number-one__claim">Aprender a ler seu ciclo</div>
+      <div class="number-one__note">*Baseado em mulheres que aplicaram o protocolo completo</div>
+      <a href="https://pay.celetus.com/MWEYGXEF" class="btn-primary" style="text-decoration:none;display:block;text-align:center;margin-top:16px;" onclick="if(typeof fbq!=='undefined') fbq('track','InitiateCheckout');">RECEBER MEU PLANO</a>
+    </div>
+
+    <!-- ═══ WHAT YOU GET ═══ -->
+    <h3 class="section-heading section-heading--center" style="margin-top:36px;">O que você recebe</h3>
+    <p style="font-size:14px; line-height:1.55; color:var(--ink-soft); margin-bottom:14px;">Nosso protocolo inteligente cria um plano de leitura do seu ciclo personalizado com base em todas as suas respostas e perfil.</p>
+    <p style="font-size:14px; line-height:1.55; color:var(--ink); margin-bottom:14px; font-weight:700;">Para atingir o seu objetivo você recebe:</p>
+    <ul class="checklist">
+      <li class="checklist__item"><span class="checklist__icon">○</span>Mais de 120 lições rápidas e exercícios práticos sobre os sinais do seu corpo.</li>
+      <li class="checklist__item"><span class="checklist__icon">○</span>Um protocolo de 30 dias personalizado para o seu ciclo e nível de leitura atual.</li>
+      <li class="checklist__item"><span class="checklist__icon">○</span>Receitas e dicas para preparar o corpo para uma gestação saudável.</li>
+      <li class="checklist__item"><span class="checklist__icon">○</span>Guias exclusivos para entender ovulação, fase fértil e fase lútea sem depender de aplicativo.</li>
+    </ul>
+    <p style="font-size:14px; line-height:1.55; color:var(--ink-soft); margin-bottom:18px;">Tudo num aplicativo no seu celular (iOS 15+ ou Android 8+)</p>
+
+    <!-- Week progression illustration -->
+    <div class="weeks-progress">
+      <div class="weeks-row">
+        <div class="weeks-row__label">SEM <span>1</span></div>
+        <div class="weeks-row__days">
+          <div class="day-cell"><div class="day-cell__label">Dia 1</div><div class="day-cell__val">Muco<br/>seco</div></div>
+          <div class="day-cell"><div class="day-cell__label">Dia 2</div><div class="day-cell__val">Muco<br/>seco</div></div>
+          <div class="day-cell"><div class="day-cell__label">Dia 3</div><div class="day-cell__val">Pastoso</div></div>
+          <div class="day-cell day-cell--rest"><div class="day-cell__label">Dia 4</div><div class="day-cell__val">DESCANSO</div></div>
+          <div class="day-cell"><div class="day-cell__label">Dia 5</div><div class="day-cell__val">Cremoso</div></div>
+          <div class="day-cell"><div class="day-cell__label">Dia 6</div><div class="day-cell__val">Elástico</div></div>
+          <div class="day-cell day-cell--peak"><div class="day-cell__label">Dia 7</div><div class="day-cell__val">CLARA<br/>DE OVO</div></div>
+        </div>
+      </div>
+      <div class="weeks-row">
+        <div class="weeks-row__label">SEM <span>2</span></div>
+        <div class="weeks-row__days">
+          <div class="day-cell"><div class="day-cell__label">Dia 1</div><div class="day-cell__val">36.2°C</div></div>
+          <div class="day-cell"><div class="day-cell__label">Dia 2</div><div class="day-cell__val">36.3°C</div></div>
+          <div class="day-cell"><div class="day-cell__label">Dia 3</div><div class="day-cell__val">36.5°C</div></div>
+          <div class="day-cell"><div class="day-cell__label">Dia 4</div><div class="day-cell__val">36.7°C</div></div>
+          <div class="day-cell day-cell--rest"><div class="day-cell__label">Dia 5</div><div class="day-cell__val">DESCANSO</div></div>
+          <div class="day-cell"><div class="day-cell__label">Dia 6</div><div class="day-cell__val">36.8°C</div></div>
+          <div class="day-cell"><div class="day-cell__label">Dia 7</div><div class="day-cell__val">37.0°C</div></div>
+        </div>
+      </div>
+      <div class="weeks-row weeks-row--overlay">
+        <div class="weeks-row__label">SEM <span>3</span></div>
+        <div class="weeks-row__days">
+          <div class="day-cell"><div class="day-cell__label">Dia 1</div><div class="day-cell__val">Dor leve<br/>lateral</div></div>
+          <div class="day-cell"><div class="day-cell__label">Dia 2</div><div class="day-cell__val">Libido<br/>alta</div></div>
+          <div class="day-cell"><div class="day-cell__label">Dia 3</div><div class="day-cell__val">Energia</div></div>
+          <div class="day-cell"><div class="day-cell__label">Dia 4</div><div class="day-cell__val">Mama<br/>sensível</div></div>
+          <div class="day-cell"><div class="day-cell__label">Dia 5</div><div class="day-cell__val">Lútea</div></div>
+          <div class="day-cell"><div class="day-cell__label">Dia 6</div><div class="day-cell__val">Lútea</div></div>
+          <div class="day-cell"><div class="day-cell__label">Dia 7</div><div class="day-cell__val">Lútea</div></div>
+        </div>
+        <div class="weeks-overlay"><div class="imgbox imgbox--woman"><span class="imgbox__icon">🖼️</span><span>Mulher sorrindo<br/>com teste positivo</span></div></div>
+      </div>
+    </div>
+
+    <!-- ═══ BEFORE/AFTER ═══ -->
+    <h3 class="section-heading section-heading--center" style="margin-top:36px;">Nossas clientes alcançam o objetivo</h3>
+    <div class="before-after">
+      <div class="ba-split">
+        <div class="imgbox imgbox--ba"><span class="imgbox__icon">🖼️</span><span>Antes<br/>(triste / teste negativo)</span></div>
+        <div class="imgbox imgbox--ba"><span class="imgbox__icon">🖼️</span><span>Depois<br/>(grávida / teste positivo)</span></div>
+      </div>
+      <p class="ba-name">Marina S., São Paulo.</p>
+      <p class="ba-disclaimer">Os resultados apresentados não são representativos e dependem de fatores como idade, condição clínica, aderência ao protocolo, etc. Não é oferta nem promessa de resultado. Consulte seu médico para recomendações específicas.</p>
+    </div>
+
+    <!-- ═══ MONEY-BACK GUARANTEE BIG ═══ -->
+    <div class="guarantee-big">
+      <div class="imgbox imgbox--guarantee-seal"><span class="imgbox__icon">🛡️</span><span>SELO<br/>30 DIAS</span></div>
+      <h3 class="section-heading section-heading--center" style="margin:18px 0 12px;">Garantia de reembolso</h3>
+      <p class="guarantee-big__text">Acreditamos que o protocolo funciona para você e que você vai aprender a ler os sinais do seu corpo em 30 dias. Se em 30 dias você não conseguir, devolvemos 100% do investimento, sem perguntas. Consulte nossa <b>Política de Reembolso</b> para entender as condições.</p>
+    </div>
+
+    <!-- ═══ FOOTER LINKS + PAYMENTS ═══ -->
+    <div class="footer-links">
+      <a href="#">Política de Privacidade</a>
+      <a href="#">Termos de Uso</a>
+      <a href="#">Política de Reembolso</a>
+    </div>
+    <div class="footer-links footer-links--secondary">
+      <a href="#">Gerenciar preferências de privacidade</a>
+    </div>
+
+    <p class="checkout-label">Checkout 100% seguro 🛡️</p>
+    <div class="payment-methods">
+      <div class="imgbox imgbox--pay">VISA</div>
+      <div class="imgbox imgbox--pay">MC</div>
+      <div class="imgbox imgbox--pay">PIX</div>
+      <div class="imgbox imgbox--pay">PayPal</div>
+      <div class="imgbox imgbox--pay">SSL</div>
+    </div>
+
+    <p class="footer-company">Protocolo Ciclo Fértil · CNPJ XX.XXX.XXX/0001-XX<br/>
+    Razão Social Ltda. · São Paulo, Brasil</p>
+
+  </section>
+
+</div>
+
+<!-- STICKY FOOTER CTA -->
+<div class="footer-cta" id="footerCTA">
+  <div class="footer-cta__inner">
+    <button class="btn-primary" id="primaryBtn">CONTINUAR</button>
+    <button class="skip-link" id="skipLink" style="display:none;">PULAR ESTA PERGUNTA</button>
+  </div>
+</div>
+
+<script>
+const SCREENS = Array.from({length: 30}, (_, i) => 's' + (i+1));
+const TOTAL_STEPS = 30;
+const answers = {};
+const scores = {};
+const history = ['s1'];
+
+const SESSAO_ID = Math.random().toString(36).substring(2, 12) + Date.now().toString(36);
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxl0S5SWEEEBU_hb6w8p678QXYf1I9FCAXhMYvZp9gOraH8NHNkcvrOhiOTX8G92ibGkA/exec';
+
+function trackEtapa(n, name) {
+  if (typeof fbq !== 'undefined') fbq('trackCustom', 'QuizEtapa', { etapa: n, nome: name });
+  if (APPS_SCRIPT_URL) new Image().src = APPS_SCRIPT_URL + '?sessao=' + SESSAO_ID + '&etapa=' + n;
+}
+
+const headerStep = document.getElementById('headerStep');
+const headerSection = document.getElementById('headerSection');
+const progressFill = document.getElementById('progressFill');
+const backBtn = document.getElementById('backBtn');
+const footerCTA = document.getElementById('footerCTA');
+const primaryBtn = document.getElementById('primaryBtn');
+const skipLink = document.getElementById('skipLink');
+
+function updateChrome(screenId) {
+  const el = document.getElementById(screenId);
+  if (!el) return;
+  const step = parseInt(el.dataset.step);
+  const section = el.dataset.section || '';
+  const icon = el.dataset.icon || '';
+
+  if (section) {
+    headerStep.textContent = 'Passo ' + step + '/' + TOTAL_STEPS;
+    headerStep.style.display = '';
+    headerSection.innerHTML = '<span class="header__icon">' + icon + '</span> ' + section;
+    headerSection.style.display = '';
+  } else {
+    headerStep.style.display = 'none';
+    headerSection.style.display = 'none';
+  }
+
+  progressFill.style.width = Math.max(3, (step / TOTAL_STEPS) * 100) + '%';
+  backBtn.disabled = history.length <= 1 || screenId === 's28' || screenId === 's30';
+}
+
+function showFooter(screenId) {
+  const el = document.getElementById(screenId);
+  const ctaMode = el?.dataset.cta;
+  const type = el?.dataset.type;
+
+  if (ctaMode === 'hidden') { footerCTA.style.display = 'none'; return; }
+  const hasAutoAdvance = el.querySelector('.row-card[data-next], .simple-opt[data-next], .age-row[data-next], .multi-opt[data-next]');
+  if (hasAutoAdvance && type !== 'multi') { footerCTA.style.display = 'none'; return; }
+  footerCTA.style.display = 'block';
+  skipLink.style.display = (screenId === 's26') ? 'block' : 'none';
+
+  if (type === 'multi') {
+    const hasSelection = el.querySelectorAll('.multi-opt.selected, .chip.selected, .bodymap__pin.active, .bodymap__label.active').length > 0;
+    primaryBtn.disabled = !hasSelection;
+  } else if (['s20','s21','s22','s23'].includes(screenId)) {
+    const val = el.querySelector('.big-number__value');
+    primaryBtn.disabled = !val || val.dataset.empty === 'true';
+  } else {
+    primaryBtn.disabled = false;
+  }
+  primaryBtn.textContent = 'CONTINUAR';
+  primaryBtn.onclick = () => goNext();
+}
+
+function goToScreen(next) {
+  const cur = document.querySelector('.screen.active');
+  if (cur && cur.id === next) return;
+  if (cur) cur.classList.remove('active');
+  showScreen(next);
+}
+
+function showScreen(id) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.classList.add('active','entering');
+  setTimeout(() => el.classList.remove('entering'), 420);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  if (history[history.length-1] !== id) history.push(id);
+  updateChrome(id);
+  showFooter(id);
+  trackEtapa(el.dataset.step, id);
+
+  if (id === 's24') showNLC();
+  if (id === 's28') startLoading();
+  if (id === 's29') setTimeout(drawCurve, 200);
+  if (id === 's30') {
+    startCountdown();
+    syncPriceCompare();
+    if (typeof fbq !== 'undefined') fbq('track','Lead');
+  }
+}
+
+function goNext() {
+  const cur = document.querySelector('.screen.active');
+  const idx = SCREENS.indexOf(cur.id);
+  const next = SCREENS[idx + 1];
+  if (next) goToScreen(next);
+}
+
+backBtn.addEventListener('click', () => {
+  if (history.length <= 1) return;
+  history.pop();
+  const prev = history.pop();
+  goToScreen(prev);
+});
+skipLink.addEventListener('click', () => goNext());
+
+document.querySelectorAll('.age-row, .row-card, .simple-opt').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const section = btn.closest('section');
+    section.querySelectorAll('.age-row, .row-card, .simple-opt').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+    answers[section.id] = btn.dataset.val;
+    if (btn.dataset.score !== undefined) scores[section.id] = parseInt(btn.dataset.score);
+    const next = btn.dataset.next;
+    setTimeout(() => { if (next) goToScreen(next); else goNext(); }, 380);
+  });
+});
+
+document.querySelectorAll('.multi-opt').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const section = btn.closest('section');
+    const isMulti = section.dataset.type === 'multi';
+    if (isMulti) {
+      btn.classList.toggle('selected');
+      const selected = [...section.querySelectorAll('.multi-opt.selected')].map(b => b.dataset.val);
+      answers[section.id] = selected;
+      showFooter(section.id);
+    } else {
+      section.querySelectorAll('.multi-opt').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      answers[section.id] = btn.dataset.val;
+      if (btn.dataset.score !== undefined) scores[section.id] = parseInt(btn.dataset.score);
+      const next = btn.dataset.next;
+      setTimeout(() => { if (next) goToScreen(next); else goNext(); }, 380);
+    }
+  });
+});
+
+document.querySelectorAll('.chip').forEach(chip => {
+  chip.addEventListener('click', () => {
+    chip.classList.toggle('selected');
+    const section = chip.closest('section');
+    const selected = [...section.querySelectorAll('.chip.selected')].map(b => b.dataset.val);
+    answers[section.id] = selected;
+    showFooter(section.id);
+  });
+});
+
+document.querySelectorAll('.bodymap__pin, .bodymap__label').forEach(el => {
+  el.addEventListener('click', () => {
+    const val = el.dataset.val;
+    document.querySelectorAll('[data-val="'+val+'"]').forEach(node => node.classList.toggle('active'));
+    const section = el.closest('section');
+    const selected = [...section.querySelectorAll('.bodymap__pin.active')].map(b => b.dataset.val);
+    answers[section.id] = [...new Set(selected)];
+    showFooter(section.id);
+  });
+});
+
+function setupBigNumber(id, ansKey) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.addEventListener('input', () => {
+    const v = el.textContent.replace(/[^0-9]/g, '').slice(0, 4);
+    el.textContent = v || '0';
+    el.dataset.empty = (v === '' || v === '0') ? 'true' : 'false';
+    if (v && v !== '0') answers[ansKey] = parseInt(v);
+    const range = document.createRange();
+    range.selectNodeContents(el);
+    range.collapse(false);
+    const sel = window.getSelection();
+    sel.removeAllRanges();
+    sel.addRange(range);
+    const screen = el.closest('section');
+    if (screen) showFooter(screen.id);
+  });
+  el.addEventListener('focus', () => { if (el.dataset.empty === 'true') el.textContent = ''; });
+  el.addEventListener('blur', () => { if (!el.textContent.trim()) { el.textContent = '0'; el.dataset.empty = 'true'; } });
+}
+setupBigNumber('heightValue', 'cycleDays');
+setupBigNumber('weightValue', 'periodDays');
+setupBigNumber('targetValue', 'libidoDays');
+setupBigNumber('ageValue', 'age');
+
+// NLC calculation
+function calculateNLC() {
+  const scored = ['s10','s12','s13','s14','s15','s16','s17','s18','s19'];
+  let total = 0, max = 0;
+  scored.forEach(k => {
+    const sq = scores[k];
+    if (sq !== undefined) { total += sq; }
+    max += 3;
+  });
+  return max > 0 ? Math.round(5 + (total / max) * 90) : 30;
+}
+
+function showNLC() {
+  const nlc = calculateNLC();
+  const tooltip = document.getElementById('imcTooltip');
+  const marker = document.getElementById('imcMarker');
+  const valEl = document.getElementById('imcStatusVal');
+  const statusEl = document.getElementById('imcStatus');
+  const diagTitle = document.getElementById('nlcDiagTitle');
+  const diagText = document.getElementById('nlcDiagText');
+
+  let cur = 0;
+  const it = setInterval(() => {
+    cur += 1;
+    valEl.textContent = cur;
+    const left = Math.max(2, Math.min(98, cur));
+    marker.style.left = left + '%';
+    tooltip.style.left = left + '%';
+    tooltip.textContent = 'Você  ' + cur;
+    if (cur >= nlc) {
+      clearInterval(it);
+      valEl.textContent = nlc;
+    }
+  }, 24);
+
+  let band, dtitle, dtext;
+  if (nlc < 36) {
+    band = 'Invisível'; dtitle = 'Ciclo Invisível';
+    dtext = 'Seu corpo está enviando todos os sinais certos. Você ainda não aprendeu a linguagem deles. Isso não é culpa sua. Ninguém ensinou. O Protocolo Ciclo Fértil resolve isso nos primeiros 14 dias.';
+  } else if (nlc < 66) {
+    band = 'Parcial'; dtitle = 'Ciclo Parcialmente Lido';
+    dtext = 'Você percebe alguns sinais, mas ainda está perdendo informações críticas  especialmente o muco elástico e a confirmação pela temperatura. Com o método completo, sua janela fértil passa de 1 para 5 dias rastreados.';
+  } else {
+    band = 'Consciente'; dtitle = 'Ciclo Consciente com Gaps';
+    dtext = 'Você já lê o corpo, mas existem pontos cegos que podem estar custando ciclos inteiros. O Protocolo vai afinar sua precisão e eliminar os erros que você nem sabia que estava cometendo.';
+  }
+  statusEl.innerHTML = band + '  <b id="imcStatusVal">' + nlc + '</b>';
+  diagTitle.textContent = dtitle;
+  diagText.textContent = dtext;
+
+  // Personalize stat rows
+  if (answers.s12 === 'sim') document.getElementById('resumeLifestyle').textContent = 'Mudanças identificadas';
+  else if (answers.s12 === 'as-vezes') document.getElementById('resumeLifestyle').textContent = 'Parcialmente identificada';
+  else document.getElementById('resumeLifestyle').textContent = 'Não identificada';
+
+  if (answers.s16 === 'sim') document.getElementById('resumeCare').textContent = 'Confirmada por sinais';
+  else if (answers.s16 === 'ideia') document.getElementById('resumeCare').textContent = 'Parcialmente confirmada';
+  else document.getElementById('resumeCare').textContent = 'Estimada por app';
+
+  const dor = answers.s17, lib = answers.s22;
+  if (dor === 'sim' || (lib && parseInt(lib) > 0)) document.getElementById('resumeActivity').textContent = 'Bem percebidos';
+  else if (dor === 'as-vezes') document.getElementById('resumeActivity').textContent = 'Pouco percebidos';
+  else document.getElementById('resumeActivity').textContent = 'Não percebidos';
+
+  window.__nlc = nlc;
+}
+
+function syncPriceCompare() {
+  const nlc = window.__nlc || 35;
+  document.getElementById('priceNlcNow').textContent = nlc + '/100';
+  document.getElementById('priceNlcBar').style.width = nlc + '%';
+}
+
+function startLoading() {
+  const CIRC = 75.4;
+  const ring = document.getElementById('loadingRing');
+  const pct = document.getElementById('loadingPct');
+  let p = 0;
+  const it = setInterval(() => {
+    p += 1;
+    pct.textContent = p + '%';
+    ring.style.strokeDashoffset = CIRC * (1 - p/100);
+    if (p >= 100) {
+      clearInterval(it);
+      setTimeout(() => goToScreen('s29'), 500);
+    }
+  }, 55);
+}
+
+function drawCurve() {
+  const canvas = document.getElementById('curveChart');
+  if (!canvas) return;
+  const rect = canvas.getBoundingClientRect();
+  canvas.width = rect.width * window.devicePixelRatio;
+  canvas.height = 240 * window.devicePixelRatio;
+  canvas.style.height = '240px';
+  const ctx = canvas.getContext('2d');
+  ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+  const W = rect.width, H = 240;
+  const padL = 16, padR = 16, padT = 28, padB = 46;
+  const cW = W - padL - padR, cH = H - padT - padB;
+  const days = [0, 7, 14, 21, 28];
+  const startV = (window.__nlc || 35) / 100;
+  const values = [startV, Math.min(0.58, startV + 0.18), 0.68, 0.80, 0.90];
+  const xP = i => padL + (days[i]/28) * cW;
+  const yP = v => padT + cH * (1 - v);
+  ctx.clearRect(0, 0, W, H);
+
+  // Horizontal dashed grid
+  ctx.strokeStyle = 'rgba(74,46,26,0.10)';
+  ctx.lineWidth = 1;
+  ctx.setLineDash([3,3]);
+  [0.15, 0.4, 0.65, 0.9].forEach(v => {
+    const y = yP(v);
+    ctx.beginPath(); ctx.moveTo(padL, y); ctx.lineTo(W - padR, y); ctx.stroke();
+  });
+  ctx.setLineDash([]);
+
+  // X axis labels
+  ctx.fillStyle = 'rgba(74,46,26,0.62)';
+  ctx.font = '12px Inter, sans-serif';
+  ctx.textAlign = 'center';
+  ['Semana 1','Semana 2','Semana 3','Semana 4'].forEach((lab, i) => {
+    ctx.fillText(lab, padL + ((i+0.5)/4)*cW, H - 16);
+  });
+
+  // Vertical thin dashed line from first dot down
+  ctx.strokeStyle = 'rgba(74,46,26,0.22)';
+  ctx.lineWidth = 1;
+  ctx.setLineDash([2,3]);
+  ctx.beginPath();
+  ctx.moveTo(xP(0), yP(values[0]) + 8);
+  ctx.lineTo(xP(0), H - padB + 4);
+  ctx.stroke();
+  // Vertical dashed line from last dot down
+  ctx.beginPath();
+  ctx.moveTo(xP(days.length-1), yP(values[days.length-1]) + 8);
+  ctx.lineTo(xP(days.length-1), H - padB + 4);
+  ctx.stroke();
+  ctx.setLineDash([]);
+
+  // Curve path (smooth)
+  ctx.beginPath();
+  ctx.moveTo(xP(0), yP(values[0]));
+  for (let i = 1; i < days.length; i++) {
+    const x0 = xP(i-1), y0 = yP(values[i-1]);
+    const x1 = xP(i), y1 = yP(values[i]);
+    const cpx = (x0 + x1)/2;
+    ctx.bezierCurveTo(cpx, y0, cpx, y1, x1, y1);
+  }
+  const grad = ctx.createLinearGradient(padL, 0, W - padR, 0);
+  grad.addColorStop(0, '#F5C545');
+  grad.addColorStop(0.55, '#A7D447');
+  grad.addColorStop(1, '#5CC9A4');
+  ctx.strokeStyle = grad;
+  ctx.lineWidth = 7;
+  ctx.lineJoin = 'round';
+  ctx.lineCap = 'round';
+  ctx.stroke();
+
+  // Hollow ring dot — start (yellow)
+  function ringDot(cx, cy, ringColor) {
+    ctx.beginPath();
+    ctx.arc(cx, cy, 11, 0, Math.PI*2);
+    ctx.fillStyle = '#FDFAF6';
+    ctx.fill();
+    ctx.lineWidth = 3.5;
+    ctx.strokeStyle = ringColor;
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.arc(cx, cy, 4, 0, Math.PI*2);
+    ctx.fillStyle = ringColor;
+    ctx.fill();
+  }
+  ringDot(xP(0), yP(values[0]), '#F5C545');
+  ringDot(xP(days.length-1), yP(values[days.length-1]), '#5CC9A4');
+
+  // Pill labels next to dots
+  function pillLabel(cx, cy, text, lines) {
+    ctx.font = '700 12px Inter, sans-serif';
+    const padX = 10, padY = 6;
+    const lineH = 14;
+    const widths = lines.map(l => ctx.measureText(l).width);
+    const w = Math.max(...widths) + padX*2;
+    const h = lineH * lines.length + padY*2 - 2;
+    const x = cx + 18;
+    const y = cy - h/2;
+    ctx.fillStyle = '#2C1B0E';
+    ctx.beginPath();
+    if (ctx.roundRect) { ctx.roundRect(x, y, w, h, 8); }
+    else { ctx.rect(x, y, w, h); }
+    ctx.fill();
+    ctx.fillStyle = '#FFFFFF';
+    ctx.textAlign = 'left';
+    ctx.textBaseline = 'top';
+    lines.forEach((l, i) => ctx.fillText(l, x + padX, y + padY + i*lineH - 1));
+    ctx.textBaseline = 'alphabetic';
+  }
+  pillLabel(xP(0), yP(values[0]), 'Agora', ['Agora']);
+  // Position the right pill on the LEFT of its dot so it stays inside the chart
+  ctx.font = '700 12px Inter, sans-serif';
+  const r2Lines = ['Após','4 semanas'];
+  const r2padX = 10, r2padY = 6, r2lineH = 14;
+  const r2w = Math.max(ctx.measureText(r2Lines[0]).width, ctx.measureText(r2Lines[1]).width) + r2padX*2;
+  const r2h = r2lineH * r2Lines.length + r2padY*2 - 2;
+  const r2x = xP(days.length-1) - r2w - 18;
+  const r2y = yP(values[days.length-1]) - r2h/2;
+  ctx.fillStyle = '#2C1B0E';
+  ctx.beginPath();
+  if (ctx.roundRect) { ctx.roundRect(r2x, r2y, r2w, r2h, 8); } else { ctx.rect(r2x, r2y, r2w, r2h); }
+  ctx.fill();
+  ctx.fillStyle = '#FFFFFF';
+  ctx.textAlign = 'left';
+  ctx.textBaseline = 'top';
+  r2Lines.forEach((l, i) => ctx.fillText(l, r2x + r2padX, r2y + r2padY + i*r2lineH - 1));
+  ctx.textBaseline = 'alphabetic';
+}
+
+function startCountdown() {
+  const target = Date.now() + 9 * 60000 + 47000;
+  const el = document.getElementById('priceCountdown');
+  const fmt = (ms) => {
+    if (ms <= 0) return 'A oferta expirou';
+    const m = Math.floor(ms / 60000);
+    const s = Math.floor((ms % 60000) / 1000);
+    return 'A oferta expira em ' + String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0') + ' min';
+  };
+  const it = setInterval(() => {
+    const left = target - Date.now();
+    el.textContent = fmt(left);
+    if (left <= 0) clearInterval(it);
+  }, 1000);
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  updateChrome('s1');
+  showFooter('s1');
+  trackEtapa(1, 's1');
+});
+</script>
+</body>
+</html>

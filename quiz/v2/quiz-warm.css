@@ -2196,6 +2196,7 @@ button:focus-visible, .row-card:focus-visible, .simple-opt:focus-visible,
     max-height: 460px;
     height: 460px;
     margin-left: 0;
+    align-self: center;
   }
   .age-cards {
     gap: 12px;
@@ -2207,7 +2208,7 @@ button:focus-visible, .row-card:focus-visible, .simple-opt:focus-visible,
   }
 
   /* Terms tighter */
-  .terms { margin-top: 14px; max-width: 60ch; }
+  .terms { margin-top: 14px; max-width: 60ch; margin-left: auto; margin-right: auto; }
 
   /* Header inner kept narrow for breathing */
   .header__inner { max-width: 720px; }

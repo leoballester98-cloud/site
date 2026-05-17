@@ -255,6 +255,16 @@ html, body {
   width: 38px;
   height: 38px;
   border-radius: 50%;
+  padding: 0;
+  overflow: hidden;
+}
+.imgbox--circle img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  display: block;
+  border-radius: 50%;
 }
 
 /* ════════════════════════════════════════════════════

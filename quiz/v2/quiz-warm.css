@@ -603,6 +603,15 @@ html, body {
   padding: 10px;
 }
 .bodymap__img .imgbox__icon { font-size: 26px; opacity: 0.5; }
+.bodymap__img img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  border-radius: 12px;
+}
 .bodymap__pin {
   position: absolute;
   width: 14px;

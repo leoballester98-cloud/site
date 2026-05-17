@@ -1466,8 +1466,8 @@ html, body {
   border-radius: 12px;
 }
 .imgbox--bonus {
-  width: 64px;
-  height: 64px;
+  width: 60px;
+  height: 84px;
   border-radius: 8px;
   flex-shrink: 0;
   padding: 0;
@@ -1478,7 +1478,7 @@ html, body {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: top center;
+  object-position: center center;
   display: block;
   border-radius: 8px;
 }
@@ -1785,7 +1785,7 @@ canvas#curveChart { width: 100%; }
   .press-row__items { gap: 6px; }
   .imgbox--press { height: 42px; }
   .bonus-item { padding: 10px 12px; gap: 12px; }
-  .imgbox--bonus { width: 56px; height: 56px; }
+  .imgbox--bonus { width: 52px; height: 73px; }
   .bonus-item__name { font-size: 13.5px; }
   .bonus-item__desc { font-size: 12px; }
   .imgbox--avatar { width: 36px; height: 36px; }

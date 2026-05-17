@@ -1470,6 +1470,17 @@ html, body {
   height: 64px;
   border-radius: 8px;
   flex-shrink: 0;
+  padding: 0;
+  overflow: hidden;
+  background: none;
+}
+.imgbox--bonus img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  display: block;
+  border-radius: 8px;
 }
 .bonus-item__body { flex: 1; min-width: 0; }
 .bonus-item__name {

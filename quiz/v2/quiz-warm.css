@@ -549,6 +549,53 @@ html, body {
 .multi-opt__icon svg { width: 100%; height: 100%; fill: currentColor; }
 .multi-opt.selected .multi-opt__icon { color: var(--blue); }
 
+/* — Pillar variant (etapa 7) — */
+.multi-opt--pillar {
+  padding: 0 0 0 18px;
+  gap: 12px;
+  overflow: hidden;
+  align-items: stretch;
+}
+.multi-opt--pillar .multi-opt__radio {
+  align-self: center;
+}
+.multi-opt--pillar .multi-opt__body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 3px;
+  padding: 14px 0;
+}
+.multi-opt--pillar .multi-opt__sub {
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--ink-mute);
+  line-height: 1.3;
+}
+.multi-opt--pillar .imgbox--row {
+  width: 110px;
+  height: auto;
+  align-self: stretch;
+  border-radius: 0;
+  border: none;
+  border-left: 1.5px dashed rgba(74,46,26,0.12);
+  margin: 0;
+  flex-shrink: 0;
+  padding: 0;
+  overflow: hidden;
+  background: var(--card-hover);
+}
+.multi-opt--pillar .imgbox--row img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.multi-opt--pillar.selected .imgbox--row {
+  border-left-color: rgba(183,139,95,0.25);
+}
+
 /* ════════════════════════════════════════════════════
    CHIPS (Q9 interests)
    ════════════════════════════════════════════════════ */

@@ -636,7 +636,7 @@ html, body {
   margin: 8px auto 28px;
   width: 100%;
   max-width: 360px;
-  aspect-ratio: 5 / 6;
+  aspect-ratio: 1 / 1;
 }
 .bodymap__img {
   position: absolute;
@@ -666,7 +666,7 @@ html, body {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: top center;
+  object-position: center center;
   border-radius: 12px;
 }
 .bodymap__pin {

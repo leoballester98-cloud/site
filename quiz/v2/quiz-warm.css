@@ -711,6 +711,7 @@ html, body {
   text-align: center;
   line-height: 1.2;
   transition: all 0.2s;
+  box-shadow: 0 2px 8px rgba(74,46,26,0.18);
 }
 .bodymap__label.active {
   background: var(--blue);

@@ -1335,6 +1335,15 @@ body {
     transform: translateY(0);
   }
 }
+@keyframes avatar-float {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-6px); }
+}
+@keyframes avatar-in {
+  from { opacity: 0; transform: scale(0.5); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
 .avatar-cluster {
   position: relative;
   width: 100%;
@@ -1348,7 +1357,18 @@ body {
   position: absolute;
   border-radius: 50%;
   border: 2px solid var(--bg);
+  opacity: 0;
+  animation: avatar-in 0.4s ease forwards, avatar-float 3s ease-in-out infinite;
 }
+.avatar-cluster .imgbox:nth-child(1) { animation-delay: 1.7s, 2.1s; }
+.avatar-cluster .imgbox:nth-child(2) { animation-delay: 1.9s, 2.3s; }
+.avatar-cluster .imgbox:nth-child(3) { animation-delay: 2.1s, 2.5s; }
+.avatar-cluster .imgbox:nth-child(4) { animation-delay: 2.3s, 2.7s; }
+.avatar-cluster .imgbox:nth-child(5) { animation-delay: 2.5s, 2.9s; }
+.avatar-cluster .imgbox:nth-child(6) { animation-delay: 2.3s, 2.7s; }
+.avatar-cluster .imgbox:nth-child(7) { animation-delay: 2.1s, 2.5s; }
+.avatar-cluster .imgbox:nth-child(8) { animation-delay: 1.9s, 2.3s; }
+.avatar-cluster .imgbox:nth-child(9) { animation-delay: 2.6s, 3.0s; }
 
 /* ════════════════════════════════════════════════════
    REVEAL CURVE
@@ -2262,8 +2282,8 @@ button:focus-visible, .row-card:focus-visible, .simple-opt:focus-visible,
 .number-one__hash {
   font-size: 0.45em;
   font-weight: 900;
-  vertical-align: top;
-  margin-top: 0.15em;
+  vertical-align: bottom;
+  margin-bottom: 0.1em;
   display: inline-block;
 }
 .number-one__sub {
@@ -2332,6 +2352,23 @@ button:focus-visible, .row-card:focus-visible, .simple-opt:focus-visible,
   grid-template-rows: auto auto auto;
   row-gap: 10px;
   margin: 8px 0 18px;
+  position: relative;
+}
+.weeks-progress::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    transparent 15%,
+    rgba(253,250,246,0.15) 40%,
+    rgba(253,250,246,0.55) 65%,
+    rgba(253,250,246,0.85) 85%,
+    var(--bg) 100%
+  );
+  z-index: 1;
+  pointer-events: none;
 }
 .weeks-row {
   display: flex;
@@ -2398,7 +2435,7 @@ button:focus-visible, .row-card:focus-visible, .simple-opt:focus-visible,
   grid-row: 1 / 4;
   justify-self: end;
   align-self: stretch;
-  width: 42%;
+  width: 58%;
   pointer-events: none;
   z-index: 2;
   position: relative;
@@ -2406,25 +2443,21 @@ button:focus-visible, .row-card:focus-visible, .simple-opt:focus-visible,
 .imgbox--woman {
   width: 100%;
   height: 100%;
-  border-radius: 12px 0 0 12px;
-  background: linear-gradient(135deg, rgba(245,230,214,0.92), rgba(239,226,208,0.92));
-  border: 1.5px dashed rgba(74,46,26,0.18);
-  text-align: center;
-  font-size: 11px;
-  overflow: hidden;
+  background: none !important;
+  border: none !important;
   padding: 0 !important;
-  border-right: none !important;
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  align-items: flex-end;
   justify-content: center;
+  overflow: hidden;
 }
 .imgbox--woman img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  object-position: center top;
+  object-fit: contain;
+  object-position: center bottom;
   display: block;
+  filter: drop-shadow(-6px 0 16px rgba(74,46,26,0.30)) drop-shadow(0 8px 20px rgba(74,46,26,0.20));
 }
 
 /* Before/after */

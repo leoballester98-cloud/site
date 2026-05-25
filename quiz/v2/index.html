@@ -924,7 +924,7 @@
           <div class="day-cell"><div class="day-cell__label">Dia 7</div><div class="day-cell__val">Lútea</div></div>
         </div>
       </div>
-      <div class="weeks-overlay"><div class="imgbox imgbox--woman"><span class="imgbox__icon">🖼️</span><span>Mulher sorrindo<br/>com teste positivo</span></div></div>
+      <div class="weeks-overlay"><div class="imgbox imgbox--woman"><img src="Images/essa9_sem_fundo.png" alt="Mulher grávida sorrindo"/></div></div>
     </div>
 
     <!-- ═══ BEFORE/AFTER ═══ -->
@@ -934,7 +934,7 @@
         <div class="imgbox imgbox--ba"><span class="imgbox__icon">🖼️</span><span>Antes<br/>(triste / teste negativo)</span></div>
         <div class="imgbox imgbox--ba"><span class="imgbox__icon">🖼️</span><span>Depois<br/>(grávida / teste positivo)</span></div>
       </div>
-      <p class="ba-name">Marina S., São Paulo.</p>
+      <p class="ba-name">Marina Silveira, São Paulo.</p>
       <p class="ba-disclaimer">Os resultados apresentados não são representativos e dependem de fatores como idade, condição clínica, aderência ao protocolo, etc. Não é oferta nem promessa de resultado. Consulte seu médico para recomendações específicas.</p>
     </div>
 
@@ -1050,6 +1050,9 @@ function showFooter(screenId) {
   } else if (['s20','s21','s22'].includes(screenId)) {
     const val = el.querySelector('.big-number__value');
     primaryBtn.disabled = !val || val.dataset.empty === 'true';
+  } else if (screenId === 's26') {
+    const dateVal = document.getElementById('occasionDate')?.value;
+    primaryBtn.disabled = !dateVal;
   } else {
     primaryBtn.disabled = false;
   }
@@ -1212,9 +1215,12 @@ setupBigNumber('weightValue', 'periodDays');
 setupBigNumber('targetValue', 'libidoDays', true); // 0 é válido: "se não percebe, deixe 0"
 setupBigNumber('ageValue', 'age');
 
-// Salva a data da última menstruação (s26)
+// Salva a data da última menstruação (s26) e habilita o botão
 document.getElementById('occasionDate')?.addEventListener('change', (e) => {
   answers.lastPeriodDate = e.target.value;
+  if (document.getElementById('s26').classList.contains('active')) {
+    primaryBtn.disabled = !e.target.value;
+  }
 });
 
 // ── Projeção da janela fértil (s27) ─────────────────────────────────────────
@@ -1289,7 +1295,8 @@ function calculateNLC() {
     if (sq !== undefined) { total += sq; }
     max += 3;
   });
-  return max > 0 ? Math.round(5 + (total / max) * 90) : 30;
+  // Score always < 60; worst answers → ~18, best answers → ~57
+  return max > 0 ? Math.round(18 + (total / max) * 39) : 25;
 }
 
 function showNLC() {
@@ -1321,15 +1328,12 @@ function showNLC() {
   }, 24);
 
   let band, dtitle, dtext;
-  if (nlc < 36) {
+  if (nlc < 35) {
     band = 'Invisível'; dtitle = 'Ciclo Invisível';
     dtext = 'Seu corpo está enviando todos os sinais certos. Você ainda não aprendeu a linguagem deles. Isso não é culpa sua. Ninguém ensinou. O Protocolo Ciclo Fértil resolve isso nos primeiros 14 dias.';
-  } else if (nlc < 66) {
-    band = 'Parcial'; dtitle = 'Ciclo Parcialmente Lido';
-    dtext = 'Você percebe alguns sinais, mas ainda está perdendo informações críticas  especialmente o muco elástico e a confirmação pela temperatura. Com o método completo, sua janela fértil passa de 1 para 5 dias rastreados.';
   } else {
-    band = 'Consciente'; dtitle = 'Ciclo Consciente com Gaps';
-    dtext = 'Você já lê o corpo, mas existem pontos cegos que podem estar custando ciclos inteiros. O Protocolo vai afinar sua precisão e eliminar os erros que você nem sabia que estava cometendo.';
+    band = 'Parcial'; dtitle = 'Ciclo Parcialmente Lido';
+    dtext = 'Você percebe alguns sinais, mas ainda está perdendo informações críticas — especialmente o muco elástico e a confirmação pela temperatura. Com o método completo, sua janela fértil passa de 1 para 5 dias rastreados.';
   }
   statusEl.innerHTML = 'normal acima de <b id="imcStatusVal">68</b>';
   diagTitle.textContent = dtitle;

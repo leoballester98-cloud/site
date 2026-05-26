@@ -2676,26 +2676,32 @@ button:focus-visible, .row-card:focus-visible, .simple-opt:focus-visible,
 
   /* s1 — hero screen precisa de mais espaço para a foto + cards */
   body:has(#s1.active) .wrap {
-    max-width: 780px;
+    max-width: 860px;
   }
   #s1 .age-intro {
     max-width: 100%;
     gap: 36px;
+    grid-template-columns: 3fr 2fr; /* foto maior que cards */
   }
   #s1 .hero-photo {
-    min-height: 340px;
+    min-height: 380px;
   }
   #s1 .age-intro .age-cards {
     gap: 14px;
     justify-content: center;
   }
   #s1 .age-row {
-    font-size: 18px;
+    font-size: 20px;
     padding: 24px 28px;
-    min-height: 108px;
+    min-height: 112px;
+  }
+  /* "anos" era 12px inline — override para desktop */
+  #s1 .age-row span[style*="font-size:12px"] {
+    font-size: 15px !important;
+    opacity: 0.7 !important;
   }
   #s1 h1.q-title-lg {
-    font-size: 34px;
+    font-size: 36px;
     max-width: 18ch;
   }
   #s1 .q-sub {

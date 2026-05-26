@@ -203,6 +203,15 @@ body {
   text-align: center;
   max-width: 36ch;
 }
+.q-hint {
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--ink-fade);
+  text-align: center;
+  margin: -8px auto 18px;
+  max-width: 34ch;
+  line-height: 1.45;
+}
 
 /* ════════════════════════════════════════════════════
    IMAGE PLACEHOLDER
@@ -1516,6 +1525,36 @@ body {
 /* ════════════════════════════════════════════════════
    PRICING (final)
    ════════════════════════════════════════════════════ */
+/* Fertile window insight banner */
+.fertile-insight {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(74,46,26,0.06);
+  border: 1px solid rgba(74,46,26,0.10);
+  border-radius: 12px;
+  padding: 12px 14px;
+  margin: 14px 0 6px;
+}
+.fertile-insight__icon {
+  font-size: 22px;
+  flex-shrink: 0;
+}
+.fertile-insight__label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--ink-soft);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 2px;
+}
+.fertile-insight__date {
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+}
+
 .price-banner {
   display: flex;
   align-items: center;
@@ -1702,6 +1741,7 @@ body {
   color: var(--ink-soft);
   margin-bottom: 12px;
   margin-top: 24px;
+  text-align: center;
 }
 .plan-guarantee {
   text-align: center;
@@ -1753,6 +1793,77 @@ body {
 /* ════════════════════════════════════════════════════
    PROJECTION SLIDER
    ════════════════════════════════════════════════════ */
+/* IQO horizontal timeline (s28) */
+.iqo-timeline {
+  background: var(--card);
+  border-radius: 16px;
+  padding: 22px 18px 16px;
+  margin: 8px 0 16px;
+  border: 1px solid var(--hair);
+}
+.iqo-timeline__labels {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 14px;
+}
+.iqo-timeline__point {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+.iqo-timeline__num {
+  font-size: 36px;
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  color: rgba(74,46,26,0.35);
+}
+.iqo-timeline__num--high { color: var(--green, #27ae60); }
+.iqo-timeline__tag {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--ink-fade);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.iqo-timeline__tag--high { color: var(--green, #27ae60); }
+.iqo-timeline__track {
+  position: relative;
+  height: 8px;
+  background: rgba(74,46,26,0.08);
+  border-radius: 4px;
+  overflow: visible;
+  margin-bottom: 10px;
+}
+.iqo-timeline__fill {
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  background: linear-gradient(90deg, rgba(74,46,26,0.25), var(--green, #27ae60));
+  border-radius: 4px;
+  width: 0;
+  transition: width 1s ease;
+}
+.iqo-timeline__dot {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 16px; height: 16px;
+  border-radius: 50%;
+  border: 3px solid var(--card);
+  box-shadow: 0 0 0 1.5px currentColor;
+}
+.iqo-timeline__dot--now    { background: rgba(74,46,26,0.4); color: rgba(74,46,26,0.4); }
+.iqo-timeline__dot--target { background: var(--green, #27ae60); color: var(--green, #27ae60); }
+.iqo-timeline__scale {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+  color: var(--ink-fade);
+  font-weight: 500;
+}
+
 .proj-card {
   background: var(--card);
   border-radius: 14px;
@@ -1811,23 +1922,25 @@ body {
 
 /* Bonus grid */
 .bonus-grid {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
   gap: 10px;
   margin-bottom: 14px;
 }
 .bonus-item {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 14px;
-  padding: 12px 14px;
+  gap: 8px;
+  padding: 12px 8px 14px;
   background: var(--card);
   border: 1px solid var(--hair);
   border-radius: 12px;
+  text-align: center;
 }
 .imgbox--bonus {
-  width: 60px;
-  height: 84px;
+  width: 72px;
+  height: 100px;
   border-radius: 8px;
   flex-shrink: 0;
   padding: 0;
@@ -1843,16 +1956,16 @@ body {
   display: block;
   border-radius: 8px;
 }
-.bonus-item__body { flex: 1; min-width: 0; }
+.bonus-item__body { width: 100%; }
 .bonus-item__name {
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 700;
   color: var(--ink);
   letter-spacing: -0.005em;
   margin-bottom: 3px;
 }
 .bonus-item__desc {
-  font-size: 12.5px;
+  font-size: 11px;
   color: var(--ink-soft);
   line-height: 1.35;
 }
@@ -1941,8 +2054,8 @@ body {
 
 /* Guarantee seal image */
 .guarantee-seal-img {
-  width: 72px;
-  height: 72px;
+  width: 110px;
+  height: 110px;
   object-fit: contain;
   flex-shrink: 0;
 }
@@ -1956,13 +2069,15 @@ body {
 /* Guarantee block */
 .guarantee-block {
   display: flex;
-  gap: 14px;
+  flex-direction: column;
   align-items: center;
-  padding: 18px 16px;
-  background: var(--card);
-  border: 1px solid var(--hair);
-  border-radius: 14px;
-  margin: 24px 0;
+  text-align: center;
+  gap: 10px;
+  padding: 8px 0;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  margin: 20px 0;
 }
 .imgbox--seal {
   width: 64px;
@@ -1972,15 +2087,15 @@ body {
 }
 .guarantee-block__body { flex: 1; }
 .guarantee-block__title {
-  font-size: 15px;
+  font-size: 18px;
   font-weight: 800;
   color: var(--ink);
-  margin-bottom: 4px;
+  margin-bottom: 6px;
   letter-spacing: -0.01em;
 }
 .guarantee-block__text {
-  font-size: 12.5px;
-  line-height: 1.5;
+  font-size: 14px;
+  line-height: 1.55;
   color: var(--ink-soft);
 }
 
@@ -2494,9 +2609,9 @@ button:focus-visible, .row-card:focus-visible, .simple-opt:focus-visible,
 .weeks-overlay {
   grid-column: 1;
   grid-row: 1 / 4;
-  justify-self: end;
+  justify-self: center;
   align-self: stretch;
-  width: 58%;
+  width: 68%;
   pointer-events: none;
   z-index: 2;
   position: relative;

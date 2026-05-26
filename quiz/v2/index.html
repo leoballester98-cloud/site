@@ -359,6 +359,7 @@
   <!-- ═══════ 20. DURAÇÃO MÉDIA DO CICLO (substitui Altura) ═══════ -->
   <section class="screen" id="s20" data-step="20" data-section="DETALHES PESSOAIS" data-icon="person">
     <h2 class="q-title">Quantos dias dura seu ciclo em média?</h2>
+    <p class="q-hint">Do 1º dia de uma menstruação até o 1º dia da próxima.</p>
     <div class="unit-toggle">
       <button class="unit-toggle__btn active" data-unit="dias">dias</button>
     </div>
@@ -378,6 +379,7 @@
   <!-- ═══════ 21. DIAS DE MENSTRUAÇÃO (substitui Peso) ═══════ -->
   <section class="screen" id="s21" data-step="21" data-section="DETALHES PESSOAIS" data-icon="person">
     <h2 class="q-title">Quantos dias dura sua menstruação?</h2>
+    <p class="q-hint">Quantos dias o sangramento em si dura, do início até parar.</p>
     <div class="unit-toggle">
       <button class="unit-toggle__btn active" data-unit="dias">dias</button>
     </div>
@@ -435,7 +437,7 @@
         <div class="imc-gauge__marker" id="imcMarker"></div>
       </div>
       <div class="imc-gauge__scale">
-        <span>Invisível</span>
+        <span>Baixo</span>
         <span>Parcial</span>
         <span>Consciente</span>
       </div>
@@ -455,7 +457,7 @@
             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 4a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm-2 16v-7H5l3.5-7h7L19 13h-5v7h-4z"/></svg>
           </span>
           <div class="stat-row__body">
-            <div class="stat-row__label">Leitura do muco cervical</div>
+            <div class="stat-row__label">Leitura do ciclo</div>
             <div class="stat-row__value" id="resumeLifestyle">Não identificada</div>
           </div>
         </div>
@@ -464,8 +466,8 @@
             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M14 14.76V3.5a2.5 2.5 0 0 0-5 0v11.26a4.5 4.5 0 1 0 5 0zM11 5a.5.5 0 0 1 1 0v9.55a3 3 0 1 1-2 0V8h1V5z"/></svg>
           </span>
           <div class="stat-row__body">
-            <div class="stat-row__label">Confirmação da ovulação</div>
-            <div class="stat-row__value" id="resumeCare">Estimada por app</div>
+            <div class="stat-row__label">Fatores externos</div>
+            <div class="stat-row__value" id="resumeCare">Interferência moderada</div>
           </div>
         </div>
         <div class="stat-row">
@@ -473,8 +475,8 @@
             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8 5 6 9 6 13a6 6 0 0 0 12 0c0-4-2-8-6-11zm0 17a4 4 0 0 1-4-4c0-2 1-4 2-5 1 1 1 2 1 3a2 2 0 0 0 4 0c0-1 0-2 1-3 1 1 2 3 2 5a4 4 0 0 1-4 4z"/></svg>
           </span>
           <div class="stat-row__body">
-            <div class="stat-row__label">Sinais secundários</div>
-            <div class="stat-row__value" id="resumeActivity">Pouco percebidos</div>
+            <div class="stat-row__label">Previsão da ovulação</div>
+            <div class="stat-row__value" id="resumeActivity">Depende só do app</div>
           </div>
         </div>
       </div>
@@ -541,13 +543,27 @@
     <div class="reveal-target">
       <div class="reveal-target__value" id="projTarget">14 de agosto de 2026</div>
     </div>
-    <p class="q-sub" style="margin-top:-12px;">Com seu IQO melhorado, sua próxima janela fértil já pode ser diferente</p>
-    <div class="proj-card">
-      <div class="proj-slider-track">
-        <div class="proj-slider-tooltip">Hoje</div>
-        <div class="proj-slider-thumb"></div>
+    <p class="q-sub" style="margin-top:-12px;">Veja o que muda no seu IQO após o protocolo</p>
+
+    <div class="iqo-timeline">
+      <div class="iqo-timeline__labels">
+        <div class="iqo-timeline__point iqo-timeline__point--now">
+          <span class="iqo-timeline__num" id="iqoNow">35</span>
+          <span class="iqo-timeline__tag" id="iqoNowLabel">Hoje</span>
+        </div>
+        <div class="iqo-timeline__point iqo-timeline__point--target">
+          <span class="iqo-timeline__num iqo-timeline__num--high">88</span>
+          <span class="iqo-timeline__tag iqo-timeline__tag--high">Pós-protocolo</span>
+        </div>
       </div>
-      <span class="proj-month">Mai</span>
+      <div class="iqo-timeline__track">
+        <div class="iqo-timeline__fill" id="iqoTimelineFill"></div>
+        <div class="iqo-timeline__dot iqo-timeline__dot--now" id="iqoDotNow"></div>
+        <div class="iqo-timeline__dot iqo-timeline__dot--target" style="left:88%"></div>
+      </div>
+      <div class="iqo-timeline__scale">
+        <span>0</span><span>25</span><span>50</span><span>75</span><span>100</span>
+      </div>
     </div>
   </section>
 
@@ -669,6 +685,15 @@
       </div>
     </div>
 
+    <!-- Fertile window insight -->
+    <div class="fertile-insight" id="fertileInsight" style="display:none;">
+      <div class="fertile-insight__icon">🌿</div>
+      <div class="fertile-insight__body">
+        <div class="fertile-insight__label">Sua próxima janela fértil com protocolo completo</div>
+        <div class="fertile-insight__date" id="fertileInsightDate">—</div>
+      </div>
+    </div>
+
     <div class="price-banner">
       <span class="price-banner__icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="8" cy="9" r="6" stroke="currentColor" stroke-width="1.5"/><path d="M8 6v3.5l2 1.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 1.5h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M8 1.5V3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
       <span id="priceCountdown">A oferta expira em 09:47 min</span>
@@ -694,11 +719,58 @@
       </div>
     </div>
 
-    <a href="https://pay.celetus.com/MWEYGXEF" target="_blank" class="btn-primary" style="text-decoration:none;display:block;text-align:center;" onclick="if(typeof fbq!=='undefined') fbq('track','InitiateCheckout');">RECEBER O MEU PLANO</a>
+    <!-- ═══ WHAT YOU GET ═══ -->
+    <h3 class="section-heading section-heading--center" style="margin-top:36px;">O que você recebe</h3>
+    <p style="font-size:14px; line-height:1.55; color:var(--ink-soft); margin-bottom:14px;">Nosso protocolo inteligente cria um plano de leitura do seu ciclo personalizado com base em todas as suas respostas e perfil.</p>
+    <ul class="checklist">
+      <li class="checklist__item"><span class="checklist__icon">○</span>Mais de 120 lições rápidas e exercícios práticos sobre os sinais do seu corpo.</li>
+      <li class="checklist__item"><span class="checklist__icon">○</span>Um protocolo de 30 dias personalizado para o seu ciclo e nível de leitura atual.</li>
+      <li class="checklist__item"><span class="checklist__icon">○</span>Receitas e dicas para preparar o corpo para uma gestação saudável.</li>
+      <li class="checklist__item"><span class="checklist__icon">○</span>Guias exclusivos para entender ovulação, fase fértil e fase lútea sem depender de aplicativo.</li>
+    </ul>
 
-    <p class="plan-guarantee">Garantia de reembolso em 7 dias</p>
+    <!-- Week progression illustration -->
+    <div class="weeks-progress">
+      <div class="weeks-row">
+        <div class="weeks-row__label">SEM <span>1</span></div>
+        <div class="weeks-row__days">
+          <div class="day-cell"><div class="day-cell__label">Dia 1</div><div class="day-cell__val">Muco<br/>seco</div></div>
+          <div class="day-cell"><div class="day-cell__label">Dia 2</div><div class="day-cell__val">Muco<br/>seco</div></div>
+          <div class="day-cell"><div class="day-cell__label">Dia 3</div><div class="day-cell__val">Pastoso</div></div>
+          <div class="day-cell day-cell--rest"><div class="day-cell__label">Dia 4</div><div class="day-cell__val">DESCANSO</div></div>
+          <div class="day-cell"><div class="day-cell__label">Dia 5</div><div class="day-cell__val">Cremoso</div></div>
+          <div class="day-cell"><div class="day-cell__label">Dia 6</div><div class="day-cell__val">Elástico</div></div>
+          <div class="day-cell day-cell--peak"><div class="day-cell__label">Dia 7</div><div class="day-cell__val">CLARA<br/>DE OVO</div></div>
+        </div>
+      </div>
+      <div class="weeks-row">
+        <div class="weeks-row__label">SEM <span>2</span></div>
+        <div class="weeks-row__days">
+          <div class="day-cell"><div class="day-cell__label">Dia 1</div><div class="day-cell__val">36.2°C</div></div>
+          <div class="day-cell"><div class="day-cell__label">Dia 2</div><div class="day-cell__val">36.3°C</div></div>
+          <div class="day-cell"><div class="day-cell__label">Dia 3</div><div class="day-cell__val">36.5°C</div></div>
+          <div class="day-cell"><div class="day-cell__label">Dia 4</div><div class="day-cell__val">36.7°C</div></div>
+          <div class="day-cell day-cell--rest"><div class="day-cell__label">Dia 5</div><div class="day-cell__val">DESCANSO</div></div>
+          <div class="day-cell"><div class="day-cell__label">Dia 6</div><div class="day-cell__val">36.8°C</div></div>
+          <div class="day-cell"><div class="day-cell__label">Dia 7</div><div class="day-cell__val">37.0°C</div></div>
+        </div>
+      </div>
+      <div class="weeks-row">
+        <div class="weeks-row__label">SEM <span>3</span></div>
+        <div class="weeks-row__days">
+          <div class="day-cell"><div class="day-cell__label">Dia 1</div><div class="day-cell__val">Dor leve<br/>lateral</div></div>
+          <div class="day-cell"><div class="day-cell__label">Dia 2</div><div class="day-cell__val">Libido<br/>alta</div></div>
+          <div class="day-cell"><div class="day-cell__label">Dia 3</div><div class="day-cell__val">Energia</div></div>
+          <div class="day-cell"><div class="day-cell__label">Dia 4</div><div class="day-cell__val">Mama<br/>sensível</div></div>
+          <div class="day-cell"><div class="day-cell__label">Dia 5</div><div class="day-cell__val">Lútea</div></div>
+          <div class="day-cell"><div class="day-cell__label">Dia 6</div><div class="day-cell__val">Lútea</div></div>
+          <div class="day-cell"><div class="day-cell__label">Dia 7</div><div class="day-cell__val">Lútea</div></div>
+        </div>
+      </div>
+      <div class="weeks-overlay"><div class="imgbox imgbox--woman"><img loading="lazy" src="Images/essa9_sem_fundo.webp" alt="Mulher grávida sorrindo"/></div></div>
+    </div>
 
-    <h3 class="section-heading">Bônus inclusos no seu plano</h3>
+    <h3 class="section-heading section-heading--center">Bônus inclusos no seu plano</h3>
     <div class="bonus-grid">
       <div class="bonus-item">
         <div class="imgbox imgbox--bonus"><img loading="lazy" src="Images/capa-bonus1.webp" alt="Bônus 1"/></div>
@@ -723,15 +795,9 @@
       </div>
     </div>
 
-    <div class="press-row">
-      <div class="press-row__label">Como visto em</div>
-      <div class="press-row__items">
-        <div class="imgbox imgbox--press"><span class="imgbox__icon">🖼️</span><span>Logo</span></div>
-        <div class="imgbox imgbox--press"><span class="imgbox__icon">🖼️</span><span>Logo</span></div>
-        <div class="imgbox imgbox--press"><span class="imgbox__icon">🖼️</span><span>Logo</span></div>
-        <div class="imgbox imgbox--press"><span class="imgbox__icon">🖼️</span><span>Logo</span></div>
-      </div>
-    </div>
+    <a href="https://pay.celetus.com/MWEYGXEF" target="_blank" class="btn-primary" style="text-decoration:none;display:block;text-align:center;" onclick="if(typeof fbq!=='undefined') fbq('track','InitiateCheckout');">RECEBER O MEU PLANO</a>
+
+    <p class="plan-guarantee">Garantia de reembolso em 7 dias</p>
 
     <h3 class="section-heading section-heading--center">Histórias reais de quem aplicou o protocolo</h3>
     <div class="reviews">
@@ -791,7 +857,90 @@
       </div>
     </div>
 
-    <h3 class="section-heading">Perguntas frequentes</h3>
+    <!-- ═══ APP SHOWCASE ═══ -->
+    <h3 class="section-heading section-heading--center" style="margin-top:32px;">Siga nosso protocolo para entender seu ciclo</h3>
+    <div class="phones-carousel">
+      <div class="phones-row">
+        <div class="imgbox imgbox--phone phone--side"><span class="imgbox__icon">📱</span><span>Módulo 1:<br/>Leitura do muco</span></div>
+        <div class="imgbox imgbox--phone phone--center"><span class="imgbox__icon">📱</span><span>Módulo 2:<br/>Janela fértil</span></div>
+        <div class="imgbox imgbox--phone phone--side"><span class="imgbox__icon">📱</span><span>Módulo 3:<br/>Rotina dos 30 dias</span></div>
+      </div>
+      <div class="phones-dots"><span class="phones-dot active"></span><span class="phones-dot"></span><span class="phones-dot"></span></div>
+    </div>
+
+    <!-- ═══ #1 PROTOCOLO BADGE ═══ -->
+    <div class="number-one">
+      <div class="number-one__top">
+        <div class="number-one__laurel number-one__laurel--left">
+          <svg class="laurel-svg" viewBox="0 0 70 116" xmlns="http://www.w3.org/2000/svg">
+            <path d="M38 113 C30 85 26 58 28 34 C30 18 36 8 40 3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+            <!-- 9 folhas externas (esquerda) -->
+            <path d="M35 105 Q25 98 15 108 Q25 112 35 105Z" fill="currentColor"/>
+            <path d="M31  93 Q20 86 10  91 Q20 100 31  93Z" fill="currentColor"/>
+            <path d="M28  81 Q17 74  7  79 Q17  88 28  81Z" fill="currentColor"/>
+            <path d="M27  69 Q16 62  5  67 Q16  76 27  69Z" fill="currentColor"/>
+            <path d="M27  57 Q16 50  5  55 Q16  64 27  57Z" fill="currentColor"/>
+            <path d="M28  45 Q17 38  7  43 Q17  52 28  45Z" fill="currentColor"/>
+            <path d="M30  33 Q19 26  9  30 Q19  39 30  33Z" fill="currentColor"/>
+            <path d="M33  22 Q23 14 13  18 Q23  26 33  22Z" fill="currentColor"/>
+            <path d="M37  12 Q28  5 19   8 Q28  15 37  12Z" fill="currentColor"/>
+            <!-- 8 folhas internas (direita) -->
+            <path d="M36  99 Q46 91 54  95 Q46 103 36  99Z" fill="currentColor"/>
+            <path d="M30  87 Q40 79 48  83 Q40  91 30  87Z" fill="currentColor"/>
+            <path d="M27  75 Q36 67 44  71 Q36  79 27  75Z" fill="currentColor"/>
+            <path d="M27  63 Q35 55 43  59 Q35  67 27  63Z" fill="currentColor"/>
+            <path d="M27  51 Q35 43 43  47 Q35  55 27  51Z" fill="currentColor"/>
+            <path d="M28  39 Q36 31 44  35 Q36  43 28  39Z" fill="currentColor"/>
+            <path d="M30  27 Q38 19 45  22 Q38  30 30  27Z" fill="currentColor"/>
+            <path d="M34  16 Q41  9 48  12 Q41  19 34  16Z" fill="currentColor"/>
+          </svg>
+        </div>
+        <div class="number-one__center">
+          <div class="number-one__num"><span class="number-one__hash">#</span>1</div>
+          <div class="number-one__sub">protocolo de fertilidade*</div>
+        </div>
+        <div class="number-one__laurel number-one__laurel--right">
+          <svg class="laurel-svg laurel-svg--flip" viewBox="0 0 70 116" xmlns="http://www.w3.org/2000/svg">
+            <path d="M38 113 C30 85 26 58 28 34 C30 18 36 8 40 3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+            <!-- 9 folhas externas (esquerda) -->
+            <path d="M35 105 Q25 98 15 108 Q25 112 35 105Z" fill="currentColor"/>
+            <path d="M31  93 Q20 86 10  91 Q20 100 31  93Z" fill="currentColor"/>
+            <path d="M28  81 Q17 74  7  79 Q17  88 28  81Z" fill="currentColor"/>
+            <path d="M27  69 Q16 62  5  67 Q16  76 27  69Z" fill="currentColor"/>
+            <path d="M27  57 Q16 50  5  55 Q16  64 27  57Z" fill="currentColor"/>
+            <path d="M28  45 Q17 38  7  43 Q17  52 28  45Z" fill="currentColor"/>
+            <path d="M30  33 Q19 26  9  30 Q19  39 30  33Z" fill="currentColor"/>
+            <path d="M33  22 Q23 14 13  18 Q23  26 33  22Z" fill="currentColor"/>
+            <path d="M37  12 Q28  5 19   8 Q28  15 37  12Z" fill="currentColor"/>
+            <!-- 8 folhas internas (direita) -->
+            <path d="M36  99 Q46 91 54  95 Q46 103 36  99Z" fill="currentColor"/>
+            <path d="M30  87 Q40 79 48  83 Q40  91 30  87Z" fill="currentColor"/>
+            <path d="M27  75 Q36 67 44  71 Q36  79 27  75Z" fill="currentColor"/>
+            <path d="M27  63 Q35 55 43  59 Q35  67 27  63Z" fill="currentColor"/>
+            <path d="M27  51 Q35 43 43  47 Q35  55 27  51Z" fill="currentColor"/>
+            <path d="M28  39 Q36 31 44  35 Q36  43 28  39Z" fill="currentColor"/>
+            <path d="M30  27 Q38 19 45  22 Q38  30 30  27Z" fill="currentColor"/>
+            <path d="M34  16 Q41  9 48  12 Q41  19 34  16Z" fill="currentColor"/>
+          </svg>
+        </div>
+      </div>
+      <div class="number-one__claim">Aprender a ler seu ciclo</div>
+      <div class="number-one__note">*Baseado em mulheres que aplicaram o protocolo completo</div>
+      <a href="https://pay.celetus.com/MWEYGXEF" target="_blank" class="btn-primary" style="text-decoration:none;display:block;text-align:center;margin-top:16px;" onclick="if(typeof fbq!=='undefined') fbq('track','InitiateCheckout');">RECEBER MEU PLANO</a>
+    </div>
+
+    <!-- ═══ BEFORE/AFTER ═══ -->
+    <h3 class="section-heading section-heading--center" style="margin-top:36px;">Nossas clientes alcançam o objetivo</h3>
+    <div class="before-after">
+      <div class="ba-split">
+        <div class="imgbox imgbox--ba"><span class="imgbox__icon">🖼️</span><span>Antes<br/>(triste / teste negativo)</span></div>
+        <div class="imgbox imgbox--ba"><span class="imgbox__icon">🖼️</span><span>Depois<br/>(grávida / teste positivo)</span></div>
+      </div>
+      <p class="ba-name">Marina Silveira, São Paulo.</p>
+      <p class="ba-disclaimer">Os resultados apresentados não são representativos e dependem de fatores como idade, condição clínica, aderência ao protocolo, etc. Não é oferta nem promessa de resultado. Consulte seu médico para recomendações específicas.</p>
+    </div>
+
+    <h3 class="section-heading section-heading--center" style="margin-top:36px;">Perguntas frequentes</h3>
     <div class="faq">
       <details class="faq__item">
         <summary class="faq__q">E se eu não tiver resultado?</summary>
@@ -818,127 +967,6 @@
     <a href="https://pay.celetus.com/MWEYGXEF" target="_blank" class="btn-primary" style="text-decoration:none;display:block;text-align:center;margin-top:8px;" onclick="if(typeof fbq!=='undefined') fbq('track','InitiateCheckout');">RECEBER O MEU PLANO</a>
 
     <p class="plan-disclaimer">Pagamento único de R$37,90. Acesso imediato ao Protocolo Ciclo Fértil + 3 bônus. Sem renovação. Garantia incondicional de 7 dias.</p>
-
-    <!-- ═══ APP SHOWCASE ═══ -->
-    <h3 class="section-heading section-heading--center" style="margin-top:32px;">Siga nosso protocolo para entender seu ciclo</h3>
-    <div class="phones-carousel">
-      <div class="phones-row">
-        <div class="imgbox imgbox--phone phone--side"><span class="imgbox__icon">📱</span><span>Módulo 1:<br/>Leitura do muco</span></div>
-        <div class="imgbox imgbox--phone phone--center"><span class="imgbox__icon">📱</span><span>Módulo 2:<br/>Janela fértil</span></div>
-        <div class="imgbox imgbox--phone phone--side"><span class="imgbox__icon">📱</span><span>Módulo 3:<br/>Rotina dos 30 dias</span></div>
-      </div>
-      <div class="phones-dots"><span class="phones-dot active"></span><span class="phones-dot"></span><span class="phones-dot"></span></div>
-    </div>
-
-    <!-- ═══ #1 PROTOCOLO BADGE ═══ -->
-    <div class="number-one">
-      <div class="number-one__top">
-        <div class="number-one__laurel number-one__laurel--left">
-          <svg class="laurel-svg" viewBox="0 0 52 110" xmlns="http://www.w3.org/2000/svg">
-            <path d="M28 107 Q26 84 23 63 Q20 42 18 22 Q17 13 20 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/>
-            <!-- folhas esquerda -->
-            <path d="M27 99 Q14 94 10 83 Q18 84 27 99Z" fill="currentColor"/>
-            <path d="M25 84 Q11 77 9 65 Q17 68 25 84Z" fill="currentColor"/>
-            <path d="M23 69 Q10 60 9 48 Q17 52 23 69Z" fill="currentColor"/>
-            <path d="M21 54 Q10 44 11 32 Q18 37 21 54Z" fill="currentColor"/>
-            <path d="M20 39 Q12 28 14 17 Q20 23 20 39Z" fill="currentColor"/>
-            <path d="M19 25 Q15 14 17 5 Q22 11 19 25Z" fill="currentColor"/>
-            <!-- folhas direita -->
-            <path d="M29 93 Q38 85 38 74 Q32 78 29 93Z" fill="currentColor"/>
-            <path d="M27 78 Q35 69 34 58 Q29 63 27 78Z" fill="currentColor"/>
-            <path d="M25 63 Q32 53 30 43 Q26 48 25 63Z" fill="currentColor"/>
-            <path d="M23 48 Q29 38 27 28 Q23 33 23 48Z" fill="currentColor"/>
-            <path d="M21 33 Q26 24 24 15 Q20 20 21 33Z" fill="currentColor"/>
-          </svg>
-        </div>
-        <div class="number-one__center">
-          <div class="number-one__num"><span class="number-one__hash">#</span>1</div>
-          <div class="number-one__sub">protocolo de fertilidade*</div>
-        </div>
-        <div class="number-one__laurel number-one__laurel--right">
-          <svg class="laurel-svg laurel-svg--flip" viewBox="0 0 52 110" xmlns="http://www.w3.org/2000/svg">
-            <path d="M28 107 Q26 84 23 63 Q20 42 18 22 Q17 13 20 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/>
-            <path d="M27 99 Q14 94 10 83 Q18 84 27 99Z" fill="currentColor"/>
-            <path d="M25 84 Q11 77 9 65 Q17 68 25 84Z" fill="currentColor"/>
-            <path d="M23 69 Q10 60 9 48 Q17 52 23 69Z" fill="currentColor"/>
-            <path d="M21 54 Q10 44 11 32 Q18 37 21 54Z" fill="currentColor"/>
-            <path d="M20 39 Q12 28 14 17 Q20 23 20 39Z" fill="currentColor"/>
-            <path d="M19 25 Q15 14 17 5 Q22 11 19 25Z" fill="currentColor"/>
-            <path d="M29 93 Q38 85 38 74 Q32 78 29 93Z" fill="currentColor"/>
-            <path d="M27 78 Q35 69 34 58 Q29 63 27 78Z" fill="currentColor"/>
-            <path d="M25 63 Q32 53 30 43 Q26 48 25 63Z" fill="currentColor"/>
-            <path d="M23 48 Q29 38 27 28 Q23 33 23 48Z" fill="currentColor"/>
-            <path d="M21 33 Q26 24 24 15 Q20 20 21 33Z" fill="currentColor"/>
-          </svg>
-        </div>
-      </div>
-      <div class="number-one__claim">Aprender a ler seu ciclo</div>
-      <div class="number-one__note">*Baseado em mulheres que aplicaram o protocolo completo</div>
-      <a href="https://pay.celetus.com/MWEYGXEF" target="_blank" class="btn-primary" style="text-decoration:none;display:block;text-align:center;margin-top:16px;" onclick="if(typeof fbq!=='undefined') fbq('track','InitiateCheckout');">RECEBER MEU PLANO</a>
-    </div>
-
-    <!-- ═══ WHAT YOU GET ═══ -->
-    <h3 class="section-heading section-heading--center" style="margin-top:36px;">O que você recebe</h3>
-    <p style="font-size:14px; line-height:1.55; color:var(--ink-soft); margin-bottom:14px;">Nosso protocolo inteligente cria um plano de leitura do seu ciclo personalizado com base em todas as suas respostas e perfil.</p>
-    <p style="font-size:14px; line-height:1.55; color:var(--ink); margin-bottom:14px; font-weight:700;">Para atingir o seu objetivo você recebe:</p>
-    <ul class="checklist">
-      <li class="checklist__item"><span class="checklist__icon">○</span>Mais de 120 lições rápidas e exercícios práticos sobre os sinais do seu corpo.</li>
-      <li class="checklist__item"><span class="checklist__icon">○</span>Um protocolo de 30 dias personalizado para o seu ciclo e nível de leitura atual.</li>
-      <li class="checklist__item"><span class="checklist__icon">○</span>Receitas e dicas para preparar o corpo para uma gestação saudável.</li>
-      <li class="checklist__item"><span class="checklist__icon">○</span>Guias exclusivos para entender ovulação, fase fértil e fase lútea sem depender de aplicativo.</li>
-    </ul>
-
-    <!-- Week progression illustration -->
-    <div class="weeks-progress">
-      <div class="weeks-row">
-        <div class="weeks-row__label">SEM <span>1</span></div>
-        <div class="weeks-row__days">
-          <div class="day-cell"><div class="day-cell__label">Dia 1</div><div class="day-cell__val">Muco<br/>seco</div></div>
-          <div class="day-cell"><div class="day-cell__label">Dia 2</div><div class="day-cell__val">Muco<br/>seco</div></div>
-          <div class="day-cell"><div class="day-cell__label">Dia 3</div><div class="day-cell__val">Pastoso</div></div>
-          <div class="day-cell day-cell--rest"><div class="day-cell__label">Dia 4</div><div class="day-cell__val">DESCANSO</div></div>
-          <div class="day-cell"><div class="day-cell__label">Dia 5</div><div class="day-cell__val">Cremoso</div></div>
-          <div class="day-cell"><div class="day-cell__label">Dia 6</div><div class="day-cell__val">Elástico</div></div>
-          <div class="day-cell day-cell--peak"><div class="day-cell__label">Dia 7</div><div class="day-cell__val">CLARA<br/>DE OVO</div></div>
-        </div>
-      </div>
-      <div class="weeks-row">
-        <div class="weeks-row__label">SEM <span>2</span></div>
-        <div class="weeks-row__days">
-          <div class="day-cell"><div class="day-cell__label">Dia 1</div><div class="day-cell__val">36.2°C</div></div>
-          <div class="day-cell"><div class="day-cell__label">Dia 2</div><div class="day-cell__val">36.3°C</div></div>
-          <div class="day-cell"><div class="day-cell__label">Dia 3</div><div class="day-cell__val">36.5°C</div></div>
-          <div class="day-cell"><div class="day-cell__label">Dia 4</div><div class="day-cell__val">36.7°C</div></div>
-          <div class="day-cell day-cell--rest"><div class="day-cell__label">Dia 5</div><div class="day-cell__val">DESCANSO</div></div>
-          <div class="day-cell"><div class="day-cell__label">Dia 6</div><div class="day-cell__val">36.8°C</div></div>
-          <div class="day-cell"><div class="day-cell__label">Dia 7</div><div class="day-cell__val">37.0°C</div></div>
-        </div>
-      </div>
-      <div class="weeks-row">
-        <div class="weeks-row__label">SEM <span>3</span></div>
-        <div class="weeks-row__days">
-          <div class="day-cell"><div class="day-cell__label">Dia 1</div><div class="day-cell__val">Dor leve<br/>lateral</div></div>
-          <div class="day-cell"><div class="day-cell__label">Dia 2</div><div class="day-cell__val">Libido<br/>alta</div></div>
-          <div class="day-cell"><div class="day-cell__label">Dia 3</div><div class="day-cell__val">Energia</div></div>
-          <div class="day-cell"><div class="day-cell__label">Dia 4</div><div class="day-cell__val">Mama<br/>sensível</div></div>
-          <div class="day-cell"><div class="day-cell__label">Dia 5</div><div class="day-cell__val">Lútea</div></div>
-          <div class="day-cell"><div class="day-cell__label">Dia 6</div><div class="day-cell__val">Lútea</div></div>
-          <div class="day-cell"><div class="day-cell__label">Dia 7</div><div class="day-cell__val">Lútea</div></div>
-        </div>
-      </div>
-      <div class="weeks-overlay"><div class="imgbox imgbox--woman"><img loading="lazy" src="Images/essa9_sem_fundo.webp" alt="Mulher grávida sorrindo"/></div></div>
-    </div>
-
-    <!-- ═══ BEFORE/AFTER ═══ -->
-    <h3 class="section-heading section-heading--center" style="margin-top:36px;">Nossas clientes alcançam o objetivo</h3>
-    <div class="before-after">
-      <div class="ba-split">
-        <div class="imgbox imgbox--ba"><span class="imgbox__icon">🖼️</span><span>Antes<br/>(triste / teste negativo)</span></div>
-        <div class="imgbox imgbox--ba"><span class="imgbox__icon">🖼️</span><span>Depois<br/>(grávida / teste positivo)</span></div>
-      </div>
-      <p class="ba-name">Marina Silveira, São Paulo.</p>
-      <p class="ba-disclaimer">Os resultados apresentados não são representativos e dependem de fatores como idade, condição clínica, aderência ao protocolo, etc. Não é oferta nem promessa de resultado. Consulte seu médico para recomendações específicas.</p>
-    </div>
 
     <!-- ═══ MONEY-BACK GUARANTEE BIG ═══ -->
     <div class="guarantee-big">
@@ -1096,6 +1124,7 @@ function showScreen(id) {
   if (id === 's30') {
     startCountdown();
     syncPriceCompare();
+    updateProjection();
     if (typeof fbq !== 'undefined') fbq('track','Lead');
   }
 }
@@ -1232,52 +1261,91 @@ document.getElementById('occasionDate')?.addEventListener('change', (e) => {
   }
 });
 
-// ── Projeção da janela fértil (s27) ─────────────────────────────────────────
-// Lógica: ovulação = início da menstruação + (ciclo - 14)
-// Meta: primeira janela fértil APÓS os 30 dias do protocolo
-// Janela fértil começa 5 dias antes da ovulação
-function updateProjection() {
-  const projTargetEl = document.getElementById('projTarget');
-  const projMonthEl  = document.querySelector('#s28 .proj-month');
-  if (!projTargetEl) return;
+// ── Duração do protocolo baseada no perfil ────────────────────────────────────
+function getProtocolWeeks() {
+  const age = answers.s1 || '26-35';
+  const irregularity = answers.s2 || 'regular';
+  if (age === '46+')    return 8;
+  if (age === '36-45')  return 6;
+  if (irregularity === 'muito') return 6;
+  return 4;
+}
 
+// ── Projeção da janela fértil ─────────────────────────────────────────────────
+// Lógica: ovulação = início do ciclo + (duração do ciclo - 14)
+// Meta: primeira janela fértil APÓS o protocolo estar completo
+// Janela fértil = 5 dias antes da ovulação até o dia da ovulação
+function calcFertileWindow() {
   const dateVal = answers.lastPeriodDate || document.getElementById('occasionDate')?.value;
   let lastPeriodStart;
   if (dateVal) {
     const [y, m, d] = dateVal.split('-').map(Number);
     lastPeriodStart = new Date(y, m - 1, d, 12, 0, 0);
   } else {
-    lastPeriodStart = new Date(); // fallback: hoje
+    lastPeriodStart = new Date();
   }
 
-  const cycleLen = (answers.cycleDays && answers.cycleDays > 0) ? answers.cycleDays : 28;
+  const cycleLen     = (answers.cycleDays && answers.cycleDays > 0) ? answers.cycleDays : 28;
+  const protocolDays = getProtocolWeeks() * 7;
 
-  // Data de fim do protocolo (hoje + 30 dias)
-  const today = new Date();
+  // Data de conclusão do protocolo (hoje + semanas do perfil)
+  const today       = new Date();
   const protocolEnd = new Date(today);
-  protocolEnd.setDate(today.getDate() + 30);
+  protocolEnd.setDate(today.getDate() + protocolDays);
 
-  // Calcula a primeira ovulação a partir da data da menstruação
+  // Primeira ovulação a partir da última menstruação
   let ovulDate = new Date(lastPeriodStart);
   ovulDate.setDate(ovulDate.getDate() + cycleLen - 14);
 
-  // Avança ciclos até a ovulação ser APÓS o fim do protocolo
-  while (ovulDate < protocolEnd) {
+  // Avança ciclos até a ovulação cair APÓS o protocolo estar completo
+  while (ovulDate <= protocolEnd) {
     ovulDate.setDate(ovulDate.getDate() + cycleLen);
   }
 
-  // Janela fértil começa 5 dias antes da ovulação
+  // Janela fértil: 5 dias antes até dia da ovulação
   const fertileStart = new Date(ovulDate);
   fertileStart.setDate(ovulDate.getDate() - 5);
+  const fertileEnd = new Date(ovulDate);
 
-  // Formata em português
+  return { fertileStart, fertileEnd, protocolWeeks: getProtocolWeeks() };
+}
+
+function updateProjection() {
+  const projTargetEl = document.getElementById('projTarget');
+  const projMonthEl  = document.querySelector('#s28 .proj-month');
+
+  const { fertileStart } = calcFertileWindow();
+
   const MONTHS_PT    = ['janeiro','fevereiro','março','abril','maio','junho',
                         'julho','agosto','setembro','outubro','novembro','dezembro'];
   const MONTHS_SHORT = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
 
-  projTargetEl.textContent =
-    `${fertileStart.getDate()} de ${MONTHS_PT[fertileStart.getMonth()]} de ${fertileStart.getFullYear()}`;
-  if (projMonthEl) projMonthEl.textContent = MONTHS_SHORT[fertileStart.getMonth()];
+  const dateStr = `${fertileStart.getDate()} de ${MONTHS_PT[fertileStart.getMonth()]} de ${fertileStart.getFullYear()}`;
+
+  if (projTargetEl) projTargetEl.textContent = dateStr;
+  if (projMonthEl)  projMonthEl.textContent  = MONTHS_SHORT[fertileStart.getMonth()];
+
+  // Atualiza gráfico IQO na s28
+  const nlc = window.__nlc || calculateNLC();
+  const iqoNowEl    = document.getElementById('iqoNow');
+  const iqoNowLabel = document.getElementById('iqoNowLabel');
+  const iqoDotNow   = document.getElementById('iqoDotNow');
+  const iqoFill     = document.getElementById('iqoTimelineFill');
+  if (iqoNowEl)    iqoNowEl.textContent      = nlc;
+  if (iqoNowLabel) iqoNowLabel.textContent   = nlc < 35 ? 'Ciclo Invisível' : 'Ciclo Parcial';
+  if (iqoDotNow)   iqoDotNow.style.left      = nlc + '%';
+  if (iqoFill)     iqoFill.style.width       = '88%';
+
+  // Atualiza banner da s30
+  const insightEl     = document.getElementById('fertileInsight');
+  const insightDateEl = document.getElementById('fertileInsightDate');
+  if (insightEl && insightDateEl && answers.lastPeriodDate) {
+    const { fertileStart: fs, fertileEnd: fe } = calcFertileWindow();
+    const fsStr = `${fs.getDate()} de ${MONTHS_PT[fs.getMonth()]}`;
+    const feStr = `${fe.getDate()} de ${MONTHS_PT[fe.getMonth()]} de ${fe.getFullYear()}`;
+    insightDateEl.textContent = `${fsStr} a ${feStr}`;
+    insightEl.style.display = 'flex';
+  }
 }
 
 // ── Timeline s29 ─────────────────────────────────────────────────────────────
@@ -1337,30 +1405,49 @@ function showNLC() {
   }, 24);
 
   let band, dtitle, dtext;
-  if (nlc < 35) {
-    band = 'Invisível'; dtitle = 'Ciclo Invisível';
-    dtext = 'Seu corpo está enviando todos os sinais certos. Você ainda não aprendeu a linguagem deles. Isso não é culpa sua. Ninguém ensinou. O Protocolo Ciclo Fértil resolve isso nos primeiros 14 dias.';
+
+  const intro = nlc < 35
+    ? 'Seu ciclo ainda é um mistério pra você.'
+    : 'Você percebe alguns sinais — mas está perdendo justamente os que mais importam.';
+
+  const fatores = [];
+  if (answers.s12 === 'nao')                                    fatores.push('você nunca prestou atenção no muco cervical');
+  if (answers.s13 === 'nunca' || answers.s13 === 'nao-sei')     fatores.push('não sabe reconhecer o muco fértil');
+  if (answers.s15 === 'nunca')                                  fatores.push('nunca mediu a temperatura ao acordar');
+  if (answers.s14 === 'sim')                                    fatores.push('usa produtos que apagam os sinais do corpo');
+  if (answers.s19 === 'intensa')                                fatores.push('vive no limite de estresse');
+  if (answers.s4 === 'muito')                                   fatores.push('o ciclo é muito imprevisível');
+  if (answers.s16 === 'nao' || answers.s16 === 'app')           fatores.push('depende só do app pra saber quando ovula');
+
+  if (fatores.length >= 2) {
+    dtext = intro + ' A gente encontrou alguns pontos que estão te atrapalhando: ' + fatores.slice(0, 3).join(', ') + '. O protocolo trabalha direto nesses pontos.';
+  } else if (fatores.length === 1) {
+    dtext = intro + ' O principal ponto que encontramos foi: ' + fatores[0] + '. Isso é mais comum do que parece — e tem solução.';
   } else {
-    band = 'Parcial'; dtitle = 'Ciclo Parcialmente Lido';
-    dtext = 'Você percebe alguns sinais, mas ainda está perdendo informações críticas — especialmente o muco elástico e a confirmação pela temperatura. Com o método completo, sua janela fértil passa de 1 para 5 dias rastreados.';
+    dtext = intro + ' Você já está na frente da maioria. Com o método completo, sua janela fértil vai de 1 para até 5 dias rastreados.';
   }
+
+  band  = nlc < 35 ? 'Invisível' : 'Parcial';
+  dtitle = nlc < 35 ? 'Ciclo Invisível' : 'Ciclo Parcialmente Lido';
   statusEl.innerHTML = 'normal acima de <b id="imcStatusVal">68</b>';
   diagTitle.textContent = dtitle;
   diagText.textContent = dtext;
 
   // Personalize stat rows
-  if (answers.s12 === 'sim') document.getElementById('resumeLifestyle').textContent = 'Mudanças identificadas';
-  else if (answers.s12 === 'as-vezes') document.getElementById('resumeLifestyle').textContent = 'Parcialmente identificada';
+  // Row 1: Leitura do ciclo (s12 + s13)
+  if (answers.s12 === 'sim' && answers.s13 === 'sim') document.getElementById('resumeLifestyle').textContent = 'Bem identificada';
+  else if (answers.s12 === 'as-vezes' || answers.s13 === 'acho') document.getElementById('resumeLifestyle').textContent = 'Parcialmente identificada';
   else document.getElementById('resumeLifestyle').textContent = 'Não identificada';
 
-  if (answers.s16 === 'sim') document.getElementById('resumeCare').textContent = 'Confirmada por sinais';
-  else if (answers.s16 === 'ideia') document.getElementById('resumeCare').textContent = 'Parcialmente confirmada';
-  else document.getElementById('resumeCare').textContent = 'Estimada por app';
+  // Row 2: Fatores externos (s14 + s19)
+  if (answers.s14 === 'sim' || answers.s19 === 'intensa') document.getElementById('resumeCare').textContent = 'Alta interferência';
+  else if (answers.s14 === 'nunca' && (answers.s19 === 'leve' || answers.s19 === 'caseira')) document.getElementById('resumeCare').textContent = 'Sem interferência';
+  else document.getElementById('resumeCare').textContent = 'Interferência moderada';
 
-  const dor = answers.s17, lib = answers.s22;
-  if (dor === 'sim' || (lib && parseInt(lib) > 0)) document.getElementById('resumeActivity').textContent = 'Bem percebidos';
-  else if (dor === 'as-vezes') document.getElementById('resumeActivity').textContent = 'Pouco percebidos';
-  else document.getElementById('resumeActivity').textContent = 'Não percebidos';
+  // Row 3: Previsão da ovulação (s16 + s15)
+  if (answers.s16 === 'sim' && answers.s15 === 'sim') document.getElementById('resumeActivity').textContent = 'Confirmada por sinais';
+  else if (answers.s16 === 'ideia' || answers.s15 === 'tentei') document.getElementById('resumeActivity').textContent = 'Estimada parcialmente';
+  else document.getElementById('resumeActivity').textContent = 'Depende só do app';
 
   window.__nlc = nlc;
 }

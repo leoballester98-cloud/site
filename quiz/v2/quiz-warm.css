@@ -1274,29 +1274,26 @@ body {
 }
 .loading-banner {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 12px;
-  padding: 14px 18px;
-  background: var(--card);
-  border: 1px solid var(--hair);
-  border-radius: 999px;
+  gap: 16px;
   margin-bottom: 32px;
 }
 .loading-banner__ring {
-  width: 28px; height: 28px;
+  width: 96px; height: 96px;
   flex-shrink: 0;
   position: relative;
 }
 .loading-banner__ring svg { width: 100%; height: 100%; transform: rotate(-90deg); }
-.loading-banner__ring-track { fill: none; stroke: var(--hair); stroke-width: 3; }
-.loading-banner__ring-fill { fill: none; stroke: var(--blue); stroke-width: 3; stroke-linecap: round; stroke-dasharray: 75.4; stroke-dashoffset: 75.4; }
+.loading-banner__ring-track { fill: none; stroke: var(--hair); stroke-width: 5; }
+.loading-banner__ring-fill { fill: none; stroke: var(--blue); stroke-width: 5; stroke-linecap: round; stroke-dasharray: 263.9; stroke-dashoffset: 263.9; }
 .loading-banner__pct {
   position: absolute;
   inset: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 9px;
+  font-size: 22px;
   font-weight: 800;
   color: var(--ink);
 }
@@ -1304,6 +1301,9 @@ body {
   font-size: 13px;
   font-weight: 600;
   color: var(--ink);
+  text-align: center;
+  max-width: 240px;
+  line-height: 1.5;
 }
 .loading-bigtitle {
   font-size: 20px;

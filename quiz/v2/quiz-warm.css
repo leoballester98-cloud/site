@@ -1604,8 +1604,9 @@ body {
 }
 .plan-card__old {
   font-size: 12px;
-  color: var(--ink-fade);
+  color: #c0392b;
   text-decoration: line-through;
+  opacity: 0.85;
 }
 .plan-card__new {
   font-size: 13px;
@@ -1613,25 +1614,43 @@ body {
   color: var(--ink);
 }
 .plan-card__pill {
-  background: var(--blue);
-  color: white;
-  padding: 8px 12px;
-  border-radius: 12px;
+  background: #1a0d06;
+  color: #fff;
+  padding: 10px 16px;
+  border-radius: 14px;
   text-align: center;
   font-family: 'Inter', sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  min-width: 82px;
 }
 .plan-card__pill-num {
-  font-size: 17px;
-  font-weight: 800;
-  letter-spacing: -0.02em;
+  font-size: 26px;
+  font-weight: 900;
+  letter-spacing: -0.03em;
   display: block;
   line-height: 1;
+}
+/* Prefixo "R$" antes do número */
+.plan-card__pill-num::before {
+  content: 'R$';
+  font-size: 11px;
+  font-weight: 700;
+  vertical-align: top;
+  margin-top: 3px;
+  margin-right: 1px;
+  display: inline-block;
+  letter-spacing: 0;
 }
 .plan-card__pill-label {
   font-size: 9px;
   font-weight: 600;
-  letter-spacing: 0.02em;
-  opacity: 0.85;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0.65;
 }
 .plan-card__badge {
   position: absolute;

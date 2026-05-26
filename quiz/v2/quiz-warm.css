@@ -114,7 +114,14 @@ body {
   text-transform: uppercase;
 }
 .header__icon {
-  font-size: 14px;
+  display: flex;
+  align-items: center;
+  line-height: 1;
+}
+.header__icon svg {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
 }
 .progress {
   height: 4px;

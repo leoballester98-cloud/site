@@ -2709,11 +2709,15 @@ button:focus-visible, .row-card:focus-visible, .simple-opt:focus-visible,
   }
   #s1 .age-intro {
     max-width: 100%;
-    gap: 36px;
+    gap: 16px;
     grid-template-columns: 3fr 2fr; /* foto maior que cards */
   }
   #s1 .hero-photo {
     min-height: 380px;
+  }
+  /* scaleX(-1) inverte o eixo: left → empurra a figura para a direita (junto aos cards) */
+  #s1 .hero-photo img {
+    object-position: left bottom !important;
   }
   #s1 .age-intro .age-cards {
     gap: 14px;

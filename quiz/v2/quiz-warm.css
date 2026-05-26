@@ -93,6 +93,7 @@ body {
   transition: background 0.2s;
   z-index: 2;
 }
+.header__back { display: none !important; }
 .header__back:hover { background: var(--card); }
 .header__back:disabled { opacity: 0; pointer-events: none; }
 .header__step {

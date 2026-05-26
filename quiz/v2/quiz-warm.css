@@ -2691,9 +2691,9 @@ button:focus-visible, .row-card:focus-visible, .simple-opt:focus-visible,
     justify-content: center;
   }
   #s1 .age-row {
-    font-size: 20px;
-    padding: 24px 28px;
-    min-height: 112px;
+    font-size: 17px;
+    padding: 14px 22px;
+    min-height: 68px;
   }
   /* "anos" era 12px inline — override para desktop */
   #s1 .age-row span[style*="font-size:12px"] {
@@ -2781,6 +2781,6 @@ button:focus-visible, .row-card:focus-visible, .simple-opt:focus-visible,
   .footer-cta__inner { max-width: 540px; }
   .age-intro { max-width: 540px; gap: 32px; }
   .hero-photo { height: auto; max-height: none; }
-  #s1 .age-row { font-size: 20px; min-height: 118px; }
+  #s1 .age-row { font-size: 17px; min-height: 68px; }
   #s1 h1.q-title-lg { font-size: 38px; }
 }

@@ -2722,6 +2722,9 @@ button:focus-visible, .row-card:focus-visible, .simple-opt:focus-visible,
   #s1 .age-intro .age-cards {
     gap: 14px;
     justify-content: center;
+    max-width: 260px;
+    width: 100%;
+    align-self: center;
   }
   #s1 .age-row {
     font-size: 17px;

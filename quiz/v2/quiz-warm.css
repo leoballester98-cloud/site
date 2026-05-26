@@ -157,6 +157,9 @@ body {
 #s2 img {
   -webkit-mask-image: linear-gradient(to bottom, black 55%, transparent 100%);
   mask-image: linear-gradient(to bottom, black 55%, transparent 100%);
+  max-height: 42svh;
+  max-width: 42svh !important; /* imagem é quadrada — limita width via altura */
+  object-fit: contain;
 }
 .screen.entering {
   animation: enterIn 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
@@ -1111,7 +1114,7 @@ body {
   background: var(--bg);
   border-bottom: 1px solid rgba(74,46,26,0.10);
   padding: 10px 16px;
-  margin: 0 -20px 20px;
+  margin: 0 -16px 20px;
   gap: 10px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.08);
 }

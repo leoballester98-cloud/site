@@ -1051,7 +1051,7 @@ function showFooter(screenId) {
   const hasAutoAdvance = el.querySelector('.row-card[data-next], .simple-opt[data-next], .age-row[data-next], .multi-opt[data-next]');
   if (hasAutoAdvance && type !== 'multi') { footerCTA.style.display = 'none'; return; }
   footerCTA.style.display = 'block';
-  skipLink.style.display = (screenId === 's26') ? 'block' : 'none';
+  skipLink.style.display = 'none';
 
   if (type === 'multi') {
     const hasSelection = el.querySelectorAll('.multi-opt.selected, .chip.selected, .bodymap__pin.active, .bodymap__label.active').length > 0;

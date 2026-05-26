@@ -2674,6 +2674,35 @@ button:focus-visible, .row-card:focus-visible, .simple-opt:focus-visible,
     max-width: 720px;
   }
 
+  /* s1 — hero screen precisa de mais espaço para a foto + cards */
+  body:has(#s1.active) .wrap {
+    max-width: 780px;
+  }
+  #s1 .age-intro {
+    max-width: 100%;
+    gap: 36px;
+  }
+  #s1 .hero-photo {
+    min-height: 340px;
+  }
+  #s1 .age-intro .age-cards {
+    gap: 14px;
+    justify-content: center;
+  }
+  #s1 .age-row {
+    font-size: 18px;
+    padding: 24px 28px;
+    min-height: 108px;
+  }
+  #s1 h1.q-title-lg {
+    font-size: 34px;
+    max-width: 18ch;
+  }
+  #s1 .q-sub {
+    font-size: 16px;
+    margin-bottom: 20px;
+  }
+
   /* Center text content */
   .q-title, .q-title-lg, .q-sub {
     text-align: center;
@@ -2741,8 +2770,11 @@ button:focus-visible, .row-card:focus-visible, .simple-opt:focus-visible,
 @media (min-width: 1280px) {
   .wrap { max-width: 580px; padding-top: 70px; }
   body.screen--sales .wrap { max-width: 760px; }
+  body:has(#s1.active) .wrap { max-width: 860px; }
   .header__inner { max-width: 580px; }
   .footer-cta__inner { max-width: 540px; }
   .age-intro { max-width: 540px; gap: 32px; }
   .hero-photo { height: auto; max-height: none; }
+  #s1 .age-row { font-size: 20px; min-height: 118px; }
+  #s1 h1.q-title-lg { font-size: 38px; }
 }

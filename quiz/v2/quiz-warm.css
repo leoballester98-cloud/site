@@ -3110,20 +3110,20 @@ button:focus-visible, .row-card:focus-visible, .simple-opt:focus-visible,
   }
   #s1 .age-intro {
     margin: 8px auto 8px;
-    grid-template-columns: 1.2fr 0.8fr;
+    grid-template-columns: 1fr 100px;
     gap: 10px;
     align-items: stretch;
-    width: 270px;
+    width: 300px;
   }
   #s1 .hero-photo img {
     object-fit: contain !important;
-    object-position: center center !important;
-    -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 78%, rgba(0,0,0,0.4) 92%, transparent 100%) !important;
-            mask-image: linear-gradient(180deg, #000 0%, #000 78%, rgba(0,0,0,0.4) 92%, transparent 100%) !important;
+    object-position: center bottom !important;
+    -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 80%, rgba(0,0,0,0.4) 94%, transparent 100%) !important;
+            mask-image: linear-gradient(180deg, #000 0%, #000 80%, rgba(0,0,0,0.4) 94%, transparent 100%) !important;
   }
   #s1 .age-row {
-    font-size: 12px;
-    padding: 12px 6px 12px 10px;
+    font-size: 11.5px;
+    padding: 10px 6px 10px 10px;
     white-space: nowrap;
   }
   #s1 .terms {

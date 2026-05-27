@@ -2977,6 +2977,8 @@ button:focus-visible, .row-card:focus-visible, .simple-opt:focus-visible,
   body.screen--sales .wrap {
     max-width: 720px;
   }
+  /* s30 desktop: título não fica cortado abaixo da sticky bar */
+  #s30 .q-title-lg { margin-top: 20px; }
 
   /* s1 — hero screen precisa de mais espaço para a foto + cards */
   body:has(#s1.active) .wrap {

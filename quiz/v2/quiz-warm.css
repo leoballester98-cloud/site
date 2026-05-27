@@ -3114,6 +3114,10 @@ button:focus-visible, .row-card:focus-visible, .simple-opt:focus-visible,
     grid-template-columns: 1.3fr 0.7fr;
     gap: 8px;
   }
+  #s1 .hero-photo img {
+    -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 80%, rgba(0,0,0,0.5) 94%, transparent 100%) !important;
+            mask-image: linear-gradient(180deg, #000 0%, #000 80%, rgba(0,0,0,0.5) 94%, transparent 100%) !important;
+  }
   #s1 .age-row {
     font-size: 13px;
     padding: 12px 10px 12px 14px;

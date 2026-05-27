@@ -3121,10 +3121,14 @@ button:focus-visible, .row-card:focus-visible, .simple-opt:focus-visible,
     -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 80%, rgba(0,0,0,0.4) 94%, transparent 100%) !important;
             mask-image: linear-gradient(180deg, #000 0%, #000 80%, rgba(0,0,0,0.4) 94%, transparent 100%) !important;
   }
+  #s1 .age-intro .age-cards {
+    gap: 6px;
+  }
   #s1 .age-row {
     font-size: 11.5px;
     padding: 10px 6px 10px 10px;
     white-space: nowrap;
+    min-height: 52px !important;
   }
   #s1 .terms {
     margin-top: 10px;

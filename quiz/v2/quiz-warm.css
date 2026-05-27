@@ -3113,7 +3113,8 @@ button:focus-visible, .row-card:focus-visible, .simple-opt:focus-visible,
     grid-template-columns: 1fr 100px;
     gap: 10px;
     align-items: stretch;
-    width: 300px;
+    width: 320px;
+    transform: translateX(-20px);
   }
   #s1 .hero-photo img {
     object-fit: contain !important;
@@ -3125,10 +3126,10 @@ button:focus-visible, .row-card:focus-visible, .simple-opt:focus-visible,
     gap: 6px;
   }
   #s1 .age-row {
-    font-size: 11.5px;
+    font-size: 12px;
     padding: 10px 6px 10px 10px;
     white-space: nowrap;
-    min-height: 52px !important;
+    min-height: 58px !important;
   }
   #s1 .terms {
     margin-top: 10px;

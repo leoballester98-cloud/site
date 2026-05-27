@@ -2177,7 +2177,7 @@ body {
   background: transparent;
   border: none;
   border-radius: 0;
-  margin: 20px 0;
+  margin: 12px 0;
 }
 .imgbox--seal {
   width: 64px;
@@ -2367,7 +2367,7 @@ canvas#curveChart { width: 100%; }
   .q-title { font-size: 22px; }
   .q-title-lg { font-size: 24px; }
   .loading-bigtitle { font-size: 18px; }
-  .section-heading { font-size: 16px; margin: 26px 0 12px; }
+  .section-heading { font-size: 16px; margin: 18px 0 10px; }
   .footer-cta { padding-top: 20px; }
   .btn-primary { padding: 16px 20px; font-size: 13.5px; }
   .press-row__items { gap: 6px; }
@@ -2483,6 +2483,7 @@ button:focus-visible, .row-card:focus-visible, .simple-opt:focus-visible,
 
 /* App phones carousel */
 .phones-carousel { margin: 14px 0 24px; }
+#s30 .imgbox--phone { border: none; background: none; }
 .phones-row {
   display: flex;
   justify-content: center;
@@ -2525,8 +2526,8 @@ button:focus-visible, .row-card:focus-visible, .simple-opt:focus-visible,
 .number-one {
   background: var(--card);
   border-radius: 18px;
-  padding: 28px 22px 22px;
-  margin: 12px 0 18px;
+  padding: 20px 22px 18px;
+  margin: 8px 0 10px;
   text-align: center;
 }
 .number-one__top {
@@ -2768,10 +2769,11 @@ button:focus-visible, .row-card:focus-visible, .simple-opt:focus-visible,
   font-size: 14px;
   font-weight: 700;
   color: var(--ink);
+  margin-top: 12px;
   margin-bottom: 6px;
 }
 .ba-disclaimer {
-  font-size: 11px;
+  font-size: 13px;
   line-height: 1.55;
   color: var(--ink-fade);
 }
@@ -2779,7 +2781,7 @@ button:focus-visible, .row-card:focus-visible, .simple-opt:focus-visible,
 /* Big guarantee */
 .guarantee-big {
   text-align: center;
-  margin: 32px 0 18px;
+  margin: 20px 0 16px;
 }
 .imgbox--guarantee-seal {
   width: 140px;

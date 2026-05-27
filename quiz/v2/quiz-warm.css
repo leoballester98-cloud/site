@@ -2952,11 +2952,11 @@ button:focus-visible, .row-card:focus-visible, .simple-opt:focus-visible,
 }
 
 
-/* Mobile: image is square so use cover+top to fill the portrait container */
+/* Mobile: contain para mostrar a figura completa sem cortar */
 @media (max-width: 480px) {
   .age-intro .hero-photo img {
-    object-fit: cover !important;
-    object-position: top center !important;
+    object-fit: contain !important;
+    object-position: center bottom !important;
   }
 }
 

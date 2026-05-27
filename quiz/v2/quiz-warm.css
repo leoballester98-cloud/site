@@ -3111,6 +3111,13 @@ button:focus-visible, .row-card:focus-visible, .simple-opt:focus-visible,
   #s1 .age-intro {
     margin-top: 8px;
     margin-bottom: 8px;
+    grid-template-columns: 1.3fr 0.7fr;
+    gap: 8px;
+  }
+  #s1 .age-row {
+    font-size: 13px;
+    padding: 12px 10px 12px 14px;
+    white-space: nowrap;
   }
   #s1 .terms {
     margin-top: 10px;

@@ -3113,8 +3113,7 @@ button:focus-visible, .row-card:focus-visible, .simple-opt:focus-visible,
     grid-template-columns: 1.2fr 0.8fr;
     gap: 10px;
     align-items: stretch;
-    width: 100%;
-    padding-right: 40px;
+    width: 308px;
   }
   #s1 .hero-photo img {
     object-fit: cover !important;

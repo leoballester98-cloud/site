@@ -696,10 +696,10 @@
       </div>
     </div>
 
-    <div class="price-banner">
+    <a href="https://pay.celetus.com/MWEYGXEF" target="_blank" class="price-banner" style="text-decoration:none;" onclick="if(typeof fbq!=='undefined') fbq('track','InitiateCheckout');">
       <span class="price-banner__icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="8" cy="9" r="6" stroke="currentColor" stroke-width="1.5"/><path d="M8 6v3.5l2 1.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 1.5h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M8 1.5V3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
       <span id="priceCountdown">A oferta expira em 09:47 min</span>
-    </div>
+    </a>
     <p style="text-align:center; font-size:13px; color:var(--ink-soft); margin:6px 0 0;"><span style="border-bottom: 1.5px solid var(--ink-soft); padding-bottom:2px;">Garantia de reembolso em 7 dias</span></p>
 
     <!-- ═══ WHAT YOU GET ═══ -->
@@ -1670,13 +1670,14 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
-// Bloqueia qualquer <a> que não seja pagamento externo de navegar para fora do quiz
+// Bloqueia qualquer <a> que não seja pagamento externo, legal ou mailto/tel de navegar para fora do quiz
 document.addEventListener('click', (e) => {
   const a = e.target.closest('a');
   if (!a) return;
   const href = a.getAttribute('href') || '';
   const isPayment = href.includes('pay.celetus.com') || href.includes('pay.');
-  if (!isPayment && !href.startsWith('mailto:') && !href.startsWith('tel:')) {
+  const isLegal = href.endsWith('.html') || href.endsWith('privacidade') || href.endsWith('termos') || href.endsWith('reembolso');
+  if (!isPayment && !isLegal && !href.startsWith('mailto:') && !href.startsWith('tel:')) {
     e.preventDefault();
   }
 }, true);

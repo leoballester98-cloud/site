@@ -281,7 +281,7 @@
   <!-- ═══════ 16. OVULAÇÃO sabe identificar ═══════ -->
   <section class="screen" id="s16" data-step="16" data-section="LEITURA DO CICLO" data-icon="cycle">
     <h2 class="q-title">Você sabe em qual dia do seu ciclo costuma ovular?</h2>
-    <p class="q-sub">Pelos sinais físicos do corpo  não pelo aplicativo.</p>
+    <p class="q-sub">Pelos sinais físicos do corpo</p>
     <div class="simple-list">
       <button class="simple-opt" data-val="sim" data-score="3" data-next="s17">Sim, sei identificar pelos sinais</button>
       <button class="simple-opt" data-val="ideia" data-score="2" data-next="s17">Tenho uma ideia</button>
@@ -425,7 +425,19 @@
 
   <!-- ═══════ 23. IDADE EXATA ═══════ -->
   <!-- ═══════ 24. RESUMO (NLC reveal) ═══════ -->
+  <!-- ═══════ 24. OCASIÃO ESPECIAL ═══════ -->
   <section class="screen" id="s24" data-step="24" data-section="DETALHES PESSOAIS" data-icon="person">
+    <h2 class="q-title">Você já perdeu algum ciclo por não saber identificar a ovulação a tempo?</h2>
+    <p class="q-sub">Selecione o que mais se aproxima da sua situação.</p>
+    <div class="simple-list">
+      <button class="simple-opt" data-val="sim" data-next="s25">Sim, com certeza</button>
+      <button class="simple-opt" data-val="talvez" data-next="s25">Acho que sim, mas não tenho certeza</button>
+      <button class="simple-opt" data-val="nao" data-next="s25">Não, consigo identificar bem</button>
+    </div>
+  </section>
+
+  <!-- ═══════ 25. DIAGNÓSTICO IQO ═══════ -->
+  <section class="screen" id="s25" data-step="25" data-section="DETALHES PESSOAIS" data-icon="person">
     <h2 class="q-title-lg">Seu Índice de Qualidade da Ovulação</h2>
     <div class="imc-card">
       <div class="imc-card__head">
@@ -444,8 +456,8 @@
       <div class="alert-box" style="margin-top:14px;">
         <span class="alert-box__icon">☝️</span>
         <div class="alert-box__body">
-          <p class="alert-box__title" id="nlcDiagTitle">Ovulação Invisível</p>
-          <p class="alert-box__text" id="nlcDiagText">Seu corpo está enviando todos os sinais certos. Você ainda não aprendeu a linguagem deles. Isso não é culpa sua. Ninguém ensinou. O Protocolo Ciclo Fértil resolve isso nos primeiros 14 dias.</p>
+          <p class="alert-box__title" id="iqoDiagTitle">Ovulação Invisível</p>
+          <p class="alert-box__text" id="iqoDiagText">Seu corpo está enviando todos os sinais certos. Você ainda não aprendeu a linguagem deles. Isso não é culpa sua. Ninguém ensinou. O Protocolo Ciclo Fértil resolve isso nos primeiros 14 dias.</p>
         </div>
       </div>
     </div>
@@ -486,24 +498,20 @@
     </div>
   </section>
 
-  <!-- ═══════ 25. OCASIÃO ESPECIAL ═══════ -->
-  <section class="screen" id="s25" data-step="25" data-section="DETALHES PESSOAIS" data-icon="person">
-    <h2 class="q-title">Você já perdeu algum ciclo por não saber identificar a ovulação a tempo?</h2>
-    <p class="q-sub">Selecione o que mais se aproxima da sua situação.</p>
-    <div class="simple-list">
-      <button class="simple-opt" data-val="sim" data-next="s26">Sim, com certeza</button>
-      <button class="simple-opt" data-val="talvez" data-next="s26">Acho que sim, mas não tenho certeza</button>
-      <button class="simple-opt" data-val="nao" data-next="s26">Não, consigo identificar bem</button>
-    </div>
-  </section>
-
   <!-- ═══════ 26. DATA OCASIÃO ═══════ -->
   <section class="screen" id="s26" data-step="26" data-section="DETALHES PESSOAIS" data-icon="person">
     <h2 class="q-title">Quando começou sua última menstruação?</h2>
     <p class="q-sub">Vamos usar isso para projetar sua próxima janela fértil e montar seu plano.</p>
     <div class="date-block">
       <div class="date-block__label">Data</div>
-      <input type="date" class="date-block__input" id="occasionDate"/>
+      <div class="date-fields">
+        <input type="number" class="date-field" id="dateDay" placeholder="DD" min="1" max="31"/>
+        <span class="date-sep">/</span>
+        <input type="number" class="date-field" id="dateMonth" placeholder="MM" min="1" max="12"/>
+        <span class="date-sep">/</span>
+        <input type="number" class="date-field date-field--year" id="dateYear" placeholder="AAAA" min="2020" max="2099"/>
+      </div>
+      <input type="hidden" id="occasionDate"/>
     </div>
   </section>
 
@@ -546,24 +554,25 @@
     <p class="q-sub" style="margin-top:-12px;">Veja o que muda no seu IQO após o protocolo</p>
 
     <div class="iqo-timeline">
-      <div class="iqo-timeline__labels">
-        <div class="iqo-timeline__point iqo-timeline__point--now">
-          <span class="iqo-timeline__num" id="iqoNow">35</span>
-          <span class="iqo-timeline__tag" id="iqoNowLabel">Hoje</span>
-        </div>
-        <div class="iqo-timeline__point iqo-timeline__point--target">
-          <span class="iqo-timeline__num iqo-timeline__num--high">88</span>
-          <span class="iqo-timeline__tag iqo-timeline__tag--high">Pós-protocolo</span>
-        </div>
-      </div>
       <div class="iqo-timeline__track">
         <div class="iqo-timeline__fill" id="iqoTimelineFill"></div>
-        <div class="iqo-timeline__dot iqo-timeline__dot--now" id="iqoDotNow"></div>
-        <div class="iqo-timeline__dot iqo-timeline__dot--target" style="left:88%"></div>
+        <div class="iqo-timeline__dot iqo-timeline__dot--now" id="iqoDotNow">
+          <div class="iqo-timeline__label">
+            <span class="iqo-timeline__num" id="iqoNow">35</span>
+            <span class="iqo-timeline__tag" id="iqoNowLabel">Seu IQO hoje</span>
+          </div>
+        </div>
+        <div class="iqo-timeline__dot iqo-timeline__dot--target" style="left:88%">
+          <div class="iqo-timeline__label iqo-timeline__label--high">
+            <span class="iqo-timeline__num iqo-timeline__num--high">88</span>
+            <span class="iqo-timeline__tag iqo-timeline__tag--high">Com o protocolo</span>
+          </div>
+        </div>
       </div>
       <div class="iqo-timeline__scale">
         <span>0</span><span>25</span><span>50</span><span>75</span><span>100</span>
       </div>
+      <div class="iqo-timeline__delta" id="iqoDelta">+53 pts</div>
     </div>
   </section>
 
@@ -599,7 +608,12 @@
     </div>
 
     <div class="info-box" style="margin-top:20px;">
-      <span class="info-box__icon">✅</span>
+      <span class="info-box__icon info-box__icon--check">
+        <svg class="check-svg" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle class="check-svg__circle" cx="26" cy="26" r="22" stroke-width="2.5"/>
+          <path class="check-svg__tick" d="M15 26l8 9 14-16" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"/>
+        </svg>
+      </span>
       <div class="info-box__body">
         <p class="info-box__title">Mapeamos suas 4 áreas</p>
         <p class="info-box__text">Agora você tem um método, não só uma tentativa.</p>
@@ -619,6 +633,15 @@
       <a href="https://pay.celetus.com/MWEYGXEF" target="_blank" class="sticky-discount-bar__btn" onclick="if(typeof fbq!=='undefined') fbq('track','InitiateCheckout');">RECEBER MEU PLANO</a>
     </div>
 
+    <h2 class="q-title-lg" style="margin-bottom:8px;">O seu plano personalizado está pronto!</h2>
+    <p class="programa-subtitle">
+      <svg width="15" height="15" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="3" y="4" width="14" height="13" rx="2" stroke="currentColor" stroke-width="1.5"/>
+        <path d="M3 8h14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        <path d="M7 3v2M13 3v2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>Plano de <span id="programaDias">38</span> dias
+    </p>
+
     <div class="compare-grid">
       <div class="compare-col">
         <div class="compare-col__head">Agora</div>
@@ -627,13 +650,13 @@
         </div>
         <div class="compare-stat">
           <div class="compare-stat__label">Índice IQO</div>
-          <div class="compare-stat__value" id="priceNlcNow">35/100</div>
-          <div class="compare-stat__bar"><div class="compare-stat__bar-fill compare-stat__bar-fill--low" id="priceNlcBar" style="width:35%;"></div></div>
+          <div class="compare-stat__value" id="priceIqoNow">35/100</div>
+          <div class="compare-stat__bar"><div class="compare-stat__bar-fill compare-stat__bar-fill--low" id="priceIqoBar" style="width:35%;"></div></div>
         </div>
         <div class="compare-stat">
-          <div class="compare-stat__label">Janela fértil</div>
-          <div class="compare-stat__value">1 dia estimado</div>
-          <div class="compare-stat__bar"><div class="compare-stat__bar-fill compare-stat__bar-fill--low" style="width:20%;"></div></div>
+          <div class="compare-stat__label">Qualidade da ovulação</div>
+          <div class="compare-stat__value" id="priceQualidadeNow">Baixa</div>
+          <div class="compare-stat__bar"><div class="compare-stat__bar-fill compare-stat__bar-fill--low" id="priceQualidadeBar" style="width:20%;"></div></div>
         </div>
       </div>
       <div class="compare-col">
@@ -647,50 +670,28 @@
           <div class="compare-stat__bar"><div class="compare-stat__bar-fill compare-stat__bar-fill--full" style="width:88%;"></div></div>
         </div>
         <div class="compare-stat">
-          <div class="compare-stat__label">Janela fértil</div>
-          <div class="compare-stat__value">5 dias rastreados</div>
+          <div class="compare-stat__label">Qualidade da ovulação</div>
+          <div class="compare-stat__value">Otimizada</div>
           <div class="compare-stat__bar"><div class="compare-stat__bar-fill compare-stat__bar-fill--full" style="width:100%;"></div></div>
         </div>
       </div>
     </div>
 
-    <h2 class="q-title-lg" style="margin-bottom:8px;">O seu protocolo personalizado está pronto!</h2>
+    <div class="price-meta" style="display:none;"></div>
 
-    <div class="price-meta">
-      <div class="price-meta__item">
-        <div class="price-meta__label">Nível</div>
-        <div class="price-meta__value">
-          <svg class="price-meta__icon" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="2" y="10" width="4" height="8" rx="1" fill="currentColor"/>
-            <rect x="8" y="6" width="4" height="12" rx="1" fill="currentColor"/>
-            <rect x="14" y="2" width="4" height="16" rx="1" fill="currentColor"/>
-          </svg>
-          Intermediário
+    <div class="plans">
+      <div class="plan-card selected" data-plan="full">
+        <div class="plan-card__radio"></div>
+        <div class="plan-card__body">
+          <div class="plan-card__name">PROTOCOLO COMPLETO</div>
+          <div class="plan-card__discount">Acesso vitalício</div>
         </div>
-      </div>
-      <div class="price-meta__sep"></div>
-      <div class="price-meta__item">
-        <div class="price-meta__label">Programa</div>
-        <div class="price-meta__value">
-          <svg class="price-meta__icon" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="2" y="4" width="16" height="14" rx="2" stroke="currentColor" stroke-width="1.5"/>
-            <path d="M6 2v4M14 2v4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-            <path d="M2 8h16" stroke="currentColor" stroke-width="1.5"/>
-            <circle cx="7" cy="12" r="1" fill="currentColor"/>
-            <circle cx="10" cy="12" r="1" fill="currentColor"/>
-            <circle cx="13" cy="12" r="1" fill="currentColor"/>
-          </svg>
-          30 dias
+        <div class="plan-card__pill">
+          <span class="plan-card__pill-old">R$188</span>
+          <span class="plan-card__pill-num">37<sup style="font-size:0.55em;">,90</sup></span>
+          <span class="plan-card__pill-label">único</span>
         </div>
-      </div>
-    </div>
-
-    <!-- Fertile window insight -->
-    <div class="fertile-insight" id="fertileInsight" style="display:none;">
-      <div class="fertile-insight__icon">🌿</div>
-      <div class="fertile-insight__body">
-        <div class="fertile-insight__label">Sua próxima janela fértil com protocolo completo</div>
-        <div class="fertile-insight__date" id="fertileInsightDate">—</div>
+        <span class="plan-card__badge">Comece a sua mudança hoje</span>
       </div>
     </div>
 
@@ -698,30 +699,11 @@
       <span class="price-banner__icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="8" cy="9" r="6" stroke="currentColor" stroke-width="1.5"/><path d="M8 6v3.5l2 1.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 1.5h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M8 1.5V3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
       <span id="priceCountdown">A oferta expira em 09:47 min</span>
     </div>
-
-    <div class="plan-section-label">Comece a sua mudança hoje</div>
-    <div class="plans">
-      <div class="plan-card selected" data-plan="full">
-        <div class="plan-card__radio"></div>
-        <div class="plan-card__body">
-          <div class="plan-card__name">PROTOCOLO COMPLETO</div>
-          <div class="plan-card__discount">Acesso vitalício · 4 ambientes</div>
-          <div class="plan-card__prices">
-            <span class="plan-card__old">R$188</span>
-            <span class="plan-card__new">R$37,90</span>
-          </div>
-        </div>
-        <div class="plan-card__pill">
-          <span class="plan-card__pill-num">37<sup style="font-size:0.55em;">,90</sup></span>
-          <span class="plan-card__pill-label">único</span>
-        </div>
-        <span class="plan-card__badge">MAIS POPULAR</span>
-      </div>
-    </div>
+    <p style="text-align:center; font-size:13px; color:var(--ink-soft); margin:6px 0 0;"><span style="border-bottom: 1.5px solid var(--ink-soft); padding-bottom:2px;">Garantia de reembolso em 7 dias</span></p>
 
     <!-- ═══ WHAT YOU GET ═══ -->
     <h3 class="section-heading section-heading--center" style="margin-top:36px;">O que você recebe</h3>
-    <p style="font-size:14px; line-height:1.55; color:var(--ink-soft); margin-bottom:14px;">Nosso protocolo inteligente cria um plano de leitura do seu ciclo personalizado com base em todas as suas respostas e perfil.</p>
+    <p style="font-size:14px; line-height:1.55; color:var(--ink-soft); margin-bottom:14px;">Cada etapa foi criada com base no seu ciclo para você chegar à ovulação mais rápido.</p>
     <ul class="checklist">
       <li class="checklist__item"><span class="checklist__icon">○</span>Mais de 120 lições rápidas e exercícios práticos sobre os sinais do seu corpo.</li>
       <li class="checklist__item"><span class="checklist__icon">○</span>Um protocolo de 30 dias personalizado para o seu ciclo e nível de leitura atual.</li>
@@ -776,28 +758,33 @@
         <div class="imgbox imgbox--bonus"><img loading="lazy" src="Images/capa-bonus1.webp" alt="Bônus 1"/></div>
         <div class="bonus-item__body">
           <div class="bonus-item__name">Receitas Férteis</div>
-          <div class="bonus-item__desc">7 receitas em 10 min + 4 chás</div>
         </div>
       </div>
       <div class="bonus-item">
         <div class="imgbox imgbox--bonus"><img loading="lazy" src="Images/capa-bonus2.webp" alt="Bônus 2"/></div>
         <div class="bonus-item__body">
           <div class="bonus-item__name">Diário do Ciclo Fértil</div>
-          <div class="bonus-item__desc">Rastreio de ovulação sem app</div>
         </div>
       </div>
       <div class="bonus-item">
         <div class="imgbox imgbox--bonus"><img loading="lazy" src="Images/capa-bonus3.webp" alt="Bônus 3"/></div>
         <div class="bonus-item__body">
           <div class="bonus-item__name">Rotinas Férteis</div>
-          <div class="bonus-item__desc">15 hábitos para a rotina real</div>
         </div>
       </div>
     </div>
 
     <a href="https://pay.celetus.com/MWEYGXEF" target="_blank" class="btn-primary" style="text-decoration:none;display:block;text-align:center;" onclick="if(typeof fbq!=='undefined') fbq('track','InitiateCheckout');">RECEBER O MEU PLANO</a>
 
-    <p class="plan-guarantee">Garantia de reembolso em 7 dias</p>
+    <div class="guarantee-block">
+      <div class="guarantee-block__seal">
+        <img loading="lazy" src="Images/logogarantia.webp" alt="Garantia 7 dias" class="guarantee-seal-img">
+      </div>
+      <div class="guarantee-block__body">
+        <div class="guarantee-block__title">Garantia de 7 dias</div>
+        <p class="guarantee-block__text">Se em 7 dias você não sentir nenhuma diferença, devolvemos 100% do investimento. Sem burocracia, sem formulário.</p>
+      </div>
+    </div>
 
     <h3 class="section-heading section-heading--center">Histórias reais de quem aplicou o protocolo</h3>
     <div class="reviews">
@@ -844,16 +831,6 @@
           <div class="review__stars">★★★★★</div>
         </div>
         <p class="review__text">O protocolo me devolveu a esperança. Mais que o resultado, foi entender o meu corpo pela primeira vez.</p>
-      </div>
-    </div>
-
-    <div class="guarantee-block">
-      <div class="guarantee-block__seal">
-        <img loading="lazy" src="Images/logogarantia.webp" alt="Garantia 7 dias" class="guarantee-seal-img">
-      </div>
-      <div class="guarantee-block__body">
-        <div class="guarantee-block__title">Garantia de 7 dias</div>
-        <p class="guarantee-block__text">Se em 7 dias você não sentir nenhuma diferença, devolvemos 100% do investimento. Sem burocracia, sem formulário.</p>
       </div>
     </div>
 
@@ -966,7 +943,7 @@
 
     <a href="https://pay.celetus.com/MWEYGXEF" target="_blank" class="btn-primary" style="text-decoration:none;display:block;text-align:center;margin-top:8px;" onclick="if(typeof fbq!=='undefined') fbq('track','InitiateCheckout');">RECEBER O MEU PLANO</a>
 
-    <p class="plan-disclaimer">Pagamento único de R$37,90. Acesso imediato ao Protocolo Ciclo Fértil + 3 bônus. Sem renovação. Garantia incondicional de 7 dias.</p>
+    <p class="plan-disclaimer">Acesso imediato ao Plano Ciclo Fértil. Sem renovação. Garantia incondicional de 7 dias.</p>
 
     <!-- ═══ MONEY-BACK GUARANTEE BIG ═══ -->
     <div class="guarantee-big">
@@ -1098,6 +1075,8 @@ function showFooter(screenId) {
 }
 
 function goToScreen(next) {
+  // Se ainda não está tentando, s11 não faz sentido — pula para s12
+  if (next === 's11' && answers.s3 === 'ainda-nao') next = 's12';
   const cur = document.querySelector('.screen.active');
   if (cur && cur.id === next) return;
   if (cur) cur.classList.remove('active');
@@ -1115,16 +1094,47 @@ function showScreen(id) {
   showFooter(id);
   trackEtapa(el.dataset.step, id);
 
-  if (id === 's24') showNLC();
+  if (id === 's25') showIQO();
   if (id === 's27') startLoading();
   if (id === 's28') updateProjection();
   if (id === 's29') updateTimeline();
   document.body.classList.toggle('screen--sales', id === 's30');
 
+  // Ajusta padding do wrap para s30 (sticky bar substitui o header fixo)
+  const wrap = document.querySelector('.wrap');
+  if (wrap) wrap.style.paddingTop = (id === 's30') ? '0' : '';
+
   if (id === 's30') {
     startCountdown();
     syncPriceCompare();
     updateProjection();
+    // Tipo de ciclo baseado na resposta s2
+    (function() {
+      const cicloMap = { regular: 'Regular', leve: 'Irregular', muito: 'Muito irregular' };
+      const cicloEl = document.getElementById('cicloTipo');
+      if (cicloEl) cicloEl.textContent = cicloMap[answers.s2] || 'Regular';
+    })();
+    // Calcula duração do programa: dias de hoje até a 1ª janela fértil após o protocolo
+    (function() {
+      const { fertileStart, fertileEnd } = calcFertileWindow();
+      const today = new Date();
+      today.setHours(0,0,0,0);
+      const dias = Math.round((fertileStart - today) / (1000 * 60 * 60 * 24));
+      const el = document.getElementById('programaDias');
+      if (el) el.textContent = dias > 0 ? dias : getProtocolWeeks() * 7;
+
+      // Exibe a janela fértil calculada
+      const MONTHS_PT = ['janeiro','fevereiro','março','abril','maio','junho',
+                         'julho','agosto','setembro','outubro','novembro','dezembro'];
+      const insightEl     = document.getElementById('fertileInsight');
+      const insightDateEl = document.getElementById('fertileInsightDate');
+      if (insightEl && insightDateEl) {
+        const fsStr = `${fertileStart.getDate()} de ${MONTHS_PT[fertileStart.getMonth()]}`;
+        const feStr = `${fertileEnd.getDate()} de ${MONTHS_PT[fertileEnd.getMonth()]} de ${fertileEnd.getFullYear()}`;
+        insightDateEl.textContent = `${fsStr} a ${feStr}`;
+        insightEl.style.display = 'flex';
+      }
+    })();
     if (typeof fbq !== 'undefined') fbq('track','Lead');
   }
 }
@@ -1253,12 +1263,41 @@ setupBigNumber('weightValue', 'periodDays');
 setupBigNumber('targetValue', 'libidoDays', true); // 0 é válido: "se não percebe, deixe 0"
 setupBigNumber('ageValue', 'age');
 
-// Salva a data da última menstruação (s26) e habilita o botão
-document.getElementById('occasionDate')?.addEventListener('change', (e) => {
-  answers.lastPeriodDate = e.target.value;
-  if (document.getElementById('s26').classList.contains('active')) {
-    primaryBtn.disabled = !e.target.value;
+// Salva a data da última menstruação (s26) a partir dos três campos DD/MM/AAAA
+function syncDateFields() {
+  const d = document.getElementById('dateDay')?.value.padStart(2, '0');
+  const m = document.getElementById('dateMonth')?.value.padStart(2, '0');
+  const y = document.getElementById('dateYear')?.value;
+  if (d && m && y && y.length === 4) {
+    const iso = y + '-' + m + '-' + d;
+    document.getElementById('occasionDate').value = iso;
+    answers.lastPeriodDate = iso;
+    if (document.getElementById('s26').classList.contains('active')) {
+      primaryBtn.disabled = false;
+    }
+  } else {
+    if (document.getElementById('s26').classList.contains('active')) {
+      primaryBtn.disabled = true;
+    }
   }
+}
+
+// Limita dígitos, avança foco automaticamente e sincroniza
+const dateFieldOrder = ['dateDay','dateMonth','dateYear'];
+const dateFieldMax   = { dateDay: 2, dateMonth: 2, dateYear: 4 };
+
+dateFieldOrder.forEach((id, i) => {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.addEventListener('input', () => {
+    const max = dateFieldMax[id];
+    if (el.value.length > max) el.value = el.value.slice(0, max);
+    if (el.value.length === max) {
+      const next = document.getElementById(dateFieldOrder[i + 1]);
+      if (next) next.focus();
+    }
+    syncDateFields();
+  });
 });
 
 // ── Duração do protocolo baseada no perfil ────────────────────────────────────
@@ -1326,15 +1365,18 @@ function updateProjection() {
   if (projMonthEl)  projMonthEl.textContent  = MONTHS_SHORT[fertileStart.getMonth()];
 
   // Atualiza gráfico IQO na s28
-  const nlc = window.__nlc || calculateNLC();
+  const nlc = window.__iqo || calculateIQO();
   const iqoNowEl    = document.getElementById('iqoNow');
   const iqoNowLabel = document.getElementById('iqoNowLabel');
   const iqoDotNow   = document.getElementById('iqoDotNow');
   const iqoFill     = document.getElementById('iqoTimelineFill');
+  const delta = 88 - nlc;
   if (iqoNowEl)    iqoNowEl.textContent      = nlc;
-  if (iqoNowLabel) iqoNowLabel.textContent   = nlc < 35 ? 'Ciclo Invisível' : 'Ciclo Parcial';
+  if (iqoNowLabel) iqoNowLabel.textContent   = 'Seu IQO hoje';
   if (iqoDotNow)   iqoDotNow.style.left      = nlc + '%';
   if (iqoFill)     iqoFill.style.width       = '88%';
+  const deltaEl = document.getElementById('iqoDelta');
+  if (deltaEl) deltaEl.textContent = '+' + delta + ' pts';
 
   // Atualiza banner da s30
   const insightEl     = document.getElementById('fertileInsight');
@@ -1363,8 +1405,8 @@ function updateTimeline() {
   }
 }
 
-// NLC calculation
-function calculateNLC() {
+// IQO calculation — quanto mais saudável a resposta, mais pontos
+function calculateIQO() {
   const scored = ['s10','s12','s13','s14','s15','s16','s17','s18','s19'];
   let total = 0, max = 0;
   scored.forEach(k => {
@@ -1372,18 +1414,18 @@ function calculateNLC() {
     if (sq !== undefined) { total += sq; }
     max += 3;
   });
-  // Score always < 60; worst answers → ~18, best answers → ~57
-  return max > 0 ? Math.round(18 + (total / max) * 39) : 25;
+  // Escala 0–100: 0 = piores respostas, 100 = melhores respostas
+  return max > 0 ? Math.round((total / max) * 100) : 0;
 }
 
-function showNLC() {
-  const nlc = calculateNLC();
+function showIQO() {
+  const nlc = calculateIQO();
   const tooltip = document.getElementById('imcTooltip');
   const marker = document.getElementById('imcMarker');
   const valEl = document.getElementById('imcStatusVal');
   const statusEl = document.getElementById('imcStatus');
-  const diagTitle = document.getElementById('nlcDiagTitle');
-  const diagText = document.getElementById('nlcDiagText');
+  const diagTitle = document.getElementById('iqoDiagTitle');
+  const diagText = document.getElementById('iqoDiagText');
 
   let cur = 0;
   const it = setInterval(() => {
@@ -1406,7 +1448,7 @@ function showNLC() {
 
   let band, dtitle, dtext;
 
-  const intro = nlc < 35
+  const intro = nlc < 44
     ? 'Seu ciclo ainda é um mistério pra você.'
     : 'Você percebe alguns sinais — mas está perdendo justamente os que mais importam.';
 
@@ -1427,8 +1469,8 @@ function showNLC() {
     dtext = intro + ' Você já está na frente da maioria. Com o método completo, sua janela fértil vai de 1 para até 5 dias rastreados.';
   }
 
-  band  = nlc < 35 ? 'Invisível' : 'Parcial';
-  dtitle = nlc < 35 ? 'Ciclo Invisível' : 'Ciclo Parcialmente Lido';
+  band  = nlc < 44 ? 'Invisível' : 'Parcial';
+  dtitle = nlc < 44 ? 'Ciclo Invisível' : 'Ciclo Parcialmente Lido';
   statusEl.innerHTML = 'normal acima de <b id="imcStatusVal">68</b>';
   diagTitle.textContent = dtitle;
   diagText.textContent = dtext;
@@ -1446,16 +1488,25 @@ function showNLC() {
 
   // Row 3: Previsão da ovulação (s16 + s15)
   if (answers.s16 === 'sim' && answers.s15 === 'sim') document.getElementById('resumeActivity').textContent = 'Confirmada por sinais';
-  else if (answers.s16 === 'ideia' || answers.s15 === 'tentei') document.getElementById('resumeActivity').textContent = 'Estimada parcialmente';
+  else if (answers.s16 === 'ideia' || answers.s15 === 'tentei') document.getElementById('resumeActivity').textContent = 'Sem sinais físicos';
   else document.getElementById('resumeActivity').textContent = 'Depende só do app';
 
-  window.__nlc = nlc;
+  window.__iqo = nlc;
 }
 
 function syncPriceCompare() {
-  const nlc = window.__nlc || 35;
-  document.getElementById('priceNlcNow').textContent = nlc + '/100';
-  document.getElementById('priceNlcBar').style.width = nlc + '%';
+  const nlc = window.__iqo || calculateIQO();
+  document.getElementById('priceIqoNow').textContent = nlc + '/100';
+  document.getElementById('priceIqoBar').style.width = nlc + '%';
+  // Qualidade da ovulação: alinhada com faixas do IQO
+  const qualEl  = document.getElementById('priceQualidadeNow');
+  const qualBar = document.getElementById('priceQualidadeBar');
+  let qualLabel, qualPct;
+  if (nlc < 33)      { qualLabel = 'Muito baixa'; qualPct = 15; }
+  else if (nlc < 55) { qualLabel = 'Baixa';       qualPct = 30; }
+  else               { qualLabel = 'Moderada';    qualPct = 50; }
+  if (qualEl)  qualEl.textContent      = qualLabel;
+  if (qualBar) qualBar.style.width     = qualPct + '%';
 }
 
 function startLoading() {
@@ -1487,7 +1538,7 @@ function drawCurve() {
   const padL = 16, padR = 16, padT = 28, padB = 46;
   const cW = W - padL - padR, cH = H - padT - padB;
   const days = [0, 7, 14, 21, 28];
-  const startV = (window.__nlc || 35) / 100;
+  const startV = (window.__iqo || calculateIQO()) / 100;
   const values = [startV, Math.min(0.58, startV + 0.18), 0.68, 0.80, 0.90];
   const xP = i => padL + (days[i]/28) * cW;
   const yP = v => padT + cH * (1 - v);
@@ -1628,9 +1679,19 @@ function startCountdown() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  updateChrome('s1');
-  showFooter('s1');
-  trackEtapa(1, 's1');
+  // Atalho de preview: ?tela=s30 pula direto para a tela final
+  const telaParam = new URLSearchParams(window.location.search).get('tela');
+  if (telaParam && document.getElementById(telaParam)) {
+    setTimeout(() => {
+      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+      document.getElementById(telaParam).classList.add('active');
+      if (typeof showScreen === 'function') showScreen(telaParam);
+    }, 100);
+  } else {
+    updateChrome('s1');
+    showFooter('s1');
+    trackEtapa(1, 's1');
+  }
 });
 
 // Bloqueia qualquer <a> que não seja pagamento externo de navegar para fora do quiz

@@ -463,6 +463,7 @@
       </div>
     </div>
 
+    <h3 class="section-heading">O que está acontecendo agora</h3>
     <div class="stat-rows-wrap">
       <div class="stat-rows">
         <div class="stat-row">
@@ -470,8 +471,8 @@
             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 4a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm-2 16v-7H5l3.5-7h7L19 13h-5v7h-4z"/></svg>
           </span>
           <div class="stat-row__body">
-            <div class="stat-row__label">Leitura do ciclo</div>
-            <div class="stat-row__value" id="resumeLifestyle">Não identificada</div>
+            <div class="stat-row__label">Conhece seus sinais</div>
+            <div class="stat-row__value" id="resumeLifestyle">Ainda não</div>
           </div>
         </div>
         <div class="stat-row">
@@ -479,8 +480,8 @@
             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M14 14.76V3.5a2.5 2.5 0 0 0-5 0v11.26a4.5 4.5 0 1 0 5 0zM11 5a.5.5 0 0 1 1 0v9.55a3 3 0 1 1-2 0V8h1V5z"/></svg>
           </span>
           <div class="stat-row__body">
-            <div class="stat-row__label">Fatores externos</div>
-            <div class="stat-row__value" id="resumeCare">Interferência moderada</div>
+            <div class="stat-row__label">Interferências externas</div>
+            <div class="stat-row__value" id="resumeCare">Moderada</div>
           </div>
         </div>
         <div class="stat-row">
@@ -488,8 +489,8 @@
             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8 5 6 9 6 13a6 6 0 0 0 12 0c0-4-2-8-6-11zm0 17a4 4 0 0 1-4-4c0-2 1-4 2-5 1 1 1 2 1 3a2 2 0 0 0 4 0c0-1 0-2 1-3 1 1 2 3 2 5a4 4 0 0 1-4 4z"/></svg>
           </span>
           <div class="stat-row__body">
-            <div class="stat-row__label">Previsão da ovulação</div>
-            <div class="stat-row__value" id="resumeActivity">Depende só do app</div>
+            <div class="stat-row__label">Sua ovulação</div>
+            <div class="stat-row__value" id="resumeActivity">Não identificada</div>
           </div>
         </div>
       </div>
@@ -1453,19 +1454,19 @@ function showIQO() {
 
   // Personalize stat rows
   // Row 1: Leitura do ciclo (s12 + s13)
-  if (answers.s12 === 'sim' && answers.s13 === 'sim') document.getElementById('resumeLifestyle').textContent = 'Bem identificada';
-  else if (answers.s12 === 'as-vezes' || answers.s13 === 'acho') document.getElementById('resumeLifestyle').textContent = 'Parcialmente identificada';
-  else document.getElementById('resumeLifestyle').textContent = 'Não identificada';
+  if (answers.s12 === 'sim' && answers.s13 === 'sim') document.getElementById('resumeLifestyle').textContent = 'Bem';
+  else if (answers.s12 === 'as-vezes' || answers.s13 === 'acho') document.getElementById('resumeLifestyle').textContent = 'Parcialmente';
+  else document.getElementById('resumeLifestyle').textContent = 'Ainda não';
 
   // Row 2: Fatores externos (s14 + s19)
-  if (answers.s14 === 'sim' || answers.s19 === 'intensa') document.getElementById('resumeCare').textContent = 'Alta interferência';
-  else if (answers.s14 === 'nunca' && (answers.s19 === 'leve' || answers.s19 === 'caseira')) document.getElementById('resumeCare').textContent = 'Sem interferência';
-  else document.getElementById('resumeCare').textContent = 'Interferência moderada';
+  if (answers.s14 === 'sim' || answers.s19 === 'intensa') document.getElementById('resumeCare').textContent = 'Alta';
+  else if (answers.s14 === 'nunca' && (answers.s19 === 'leve' || answers.s19 === 'caseira')) document.getElementById('resumeCare').textContent = 'Nenhuma';
+  else document.getElementById('resumeCare').textContent = 'Moderada';
 
   // Row 3: Previsão da ovulação (s16 + s15)
-  if (answers.s16 === 'sim' && answers.s15 === 'sim') document.getElementById('resumeActivity').textContent = 'Confirmada por sinais';
-  else if (answers.s16 === 'ideia' || answers.s15 === 'tentei') document.getElementById('resumeActivity').textContent = 'Sem sinais físicos';
-  else document.getElementById('resumeActivity').textContent = 'Depende só do app';
+  if (answers.s16 === 'sim' && answers.s15 === 'sim') document.getElementById('resumeActivity').textContent = 'Pelos sinais';
+  else if (answers.s16 === 'ideia' || answers.s15 === 'tentei') document.getElementById('resumeActivity').textContent = 'Com dúvidas';
+  else document.getElementById('resumeActivity').textContent = 'Não identificada';
 
   window.__iqo = nlc;
 }

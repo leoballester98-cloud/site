@@ -160,8 +160,8 @@
   <section class="screen" id="s12" data-step="7" data-section="SINAIS DO CICLO" data-icon="cycle">
     <h2 class="q-title">Você observa mudanças no corrimento ao longo do mês?</h2>
     <div class="simple-list">
-      <button class="simple-opt" data-val="sim" data-score="3" data-next="s13">Sim, percebo mudanças claras</button>
       <button class="simple-opt" data-val="as-vezes" data-score="1" data-next="s13">Às vezes percebo</button>
+      <button class="simple-opt" data-val="sim" data-score="3" data-next="s13">Sim, percebo mudanças claras</button>
       <button class="simple-opt" data-val="nao" data-score="0" data-next="s13">Nunca prestei atenção nisso</button>
     </div>
   </section>
@@ -171,8 +171,8 @@
     <h2 class="q-title">Você já viu um corrimento tipo clara de ovo?</h2>
     <p class="q-sub">Transparente, muito elástico, que estica entre os dedos sem quebrar.</p>
     <div class="simple-list">
-      <button class="simple-opt" data-val="sim" data-score="3" data-next="s14">Sim, já vi isso</button>
       <button class="simple-opt" data-val="acho" data-score="1" data-next="s14">Acho que sim, mas não tenho certeza</button>
+      <button class="simple-opt" data-val="sim" data-score="3" data-next="s14">Sim, já vi isso</button>
       <button class="simple-opt" data-val="nunca" data-score="0" data-next="s14">Nunca vi isso</button>
       <button class="simple-opt" data-val="nao-sei" data-score="0" data-next="s14">Não sei o que é isso</button>
     </div>
@@ -183,8 +183,8 @@
     <h2 class="q-title">Você usa sabonete íntimo, ducha ou lenços umedecidos com frequência?</h2>
     <p class="q-sub">Pode destruir o muco fértil sem você perceber. Selecione a opção mais adequada:</p>
     <div class="simple-list">
-      <button class="simple-opt" data-val="nunca" data-score="3" data-next="s15">Nunca</button>
       <button class="simple-opt" data-val="as-vezes" data-score="1" data-next="s15">Às vezes</button>
+      <button class="simple-opt" data-val="nunca" data-score="3" data-next="s15">Nunca</button>
       <button class="simple-opt" data-val="sim" data-score="0" data-next="s15">Sim, uso regularmente</button>
     </div>
   </section>
@@ -193,8 +193,8 @@
   <section class="screen" id="s15" data-step="10" data-section="SINAIS DO CICLO" data-icon="cycle">
     <h2 class="q-title">Você já mediu a temperatura ao acordar para confirmar a ovulação?</h2>
     <div class="simple-list">
-      <button class="simple-opt" data-val="sim" data-score="3" data-next="s5">Sim, faço isso regularmente</button>
       <button class="simple-opt" data-val="tentei" data-score="2" data-next="s5">Já tentei mas não mantive</button>
+      <button class="simple-opt" data-val="sim" data-score="3" data-next="s5">Sim, faço isso regularmente</button>
       <button class="simple-opt" data-val="nunca" data-score="0" data-next="s5">Nunca fiz isso</button>
     </div>
   </section>
@@ -203,13 +203,13 @@
   <section class="screen" id="s5" data-step="11" data-section="SINAIS DO CICLO" data-icon="cycle">
     <h2 class="q-title">Você sabe quando está ovulando?</h2>
     <div class="row-cards">
-      <button class="row-card" data-val="sim" data-score="3" data-next="s17">
-        <div class="row-card__body"><div class="row-card__title">Sim, percebo pelos sinais</div></div>
-        <div class="imgbox imgbox--row"><img loading="lazy" src="Images/etapa5-previsivel.webp" alt="Sim, percebo pelos sinais"/></div>
-      </button>
       <button class="row-card" data-val="as-vezes" data-score="2" data-next="s17">
         <div class="row-card__body"><div class="row-card__title">Às vezes percebo</div></div>
         <div class="imgbox imgbox--row"><img loading="lazy" src="Images/etapa5-sem-sintomas.webp" alt="Às vezes percebo"/></div>
+      </button>
+      <button class="row-card" data-val="sim" data-score="3" data-next="s17">
+        <div class="row-card__body"><div class="row-card__title">Sim, percebo pelos sinais</div></div>
+        <div class="imgbox imgbox--row"><img loading="lazy" src="Images/etapa5-previsivel.webp" alt="Sim, percebo pelos sinais"/></div>
       </button>
       <button class="row-card" data-val="nao" data-score="0" data-next="s17">
         <div class="row-card__body"><div class="row-card__title">Não faço ideia</div></div>
@@ -223,11 +223,11 @@
     <h2 class="q-title">Sente uma dor leve de um lado do baixo ventre no meio do ciclo?</h2>
     <p class="q-sub">Dura algumas horas a um dia. Pode ser sinal da ovulação.</p>
     <div class="simple-list">
+      <button class="simple-opt" data-val="as-vezes" data-score="2" data-next="s18">Já senti algumas vezes</button>
       <button class="simple-opt" data-val="sim" data-score="3" data-next="s18">
         <span class="simple-opt__badge">SINAL FORTE</span>
         Sim, quase todo mês
       </button>
-      <button class="simple-opt" data-val="as-vezes" data-score="2" data-next="s18">Já senti algumas vezes</button>
       <button class="simple-opt" data-val="nao" data-score="0" data-next="s18">Nunca percebi isso</button>
     </div>
   </section>
@@ -264,10 +264,6 @@
   <section class="screen" id="s19" data-step="14" data-section="FATOR EMOCIONAL" data-icon="alert">
     <h2 class="q-title">Como é o seu nível de estresse no dia a dia?</h2>
     <div class="simple-list">
-      <button class="simple-opt" data-val="intensa" data-score="0" data-next="s31">
-        <div class="simple-opt__title">Vivo no limite</div>
-        <div class="simple-opt__sub">Trabalho intenso, raramente desligo</div>
-      </button>
       <button class="simple-opt" data-val="organizada" data-score="1" data-next="s31">
         <div class="simple-opt__title">Médio</div>
         <div class="simple-opt__sub">Estresso mas consigo relaxar</div>
@@ -275,6 +271,10 @@
       <button class="simple-opt" data-val="caseira" data-score="2" data-next="s31">
         <div class="simple-opt__title">Controlado</div>
         <div class="simple-opt__sub">Tenho rotina equilibrada</div>
+      </button>
+      <button class="simple-opt" data-val="intensa" data-score="0" data-next="s31">
+        <div class="simple-opt__title">Vivo no limite</div>
+        <div class="simple-opt__sub">Trabalho intenso, raramente desligo</div>
       </button>
       <button class="simple-opt" data-val="leve" data-score="3" data-next="s31">
         <div class="simple-opt__title">Baixo</div>
@@ -287,8 +287,8 @@
   <section class="screen" id="s31" data-step="15" data-section="FATOR EMOCIONAL" data-icon="alert">
     <h2 class="q-title">Você tem algum momento do dia só para você, sem trabalho ou preocupações?</h2>
     <div class="simple-list">
-      <button class="simple-opt" data-val="sim-todo-dia" data-score="3" data-next="s32">Sim, todo dia</button>
       <button class="simple-opt" data-val="as-vezes" data-score="2" data-next="s32">Às vezes</button>
+      <button class="simple-opt" data-val="sim-todo-dia" data-score="3" data-next="s32">Sim, todo dia</button>
       <button class="simple-opt" data-val="raramente" data-score="1" data-next="s32">Raramente</button>
       <button class="simple-opt" data-val="nao" data-score="0" data-next="s32">Não, meu dia não tem esse espaço</button>
     </div>
@@ -298,8 +298,8 @@
   <section class="screen" id="s32" data-step="16" data-section="FATOR EMOCIONAL" data-icon="alert">
     <h2 class="q-title">Você fica ansiosa quando a menstruação está para chegar?</h2>
     <div class="simple-list">
-      <button class="simple-opt" data-val="nao" data-score="3" data-next="s34">Não, consigo esperar tranquila</button>
       <button class="simple-opt" data-val="um-pouco" data-score="2" data-next="s34">Um pouco</button>
+      <button class="simple-opt" data-val="nao" data-score="3" data-next="s34">Não, consigo esperar tranquila</button>
       <button class="simple-opt" data-val="bastante" data-score="1" data-next="s34">Bastante</button>
       <button class="simple-opt" data-val="angustiante" data-score="0" data-next="s34">Sim, é angustiante</button>
     </div>
@@ -309,8 +309,8 @@
   <section class="screen" id="s34" data-step="17" data-section="FATOR EMOCIONAL" data-icon="alert">
     <h2 class="q-title">Você sente que coloca pressão demais em si mesma para engravidar?</h2>
     <div class="simple-list">
-      <button class="simple-opt" data-val="nao" data-score="3" data-next="s33">Não, me aceito no meu tempo</button>
       <button class="simple-opt" data-val="as-vezes" data-score="2" data-next="s33">Às vezes</button>
+      <button class="simple-opt" data-val="nao" data-score="3" data-next="s33">Não, me aceito no meu tempo</button>
       <button class="simple-opt" data-val="frequente" data-score="1" data-next="s33">Com frequência</button>
       <button class="simple-opt" data-val="sempre" data-score="0" data-next="s33">Sim, cobro muito de mim mesma</button>
     </div>
@@ -320,8 +320,8 @@
   <section class="screen" id="s33" data-step="18" data-section="ESTADO DO ORGANISMO" data-icon="cycle">
     <h2 class="q-title">Seu humor muda bastante ao longo do dia?</h2>
     <div class="simple-list">
-      <button class="simple-opt" data-val="nao" data-score="3" data-next="s35">Não, me mantenho estável</button>
       <button class="simple-opt" data-val="as-vezes" data-score="2" data-next="s35">Às vezes</button>
+      <button class="simple-opt" data-val="nao" data-score="3" data-next="s35">Não, me mantenho estável</button>
       <button class="simple-opt" data-val="frequente" data-score="1" data-next="s35">Com frequência</button>
       <button class="simple-opt" data-val="sempre" data-score="0" data-next="s35">Sim, muda muito</button>
     </div>
@@ -331,8 +331,8 @@
   <section class="screen" id="s35" data-step="19" data-section="ESTADO DO ORGANISMO" data-icon="cycle">
     <h2 class="q-title">Como você descreveria seu sono nos últimos meses?</h2>
     <div class="simple-list">
-      <button class="simple-opt" data-val="bem" data-score="3" data-next="s36">Durmo bem e acordo descansada</button>
       <button class="simple-opt" data-val="as-vezes" data-score="2" data-next="s36">Durmo mas acordo cansada às vezes</button>
+      <button class="simple-opt" data-val="bem" data-score="3" data-next="s36">Durmo bem e acordo descansada</button>
       <button class="simple-opt" data-val="dificuldade" data-score="1" data-next="s36">Tenho dificuldade para dormir</button>
       <button class="simple-opt" data-val="mal" data-score="0" data-next="s36">Durmo mal com frequência</button>
     </div>
@@ -342,8 +342,8 @@
   <section class="screen" id="s36" data-step="20" data-section="ESTADO DO ORGANISMO" data-icon="cycle">
     <h2 class="q-title">Com que frequência você pratica alguma atividade física?</h2>
     <div class="simple-list">
-      <button class="simple-opt" data-val="sempre" data-score="3" data-next="s37">Todos os dias ou quase</button>
       <button class="simple-opt" data-val="frequente" data-score="2" data-next="s37">2 a 3 vezes por semana</button>
+      <button class="simple-opt" data-val="sempre" data-score="3" data-next="s37">Todos os dias ou quase</button>
       <button class="simple-opt" data-val="raramente" data-score="1" data-next="s37">Raramente</button>
       <button class="simple-opt" data-val="nao" data-score="0" data-next="s37">Não pratico</button>
     </div>
@@ -353,8 +353,8 @@
   <section class="screen" id="s37" data-step="21" data-section="ESTADO DO ORGANISMO" data-icon="cycle">
     <h2 class="q-title">Como você descreveria sua alimentação no dia a dia?</h2>
     <div class="simple-list">
-      <button class="simple-opt" data-val="equilibrada" data-score="3" data-next="s38">Equilibrada e variada</button>
       <button class="simple-opt" data-val="razoavel" data-score="2" data-next="s38">Razoável, poderia melhorar</button>
+      <button class="simple-opt" data-val="equilibrada" data-score="3" data-next="s38">Equilibrada e variada</button>
       <button class="simple-opt" data-val="irregular" data-score="1" data-next="s38">Bastante irregular</button>
       <button class="simple-opt" data-val="ruim" data-score="0" data-next="s38">Muito ruim, como mal</button>
     </div>
@@ -364,8 +364,8 @@
   <section class="screen" id="s38" data-step="22" data-section="ESTADO DO ORGANISMO" data-icon="cycle">
     <h2 class="q-title">Você sente inchaço, cansaço ou dores frequentes sem causa aparente?</h2>
     <div class="simple-list">
-      <button class="simple-opt" data-val="nao" data-score="3" data-next="s39">Não, nada disso</button>
       <button class="simple-opt" data-val="raramente" data-score="2" data-next="s39">Um desses raramente</button>
+      <button class="simple-opt" data-val="nao" data-score="3" data-next="s39">Não, nada disso</button>
       <button class="simple-opt" data-val="frequente" data-score="1" data-next="s39">Um ou dois com frequência</button>
       <button class="simple-opt" data-val="varios" data-score="0" data-next="s39">Sim, vários desses com frequência</button>
     </div>
@@ -375,8 +375,8 @@
   <section class="screen" id="s39" data-step="23" data-section="CONEXÃO E PROPÓSITO" data-icon="heart">
     <h2 class="q-title">Você ainda acredita que vai conseguir engravidar?</h2>
     <div class="simple-list">
-      <button class="simple-opt" data-val="sim" data-score="3" data-next="s40">Sim, acredito com convicção</button>
       <button class="simple-opt" data-val="quase" data-score="2" data-next="s40">Sim, mas às vezes duvido</button>
+      <button class="simple-opt" data-val="sim" data-score="3" data-next="s40">Sim, acredito com convicção</button>
       <button class="simple-opt" data-val="pouco" data-score="1" data-next="s40">Está difícil acreditar</button>
       <button class="simple-opt" data-val="nao" data-score="0" data-next="s40">Não acredito mais</button>
     </div>
@@ -385,8 +385,8 @@
   <section class="screen" id="s40" data-step="24" data-section="CONEXÃO E PROPÓSITO" data-icon="heart">
     <h2 class="q-title">Você reza, medita ou tem alguma prática de fé que te apoia nessa jornada?</h2>
     <div class="simple-list">
-      <button class="simple-opt" data-val="sim" data-score="3" data-next="s41">Sim, é parte do meu dia</button>
       <button class="simple-opt" data-val="as-vezes" data-score="2" data-next="s41">Às vezes</button>
+      <button class="simple-opt" data-val="sim" data-score="3" data-next="s41">Sim, é parte do meu dia</button>
       <button class="simple-opt" data-val="raramente" data-score="1" data-next="s41">Raramente</button>
       <button class="simple-opt" data-val="nao" data-score="0" data-next="s41">Não tenho essa prática</button>
     </div>
@@ -395,8 +395,8 @@
   <section class="screen" id="s41" data-step="25" data-section="CONEXÃO E PROPÓSITO" data-icon="heart">
     <h2 class="q-title">Você consegue ter momentos de alegria e leveza mesmo no meio dessa jornada?</h2>
     <div class="simple-list">
-      <button class="simple-opt" data-val="sim" data-score="3" data-next="s42">Sim, consigo</button>
       <button class="simple-opt" data-val="as-vezes" data-score="2" data-next="s42">Às vezes</button>
+      <button class="simple-opt" data-val="sim" data-score="3" data-next="s42">Sim, consigo</button>
       <button class="simple-opt" data-val="raramente" data-score="1" data-next="s42">Raramente</button>
       <button class="simple-opt" data-val="nao" data-score="0" data-next="s42">Não, está difícil</button>
     </div>
@@ -405,8 +405,8 @@
   <section class="screen" id="s42" data-step="26" data-section="CONEXÃO E PROPÓSITO" data-icon="heart">
     <h2 class="q-title">Você sente gratidão pelo seu corpo mesmo quando as coisas não acontecem no seu tempo?</h2>
     <div class="simple-list">
-      <button class="simple-opt" data-val="sim" data-score="3" data-next="s20">Sim, confio no meu corpo</button>
       <button class="simple-opt" data-val="as-vezes" data-score="2" data-next="s20">Às vezes</button>
+      <button class="simple-opt" data-val="sim" data-score="3" data-next="s20">Sim, confio no meu corpo</button>
       <button class="simple-opt" data-val="raramente" data-score="1" data-next="s20">Raramente</button>
       <button class="simple-opt" data-val="nao" data-score="0" data-next="s20">Não, sinto raiva ou frustração</button>
     </div>

@@ -202,11 +202,19 @@
   <!-- ═══════ 16. OVULAÇÃO — F1 scored ═══════ -->
   <section class="screen" id="s5" data-step="11" data-section="SINAIS DO CICLO" data-icon="cycle">
     <h2 class="q-title">Você sabe quando está ovulando?</h2>
-    <div class="simple-list">
-      <button class="simple-opt" data-val="sim" data-score="3" data-next="s17">Sim, percebo pelos sinais</button>
-      <button class="simple-opt" data-val="as-vezes" data-score="2" data-next="s17">Às vezes percebo</button>
-      <button class="simple-opt" data-val="raramente" data-score="1" data-next="s17">Raramente</button>
-      <button class="simple-opt" data-val="nao" data-score="0" data-next="s17">Não faço ideia</button>
+    <div class="row-cards">
+      <button class="row-card" data-val="sim" data-score="3" data-next="s17">
+        <div class="row-card__body"><div class="row-card__title">Sim, percebo pelos sinais</div></div>
+        <div class="imgbox imgbox--row"><img loading="lazy" src="Images/etapa5-previsivel.webp" alt="Sim, percebo pelos sinais"/></div>
+      </button>
+      <button class="row-card" data-val="as-vezes" data-score="2" data-next="s17">
+        <div class="row-card__body"><div class="row-card__title">Às vezes percebo</div></div>
+        <div class="imgbox imgbox--row"><img loading="lazy" src="Images/etapa5-sem-sintomas.webp" alt="Às vezes percebo"/></div>
+      </button>
+      <button class="row-card" data-val="nao" data-score="0" data-next="s17">
+        <div class="row-card__body"><div class="row-card__title">Não faço ideia</div></div>
+        <div class="imgbox imgbox--row"><img loading="lazy" src="Images/etapa5-ovulacao.webp" alt="Não faço ideia"/></div>
+      </button>
     </div>
   </section>
 

@@ -22,7 +22,7 @@
   <link rel="icon" type="image/png" href="favicon.png"/>
   <link rel="apple-touch-icon" href="favicon.png"/>
   <link rel="preload" as="image" href="Images/hero-s1.webp"/>
-  <link rel="stylesheet" href="quiz-warm.css?v=78"/>
+  <link rel="stylesheet" href="quiz-warm.css?v=79"/>
 </head>
 <body>
 
@@ -600,32 +600,32 @@
   <!-- ═══════ 28. PROJEÇÃO ═══════ -->
   <section class="screen" id="s28" data-step="33" data-section="DETALHES PESSOAIS" data-icon="person">
     <h2 class="q-title-lg">O único plano de que você precisa para engravidar</h2>
-    <p class="q-sub">Conforme as informações que você nos forneceu, você atingirá a seu positivo</p>
-    <div class="reveal-target">
-      <div class="reveal-target__value" id="projTarget">14 de agosto de 2026</div>
-    </div>
-    <p class="q-sub" style="margin-top:-12px;">Veja o que muda no seu IQO após o plano</p>
+    <p class="q-sub">Conforme as informações que você nos forneceu, esse é o seu caminho até o positivo</p>
 
-    <div class="iqo-timeline">
-      <div class="iqo-timeline__track">
-        <div class="iqo-timeline__fill" id="iqoTimelineFill"></div>
-        <div class="iqo-timeline__dot iqo-timeline__dot--now" id="iqoDotNow">
-          <div class="iqo-timeline__label">
-            <span class="iqo-timeline__num" id="iqoNow">35</span>
-            <span class="iqo-timeline__tag" id="iqoNowLabel">Seu IQO hoje</span>
-          </div>
-        </div>
-        <div class="iqo-timeline__dot iqo-timeline__dot--target" style="left:88%">
-          <div class="iqo-timeline__label iqo-timeline__label--high">
-            <span class="iqo-timeline__num iqo-timeline__num--high">88</span>
-            <span class="iqo-timeline__tag iqo-timeline__tag--high">Com o plano</span>
-          </div>
+    <div class="date-journey">
+      <div class="date-journey__step">
+        <div class="date-journey__dot date-journey__dot--today"></div>
+        <div class="date-journey__body">
+          <span class="date-journey__tag">Hoje</span>
+          <span class="date-journey__label">Você começa o plano</span>
         </div>
       </div>
-      <div class="iqo-timeline__scale">
-        <span>0</span><span>25</span><span>50</span><span>75</span><span>100</span>
+      <div class="date-journey__connector"></div>
+      <div class="date-journey__step">
+        <div class="date-journey__dot date-journey__dot--ovul"></div>
+        <div class="date-journey__body">
+          <span class="date-journey__tag">Ovulação otimizada</span>
+          <span class="date-journey__label" id="projOvulDate">—</span>
+        </div>
       </div>
-      <div class="iqo-timeline__delta" id="iqoDelta">+53 pts</div>
+      <div class="date-journey__connector"></div>
+      <div class="date-journey__step">
+        <div class="date-journey__dot date-journey__dot--positive"></div>
+        <div class="date-journey__body">
+          <span class="date-journey__tag date-journey__tag--positive">Seu positivo</span>
+          <span class="date-journey__label date-journey__label--positive" id="projTarget">—</span>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -1328,14 +1328,29 @@ dateFieldOrder.forEach((id, i) => {
   });
 });
 
-// ── Duração do protocolo baseada no perfil ────────────────────────────────────
+// ── Ciclos necessários baseados no perfil IQO ────────────────────────────────
+function getProtocolCycles() {
+  const f = window.__iqoFactors || { f1: 50, f2: 50, f3: 50, f4: 50 };
+  const LOW  = 33;
+  const MED  = 66;
+  const baixos  = [f.f1, f.f2, f.f3, f.f4].filter(v => v < LOW).length;
+  const medios  = [f.f1, f.f2, f.f3, f.f4].filter(v => v >= LOW && v < MED).length;
+
+  // 2+ baixos → 3 ciclos
+  if (baixos >= 2) return 3;
+  // 1 baixo + 1+ médio → 3 ciclos
+  if (baixos === 1 && medios >= 1) return 3;
+  // 1 baixo sozinho → 1 ciclo
+  if (baixos === 1) return 1;
+  // 3+ médios → 2 ciclos
+  if (medios >= 3) return 2;
+  // demais casos → 1 ciclo
+  return 1;
+}
+
+// ── Duração do protocolo em semanas (legacy — mantido para compatibilidade) ──
 function getProtocolWeeks() {
-  const age = answers.s1 || '26-35';
-  const irregularity = answers.s2 || 'regular';
-  if (age === '46+')    return 8;
-  if (age === '36-45')  return 6;
-  if (irregularity === 'muito') return 6;
-  return 4;
+  return getProtocolCycles() * 4;
 }
 
 // ── Projeção da janela fértil ─────────────────────────────────────────────────
@@ -1352,57 +1367,41 @@ function calcFertileWindow() {
     lastPeriodStart = new Date();
   }
 
-  const cycleLen     = (answers.cycleDays && answers.cycleDays > 0) ? answers.cycleDays : 28;
-  const protocolDays = getProtocolWeeks() * 7;
+  const cycleLen = (answers.cycleDays && answers.cycleDays > 0) ? answers.cycleDays : 28;
+  const cycles   = getProtocolCycles();
 
-  // Data de conclusão do protocolo (hoje + semanas do perfil)
-  const today       = new Date();
-  const protocolEnd = new Date(today);
-  protocolEnd.setDate(today.getDate() + protocolDays);
+  // Data da ovulação = última menstruação + (ciclos × duração do ciclo) + 14 dias
+  const ovulDate = new Date(lastPeriodStart);
+  ovulDate.setDate(ovulDate.getDate() + (cycles * cycleLen) + 14);
 
-  // Primeira ovulação a partir da última menstruação
-  let ovulDate = new Date(lastPeriodStart);
-  ovulDate.setDate(ovulDate.getDate() + cycleLen - 14);
+  // Data do positivo = ovulação + 9 dias (implantação)
+  const positiveDate = new Date(ovulDate);
+  positiveDate.setDate(positiveDate.getDate() + 9);
 
-  // Avança ciclos até a ovulação cair APÓS o protocolo estar completo
-  while (ovulDate <= protocolEnd) {
-    ovulDate.setDate(ovulDate.getDate() + cycleLen);
-  }
-
-  // Janela fértil: 5 dias antes até dia da ovulação
-  const fertileStart = new Date(ovulDate);
-  fertileStart.setDate(ovulDate.getDate() - 5);
-  const fertileEnd = new Date(ovulDate);
-
-  return { fertileStart, fertileEnd, protocolWeeks: getProtocolWeeks() };
+  return { fertileStart: ovulDate, positiveDate, protocolWeeks: cycles * 4 };
 }
 
 function updateProjection() {
   const projTargetEl = document.getElementById('projTarget');
+  const projOvulEl   = document.getElementById('projOvulDate');
   const projMonthEl  = document.querySelector('#s28 .proj-month');
 
-  const { fertileStart } = calcFertileWindow();
+  const { fertileStart: ovulDate, positiveDate } = calcFertileWindow();
 
   const MONTHS_PT    = ['janeiro','fevereiro','março','abril','maio','junho',
                         'julho','agosto','setembro','outubro','novembro','dezembro'];
   const MONTHS_SHORT = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
 
-  const dateStr = `${fertileStart.getDate()} de ${MONTHS_PT[fertileStart.getMonth()]} de ${fertileStart.getFullYear()}`;
+  const fmtDate = d => `${d.getDate()} de ${MONTHS_PT[d.getMonth()]} de ${d.getFullYear()}`;
 
-  if (projTargetEl) projTargetEl.textContent = dateStr;
-  if (projMonthEl)  projMonthEl.textContent  = MONTHS_SHORT[fertileStart.getMonth()];
+  if (projOvulEl)   projOvulEl.textContent   = fmtDate(ovulDate);
+  if (projTargetEl) projTargetEl.textContent = fmtDate(positiveDate);
+  if (projMonthEl)  projMonthEl.textContent  = MONTHS_SHORT[positiveDate.getMonth()];
 
-  // Atualiza gráfico IQO na s28
+  window.__projPositive = fmtDate(positiveDate);
+
+  // Atualiza gráfico IQO na s28 (removido — substituído por date-journey)
   const nlc = window.__iqo || calculateIQO();
-  const iqoNowEl    = document.getElementById('iqoNow');
-  const iqoNowLabel = document.getElementById('iqoNowLabel');
-  const iqoDotNow   = document.getElementById('iqoDotNow');
-  const iqoFill     = document.getElementById('iqoTimelineFill');
-  const delta = 88 - nlc;
-  if (iqoNowEl)    iqoNowEl.textContent      = nlc;
-  if (iqoNowLabel) iqoNowLabel.textContent   = 'Seu IQO hoje';
-  if (iqoDotNow)   iqoDotNow.style.left      = nlc + '%';
-  if (iqoFill)     iqoFill.style.width       = '88%';
   const deltaEl = document.getElementById('iqoDelta');
   if (deltaEl) deltaEl.textContent = '+' + delta + ' pts';
 

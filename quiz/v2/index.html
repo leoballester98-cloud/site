@@ -22,7 +22,7 @@
   <link rel="icon" type="image/png" href="favicon.png"/>
   <link rel="apple-touch-icon" href="favicon.png"/>
   <link rel="preload" as="image" href="Images/hero-s1.webp"/>
-  <link rel="stylesheet" href="quiz-warm.css?v=80"/>
+  <link rel="stylesheet" href="quiz-warm.css?v=86"/>
 </head>
 <body>
 
@@ -602,41 +602,56 @@
     <h2 class="q-title-lg">Seu plano personalizado está pronto!</h2>
     <p class="q-sub">Esse é o seu caminho até o positivo</p>
 
-    <!-- Gráfico linha horizontal com 3 pontos -->
-    <div class="plan-timeline">
-      <div class="plan-timeline__track">
-        <div class="plan-timeline__fill"></div>
-        <!-- Ponto 1: Hoje -->
-        <div class="plan-timeline__point" style="left:0%">
-          <div class="plan-timeline__dot plan-timeline__dot--today"></div>
-          <div class="plan-timeline__label plan-timeline__label--below">
-            <span class="plan-timeline__name">Hoje</span>
-            <span class="plan-timeline__sub">Você começa</span>
-          </div>
-        </div>
-        <!-- Ponto 2: Ovulação -->
-        <div class="plan-timeline__point" style="left:50%">
-          <div class="plan-timeline__dot plan-timeline__dot--ovul"></div>
-          <div class="plan-timeline__label plan-timeline__label--above">
-            <span class="plan-timeline__name" id="projOvulDate">—</span>
-            <span class="plan-timeline__sub">Ovulação otimizada</span>
-          </div>
-        </div>
-        <!-- Ponto 3: Positivo -->
-        <div class="plan-timeline__point" style="left:100%">
-          <div class="plan-timeline__dot plan-timeline__dot--positive"></div>
-          <div class="plan-timeline__label plan-timeline__label--below">
-            <span class="plan-timeline__name plan-timeline__name--positive" id="projTarget">—</span>
-            <span class="plan-timeline__sub plan-timeline__sub--positive">Seu positivo 🤍</span>
-          </div>
-        </div>
+    <!-- Gráfico de curva SVG com 3 pontos -->
+    <div class="curve-chart">
+      <div class="curve-chart__wrap">
+        <svg class="curve-chart__svg" viewBox="0 0 320 140" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="curveGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%"   stop-color="#c9a97a" stop-opacity="0.25"/>
+              <stop offset="50%"  stop-color="#8faad4" stop-opacity="0.25"/>
+              <stop offset="100%" stop-color="#88a570" stop-opacity="0.25"/>
+            </linearGradient>
+            <linearGradient id="curveStroke" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%"   stop-color="#c9a97a"/>
+              <stop offset="50%"  stop-color="#8faad4"/>
+              <stop offset="100%" stop-color="#88a570"/>
+            </linearGradient>
+          </defs>
+          <!-- Área preenchida -->
+          <path d="M 48 108 C 110 108, 130 50, 160 48 C 190 46, 230 72, 272 36 L 272 130 L 48 130 Z"
+                fill="url(#curveGrad)"/>
+          <!-- Linha da curva -->
+          <path d="M 48 108 C 110 108, 130 50, 160 48 C 190 46, 230 72, 272 36"
+                fill="none" stroke="url(#curveStroke)" stroke-width="2.5" stroke-linecap="round"/>
+          <!-- Linha tracejada vertical no ponto positivo -->
+          <line x1="272" y1="36" x2="272" y2="130" stroke="#88a570" stroke-width="1" stroke-dasharray="3,3" opacity="0.4"/>
+          <!-- Ponto 1: Hoje -->
+          <circle cx="48" cy="108" r="5" fill="#c9a97a" stroke="white" stroke-width="2.5"/>
+          <!-- Ponto 2: Ovulação -->
+          <circle cx="160" cy="48" r="5" fill="#8faad4" stroke="white" stroke-width="2.5"/>
+          <!-- Ponto 3: Positivo -->
+          <circle cx="272" cy="36" r="7" fill="#88a570" stroke="white" stroke-width="2.5"/>
+
+          <!-- Labels dentro do SVG — pixel-perfect sobre os pontos -->
+          <!-- Hoje -->
+          <text x="48" y="96" text-anchor="middle" font-size="8.5" font-weight="600" fill="#a89580" letter-spacing="0.06em" font-family="inherit">VOCÊ COMEÇA</text>
+
+          <!-- Ovulação: data dinâmica (preenchida via JS) + label -->
+          <text id="svgOvulDate" x="160" y="36" text-anchor="middle" font-size="9" font-weight="700" fill="#3d2f1f" font-family="inherit">—</text>
+          <text x="160" y="27" text-anchor="middle" font-size="8" font-weight="600" fill="#8faad4" letter-spacing="0.06em" font-family="inherit">OVULAÇÃO</text>
+
+          <!-- Positivo: data dinâmica + label -->
+          <text id="svgPosDate" x="272" y="24" text-anchor="middle" font-size="9" font-weight="700" fill="#88a570" font-family="inherit">—</text>
+          <text x="272" y="15" text-anchor="middle" font-size="8" font-weight="600" fill="#88a570" letter-spacing="0.06em" font-family="inherit">POSITIVO 🤍</text>
+        </svg>
       </div>
     </div>
 
     <!-- Card IQO antes/depois -->
     <div class="iqo-compare">
       <div class="iqo-compare__col">
-        <span class="iqo-compare__label">Seu IQO hoje</span>
+        <span class="iqo-compare__label">IQO hoje</span>
         <span class="iqo-compare__val iqo-compare__val--low" id="iqoCompareNow">—</span>
       </div>
       <div class="iqo-compare__arrow">→</div>
@@ -1367,8 +1382,14 @@ function updateProjection() {
 
   const fmtDate = d => `${d.getDate()} de ${MONTHS_PT[d.getMonth()]} de ${d.getFullYear()}`;
 
+  const fmtShort = d => `${d.getDate()} de ${MONTHS_PT[d.getMonth()]}`;
   if (projOvulEl)   projOvulEl.textContent   = fmtDate(ovulDate);
   if (projTargetEl) projTargetEl.textContent = fmtDate(positiveDate);
+  // Labels SVG (texto curto para caber no gráfico)
+  const svgOvul = document.getElementById('svgOvulDate');
+  const svgPos  = document.getElementById('svgPosDate');
+  if (svgOvul) svgOvul.textContent = fmtShort(ovulDate);
+  if (svgPos)  svgPos.textContent  = fmtShort(positiveDate);
   if (projMonthEl)  projMonthEl.textContent  = MONTHS_SHORT[positiveDate.getMonth()];
 
   window.__projPositive = fmtDate(positiveDate);
@@ -1379,8 +1400,8 @@ function updateProjection() {
   const iqoDeltaEl = document.getElementById('iqoCompareDelta');
   if (iqoNowEl) iqoNowEl.textContent = nlc;
   if (iqoDeltaEl) {
-    const pct = nlc > 0 ? Math.round(((88 - nlc) / nlc) * 100) : 0;
-    iqoDeltaEl.textContent = '+' + pct + '% de melhora';
+    const pts = Math.max(0, 88 - nlc);
+    iqoDeltaEl.textContent = '+' + pts + ' pontos de evolução';
   }
 
   // Atualiza banner da s30

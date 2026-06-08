@@ -3236,73 +3236,77 @@ button:focus-visible, .row-card:focus-visible, .simple-opt:focus-visible,
 }
 .date-journey__label--positive { color: var(--green); font-size: 18px; }
 
-/* ── Plan Timeline (s28 horizontal line graph) ── */
-.plan-timeline {
-  margin: 28px 0 36px;
-  padding: 0 12px;
+/* ── Curve Chart (s28) ── */
+.curve-chart {
+  margin: 16px 0 28px;
+  padding: 0;
 }
-.plan-timeline__track {
+.curve-chart__wrap {
   position: relative;
-  height: 4px;
-  background: #e8e0d6;
-  border-radius: 4px;
-  margin: 60px 0 60px;
+  width: 100%;
 }
-.plan-timeline__fill {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(90deg, var(--blush) 0%, var(--blue) 50%, var(--green) 100%);
-  border-radius: 4px;
+.curve-chart__svg {
+  display: block;
+  width: 100%;
+  height: 140px;
+  overflow: visible;
 }
-.plan-timeline__point {
-  position: absolute;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-.plan-timeline__dot {
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  border: 3px solid var(--card);
-  box-shadow: 0 0 0 2px currentColor;
-  flex-shrink: 0;
-}
-.plan-timeline__dot--today    { color: var(--muted);  background: var(--muted); }
-.plan-timeline__dot--ovul     { color: var(--blue);   background: var(--blue); }
-.plan-timeline__dot--positive { color: var(--green);  background: var(--green); box-shadow: 0 0 0 2px var(--green), 0 0 0 5px rgba(136,165,112,0.2); }
-.plan-timeline__label {
+
+/* Labels posicionados sobre os pontos do gráfico */
+/* viewBox 320×140 → posições em % */
+/* Hoje: 26/320=8.1%, 108/140=77% */
+/* Ovul: 160/320=50%, 48/140=34% */
+/* Pos:  294/320=91.9%, 36/140=26% */
+.cc-label {
   position: absolute;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 2px;
-  white-space: nowrap;
-  width: max-content;
-  max-width: 130px;
+  pointer-events: none;
+}
+/* Hoje: cx=48/320=15%, cy=108/140=77% */
+.cc-label--hoje {
+  left: 15%;
+  top: 77%;
+  transform: translate(-50%, calc(-100% - 10px));
+  align-items: center;
   text-align: center;
 }
-.plan-timeline__label--above { bottom: calc(100% + 14px); }
-.plan-timeline__label--below { top: calc(100% + 14px); }
-.plan-timeline__name {
-  font-size: 13px;
-  font-weight: 700;
-  color: var(--ink);
-  letter-spacing: -0.02em;
+/* Ovulação: cx=160/320=50%, cy=48/140=34% */
+.cc-label--ovul {
+  left: 50%;
+  top: 34%;
+  transform: translate(-50%, calc(-100% - 10px));
+  align-items: center;
+  text-align: center;
 }
-.plan-timeline__name--positive { color: var(--green); }
-.plan-timeline__sub {
+/* Positivo: cx=272/320=85%, cy=36/140=26% */
+.cc-label--pos {
+  left: 85%;
+  top: 26%;
+  transform: translate(-50%, calc(-100% - 10px));
+  align-items: center;
+  text-align: center;
+}
+.cc-tag {
   font-size: 10px;
-  font-weight: 500;
+  font-weight: 600;
   color: var(--muted);
   text-transform: uppercase;
-  letter-spacing: 0.06em;
-  white-space: normal;
-  text-align: center;
+  letter-spacing: 0.07em;
+  white-space: nowrap;
 }
-.plan-timeline__sub--positive { color: var(--green); }
+.cc-tag--blue  { color: #8faad4; }
+.cc-tag--green { color: var(--green); }
+.cc-date {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink);
+  white-space: nowrap;
+  line-height: 1.3;
+}
+.cc-date--green { color: var(--green); }
 
 /* ── IQO Compare card (s28) ── */
 .iqo-compare {
@@ -3333,10 +3337,11 @@ button:focus-visible, .row-card:focus-visible, .simple-opt:focus-visible,
   letter-spacing: 0.06em;
 }
 .iqo-compare__val {
-  font-size: 32px;
-  font-weight: 800;
-  letter-spacing: -0.03em;
+  font-size: 36px;
+  font-weight: 300;
+  letter-spacing: -0.01em;
   line-height: 1;
+  font-variant-numeric: tabular-nums;
 }
 .iqo-compare__val--low  { color: #c0392b; }
 .iqo-compare__val--high { color: var(--green); }

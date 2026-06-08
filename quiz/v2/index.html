@@ -22,7 +22,7 @@
   <link rel="icon" type="image/png" href="favicon.png"/>
   <link rel="apple-touch-icon" href="favicon.png"/>
   <link rel="preload" as="image" href="Images/hero-s1.webp"/>
-  <link rel="stylesheet" href="quiz-warm.css?v=86"/>
+  <link rel="stylesheet" href="quiz-warm.css?v=90"/>
 </head>
 <body>
 
@@ -633,18 +633,23 @@
           <!-- Ponto 3: Positivo -->
           <circle cx="272" cy="36" r="7" fill="#88a570" stroke="white" stroke-width="2.5"/>
 
-          <!-- Labels dentro do SVG — pixel-perfect sobre os pontos -->
-          <!-- Hoje -->
-          <text x="48" y="96" text-anchor="middle" font-size="8.5" font-weight="600" fill="#a89580" letter-spacing="0.06em" font-family="inherit">VOCÊ COMEÇA</text>
-
-          <!-- Ovulação: data dinâmica (preenchida via JS) + label -->
-          <text id="svgOvulDate" x="160" y="36" text-anchor="middle" font-size="9" font-weight="700" fill="#3d2f1f" font-family="inherit">—</text>
-          <text x="160" y="27" text-anchor="middle" font-size="8" font-weight="600" fill="#8faad4" letter-spacing="0.06em" font-family="inherit">OVULAÇÃO</text>
-
-          <!-- Positivo: data dinâmica + label -->
-          <text id="svgPosDate" x="272" y="24" text-anchor="middle" font-size="9" font-weight="700" fill="#88a570" font-family="inherit">—</text>
-          <text x="272" y="15" text-anchor="middle" font-size="8" font-weight="600" fill="#88a570" letter-spacing="0.06em" font-family="inherit">POSITIVO 🤍</text>
         </svg>
+
+        <!-- Labels HTML — centralizados sobre cada ponto (% batem com cx/viewBox) -->
+        <!-- Hoje: cx=48/320=15%, cy=108/140=77% -->
+        <div class="cc-label cc-label--hoje">
+          <span class="cc-tag">Você começa</span>
+        </div>
+        <!-- Ovulação: cx=160/320=50%, cy=48/140=34% -->
+        <div class="cc-label cc-label--ovul">
+          <span class="cc-date" id="projOvulDate">—</span>
+          <span class="cc-tag cc-tag--blue">Ovulação</span>
+        </div>
+        <!-- Positivo: cx=272/320=85%, cy=36/140=26% -->
+        <div class="cc-label cc-label--pos">
+          <span class="cc-date cc-date--green" id="projTarget">—</span>
+          <span class="cc-tag cc-tag--green">Positivo 🤍</span>
+        </div>
       </div>
     </div>
 
@@ -1382,14 +1387,8 @@ function updateProjection() {
 
   const fmtDate = d => `${d.getDate()} de ${MONTHS_PT[d.getMonth()]} de ${d.getFullYear()}`;
 
-  const fmtShort = d => `${d.getDate()} de ${MONTHS_PT[d.getMonth()]}`;
   if (projOvulEl)   projOvulEl.textContent   = fmtDate(ovulDate);
   if (projTargetEl) projTargetEl.textContent = fmtDate(positiveDate);
-  // Labels SVG (texto curto para caber no gráfico)
-  const svgOvul = document.getElementById('svgOvulDate');
-  const svgPos  = document.getElementById('svgPosDate');
-  if (svgOvul) svgOvul.textContent = fmtShort(ovulDate);
-  if (svgPos)  svgPos.textContent  = fmtShort(positiveDate);
   if (projMonthEl)  projMonthEl.textContent  = MONTHS_SHORT[positiveDate.getMonth()];
 
   window.__projPositive = fmtDate(positiveDate);

@@ -3244,6 +3244,7 @@ button:focus-visible, .row-card:focus-visible, .simple-opt:focus-visible,
 .curve-chart__wrap {
   position: relative;
   width: 100%;
+  overflow: visible;
 }
 .curve-chart__svg {
   display: block;
@@ -3265,32 +3266,32 @@ button:focus-visible, .row-card:focus-visible, .simple-opt:focus-visible,
   gap: 2px;
   pointer-events: none;
 }
-/* Hoje: cx=48/320=15%, cy=108/140=77% */
+/* Hoje: cx=48/320=15%, cy=108/140=77% — acima do ponto */
 .cc-label--hoje {
   left: 15%;
   top: 77%;
-  transform: translate(-50%, calc(-100% - 10px));
+  transform: translate(-50%, calc(-100% - 18px));
   align-items: center;
   text-align: center;
 }
-/* Ovulação: cx=160/320=50%, cy=48/140=34% */
+/* Ovulação: cx=160/320=50%, cy=48/140=34% — acima do ponto */
 .cc-label--ovul {
   left: 50%;
   top: 34%;
-  transform: translate(-50%, calc(-100% - 10px));
+  transform: translate(-50%, calc(-100% - 8px));
   align-items: center;
   text-align: center;
 }
-/* Positivo: cx=272/320=85%, cy=36/140=26% */
+/* Positivo: cx=272/320=85%, cy=36/140=26% — acima do ponto */
 .cc-label--pos {
   left: 85%;
   top: 26%;
-  transform: translate(-50%, calc(-100% - 10px));
+  transform: translate(-50%, calc(-100% - 8px));
   align-items: center;
   text-align: center;
 }
 .cc-tag {
-  font-size: 10px;
+  font-size: 8.5px;
   font-weight: 600;
   color: var(--muted);
   text-transform: uppercase;
@@ -3300,7 +3301,7 @@ button:focus-visible, .row-card:focus-visible, .simple-opt:focus-visible,
 .cc-tag--blue  { color: #8faad4; }
 .cc-tag--green { color: var(--green); }
 .cc-date {
-  font-size: 12px;
+  font-size: 10.5px;
   font-weight: 600;
   color: var(--ink);
   white-space: nowrap;

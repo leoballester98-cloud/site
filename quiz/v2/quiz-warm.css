@@ -3235,3 +3235,127 @@ button:focus-visible, .row-card:focus-visible, .simple-opt:focus-visible,
   letter-spacing: -0.02em;
 }
 .date-journey__label--positive { color: var(--green); font-size: 18px; }
+
+/* ── Plan Timeline (s28 horizontal line graph) ── */
+.plan-timeline {
+  margin: 28px 0 36px;
+  padding: 0 12px;
+}
+.plan-timeline__track {
+  position: relative;
+  height: 4px;
+  background: #e8e0d6;
+  border-radius: 4px;
+  margin: 60px 0 60px;
+}
+.plan-timeline__fill {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, var(--blush) 0%, var(--blue) 50%, var(--green) 100%);
+  border-radius: 4px;
+}
+.plan-timeline__point {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.plan-timeline__dot {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 3px solid var(--card);
+  box-shadow: 0 0 0 2px currentColor;
+  flex-shrink: 0;
+}
+.plan-timeline__dot--today    { color: var(--muted);  background: var(--muted); }
+.plan-timeline__dot--ovul     { color: var(--blue);   background: var(--blue); }
+.plan-timeline__dot--positive { color: var(--green);  background: var(--green); box-shadow: 0 0 0 2px var(--green), 0 0 0 5px rgba(136,165,112,0.2); }
+.plan-timeline__label {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  white-space: nowrap;
+  width: max-content;
+  max-width: 130px;
+  text-align: center;
+}
+.plan-timeline__label--above { bottom: calc(100% + 14px); }
+.plan-timeline__label--below { top: calc(100% + 14px); }
+.plan-timeline__name {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink);
+  letter-spacing: -0.02em;
+}
+.plan-timeline__name--positive { color: var(--green); }
+.plan-timeline__sub {
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  white-space: normal;
+  text-align: center;
+}
+.plan-timeline__sub--positive { color: var(--green); }
+
+/* ── IQO Compare card (s28) ── */
+.iqo-compare {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  background: var(--card);
+  border: 1px solid #ede7df;
+  border-radius: 16px;
+  padding: 16px 20px;
+  margin-top: 8px;
+  position: relative;
+  flex-wrap: wrap;
+}
+.iqo-compare__col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  min-width: 70px;
+}
+.iqo-compare__label {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.iqo-compare__val {
+  font-size: 32px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+.iqo-compare__val--low  { color: #c0392b; }
+.iqo-compare__val--high { color: var(--green); }
+.iqo-compare__arrow {
+  font-size: 22px;
+  color: var(--muted);
+  margin-top: 16px;
+}
+.iqo-compare__delta {
+  position: absolute;
+  bottom: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--green);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 20px;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}

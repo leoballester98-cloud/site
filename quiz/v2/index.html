@@ -22,7 +22,7 @@
   <link rel="icon" type="image/png" href="favicon.png"/>
   <link rel="apple-touch-icon" href="favicon.png"/>
   <link rel="preload" as="image" href="Images/hero-s1.webp"/>
-  <link rel="stylesheet" href="quiz-warm.css?v=79"/>
+  <link rel="stylesheet" href="quiz-warm.css?v=80"/>
 </head>
 <body>
 
@@ -599,83 +599,57 @@
 
   <!-- ═══════ 28. PROJEÇÃO ═══════ -->
   <section class="screen" id="s28" data-step="33" data-section="DETALHES PESSOAIS" data-icon="person">
-    <h2 class="q-title-lg">O único plano de que você precisa para engravidar</h2>
-    <p class="q-sub">Conforme as informações que você nos forneceu, esse é o seu caminho até o positivo</p>
-
-    <div class="date-journey">
-      <div class="date-journey__step">
-        <div class="date-journey__dot date-journey__dot--today"></div>
-        <div class="date-journey__body">
-          <span class="date-journey__tag">Hoje</span>
-          <span class="date-journey__label">Você começa o plano</span>
-        </div>
-      </div>
-      <div class="date-journey__connector"></div>
-      <div class="date-journey__step">
-        <div class="date-journey__dot date-journey__dot--ovul"></div>
-        <div class="date-journey__body">
-          <span class="date-journey__tag">Ovulação otimizada</span>
-          <span class="date-journey__label" id="projOvulDate">—</span>
-        </div>
-      </div>
-      <div class="date-journey__connector"></div>
-      <div class="date-journey__step">
-        <div class="date-journey__dot date-journey__dot--positive"></div>
-        <div class="date-journey__body">
-          <span class="date-journey__tag date-journey__tag--positive">Seu positivo</span>
-          <span class="date-journey__label date-journey__label--positive" id="projTarget">—</span>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ═══════ 29. CURVA FÉRTIL ═══════ -->
-  <section class="screen" id="s29" data-step="34" data-section="" data-icon="">
     <h2 class="q-title-lg">Seu plano personalizado está pronto!</h2>
-    <p class="q-sub" style="margin-top:4px;">Veja o caminho que traçamos para você chegar ao positivo</p>
+    <p class="q-sub">Esse é o seu caminho até o positivo</p>
 
-    <div class="journey-timeline">
-      <div class="journey-step journey-step--done">
-        <div class="journey-dot journey-dot--today"></div>
-        <div class="journey-label">
-          <span class="journey-label__tag">Hoje</span>
-          <span class="journey-label__text">Você começa o plano</span>
+    <!-- Gráfico linha horizontal com 3 pontos -->
+    <div class="plan-timeline">
+      <div class="plan-timeline__track">
+        <div class="plan-timeline__fill"></div>
+        <!-- Ponto 1: Hoje -->
+        <div class="plan-timeline__point" style="left:0%">
+          <div class="plan-timeline__dot plan-timeline__dot--today"></div>
+          <div class="plan-timeline__label plan-timeline__label--below">
+            <span class="plan-timeline__name">Hoje</span>
+            <span class="plan-timeline__sub">Você começa</span>
+          </div>
         </div>
-      </div>
-      <div class="journey-connector"></div>
-      <div class="journey-step">
-        <div class="journey-dot journey-dot--mid"></div>
-        <div class="journey-label">
-          <span class="journey-label__tag">30 dias</span>
-          <span class="journey-label__text">Ciclo calibrado, sinais lidos, IQO melhorado</span>
+        <!-- Ponto 2: Ovulação -->
+        <div class="plan-timeline__point" style="left:50%">
+          <div class="plan-timeline__dot plan-timeline__dot--ovul"></div>
+          <div class="plan-timeline__label plan-timeline__label--above">
+            <span class="plan-timeline__name" id="projOvulDate">—</span>
+            <span class="plan-timeline__sub">Ovulação otimizada</span>
+          </div>
         </div>
-      </div>
-      <div class="journey-connector"></div>
-      <div class="journey-step">
-        <div class="journey-dot journey-dot--target"></div>
-        <div class="journey-label">
-          <span class="journey-label__tag journey-label__tag--highlight" id="timelineDate">Sua data</span>
-          <span class="journey-label__text">Sua janela fértil com IQO otimizado 🌿</span>
+        <!-- Ponto 3: Positivo -->
+        <div class="plan-timeline__point" style="left:100%">
+          <div class="plan-timeline__dot plan-timeline__dot--positive"></div>
+          <div class="plan-timeline__label plan-timeline__label--below">
+            <span class="plan-timeline__name plan-timeline__name--positive" id="projTarget">—</span>
+            <span class="plan-timeline__sub plan-timeline__sub--positive">Seu positivo 🤍</span>
+          </div>
         </div>
       </div>
     </div>
 
-    <div class="info-box" style="margin-top:20px;">
-      <span class="info-box__icon info-box__icon--check">
-        <svg class="check-svg" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <circle class="check-svg__circle" cx="26" cy="26" r="22" stroke-width="2.5"/>
-          <path class="check-svg__tick" d="M15 26l8 9 14-16" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"/>
-        </svg>
-      </span>
-      <div class="info-box__body">
-        <p class="info-box__title">Mapeamos suas 4 áreas</p>
-        <p class="info-box__text">Agora você tem um método, não só uma tentativa.</p>
+    <!-- Card IQO antes/depois -->
+    <div class="iqo-compare">
+      <div class="iqo-compare__col">
+        <span class="iqo-compare__label">Seu IQO hoje</span>
+        <span class="iqo-compare__val iqo-compare__val--low" id="iqoCompareNow">—</span>
       </div>
+      <div class="iqo-compare__arrow">→</div>
+      <div class="iqo-compare__col">
+        <span class="iqo-compare__label">Com o plano</span>
+        <span class="iqo-compare__val iqo-compare__val--high">88</span>
+      </div>
+      <div class="iqo-compare__delta" id="iqoCompareDelta">—</div>
     </div>
   </section>
 
   <!-- ═══════ 30. PRICING ═══════ -->
-  <section class="screen" id="s30" data-step="35" data-section="" data-icon="" data-cta="hidden">
+  <section class="screen" id="s30" data-step="34" data-section="" data-icon="" data-cta="hidden">
 
     <!-- Sticky discount bar -->
     <div class="sticky-discount-bar">
@@ -1019,7 +993,7 @@
 
 <script>
 const SCREENS = Array.from(document.querySelectorAll('.screen')).map(s => s.id);
-const TOTAL_STEPS = 35;
+const TOTAL_STEPS = 34;
 const answers = {};
 const scores = {};
 answers.libidoDays = 0; // s22 aceita 0 como resposta válida ("se não percebe, deixe 0")
@@ -1125,7 +1099,6 @@ function showScreen(id) {
   if (id === 's25') showIQO();
   if (id === 's27') startLoading();
   if (id === 's28') updateProjection();
-  if (id === 's29') updateTimeline();
   document.body.classList.toggle('screen--sales', id === 's30');
 
   // Ajusta padding do wrap para s30 (sticky bar substitui o header fixo)
@@ -1400,10 +1373,15 @@ function updateProjection() {
 
   window.__projPositive = fmtDate(positiveDate);
 
-  // Atualiza gráfico IQO na s28 (removido — substituído por date-journey)
+  // Atualiza card IQO antes/depois na s28
   const nlc = window.__iqo || calculateIQO();
-  const deltaEl = document.getElementById('iqoDelta');
-  if (deltaEl) deltaEl.textContent = '+' + delta + ' pts';
+  const iqoNowEl   = document.getElementById('iqoCompareNow');
+  const iqoDeltaEl = document.getElementById('iqoCompareDelta');
+  if (iqoNowEl) iqoNowEl.textContent = nlc;
+  if (iqoDeltaEl) {
+    const pct = nlc > 0 ? Math.round(((88 - nlc) / nlc) * 100) : 0;
+    iqoDeltaEl.textContent = '+' + pct + '% de melhora';
+  }
 
   // Atualiza banner da s30
   const insightEl     = document.getElementById('fertileInsight');
@@ -1417,20 +1395,6 @@ function updateProjection() {
   }
 }
 
-// ── Timeline s29 ─────────────────────────────────────────────────────────────
-function updateTimeline() {
-  const el = document.getElementById('timelineDate');
-  if (!el) return;
-  // Reutiliza o texto já calculado pelo projTarget (s28)
-  const projText = document.getElementById('projTarget')?.textContent;
-  if (projText && projText !== '14 de agosto de 2026') {
-    el.textContent = projText;
-  } else {
-    // Recalcula se projTarget ainda não foi populado
-    updateProjection();
-    el.textContent = document.getElementById('projTarget')?.textContent || 'Sua data';
-  }
-}
 
 // IQO calculation — 4 fatores com peso igual
 function calculateIQO() {

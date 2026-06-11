@@ -958,7 +958,7 @@ body {
 }
 .imc-gauge__tooltip {
   position: absolute;
-  top: -32px;
+  top: -44px;
   left: 0%;
   transform: translateX(-50%);
   background: var(--card);
@@ -3175,7 +3175,9 @@ button:focus-visible, .row-card:focus-visible, .simple-opt:focus-visible,
   height: 122px;
 }
 #s25 .imc-gauge__tooltip {
-  top: -20px;
+  top: -24px;
+  font-size: 10px;
+  padding: 3px 8px;
 }
 
 /* ── Date Journey (s28) ─────────────────────────────────────────────────── */

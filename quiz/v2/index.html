@@ -22,7 +22,7 @@
   <link rel="icon" type="image/png" href="favicon.png"/>
   <link rel="apple-touch-icon" href="favicon.png"/>
   <link rel="preload" as="image" href="Images/hero-s1.webp"/>
-  <link rel="stylesheet" href="quiz-warm.css?v=92"/>
+  <link rel="stylesheet" href="quiz-warm.css?v=93"/>
 </head>
 <body>
 
@@ -1156,6 +1156,14 @@ function showScreen(id) {
         insightEl.style.display = 'flex';
       }
     })();
+    // Atualiza todos os links de checkout dinamicamente
+    (function() {
+      const code = getCheckoutLink();
+      const url = 'https://pay.celetus.com/' + code;
+      document.querySelectorAll('a[href*="pay.celetus.com"]').forEach(el => {
+        el.href = url;
+      });
+    })();
     if (typeof fbq !== 'undefined') fbq('track','Lead');
   }
 }
@@ -1321,6 +1329,45 @@ dateFieldOrder.forEach((id, i) => {
   });
 });
 
+// ── IQO mapeado para o range do plano recomendado ────────────────────────────
+// Garante que o número exibido sempre caia dentro da faixa do produto correto:
+//   3 ciclos → 18–30 | 2 ciclos → 31–45 | 1 ciclo → 46–57
+function getDisplayIQO() {
+  const raw    = window.__iqo !== undefined ? window.__iqo : calculateIQO();
+  const cycles = getProtocolCycles();
+  const ranges = { 3: [18, 30], 2: [31, 45], 1: [46, 57] };
+  const [min, max] = ranges[cycles] || [46, 57];
+  const mapped = Math.round(min + (raw / 100) * (max - min));
+  return Math.min(max, Math.max(min, mapped));
+}
+
+// ── Link de checkout baseado no perfil IQO ───────────────────────────────────
+function getCheckoutLink() {
+  const cycles = getProtocolCycles();
+  const f = window.__iqoFactors || { f1: 50, f2: 50, f3: 50, f4: 50 };
+
+  // 1 ciclo → Plano Essencial (todos fatores equilibrados)
+  if (cycles === 1) return 'MWEYGXEF';
+
+  // Fator mais fraco (menor valor)
+  const fatores = [
+    { key: 'f1', val: f.f1 },
+    { key: 'f2', val: f.f2 },
+    { key: 'f3', val: f.f3 },
+    { key: 'f4', val: f.f4 },
+  ];
+  const weakest = fatores.reduce((a, b) => b.val < a.val ? b : a).key;
+
+  if (cycles === 2) {
+    const map2 = { f1: 'HBBJI1EQ', f2: 'CD6ALEC3', f3: 'JAKOR8GJ', f4: 'Y53V7BUW' };
+    return map2[weakest] || 'MWEYGXEF';
+  }
+
+  // cycles === 3
+  const map3 = { f1: 'AUJB91LK', f2: 'A3VA0TIP', f3: '7NOSRKE6', f4: 'DXUUATLN' };
+  return map3[weakest] || 'MWEYGXEF';
+}
+
 // ── Ciclos necessários baseados no perfil IQO ────────────────────────────────
 function getProtocolCycles() {
   const f = window.__iqoFactors || { f1: 50, f2: 50, f3: 50, f4: 50 };
@@ -1394,7 +1441,7 @@ function updateProjection() {
   window.__projPositive = fmtDate(positiveDate);
 
   // Atualiza card IQO antes/depois na s28
-  const nlc = window.__iqo || calculateIQO();
+  const nlc = getDisplayIQO();
   const iqoNowEl   = document.getElementById('iqoCompareNow');
   const iqoDeltaEl = document.getElementById('iqoCompareDelta');
   if (iqoNowEl) iqoNowEl.textContent = nlc;
@@ -1435,7 +1482,8 @@ function calculateIQO() {
 }
 
 function showIQO() {
-  const nlc = calculateIQO();
+  window.__iqo = calculateIQO(); // salva o raw e popula __iqoFactors
+  const nlc = getDisplayIQO();  // converte para o range do plano
   const tooltip = document.getElementById('imcTooltip');
   const marker = document.getElementById('imcMarker');
   const valEl = document.getElementById('imcStatusVal');
@@ -1513,12 +1561,11 @@ function showIQO() {
   // Row 4: Propósito e Crença (F4)
   const r4 = document.getElementById('resumeFaith');
   if (r4) r4.textContent = fators.f4 >= 75 ? 'Forte' : fators.f4 >= 45 ? 'Oscilando' : 'Fragilizado';
-
-  window.__iqo = nlc;
+  // window.__iqo já foi salvo com o valor raw no início da função
 }
 
 function syncPriceCompare() {
-  const nlc = window.__iqo || calculateIQO();
+  const nlc = getDisplayIQO();
   document.getElementById('priceIqoNow').textContent = nlc + '/100';
   document.getElementById('priceIqoBar').style.width = nlc + '%';
   // Qualidade da ovulação: alinhada com faixas do IQO

@@ -602,70 +602,64 @@
     <h2 class="q-title-lg">Seu plano personalizado está pronto!</h2>
     <p class="q-sub">Esse é o seu caminho até o positivo</p>
 
-    <!-- Gráfico de curva SVG com 3 pontos -->
+    <!-- Gráfico de tendência SVG com 4 pontos -->
     <div class="curve-chart">
       <div class="curve-chart__wrap">
-        <svg class="curve-chart__svg" viewBox="0 0 320 140" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <svg class="curve-chart__svg" viewBox="0 0 320 200" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
           <defs>
             <linearGradient id="curveGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%"   stop-color="#c9a97a" stop-opacity="0.25"/>
-              <stop offset="50%"  stop-color="#8faad4" stop-opacity="0.25"/>
+              <stop offset="0%"   stop-color="#c9a97a" stop-opacity="0.20"/>
+              <stop offset="53%"  stop-color="#c9a97a" stop-opacity="0.15"/>
+              <stop offset="73%"  stop-color="#8faad4" stop-opacity="0.20"/>
               <stop offset="100%" stop-color="#88a570" stop-opacity="0.25"/>
             </linearGradient>
             <linearGradient id="curveStroke" x1="0%" y1="0%" x2="100%" y2="0%">
               <stop offset="0%"   stop-color="#c9a97a"/>
-              <stop offset="50%"  stop-color="#8faad4"/>
+              <stop offset="73%"  stop-color="#8faad4"/>
               <stop offset="100%" stop-color="#88a570"/>
             </linearGradient>
           </defs>
-          <!-- Área preenchida -->
-          <path d="M 48 108 C 110 108, 130 50, 160 48 C 190 46, 230 72, 272 36 L 272 130 L 48 130 Z"
+          <!-- Eixo X em y=190, viewBox 320×200 -->
+          <!-- P1(28,175) P2(170,130) P3(235,80) P4(292,35) — espaçamento 84:14:6 dias -->
+          <line x1="22" y1="190" x2="298" y2="190" stroke="#ccc" stroke-width="1" opacity="0.4"/>
+          <path d="M 28 175 C 75 160, 136 146, 170 130 C 205 114, 215 96, 235 80 C 255 64, 273 50, 292 35 L 292 190 L 28 190 Z"
                 fill="url(#curveGrad)"/>
-          <!-- Linha da curva -->
-          <path d="M 48 108 C 110 108, 130 50, 160 48 C 190 46, 230 72, 272 36"
+          <path d="M 28 175 C 75 160, 136 146, 170 130 C 205 114, 215 96, 235 80 C 255 64, 273 50, 292 35"
                 fill="none" stroke="url(#curveStroke)" stroke-width="2.5" stroke-linecap="round"/>
-          <!-- Linha tracejada vertical no ponto positivo -->
-          <line x1="272" y1="36" x2="272" y2="130" stroke="#88a570" stroke-width="1" stroke-dasharray="3,3" opacity="0.4"/>
-          <!-- Ponto 1: Hoje -->
-          <circle cx="48" cy="108" r="5" fill="#c9a97a" stroke="white" stroke-width="2.5"/>
-          <!-- Ponto 2: Ovulação -->
-          <circle cx="160" cy="48" r="5" fill="#8faad4" stroke="white" stroke-width="2.5"/>
-          <!-- Ponto 3: Positivo -->
-          <circle cx="272" cy="36" r="7" fill="#88a570" stroke="white" stroke-width="2.5"/>
-
+          <line x1="170" y1="130" x2="170" y2="190" stroke="#c9a97a" stroke-width="1" stroke-dasharray="3,3" opacity="0.35"/>
+          <!-- Janela fértil: dois tracejados em x=229 e x=242 (±6.5px = 5 dias) -->
+          <line x1="229" y1="83"  x2="229" y2="190" stroke="#8faad4" stroke-width="1" stroke-dasharray="3,3" opacity="0.5"/>
+          <line x1="242" y1="77"  x2="242" y2="190" stroke="#8faad4" stroke-width="1" stroke-dasharray="3,3" opacity="0.5"/>
+          <line x1="292" y1="35"  x2="292" y2="190" stroke="#88a570" stroke-width="1" stroke-dasharray="3,3" opacity="0.35"/>
         </svg>
 
-        <!-- Labels HTML — centralizados sobre cada ponto (% batem com cx/viewBox) -->
-        <!-- Hoje: cx=48/320=15%, cy=108/140=77% -->
+        <!-- Dots — viewBox 320×200: P1(8.75%,87.5%) P2(53.1%,65%) P3(73.4%,40%) P4(91.25%,17.5%) -->
+        <div class="cc-dot cc-dot--gold"             style="left:8.75%;  top:87.5%"></div>
+        <div class="cc-dot cc-dot--gold"             style="left:53.1%;  top:65%"></div>
+        <div class="cc-dot cc-dot--blue"             style="left:73.4%;  top:40%"></div>
+        <div class="cc-dot cc-dot--green cc-dot--lg" style="left:91.25%; top:17.5%"></div>
+
+        <!-- Todos os labels com mesmo offset vertical acima do ponto -->
         <div class="cc-label cc-label--hoje">
-          <span class="cc-tag">Você começa</span>
+          <span class="cc-date" id="projHojeDate">—</span>
+          <span class="cc-tag">Hoje</span>
         </div>
-        <!-- Ovulação: cx=160/320=50%, cy=48/140=34% -->
+        <div class="cc-label cc-label--proto">
+          <span class="cc-date" id="projProtoDate">—</span>
+          <span class="cc-tag cc-tag--small">Fim do seu protocolo</span>
+        </div>
         <div class="cc-label cc-label--ovul">
           <span class="cc-date" id="projOvulDate">—</span>
-          <span class="cc-tag cc-tag--blue">Ovulação otimizada</span>
+          <span class="cc-tag cc-tag--blue cc-tag--small">Ovulação otimizada</span>
         </div>
-        <!-- Positivo: cx=272/320=85%, cy=36/140=26% -->
         <div class="cc-label cc-label--pos">
           <span class="cc-date cc-date--green" id="projTarget">—</span>
-          <span class="cc-tag cc-tag--green">Seu positivo 💚</span>
+          <span class="cc-tag cc-tag--green cc-tag--small">Alta chance de positivo 💚</span>
         </div>
+
       </div>
     </div>
 
-    <!-- Card IQO antes/depois -->
-    <div class="iqo-compare">
-      <div class="iqo-compare__col">
-        <span class="iqo-compare__label">IQO hoje</span>
-        <span class="iqo-compare__val iqo-compare__val--low" id="iqoCompareNow">—</span>
-      </div>
-      <div class="iqo-compare__arrow">→</div>
-      <div class="iqo-compare__col">
-        <span class="iqo-compare__label">Com o plano</span>
-        <span class="iqo-compare__val iqo-compare__val--high">88</span>
-      </div>
-      <div class="iqo-compare__delta" id="iqoCompareDelta">—</div>
-    </div>
   </section>
 
   <!-- ═══════ 30. PRICING ═══════ -->
@@ -730,8 +724,8 @@
       <div class="plan-card selected" data-plan="full">
         <div class="plan-card__radio"></div>
         <div class="plan-card__body">
-          <div class="plan-card__name">PROTOCOLO COMPLETO</div>
-          <div class="plan-card__discount">Acesso anual · 1 ano</div>
+          <div class="plan-card__name" id="planCardName">PROTOCOLO COMPLETO</div>
+          <div class="plan-card__discount" id="planCardDesc">Acesso vitalício</div>
         </div>
         <div class="plan-card__pill">
           <span class="plan-card__pill-old">R$188</span>
@@ -1092,7 +1086,7 @@ function showFooter(screenId) {
   } else {
     primaryBtn.disabled = false;
   }
-  primaryBtn.textContent = 'CONTINUAR';
+  primaryBtn.textContent = (screenId === 's28') ? 'Ver meu plano' : 'CONTINUAR';
   primaryBtn.onclick = () => goNext();
 }
 
@@ -1156,13 +1150,37 @@ function showScreen(id) {
         insightEl.style.display = 'flex';
       }
     })();
-    // Atualiza todos os links de checkout dinamicamente
+    // Atualiza todos os links de checkout e nome do plano dinamicamente
     (function() {
       const code = getCheckoutLink();
       const url = 'https://pay.celetus.com/' + code;
       document.querySelectorAll('a[href*="pay.celetus.com"]').forEach(el => {
         el.href = url;
       });
+
+      const cycles = getProtocolCycles();
+      const f = window.__iqoFactors || { f1: 50, f2: 50, f3: 50, f4: 50 };
+      const fatores = [
+        { key: 'f1', val: f.f1, nome: 'Sinais do Ciclo' },
+        { key: 'f2', val: f.f2, nome: 'Emocional' },
+        { key: 'f3', val: f.f3, nome: 'Organismo' },
+        { key: 'f4', val: f.f4, nome: 'Propósito' },
+      ];
+      const weakest = fatores.reduce((a, b) => b.val < a.val ? b : a);
+
+      let planName;
+      if (cycles === 1) {
+        planName = 'Plano Essencial';
+      } else if (cycles === 2) {
+        planName = 'Plano Avançado — Foco ' + weakest.nome;
+      } else {
+        planName = 'Plano Imersão — Foco ' + weakest.nome;
+      }
+
+      const nameEl = document.getElementById('planCardName');
+      const descEl = document.getElementById('planCardDesc');
+      if (nameEl) nameEl.textContent = planName;
+      if (descEl) descEl.textContent = 'Acesso vitalício';
     })();
     if (typeof fbq !== 'undefined') fbq('track','Lead');
   }
@@ -1410,32 +1428,48 @@ function calcFertileWindow() {
   const cycleLen = (answers.cycleDays && answers.cycleDays > 0) ? answers.cycleDays : 28;
   const cycles   = getProtocolCycles();
 
-  // Data da ovulação = última menstruação + (ciclos × duração do ciclo) + 14 dias
-  const ovulDate = new Date(lastPeriodStart);
-  ovulDate.setDate(ovulDate.getDate() + (cycles * cycleLen) + 14);
+  // Fim do protocolo = última menstruação + (ciclos × duração do ciclo)
+  const protocolEndDate = new Date(lastPeriodStart);
+  protocolEndDate.setDate(protocolEndDate.getDate() + (cycles * cycleLen));
 
-  // Data do positivo = ovulação + 9 dias (implantação)
+  // Data da ovulação = fim do protocolo + 14 dias
+  const ovulDate = new Date(protocolEndDate);
+  ovulDate.setDate(ovulDate.getDate() + 14);
+
+  // Data do positivo = ovulação + 6 dias (detecção mínima)
   const positiveDate = new Date(ovulDate);
-  positiveDate.setDate(positiveDate.getDate() + 9);
+  positiveDate.setDate(positiveDate.getDate() + 6);
 
-  return { fertileStart: ovulDate, positiveDate, protocolWeeks: cycles * 4 };
+  return { fertileStart: ovulDate, positiveDate, protocolEndDate, protocolWeeks: cycles * 4, cycleLen, cycles };
 }
 
 function updateProjection() {
-  const projTargetEl = document.getElementById('projTarget');
-  const projOvulEl   = document.getElementById('projOvulDate');
-  const projMonthEl  = document.querySelector('#s28 .proj-month');
+  const projTargetEl  = document.getElementById('projTarget');
+  const projOvulEl    = document.getElementById('projOvulDate');
+  const projProtoEl   = document.getElementById('projProtoDate');
+  const projHojeEl    = document.getElementById('projHojeDate');
+  const projTotalEl   = document.getElementById('projTotalDias');
+  const projMonthEl   = document.querySelector('#s28 .proj-month');
 
-  const { fertileStart: ovulDate, positiveDate } = calcFertileWindow();
+  const { fertileStart: ovulDate, positiveDate, protocolEndDate, cycleLen, cycles } = calcFertileWindow();
 
   const MONTHS_PT    = ['janeiro','fevereiro','março','abril','maio','junho',
                         'julho','agosto','setembro','outubro','novembro','dezembro'];
   const MONTHS_SHORT = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
 
-  const fmtDate = d => `${d.getDate()} de ${MONTHS_PT[d.getMonth()]} de ${d.getFullYear()}`;
+  const fmtDate  = d => `${d.getDate()} de ${MONTHS_PT[d.getMonth()]}`;
+  const fmtShort = d => `${d.getDate()} ${MONTHS_SHORT[d.getMonth()]}`;
 
-  if (projOvulEl)   projOvulEl.textContent   = fmtDate(ovulDate);
-  if (projTargetEl) projTargetEl.textContent = fmtDate(positiveDate);
+  const hoje = new Date();
+  const totalDias = (cycles * cycleLen) + 14 + 6;
+
+  if (projHojeEl)   projHojeEl.textContent   = fmtShort(hoje);
+  if (projProtoEl)  projProtoEl.textContent  = fmtShort(protocolEndDate);
+  const ovulStart = new Date(ovulDate);
+  ovulStart.setDate(ovulStart.getDate() - 4); // janela fértil: 5 dias até a ovulação
+  if (projOvulEl)   projOvulEl.textContent   = `${ovulStart.getDate()}–${fmtShort(ovulDate)}`;
+  if (projTargetEl) projTargetEl.textContent = fmtShort(positiveDate);
+  if (projTotalEl)  projTotalEl.textContent  = totalDias + ' dias';
   if (projMonthEl)  projMonthEl.textContent  = MONTHS_SHORT[positiveDate.getMonth()];
 
   window.__projPositive = fmtDate(positiveDate);

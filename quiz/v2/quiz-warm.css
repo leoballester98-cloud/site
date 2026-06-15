@@ -3240,7 +3240,7 @@ button:focus-visible, .row-card:focus-visible, .simple-opt:focus-visible,
 
 /* ── Curve Chart (s28) ── */
 .curve-chart {
-  margin: 16px 0 28px;
+  margin: 16px 0 24px;
   padding: 0;
 }
 .curve-chart__wrap {
@@ -3251,15 +3251,13 @@ button:focus-visible, .row-card:focus-visible, .simple-opt:focus-visible,
 .curve-chart__svg {
   display: block;
   width: 100%;
-  height: 140px;
+  height: 200px;
   overflow: visible;
 }
 
 /* Labels posicionados sobre os pontos do gráfico */
-/* viewBox 320×140 → posições em % */
-/* Hoje: 26/320=8.1%, 108/140=77% */
-/* Ovul: 160/320=50%, 48/140=34% */
-/* Pos:  294/320=91.9%, 36/140=26% */
+/* viewBox 320×200 — todos os labels ACIMA dos pontos, gap=12px */
+/* P1(28,175)=8.75%,87.5%  P2(170,130)=53.1%,65%  P3(235,80)=73.4%,40%  P4(292,35)=91.25%,17.5% */
 .cc-label {
   position: absolute;
   display: flex;
@@ -3268,48 +3266,95 @@ button:focus-visible, .row-card:focus-visible, .simple-opt:focus-visible,
   gap: 2px;
   pointer-events: none;
 }
-/* Hoje: cx=48/320=15%, cy=108/140=77% — acima do ponto */
+/* P1 Hoje — ancora esquerda */
 .cc-label--hoje {
-  left: 15%;
-  top: 77%;
-  transform: translate(-50%, calc(-100% - 18px));
+  left: 8.75%;
+  top: 87.5%;
+  transform: translate(0, calc(-100% - 12px));
+  align-items: flex-start;
+  text-align: left;
+}
+/* P2 Fim protocolo — centralizado, acima */
+.cc-label--proto {
+  left: 53.1%;
+  top: 65%;
+  transform: translate(-50%, calc(-100% - 12px));
   align-items: center;
   text-align: center;
 }
-/* Ovulação: cx=160/320=50%, cy=48/140=34% — acima do ponto */
+/* P3 Ovulação — ancora direita */
 .cc-label--ovul {
-  left: 50%;
-  top: 34%;
-  transform: translate(-50%, calc(-100% - 8px));
-  align-items: center;
-  text-align: center;
+  left: 73.4%;
+  top: 40%;
+  transform: translate(-100%, calc(-100% - 12px));
+  align-items: flex-end;
+  text-align: right;
 }
-/* Positivo: cx=272/320=85%, cy=36/140=26% — acima do ponto */
+/* P4 Positivo — ancora direita da tela */
 .cc-label--pos {
-  left: 85%;
-  top: 26%;
-  transform: translate(-50%, calc(-100% - 8px));
-  align-items: center;
-  text-align: center;
+  right: 1%;
+  left: auto;
+  top: 17.5%;
+  transform: translate(0, calc(-100% - 12px));
+  align-items: flex-end;
+  text-align: right;
 }
+/* Dots HTML — circulares perfeitos */
+.cc-dot {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 2px solid white;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+}
+.cc-dot--lg    { width: 14px; height: 14px; }
+.cc-dot--gold  { background: #c9a97a; }
+.cc-dot--blue  { background: #8faad4; }
+.cc-dot--green { background: #88a570; }
 .cc-tag {
-  font-size: 8.5px;
+  font-size: 10px;
   font-weight: 600;
   color: var(--muted);
   text-transform: uppercase;
-  letter-spacing: 0.07em;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+}
+.cc-tag--small {
+  font-size: 9px;
+  letter-spacing: 0.04em;
   white-space: nowrap;
 }
 .cc-tag--blue  { color: #8faad4; }
 .cc-tag--green { color: var(--green); }
 .cc-date {
-  font-size: 10.5px;
+  font-size: 13px;
   font-weight: 600;
   color: var(--ink);
   white-space: nowrap;
   line-height: 1.3;
 }
 .cc-date--green { color: var(--ink); }
+/* Total dias — canto inferior direito */
+.cc-total {
+  position: absolute;
+  bottom: -22px;
+  right: 0;
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+}
+.cc-total__val {
+  font-size: 13px;
+  font-weight: 700;
+  color: #88a570;
+}
+.cc-total__lbl {
+  font-size: 11px;
+  color: var(--ink-soft);
+}
 
 /* ── IQO Compare card (s28) ── */
 .iqo-compare {

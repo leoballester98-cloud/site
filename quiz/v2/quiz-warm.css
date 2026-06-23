@@ -3033,6 +3033,7 @@ button:focus-visible, .row-card:focus-visible, .simple-opt:focus-visible,
     margin-left: auto;
     margin-right: auto;
   }
+  .q-title { max-width: 28ch; font-size: 26px; text-wrap: wrap; }
 
   /* Step 1: foto+cards lado a lado */
   .age-intro {
@@ -3082,10 +3083,31 @@ button:focus-visible, .row-card:focus-visible, .simple-opt:focus-visible,
 
   /* Cards e listas ocupam a largura disponível */
   .row-cards, .simple-list, .multi-list, .chips, .opts {
-    max-width: 100%;
+    width: 100%;
+    max-width: 460px;
     margin-left: auto;
     margin-right: auto;
   }
+
+  /* Padronização de tamanho dos cards de resposta no desktop */
+  .simple-opt {
+    min-height: 76px;
+    padding: 22px 26px;
+    font-size: 16px;
+    text-align: center;
+    align-items: center;
+  }
+  .simple-opt__title { font-size: 16px; }
+  .multi-opt {
+    min-height: 76px;
+    padding: 22px 24px;
+  }
+  .multi-opt__text { font-size: 16px; }
+  .row-card {
+    min-height: 90px;
+  }
+  .row-card__title { font-size: 17px; }
+  .row-card__sub { font-size: 14px; }
 
   /* Reduce footer-cta vertical padding on desktop */
   .footer-cta { padding-top: 20px; padding-bottom: 20px; }

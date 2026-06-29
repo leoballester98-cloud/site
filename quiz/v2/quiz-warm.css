@@ -2481,9 +2481,34 @@ button:focus-visible, .row-card:focus-visible, .simple-opt:focus-visible,
    ════════════════════════════════════════════════════ */
 .section-heading--center { text-align: center; }
 
+/* Bonus 2x2 grid */
+.bonus-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin: 14px 0 24px;
+}
+.bonus-grid .imgbox--phone {
+  width: 100%;
+  border-radius: 20px;
+}
+.imgbox--phone-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #E8D8C8, #DDD0C0);
+  color: rgba(74,46,26,0.40);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  min-height: 160px;
+}
+
 /* App phones carousel */
 .phones-carousel { margin: 14px 0 24px; }
 #s30 .imgbox--phone { border: none; background: none; }
+#s30 .imgbox--phone-placeholder { background: linear-gradient(135deg, #E8D8C8, #DDD0C0); border: 1.5px dashed rgba(74,46,26,0.20); }
 .phones-row {
   display: flex;
   justify-content: center;
@@ -2491,7 +2516,7 @@ button:focus-visible, .row-card:focus-visible, .simple-opt:focus-visible,
   gap: 0;
 }
 .imgbox--phone {
-  width: 32%;
+  width: 26%;
   aspect-ratio: 9/19;
   border-radius: 26px;
   border: 1.5px dashed rgba(74,46,26,0.20);
@@ -2501,14 +2526,62 @@ button:focus-visible, .row-card:focus-visible, .simple-opt:focus-visible,
   text-align: center;
   padding: 10px 6px;
 }
+#s30 .imgbox--phone { padding: 0; overflow: visible; }
 .phone--side {
-  transform: scale(0.88);
-  opacity: 0.78;
+  transform: scale(0.82);
   z-index: 1;
 }
-.phone--side:first-child { transform: scale(0.88) translateX(14%); }
-.phone--side:last-child { transform: scale(0.88) translateX(-14%); }
+.phone--side:first-child { transform: scale(0.82) translateX(22%); }
+.phone--side:last-child  { transform: scale(0.82) translateX(-22%); }
 .phone--center { z-index: 2; }
+.phone--center + .phone--center { margin-left: -4px; }
+.phones-row { gap: 0 !important; overflow: visible; }
+.bonus-desc-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 16px 0 20px;
+}
+.bonus-desc-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+.bonus-check-icon {
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.bonus-desc-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+.bonus-desc-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: #3B2010;
+}
+.bonus-desc-text {
+  font-size: 13px;
+  color: #6B4A2A;
+  line-height: 1.4;
+}
+.bonus-logo-overlay {
+  position: absolute;
+  top: 31%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 20px;
+  height: auto;
+  object-fit: contain;
+  pointer-events: none;
+  z-index: 10;
+  border-radius: 4px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+  opacity: 0.9;
+}
 .phones-dots {
   display: flex;
   justify-content: center;

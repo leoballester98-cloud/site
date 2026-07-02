@@ -726,7 +726,7 @@
         <div class="plan-card__radio"></div>
         <div class="plan-card__body">
           <div class="plan-card__name" id="planCardName">PROTOCOLO COMPLETO</div>
-          <div class="plan-card__discount" id="planCardDesc">Acesso vitalício</div>
+          <div class="plan-card__discount" id="planCardDesc"></div>
         </div>
         <div class="plan-card__pill">
           <span class="plan-card__pill-old">R$188</span>
@@ -1214,7 +1214,7 @@ function showScreen(id) {
       const nameEl = document.getElementById('planCardName');
       const descEl = document.getElementById('planCardDesc');
       if (nameEl) nameEl.textContent = planName;
-      if (descEl) descEl.textContent = 'Acesso vitalício';
+      if (descEl) descEl.textContent = '';
 
       // Atualiza variáveis da seção "O que você passa a ter"
       const planVars = cycles === 1

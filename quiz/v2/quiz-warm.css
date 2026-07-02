@@ -3206,10 +3206,6 @@ button:focus-visible, .row-card:focus-visible, .simple-opt:focus-visible,
 
 /* ── s1: cabe sem scroll em mobile (375×667) ──────────── */
 @media (max-width: 480px) {
-  body:has(#s1.active) {
-    overflow: hidden;
-    height: 100%;
-  }
   #s1 {
     display: flex;
     flex-direction: column;

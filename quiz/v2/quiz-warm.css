@@ -3210,6 +3210,8 @@ button:focus-visible, .row-card:focus-visible, .simple-opt:focus-visible,
     display: flex;
     flex-direction: column;
     min-height: calc(100svh - 116px);
+    max-height: calc(100svh - 116px);
+    overflow: hidden;
     padding-bottom: 80px;
   }
   #s1 h1.q-title-lg {

@@ -3206,65 +3206,39 @@ button:focus-visible, .row-card:focus-visible, .simple-opt:focus-visible,
 
 /* ── s1: cabe sem scroll em mobile (375×667) ──────────── */
 @media (max-width: 480px) {
-  #s1 {
-    display: flex;
-    flex-direction: column;
-    min-height: calc(100svh - 116px);
-    max-height: calc(100svh - 116px);
-    overflow: hidden;
-    padding-bottom: 80px;
-  }
   #s1 h1.q-title-lg {
-    font-size: 32px;
+    font-size: 28px;
     margin-top: 8px;
-    margin-bottom: 12px;
+    margin-bottom: 10px;
   }
   #s1 .q-sub {
-    font-size: 14px;
-    margin-bottom: 0;
+    margin-bottom: 10px;
   }
   #s1 .age-intro {
-    margin: auto;
+    margin: 8px auto 8px;
     grid-template-columns: 1fr 100px;
     gap: 10px;
     align-items: stretch;
-    width: 340px;
-    transform: none;
-  }
-  #s1 .hero-photo {
-    overflow: hidden;
+    width: 320px;
+    transform: translateX(-20px);
   }
   #s1 .hero-photo img {
-    height: 100% !important;
-    width: 100% !important;
-    object-fit: cover !important;
-    object-position: top left !important;
-    image-rendering: -webkit-optimize-contrast;
-    image-rendering: high-quality;
+    object-fit: contain !important;
+    object-position: center bottom !important;
     -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 80%, rgba(0,0,0,0.4) 94%, transparent 100%) !important;
             mask-image: linear-gradient(180deg, #000 0%, #000 80%, rgba(0,0,0,0.4) 94%, transparent 100%) !important;
   }
   #s1 .age-intro .age-cards {
-    gap: 22px;
+    gap: 6px;
   }
   #s1 .age-row {
-    font-size: 14px;
+    font-size: 12px;
     padding: 10px 6px 10px 10px;
     white-space: nowrap;
-    min-height: 90px !important;
-  }
-  #s1 .age-row span[style*="font-size:12px"] {
-    font-size: 13px !important;
+    min-height: 58px !important;
   }
   #s1 .terms {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    margin: 0;
-    padding: 10px 18px 16px;
-    background: var(--bg);
-    border-top: 1px solid var(--hair);
+    margin-top: 10px;
   }
 }
 

@@ -3562,3 +3562,20 @@ button:focus-visible, .row-card:focus-visible, .simple-opt:focus-visible,
   letter-spacing: 0.04em;
   white-space: nowrap;
 }
+
+
+/* ── s30: aumenta corpo de texto no mobile ──────────── */
+@media (max-width: 480px) {
+  #s30 .checklist__item { font-size: 16px; }
+  #s30 .review__text { font-size: 15px; }
+  #s30 .review__name { font-size: 15px; }
+  #s30 .review__sub { font-size: 13px; }
+  #s30 .faq__q { font-size: 16px; }
+  #s30 .faq__a { font-size: 15px; }
+  #s30 .ba-disclaimer { font-size: 15px; }
+  #s30 .guarantee-block__text { font-size: 15px; }
+  #s30 .guarantee-big__text { font-size: 15px; }
+  #s30 .bonus-desc-title { font-size: 15px; }
+  #s30 .bonus-desc-text { font-size: 14px; }
+  #s30 p[style*="font-size:14px"] { font-size: 16px !important; }
+}

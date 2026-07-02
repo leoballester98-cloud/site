@@ -3209,7 +3209,7 @@ button:focus-visible, .row-card:focus-visible, .simple-opt:focus-visible,
   #s1 {
     display: flex;
     flex-direction: column;
-    min-height: calc(100dvh - 116px);
+    min-height: calc(100svh - 116px);
     padding-bottom: 80px;
   }
   #s1 h1.q-title-lg {

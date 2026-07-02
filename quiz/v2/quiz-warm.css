@@ -2254,8 +2254,8 @@ button, .row-card, .simple-opt, .multi-opt, .age-row, .chip, .plan-card { -webki
 /* Mobile narrow tweaks */
 @media (max-width: 380px) {
   .wrap { padding-left: 14px; padding-right: 14px; }
-  .q-title { font-size: 22px; }
-  .q-title-lg { font-size: 26px; }
+  .q-title { font-size: 30px; }
+  .q-title-lg { font-size: 30px; }
   .big-number__value { font-size: 76px; }
   .imgbox--hero { width: 110px; height: 190px; }
   .imgbox--row { width: 64px; height: 64px; }
@@ -2370,8 +2370,8 @@ canvas#curveChart { width: 100%; }
   .plan-card__pill-num { font-size: 15px; }
   .plan-card__name { font-size: 12px; }
   .price-banner { font-size: 12px; padding: 10px 12px; }
-  .q-title { font-size: 22px; }
-  .q-title-lg { font-size: 24px; }
+  .q-title { font-size: 32px; }
+  .q-title-lg { font-size: 32px; }
   .loading-bigtitle { font-size: 18px; }
   .section-heading { font-size: 16px; margin: 18px 0 10px; }
   .footer-cta { padding-top: 20px; }
@@ -3112,7 +3112,7 @@ button:focus-visible, .row-card:focus-visible, .simple-opt:focus-visible,
     margin-left: auto;
     margin-right: auto;
   }
-  .q-title { max-width: 28ch; font-size: 26px; text-wrap: wrap; }
+  .q-title { max-width: 28ch; font-size: 32px; text-wrap: wrap; }
 
   /* Step 1: foto+cards lado a lado */
   .age-intro {

@@ -1191,11 +1191,11 @@ function showScreen(id) {
 
       let planName;
       if (cycles === 1) {
-        planName = 'Plano Essencial';
+        planName = 'Essencial';
       } else if (cycles === 2) {
-        planName = 'Plano Avançado — Foco ' + weakest.nome;
+        planName = 'Avançado com Foco em ' + weakest.nome;
       } else {
-        planName = 'Plano Imersão — Foco ' + weakest.nome;
+        planName = 'Imersão com Foco em ' + weakest.nome;
       }
 
       const nameEl = document.getElementById('planCardName');

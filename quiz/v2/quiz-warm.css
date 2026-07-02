@@ -3230,7 +3230,7 @@ button:focus-visible, .row-card:focus-visible, .simple-opt:focus-visible,
     transform: none;
   }
   #s1 .hero-photo {
-    height: 390px;
+    height: 345px;
     overflow: hidden;
   }
   #s1 .hero-photo img {

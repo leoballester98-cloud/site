@@ -2497,8 +2497,8 @@ button:focus-visible, .row-card:focus-visible, .simple-opt:focus-visible,
   justify-content: center;
   background: rgba(0,0,0,0.45);
   border-radius: 50%;
-  width: 44px;
-  height: 44px;
+  width: 36px;
+  height: 36px;
   filter: drop-shadow(0 2px 6px rgba(0,0,0,0.5));
 }
 

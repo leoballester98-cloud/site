@@ -3268,7 +3268,7 @@ button:focus-visible, .row-card:focus-visible, .simple-opt:focus-visible,
 
 /* ── s25: cabe sem scroll em mobile (375×667) ─────────── */
 #s25 .q-title-lg {
-  font-size: 20px;
+  font-size: 28px;
   line-height: 1.2;
   margin-top: 2px;
   margin-bottom: 8px;
@@ -3291,8 +3291,11 @@ button:focus-visible, .row-card:focus-visible, .simple-opt:focus-visible,
   padding-bottom: 12px;
 }
 #s25 .alert-box__text {
+  font-size: 10px;
+  line-height: 1.4;
+}
+#s25 .alert-box__title {
   font-size: 11px;
-  line-height: 1.45;
 }
 #s25 .stat-row__value {
   font-size: 13px;

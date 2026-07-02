@@ -3289,7 +3289,7 @@ button:focus-visible, .row-card:focus-visible, .simple-opt:focus-visible,
 
 /* ── s25: cabe sem scroll em mobile (375×667) ─────────── */
 #s25 .q-title-lg {
-  font-size: 28px;
+  font-size: 32px;
   line-height: 1.2;
   margin-top: 2px;
   margin-bottom: 8px;

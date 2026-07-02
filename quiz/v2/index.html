@@ -679,7 +679,7 @@
         <span class="sticky-discount-bar__label">Desconto reservado por:</span>
         <span class="sticky-discount-bar__timer" id="stickyCountdown">09:47</span>
       </div>
-      <a href="https://pay.celetus.com/MWEYGXEF" target="_blank" class="sticky-discount-bar__btn" onclick="if(typeof fbq!=='undefined') fbq('track','InitiateCheckout');">RECEBER MEU PLANO</a>
+      <a href="https://pay.celetus.com/MWEYGXEF" target="_blank" class="sticky-discount-bar__btn" onclick="trackCheckout();">RECEBER MEU PLANO</a>
     </div>
 
     <h2 class="q-title-lg" style="margin-bottom:8px;">O seu plano personalizado está pronto!</h2>
@@ -737,7 +737,7 @@
       </div>
     </div>
 
-    <a href="https://pay.celetus.com/MWEYGXEF" target="_blank" class="price-banner" style="text-decoration:none;" onclick="if(typeof fbq!=='undefined') fbq('track','InitiateCheckout');">
+    <a href="https://pay.celetus.com/MWEYGXEF" target="_blank" class="price-banner" style="text-decoration:none;" onclick="trackCheckout();">
       <span class="price-banner__icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="8" cy="9" r="6" stroke="currentColor" stroke-width="1.5"/><path d="M8 6v3.5l2 1.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 1.5h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M8 1.5V3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
       <span id="priceCountdown">A oferta expira em 09:47 min</span>
     </a>
@@ -824,7 +824,7 @@
       </div>
     </div>
 
-    <a href="https://pay.celetus.com/MWEYGXEF" target="_blank" class="btn-primary" style="text-decoration:none;display:block;text-align:center;" onclick="if(typeof fbq!=='undefined') fbq('track','InitiateCheckout');">RECEBER O MEU PLANO</a>
+    <a href="https://pay.celetus.com/MWEYGXEF" target="_blank" class="btn-primary" style="text-decoration:none;display:block;text-align:center;" onclick="trackCheckout();">RECEBER O MEU PLANO</a>
 
     <div class="guarantee-block">
       <div class="guarantee-block__seal">
@@ -943,7 +943,7 @@
       </div>
       <div class="number-one__claim">Aprender a ler seu ciclo</div>
       <div class="number-one__note">*Baseado em mulheres que aplicaram o plano completo</div>
-      <a href="https://pay.celetus.com/MWEYGXEF" target="_blank" class="btn-primary" style="text-decoration:none;display:block;text-align:center;margin-top:16px;" onclick="if(typeof fbq!=='undefined') fbq('track','InitiateCheckout');">RECEBER MEU PLANO</a>
+      <a href="https://pay.celetus.com/MWEYGXEF" target="_blank" class="btn-primary" style="text-decoration:none;display:block;text-align:center;margin-top:16px;" onclick="trackCheckout();">RECEBER MEU PLANO</a>
     </div>
 
     <!-- ═══ BEFORE/AFTER ═══ -->
@@ -978,7 +978,7 @@
       </details>
     </div>
 
-    <a href="https://pay.celetus.com/MWEYGXEF" target="_blank" class="btn-primary" style="text-decoration:none;display:block;text-align:center;margin-top:8px;" onclick="if(typeof fbq!=='undefined') fbq('track','InitiateCheckout');">RECEBER O MEU PLANO</a>
+    <a href="https://pay.celetus.com/MWEYGXEF" target="_blank" class="btn-primary" style="text-decoration:none;display:block;text-align:center;margin-top:8px;" onclick="trackCheckout();">RECEBER O MEU PLANO</a>
 
     <p class="plan-disclaimer">Acesso imediato ao Plano Ciclo Fértil.</p>
 
@@ -1040,6 +1040,17 @@ const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw6j1DpOblCmFmB
 function trackEtapa(n, name) {
   if (typeof fbq !== 'undefined') fbq('trackCustom', 'QuizEtapa', { etapa: n, nome: name });
   if (APPS_SCRIPT_URL) new Image().src = APPS_SCRIPT_URL + '?sessao=' + SESSAO_ID + '&etapa=' + n;
+}
+
+function trackCheckout() {
+  if (typeof fbq !== 'undefined') fbq('track', 'InitiateCheckout');
+  if (APPS_SCRIPT_URL) new Image().src = APPS_SCRIPT_URL + '?sessao=' + SESSAO_ID + '&etapa=35';
+}
+
+function enviarRespostas() {
+  if (!APPS_SCRIPT_URL) return;
+  const payload = encodeURIComponent(JSON.stringify(answers));
+  new Image().src = APPS_SCRIPT_URL + '?action=respostas&sessao=' + SESSAO_ID + '&data=' + payload;
 }
 
 const ICONS = {
@@ -1135,6 +1146,7 @@ function showScreen(id) {
   if (id === 's25') showIQO();
   if (id === 's27') startLoading();
   if (id === 's28') updateProjection();
+  if (id === 's30') enviarRespostas();
   document.body.classList.toggle('screen--sales', id === 's30');
 
   // Ajusta padding do wrap para s30 (sticky bar substitui o header fixo)

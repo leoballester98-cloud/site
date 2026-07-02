@@ -2487,6 +2487,15 @@ button:focus-visible, .row-card:focus-visible, .simple-opt:focus-visible,
    ════════════════════════════════════════════════════ */
 .section-heading--center { text-align: center; }
 
+.bonus-gift-icon {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 26px;
+  line-height: 1;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.4));
+}
+
 /* Bonus 2x2 grid */
 .bonus-grid {
   display: grid;

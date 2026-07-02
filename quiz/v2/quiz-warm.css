@@ -3227,12 +3227,11 @@ button:focus-visible, .row-card:focus-visible, .simple-opt:focus-visible,
     margin: auto;
     grid-template-columns: 1fr 100px;
     gap: 10px;
-    align-items: start;
+    align-items: stretch;
     width: 340px;
     transform: none;
   }
   #s1 .hero-photo {
-    height: min(430px, calc(100dvh - 340px));
     overflow: hidden;
   }
   #s1 .hero-photo img {
@@ -3252,7 +3251,7 @@ button:focus-visible, .row-card:focus-visible, .simple-opt:focus-visible,
     font-size: 14px;
     padding: 10px 6px 10px 10px;
     white-space: nowrap;
-    min-height: 58px !important;
+    min-height: 90px !important;
   }
   #s1 .age-row span[style*="font-size:12px"] {
     font-size: 13px !important;

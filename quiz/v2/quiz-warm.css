@@ -3206,38 +3206,64 @@ button:focus-visible, .row-card:focus-visible, .simple-opt:focus-visible,
 
 /* ── s1: cabe sem scroll em mobile (375×667) ──────────── */
 @media (max-width: 480px) {
+  #s1 {
+    display: flex;
+    flex-direction: column;
+    min-height: calc(100dvh - 116px);
+    padding-bottom: 80px;
+  }
   #s1 h1.q-title-lg {
+    font-size: 32px;
     margin-top: 8px;
-    margin-bottom: 10px;
+    margin-bottom: 12px;
   }
   #s1 .q-sub {
-    margin-bottom: 10px;
+    font-size: 14px;
+    margin-bottom: 0;
   }
   #s1 .age-intro {
-    margin: 8px auto 8px;
+    margin: auto;
     grid-template-columns: 1fr 100px;
     gap: 10px;
-    align-items: stretch;
-    width: 320px;
-    transform: translateX(-20px);
+    align-items: start;
+    width: 340px;
+    transform: none;
+  }
+  #s1 .hero-photo {
+    height: 430px;
+    overflow: hidden;
   }
   #s1 .hero-photo img {
-    object-fit: contain !important;
-    object-position: center bottom !important;
+    height: 100% !important;
+    width: 100% !important;
+    object-fit: cover !important;
+    object-position: top left !important;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: high-quality;
     -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 80%, rgba(0,0,0,0.4) 94%, transparent 100%) !important;
             mask-image: linear-gradient(180deg, #000 0%, #000 80%, rgba(0,0,0,0.4) 94%, transparent 100%) !important;
   }
   #s1 .age-intro .age-cards {
-    gap: 6px;
+    gap: 22px;
   }
   #s1 .age-row {
-    font-size: 12px;
+    font-size: 14px;
     padding: 10px 6px 10px 10px;
     white-space: nowrap;
     min-height: 58px !important;
   }
+  #s1 .age-row span[style*="font-size:12px"] {
+    font-size: 13px !important;
+  }
   #s1 .terms {
-    margin-top: 10px;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: 0;
+    padding: 10px 18px 16px;
+    background: var(--bg);
+    border-top: 1px solid var(--hair);
   }
 }
 

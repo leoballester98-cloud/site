@@ -2489,11 +2489,17 @@ button:focus-visible, .row-card:focus-visible, .simple-opt:focus-visible,
 
 .bonus-gift-icon {
   position: absolute;
-  top: 10px;
-  right: 10px;
-  font-size: 26px;
-  line-height: 1;
-  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.4));
+  top: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,0.45);
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  filter: drop-shadow(0 2px 6px rgba(0,0,0,0.5));
 }
 
 /* Bonus 2x2 grid */

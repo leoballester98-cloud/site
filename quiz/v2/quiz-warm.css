@@ -2018,7 +2018,7 @@ body {
 /* Section heading */
 .section-heading {
   font-family: 'Barlow Condensed', sans-serif;
-  font-size: 18px;
+  font-size: 22px;
   font-weight: 800;
   letter-spacing: 0;
   color: var(--ink);
@@ -2373,7 +2373,7 @@ canvas#curveChart { width: 100%; }
   .q-title { font-size: 32px; }
   .q-title-lg { font-size: 32px; }
   .loading-bigtitle { font-size: 18px; }
-  .section-heading { font-size: 16px; margin: 18px 0 10px; }
+  .section-heading { font-size: 20px; margin: 18px 0 10px; }
   .footer-cta { padding-top: 20px; }
   .btn-primary { padding: 16px 20px; font-size: 13.5px; }
   .press-row__items { gap: 6px; }

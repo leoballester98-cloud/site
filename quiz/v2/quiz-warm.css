@@ -3224,6 +3224,7 @@ button:focus-visible, .row-card:focus-visible, .simple-opt:focus-visible,
   #s14 .q-title, #s15 .q-title,
   #s38 .q-title, #s40 .q-title, #s41 .q-title,
   #s42 .q-title { font-size: 22px; max-width: 100%; }
+  #s31 .q-title { font-size: 28px; max-width: 100%; }
 }
 
 /* ── s1: cabe sem scroll em mobile (375×667) ──────────── */

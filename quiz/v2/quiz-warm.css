@@ -2,31 +2,32 @@
    QUIZ — Réplica muscle-booster · Tema dark
    ════════════════════════════════════════════════════ */
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;900&family=DM+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap');
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --bg: #FDFAF6;
-  --bg-lift: #F5E6D6;
+  --bg: #F5EFE8;
+  --bg-lift: #EDE8E0;
   --card: #FFFFFF;
-  --card-hover: #FBF5EC;
-  --card-active: #F9EBDB;
-  --hair: rgba(74,46,26,0.12);
-  --hair-strong: rgba(74,46,26,0.22);
-  --ink: #4A2E1A;
-  --ink-soft: rgba(74,46,26,0.72);
-  --ink-fade: rgba(74,46,26,0.50);
-  --ink-mute: rgba(74,46,26,0.28);
-  --blue: #C8956C;
-  --blue-d: #8B6347;
-  --blue-light: rgba(200,149,108,0.18);
+  --card-hover: #F5EFE8;
+  --card-active: #EDE8E0;
+  --hair: rgba(43,26,16,0.12);
+  --hair-strong: rgba(43,26,16,0.22);
+  --ink: #2B1A10;
+  --ink-soft: rgba(43,26,16,0.72);
+  --ink-fade: rgba(43,26,16,0.50);
+  --ink-mute: rgba(43,26,16,0.28);
+  --blue: #C4956A;
+  --blue-d: #8B4A1C;
+  --blue-light: rgba(196,149,106,0.18);
   --red: #D17564;
   --red-bg: rgba(209,117,100,0.14);
-  --green: #88A570;
-  --yellow: #D4A574;
-  --shadow-card: 0 1px 0 rgba(255,255,255,0.6) inset, 0 4px 14px -6px rgba(107,58,31,0.10);
-  --shadow-cta: 0 10px 30px -10px rgba(200,149,108,0.55);
+  --green: #A8C89A;
+  --green-d: #3D5535;
+  --yellow: #C4956A;
+  --shadow-card: 0 1px 0 rgba(255,255,255,0.6) inset, 0 4px 14px -6px rgba(43,26,16,0.10);
+  --shadow-cta: 0 10px 30px -10px rgba(196,149,106,0.55);
   --radius-card: 14px;
   --radius-button: 999px;
 }
@@ -38,7 +39,7 @@ html {
 body {
   background: var(--bg);
   color: var(--ink);
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-family: 'DM Sans', system-ui, -apple-system, sans-serif;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
   overflow-x: hidden;
@@ -173,10 +174,11 @@ body {
    TYPOGRAPHY
    ════════════════════════════════════════════════════ */
 .q-title {
+  font-family: 'Barlow Condensed', sans-serif;
   font-size: 24px;
   font-weight: 800;
   line-height: 1.18;
-  letter-spacing: -0.02em;
+  letter-spacing: 0;
   color: var(--ink);
   margin: 12px auto 20px;
   text-align: center;
@@ -184,10 +186,11 @@ body {
   max-width: 22ch;
 }
 .q-title-lg {
+  font-family: 'Barlow Condensed', sans-serif;
   font-size: 28px;
   font-weight: 800;
   line-height: 1.12;
-  letter-spacing: -0.022em;
+  letter-spacing: 0;
   color: var(--ink);
   margin: 12px auto 16px;
   text-align: center;
@@ -331,7 +334,7 @@ body {
   border: 1px solid var(--hair);
   border-radius: var(--radius-card);
   cursor: pointer;
-  font-family: 'Inter', sans-serif;
+  font-family: 'DM Sans', sans-serif;
   font-size: 15.5px;
   font-weight: 700;
   color: var(--ink);
@@ -383,7 +386,7 @@ body {
   border-radius: var(--radius-card);
   cursor: pointer;
   text-align: left;
-  font-family: 'Inter', sans-serif;
+  font-family: 'DM Sans', sans-serif;
   color: var(--ink);
   width: 100%;
   transition: all 0.22s cubic-bezier(0.22,1,0.36,1);
@@ -469,7 +472,7 @@ body {
   border-radius: var(--radius-card);
   cursor: pointer;
   text-align: left;
-  font-family: 'Inter', sans-serif;
+  font-family: 'DM Sans', sans-serif;
   font-size: 15px;
   font-weight: 700;
   color: var(--ink);
@@ -530,7 +533,7 @@ body {
   border-radius: var(--radius-card);
   cursor: pointer;
   text-align: left;
-  font-family: 'Inter', sans-serif;
+  font-family: 'DM Sans', sans-serif;
   color: var(--ink);
   transition: all 0.22s cubic-bezier(0.22,1,0.36,1);
 }
@@ -647,7 +650,7 @@ body {
   border: 1px solid var(--hair);
   border-radius: 10px;
   cursor: pointer;
-  font-family: 'Inter', sans-serif;
+  font-family: 'DM Sans', sans-serif;
   font-size: 13px;
   font-weight: 600;
   color: var(--ink);
@@ -780,7 +783,7 @@ body {
   padding: 8px 22px;
   background: none;
   border: none;
-  font-family: 'Inter', sans-serif;
+  font-family: 'DM Sans', sans-serif;
   font-size: 13px;
   font-weight: 700;
   color: var(--ink-fade);
@@ -1140,7 +1143,7 @@ body {
   padding: 11px;
   background: none;
   border: none;
-  font-family: 'Inter', sans-serif;
+  font-family: 'DM Sans', sans-serif;
   font-size: 13px;
   font-weight: 700;
   color: var(--ink-fade);
@@ -1303,7 +1306,7 @@ body {
   color: white;
   border: none;
   border-radius: 12px;
-  font-family: 'Inter', sans-serif;
+  font-family: 'DM Sans', sans-serif;
   font-size: 14px;
   font-weight: 800;
   letter-spacing: 0.08em;
@@ -1381,8 +1384,9 @@ body {
   line-height: 1.5;
 }
 .loading-bigtitle {
+  font-family: 'Barlow Condensed', sans-serif;
   font-size: 20px;
-  font-weight: 600;
+  font-weight: 700;
   color: var(--ink);
   text-align: center;
   letter-spacing: 0;
@@ -1725,7 +1729,7 @@ body {
   padding: 10px 16px;
   border-radius: 14px;
   text-align: center;
-  font-family: 'Inter', sans-serif;
+  font-family: 'DM Sans', sans-serif;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1825,7 +1829,7 @@ body {
   width: 100%;
   background: none;
   border: none;
-  font-family: 'Inter', sans-serif;
+  font-family: 'DM Sans', sans-serif;
   font-size: 16px;
   font-weight: 700;
   color: var(--ink);
@@ -1842,7 +1846,7 @@ body {
   background: none;
   border: none;
   border-bottom: 2px solid var(--accent);
-  font-family: 'Inter', sans-serif;
+  font-family: 'DM Sans', sans-serif;
   font-size: 20px;
   font-weight: 700;
   color: var(--ink);
@@ -1929,7 +1933,7 @@ body {
   letter-spacing: -0.03em;
   line-height: 1;
   color: var(--ink);
-  font-family: 'Inter', sans-serif;
+  font-family: 'DM Sans', sans-serif;
 }
 .iqo-timeline__num--high { color: var(--green); }
 .iqo-timeline__tag {
@@ -1937,7 +1941,7 @@ body {
   font-weight: 500;
   color: var(--ink-fade);
   letter-spacing: 0.01em;
-  font-family: 'Inter', sans-serif;
+  font-family: 'DM Sans', sans-serif;
 }
 .iqo-timeline__tag--high {
   color: var(--green);
@@ -1953,7 +1957,7 @@ body {
   font-size: 10px;
   font-weight: 500;
   color: var(--ink-mute);
-  font-family: 'Inter', sans-serif;
+  font-family: 'DM Sans', sans-serif;
 }
 .iqo-timeline__delta {
   text-align: center;
@@ -1961,7 +1965,7 @@ body {
   font-size: 12px;
   font-weight: 600;
   color: var(--green);
-  font-family: 'Inter', sans-serif;
+  font-family: 'DM Sans', sans-serif;
   letter-spacing: 0.01em;
 }
 
@@ -2013,9 +2017,10 @@ body {
 
 /* Section heading */
 .section-heading {
+  font-family: 'Barlow Condensed', sans-serif;
   font-size: 18px;
   font-weight: 800;
-  letter-spacing: -0.018em;
+  letter-spacing: 0;
   color: var(--ink);
   margin: 32px 0 14px;
   text-align: left;

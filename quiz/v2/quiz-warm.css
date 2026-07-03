@@ -1263,8 +1263,7 @@ body {
 .compare-stat__bar {
   height: 6px;
   position: relative;
-  background-image: radial-gradient(circle at center, rgba(74,46,26,0.18) 2.5px, transparent 2.5px);
-  background-size: 9px 6px;
+  background-image: repeating-linear-gradient(90deg, rgba(74,46,26,0.18) 0px, rgba(74,46,26,0.18) 5px, transparent 5px, transparent 14px);
   background-repeat: repeat-x;
 }
 .compare-stat__bar-fill {
@@ -1273,13 +1272,11 @@ body {
   height: 6px;
 }
 .compare-stat__bar-fill--low {
-  background-image: radial-gradient(circle at center, var(--red) 2.5px, transparent 2.5px);
-  background-size: 9px 6px;
+  background-image: repeating-linear-gradient(90deg, var(--red) 0px, var(--red) 5px, transparent 5px, transparent 14px);
   background-repeat: repeat-x;
 }
 .compare-stat__bar-fill--full {
-  background-image: radial-gradient(circle at center, var(--green) 2.5px, transparent 2.5px) !important;
-  background-size: 9px 6px !important;
+  background-image: repeating-linear-gradient(90deg, #22c55e 0px, #22c55e 5px, transparent 5px, transparent 14px) !important;
   background-repeat: repeat-x !important;
   width: 90% !important;
 }

@@ -3576,6 +3576,9 @@ button:focus-visible, .row-card:focus-visible, .simple-opt:focus-visible,
   #s30 .guarantee-block__text { font-size: 15px; }
   #s30 .guarantee-big__text { font-size: 15px; }
   #s30 .bonus-desc-title { font-size: 15px; }
-  #s30 .bonus-desc-text { font-size: 14px; }
+  #s30 .bonus-desc-text { font-size: 15px; }
   #s30 p[style*="font-size:14px"] { font-size: 16px !important; }
+  #s30 .compare-stat__label { font-size: 13px; }
+  #s30 .compare-stat__value { font-size: 16px; }
+  #s30 .price-banner { font-size: 15px; }
 }

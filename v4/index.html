@@ -4,24 +4,25 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <link rel="icon" type="image/png" href="../Images/logo.png"/>
-<title>Ciclo Fértil — Prepare seu corpo para engravidar naturalmente</title>
+<title>Ciclo Fértil | Prepare seu corpo para engravidar naturalmente</title>
 <link rel="preload" href="../fonts.css" as="style" onload="this.onload=null;this.rel='stylesheet'"/>
 <noscript><link rel="stylesheet" href="../fonts.css"/></noscript>
 <link rel="preload" as="image" href="../Images/novaimg.jpg"/>
 <link rel="preload" as="image" href="../Images/printhero.jpg" fetchpriority="high"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bungee&family=Fredoka:wght@500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,600;0,700;0,800;0,900;1,700&family=Bungee&family=Fredoka:wght@500;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --terracota: #C8956C;
-    --terracota-d: #8B6347;
-    --terracota-dd: #6B3A1F;
+    --terracota: #C4956A;
+    --terracota-d: #8B4A1C;
+    --terracota-dd: #592508;
     --creme: #F5E6D6;
     --caramelo: #D4A574;
-    --cacau: #4A2E1A;
-    --salvia: #A8B89A;
-    --salvia-d: #6B8F5E;
-    --marfim: #FDFAF6;
+    --cacau: #2B1A10;
+    --salvia: #A8C89A;
+    --salvia-d: #3D5535;
+    --marfim: #F5EFE6;
+    --creme-escuro: #EDE8E0;
     --branco: #ffffff;
   }
 
@@ -39,8 +40,8 @@
   }
 
   /* ── TIPOGRAFIA ── */
-  h1, h2, h3 { font-family: 'Cormorant Garamond', serif; font-weight: 700; line-height: 1.2; }
-  .serif { font-family: 'Cormorant Garamond', serif; }
+  h1, h2, h3 { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; line-height: 1.2; }
+  .serif { font-family: 'Barlow Condensed', sans-serif; }
 
   /* ── UTILITÁRIOS ── */
   .container { max-width: 760px; margin: 0 auto; padding: 0 24px; }
@@ -154,10 +155,13 @@
     margin-bottom: 20px;
   }
   .hero__title {
-    font-size: clamp(26px, 2.6vw, 36px);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    letter-spacing: .3px;
+    font-size: clamp(32px, 3.6vw, 48px);
     color: var(--marfim);
     margin-bottom: 16px;
-    line-height: 1.25;
+    line-height: 1.08;
     max-width: 860px;
     margin-left: auto;
     margin-right: auto;
@@ -185,7 +189,7 @@
     padding: 20px 28px;
     max-width: 540px;
     margin: 0 auto 28px;
-    font-family: 'Cormorant Garamond', serif;
+    font-family: 'Barlow Condensed', sans-serif;
     font-size: 19px;
     font-style: italic;
     color: var(--marfim);
@@ -307,7 +311,7 @@
      DOR / IDENTIFICAÇÃO
   ══════════════════════════════════════ */
   /* ══ PROVA SOCIAL ABERTURA ══ */
-  .social-proof-opener { background: var(--marfim); padding: 48px 0 40px; margin-top: -2px; }
+  .social-proof-opener { background: var(--marfim); margin-top: -2px; }
   /* ── DECK SLIDESHOW ── */
   .spo__wrapper { display: flex; justify-content: center; padding: 8px 8px 28px; }
   .spo__deck {
@@ -416,7 +420,7 @@
   }
   .hero__scroll-text {
     color: #fff;
-    font-family: 'Cormorant Garamond', serif;
+    font-family: 'Barlow Condensed', sans-serif;
     font-size: clamp(16px, 2.2vw, 20px);
     font-style: italic;
     letter-spacing: .02em;
@@ -491,9 +495,9 @@
   /* ══════════════════════════════════════
      REVELAÇÃO / ÂNGULO
   ══════════════════════════════════════ */
-  .reveal { background: var(--marfim); padding: 56px 0; }
+  .reveal { background: var(--creme-escuro); }
   .reveal__quote {
-    font-family: 'Cormorant Garamond', serif;
+    font-family: 'Barlow Condensed', sans-serif;
     font-size: clamp(22px, 3.5vw, 32px);
     font-style: italic;
     color: var(--terracota-d);
@@ -508,7 +512,7 @@
   /* ══════════════════════════════════════
      PILARES
   ══════════════════════════════════════ */
-  .pillars { background: var(--marfim); padding: 64px 0; }
+  .pillars { background: var(--marfim); }
   .pillars__grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -582,7 +586,7 @@
     color: var(--salvia-d); margin-bottom: 8px; display: block;
   }
   .pillar-card__title {
-    font-family: 'Cormorant Garamond', serif;
+    font-family: 'Barlow Condensed', sans-serif;
     font-size: 22px; font-weight: 700;
     color: var(--terracota-d); margin-bottom: 8px;
   }
@@ -685,7 +689,7 @@
   /* ══════════════════════════════════════
      DEPOIMENTOS
   ══════════════════════════════════════ */
-  .testimonials { background: var(--marfim); }
+  .testimonials { background: var(--creme-escuro); }
   .testimonials__header { text-align: center; margin-bottom: 32px; }
   .testimonials__eyebrow {
     display: inline-flex; align-items: center; gap: 8px;
@@ -698,7 +702,7 @@
     margin-bottom: 20px;
   }
   .testimonials__title {
-    font-family: 'Cormorant Garamond', serif;
+    font-family: 'Barlow Condensed', sans-serif;
     font-size: clamp(28px, 4vw, 44px);
     font-weight: 700; color: var(--cacau);
     line-height: 1.2; margin-bottom: 12px;
@@ -751,7 +755,7 @@
   }
   .testimonial-card__bubble p {
     font-family: 'DM Sans', sans-serif;
-    font-size: 13px; line-height: 1.5;
+    font-size: 15px; line-height: 1.55;
     color: var(--cacau);
   }
   .testimonial-card__footer {
@@ -796,7 +800,7 @@
     flex: 1; text-align: center; padding: 36px 16px;
   }
   .authority__stat-number {
-    font-family: 'Cormorant Garamond', serif;
+    font-family: 'Barlow Condensed', sans-serif;
     font-size: 64px; font-weight: 700;
     color: var(--caramelo); line-height: 1;
     margin-bottom: 10px;
@@ -975,7 +979,7 @@
     text-transform: uppercase;
   }
   .offer__price {
-    font-family: 'Cormorant Garamond', serif;
+    font-family: 'Barlow Condensed', sans-serif;
     font-weight: 700;
     color: var(--terracota);
     line-height: 1;
@@ -1034,7 +1038,7 @@
     line-height: 1;
   }
   .offer__price-anchor-value {
-    font-family: 'Cormorant Garamond', serif;
+    font-family: 'Barlow Condensed', sans-serif;
     font-size: 24px;
     font-weight: 700;
     color: var(--terracota-dd);
@@ -1102,7 +1106,7 @@
   /* ══════════════════════════════════════
      FAQ
   ══════════════════════════════════════ */
-  .faq { background: var(--marfim); }
+  .faq { background: var(--creme-escuro); }
   .faq__list { margin-top: 32px; display: grid; gap: 12px; }
   .faq__item {
     border: 1px solid rgba(200,149,108,.22);
@@ -1198,7 +1202,7 @@
     font-weight: 300;
   }
   .cta-final__price {
-    font-family: 'Cormorant Garamond', serif;
+    font-family: 'Barlow Condensed', sans-serif;
     font-size: 56px;
     font-weight: 700;
     color: var(--marfim);
@@ -1250,7 +1254,7 @@
     font-weight: 500;
   }
   .sticky-bar__price {
-    font-family: 'Cormorant Garamond', serif;
+    font-family: 'Barlow Condensed', sans-serif;
     font-size: 22px;
     font-weight: 700;
     color: var(--marfim);
@@ -1285,7 +1289,7 @@
     animation: float 5s ease-in-out infinite;
   }
   .woman-section__title {
-    font-family: 'Cormorant Garamond', serif;
+    font-family: 'Barlow Condensed', sans-serif;
     font-size: clamp(24px, 3.5vw, 36px);
     color: var(--terracota-d);
     margin-bottom: 16px;
@@ -1309,7 +1313,7 @@
   }
   .woman-section__highlight-text {
     display: block;
-    font-family: 'Cormorant Garamond', serif;
+    font-family: 'Barlow Condensed', sans-serif;
     font-style: italic;
     font-size: 16px;
     color: var(--terracota-d);
@@ -1332,7 +1336,7 @@
     text-align: center;
   }
   .urgency-bar__text {
-    font-family: 'Cormorant Garamond', serif;
+    font-family: 'Barlow Condensed', sans-serif;
     font-size: clamp(16px, 2.5vw, 20px);
     font-style: italic;
     color: var(--marfim);
@@ -1389,7 +1393,7 @@
   .objection-card:hover { transform: translateY(-3px); box-shadow: 0 12px 32px rgba(107,58,31,.08); }
   .objection-card__question {
     display: flex; align-items: flex-start; gap: 10px;
-    font-family: 'Cormorant Garamond', serif;
+    font-family: 'Barlow Condensed', sans-serif;
     font-size: 18px; font-weight: 600; color: var(--terracota-d);
     margin-bottom: 14px; line-height: 1.4;
   }
@@ -1416,8 +1420,8 @@
   /* ── MOBILE ── */
   @media (max-width: 600px) {
     section { padding: 48px 0; }
-    .testimonials { padding-bottom: 24px; }
-    .offer { padding-top: 24px; }
+    .testimonials { padding-bottom: 48px; }
+    .offer { padding-top: 48px; }
 
     /* Hero */
     .hero { padding: 52px 0 60px; }
@@ -1570,7 +1574,7 @@
     border-bottom: 1px solid rgba(200,149,108,.15);
   }
   .anchor-cta-bar__text {
-    font-family: 'Cormorant Garamond', serif;
+    font-family: 'Barlow Condensed', sans-serif;
     font-size: 18px;
     color: var(--terracota-d);
     margin-bottom: 14px;
@@ -1696,7 +1700,7 @@
     background: rgba(253,250,246,0.04);
   }
   .reveal__epiphany-title {
-    font-family: 'Cormorant Garamond', serif;
+    font-family: 'Barlow Condensed', sans-serif;
     font-size: clamp(20px, 3vw, 26px);
     font-weight: 700;
     color: var(--marfim);
@@ -1722,7 +1726,7 @@
     border-radius: 2px;
   }
   .reveal__epiphany-highlight {
-    font-family: 'Cormorant Garamond', serif;
+    font-family: 'Barlow Condensed', sans-serif;
     font-size: clamp(18px, 2.5vw, 22px);
     font-style: italic;
     color: var(--marfim);
@@ -1884,7 +1888,7 @@
     <div class="reveal__two-col">
       <!-- Coluna texto — intacto -->
       <div class="reveal__two-col-text">
-        <p class="section-lead" style="font-size:19px;">Em vez de adivinhar o dia, o <strong>Ciclo Fértil</strong> te ensina a ler os sinais e blindar seus hormônios — semana a semana.</p>
+        <p class="section-lead" style="font-size:19px;">Em vez de adivinhar o dia, o <strong>Ciclo Fértil</strong> te ensina a ler os sinais e blindar seus hormônios, semana a semana.</p>
       </div>
 
       <!-- Coluna mandala animada -->
@@ -2007,7 +2011,7 @@
   <div class="container--wide">
     <div class="testimonials__header">
       <div class="testimonials__eyebrow">♡ &nbsp;Depoimentos Reais</div>
-      <h2 class="testimonials__title">O que muda quando você tem <em>um método.</em></h2>
+      <h2 class="testimonials__title">O que muda quando você <em>para de adivinhar.</em></h2>
     </div>
     <div class="testimonials__carousel-wrapper">
     <div class="testimonials__grid">
@@ -2085,7 +2089,7 @@
       <div class="offer__price offer__price--highlight">
         <span class="offer__price-rs">R$</span><span class="offer__price-int">37</span><span class="offer__price-dec">,90</span>
       </div>
-      <p style="font-family:'Cormorant Garamond',serif; font-size:clamp(17px,2.5vw,22px); font-style:italic; color:var(--terracota-d); text-align:center; margin-bottom:8px; line-height:1.5;">Você não está tentando de menos.<br/>Está tentando sem saber o que falta.</p>
+      <p style="font-family:'Barlow Condensed',sans-serif; font-size:clamp(17px,2.5vw,22px); font-style:italic; color:var(--terracota-d); text-align:center; margin-bottom:8px; line-height:1.5;">Você não está tentando de menos.<br/>Está tentando sem saber o que falta.</p>
       <p style="font-family:'DM Sans',sans-serif; font-size:clamp(13px,1.8vw,15px); color:var(--terracota); text-align:center; margin-bottom:20px; font-weight:500;">Cada mês sem método é mais um mês acumulando orientações que não chegam lá sozinhas.</p>
       <ul class="offer__items">
         <li class="offer__item">
@@ -2145,13 +2149,17 @@
       <a href="https://pay.kiwify.com.br/c9zEPBN" class="btn-cta" style="display:block; text-align:center; margin-bottom:10px" onclick="ttq.track('InitiateCheckout',{contents:[{content_id:'protocolo-ciclo-fertil',content_type:'product',content_name:'Protocolo Ciclo Fértil'}],value:37.90,currency:'BRL'})">
         Quero meu positivo
       </a>
+      <div class="offer__guarantee" style="justify-content:center; opacity:1; margin-top:16px; background:transparent; padding:8px 4px;">
+        <img src="../Images/selo-garantia-7dias-fita.webp" alt="Selo de garantia de 7 dias" width="63" height="60" style="height:60px; width:auto; flex-shrink:0;" loading="lazy">
+        <span><strong>Garantia de 7 dias.</strong> Não gostou? Devolvemos 100% do valor, sem perguntas.</span>
+      </div>
       <div style="display:flex; flex-direction:column; align-items:center; gap:8px; margin-top:4px;">
-        <div id="oferta-timer" style="display:flex; align-items:center; gap:8px; background:rgba(74,46,26,.07); border:1px solid rgba(200,149,108,.25); border-radius:20px; padding:4px 14px;">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--terracota)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
-          <span style="font-family:'DM Sans',sans-serif; font-size:12px; color:var(--terracota-dd); font-weight:700;">Oferta por tempo limitado</span>
-          <span id="timer-display" style="font-family:'DM Sans',sans-serif; font-size:13px; font-weight:700; color:var(--terracota-d); letter-spacing:.05em;">04:00</span>
+        <div id="oferta-timer" style="display:flex; align-items:center; gap:8px; background:#C0392B; border:1px solid #A93226; border-radius:20px; padding:5px 16px;">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+          <span style="font-family:'DM Sans',sans-serif; font-size:12px; color:#fff; font-weight:700;">Oferta por tempo limitado</span>
+          <span id="timer-display" style="font-family:'DM Sans',sans-serif; font-size:13px; font-weight:700; color:#fff; letter-spacing:.05em;">04:00</span>
         </div>
-        <p style="font-family:'DM Sans',sans-serif; font-size:12px; color:var(--terracota-d); font-weight:400; letter-spacing:.02em; margin:0; opacity:.75;">Você economiza R$ 150,10</p>
+        <p style="font-family:'DM Sans',sans-serif; font-size:14px; color:#3D5535; font-weight:700; letter-spacing:.02em; margin:0;">Você economiza R$ 150,10</p>
       </div>
     </div>
   </div>
@@ -2175,14 +2183,14 @@
           Já tentei de tudo e não funcionou...
           <span class="faq__toggle">+</span>
         </button>
-        <div class="faq__answer">Provavelmente você acumulou orientações que chegaram separadas, sem sequência. Elas não estão erradas — estão incompletas. A maioria das mulheres que tentam nunca teve acesso à parte que faltava. Não é falta de esforço. É falta de método.</div>
+        <div class="faq__answer">Provavelmente você acumulou orientações que chegaram separadas, sem sequência. Elas não estão erradas. Estão incompletas. A maioria das mulheres que tentam nunca teve acesso à parte que faltava. Não é falta de esforço. É falta de método.</div>
       </div>
       <div class="faq__item">
         <button class="faq__question" onclick="toggleFaq(this)">
           Vale mesmo a pena investir nisso?
           <span class="faq__toggle">+</span>
         </button>
-        <div class="faq__answer">O problema nunca foi dinheiro. Foi acesso à informação certa. E com 30 dias de garantia total, você não tem absolutamente nada a perder. Testa, aplica, e só decide depois.</div>
+        <div class="faq__answer">O problema nunca foi dinheiro. Foi acesso à informação certa. E com 7 dias de garantia total, você não tem absolutamente nada a perder. Testa, aplica, e só decide depois.</div>
       </div>
       <div class="faq__item">
         <button class="faq__question" onclick="toggleFaq(this)">

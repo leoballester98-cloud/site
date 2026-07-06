@@ -1571,9 +1571,9 @@
     .testimonials__grid {
       display: flex;
       overflow-x: auto;
-      touch-action: pan-y;
+      touch-action: pan-x;
       overscroll-behavior-x: contain;
-      scroll-snap-type: x mandatory;
+      scroll-snap-type: x proximity;
       -webkit-overflow-scrolling: touch;
       gap: 16px;
       padding-bottom: 8px;
@@ -2438,20 +2438,62 @@
 
     function getCards() { return grid ? grid.querySelectorAll('.testimonial-card') : []; }
 
+    function setActive(i) {
+      dotBtns.forEach((d, k) => d.classList.toggle('active', k === i));
+    }
+
     function goToCard(idx) {
       const cards = getCards();
       if (!cards.length) return;
-      currentIdx = idx % cards.length;
-      const cardWidth = cards[0].offsetWidth + 16;
-      grid.scrollTo({ left: currentIdx * cardWidth, behavior: 'smooth' });
-      dotBtns.forEach((d, i) => d.classList.toggle('active', i === currentIdx));
+      currentIdx = ((idx % cards.length) + cards.length) % cards.length;
+      const card = cards[currentIdx];
+      const gr = grid.getBoundingClientRect();
+      const cr = card.getBoundingClientRect();
+      const target = grid.scrollLeft + (cr.left - gr.left) - (gr.width - cr.width) / 2;
+      const max = grid.scrollWidth - grid.clientWidth;
+      grid.scrollTo({ left: Math.max(0, Math.min(target, max)), behavior: 'smooth' });
+      setActive(currentIdx);
     }
 
     if (dots) dots.style.display = 'flex';
+    window.scrollToCard = function(idx) { lastInteract = Date.now(); goToCard(idx); };
 
-    window.scrollToCard = function(idx) { currentIdx = idx; goToCard(idx); };
+    // pausa a auto-rotação por alguns segundos quando o usuário interage
+    let lastInteract = 0;
+    ['touchstart', 'pointerdown', 'wheel'].forEach(function(ev) {
+      grid.addEventListener(ev, function() { lastInteract = Date.now(); }, { passive: true });
+    });
 
-    setInterval(function() { goToCard(currentIdx + 1); }, 3500);
+    // sincroniza os dots quando o usuário desliza manualmente
+    let scrollSync;
+    grid.addEventListener('scroll', function() {
+      clearTimeout(scrollSync);
+      scrollSync = setTimeout(function() {
+        const cards = getCards();
+        if (!cards.length) return;
+        const gr = grid.getBoundingClientRect();
+        const center = gr.left + gr.width / 2;
+        let best = 0, bestDist = Infinity;
+        cards.forEach(function(c, i) {
+          const r = c.getBoundingClientRect();
+          const d = Math.abs((r.left + r.width / 2) - center);
+          if (d < bestDist) { bestDist = d; best = i; }
+        });
+        currentIdx = best;
+        setActive(best);
+      }, 120);
+    }, { passive: true });
+
+    // auto-rotação vai-e-volta (sem pulo do fim pro início)
+    let dir = 1;
+    setInterval(function() {
+      if (Date.now() - lastInteract < 6000) return;
+      const cards = getCards();
+      if (cards.length < 2) return;
+      if (currentIdx >= cards.length - 1) dir = -1;
+      else if (currentIdx <= 0) dir = 1;
+      goToCard(currentIdx + dir);
+    }, 3500);
   })();
 
   // ── FAQ TOGGLE ────────────────────────────────────────────────

@@ -274,7 +274,7 @@
   /* ══════════════════════════════════════
      SEÇÕES GERAIS
   ══════════════════════════════════════ */
-  section { padding: 72px 0; }
+  section { padding: 48px 0; }
   .section-eyebrow {
     font-size: 11px;
     font-weight: 500;
@@ -287,10 +287,27 @@
   .section-title {
     font-size: clamp(32px, 5vw, 48px);
     margin-bottom: 16px;
-    background: linear-gradient(135deg, var(--cacau) 0%, var(--terracota) 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    color: var(--cacau);
+  }
+  .word-hl { color: var(--salvia-d); }
+  .brush-underline {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 22' preserveAspectRatio='none'%3E%3Cpath d='M5 11 C 70 5 130 6 182 9 C 232 12 282 10 315 6 C 302 15 250 17 180 15 C 118 13 58 15 7 18 Z' fill='%233D5535'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: center bottom;
+    background-size: 100% 0.4em;
+    padding-bottom: 0.12em;
+  }
+  .mark-hl {
+    background: linear-gradient(104deg,
+      rgba(168,200,154,0) 0.9%,
+      rgba(168,200,154,.78) 2.4%,
+      rgba(168,200,154,.66) 95.8%,
+      rgba(168,200,154,0) 99%);
+    padding: 0 .1em;
+    margin: 0 -.02em;
+    border-radius: 2px;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
   }
   .section-lead {
     font-size: 17px;
@@ -420,9 +437,9 @@
   }
   .hero__scroll-text {
     color: #fff;
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: clamp(16px, 2.2vw, 20px);
-    font-style: italic;
+    font-family: 'DM Sans', sans-serif;
+    font-size: clamp(13px, 1.9vw, 15px);
+    font-weight: 500;
     letter-spacing: .02em;
     background: rgba(30,12,4,.55);
     padding: 3px 10px;
@@ -496,10 +513,6 @@
      REVELAÇÃO / ÂNGULO
   ══════════════════════════════════════ */
   .reveal { background: var(--marfim); }
-  .reveal .container { background: #1E0D06; border-radius: 20px; padding: 44px 26px; }
-  .reveal .section-title { background: linear-gradient(135deg, var(--marfim) 0%, var(--terracota) 100%); -webkit-background-clip: text; background-clip: text; }
-  .reveal .section-lead { color: var(--marfim); opacity: .92; }
-  .reveal .section-lead strong { color: var(--terracota); }
   .reveal__quote {
     font-family: 'Barlow Condensed', sans-serif;
     font-size: clamp(22px, 3.5vw, 32px);
@@ -608,19 +621,17 @@
   .insight-card {
     background: #FFFDF8;
     border: 1px solid rgba(196,149,106,.22);
-    box-shadow: 0 4px 14px rgba(90,55,20,.05);
+    box-shadow: 5px 5px 0 var(--cacau);
     border-radius: 16px;
     padding: 20px 20px 20px 18px;
     display: flex; gap: 14px; align-items: flex-start;
   }
   .insight-card__icon {
-    flex-shrink: 0; margin-top: 2px; line-height: 1;
-    color: var(--terracota-d);
+    flex-shrink: 0; margin-top: 0; line-height: 1;
   }
   .insight-card__icon svg {
-    width: 28px; height: 28px;
-    stroke: currentColor; fill: none;
-    stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round;
+    width: 56px; height: 56px;
+    filter: drop-shadow(0 4px 6px rgba(90,55,20,.18));
   }
   .insight-card p {
     font-size: 16px; line-height: 1.65; color: var(--cacau); margin: 0;
@@ -699,12 +710,13 @@
   .testimonials__header { text-align: center; margin-bottom: 32px; }
   .testimonials__eyebrow {
     display: inline-flex; align-items: center; gap: 8px;
-    background: var(--marfim);
-    border: 1px solid rgba(200,149,108,.25);
+    background: var(--cacau);
+    border: none;
+    box-shadow: 4px 4px 0 var(--caramelo);
     border-radius: 999px;
-    padding: 6px 18px;
-    font-size: 12px; font-weight: 500; letter-spacing: .1em;
-    text-transform: uppercase; color: var(--terracota-d);
+    padding: 8px 20px;
+    font-size: 12px; font-weight: 600; letter-spacing: .1em;
+    text-transform: uppercase; color: var(--creme);
     margin-bottom: 20px;
   }
   .testimonials__title {
@@ -733,7 +745,7 @@
     gap: 20px;
   }
   .testimonial-card {
-    border-radius: 18px;
+    border-radius: 16px;
     overflow: hidden;
     position: relative;
     box-shadow: 0 4px 24px rgba(74,46,26,.12);
@@ -833,7 +845,7 @@
   .offer__box {
     background: var(--creme);
     border: 2px solid var(--terracota);
-    border-radius: 28px;
+    border-radius: 16px;
     padding: 52px 44px;
     max-width: 620px;
     margin: 0 auto;
@@ -1425,7 +1437,7 @@
 
   /* ── MOBILE ── */
   @media (max-width: 600px) {
-    section { padding: 48px 0; }
+    section { padding: 32px 0; }
     .testimonials { padding-bottom: 48px; }
     .offer { padding-top: 48px; }
 
@@ -1484,6 +1496,8 @@
     .testimonials__grid {
       display: flex;
       overflow-x: auto;
+      touch-action: pan-y;
+      overscroll-behavior-x: contain;
       scroll-snap-type: x mandatory;
       -webkit-overflow-scrolling: touch;
       gap: 16px;
@@ -1810,8 +1824,8 @@
     to   { transform: scale(1.25); opacity: .75; }
   }
   @media (max-width: 640px) {
-    .reveal__two-col { grid-template-columns: 1fr; }
-    .reveal__mandala-wrap { order: -1; }
+    .reveal__two-col { grid-template-columns: 1fr; gap: 26px; }
+    .reveal__mandala-wrap { order: -1; margin-top: -18px; }
     .reveal__mandala-svg { max-width: 300px; }
   }
 
@@ -1833,6 +1847,53 @@
     bottom: 24px;
     animation: particleRise linear infinite;
   }
+  /* ── MARQUEE / TIRA ──────────────────────────── */
+  .marquee {
+    overflow: hidden;
+    background: var(--cacau);
+    padding: 9px 0;
+    position: relative;
+    -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 7%, #000 93%, transparent 100%);
+            mask-image: linear-gradient(90deg, transparent 0, #000 7%, #000 93%, transparent 100%);
+  }
+  .marquee__track {
+    display: flex;
+    gap: 12px;
+    width: max-content;
+    animation: marqueeScroll 34s linear infinite;
+  }
+  .marquee:hover .marquee__track { animation-play-state: paused; }
+  .marquee__chip {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    background: var(--creme);
+    color: var(--terracota-dd);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: .05em;
+    text-transform: uppercase;
+    padding: 4px 13px 4px 7px;
+    border-radius: 999px;
+    white-space: nowrap;
+    line-height: 1.35;
+  }
+  .marquee__chip span {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: var(--terracota);
+    color: #fff;
+    font-size: 9px;
+    margin-right: 7px;
+    flex-shrink: 0;
+  }
+  @keyframes marqueeScroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  @media (prefers-reduced-motion: reduce) { .marquee__track { animation: none; } }
 </style>
 </head>
 <body>
@@ -1862,22 +1923,36 @@
 <!-- ══ TRANSIÇÃO HERO → SEÇÃO 2 ══════════════════════════════════ -->
 <div class="hero-fade"></div>
 
+<!-- ══ MARQUEE / TIRA ════════════════════════════════════════════ -->
+<div class="marquee" aria-hidden="true">
+  <div class="marquee__track">
+    <div class="marquee__chip"><span>✦</span>Sem adivinhar o dia</div>
+    <div class="marquee__chip"><span>✦</span>Chega de "é só relaxar"</div>
+    <div class="marquee__chip"><span>✦</span>Método, não sorte</div>
+    <div class="marquee__chip"><span>✦</span>Ler os sinais do corpo</div>
+    <div class="marquee__chip"><span>✦</span>1 passo por semana</div>
+    <div class="marquee__chip"><span>✦</span>Garantia de 7 dias</div>
+    <div class="marquee__chip"><span>✦</span>Sem adivinhar o dia</div>
+    <div class="marquee__chip"><span>✦</span>Chega de "é só relaxar"</div>
+    <div class="marquee__chip"><span>✦</span>Método, não sorte</div>
+    <div class="marquee__chip"><span>✦</span>Ler os sinais do corpo</div>
+    <div class="marquee__chip"><span>✦</span>1 passo por semana</div>
+    <div class="marquee__chip"><span>✦</span>Garantia de 7 dias</div>
+  </div>
+</div>
+
 <!-- ══ DOR ════════════════════════════════════════════════════════ -->
 <!-- ══ PROVA SOCIAL ABERTURA ═══════════════════════════════════════ -->
 <section class="social-proof-opener">
   <div class="container--wide">
-    <h2 class="section-title" style="text-align:center; margin-bottom:24px;">E não foi só você. Milhares travaram fazendo tudo certo.</h2>
+    <h2 class="section-title" style="text-align:center; margin-bottom:24px;">E não foi só você. <span class="word-hl brush-underline">Milhares travaram</span> fazendo tudo certo.</h2>
     <div class="autoprint-wrap" id="autoprint">
       <img class="autoprint-img active" src="/Images/b1.png" alt="Depoimento WhatsApp"/>
       <img class="autoprint-img" src="/Images/b2.png" alt="Depoimento WhatsApp"/>
       <img class="autoprint-img" src="/Images/b4.png" alt="Depoimento WhatsApp"/>
-      <img class="autoprint-img" src="/Images/b5.png" alt="Depoimento WhatsApp"/>
       <img class="autoprint-img" src="/Images/b6.png" alt="Depoimento WhatsApp"/>
-      <img class="autoprint-img" src="/Images/b7.png" alt="Depoimento WhatsApp"/>
       <div class="autoprint-dots">
         <span class="autoprint-dot active"></span>
-        <span class="autoprint-dot"></span>
-        <span class="autoprint-dot"></span>
         <span class="autoprint-dot"></span>
         <span class="autoprint-dot"></span>
         <span class="autoprint-dot"></span>
@@ -1889,7 +1964,7 @@
 <!-- ══ REVELAÇÃO ══════════════════════════════════════════════════ -->
 <section class="reveal">
   <div class="container">
-    <h2 class="section-title" style="margin-bottom:20px;">Sua janela fértil é curta e se move. Quem marca dia fixo quase sempre erra a hora.</h2>
+    <h2 class="section-title" style="margin-bottom:8px;">Sua janela fértil é curta e <span class="mark-hl">se move</span>. Quem marca dia fixo quase sempre erra.</h2>
 
     <div class="reveal__two-col">
       <!-- Coluna texto — intacto -->
@@ -1939,7 +2014,7 @@
           function ctr(e){var s=stage.getBoundingClientRect(),r=e.getBoundingClientRect(),k=s.width/360||1;return {x:(r.left-s.left+r.width/2)/k,y:(r.top-s.top+r.height/2)/k};}
           function draw(p,h,from,to,bend){var dx=to.x-from.x,dy=to.y-from.y,len=Math.hypot(dx,dy)||1,nx=-dy/len,ny=dx/len;var cx=(from.x+to.x)/2+nx*bend,cy=(from.y+to.y)/2+ny*bend;var tx=to.x-cx,ty=to.y-cy,tl=Math.hypot(tx,ty)||1;var ex=to.x-(tx/tl)*10,ey=to.y-(ty/tl)*10;p.setAttribute('d','M'+from.x+','+from.y+' Q'+cx+','+cy+' '+ex+','+ey);h.setAttribute('transform','translate('+ex+','+ey+') rotate('+(Math.atan2(ty,tx)*180/Math.PI)+')');}
           function midCell(){return cells[cur.f[Math.floor(cur.f.length/2)]-1];}
-          function fit(){var outer=stage.parentElement,k=outer.clientWidth/360;stage.style.transform='scale('+k+')';outer.style.height=(360*k)+'px';}
+          function fit(){var outer=stage.parentElement,k=outer.clientWidth/360;stage.style.transform='scale('+k+')';outer.style.height=(312*k)+'px';outer.style.overflow='hidden';}
           function redraw(){fit();draw(A1,A1h,ctr(L1),ctr(cells[14]),30);draw(A2,A2h,ctr(L2),ctr(midCell()),-30);var c=ctr(cells[14]);stamp.style.left=(c.x+13)+'px';stamp.style.top=(c.y-11)+'px';}
           function setMonth(m){cur=m;mesEl.textContent=m.n;var hit=m.f.indexOf(15)>-1;cells.forEach(function(el,idx){var d=idx+1,on=m.f.indexOf(d)>-1;el.style.background=on?'#C4703A':'#EDE2CE';el.style.color=on?'#fff':(d===15?'#5A3E1E':'#B09675');el.style.animation=on?'pzpop .5s ease':'';});stamp.textContent=hit?'ACERTOU!':'PASSOU';stamp.style.color=hit?'#2F7D2F':'#C0392B';stamp.style.borderColor=hit?'#2F7D2F':'#C0392B';redraw();if(stamp.animate)stamp.animate([{transform:'translate(-50%,-50%) rotate(-13deg) scale(1.5)',opacity:0},{transform:'translate(-50%,-50%) rotate(-13deg) scale(1)',opacity:.95}],{duration:360,easing:'ease-out'});}
           var i=0;function tick(){i=(i+1)%months.length;setMonth(months[i]);}
@@ -1956,7 +2031,7 @@
 <!-- ══ PILARES ════════════════════════════════════════════════════ -->
 <section class="pillars" id="aprenda">
   <div class="container">
-    <div style="text-align:center; margin-bottom:36px; margin-top:20px;">
+    <div style="text-align:center; margin-bottom:24px; margin-top:-40px;">
       <svg viewBox="0 0 300 300" role="img" aria-label="Mandala das 4 dimensões do Ciclo Fértil: Corpo, Ciclo, Ambiente e Mente" style="display:block; margin:0 auto; opacity:.97; width:100%; max-width:187px; height:auto;">
         <circle cx="150" cy="150" r="128" fill="rgba(200,149,108,0.07)"/>
         <g class="mandala-ring-outer">
@@ -1966,16 +2041,16 @@
           <circle cx="150" cy="276" r="3.5" fill="rgba(200,149,108,0.45)"/>
           <circle cx="24"  cy="150" r="3.5" fill="rgba(200,149,108,0.45)"/>
         </g>
-        <path class="mandala-seg-0" d="M 117.9,111.7 L 79.3,65.7 A 110,110 0 0,1 220.7,65.7 L 182.1,111.7 A 50,50 0 0,0 117.9,111.7 Z" fill="#C8956C"/>
-        <path class="mandala-seg-1" d="M 188.3,117.9 L 234.3,79.3 A 110,110 0 0,1 234.3,220.7 L 188.3,182.1 A 50,50 0 0,0 188.3,117.9 Z" fill="#D4A574"/>
-        <path class="mandala-seg-2" d="M 182.1,188.3 L 220.7,234.3 A 110,110 0 0,1 79.3,234.3 L 117.9,188.3 A 50,50 0 0,0 182.1,188.3 Z" fill="#A8B89A"/>
-        <path class="mandala-seg-3" d="M 111.7,182.1 L 65.7,220.7 A 110,110 0 0,1 65.7,79.3 L 111.7,117.9 A 50,50 0 0,0 111.7,182.1 Z" fill="#8B6347"/>
+        <path class="mandala-seg-0" d="M 117.9,111.7 L 79.3,65.7 A 110,110 0 0,1 220.7,65.7 L 182.1,111.7 A 50,50 0 0,0 117.9,111.7 Z" fill="#C4956A"/>
+        <path class="mandala-seg-1" d="M 188.3,117.9 L 234.3,79.3 A 110,110 0 0,1 234.3,220.7 L 188.3,182.1 A 50,50 0 0,0 188.3,117.9 Z" fill="#8B4A1C"/>
+        <path class="mandala-seg-2" d="M 182.1,188.3 L 220.7,234.3 A 110,110 0 0,1 79.3,234.3 L 117.9,188.3 A 50,50 0 0,0 182.1,188.3 Z" fill="#3D5535"/>
+        <path class="mandala-seg-3" d="M 111.7,182.1 L 65.7,220.7 A 110,110 0 0,1 65.7,79.3 L 111.7,117.9 A 50,50 0 0,0 111.7,182.1 Z" fill="#2B1A10"/>
         <circle cx="150" cy="150" r="48" fill="var(--marfim)" stroke="rgba(200,149,108,0.35)" stroke-width="1.5"/>
         <circle class="mandala-center-dot" cx="150" cy="150" r="22" fill="rgba(200,149,108,0.35)"/>
-        <text x="150" y="158" text-anchor="middle" font-size="22" fill="#8B6347" opacity="0.85" font-family="serif">✦</text>
+        <text x="150" y="158" text-anchor="middle" font-size="22" fill="#2B1A10" opacity="0.85" font-family="serif">✦</text>
         <text x="150" y="72"  text-anchor="middle" font-family="DM Sans, sans-serif" font-size="15" font-weight="600" letter-spacing="0.8" fill="#FDFAF6">CORPO</text>
         <text x="228" y="156" text-anchor="middle" font-family="DM Sans, sans-serif" font-size="15" font-weight="600" letter-spacing="0.8" fill="rgba(255,255,255,0.92)">CICLO</text>
-        <text x="150" y="234" text-anchor="middle" font-family="DM Sans, sans-serif" font-size="12.5" font-weight="600" letter-spacing="0.4" fill="rgba(75,60,40,0.9)">AMBIENTE</text>
+        <text x="150" y="234" text-anchor="middle" font-family="DM Sans, sans-serif" font-size="15" font-weight="600" letter-spacing="0.2" fill="#FDFAF6">AMBIENTE</text>
         <text x="72"  y="156" text-anchor="middle" font-family="DM Sans, sans-serif" font-size="15" font-weight="600" letter-spacing="0.8" fill="rgba(255,255,255,0.92)">MENTE</text>
       </svg>
     </div>
@@ -1986,25 +2061,25 @@
     <div class="insights__grid">
       <div class="insight-card">
         <div class="insight-card__icon">
-          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+          <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="icd" x1="18" y1="10" x2="46" y2="56" gradientUnits="userSpaceOnUse"><stop stop-color="#E8C097"/><stop offset=".5" stop-color="#C4956A"/><stop offset="1" stop-color="#8B4A1C"/></linearGradient></defs><ellipse cx="32" cy="59" rx="14" ry="3" fill="#2B1A10" opacity=".14"/><path d="M32 7C40 21 50 30 50 40a18 18 0 0 1-36 0c0-10 10-19 18-33Z" fill="url(#icd)"/><ellipse cx="25" cy="24" rx="4.5" ry="8" transform="rotate(-22 25 24)" fill="#fff" opacity=".55"/><ellipse cx="23" cy="43" rx="3" ry="4.5" fill="#fff" opacity=".2"/></svg>
         </div>
         <p>O sinal que aparece 3 dias antes da ovulação, que ninguém te ensinou a ver.</p>
       </div>
       <div class="insight-card">
         <div class="insight-card__icon">
-          <svg viewBox="0 0 24 24"><path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96-.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 1.98-3A2.5 2.5 0 0 1 9.5 2Z"/><path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96-.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-1.98-3A2.5 2.5 0 0 0 14.5 2Z"/></svg>
+          <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="ics" x1="16" y1="9" x2="48" y2="54" gradientUnits="userSpaceOnUse"><stop stop-color="#9DBB86"/><stop offset=".55" stop-color="#5C7E4C"/><stop offset="1" stop-color="#3D5535"/></linearGradient></defs><ellipse cx="32" cy="59" rx="13" ry="3" fill="#2B1A10" opacity=".14"/><path d="M32 7l18 7v17c0 12-8 20-18 24-10-4-18-12-18-24V14Z" fill="url(#ics)"/><path d="M32 7l18 7v17c0 12-8 20-18 24Z" fill="#2B1A10" opacity=".1"/><path d="M24 31l6 6 12-14" stroke="#F5EFE6" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><ellipse cx="24" cy="19" rx="4" ry="7" transform="rotate(-18 24 19)" fill="#fff" opacity=".26"/></svg>
         </div>
         <p>Cortisol e progesterona disputam a mesma matéria-prima. Por isso o estresse trava a ovulação.</p>
       </div>
       <div class="insight-card">
         <div class="insight-card__icon">
-          <svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+          <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="icc" x1="12" y1="16" x2="50" y2="54" gradientUnits="userSpaceOnUse"><stop stop-color="#DEAE7C"/><stop offset="1" stop-color="#A85D28"/></linearGradient></defs><ellipse cx="32" cy="59" rx="15" ry="3" fill="#2B1A10" opacity=".14"/><rect x="12" y="16" width="40" height="38" rx="8" fill="url(#icc)"/><path d="M12 24a8 8 0 0 1 8-8h24a8 8 0 0 1 8 8v3H12Z" fill="#8B4A1C"/><rect x="20" y="9" width="5" height="13" rx="2.5" fill="#5C3010"/><rect x="39" y="9" width="5" height="13" rx="2.5" fill="#5C3010"/><path d="M22 40l6 6 13-15" stroke="#F5EFE6" stroke-width="4.2" stroke-linecap="round" stroke-linejoin="round"/><rect x="17" y="31" width="30" height="3.5" rx="1.75" fill="#fff" opacity=".16"/></svg>
         </div>
         <p>A ordem certa de preparar o corpo, semana a semana, que separa tentar de conseguir.</p>
       </div>
       <div class="insight-card">
         <div class="insight-card__icon">
-          <svg viewBox="0 0 24 24"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg>
+          <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="icu" cx=".4" cy=".35" r=".75"><stop stop-color="#F6DDAE"/><stop offset=".5" stop-color="#E0A85C"/><stop offset="1" stop-color="#B5701F"/></radialGradient></defs><ellipse cx="32" cy="59" rx="13" ry="3" fill="#2B1A10" opacity=".14"/><g stroke="#C4956A" stroke-width="4" stroke-linecap="round"><path d="M32 5v7"/><path d="M50 13l-5 5"/><path d="M59 33h-7"/><path d="M14 13l5 5"/><path d="M5 33h7"/></g><circle cx="32" cy="33" r="15" fill="url(#icu)"/><ellipse cx="26" cy="27" rx="5" ry="3.6" transform="rotate(-25 26 27)" fill="#fff" opacity=".45"/></svg>
         </div>
         <p>Por que os primeiros 30 minutos depois de acordar decidem seus hormônios do dia.</p>
       </div>
@@ -2084,7 +2159,6 @@
 <section class="offer" id="oferta">
   <div class="container">
     <div class="offer__box">
-      <span class="offer__badge">Acesso imediato</span>
       <h3 class="offer__product-title">Ciclo Fértil</h3>
       <div class="offer__price-anchor">
         <span class="offer__price-anchor-label">De</span>
@@ -2095,7 +2169,7 @@
       <div class="offer__price offer__price--highlight">
         <span class="offer__price-rs">R$</span><span class="offer__price-int">37</span><span class="offer__price-dec">,90</span>
       </div>
-      <p style="font-family:'Barlow Condensed',sans-serif; font-size:clamp(17px,2.5vw,22px); font-style:italic; color:var(--terracota-d); text-align:center; margin-bottom:8px; line-height:1.5;">Você não está tentando de menos.<br/>Está tentando sem saber o que falta.</p>
+      <p style="font-family:'Barlow Condensed',sans-serif; font-size:clamp(17px,2.5vw,22px); color:var(--terracota-d); text-align:center; margin-bottom:8px; line-height:1.5;">Você não está tentando de menos.<br/>Está tentando sem saber o que falta.</p>
       <p style="font-family:'DM Sans',sans-serif; font-size:clamp(13px,1.8vw,15px); color:var(--terracota); text-align:center; margin-bottom:20px; font-weight:500;">Cada mês sem método é mais um mês acumulando orientações que não chegam lá sozinhas.</p>
       <ul class="offer__items">
         <li class="offer__item">
@@ -2155,17 +2229,16 @@
       <a href="https://pay.kiwify.com.br/c9zEPBN" class="btn-cta" style="display:block; text-align:center; margin-bottom:10px" onclick="ttq.track('InitiateCheckout',{contents:[{content_id:'protocolo-ciclo-fertil',content_type:'product',content_name:'Protocolo Ciclo Fértil'}],value:37.90,currency:'BRL'})">
         Quero meu positivo
       </a>
-      <div class="offer__guarantee" style="justify-content:center; opacity:1; margin-top:16px; background:transparent; padding:8px 4px;">
-        <img src="/Images/selo-garantia-7dias-fita.webp" alt="Selo de garantia de 7 dias" width="63" height="60" style="height:60px; width:auto; flex-shrink:0;" loading="lazy">
-        <span><strong>Garantia de 7 dias.</strong> Não gostou? Devolvemos 100% do valor, sem perguntas.</span>
-      </div>
-      <div style="display:flex; flex-direction:column; align-items:center; gap:8px; margin-top:4px;">
+      <div style="display:flex; justify-content:center; margin-top:16px;">
         <div id="oferta-timer" style="display:flex; align-items:center; gap:8px; background:#C0392B; border:1px solid #A93226; border-radius:20px; padding:5px 16px;">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
           <span style="font-family:'DM Sans',sans-serif; font-size:12px; color:#fff; font-weight:700;">Oferta por tempo limitado</span>
           <span id="timer-display" style="font-family:'DM Sans',sans-serif; font-size:13px; font-weight:700; color:#fff; letter-spacing:.05em;">04:00</span>
         </div>
-        <p style="font-family:'DM Sans',sans-serif; font-size:14px; color:#3D5535; font-weight:700; letter-spacing:.02em; margin:0;">Você economiza R$ 150,10</p>
+      </div>
+      <div class="offer__guarantee" style="flex-direction:column; justify-content:center; text-align:center; gap:8px; opacity:1; margin-top:16px; background:transparent; padding:8px 4px;">
+        <img src="/Images/selo-garantia-7dias-fita.webp" alt="Selo de garantia de 7 dias" width="55" height="52" style="height:52px; width:auto; flex-shrink:0;" loading="lazy">
+        <span><strong>Garantia de 7 dias.</strong> Não gostou? Devolvemos 100% do valor, sem perguntas.</span>
       </div>
     </div>
   </div>

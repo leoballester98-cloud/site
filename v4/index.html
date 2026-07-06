@@ -3,12 +3,12 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<link rel="icon" type="image/png" href="../Images/logo.png"/>
+<link rel="icon" type="image/png" href="/Images/logo.png"/>
 <title>Ciclo Fértil | Prepare seu corpo para engravidar naturalmente</title>
-<link rel="preload" href="../fonts.css" as="style" onload="this.onload=null;this.rel='stylesheet'"/>
-<noscript><link rel="stylesheet" href="../fonts.css"/></noscript>
-<link rel="preload" as="image" href="../Images/novaimg.jpg"/>
-<link rel="preload" as="image" href="../Images/printhero.jpg" fetchpriority="high"/>
+<link rel="preload" href="/fonts.css" as="style" onload="this.onload=null;this.rel='stylesheet'"/>
+<noscript><link rel="stylesheet" href="/fonts.css"/></noscript>
+<link rel="preload" as="image" href="/Images/novaimg.jpg"/>
+<link rel="preload" as="image" href="/Images/printhero.jpg" fetchpriority="high"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,600;0,700;0,800;0,900;1,700&family=Bungee&family=Fredoka:wght@500;600&display=swap" rel="stylesheet">
 <style>
@@ -495,7 +495,11 @@
   /* ══════════════════════════════════════
      REVELAÇÃO / ÂNGULO
   ══════════════════════════════════════ */
-  .reveal { background: var(--creme-escuro); }
+  .reveal { background: var(--marfim); }
+  .reveal .container { background: #1E0D06; border-radius: 20px; padding: 44px 26px; }
+  .reveal .section-title { background: linear-gradient(135deg, var(--marfim) 0%, var(--terracota) 100%); -webkit-background-clip: text; background-clip: text; }
+  .reveal .section-lead { color: var(--marfim); opacity: .92; }
+  .reveal .section-lead strong { color: var(--terracota); }
   .reveal__quote {
     font-family: 'Barlow Condensed', sans-serif;
     font-size: clamp(22px, 3.5vw, 32px);
@@ -602,22 +606,24 @@
     gap: 14px;
   }
   .insight-card {
-    background: var(--terracota);
+    background: #FFFDF8;
+    border: 1px solid rgba(196,149,106,.22);
+    box-shadow: 0 4px 14px rgba(90,55,20,.05);
     border-radius: 16px;
     padding: 20px 20px 20px 18px;
     display: flex; gap: 14px; align-items: flex-start;
   }
   .insight-card__icon {
     flex-shrink: 0; margin-top: 2px; line-height: 1;
-    color: var(--caramelo);
+    color: var(--terracota-d);
   }
   .insight-card__icon svg {
     width: 28px; height: 28px;
-    stroke: rgba(255,255,255,.9); fill: none;
+    stroke: currentColor; fill: none;
     stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round;
   }
   .insight-card p {
-    font-size: 16px; line-height: 1.65; color: rgba(255,255,255,.88); margin: 0;
+    font-size: 16px; line-height: 1.65; color: var(--cacau); margin: 0;
   }
 
   /* ══════════════════════════════════════
@@ -689,7 +695,7 @@
   /* ══════════════════════════════════════
      DEPOIMENTOS
   ══════════════════════════════════════ */
-  .testimonials { background: var(--creme-escuro); }
+  .testimonials { background: var(--marfim); }
   .testimonials__header { text-align: center; margin-bottom: 32px; }
   .testimonials__eyebrow {
     display: inline-flex; align-items: center; gap: 8px;
@@ -1106,7 +1112,7 @@
   /* ══════════════════════════════════════
      FAQ
   ══════════════════════════════════════ */
-  .faq { background: var(--creme-escuro); }
+  .faq { background: var(--marfim); }
   .faq__list { margin-top: 32px; display: grid; gap: 12px; }
   .faq__item {
     border: 1px solid rgba(200,149,108,.22);
@@ -1834,8 +1840,8 @@
 <!-- ══ HERO ══════════════════════════════════════════════════════ -->
 <section class="hero text-center">
   <div class="hero__bg">
-    <img id="hero-fallback" src="../Images/printhero.jpg" alt="" fetchpriority="high" style="width:100%; height:100%; object-fit:cover; object-position:center;"/>
-    <video id="hero-video" src="../Images/video01.mp4" autoplay muted loop playsinline></video>
+    <img id="hero-fallback" src="/Images/printhero.jpg" alt="" fetchpriority="high" style="width:100%; height:100%; object-fit:cover; object-position:center;"/>
+    <video id="hero-video" src="/Images/video01.mp4" autoplay muted loop playsinline></video>
   </div>
   <div class="hero__overlay"></div>
   <div class="hero__bottom-fade"></div>
@@ -1862,12 +1868,12 @@
   <div class="container--wide">
     <h2 class="section-title" style="text-align:center; margin-bottom:24px;">E não foi só você. Milhares travaram fazendo tudo certo.</h2>
     <div class="autoprint-wrap" id="autoprint">
-      <img class="autoprint-img active" src="../Images/b1.png" alt="Depoimento WhatsApp"/>
-      <img class="autoprint-img" src="../Images/b2.png" alt="Depoimento WhatsApp"/>
-      <img class="autoprint-img" src="../Images/b4.png" alt="Depoimento WhatsApp"/>
-      <img class="autoprint-img" src="../Images/b5.png" alt="Depoimento WhatsApp"/>
-      <img class="autoprint-img" src="../Images/b6.png" alt="Depoimento WhatsApp"/>
-      <img class="autoprint-img" src="../Images/b7.png" alt="Depoimento WhatsApp"/>
+      <img class="autoprint-img active" src="/Images/b1.png" alt="Depoimento WhatsApp"/>
+      <img class="autoprint-img" src="/Images/b2.png" alt="Depoimento WhatsApp"/>
+      <img class="autoprint-img" src="/Images/b4.png" alt="Depoimento WhatsApp"/>
+      <img class="autoprint-img" src="/Images/b5.png" alt="Depoimento WhatsApp"/>
+      <img class="autoprint-img" src="/Images/b6.png" alt="Depoimento WhatsApp"/>
+      <img class="autoprint-img" src="/Images/b7.png" alt="Depoimento WhatsApp"/>
       <div class="autoprint-dots">
         <span class="autoprint-dot active"></span>
         <span class="autoprint-dot"></span>
@@ -2017,13 +2023,13 @@
     <div class="testimonials__grid">
 
       <div class="testimonial-card">
-        <img src="../Images/depo1.jpg" alt="Mariana S." class="testimonial-card__img" width="506" height="900" style="object-position: center 30%;" loading="lazy"/>
+        <img src="/Images/depo1.jpg" alt="Mariana S." class="testimonial-card__img" width="506" height="900" style="object-position: center 30%;" loading="lazy"/>
         <div class="testimonial-card__overlay">
           <div class="testimonial-card__bubble">
             <p>"Tentava há 14 meses seguindo tudo que me mandavam. Mas ninguém me ensinou a parte do ciclo. No terceiro ciclo do método, engravidei."</p>
           </div>
           <div class="testimonial-card__footer">
-            <img src="../Images/img.png" alt="" class="testimonial-avatar-img" loading="lazy"/>
+            <img src="/Images/img.png" alt="" class="testimonial-avatar-img" loading="lazy"/>
             <div class="testimonial-card__info">
               <span class="testimonial-card__author">Mariana S.</span>
               <span class="testimonial-card__location">36 anos · São Paulo · Ciclo regulado em 3 semanas</span>
@@ -2033,13 +2039,13 @@
       </div>
 
       <div class="testimonial-card">
-        <img src="../Images/depo2.jpg" alt="Fernanda R." class="testimonial-card__img" width="720" height="900" style="object-position: center 30%;" loading="lazy"/>
+        <img src="/Images/depo2.jpg" alt="Fernanda R." class="testimonial-card__img" width="720" height="900" style="object-position: center 30%;" loading="lazy"/>
         <div class="testimonial-card__overlay">
           <div class="testimonial-card__bubble">
             <p>"Fazia tudo certo e não entendia por que não funcionava. O método me mostrou o que estava faltando. Foi simples e concreto."</p>
           </div>
           <div class="testimonial-card__footer">
-            <img src="../Images/depoimento1.jpeg" alt="" class="testimonial-avatar-img" loading="lazy"/>
+            <img src="/Images/depoimento1.jpeg" alt="" class="testimonial-avatar-img" loading="lazy"/>
             <div class="testimonial-card__info">
               <span class="testimonial-card__author">Fernanda R.</span>
               <span class="testimonial-card__location">31 anos · Fortaleza · Ovulação identificada no 2º ciclo</span>
@@ -2049,13 +2055,13 @@
       </div>
 
       <div class="testimonial-card">
-        <img src="../Images/depo3.jpg" alt="Camila T." class="testimonial-card__img" width="523" height="900" loading="lazy"/>
+        <img src="/Images/depo3.jpg" alt="Camila T." class="testimonial-card__img" width="523" height="900" loading="lazy"/>
         <div class="testimonial-card__overlay">
           <div class="testimonial-card__bubble">
             <p>"Com 41 anos tentei por mais de um ano. O que me faltava era entender o que o meu corpo precisava de verdade. Dois ciclos com o método e veio o positivo."</p>
           </div>
           <div class="testimonial-card__footer">
-            <img src="../Images/depoimento3.jpeg" alt="" class="testimonial-avatar-img" loading="lazy"/>
+            <img src="/Images/depoimento3.jpeg" alt="" class="testimonial-avatar-img" loading="lazy"/>
             <div class="testimonial-card__info">
               <span class="testimonial-card__author">Camila T.</span>
               <span class="testimonial-card__location">41 anos · Belo Horizonte · Gravidez confirmada no 2º ciclo</span>
@@ -2150,7 +2156,7 @@
         Quero meu positivo
       </a>
       <div class="offer__guarantee" style="justify-content:center; opacity:1; margin-top:16px; background:transparent; padding:8px 4px;">
-        <img src="../Images/selo-garantia-7dias-fita.webp" alt="Selo de garantia de 7 dias" width="63" height="60" style="height:60px; width:auto; flex-shrink:0;" loading="lazy">
+        <img src="/Images/selo-garantia-7dias-fita.webp" alt="Selo de garantia de 7 dias" width="63" height="60" style="height:60px; width:auto; flex-shrink:0;" loading="lazy">
         <span><strong>Garantia de 7 dias.</strong> Não gostou? Devolvemos 100% do valor, sem perguntas.</span>
       </div>
       <div style="display:flex; flex-direction:column; align-items:center; gap:8px; margin-top:4px;">

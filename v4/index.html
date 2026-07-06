@@ -206,7 +206,7 @@
   /* ── CTA HERO ── */
   .btn-cta {
     display: inline-block;
-    background: var(--terracota-dd);
+    background: linear-gradient(105deg, #B5701F 0%, #8B4A1C 46%, #5A2E10 100%);
     color: #fff;
     font-family: 'DM Sans', sans-serif;
     font-size: 16px;
@@ -217,7 +217,7 @@
     transition: transform .2s ease, box-shadow .2s ease;
     animation: pulse-cta 2s ease-in-out infinite;
     letter-spacing: .03em;
-    box-shadow: 0 6px 0 rgba(80,35,10,.35), 0 8px 24px rgba(107,58,31,.3);
+    box-shadow: 0 6px 0 rgba(80,35,10,.4), 0 12px 32px rgba(139,74,28,.45), inset 0 1px 0 rgba(255,255,255,.18);
   }
   .btn-cta:hover { transform: translateY(-3px); box-shadow: 0 16px 40px rgba(107,58,31,.28); }
   .btn-cta--secondary {
@@ -306,6 +306,7 @@
     padding: 0 .1em;
     margin: 0 -.02em;
     border-radius: 2px;
+    white-space: nowrap;
     -webkit-box-decoration-break: clone;
     box-decoration-break: clone;
   }
@@ -621,7 +622,7 @@
   .insight-card {
     background: #FFFDF8;
     border: 1px solid rgba(196,149,106,.22);
-    box-shadow: 5px 5px 0 var(--cacau);
+    box-shadow: 5px 5px 0 var(--terracota-d);
     border-radius: 16px;
     padding: 20px 20px 20px 18px;
     display: flex; gap: 14px; align-items: flex-start;
@@ -841,9 +842,31 @@
 
   .carousel-arrow { display: none; }
   .testimonials__carousel-wrapper { display: block; }
-  .offer { background: var(--marfim); }
+  .offer { background: var(--marfim); position: relative; overflow: hidden; }
+  .offer .container { position: relative; z-index: 1; }
+  .offer-ribbons { position: absolute; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
+  .offer-ribbon {
+    position: absolute; left: -30%; width: 160%; top: 50%;
+    background: rgba(139,74,28,.18);
+    border-top: 1px solid rgba(139,74,28,.2);
+    border-bottom: 1px solid rgba(139,74,28,.2);
+    padding: 11px 0; overflow: hidden;
+  }
+  .offer-ribbon--a { transform: translateY(-50%) rotate(-13deg); }
+  .offer-ribbon--b { transform: translateY(-50%) rotate(13deg); }
+  .offer-ribbon__track {
+    display: flex; gap: 40px; width: max-content;
+    font-family: 'Barlow Condensed', sans-serif; font-weight: 700;
+    font-size: 18px; letter-spacing: .14em; text-transform: uppercase;
+    color: rgba(139,74,28,.4); white-space: nowrap;
+    animation: marqueeScroll 30s linear infinite;
+  }
+  .offer-ribbon--b .offer-ribbon__track { animation-direction: reverse; }
+  @media (prefers-reduced-motion: reduce) { .offer-ribbon__track { animation: none; } }
   .offer__box {
-    background: var(--creme);
+    background: rgba(245,230,214,.58);
+    -webkit-backdrop-filter: blur(9px);
+            backdrop-filter: blur(9px);
     border: 2px solid var(--terracota);
     border-radius: 16px;
     padding: 52px 44px;
@@ -876,9 +899,28 @@
     margin-bottom: 24px;
   }
   .offer__product-title {
-    font-size: clamp(26px, 4vw, 36px);
+    font-size: clamp(28px, 4.5vw, 38px);
+    font-weight: 700;
     color: var(--terracota-d);
-    margin-bottom: 28px;
+    margin-bottom: 24px;
+  }
+  .offer__price-note {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--terracota-d);
+    text-align: left;
+    line-height: 1.35;
+    margin-left: 12px;
+    margin-bottom: 12px;
+    opacity: .88;
+  }
+  .offer__price-num { display: inline-flex; align-items: flex-end; }
+  .offer__price-num span {
+    background: linear-gradient(90deg, #C4956A 0%, #A85D28 55%, #7A3F14 100%);
+    -webkit-background-clip: text;
+            background-clip: text;
+    -webkit-text-fill-color: transparent;
   }
   .offer__items {
     list-style: none;
@@ -922,7 +964,15 @@
     stroke-linecap: round;
     stroke-linejoin: round;
   }
-  .offer__item-name { font-weight: 700; color: var(--terracota-d); flex: 1; }
+  .offer__item-name {
+    font-weight: 700; color: var(--terracota-d); flex: 1;
+    display: flex; align-items: center; gap: 9px;
+  }
+  .offer__item-name::before {
+    content: "";
+    width: 18px; height: 18px; flex-shrink: 0;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Ccircle cx='10' cy='10' r='10' fill='%233D5535'/%3E%3Cpath d='M5.8 10.3l2.7 2.7 5.6-6' fill='none' stroke='%23fff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/contain no-repeat;
+  }
   .offer__item-value {
     font-size: 18px;
     font-weight: 400;
@@ -1009,18 +1059,18 @@
     gap: 0;
   }
   .offer__price-rs {
-    font-size: 18px;
+    font-size: 21px;
     font-weight: 600;
     margin-bottom: 14px;
     margin-right: 4px;
   }
   .offer__price-int {
-    font-size: 80px;
+    font-size: 94px;
     font-weight: 700;
     line-height: 1;
   }
   .offer__price-dec {
-    font-size: 32px;
+    font-size: 38px;
     font-weight: 600;
     margin-bottom: 10px;
     margin-left: 2px;
@@ -1093,6 +1143,31 @@
     opacity: .75;
   }
   .offer__guarantee-icon { font-size: 22px; flex-shrink: 0; }
+  /* ── CTA seta / bandeiras / selos ── */
+  .btn-cta__arrow {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 26px; height: 26px; border-radius: 50%;
+    background: rgba(255,255,255,.18);
+    font-size: 15px; line-height: 1; flex-shrink: 0;
+  }
+  .pay-row {
+    display: flex; align-items: center; justify-content: center;
+    flex-wrap: wrap; gap: 18px;
+    width: fit-content; margin: 18px auto 0;
+    background: #fff; border: 1px solid rgba(196,149,106,.25);
+    border-radius: 12px; padding: 10px 20px;
+  }
+  .pay-logo { height: 22px; width: auto; display: block; }
+  .trust-row {
+    display: flex; align-items: center; justify-content: center;
+    flex-wrap: wrap; gap: 18px; margin-top: 18px;
+  }
+  .trust-badge {
+    display: flex; align-items: center; gap: 7px;
+    font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 600;
+    color: var(--terracota-d);
+  }
+  .trust-badge svg { width: 16px; height: 16px; flex-shrink: 0; }
 
   /* ══════════════════════════════════════
      GARANTIA
@@ -1520,9 +1595,9 @@
 
     /* Oferta */
     .offer__box { padding: 28px 16px; }
-    .offer__price-int { font-size: 64px; }
-    .offer__price-dec { font-size: 26px; margin-bottom: 8px; }
-    .offer__price-rs { font-size: 15px; margin-bottom: 11px; }
+    .offer__price-int { font-size: 76px; }
+    .offer__price-dec { font-size: 31px; margin-bottom: 8px; }
+    .offer__price-rs { font-size: 18px; margin-bottom: 11px; }
     .offer__price-anchor { gap: 6px; }
     .offer__price-anchor-value { font-size: 22px; }
     .offer__item-header { flex-wrap: wrap; gap: 8px; }
@@ -1567,7 +1642,7 @@
   /* ── MOBILE PEQUENO (iPhone SE etc) ── */
   @media (max-width: 380px) {
     .hero__title { font-size: 30px; }
-    .offer__price-int { font-size: 56px; }
+    .offer__price-int { font-size: 66px; }
     .section-title { font-size: 24px; }
   }
 
@@ -1945,7 +2020,7 @@
 <!-- ══ PROVA SOCIAL ABERTURA ═══════════════════════════════════════ -->
 <section class="social-proof-opener">
   <div class="container--wide">
-    <h2 class="section-title" style="text-align:center; margin-bottom:24px;">E não foi só você. <span class="word-hl brush-underline">Milhares travaram</span> fazendo tudo certo.</h2>
+    <h2 class="section-title" style="text-align:center; margin-bottom:24px; font-size:clamp(25px,4vw,34px); font-weight:600;">E não foi só você. <span class="word-hl brush-underline">Milhares travaram</span> fazendo tudo certo.</h2>
     <div class="autoprint-wrap" id="autoprint">
       <img class="autoprint-img active" src="/Images/b1.png" alt="Depoimento WhatsApp"/>
       <img class="autoprint-img" src="/Images/b2.png" alt="Depoimento WhatsApp"/>
@@ -1964,12 +2039,12 @@
 <!-- ══ REVELAÇÃO ══════════════════════════════════════════════════ -->
 <section class="reveal">
   <div class="container">
-    <h2 class="section-title" style="margin-bottom:8px;">Sua janela fértil é curta e <span class="mark-hl">se move</span>. Quem marca dia fixo quase sempre erra.</h2>
+    <h2 class="section-title" style="margin-bottom:8px; font-size:clamp(33px,5.4vw,50px); font-weight:800;">Sua janela fértil é curta e <span class="mark-hl">se move</span>.<span style="display:block; font-size:.58em; font-weight:500; color:var(--terracota-d); margin-top:8px; line-height:1.3;">Quem marca dia fixo quase sempre erra.</span></h2>
 
     <div class="reveal__two-col">
       <!-- Coluna texto — intacto -->
       <div class="reveal__two-col-text">
-        <p class="section-lead" style="font-size:19px;">Em vez de adivinhar o dia, o <strong>Ciclo Fértil</strong> te ensina a ler os sinais e blindar seus hormônios, semana a semana.</p>
+        <p class="section-lead" style="font-size:clamp(22px,3.2vw,26px); opacity:1; color:var(--cacau); font-weight:600; line-height:1.55;">Em vez de <span style="text-decoration:line-through; text-decoration-thickness:1px; text-decoration-color:rgba(196,149,106,.7); color:var(--terracota); font-weight:500;">adivinhar o dia</span>, o <strong style="color:var(--terracota-d);">Ciclo Fértil</strong> te ensina a <span class="word-hl" style="font-weight:800;">ler os sinais</span> e <span class="word-hl" style="font-weight:800;">blindar seus hormônios</span>, <strong>semana a semana</strong>.</p>
       </div>
 
       <!-- Coluna mandala animada -->
@@ -2157,9 +2232,21 @@
 
 <!-- ══ OFERTA ══════════════════════════════════════════════════════ -->
 <section class="offer" id="oferta">
+  <div class="offer-ribbons" aria-hidden="true">
+    <div class="offer-ribbon offer-ribbon--a">
+      <div class="offer-ribbon__track">
+        <span>Garantia de 7 dias ✦</span><span>Suporte ✦</span><span>Método, não sorte ✦</span><span>Passo a passo ✦</span><span>Sem adivinhar ✦</span><span>Garantia de 7 dias ✦</span><span>Suporte ✦</span><span>Método, não sorte ✦</span><span>Passo a passo ✦</span><span>Sem adivinhar ✦</span>
+      </div>
+    </div>
+    <div class="offer-ribbon offer-ribbon--b">
+      <div class="offer-ribbon__track">
+        <span>Ler os sinais ✦</span><span>1 passo por semana ✦</span><span>Sem "é só relaxar" ✦</span><span>Acesso imediato ✦</span><span>Método ✦</span><span>Ler os sinais ✦</span><span>1 passo por semana ✦</span><span>Sem "é só relaxar" ✦</span><span>Acesso imediato ✦</span><span>Método ✦</span>
+      </div>
+    </div>
+  </div>
   <div class="container">
     <div class="offer__box">
-      <h3 class="offer__product-title">Ciclo Fértil</h3>
+      <h3 class="offer__product-title" style="display:flex; align-items:center; justify-content:center; gap:12px;"><img src="/Images/logo.png" alt="Logo Ciclo Fértil" style="width:34px; height:34px; flex-shrink:0;"/>Ciclo Fértil</h3>
       <div class="offer__price-anchor">
         <span class="offer__price-anchor-label">De</span>
         <span class="offer__price-anchor-value">R$ 188,00</span>
@@ -2167,7 +2254,8 @@
         <span class="offer__price-anchor-label">por apenas</span>
       </div>
       <div class="offer__price offer__price--highlight">
-        <span class="offer__price-rs">R$</span><span class="offer__price-int">37</span><span class="offer__price-dec">,90</span>
+        <span class="offer__price-num"><span class="offer__price-rs">R$</span><span class="offer__price-int">37</span><span class="offer__price-dec">,90</span></span>
+        <span class="offer__price-note">à vista no Pix<br>ou 12x no cartão de R$ 3,15</span>
       </div>
       <p style="font-family:'Barlow Condensed',sans-serif; font-size:clamp(17px,2.5vw,22px); color:var(--terracota-d); text-align:center; margin-bottom:8px; line-height:1.5;">Você não está tentando de menos.<br/>Está tentando sem saber o que falta.</p>
       <p style="font-family:'DM Sans',sans-serif; font-size:clamp(13px,1.8vw,15px); color:var(--terracota); text-align:center; margin-bottom:20px; font-weight:500;">Cada mês sem método é mais um mês acumulando orientações que não chegam lá sozinhas.</p>
@@ -2226,19 +2314,40 @@
           </div>
         </li>
       </ul>
-      <a href="https://pay.kiwify.com.br/c9zEPBN" class="btn-cta" style="display:block; text-align:center; margin-bottom:10px" onclick="ttq.track('InitiateCheckout',{contents:[{content_id:'protocolo-ciclo-fertil',content_type:'product',content_name:'Protocolo Ciclo Fértil'}],value:37.90,currency:'BRL'})">
-        Quero meu positivo
-      </a>
-      <div style="display:flex; justify-content:center; margin-top:16px;">
-        <div id="oferta-timer" style="display:flex; align-items:center; gap:8px; background:#C0392B; border:1px solid #A93226; border-radius:20px; padding:5px 16px;">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
-          <span style="font-family:'DM Sans',sans-serif; font-size:12px; color:#fff; font-weight:700;">Oferta por tempo limitado</span>
-          <span id="timer-display" style="font-family:'DM Sans',sans-serif; font-size:13px; font-weight:700; color:#fff; letter-spacing:.05em;">04:00</span>
+      <!-- URGÊNCIA -->
+      <div style="display:flex; justify-content:center; margin-bottom:18px;">
+        <div id="oferta-timer" style="display:inline-flex; align-items:center; gap:8px; background:rgba(196,149,106,.14); border:1px solid rgba(196,149,106,.45); border-radius:999px; padding:6px 16px;">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#C0392B" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+          <span style="font-family:'DM Sans',sans-serif; font-size:12.5px; color:#C0392B; font-weight:600; letter-spacing:.01em;">Sua oferta expira em</span>
+          <span id="timer-display" style="font-family:'DM Sans',sans-serif; font-size:14.5px; font-weight:800; color:#C0392B; letter-spacing:.06em; font-variant-numeric:tabular-nums;">10:00</span>
         </div>
       </div>
-      <div class="offer__guarantee" style="flex-direction:column; justify-content:center; text-align:center; gap:8px; opacity:1; margin-top:16px; background:transparent; padding:8px 4px;">
-        <img src="/Images/selo-garantia-7dias-fita.webp" alt="Selo de garantia de 7 dias" width="55" height="52" style="height:52px; width:auto; flex-shrink:0;" loading="lazy">
-        <span><strong>Garantia de 7 dias.</strong> Não gostou? Devolvemos 100% do valor, sem perguntas.</span>
+
+      <!-- AÇÃO -->
+      <a href="https://pay.kiwify.com.br/c9zEPBN" class="btn-cta" style="display:flex; align-items:center; justify-content:center; gap:12px; text-align:center;" onclick="ttq.track('InitiateCheckout',{contents:[{content_id:'protocolo-ciclo-fertil',content_type:'product',content_name:'Protocolo Ciclo Fértil'}],value:37.90,currency:'BRL'})">
+        Quero meu positivo
+        <span class="btn-cta__arrow" aria-hidden="true">&#8594;</span>
+      </a>
+
+      <!-- SEGURANÇA -->
+      <div class="offer__guarantee" style="flex-direction:column; justify-content:center; align-items:center; text-align:center; gap:10px; opacity:1; margin-top:24px; background:#FFFDF8; border:1px solid rgba(196,149,106,.28); border-radius:14px; padding:18px 20px;">
+        <img src="/Images/selo-garantia-7dias-fita.webp" alt="Selo de garantia de 7 dias" width="55" height="52" style="height:56px; width:auto; flex-shrink:0;" loading="lazy">
+        <span style="font-size:13.5px; line-height:1.5;"><strong>Garantia de 7 dias.</strong> Não gostou? Devolvemos 100% do valor, sem perguntas.</span>
+      </div>
+
+      <!-- BANDEIRAS DE PAGAMENTO -->
+      <div class="pay-row">
+        <img src="/Images/visa.webp" alt="Visa" class="pay-logo" loading="lazy">
+        <img src="/Images/mastercard.webp" alt="Mastercard" class="pay-logo" loading="lazy">
+        <img src="/Images/elo.webp" alt="Elo" class="pay-logo" loading="lazy">
+        <img src="/Images/paypal.webp" alt="PayPal" class="pay-logo" loading="lazy">
+      </div>
+
+      <!-- SELOS DE CONFIANÇA -->
+      <div class="trust-row">
+        <span class="trust-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v6c0 5-3.5 7.5-7 9-3.5-1.5-7-4-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg>Compra Segura</span>
+        <span class="trust-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="5.5"/><path d="M9.6 8l1.6 1.6 3.2-3.2"/><path d="M8.5 12.8L7 21l5-2.6 5 2.6-1.5-8.2"/></svg>Satisfação Garantida</span>
+        <span class="trust-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>Privacidade Protegida</span>
       </div>
     </div>
   </div>
@@ -2454,7 +2563,7 @@ var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n
   (function() {
     const display = document.getElementById('timer-display');
     if (!display) return;
-    let total = 4 * 60; // 4 minutos em segundos
+    let total = 10 * 60; // 10 minutos em segundos
     function update() {
       const m = Math.floor(total / 60);
       const s = total % 60;

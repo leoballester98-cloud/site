@@ -1974,7 +1974,7 @@
 <section class="hero text-center">
   <div class="hero__bg">
     <img id="hero-fallback" src="/Images/printhero.jpg" alt="" fetchpriority="high" style="width:100%; height:100%; object-fit:cover; object-position:center;"/>
-    <video id="hero-video" src="/Images/video01.mp4?v=2" autoplay muted loop playsinline></video>
+    <video id="hero-video" data-src="/Images/video01.mp4?v=3" preload="none" muted loop playsinline></video>
   </div>
   <div class="hero__overlay"></div>
   <div class="hero__bottom-fade"></div>
@@ -2623,8 +2623,18 @@ var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n
       video.classList.add('playing');
       fallback.style.display = 'none';
     });
-    var p = video.play();
-    if (p !== undefined) p.catch(function() {});
+    function startVideo() {
+      if (video.src || !video.dataset.src) return;
+      video.src = video.dataset.src;
+      var p = video.play();
+      if (p !== undefined) p.catch(function() {});
+    }
+    // adia o vídeo até depois da primeira pintura/carga crítica (poster aparece na hora)
+    if (document.readyState === 'complete') {
+      setTimeout(startVideo, 250);
+    } else {
+      window.addEventListener('load', function() { setTimeout(startVideo, 250); });
+    }
   })();
 </script>
 </body>

@@ -2623,18 +2623,29 @@ var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n
       video.classList.add('playing');
       fallback.style.display = 'none';
     });
+    function tryPlay() {
+      var p = video.play();
+      if (p !== undefined) p.catch(function() {
+        setTimeout(function() { video.play().catch(function() {}); }, 350);
+      });
+    }
     function startVideo() {
       if (video.src || !video.dataset.src) return;
       video.src = video.dataset.src;
-      var p = video.play();
-      if (p !== undefined) p.catch(function() {});
+      video.load();
+      tryPlay();
     }
-    // adia o vídeo até depois da primeira pintura/carga crítica (poster aparece na hora)
-    if (document.readyState === 'complete') {
-      setTimeout(startVideo, 250);
+    // começa o vídeo logo após a 1ª pintura (não espera todas as imagens)
+    function kick() { requestAnimationFrame(startVideo); }
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', kick);
     } else {
-      window.addEventListener('load', function() { setTimeout(startVideo, 250); });
+      kick();
     }
+    // se o autoplay foi bloqueado e a aba volta ao foco, tenta de novo
+    document.addEventListener('visibilitychange', function() {
+      if (!document.hidden && video.src && video.paused) tryPlay();
+    });
   })();
 </script>
 </body>

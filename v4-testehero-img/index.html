@@ -1,0 +1,2652 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<link rel="icon" type="image/png" href="/Images/logo.png"/>
+<title>Ciclo Fértil | Tem um motivo pra você ainda não ter engravidado</title>
+<link rel="preload" href="/fonts.css" as="style" onload="this.onload=null;this.rel='stylesheet'"/>
+<noscript><link rel="stylesheet" href="/fonts.css"/></noscript>
+<link rel="preload" as="image" href="/Images/printhero.webp" fetchpriority="high"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,600;0,700;0,800;0,900;1,700&display=swap" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,600;0,700;0,800;0,900;1,700&display=swap"></noscript>
+<style>
+  :root {
+    --terracota: #C4956A;
+    --terracota-d: #8B4A1C;
+    --terracota-dd: #592508;
+    --creme: #F5E6D6;
+    --caramelo: #D4A574;
+    --cacau: #2B1A10;
+    --salvia: #A8C89A;
+    --salvia-d: #3D5535;
+    --marfim: #F5EFE6;
+    --creme-escuro: #EDE8E0;
+    --branco: #ffffff;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  img { max-width: 100%; height: auto; display: block; }
+
+  html { scroll-behavior: smooth; overflow-x: hidden; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--marfim);
+    color: var(--cacau);
+    overflow-x: hidden;
+  }
+
+  /* ── TIPOGRAFIA ── */
+  h1, h2, h3 { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; line-height: 1.2; }
+  .serif { font-family: 'Barlow Condensed', sans-serif; }
+
+  /* ── UTILITÁRIOS ── */
+  .container { max-width: 760px; margin: 0 auto; padding: 0 24px; }
+  .container--wide { max-width: 900px; margin: 0 auto; padding: 0 24px; }
+  .text-center { text-align: center; }
+  .text-terracota { color: var(--terracota); }
+  .text-terracota-d { color: var(--terracota-d); }
+
+  /* ── ANIMAÇÕES ── */
+  @keyframes pulse-cta {
+    0%, 100% { box-shadow: 0 8px 32px rgba(107,58,31,.35); transform: translateY(0); }
+    50%       { box-shadow: 0 12px 40px rgba(107,58,31,.55); transform: translateY(-3px); }
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(28px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50%       { transform: translateY(-8px); }
+  }
+  @keyframes pulse-ring {
+    0%   { box-shadow: 0 0 0 0 rgba(200,149,108,.35); }
+    70%  { box-shadow: 0 0 0 18px rgba(200,149,108,0); }
+    100% { box-shadow: 0 0 0 0 rgba(200,149,108,0); }
+  }
+  @keyframes shimmer {
+    0%   { background-position: -400px 0; }
+    100% { background-position: 400px 0; }
+  }
+
+  .fade-up { animation: fadeUp .8s ease both; }
+  .fade-up-2 { animation: fadeUp .8s .2s ease both; }
+  .fade-up-3 { animation: fadeUp .8s .4s ease both; }
+  .fade-up-4 { animation: fadeUp .8s .6s ease both; }
+
+  /* ══════════════════════════════════════
+     HERO
+  ══════════════════════════════════════ */
+  .hero {
+    position: relative;
+    padding: 64px 0 160px;
+    background: var(--marfim);
+  }
+  .hero__bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+  .hero__bg img {
+    width: 100%; height: 100%;
+    object-fit: cover; object-position: center 40%;
+    display: block;
+  }
+  .hero__bg video {
+    width: 100%; height: 100%;
+    object-fit: cover; object-position: center;
+    display: none;
+    position: absolute;
+    inset: 0;
+  }
+  .hero__bg video.playing {
+    display: block;
+  }
+  .hero__overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, rgba(30,12,4,.82) 0%, rgba(30,12,4,.55) 45%, rgba(30,12,4,.15) 75%, transparent 100%);
+    z-index: 1;
+  }
+  .hero__bottom-fade {
+    position: absolute;
+    bottom: -4px; left: 0; right: 0;
+    height: 140px;
+    background: linear-gradient(to bottom, transparent 0%, var(--marfim) 100%);
+    z-index: 9;
+    pointer-events: none;
+  }
+  .hero .container {
+    position: relative;
+    z-index: 11;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -80px; right: -80px;
+    width: 420px; height: 420px;
+    background: rgba(255,255,255,.06);
+    border-radius: 50%;
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: -60px; left: -60px;
+    width: 300px; height: 300px;
+    background: rgba(255,255,255,.04);
+    border-radius: 50%;
+  }
+  .hero-line { display: block; }
+  @media (max-width: 768px) { .hero-line { display: inline; } }
+
+  .hero__eyebrow {
+    display: inline-block;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: var(--creme);
+    opacity: .75;
+    margin-bottom: 20px;
+  }
+  .hero__title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    letter-spacing: .3px;
+    font-size: clamp(32px, 3.6vw, 48px);
+    color: var(--marfim);
+    margin-bottom: 16px;
+    line-height: 1.08;
+    max-width: 860px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    text-shadow: 0 2px 16px rgba(74,46,26,.4);
+  }
+  .hero__title em {
+    font-style: italic;
+    color: var(--creme);
+  }
+  .hero__subtitle {
+    font-family: 'DM Sans', sans-serif;
+    font-size: clamp(14px, 2vw, 17px);
+    color: rgba(255,255,255,.75);
+    max-width: 560px;
+    margin: 0 auto 20px;
+    line-height: 1.7;
+    font-weight: 300;
+    text-shadow: 0 1px 6px rgba(0,0,0,.5);
+  }
+  .hero__promise {
+    background: rgba(253,250,246,.13);
+    border: 1px solid rgba(253,250,246,.28);
+    border-radius: 14px;
+    padding: 20px 28px;
+    max-width: 540px;
+    margin: 0 auto 28px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 19px;
+    font-style: italic;
+    color: var(--marfim);
+    line-height: 1.65;
+    backdrop-filter: blur(4px);
+  }
+  .hero__leaf {
+    width: 40px; height: 40px;
+    margin: 0 auto 16px;
+    animation: float 4s ease-in-out infinite;
+  }
+  .hero__leaf svg { width: 100%; height: 100%; }
+
+  /* ── CTA HERO ── */
+  .btn-cta {
+    display: inline-block;
+    background: linear-gradient(105deg, #B5701F 0%, #8B4A1C 46%, #5A2E10 100%);
+    color: #fff;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    padding: 20px 52px;
+    border-radius: 50px;
+    text-decoration: none;
+    transition: transform .2s ease, box-shadow .2s ease;
+    animation: pulse-cta 2s ease-in-out infinite;
+    letter-spacing: .03em;
+    box-shadow: 0 6px 0 rgba(80,35,10,.4), 0 12px 32px rgba(139,74,28,.45), inset 0 1px 0 rgba(255,255,255,.18);
+  }
+  .btn-cta:hover { transform: translateY(-3px); box-shadow: 0 16px 40px rgba(107,58,31,.28); }
+  .btn-cta--secondary {
+    background: var(--terracota-dd);
+    color: var(--marfim);
+    border: none;
+    animation: none;
+  }
+  .btn-cta--secondary:hover { background: var(--cacau); }
+
+  .hero__price-hint {
+    margin-top: 14px;
+    font-size: 13px;
+    color: var(--creme);
+    opacity: .65;
+  }
+
+  /* ══════════════════════════════════════
+     FAIXA DE PROVA
+  ══════════════════════════════════════ */
+  .proof-strip {
+    background: var(--terracota-dd);
+    padding: 14px 24px;
+    overflow: hidden;
+    border-bottom: 1px solid rgba(255,255,255,.06);
+  }
+  .proof-strip__inner {
+    display: flex;
+    gap: 40px;
+    justify-content: center;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .proof-strip__item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 8px;
+    color: var(--creme);
+    font-size: 12.5px;
+    font-weight: 500;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    width: 100%;
+  }
+  .proof-strip__dot {
+    width: 5px; height: 5px;
+    background: var(--caramelo);
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  /* ══════════════════════════════════════
+     SEÇÕES GERAIS
+  ══════════════════════════════════════ */
+  section { padding: 48px 0; }
+  .section-eyebrow {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: var(--terracota);
+    margin-bottom: 12px;
+    display: block;
+  }
+  .section-title {
+    font-size: clamp(32px, 5vw, 48px);
+    margin-bottom: 16px;
+    color: var(--cacau);
+  }
+  .word-hl { color: var(--salvia-d); }
+  .brush-underline {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 22' preserveAspectRatio='none'%3E%3Cpath d='M5 11 C 70 5 130 6 182 9 C 232 12 282 10 315 6 C 302 15 250 17 180 15 C 118 13 58 15 7 18 Z' fill='%233D5535'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: center bottom;
+    background-size: 100% 0.4em;
+    padding-bottom: 0.12em;
+  }
+  .mark-hl {
+    background: linear-gradient(104deg,
+      rgba(168,200,154,0) 0.9%,
+      rgba(168,200,154,.78) 2.4%,
+      rgba(168,200,154,.66) 95.8%,
+      rgba(168,200,154,0) 99%);
+    padding: 0 .1em;
+    margin: 0 -.02em;
+    border-radius: 2px;
+    white-space: nowrap;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+  }
+  .section-lead {
+    font-size: 17px;
+    line-height: 1.8;
+    color: var(--cacau);
+    opacity: .85;
+    max-width: 600px;
+    font-weight: 300;
+  }
+  hr.divider {
+    border: none;
+    border-top: 1px solid var(--caramelo);
+    opacity: .4;
+    margin: 40px 0;
+  }
+
+  /* ══════════════════════════════════════
+     DOR / IDENTIFICAÇÃO
+  ══════════════════════════════════════ */
+  /* ══ PROVA SOCIAL ABERTURA ══ */
+  .social-proof-opener { background: var(--marfim); margin-top: -2px; }
+  /* ── DECK SLIDESHOW ── */
+  .spo__wrapper { display: flex; justify-content: center; padding: 8px 8px 28px; }
+  .spo__deck {
+    position: relative;
+    width: 100%; max-width: 520px;
+    padding-top: 32px;
+    overflow: visible;
+  }
+  .spo__card {
+    border-radius: 14px;
+    overflow: hidden;
+    background: #fff;
+    width: 96%;
+    transition: transform .55s cubic-bezier(.4,0,.2,1),
+                opacity .45s ease,
+                box-shadow .45s ease;
+  }
+  .spo__card img { width: 100%; height: auto; display: block; }
+
+  /* Carta da frente — centralizada, nítida, destaque total */
+  .spo__card.pos-front {
+    position: relative; margin: 0 auto;
+    z-index: 3; opacity: 1;
+    transform: rotate(0deg);
+    box-shadow: 0 10px 36px rgba(74,46,26,.22);
+    filter: none;
+  }
+  /* Carta do meio — levemente acima, rotação suave, desfocada */
+  .spo__card.pos-mid {
+    position: absolute; top: -12px; left: 50%;
+    z-index: 2; opacity: .7;
+    transform: translateX(-50%) rotate(3deg);
+    box-shadow: 0 4px 16px rgba(74,46,26,.12);
+    filter: blur(1.5px);
+  }
+  /* Carta de trás — mais acima, mais rotação, mais desfocada */
+  .spo__card.pos-back {
+    position: absolute; top: -22px; left: 50%;
+    z-index: 1; opacity: .45;
+    transform: translateX(-50%) rotate(-4deg);
+    box-shadow: 0 2px 10px rgba(74,46,26,.08);
+    filter: blur(3px);
+  }
+  .spo__dots { display: none; }
+
+  /* Nav barra de progresso */
+  .spo__nav {
+    display: flex; align-items: center;
+    gap: 12px; padding: 20px 20px 4px;
+    max-width: 360px; margin: 0 auto;
+  }
+  .spo__arrow {
+    display: flex; align-items: center; justify-content: center;
+    width: 32px; height: 32px; border-radius: 50%;
+    background: none; border: none;
+    color: var(--terracota-d); cursor: pointer; flex-shrink: 0;
+    opacity: .7; transition: opacity .2s, transform .15s;
+    padding: 0;
+  }
+  .spo__arrow:hover { opacity: 1; transform: scale(1.15); }
+  .spo__counter {
+    font-family: 'DM Sans', sans-serif; font-size: 12px;
+    color: var(--terracota-d); opacity: .7; flex-shrink: 0; white-space: nowrap;
+  }
+  .spo__progress-track {
+    flex: 1; height: 3px; border-radius: 2px;
+    background: rgba(74,46,26,.12); overflow: hidden;
+  }
+  .spo__progress-fill {
+    height: 100%; border-radius: 2px;
+    background: var(--terracota);
+    transition: width .45s cubic-bezier(.4,0,.2,1);
+    width: 14.28%; /* 1/7 */
+  }
+  .spo__card.pos-hidden {
+    position: absolute; top: 0; left: 50%;
+    transform: translateX(-50%);
+    opacity: 0; pointer-events: none; z-index: 0;
+  }
+
+  /* ── Hero fade transition ── */
+  .hero-fade {
+    display: none;
+  }
+
+  /* ── Hero bridge ── */
+  .hero-bridge {
+    background: var(--marfim);
+    text-align: center;
+    padding: 20px 16px 4px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    border-bottom: 1px solid rgba(74,46,26,.08);
+  }
+
+  /* ── Hero scroll hint ── */
+  .hero__scroll-hint {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin-top: 48px;
+    padding-bottom: 8px;
+  }
+  .hero__scroll-text {
+    color: #fff;
+    font-family: 'DM Sans', sans-serif;
+    font-size: clamp(13px, 1.9vw, 15px);
+    font-weight: 500;
+    letter-spacing: .02em;
+    background: rgba(30,12,4,.55);
+    padding: 3px 10px;
+    border-radius: 3px;
+  }
+  .hero__scroll-text::before {
+    content: '✦ ';
+    color: var(--salvia);
+    font-style: normal;
+    font-size: .8em;
+    text-shadow: 0 0 8px rgba(168,200,154,.55);
+  }
+  .hero__scroll-arrow {
+    color: var(--salvia);
+    width: 32px;
+    height: 32px;
+    animation: scrollBounce 1.6s ease-in-out infinite;
+  }
+  @keyframes scrollBounce {
+    0%, 100% { transform: translateY(0);   opacity: .85; }
+    50%       { transform: translateY(8px); opacity: 1;   }
+  }
+
+  /* ── Auto-rotating prints ── */
+  .autoprint-wrap {
+    max-width: 380px;
+    margin: 32px auto 0;
+    padding: 0 8px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .autoprint-img {
+    width: 100%;
+    border-radius: 16px;
+    box-shadow: 0 4px 24px rgba(74,46,26,.13);
+    position: absolute;
+    top: 0; left: 0;
+    opacity: 0;
+    transition: opacity .6s ease;
+    pointer-events: none;
+  }
+  .autoprint-img.active {
+    opacity: 1;
+    position: relative;
+    pointer-events: auto;
+  }
+  .autoprint-dots {
+    display: flex;
+    gap: 8px;
+    margin-top: 16px;
+    position: relative;
+    z-index: 2;
+  }
+  .autoprint-dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--caramelo);
+    opacity: .4;
+    transition: opacity .3s, background .3s;
+  }
+  .autoprint-dot.active {
+    opacity: 1;
+    background: var(--terracota);
+  }
+
+  .pain { background: var(--creme); }
+
+  /* ══════════════════════════════════════
+     REVELAÇÃO / ÂNGULO
+  ══════════════════════════════════════ */
+  .reveal { background: var(--marfim); }
+  .reveal__quote {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(22px, 3.5vw, 32px);
+    font-style: italic;
+    color: var(--terracota-d);
+    line-height: 1.5;
+    border-left: 4px solid var(--terracota);
+    padding: 20px 28px;
+    margin: 32px 0;
+    background: var(--creme);
+    border-radius: 0 8px 8px 0;
+  }
+
+  /* ══════════════════════════════════════
+     PILARES
+  ══════════════════════════════════════ */
+  .pillars { background: var(--marfim); }
+  .pillars__grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    margin-top: 48px;
+    position: relative;
+  }
+  .pillars__grid::before {
+    content: '';
+    position: absolute;
+    top: 28px; left: 10%; right: 10%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--terracota), var(--caramelo), var(--terracota), transparent);
+    z-index: 0;
+  }
+  .pillar-card {
+    display: flex; flex-direction: column; align-items: center;
+    text-align: center; padding: 0 16px 0;
+    position: relative; z-index: 1;
+  }
+  @keyframes iconFloat {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-5px); }
+  }
+  @keyframes iconPulseRing {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(200,149,108,.45), 0 0 0 0 rgba(200,149,108,.2); }
+    50% { box-shadow: 0 0 0 8px rgba(200,149,108,0), 0 0 0 16px rgba(200,149,108,0); }
+  }
+  @keyframes iconRotate {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  @keyframes iconBreathe {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.12); }
+  }
+
+  .pillar-card__icon {
+    width: 80px; height: 80px;
+    background: var(--terracota);
+    border: 2px solid var(--terracota);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--creme);
+    margin-bottom: 20px;
+    position: relative; z-index: 1;
+    line-height: 1;
+  }
+  .pillar-card__icon i {
+    color: var(--creme);
+    line-height: 1;
+  }
+  .pillar-card:nth-child(1) .pillar-card__icon {
+    animation: iconFloat 3s ease-in-out infinite, iconPulseRing 3s ease-in-out infinite;
+  }
+  .pillar-card:nth-child(2) .pillar-card__icon {
+    animation: iconFloat 3s ease-in-out infinite 0.4s, iconPulseRing 3s ease-in-out infinite 0.4s;
+  }
+  .pillar-card:nth-child(3) .pillar-card__icon {
+    animation: iconFloat 3.5s ease-in-out infinite 0.8s, iconPulseRing 3.5s ease-in-out infinite 0.8s;
+  }
+  .pillar-card:nth-child(4) .pillar-card__icon {
+    animation: iconPulseRing 3s ease-in-out infinite 1.2s;
+  }
+  .pillar-card:nth-child(4) .pillar-card__icon svg {
+    animation: iconBreathe 3s ease-in-out infinite;
+  }
+  .pillar-card__tag {
+    font-size: 10px; font-weight: 500;
+    letter-spacing: .12em; text-transform: uppercase;
+    color: var(--salvia-d); margin-bottom: 8px; display: block;
+  }
+  .pillar-card__title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 22px; font-weight: 700;
+    color: var(--terracota-d); margin-bottom: 8px;
+  }
+  .pillar-card__text {
+    font-size: 13px; line-height: 1.6;
+    color: var(--cacau); opacity: .75;
+  }
+
+  .insights__header { text-align: center; margin-top: 28px; margin-bottom: 16px; }
+  .insights__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+  .insight-card {
+    background: #FFFDF8;
+    border: 1px solid rgba(196,149,106,.22);
+    box-shadow: 5px 5px 0 var(--terracota-d);
+    border-radius: 16px;
+    padding: 20px 20px 20px 18px;
+    display: flex; gap: 14px; align-items: flex-start;
+  }
+  .insight-card__icon {
+    flex-shrink: 0; margin-top: 0; line-height: 1;
+  }
+  .insight-card__icon svg {
+    width: 56px; height: 56px;
+    filter: drop-shadow(0 4px 6px rgba(90,55,20,.18));
+  }
+  .insight-card p {
+    font-size: 16px; line-height: 1.65; color: var(--cacau); margin: 0;
+  }
+
+  /* ══════════════════════════════════════
+     AVATAR / PARA QUEM É
+  ══════════════════════════════════════ */
+  .avatar { background: var(--marfim); }
+  .avatar__checks {
+    list-style: none;
+    display: grid;
+    gap: 12px;
+    margin-top: 28px;
+  }
+  .avatar__check {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    font-size: 15px;
+    line-height: 1.6;
+  }
+  .avatar__check-icon {
+    width: 22px; height: 22px;
+    background: var(--salvia);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .avatar__check-icon::after {
+    content: '✓';
+    color: var(--marfim);
+    font-size: 12px;
+    font-weight: 700;
+  }
+
+  /* ══════════════════════════════════════
+     O QUE VOCÊ VAI APRENDER
+  ══════════════════════════════════════ */
+  .learns { background: var(--creme); }
+  .learns__list {
+    list-style: none;
+    display: grid;
+    gap: 10px;
+    margin-top: 28px;
+  }
+  .learns__item {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    font-size: 15px;
+    line-height: 1.65;
+    padding: 14px 18px;
+    background: var(--marfim);
+    border-radius: 10px;
+    border-left: 3px solid transparent;
+    transition: border-color .2s, box-shadow .2s;
+  }
+  .learns__item:hover {
+    border-left-color: var(--terracota);
+    box-shadow: 0 4px 16px rgba(200,149,108,.1);
+  }
+  .learns__bullet {
+    width: 9px; height: 9px;
+    background: var(--terracota);
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-top: 6px;
+  }
+
+  /* ══════════════════════════════════════
+     DEPOIMENTOS
+  ══════════════════════════════════════ */
+  .testimonials { background: var(--marfim); }
+  .testimonials__header { text-align: center; margin-bottom: 32px; }
+  .testimonials__eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--cacau);
+    border: none;
+    box-shadow: 4px 4px 0 var(--caramelo);
+    border-radius: 999px;
+    padding: 8px 20px;
+    font-size: 12px; font-weight: 600; letter-spacing: .1em;
+    text-transform: uppercase; color: var(--creme);
+    margin-bottom: 20px;
+  }
+  .testimonials__title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(28px, 4vw, 44px);
+    font-weight: 700; color: var(--cacau);
+    line-height: 1.2; margin-bottom: 12px;
+  }
+  .testimonials__title em { font-style: normal; color: var(--terracota); }
+  .testimonials__sub {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px; color: var(--cacau); opacity: .6;
+    margin-bottom: 36px;
+  }
+  .testimonials__subhead {
+    text-align: center;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px; font-weight: 600;
+    color: var(--terracota-d);
+    letter-spacing: .06em;
+    margin-bottom: 24px;
+  }
+  .testimonials__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  .testimonial-card {
+    border-radius: 16px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 4px 24px rgba(74,46,26,.12);
+    transition: transform .25s ease, box-shadow .25s ease;
+    background: #000;
+  }
+  .testimonial-card:hover { transform: translateY(-4px); box-shadow: 0 10px 32px rgba(74,46,26,.18); }
+  .testimonial-card__img {
+    width: 100%; height: 380px;
+    object-fit: cover; object-position: center top;
+    display: block;
+    opacity: .88;
+  }
+  .testimonial-card__overlay {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    background: linear-gradient(to top, rgba(0,0,0,.85) 0%, rgba(0,0,0,.2) 40%, transparent 70%);
+    padding: 24px 18px 20px;
+  }
+  .testimonial-card__bubble {
+    background: rgba(255,255,255,.72);
+    backdrop-filter: blur(4px);
+    border-radius: 12px;
+    padding: 12px 14px;
+    margin-bottom: 10px;
+  }
+  .testimonial-card__bubble p {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px; line-height: 1.55;
+    color: var(--cacau);
+  }
+  .testimonial-card__footer {
+    display: flex; align-items: center; gap: 10px;
+  }
+  .testimonial-avatar-img {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    object-fit: cover; object-position: center top;
+    border: 2px solid rgba(255,255,255,.6);
+    flex-shrink: 0;
+  }
+  .testimonial-card__info { display: flex; flex-direction: column; gap: 1px; }
+  .testimonial-card__author { font-size: 13px; font-weight: 600; color: #fff; }
+  .testimonial-card__location { font-size: 11px; color: rgba(255,255,255,.7); }
+
+  /* ══════════════════════════════════════
+     OFERTA / PACOTE
+  ══════════════════════════════════════ */
+  /* ══════════════════════════════════════
+     AUTORIDADE
+  ══════════════════════════════════════ */
+  .authority { background: var(--marfim); padding: 72px 0; }
+  .authority__eyebrow {
+    font-size: 12px; font-weight: 500; letter-spacing: .12em;
+    text-transform: uppercase; color: var(--terracota);
+    margin-bottom: 12px; text-align: center;
+  }
+  .authority__title {
+    font-size: clamp(26px, 3.2vw, 38px);
+    text-align: center; margin-bottom: 40px; color: var(--cacau);
+  }
+  .authority__title em { font-style: normal; color: var(--terracota); }
+  .authority__stats {
+    display: flex; align-items: center; justify-content: center;
+    gap: 0; margin-bottom: 36px;
+    border-radius: 20px; overflow: hidden;
+    background: var(--cacau);
+    box-shadow: 0 16px 48px rgba(74,46,26,.25);
+  }
+  .authority__stat {
+    flex: 1; text-align: center; padding: 36px 16px;
+  }
+  .authority__stat-number {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 64px; font-weight: 700;
+    color: var(--caramelo); line-height: 1;
+    margin-bottom: 10px;
+  }
+  .authority__stat-label {
+    font-size: 13px; color: rgba(245,230,214,.75); line-height: 1.4;
+  }
+  .authority__stat-divider {
+    width: 1px; height: 70px; background: rgba(255,255,255,.15); flex-shrink: 0;
+  }
+  .authority__text {
+    font-size: 16px; line-height: 1.75; color: var(--terracota-d);
+    font-style: italic; text-align: center;
+    max-width: 620px; margin: 0 auto;
+    padding: 24px 28px;
+    background: #fff; border-radius: 12px;
+    border-left: 3px solid var(--terracota);
+    box-shadow: 0 4px 20px rgba(74,46,26,.08);
+  }
+
+  .carousel-arrow { display: none; }
+  .testimonials__carousel-wrapper { display: block; }
+  .offer { background: var(--marfim); position: relative; overflow: hidden; }
+  .offer .container { position: relative; z-index: 1; }
+  .offer-ribbons { position: absolute; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
+  .offer-ribbon {
+    position: absolute; left: -30%; width: 160%; top: 50%;
+    background: rgba(139,74,28,.18);
+    border-top: 1px solid rgba(139,74,28,.2);
+    border-bottom: 1px solid rgba(139,74,28,.2);
+    padding: 11px 0; overflow: hidden;
+  }
+  .offer-ribbon--a { transform: translateY(-50%) rotate(-13deg); }
+  .offer-ribbon--b { transform: translateY(-50%) rotate(13deg); }
+  .offer-ribbon__track {
+    display: flex; gap: 40px; width: max-content;
+    font-family: 'Barlow Condensed', sans-serif; font-weight: 700;
+    font-size: 18px; letter-spacing: .14em; text-transform: uppercase;
+    color: rgba(139,74,28,.4); white-space: nowrap;
+    animation: marqueeScroll 30s linear infinite;
+  }
+  .offer-ribbon--b .offer-ribbon__track { animation-direction: reverse; }
+  @media (prefers-reduced-motion: reduce) { .offer-ribbon__track { animation: none; } }
+  .offer__box {
+    background: rgba(245,230,214,.58);
+    -webkit-backdrop-filter: blur(9px);
+            backdrop-filter: blur(9px);
+    border: 2px solid var(--terracota);
+    border-radius: 16px;
+    padding: 52px 44px;
+    max-width: 620px;
+    margin: 0 auto;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 24px 64px rgba(107,58,31,.12);
+  }
+  .offer__box::before {
+    content: '';
+    position: absolute;
+    top: -40px; right: -40px;
+    width: 160px; height: 160px;
+    background: var(--terracota);
+    opacity: .06;
+    border-radius: 50%;
+  }
+  .offer__badge {
+    display: inline-block;
+    background: var(--terracota);
+    color: var(--marfim);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    padding: 6px 18px;
+    border-radius: 50px;
+    margin-bottom: 24px;
+  }
+  .offer__product-title {
+    font-size: clamp(28px, 4.5vw, 38px);
+    font-weight: 700;
+    color: var(--terracota-d);
+    margin-bottom: 24px;
+  }
+  .offer__price-note {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--terracota-d);
+    text-align: left;
+    line-height: 1.35;
+    margin-left: 12px;
+    margin-bottom: 12px;
+    opacity: .88;
+  }
+  .offer__price-num { display: inline-flex; align-items: flex-end; }
+  .offer__price-num span {
+    background: linear-gradient(90deg, #C4956A 0%, #A85D28 55%, #7A3F14 100%);
+    -webkit-background-clip: text;
+            background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .offer__items {
+    list-style: none;
+    text-align: left;
+    display: grid;
+    gap: 12px;
+    margin-bottom: 32px;
+  }
+  .offer__item {
+    font-size: 15px;
+    background: var(--marfim);
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid rgba(200,149,108,.15);
+    transition: box-shadow .2s;
+  }
+  .offer__item:hover { box-shadow: 0 4px 18px rgba(200,149,108,.13); }
+  .offer__item-trigger {
+    width: 100%;
+    background: none;
+    border: none;
+    padding: 10px 14px;
+    cursor: default;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-align: left;
+  }
+  .offer__item-icon {
+    width: 38px; height: 38px;
+    background: var(--salvia);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .offer__item-icon svg {
+    width: 22px; height: 22px;
+    stroke: #fff;
+    fill: none;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .offer__item-name {
+    font-weight: 700; color: var(--terracota-d); flex: 1;
+    display: flex; align-items: center; gap: 9px;
+  }
+  .offer__item-name::before {
+    content: "";
+    width: 18px; height: 18px; flex-shrink: 0;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Ccircle cx='10' cy='10' r='10' fill='%233D5535'/%3E%3Cpath d='M5.8 10.3l2.7 2.7 5.6-6' fill='none' stroke='%23fff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/contain no-repeat;
+  }
+  .offer__item-value {
+    font-size: 18px;
+    font-weight: 400;
+    color: var(--terracota-d);
+    opacity: .75;
+    text-decoration: line-through;
+    white-space: nowrap;
+  }
+  .offer__item-chevron {
+    width: 22px; height: 22px;
+    background: var(--terracota);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--marfim);
+    font-size: 13px;
+    flex-shrink: 0;
+    transition: transform .3s;
+    line-height: 1;
+  }
+  .offer__item.open .offer__item-chevron { transform: rotate(45deg); }
+  .offer__item-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height .35s ease, padding .35s;
+    padding: 0 16px;
+  }
+  .offer__item.open .offer__item-body {
+    max-height: 300px;
+    padding: 0 16px 14px;
+  }
+  .offer__item-bullets {
+    list-style: none;
+    display: grid;
+    gap: 5px;
+    padding-left: 40px;
+  }
+  .offer__item-bullets li {
+    font-size: 13px;
+    color: var(--cacau);
+    opacity: .75;
+    line-height: 1.5;
+    padding-left: 14px;
+    position: relative;
+  }
+  .offer__item-bullets li::before {
+    content: '•';
+    color: var(--terracota);
+    position: absolute;
+    left: 0;
+    font-size: 14px;
+    line-height: 1.3;
+  }
+  .offer__total {
+    margin: 24px 0 8px;
+    font-size: 13px;
+    color: var(--cacau);
+    opacity: .55;
+  }
+  .offer__total-strike {
+    font-size: 18px;
+    color: var(--terracota-dd);
+    opacity: 1;
+    text-decoration: line-through;
+    margin-bottom: 4px;
+  }
+  .offer__price-label {
+    font-size: 13px;
+    color: var(--terracota);
+    font-weight: 500;
+    margin-bottom: 4px;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+  }
+  .offer__price {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    color: var(--terracota);
+    line-height: 1;
+    margin-bottom: 24px;
+    margin-top: 8px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 0;
+  }
+  .offer__price-rs {
+    font-size: 21px;
+    font-weight: 600;
+    margin-bottom: 14px;
+    margin-right: 4px;
+  }
+  .offer__price-int {
+    font-size: 94px;
+    font-weight: 700;
+    line-height: 1;
+  }
+  .offer__price-dec {
+    font-size: 38px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    margin-left: 2px;
+  }
+  .offer__installment {
+    font-size: 13px;
+    color: var(--cacau);
+    opacity: .55;
+    margin-top: 14px;
+    margin-bottom: 32px;
+  }
+  .offer__price-anchor {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin: 24px 0 6px;
+    flex-wrap: wrap;
+    line-height: 1;
+    background: rgba(200,149,108,.1);
+    border: 1px solid rgba(200,149,108,.25);
+    border-radius: 40px;
+    padding: 10px 24px;
+    width: fit-content;
+    margin-left: auto; margin-right: auto;
+  }
+  .offer__price-anchor-label {
+    font-size: 13px;
+    color: var(--terracota-dd);
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    font-weight: 600;
+    line-height: 1;
+  }
+  .offer__price-anchor-value {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--terracota-dd);
+    text-decoration: line-through;
+    text-decoration-color: var(--terracota);
+    text-decoration-thickness: 2px;
+    line-height: 1;
+  }
+  .offer__price-anchor-arrow {
+    font-size: 20px;
+    color: var(--terracota);
+    font-weight: 700;
+  }
+  @keyframes price-reveal {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .offer__price--highlight {
+    color: var(--terracota-dd) !important;
+    text-shadow: 0 2px 12px rgba(107,58,31,.18);
+    opacity: 0;
+  }
+  .offer__guarantee {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--marfim);
+    border-radius: 10px;
+    padding: 14px 18px;
+    margin-top: 24px;
+    text-align: left;
+    font-size: 13px;
+    color: var(--cacau);
+    opacity: .75;
+  }
+  .offer__guarantee-icon { font-size: 22px; flex-shrink: 0; }
+  /* ── CTA seta / bandeiras / selos ── */
+  .btn-cta__arrow {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 26px; height: 26px; border-radius: 50%;
+    background: rgba(255,255,255,.18);
+    font-size: 15px; line-height: 1; flex-shrink: 0;
+  }
+  .pay-row {
+    display: flex; align-items: center; justify-content: center;
+    flex-wrap: wrap; gap: 18px;
+    width: fit-content; margin: 18px auto 0;
+    background: #fff; border: 1px solid rgba(196,149,106,.25);
+    border-radius: 12px; padding: 10px 20px;
+  }
+  .pay-logo { height: 22px; width: auto; display: block; }
+  .trust-row {
+    display: flex; align-items: center; justify-content: center;
+    flex-wrap: wrap; gap: 18px; margin-top: 18px;
+  }
+  .trust-badge {
+    display: flex; align-items: center; gap: 7px;
+    font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 600;
+    color: var(--terracota-d);
+  }
+  .trust-badge svg { width: 16px; height: 16px; flex-shrink: 0; }
+
+  /* ══════════════════════════════════════
+     GARANTIA
+  ══════════════════════════════════════ */
+  .guarantee { background: var(--creme); }
+  .guarantee__box {
+    max-width: 580px;
+    margin: 0 auto;
+    text-align: center;
+    padding: 48px 40px;
+    border: 1px solid var(--caramelo);
+    border-radius: 24px;
+    background: var(--marfim);
+    box-shadow: 0 8px 40px rgba(200,149,108,.1);
+  }
+  .guarantee__icon { font-size: 56px; margin-bottom: 16px; }
+  .guarantee__title {
+    font-size: 28px;
+    color: var(--terracota-d);
+    margin-bottom: 12px;
+  }
+  .guarantee__text {
+    font-size: 15px;
+    line-height: 1.8;
+    color: var(--cacau);
+    opacity: .8;
+  }
+
+  /* ══════════════════════════════════════
+     FAQ
+  ══════════════════════════════════════ */
+  .faq { background: var(--marfim); }
+  .faq__list { margin-top: 32px; display: grid; gap: 12px; }
+  .faq__item {
+    border: 1px solid rgba(200,149,108,.22);
+    border-radius: 14px;
+    overflow: hidden;
+    transition: box-shadow .2s ease;
+  }
+  .faq__item:hover {
+    box-shadow: 0 4px 20px rgba(200,149,108,.12);
+  }
+  .faq__question {
+    width: 100%;
+    background: none;
+    border: none;
+    padding: 18px 20px;
+    text-align: left;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--terracota-d);
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    transition: background .2s;
+  }
+  .faq__question:hover { background: var(--creme); }
+  .faq__toggle {
+    width: 24px; height: 24px;
+    background: var(--terracota);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--marfim);
+    font-size: 16px;
+    flex-shrink: 0;
+    transition: transform .3s;
+  }
+  .faq__item.open .faq__toggle { transform: rotate(45deg); }
+  .faq__answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height .35s ease, padding .35s;
+    padding: 0 20px;
+    font-size: 14px;
+    line-height: 1.8;
+    color: var(--cacau);
+    opacity: .8;
+  }
+  .faq__item.open .faq__answer {
+    max-height: 300px;
+    padding: 0 20px 18px;
+  }
+
+  /* ══════════════════════════════════════
+     CTA FINAL
+  ══════════════════════════════════════ */
+  .cta-final {
+    background: linear-gradient(150deg, var(--terracota-dd) 0%, var(--terracota) 60%, #D4845A 100%);
+    padding: 96px 0;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .cta-final::before {
+    content: '';
+    position: absolute;
+    top: -100px; right: -100px;
+    width: 450px; height: 450px;
+    background: rgba(255,255,255,.05);
+    border-radius: 50%;
+  }
+  .cta-final::after {
+    content: '';
+    position: absolute;
+    bottom: -80px; left: -80px;
+    width: 320px; height: 320px;
+    background: rgba(255,255,255,.04);
+    border-radius: 50%;
+  }
+  .cta-final__title {
+    font-size: clamp(32px, 5vw, 52px);
+    color: var(--marfim);
+    margin-bottom: 16px;
+  }
+  .cta-final__subtitle {
+    font-size: 17px;
+    color: var(--creme);
+    opacity: .85;
+    max-width: 500px;
+    margin: 0 auto 36px;
+    line-height: 1.7;
+    font-weight: 300;
+  }
+  .cta-final__price {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 56px;
+    font-weight: 700;
+    color: var(--marfim);
+    margin-bottom: 8px;
+  }
+  .cta-final__price-hint {
+    font-size: 13px;
+    color: var(--creme);
+    opacity: .6;
+    margin-bottom: 28px;
+  }
+
+  /* ══════════════════════════════════════
+     FOOTER
+  ══════════════════════════════════════ */
+  footer {
+    background: var(--terracota-dd);
+    padding: 32px 0;
+    text-align: center;
+  }
+  footer p {
+    font-size: 12px;
+    color: var(--creme);
+    opacity: .5;
+    line-height: 1.8;
+  }
+  footer a { color: var(--creme); opacity: .6; }
+
+  .sticky-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: var(--terracota-d);
+    padding: 14px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    z-index: 1000;
+    transform: translateY(100%);
+    transition: transform .35s cubic-bezier(.4,0,.2,1);
+    box-shadow: 0 -4px 24px rgba(107,58,31,.3);
+  }
+  .sticky-bar.visible { transform: translateY(0); }
+  .sticky-bar__text {
+    font-size: 14px;
+    color: var(--creme);
+    font-weight: 500;
+  }
+  .sticky-bar__price {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--marfim);
+    white-space: nowrap;
+  }
+  .sticky-bar .btn-cta {
+    font-size: 14px;
+    padding: 12px 28px;
+    animation: none;
+    white-space: nowrap;
+  }
+
+  /* ══════════════════════════════════════
+     ILUSTRAÇÃO MULHER
+  ══════════════════════════════════════ */
+  .woman-section { background: var(--marfim); padding: 64px 0; }
+  .woman-section__inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    align-items: center;
+  }
+  .woman-section__illustration {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .woman-svg {
+    width: 100%;
+    max-width: 280px;
+    filter: drop-shadow(0 12px 32px rgba(200,149,108,0.18));
+    animation: float 5s ease-in-out infinite;
+  }
+  .woman-section__title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(24px, 3.5vw, 36px);
+    color: var(--terracota-d);
+    margin-bottom: 16px;
+    line-height: 1.3;
+  }
+  .woman-section__title em { color: var(--terracota); font-style: italic; }
+  .woman-section__desc {
+    font-size: 15px;
+    line-height: 1.8;
+    color: var(--cacau);
+    opacity: .82;
+    margin-bottom: 12px;
+    font-weight: 300;
+  }
+  .woman-section__highlight {
+    background: var(--creme);
+    border-left: 3px solid var(--terracota);
+    border-radius: 0 8px 8px 0;
+    padding: 16px 20px;
+    margin-top: 20px;
+  }
+  .woman-section__highlight-text {
+    display: block;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-style: italic;
+    font-size: 16px;
+    color: var(--terracota-d);
+    line-height: 1.6;
+    margin-bottom: 8px;
+  }
+  .woman-section__highlight-author {
+    font-size: 12px;
+    color: var(--cacau);
+    opacity: .55;
+    font-weight: 500;
+  }
+
+  /* ══════════════════════════════════════
+     URGÊNCIA EMOCIONAL
+  ══════════════════════════════════════ */
+  .urgency-bar {
+    background: var(--terracota-d);
+    padding: 18px 24px;
+    text-align: center;
+  }
+  .urgency-bar__text {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(16px, 2.5vw, 20px);
+    font-style: italic;
+    color: var(--marfim);
+    line-height: 1.5;
+  }
+  .urgency-bar__text strong {
+    font-style: normal;
+    color: var(--caramelo);
+  }
+
+  /* ══ PROVA SOCIAL ══ */
+  .social-proof-bar {
+    background: var(--marfim);
+    border-top: 1px solid rgba(200,149,108,.15);
+    border-bottom: 1px solid rgba(200,149,108,.15);
+    padding: 20px 0;
+  }
+  .social-proof-bar__inner {
+    display: flex; align-items: center;
+    justify-content: center; gap: 16px; flex-wrap: wrap;
+  }
+  .social-proof-bar__stars { color: #F5C842; font-size: 18px; letter-spacing: 2px; }
+  .social-proof-bar__text { font-size: 15px; color: var(--cacau); }
+  .social-proof-bar__text strong { color: var(--terracota-d); font-weight: 600; }
+  .social-proof-bar__avatars { display: flex; align-items: center; }
+  .social-proof-bar__avatar-img {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    border: 2px solid var(--marfim);
+    object-fit: cover;
+    object-position: center top;
+    margin-left: -10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+    transition: transform .2s;
+  }
+  .social-proof-bar__avatar-img:first-child { margin-left: 0; }
+  .social-proof-bar__avatar-img:hover { transform: scale(1.12); z-index: 2; }
+
+  /* ══ OBJEÇÕES ══ */
+  .objections { background: var(--creme); }
+  .objections__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px; margin-top: 36px;
+  }
+  @media (max-width: 600px) {
+    .objections__grid { grid-template-columns: 1fr; }
+  }
+  .objection-card {
+    background: var(--marfim); border-radius: 16px;
+    padding: 28px 24px; border: 1px solid rgba(200,149,108,.15);
+    transition: transform .2s, box-shadow .2s;
+  }
+  .objection-card:hover { transform: translateY(-3px); box-shadow: 0 12px 32px rgba(107,58,31,.08); }
+  .objection-card__question {
+    display: flex; align-items: flex-start; gap: 10px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 18px; font-weight: 600; color: var(--terracota-d);
+    margin-bottom: 14px; line-height: 1.4;
+  }
+  .objection-card__icon {
+    width: 26px; height: 26px; min-width: 26px;
+    background: var(--terracota); color: var(--marfim);
+    border-radius: 50%; display: flex; align-items: center;
+    justify-content: center; font-size: 14px;
+    font-family: 'DM Sans', sans-serif; font-weight: 700; margin-top: 2px;
+  }
+  .objection-card__answer { font-size: 14px; line-height: 1.75; color: var(--cacau); opacity: .82; }
+
+  @media (max-width: 600px) {
+    .woman-section__inner { grid-template-columns: 1fr; gap: 32px; }
+    .woman-svg { max-width: 200px; }
+  }
+  /* ── TABLET ── */
+  @media (max-width: 768px) {
+    .pillars__grid { grid-template-columns: 1fr 1fr; }
+    .proof-strip__inner { gap: 20px; }
+    .offer__box { padding: 36px 24px; }
+  }
+
+  /* ── MOBILE ── */
+  @media (max-width: 600px) {
+    section { padding: 32px 0; }
+    .testimonials { padding-bottom: 48px; }
+    .offer { padding-top: 48px; }
+
+    /* Hero */
+    .hero { padding: 52px 0 60px; }
+    .hero__bg img { object-position: center top; }
+    .hero__title { font-size: 36px; line-height: 1.2; }
+    .hero__subtitle { font-size: 16px; }
+    .hero__promise { font-size: 15px; padding: 16px 18px; }
+    .hero__leaf { width: 38px; height: 38px; }
+
+    /* Proof strip */
+    .proof-strip__inner { flex-direction: column; align-items: center; gap: 6px; }
+    .proof-strip__item { flex-direction: column; gap: 4px; text-align: center; font-size: 12px; white-space: normal; padding: 0 16px; }
+
+    /* Seções */
+    .section-title,
+    .section-eyebrow,
+    .section-lead { text-align: center !important; }
+    .section-title { font-size: 28px; }
+    .section-lead { font-size: 17px; }
+
+    /* Pilares */
+    .pillars .section-eyebrow,
+    .pillars .section-title { text-align: center; }
+    .pillars__grid { grid-template-columns: 1fr; gap: 14px; }
+    .pillar-card { padding: 22px 18px; }
+
+    /* Autoridade */
+    .authority__stats { flex-direction: row; }
+    .authority__stat { padding: 20px 8px; }
+    .authority__stat-number { font-size: 48px; }
+    .authority__stat-label { font-size: 11px; }
+    .authority__stat-divider { width: 1px; height: 50px; }
+    .insights__grid { grid-template-columns: 1fr; }
+    .spo__photo { height: auto; }
+    .spo__whatsapp { width: 90%; }
+    .pillars__grid {
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+    .pillars__grid::before { display: none; }
+
+    /* Depoimentos — carrossel mobile */
+    .testimonials__carousel-wrapper {
+      position: relative; display: flex; align-items: center; gap: 8px;
+    }
+    .carousel-arrow {
+      display: flex; align-items: center; justify-content: center;
+      width: 36px; height: 36px; border-radius: 50%;
+      background: var(--creme); border: 1px solid rgba(200,149,108,.3);
+      color: var(--terracota); cursor: pointer; flex-shrink: 0;
+      transition: background .2s;
+    }
+    .carousel-arrow:hover { background: rgba(200,149,108,.2); }
+    .testimonials__grid {
+      display: flex;
+      overflow-x: auto;
+      touch-action: pan-x;
+      overscroll-behavior-x: contain;
+      scroll-snap-type: x proximity;
+      -webkit-overflow-scrolling: touch;
+      gap: 16px;
+      padding-bottom: 8px;
+      scrollbar-width: none;
+    }
+    .testimonials__grid::-webkit-scrollbar { display: none; }
+    .testimonial-card {
+      flex: 0 0 85%;
+      scroll-snap-align: center;
+    }
+    .testimonial-card__img { height: 460px; }
+    .testimonial-dots { display: flex; justify-content: center; gap: 8px; margin-top: 16px; }
+    .testimonial-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: rgba(200,149,108,.3); border: none; padding: 0; cursor: pointer;
+      transition: background .25s;
+    }
+    .testimonial-dot.active { background: var(--terracota); }
+
+    /* Oferta */
+    .offer__box { padding: 28px 16px; }
+    .offer__price-int { font-size: 76px; }
+    .offer__price-dec { font-size: 31px; margin-bottom: 8px; }
+    .offer__price-rs { font-size: 18px; margin-bottom: 11px; }
+    .offer__price-anchor { gap: 6px; }
+    .offer__price-anchor-value { font-size: 22px; }
+    .offer__item-header { flex-wrap: wrap; gap: 8px; }
+    .offer__item-bullets { padding-left: 10px; }
+
+    /* FAQ */
+    .faq__question { font-size: 14px; }
+
+    /* CTA final */
+    .cta-final { padding: 56px 0; }
+    .cta-final__title { font-size: 28px; }
+    .cta-final__subtitle { font-size: 15px; }
+    .cta-final__price { font-size: 42px; }
+
+    /* Sticky bar */
+    .sticky-bar { padding: 12px 16px; }
+    .sticky-bar__text { display: none; }
+    .sticky-bar__price { font-size: 18px; }
+    .sticky-bar .btn-cta { font-size: 13px; padding: 13px 20px; min-height: 44px; }
+
+    /* Botão CTA */
+    .btn-cta { font-size: 15px; padding: 16px 28px; }
+
+    /* Garantia */
+    .guarantee__box { padding: 28px 20px; }
+    .guarantee__icon { font-size: 42px; }
+
+    /* Textos secundários — legibilidade mínima em 375px */
+    .hero__eyebrow,
+    .section-eyebrow      { font-size: 12px; }
+    .pillar-card__tag,
+    .offer__badge         { font-size: 12px; }
+    .testimonial-card__location,
+    .offer__price-anchor-label { font-size: 13px; }
+    footer p              { font-size: 13px; }
+  }
+
+  /* ── PADDING PARA STICKY BAR ── */
+  body { padding-bottom: 0; }
+  body.sticky-active { padding-bottom: 58px; }
+
+  /* ── MOBILE PEQUENO (iPhone SE etc) ── */
+  @media (max-width: 380px) {
+    .hero__title { font-size: 30px; }
+    .offer__price-int { font-size: 66px; }
+    .section-title { font-size: 24px; }
+  }
+
+  /* ══ GARANTIA, dado numérico ══ */
+  .guarantee__stat {
+    margin-top: 14px;
+    font-size: 13.5px;
+    color: var(--cacau);
+    opacity: .75;
+    font-style: italic;
+    border-top: 1px solid rgba(200,149,108,.2);
+    padding-top: 12px;
+  }
+  .guarantee__stat strong {
+    color: var(--terracota-d);
+    font-style: normal;
+  }
+
+  /* ══ CTA ÂNCORA PÓS-PILARES ══ */
+  .anchor-cta-bar {
+    background: var(--creme);
+    padding: 28px 0;
+    border-top: 1px solid rgba(200,149,108,.15);
+    border-bottom: 1px solid rgba(200,149,108,.15);
+  }
+  .anchor-cta-bar__text {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 18px;
+    color: var(--terracota-d);
+    margin-bottom: 14px;
+    font-style: italic;
+  }
+  .anchor-cta-bar__btn {
+    display: inline-block;
+    background: transparent;
+    border: 1.5px solid var(--terracota);
+    color: var(--terracota-d);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 11px 28px;
+    border-radius: 50px;
+    text-decoration: none;
+    letter-spacing: .3px;
+    transition: background .2s, color .2s;
+  }
+  .anchor-cta-bar__btn:hover {
+    background: var(--terracota);
+    color: var(--marfim);
+  }
+
+  /* ══ VERGONHA, hero ══ */
+  .hero__shame {
+    margin-top: 20px;
+    font-size: clamp(15px, 2vw, 17px);
+    color: var(--marfim);
+    opacity: .78;
+    line-height: 1.7;
+    font-style: italic;
+    font-weight: 300;
+  }
+  .hero__shame em {
+    font-style: normal;
+    font-weight: 500;
+    opacity: 1;
+  }
+
+  /* ══ SEM CULPA, revelação ══ */
+  .reveal__no-blame {
+    background: var(--creme);
+    border-left: 3px solid var(--terracota);
+    border-radius: 0 8px 8px 0;
+    padding: 20px 24px;
+    margin: 28px 0;
+    display: grid;
+    grid-template-columns: 1fr 120px;
+    gap: 24px;
+    align-items: center;
+  }
+  .reveal__no-blame-text {
+    font-size: 16px;
+    line-height: 1.85;
+    color: var(--cacau);
+    font-style: italic;
+  }
+  .reveal__no-blame strong {
+    font-style: normal;
+    color: var(--terracota-d);
+    font-size: 17px;
+  }
+  /* Teste positivo — animações */
+  @keyframes ptFadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes ptLine1 {
+    0%,25% { transform: scaleX(0); opacity: 0; }
+    55%    { transform: scaleX(1); opacity: 1; }
+    100%   { transform: scaleX(1); opacity: 1; }
+  }
+  @keyframes ptLine2 {
+    0%,50% { transform: scaleX(0); opacity: 0; }
+    80%    { transform: scaleX(1); opacity: 1; }
+    100%   { transform: scaleX(1); opacity: 1; }
+  }
+  @keyframes ptGlow {
+    0%,100% { filter: drop-shadow(0 0 3px rgba(200,149,108,0)); }
+    65%     { filter: drop-shadow(0 0 10px rgba(200,149,108,.55)); }
+  }
+  @keyframes ptFloat {
+    0%,100% { transform: translateY(0); }
+    50%     { transform: translateY(-5px); }
+  }
+  @keyframes ptSparkle {
+    0%,100% { opacity: 0; transform: scale(0) rotate(0deg); }
+    50%     { opacity: 1; transform: scale(1) rotate(180deg); }
+  }
+  .pt-body   { animation: ptFadeIn .6s ease forwards, ptFloat 3.5s 1s ease-in-out infinite; }
+  .pt-line1  { transform-origin: left center; animation: ptLine1 2.8s .5s ease forwards; }
+  .pt-line2  { transform-origin: left center; animation: ptLine2 2.8s .5s ease forwards; }
+  .pt-window { animation: ptGlow 2.8s .5s ease forwards; }
+  .pt-sp1    { transform-origin: 50% 50%; animation: ptSparkle 2.4s 1.9s ease infinite; }
+  .pt-sp2    { transform-origin: 50% 50%; animation: ptSparkle 2.4s 2.3s ease infinite; }
+  .pt-sp3    { transform-origin: 50% 50%; animation: ptSparkle 2.4s 2.7s ease infinite; }
+
+  /* ══ EPIFANIA ══ */
+  .reveal__epiphany {
+    background: linear-gradient(135deg, var(--terracota-d) 0%, var(--terracota) 100%);
+    border-radius: 20px;
+    padding: 40px 44px;
+    margin: 36px 0;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 16px 48px rgba(107,58,31,.22);
+  }
+  .reveal__epiphany::before {
+    content: '';
+    position: absolute;
+    top: -30px; right: -30px;
+    width: 140px; height: 140px;
+    border-radius: 50%;
+    background: rgba(253,250,246,0.06);
+  }
+  .reveal__epiphany::after {
+    content: '';
+    position: absolute;
+    bottom: -20px; left: -20px;
+    width: 100px; height: 100px;
+    border-radius: 50%;
+    background: rgba(253,250,246,0.04);
+  }
+  .reveal__epiphany-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(20px, 3vw, 26px);
+    font-weight: 700;
+    color: var(--marfim);
+    margin-bottom: 20px;
+    line-height: 1.3;
+  }
+  .reveal__epiphany-text {
+    font-size: 15px;
+    line-height: 1.85;
+    color: var(--creme);
+    opacity: .9;
+    margin-bottom: 14px;
+  }
+  .reveal__epiphany-text strong {
+    color: var(--marfim);
+    font-weight: 600;
+  }
+  .reveal__epiphany-divider {
+    width: 48px;
+    height: 2px;
+    background: rgba(253,250,246,0.3);
+    margin: 20px 0;
+    border-radius: 2px;
+  }
+  .reveal__epiphany-highlight {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(18px, 2.5vw, 22px);
+    font-style: italic;
+    color: var(--marfim);
+    margin-top: 8px;
+    line-height: 1.4;
+  }
+
+  /* ══ LINHA DE SINAL — REVELAÇÃO ══ */
+  .reveal__epiphany-title,
+  .reveal__epiphany-text,
+  .reveal__epiphany-divider,
+  .reveal__epiphany-highlight { position: relative; z-index: 1; }
+  @keyframes drawSignal {
+    0%   { stroke-dashoffset: 920; opacity: 0; }
+    6%   { opacity: .55; }
+    72%  { stroke-dashoffset: 0; opacity: .42; }
+    86%  { stroke-dashoffset: 0; opacity: 0; }
+    100% { stroke-dashoffset: 920; opacity: 0; }
+  }
+  .reveal__signal {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 72px;
+    pointer-events: none;
+    overflow: hidden;
+  }
+  .signal-line {
+    stroke-dasharray: 920;
+    stroke-dashoffset: 920;
+    animation: drawSignal 5.5s ease-in-out infinite;
+  }
+
+  /* ══ MANDALA — 2 COLUNAS ══════════════════════════════════════════ */
+  .reveal__two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    align-items: center;
+    margin-top: 40px;
+  }
+  .reveal__two-col > * { min-width: 0; }
+  .reveal__mandala-wrap {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .reveal__mandala-svg {
+    width: 100%;
+    max-width: 380px;
+    height: auto;
+    overflow: visible;
+  }
+  .mandala-ring-outer {
+    transform-origin: 150px 150px;
+    animation: mandalaSpin 40s linear infinite;
+  }
+  @keyframes mandalaSpin {
+    to { transform: rotate(360deg); }
+  }
+  .mandala-seg-0 { animation: segPulse 8s 0s   ease-in-out infinite; }
+  .mandala-seg-1 { animation: segPulse 8s 2s   ease-in-out infinite; }
+  .mandala-seg-2 { animation: segPulse 8s 4s   ease-in-out infinite; }
+  .mandala-seg-3 { animation: segPulse 8s 6s   ease-in-out infinite; }
+  @keyframes segPulse {
+    0%,100% { opacity: .78; }
+    12.5%   { opacity: 1; }
+    25%     { opacity: .78; }
+  }
+  .mandala-center-dot {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: centerPulse 3.2s ease-in-out infinite alternate;
+  }
+  @keyframes centerPulse {
+    from { transform: scale(0.75); opacity: .35; }
+    to   { transform: scale(1.25); opacity: .75; }
+  }
+  @media (max-width: 640px) {
+    .reveal__two-col { grid-template-columns: 1fr; gap: 26px; }
+    .reveal__mandala-wrap { order: -1; margin-top: -18px; }
+    .reveal__mandala-svg { max-width: 300px; }
+  }
+
+  /* ══ PARTÍCULAS FLUTUANTES — CTA FINAL ══ */
+  @keyframes particleRise {
+    0%   { transform: translateY(0) rotate(0deg);   opacity: 0; }
+    12%  { opacity: .55; }
+    88%  { opacity: .2; }
+    100% { transform: translateY(-140px) rotate(200deg); opacity: 0; }
+  }
+  .cta-final__particles {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+  .cta-particle {
+    position: absolute;
+    bottom: 24px;
+    animation: particleRise linear infinite;
+  }
+  /* ── MARQUEE / TIRA ──────────────────────────── */
+  .marquee {
+    overflow: hidden;
+    background: var(--cacau);
+    padding: 9px 0;
+    position: relative;
+    -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 7%, #000 93%, transparent 100%);
+            mask-image: linear-gradient(90deg, transparent 0, #000 7%, #000 93%, transparent 100%);
+  }
+  .marquee__track {
+    display: flex;
+    gap: 12px;
+    width: max-content;
+    animation: marqueeScroll 34s linear infinite;
+  }
+  .marquee:hover .marquee__track { animation-play-state: paused; }
+  .marquee__chip {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    color: var(--creme);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    line-height: 1.35;
+  }
+  .marquee__chip span {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: var(--terracota);
+    color: #fff;
+    font-size: 9px;
+    margin-right: 7px;
+    flex-shrink: 0;
+  }
+  @keyframes marqueeScroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  @media (prefers-reduced-motion: reduce) { .marquee__track { animation: none; } }
+</style>
+</head>
+<body>
+
+<!-- ══ HERO ══════════════════════════════════════════════════════ -->
+<section class="hero text-center">
+  <div class="hero__bg">
+    <img id="hero-fallback" src="/Images/printhero.webp" alt="" fetchpriority="high" style="width:100%; height:100%; object-fit:cover; object-position:center;"/>
+  </div>
+  <div class="hero__overlay"></div>
+  <div class="hero__bottom-fade"></div>
+  <div class="container">
+    <h1 class="hero__title fade-up-2">
+      <span class="hero-line">Seu corpo dá um sinal <span style="color:var(--salvia)">3 dias antes da ovulação</span>. E ele muda tudo.</span>
+    </h1>
+    <p class="hero__subtitle fade-up-3">
+      Você fez tudo certo. Só nunca aprendeu a vê-lo.
+    </p>
+    <div class="hero__scroll-hint">
+      <span class="hero__scroll-text">Continue</span>
+      <svg class="hero__scroll-arrow" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 5 12 11 18 5"/><polyline points="6 12 12 18 18 12"/></svg>
+    </div>
+  </div>
+</section>
+
+<!-- ══ TRANSIÇÃO HERO → SEÇÃO 2 ══════════════════════════════════ -->
+<div class="hero-fade"></div>
+
+<!-- ══ MARQUEE / TIRA ════════════════════════════════════════════ -->
+<div class="marquee" aria-hidden="true">
+  <div class="marquee__track">
+    <div class="marquee__chip"><span>✦</span>Sem adivinhar o dia</div>
+    <div class="marquee__chip"><span>✦</span>Chega de "é só relaxar"</div>
+    <div class="marquee__chip"><span>✦</span>Método, não sorte</div>
+    <div class="marquee__chip"><span>✦</span>Ler os sinais do corpo</div>
+    <div class="marquee__chip"><span>✦</span>1 passo por semana</div>
+    <div class="marquee__chip"><span>✦</span>Garantia de 7 dias</div>
+    <div class="marquee__chip"><span>✦</span>Sem adivinhar o dia</div>
+    <div class="marquee__chip"><span>✦</span>Chega de "é só relaxar"</div>
+    <div class="marquee__chip"><span>✦</span>Método, não sorte</div>
+    <div class="marquee__chip"><span>✦</span>Ler os sinais do corpo</div>
+    <div class="marquee__chip"><span>✦</span>1 passo por semana</div>
+    <div class="marquee__chip"><span>✦</span>Garantia de 7 dias</div>
+  </div>
+</div>
+
+<!-- ══ DOR ════════════════════════════════════════════════════════ -->
+<!-- ══ PROVA SOCIAL ABERTURA ═══════════════════════════════════════ -->
+<section class="social-proof-opener">
+  <div class="container--wide">
+    <h2 class="section-title" style="text-align:center; margin-bottom:24px; font-size:clamp(25px,4vw,34px); font-weight:600;">E não foi só você. <span class="word-hl brush-underline">Milhares travaram</span> fazendo tudo certo.</h2>
+    <div class="autoprint-wrap" id="autoprint">
+      <img class="autoprint-img active" src="/Images/b1.png?v=2" alt="Depoimento WhatsApp"/>
+      <img class="autoprint-img" src="/Images/b2.png?v=2" alt="Depoimento WhatsApp"/>
+      <img class="autoprint-img" src="/Images/b4.png?v=2" alt="Depoimento WhatsApp"/>
+      <img class="autoprint-img" src="/Images/b6.png?v=2" alt="Depoimento WhatsApp"/>
+      <div class="autoprint-dots">
+        <span class="autoprint-dot active"></span>
+        <span class="autoprint-dot"></span>
+        <span class="autoprint-dot"></span>
+        <span class="autoprint-dot"></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ REVELAÇÃO ══════════════════════════════════════════════════ -->
+<section class="reveal">
+  <div class="container">
+    <h2 class="section-title" style="margin-bottom:8px; font-size:clamp(33px,5.4vw,50px); font-weight:800;">Sua janela fértil é curta e <span class="mark-hl">se move</span>.<span style="display:block; font-size:.58em; font-weight:500; color:var(--terracota-d); margin-top:8px; line-height:1.3;">Quem marca dia fixo quase sempre erra.</span></h2>
+
+    <div class="reveal__two-col">
+      <!-- Coluna texto — intacto -->
+      <div class="reveal__two-col-text">
+        <p class="section-lead" style="font-size:clamp(20px,3vw,26px); opacity:1; color:var(--cacau); font-weight:600; line-height:1.55; overflow-wrap:break-word; max-width:100%;">Em vez de <span style="text-decoration:line-through; text-decoration-thickness:1px; text-decoration-color:rgba(196,149,106,.7); color:var(--terracota); font-weight:500;">adivinhar o dia</span>, o <strong style="color:var(--terracota-d);">Ciclo Fértil</strong> te ensina a <span class="word-hl" style="font-weight:800;">ler os sinais</span> e <span class="word-hl" style="font-weight:800;">blindar seus hormônios</span>, <strong>semana a semana</strong>.</p>
+      </div>
+
+      <!-- Coluna mandala animada -->
+      <div class="reveal__mandala-wrap">
+        <style>
+.pz-cell{aspect-ratio:1;display:flex;align-items:center;justify-content:center;border-radius:5px;font-family:'DM Sans',sans-serif;font-weight:500;font-size:10px;background:#EDE2CE;color:#B09675;transition:background .45s,color .45s;}
+.pz-pill{font-family:'DM Sans',sans-serif;font-weight:600;font-size:11px;padding:5px 10px;border-radius:16px;position:absolute;box-shadow:0 2px 5px rgba(80,50,20,.18);white-space:nowrap;z-index:3;color:#fff;}
+@keyframes pzpop{0%,100%{transform:scale(1)}50%{transform:scale(1.15)}}
+</style>
+        <div class="cf-plan-outer" style="width:100%;max-width:360px;margin:0 auto;">
+          <div id="pzStage" style="position:relative;width:360px;height:360px;transform-origin:top left;">
+            <div style="position:absolute;top:78px;left:50%;transform:translateX(-50%) rotate(-2deg);width:206px;background:#FFFDF8;border:1px solid rgba(139,99,71,.12);border-radius:11px;box-shadow:0 10px 26px rgba(90,55,20,.16);padding:24px 14px 16px;z-index:1;">
+              <div style="position:absolute;top:-13px;left:50%;transform:translateX(-50%) rotate(-3deg);width:172px;height:28px;background:#9CBE86;box-shadow:0 1px 3px rgba(0,0,0,.12);display:flex;align-items:center;justify-content:center;">
+                <span style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:12px;color:#22401A;letter-spacing:1px;">JANELA FÉRTIL</span>
+              </div>
+              <div style="display:flex;align-items:center;justify-content:center;gap:5px;margin:0 0 8px;font-family:'DM Sans',sans-serif;font-weight:600;font-size:11px;color:#C4703A;">mês <span id="pzMes">1</span></div>
+              <div id="pzcal" style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px;"></div>
+            </div>
+            <div id="pzL1" class="pz-pill" style="background:#5A3E1E;top:40px;left:14px;transform:rotate(-4deg);">o dia que você marca</div>
+            <div id="pzL2" class="pz-pill" style="background:#C4703A;bottom:92px;right:16px;transform:rotate(3deg);">a janela fértil muda de dia</div>
+            <div id="pzStamp" style="position:absolute;z-index:4;font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:7.5px;padding:2px 4px;border-radius:4px;border:1.5px solid #C0392B;color:#C0392B;background:rgba(255,253,248,.75);transform:translate(-50%,-50%) rotate(-13deg);pointer-events:none;white-space:nowrap;">PASSOU</div>
+            <svg id="pzArrows" viewBox="0 0 360 360" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:2;overflow:visible;">
+              <path id="pzA1" fill="none" stroke="#5A3E1E" stroke-width="2.2" stroke-linecap="round" stroke-dasharray="1 6"/>
+              <polygon id="pzA1h" points="0,0 -9,-4.3 -9,4.3" fill="#5A3E1E"/>
+              <path id="pzA2" fill="none" stroke="#C4703A" stroke-width="2.2" stroke-linecap="round" stroke-dasharray="1 6"/>
+              <polygon id="pzA2h" points="0,0 -9,-4.3 -9,4.3" fill="#C4703A"/>
+            </svg>
+          </div>
+        </div>
+        <script>
+        (function(){
+          var stage=document.getElementById('pzStage'); if(!stage) return;
+          var cal=document.getElementById('pzcal'),mesEl=document.getElementById('pzMes');
+          var stamp=document.getElementById('pzStamp');
+          var L1=document.getElementById('pzL1'),L2=document.getElementById('pzL2');
+          var A1=document.getElementById('pzA1'),A1h=document.getElementById('pzA1h');
+          var A2=document.getElementById('pzA2'),A2h=document.getElementById('pzA2h');
+          var cells=[];
+          for(var d=1;d<=28;d++){var el=document.createElement('div');el.className='pz-cell';el.textContent=d;if(d===15)el.style.boxShadow='inset 0 0 0 2px #5A3E1E';cal.appendChild(el);cells.push(el);}
+          var months=[{n:1,f:[9,10,11]},{n:2,f:[19,20,21]},{n:3,f:[14,15,16]},{n:4,f:[23,24,25]},{n:5,f:[6,7,8]}];
+          var cur=months[0];
+          function ctr(e){var s=stage.getBoundingClientRect(),r=e.getBoundingClientRect(),k=s.width/360||1;return {x:(r.left-s.left+r.width/2)/k,y:(r.top-s.top+r.height/2)/k};}
+          function draw(p,h,from,to,bend){var dx=to.x-from.x,dy=to.y-from.y,len=Math.hypot(dx,dy)||1,nx=-dy/len,ny=dx/len;var cx=(from.x+to.x)/2+nx*bend,cy=(from.y+to.y)/2+ny*bend;var tx=to.x-cx,ty=to.y-cy,tl=Math.hypot(tx,ty)||1;var ex=to.x-(tx/tl)*10,ey=to.y-(ty/tl)*10;p.setAttribute('d','M'+from.x+','+from.y+' Q'+cx+','+cy+' '+ex+','+ey);h.setAttribute('transform','translate('+ex+','+ey+') rotate('+(Math.atan2(ty,tx)*180/Math.PI)+')');}
+          function midCell(){return cells[cur.f[Math.floor(cur.f.length/2)]-1];}
+          function fit(){var outer=stage.parentElement,k=outer.clientWidth/360;stage.style.transform='scale('+k+')';outer.style.height=(312*k)+'px';outer.style.overflow='hidden';}
+          function redraw(){fit();draw(A1,A1h,ctr(L1),ctr(cells[14]),30);draw(A2,A2h,ctr(L2),ctr(midCell()),-30);var c=ctr(cells[14]);stamp.style.left=(c.x+13)+'px';stamp.style.top=(c.y-11)+'px';}
+          function setMonth(m){cur=m;mesEl.textContent=m.n;var hit=m.f.indexOf(15)>-1;cells.forEach(function(el,idx){var d=idx+1,on=m.f.indexOf(d)>-1;el.style.background=on?'#C4703A':'#EDE2CE';el.style.color=on?'#fff':(d===15?'#5A3E1E':'#B09675');el.style.animation=on?'pzpop .5s ease':'';});stamp.textContent=hit?'ACERTOU!':'PASSOU';stamp.style.color=hit?'#2F7D2F':'#C0392B';stamp.style.borderColor=hit?'#2F7D2F':'#C0392B';redraw();if(stamp.animate)stamp.animate([{transform:'translate(-50%,-50%) rotate(-13deg) scale(1.5)',opacity:0},{transform:'translate(-50%,-50%) rotate(-13deg) scale(1)',opacity:.95}],{duration:360,easing:'ease-out'});}
+          var i=0;function tick(){i=(i+1)%months.length;setMonth(months[i]);}
+          function boot(){setMonth(months[0]);setTimeout(redraw,350);setInterval(tick,2600);}
+          if(document.fonts&&document.fonts.ready){document.fonts.ready.then(boot);}else{setTimeout(boot,300);}
+          window.addEventListener('resize',redraw);
+        })();
+        </script>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ PILARES ════════════════════════════════════════════════════ -->
+<section class="pillars" id="aprenda">
+  <div class="container">
+    <div style="text-align:center; margin-bottom:24px; margin-top:-40px;">
+      <svg viewBox="0 0 300 300" role="img" aria-label="Mandala das 4 dimensões do Ciclo Fértil: Corpo, Ciclo, Ambiente e Mente" style="display:block; margin:0 auto; opacity:.97; width:100%; max-width:187px; height:auto;">
+        <circle cx="150" cy="150" r="128" fill="rgba(200,149,108,0.07)"/>
+        <g class="mandala-ring-outer">
+          <circle cx="150" cy="150" r="126" fill="none" stroke="rgba(200,149,108,0.25)" stroke-width="1.5" stroke-dasharray="3 9"/>
+          <circle cx="150" cy="24"  r="3.5" fill="rgba(200,149,108,0.45)"/>
+          <circle cx="276" cy="150" r="3.5" fill="rgba(200,149,108,0.45)"/>
+          <circle cx="150" cy="276" r="3.5" fill="rgba(200,149,108,0.45)"/>
+          <circle cx="24"  cy="150" r="3.5" fill="rgba(200,149,108,0.45)"/>
+        </g>
+        <path class="mandala-seg-0" d="M 117.9,111.7 L 79.3,65.7 A 110,110 0 0,1 220.7,65.7 L 182.1,111.7 A 50,50 0 0,0 117.9,111.7 Z" fill="#C4956A"/>
+        <path class="mandala-seg-1" d="M 188.3,117.9 L 234.3,79.3 A 110,110 0 0,1 234.3,220.7 L 188.3,182.1 A 50,50 0 0,0 188.3,117.9 Z" fill="#8B4A1C"/>
+        <path class="mandala-seg-2" d="M 182.1,188.3 L 220.7,234.3 A 110,110 0 0,1 79.3,234.3 L 117.9,188.3 A 50,50 0 0,0 182.1,188.3 Z" fill="#3D5535"/>
+        <path class="mandala-seg-3" d="M 111.7,182.1 L 65.7,220.7 A 110,110 0 0,1 65.7,79.3 L 111.7,117.9 A 50,50 0 0,0 111.7,182.1 Z" fill="#2B1A10"/>
+        <circle cx="150" cy="150" r="48" fill="var(--marfim)" stroke="rgba(200,149,108,0.35)" stroke-width="1.5"/>
+        <circle class="mandala-center-dot" cx="150" cy="150" r="22" fill="rgba(200,149,108,0.35)"/>
+        <text x="150" y="158" text-anchor="middle" font-size="22" fill="#2B1A10" opacity="0.85" font-family="serif">✦</text>
+        <text x="150" y="72"  text-anchor="middle" font-family="DM Sans, sans-serif" font-size="15" font-weight="600" letter-spacing="0.8" fill="#FDFAF6">CORPO</text>
+        <text x="228" y="156" text-anchor="middle" font-family="DM Sans, sans-serif" font-size="15" font-weight="600" letter-spacing="0.8" fill="rgba(255,255,255,0.92)">CICLO</text>
+        <text x="150" y="234" text-anchor="middle" font-family="DM Sans, sans-serif" font-size="15" font-weight="600" letter-spacing="0.2" fill="#FDFAF6">AMBIENTE</text>
+        <text x="72"  y="156" text-anchor="middle" font-family="DM Sans, sans-serif" font-size="15" font-weight="600" letter-spacing="0.8" fill="rgba(255,255,255,0.92)">MENTE</text>
+      </svg>
+    </div>
+    <span class="section-eyebrow" style="display:block; text-align:center;">Ciclo Fértil</span>
+    <h2 class="section-title" style="text-align:center; margin-bottom:16px;">O que seu corpo vem tentando te mostrar.</h2>
+    <p class="section-lead" style="text-align:center; margin-bottom:32px; font-size:19px;">Na prática, você vai parar de adivinhar e começar a saber.</p>
+
+    <div class="insights__grid">
+      <div class="insight-card">
+        <div class="insight-card__icon">
+          <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="icd" x1="18" y1="10" x2="46" y2="56" gradientUnits="userSpaceOnUse"><stop stop-color="#E8C097"/><stop offset=".5" stop-color="#C4956A"/><stop offset="1" stop-color="#8B4A1C"/></linearGradient></defs><ellipse cx="32" cy="59" rx="14" ry="3" fill="#2B1A10" opacity=".14"/><path d="M32 7C40 21 50 30 50 40a18 18 0 0 1-36 0c0-10 10-19 18-33Z" fill="url(#icd)"/><ellipse cx="25" cy="24" rx="4.5" ry="8" transform="rotate(-22 25 24)" fill="#fff" opacity=".55"/><ellipse cx="23" cy="43" rx="3" ry="4.5" fill="#fff" opacity=".2"/></svg>
+        </div>
+        <p>O sinal que aparece 3 dias antes da ovulação, que ninguém te ensinou a ver.</p>
+      </div>
+      <div class="insight-card">
+        <div class="insight-card__icon">
+          <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="ics" x1="16" y1="9" x2="48" y2="54" gradientUnits="userSpaceOnUse"><stop stop-color="#9DBB86"/><stop offset=".55" stop-color="#5C7E4C"/><stop offset="1" stop-color="#3D5535"/></linearGradient></defs><ellipse cx="32" cy="59" rx="13" ry="3" fill="#2B1A10" opacity=".14"/><path d="M32 7l18 7v17c0 12-8 20-18 24-10-4-18-12-18-24V14Z" fill="url(#ics)"/><path d="M32 7l18 7v17c0 12-8 20-18 24Z" fill="#2B1A10" opacity=".1"/><path d="M24 31l6 6 12-14" stroke="#F5EFE6" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><ellipse cx="24" cy="19" rx="4" ry="7" transform="rotate(-18 24 19)" fill="#fff" opacity=".26"/></svg>
+        </div>
+        <p>Cortisol e progesterona disputam a mesma matéria-prima. Por isso o estresse trava a ovulação.</p>
+      </div>
+      <div class="insight-card">
+        <div class="insight-card__icon">
+          <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="icc" x1="12" y1="16" x2="50" y2="54" gradientUnits="userSpaceOnUse"><stop stop-color="#DEAE7C"/><stop offset="1" stop-color="#A85D28"/></linearGradient></defs><ellipse cx="32" cy="59" rx="15" ry="3" fill="#2B1A10" opacity=".14"/><rect x="12" y="16" width="40" height="38" rx="8" fill="url(#icc)"/><path d="M12 24a8 8 0 0 1 8-8h24a8 8 0 0 1 8 8v3H12Z" fill="#8B4A1C"/><rect x="20" y="9" width="5" height="13" rx="2.5" fill="#5C3010"/><rect x="39" y="9" width="5" height="13" rx="2.5" fill="#5C3010"/><path d="M22 40l6 6 13-15" stroke="#F5EFE6" stroke-width="4.2" stroke-linecap="round" stroke-linejoin="round"/><rect x="17" y="31" width="30" height="3.5" rx="1.75" fill="#fff" opacity=".16"/></svg>
+        </div>
+        <p>A ordem certa de preparar o corpo, semana a semana, que separa tentar de conseguir.</p>
+      </div>
+      <div class="insight-card">
+        <div class="insight-card__icon">
+          <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="icu" cx=".4" cy=".35" r=".75"><stop stop-color="#F6DDAE"/><stop offset=".5" stop-color="#E0A85C"/><stop offset="1" stop-color="#B5701F"/></radialGradient></defs><ellipse cx="32" cy="59" rx="13" ry="3" fill="#2B1A10" opacity=".14"/><g stroke="#C4956A" stroke-width="4" stroke-linecap="round"><path d="M32 5v7"/><path d="M50 13l-5 5"/><path d="M59 33h-7"/><path d="M14 13l5 5"/><path d="M5 33h7"/></g><circle cx="32" cy="33" r="15" fill="url(#icu)"/><ellipse cx="26" cy="27" rx="5" ry="3.6" transform="rotate(-25 26 27)" fill="#fff" opacity=".45"/></svg>
+        </div>
+        <p>Por que os primeiros 30 minutos depois de acordar decidem seus hormônios do dia.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ DEPOIMENTOS ════════════════════════════════════════════════ -->
+<section class="testimonials">
+  <div class="container--wide">
+    <div class="testimonials__header">
+      <div class="testimonials__eyebrow">♡ &nbsp;Depoimentos Reais</div>
+      <h2 class="testimonials__title">O que muda quando você <em>para de adivinhar.</em></h2>
+    </div>
+    <div class="testimonials__carousel-wrapper">
+    <div class="testimonials__grid">
+
+      <div class="testimonial-card">
+        <img src="/Images/depo1.webp" alt="Mariana S." class="testimonial-card__img" width="506" height="900" style="object-position: center 30%;" loading="lazy"/>
+        <div class="testimonial-card__overlay">
+          <div class="testimonial-card__bubble">
+            <p>"Tentava há 14 meses seguindo tudo que me mandavam. Mas ninguém me ensinou a parte do ciclo. No terceiro ciclo do método, engravidei."</p>
+          </div>
+          <div class="testimonial-card__footer">
+            <img src="/Images/img.webp" alt="" class="testimonial-avatar-img" loading="lazy"/>
+            <div class="testimonial-card__info">
+              <span class="testimonial-card__author">Mariana S.</span>
+              <span class="testimonial-card__location">36 anos · São Paulo · Ciclo regulado em 3 semanas</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial-card">
+        <img src="/Images/depo2.webp" alt="Fernanda R." class="testimonial-card__img" width="720" height="900" style="object-position: center 30%;" loading="lazy"/>
+        <div class="testimonial-card__overlay">
+          <div class="testimonial-card__bubble">
+            <p>"Fazia tudo certo e não entendia por que não funcionava. O método me mostrou o que estava faltando. Foi simples e concreto."</p>
+          </div>
+          <div class="testimonial-card__footer">
+            <img src="/Images/depoimento1.webp" alt="" class="testimonial-avatar-img" loading="lazy"/>
+            <div class="testimonial-card__info">
+              <span class="testimonial-card__author">Fernanda R.</span>
+              <span class="testimonial-card__location">31 anos · Fortaleza · Ovulação identificada no 2º ciclo</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial-card">
+        <img src="/Images/depo3.webp" alt="Camila T." class="testimonial-card__img" width="523" height="900" loading="lazy"/>
+        <div class="testimonial-card__overlay">
+          <div class="testimonial-card__bubble">
+            <p>"Com 41 anos tentei por mais de um ano. O que me faltava era entender o que o meu corpo precisava de verdade. Dois ciclos com o método e veio o positivo."</p>
+          </div>
+          <div class="testimonial-card__footer">
+            <img src="/Images/depoimento3.webp" alt="" class="testimonial-avatar-img" loading="lazy"/>
+            <div class="testimonial-card__info">
+              <span class="testimonial-card__author">Camila T.</span>
+              <span class="testimonial-card__location">41 anos · Belo Horizonte · Gravidez confirmada no 2º ciclo</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    </div>
+    <div class="testimonial-dots" id="testimonialDots" style="display:none">
+      <button class="testimonial-dot active" onclick="scrollToCard(0)"></button>
+      <button class="testimonial-dot" onclick="scrollToCard(1)"></button>
+      <button class="testimonial-dot" onclick="scrollToCard(2)"></button>
+    </div>
+  </div>
+</section>
+
+<!-- ══ OFERTA ══════════════════════════════════════════════════════ -->
+<section class="offer" id="oferta">
+  <div class="offer-ribbons" aria-hidden="true">
+    <div class="offer-ribbon offer-ribbon--a">
+      <div class="offer-ribbon__track">
+        <span>Garantia de 7 dias ✦</span><span>Suporte ✦</span><span>Método, não sorte ✦</span><span>Passo a passo ✦</span><span>Sem adivinhar ✦</span><span>Garantia de 7 dias ✦</span><span>Suporte ✦</span><span>Método, não sorte ✦</span><span>Passo a passo ✦</span><span>Sem adivinhar ✦</span>
+      </div>
+    </div>
+    <div class="offer-ribbon offer-ribbon--b">
+      <div class="offer-ribbon__track">
+        <span>Ler os sinais ✦</span><span>1 passo por semana ✦</span><span>Sem "é só relaxar" ✦</span><span>Acesso imediato ✦</span><span>Método ✦</span><span>Ler os sinais ✦</span><span>1 passo por semana ✦</span><span>Sem "é só relaxar" ✦</span><span>Acesso imediato ✦</span><span>Método ✦</span>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="offer__box">
+      <h3 class="offer__product-title" style="display:flex; align-items:center; justify-content:center; gap:12px;"><img src="/Images/logo.png" alt="Logo Ciclo Fértil" loading="lazy" style="width:34px; height:34px; flex-shrink:0;"/>Ciclo Fértil</h3>
+      <div class="offer__price-anchor">
+        <span class="offer__price-anchor-label">De</span>
+        <span class="offer__price-anchor-value">R$ 188,00</span>
+        <span class="offer__price-anchor-arrow">&#8594;</span>
+        <span class="offer__price-anchor-label">por apenas</span>
+      </div>
+      <div class="offer__price offer__price--highlight">
+        <span class="offer__price-num"><span class="offer__price-rs">R$</span><span class="offer__price-int">37</span><span class="offer__price-dec">,90</span></span>
+        <span class="offer__price-note">à vista no Pix<br>ou 12x no cartão de R$ 3,15</span>
+      </div>
+      <p style="font-family:'Barlow Condensed',sans-serif; font-size:clamp(17px,2.5vw,22px); color:var(--terracota-d); text-align:center; margin-bottom:8px; line-height:1.5;">Você não está tentando de menos.<br/>Está tentando sem saber o que falta.</p>
+      <p style="font-family:'DM Sans',sans-serif; font-size:clamp(13px,1.8vw,15px); color:var(--terracota); text-align:center; margin-bottom:20px; font-weight:500;">Cada mês sem método é mais um mês acumulando orientações que não chegam lá sozinhas.</p>
+      <ul class="offer__items">
+        <li class="offer__item">
+          <div class="offer__item-trigger">
+            <span class="offer__item-name">Ciclo Fértil</span>
+            <span class="offer__item-value">R$ 97,00</span>
+          </div>
+          <div class="offer__item-body">
+            <ul class="offer__item-bullets">
+              <li>Corpo: o que preparar no seu organismo antes mesmo de tentar de novo</li>
+              <li>Ciclo: como identificar sua janela fértil real e ler os sinais do corpo</li>
+              <li>Ambiente: o que está ao seu redor sabotando seus hormônios</li>
+              <li>Mente: a conexão entre estresse, cortisol e ovulação</li>
+            </ul>
+          </div>
+        </li>
+        <li class="offer__item">
+          <div class="offer__item-trigger">
+            <span class="offer__item-name">Bônus Receitas Férteis</span>
+            <span class="offer__item-value">R$ 37,00</span>
+          </div>
+          <div class="offer__item-body">
+            <ul class="offer__item-bullets">
+              <li>7 receitas simples com até 4 ingredientes e menos de 10 minutos de preparo</li>
+              <li>4 chás validados pela ciência para equilibrar os hormônios</li>
+              <li>Tudo com ingredientes baratos e fáceis de encontrar em qualquer mercado</li>
+            </ul>
+          </div>
+        </li>
+        <li class="offer__item">
+          <div class="offer__item-trigger">
+            <span class="offer__item-name">Bônus Diário do Ciclo</span>
+            <span class="offer__item-value">R$ 27,00</span>
+          </div>
+          <div class="offer__item-body">
+            <ul class="offer__item-bullets">
+              <li>Tabela de monitoramento diário com 35 dias por ciclo</li>
+              <li>Campos para temperatura basal, muco cervical, humor e sensações físicas</li>
+              <li>Página de resumo mensal para identificar padrões ao longo dos ciclos</li>
+            </ul>
+          </div>
+        </li>
+        <li class="offer__item">
+          <div class="offer__item-trigger">
+            <span class="offer__item-name">Bônus Rotinas Férteis</span>
+            <span class="offer__item-value">R$ 27,00</span>
+          </div>
+          <div class="offer__item-body">
+            <ul class="offer__item-bullets">
+              <li>15 hábitos organizados por manhã, dia, noite e semana</li>
+              <li>Planner semanal com checklist pronto para usar todo dia</li>
+              <li>Rotinas pensadas para a realidade de quem tem agenda corrida</li>
+            </ul>
+          </div>
+        </li>
+      </ul>
+      <!-- URGÊNCIA -->
+      <div style="display:flex; justify-content:center; margin-bottom:18px;">
+        <div id="oferta-timer" style="display:inline-flex; align-items:center; gap:8px; background:rgba(196,149,106,.14); border:1px solid rgba(196,149,106,.45); border-radius:999px; padding:6px 16px;">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#C0392B" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+          <span style="font-family:'DM Sans',sans-serif; font-size:12.5px; color:#C0392B; font-weight:600; letter-spacing:.01em;">Sua oferta expira em</span>
+          <span id="timer-display" style="font-family:'DM Sans',sans-serif; font-size:14.5px; font-weight:800; color:#C0392B; letter-spacing:.06em; font-variant-numeric:tabular-nums;">10:00</span>
+        </div>
+      </div>
+
+      <!-- AÇÃO -->
+      <a href="https://pay.celetus.com/E25YHME1" class="btn-cta" style="display:flex; align-items:center; justify-content:center; gap:12px; text-align:center;" onclick="ttq.track('InitiateCheckout',{contents:[{content_id:'protocolo-ciclo-fertil',content_type:'product',content_name:'Protocolo Ciclo Fértil'}],value:37.90,currency:'BRL'})">
+        Quero meu positivo
+        <span class="btn-cta__arrow" aria-hidden="true">&#8594;</span>
+      </a>
+
+      <!-- SEGURANÇA -->
+      <div class="offer__guarantee" style="flex-direction:column; justify-content:center; align-items:center; text-align:center; gap:10px; opacity:1; margin-top:24px; background:#FFFDF8; border:1px solid rgba(196,149,106,.28); border-radius:14px; padding:18px 20px;">
+        <img src="/Images/selo-garantia-7dias-fita.webp" alt="Selo de garantia de 7 dias" width="55" height="52" style="height:56px; width:auto; flex-shrink:0;" loading="lazy">
+        <span style="font-size:13.5px; line-height:1.5;"><strong>Garantia de 7 dias.</strong> Não gostou? Devolvemos 100% do valor, sem perguntas.</span>
+      </div>
+
+      <!-- BANDEIRAS DE PAGAMENTO -->
+      <div class="pay-row">
+        <img src="/Images/visa.webp" alt="Visa" class="pay-logo" loading="lazy">
+        <img src="/Images/mastercard.webp" alt="Mastercard" class="pay-logo" loading="lazy">
+        <img src="/Images/elo.webp" alt="Elo" class="pay-logo" loading="lazy">
+        <img src="/Images/paypal.webp" alt="PayPal" class="pay-logo" loading="lazy">
+      </div>
+
+      <!-- SELOS DE CONFIANÇA -->
+      <div class="trust-row">
+        <span class="trust-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v6c0 5-3.5 7.5-7 9-3.5-1.5-7-4-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg>Compra Segura</span>
+        <span class="trust-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="5.5"/><path d="M9.6 8l1.6 1.6 3.2-3.2"/><path d="M8.5 12.8L7 21l5-2.6 5 2.6-1.5-8.2"/></svg>Satisfação Garantida</span>
+        <span class="trust-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>Privacidade Protegida</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ FAQ ════════════════════════════════════════════════════════ -->
+<section class="faq">
+  <div class="container">
+    <span class="section-eyebrow">Dúvidas frequentes</span>
+    <h2 class="section-title">Ainda com dúvidas sobre o método?</h2>
+    <div class="faq__list">
+      <div class="faq__item">
+        <button class="faq__question" onclick="toggleFaq(this)">
+          Mas será que só informação resolve?
+          <span class="faq__toggle">+</span>
+        </button>
+        <div class="faq__answer">Não é um e-book para ler e guardar. É um método com passos concretos: o que comer para equilibrar os hormônios, como identificar os dias certos do seu ciclo, o que tirar do ambiente que está sabotando sua fertilidade sem você saber. Quem segue como proposto chega ao final de 30 dias com ciclo regulado, janela fértil identificada e o corpo mais preparado que já esteve para receber o positivo.</div>
+      </div>
+      <div class="faq__item">
+        <button class="faq__question" onclick="toggleFaq(this)">
+          Já tentei de tudo e não funcionou...
+          <span class="faq__toggle">+</span>
+        </button>
+        <div class="faq__answer">Provavelmente você acumulou orientações que chegaram separadas, sem sequência. Elas não estão erradas. Estão incompletas. A maioria das mulheres que tentam nunca teve acesso à parte que faltava. Não é falta de esforço. É falta de método.</div>
+      </div>
+      <div class="faq__item">
+        <button class="faq__question" onclick="toggleFaq(this)">
+          Vale mesmo a pena investir nisso?
+          <span class="faq__toggle">+</span>
+        </button>
+        <div class="faq__answer">O problema nunca foi dinheiro. Foi acesso à informação certa. E com 7 dias de garantia total, você não tem absolutamente nada a perder. Testa, aplica, e só decide depois.</div>
+      </div>
+      <div class="faq__item">
+        <button class="faq__question" onclick="toggleFaq(this)">
+          Não tenho tempo para seguir um método...
+          <span class="faq__toggle">+</span>
+        </button>
+        <div class="faq__answer">O método não exige rotina nova. Você ajusta o que já faz: o que come, como dorme, o que observa no corpo. Os passos principais levam menos de 5 minutos por dia. Se você tem tempo para tentar, tem tempo para tentar certo.</div>
+      </div>
+      <div class="faq__item">
+        <button class="faq__question" onclick="toggleFaq(this)">
+          Serve para quem faz FIV/inseminação?
+          <span class="faq__toggle">+</span>
+        </button>
+        <div class="faq__answer">Sim. O método prepara o ambiente interno do corpo, o que é benéfico independente do caminho escolhido. Mulheres em processo de FIV relatam que chegaram mais preparadas após aplicar o método.</div>
+      </div>
+      <div class="faq__item">
+        <button class="faq__question" onclick="toggleFaq(this)">
+          Como recebo o material?
+          <span class="faq__toggle">+</span>
+        </button>
+        <div class="faq__answer">O acesso é 100% digital e imediato. Após a confirmação do pagamento, você recebe o link de acesso direto no seu e-mail. Sem espera, sem frete.</div>
+      </div>
+      <div class="faq__item">
+        <button class="faq__question" onclick="toggleFaq(this)">
+          Tenho suporte em caso de dúvidas?
+          <span class="faq__toggle">+</span>
+        </button>
+        <div class="faq__answer">Sim. Se tiver qualquer dúvida sobre o material ou como aplicar, é só mandar um e-mail para metodociclofertil@gmail.com. A resposta chega em até 48 horas úteis. Você não vai ficar sozinha nisso.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<!-- ══ FOOTER ═════════════════════════════════════════════════════ -->
+<footer>
+  <div class="container text-center">
+    <p>© 2026 Ciclo Fértil. Todos os direitos reservados.</p>
+    <p style="margin-top:6px"><a href="#">Política de Privacidade</a> · <a href="#">Termos de Uso</a> · <a href="#">Suporte</a></p>
+    <p style="margin-top:12px; max-width:500px; margin-left:auto; margin-right:auto">Este produto é um guia educativo digital. Não substitui diagnóstico, orientação ou tratamento médico. Consulte sempre um profissional de saúde qualificado.</p>
+  </div>
+</footer>
+
+<script>
+  // ── OFFER ACCORDION ──────────────────────────────────────────────
+  function toggleOfferItem(btn) {
+    const item = btn.closest('.offer__item');
+    const isOpen = item.classList.contains('open');
+    item.classList.toggle('open', !isOpen);
+    btn.setAttribute('aria-expanded', String(!isOpen));
+  }
+
+  // ── CARROSSEL DEPOIMENTOS (auto-rotação) ──────────────────────
+  (function() {
+    const grid = document.querySelector('.testimonials__grid');
+    const dots = document.getElementById('testimonialDots');
+    const dotBtns = dots ? dots.querySelectorAll('.testimonial-dot') : [];
+    let currentIdx = 0;
+
+    function getCards() { return grid ? grid.querySelectorAll('.testimonial-card') : []; }
+
+    function setActive(i) {
+      dotBtns.forEach((d, k) => d.classList.toggle('active', k === i));
+    }
+
+    function goToCard(idx) {
+      const cards = getCards();
+      if (!cards.length) return;
+      currentIdx = ((idx % cards.length) + cards.length) % cards.length;
+      const card = cards[currentIdx];
+      const gr = grid.getBoundingClientRect();
+      const cr = card.getBoundingClientRect();
+      const target = grid.scrollLeft + (cr.left - gr.left) - (gr.width - cr.width) / 2;
+      const max = grid.scrollWidth - grid.clientWidth;
+      grid.scrollTo({ left: Math.max(0, Math.min(target, max)), behavior: 'smooth' });
+      setActive(currentIdx);
+    }
+
+    if (dots) dots.style.display = 'flex';
+    window.scrollToCard = function(idx) { lastInteract = Date.now(); goToCard(idx); };
+
+    // pausa a auto-rotação por alguns segundos quando o usuário interage
+    let lastInteract = 0;
+    ['touchstart', 'pointerdown', 'wheel'].forEach(function(ev) {
+      grid.addEventListener(ev, function() { lastInteract = Date.now(); }, { passive: true });
+    });
+
+    // sincroniza os dots quando o usuário desliza manualmente
+    let scrollSync;
+    grid.addEventListener('scroll', function() {
+      clearTimeout(scrollSync);
+      scrollSync = setTimeout(function() {
+        const cards = getCards();
+        if (!cards.length) return;
+        const gr = grid.getBoundingClientRect();
+        const center = gr.left + gr.width / 2;
+        let best = 0, bestDist = Infinity;
+        cards.forEach(function(c, i) {
+          const r = c.getBoundingClientRect();
+          const d = Math.abs((r.left + r.width / 2) - center);
+          if (d < bestDist) { bestDist = d; best = i; }
+        });
+        currentIdx = best;
+        setActive(best);
+      }, 120);
+    }, { passive: true });
+
+    // auto-rotação vai-e-volta (sem pulo do fim pro início)
+    let dir = 1;
+    setInterval(function() {
+      if (Date.now() - lastInteract < 6000) return;
+      const cards = getCards();
+      if (cards.length < 2) return;
+      if (currentIdx >= cards.length - 1) dir = -1;
+      else if (currentIdx <= 0) dir = 1;
+      goToCard(currentIdx + dir);
+    }, 3500);
+  })();
+
+  // ── FAQ TOGGLE ────────────────────────────────────────────────
+  function toggleFaq(btn) {
+    const item = btn.closest('.faq__item');
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq__item.open').forEach(el => el.classList.remove('open'));
+    if (!isOpen) item.classList.add('open');
+  }
+
+  // ── SCROLL REVEAL ─────────────────────────────────────────────
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.style.opacity = '1';
+        e.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.pillar-card, .pain__item, .learns__item, .testimonial-card, .avatar__check').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(24px)';
+    el.style.transition = 'opacity .6s ease, transform .6s ease';
+    observer.observe(el);
+  });
+
+  // Animação de entrada do preço
+  const priceEl = document.querySelector('.offer__price--highlight');
+  if (priceEl) {
+    const priceObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          priceEl.style.animation = 'price-reveal 0.6s ease forwards';
+          priceObserver.unobserve(priceEl);
+        }
+      });
+    }, { threshold: 0.5 });
+    priceObserver.observe(priceEl);
+  }
+</script>
+<!-- Microsoft Clarity -->
+<script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "w4kf2gdmt9");
+</script>
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '2312041769604428');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=2312041769604428&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+<!-- TikTok Pixel Code Start -->
+<script>
+!function (w, d, t) {
+  w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];ttq.methods=["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie","holdConsent","revokeConsent","grantConsent"],ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}};for(var i=0;i<ttq.methods.length;i++)ttq.setAndDefer(ttq,ttq.methods[i]);ttq.instance=function(t){for(
+var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n]);return e},ttq.load=function(e,n){var r="https://analytics.tiktok.com/i18n/pixel/events.js",o=n&&n.partner;ttq._i=ttq._i||{},ttq._i[e]=[],ttq._i[e]._u=r,ttq._t=ttq._t||{},ttq._t[e]=+new Date,ttq._o=ttq._o||{},ttq._o[e]=n||{};n=document.createElement("script")
+;n.type="text/javascript",n.async=!0,n.src=r+"?sdkid="+e+"&lib="+t;e=document.getElementsByTagName("script")[0];e.parentNode.insertBefore(n,e)};
+  ttq.load('D8296KJC77U6I10KI2UG');
+  ttq.page();
+  ttq.track('ViewContent', {
+    contents: [
+      {
+        content_id: 'protocolo-ciclo-fertil',
+        content_type: 'product',
+        content_name: 'Protocolo Ciclo Fértil'
+      }
+    ],
+    value: 37.90,
+    currency: 'BRL'
+  });
+}(window, document, 'ttq');
+</script>
+<!-- TikTok Pixel Code End -->
+
+<script>
+(function(){
+  const imgs = document.querySelectorAll('.autoprint-img');
+  const dots = document.querySelectorAll('.autoprint-dot');
+  if(!imgs.length) return;
+  let current = 0;
+  setInterval(function(){
+    imgs[current].classList.remove('active');
+    dots[current].classList.remove('active');
+    current = (current + 1) % imgs.length;
+    imgs[current].classList.add('active');
+    dots[current].classList.add('active');
+  }, 3000);
+})();
+
+  // ── TIMER OFERTA ─────────────────────────────────────────────────
+  (function() {
+    const display = document.getElementById('timer-display');
+    if (!display) return;
+    let total = 10 * 60; // 10 minutos em segundos
+    function update() {
+      const m = Math.floor(total / 60);
+      const s = total % 60;
+      display.textContent = String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
+      if (total > 0) total--;
+    }
+    update();
+    setInterval(update, 1000);
+  })();
+</script>
+<script>
+  // ── VÍDEO HERO: imagem por padrão, vídeo só aparece quando confirma que está rodando ───
+  (function() {
+    var video    = document.getElementById('hero-video');
+    var fallback = document.getElementById('hero-fallback');
+    if (!video || !fallback) return;
+    video.addEventListener('playing', function() {
+      video.classList.add('playing');
+      fallback.style.display = 'none';
+    });
+    function tryPlay() {
+      var p = video.play();
+      if (p !== undefined) p.catch(function() {
+        setTimeout(function() { video.play().catch(function() {}); }, 350);
+      });
+    }
+    function startVideo() {
+      if (video.src || !video.dataset.src) return;
+      video.src = video.dataset.src;
+      video.load();
+      tryPlay();
+    }
+    // começa o vídeo logo após a 1ª pintura (não espera todas as imagens)
+    function kick() { requestAnimationFrame(startVideo); }
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', kick);
+    } else {
+      kick();
+    }
+    // se o autoplay foi bloqueado e a aba volta ao foco, tenta de novo
+    document.addEventListener('visibilitychange', function() {
+      if (!document.hidden && video.src && video.paused) tryPlay();
+    });
+  })();
+</script>
+</body>
+</html>

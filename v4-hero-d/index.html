@@ -2622,7 +2622,10 @@ var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n
     if (!video || !fallback) return;
     video.addEventListener('playing', function() {
       video.classList.add('playing');
-      fallback.style.display = 'none';
+    });
+    // rede de seguranca: se o video travar/pausar/der erro, mostra a imagem de novo
+    ['pause','stalled','error','waiting'].forEach(function(ev) {
+      video.addEventListener(ev, function() { video.classList.remove('playing'); });
     });
     function tryPlay() {
       var p = video.play();

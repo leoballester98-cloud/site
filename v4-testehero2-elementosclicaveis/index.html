@@ -1999,12 +1999,10 @@
 <!-- ══ MARQUEE / TIRA ════════════════════════════════════════════ -->
 <div class="marquee" aria-hidden="true">
   <div class="marquee__track">
-    <div class="marquee__chip"><span>✦</span>Sem adivinhar o dia</div>
     <div class="marquee__chip"><span>✦</span>Chega de "é só relaxar"</div>
     <div class="marquee__chip"><span>✦</span>Método, não sorte</div>
     <div class="marquee__chip"><span>✦</span>Ler os sinais do corpo</div>
     <div class="marquee__chip"><span>✦</span>1 passo por semana</div>
-    <div class="marquee__chip"><span>✦</span>Sem adivinhar o dia</div>
     <div class="marquee__chip"><span>✦</span>Chega de "é só relaxar"</div>
     <div class="marquee__chip"><span>✦</span>Método, não sorte</div>
     <div class="marquee__chip"><span>✦</span>Ler os sinais do corpo</div>
@@ -2013,24 +2011,6 @@
 </div>
 
 <!-- ══ DOR ════════════════════════════════════════════════════════ -->
-<!-- ══ PROVA SOCIAL ABERTURA ═══════════════════════════════════════ -->
-<section class="social-proof-opener">
-  <div class="container--wide">
-    <h2 class="section-title" style="text-align:center; margin-bottom:24px; font-size:clamp(25px,4vw,34px); font-weight:600;">E não foi só você. <span class="word-hl brush-underline">Milhares travaram</span> fazendo tudo certo.</h2>
-    <div class="autoprint-wrap" id="autoprint">
-      <img class="autoprint-img active" src="/Images/b1.png?v=2" alt="Depoimento WhatsApp"/>
-      <img class="autoprint-img" src="/Images/b2.png?v=2" alt="Depoimento WhatsApp"/>
-      <img class="autoprint-img" src="/Images/b4.png?v=2" alt="Depoimento WhatsApp"/>
-      <img class="autoprint-img" src="/Images/b6.png?v=2" alt="Depoimento WhatsApp"/>
-      <div class="autoprint-dots">
-        <span class="autoprint-dot active"></span>
-        <span class="autoprint-dot"></span>
-        <span class="autoprint-dot"></span>
-        <span class="autoprint-dot"></span>
-      </div>
-    </div>
-  </div>
-</section>
 
 <!-- ══ REVELAÇÃO ══════════════════════════════════════════════════ -->
 <section class="reveal">
@@ -2146,7 +2126,7 @@
         <div class="insight-card__icon">
           <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="ic3" x1="24" y1="8" x2="40" y2="56" gradientUnits="userSpaceOnUse"><stop stop-color="#DEAE7C"/><stop offset="1" stop-color="#A85D28"/></linearGradient></defs><ellipse cx="32" cy="59" rx="12" ry="3" fill="#2B1A10" opacity=".14"/><path d="M27 12a5 5 0 0 1 10 0v23a10 10 0 1 1-10 0V12Z" fill="#F5EFE6" stroke="url(#ic3)" stroke-width="3"/><circle cx="32" cy="45" r="7.5" fill="url(#ic3)"/><rect x="30.5" y="22" width="3" height="20" rx="1.5" fill="url(#ic3)"/></svg>
         </div>
-        <p>Como ler a sua temperatura pra confirmar a ovulação, e o erro de horário que estraga a medição.</p>
+        <p>Como ler a sua temperatura pra confirmar a ovulação.</p>
       </div>
       <div class="insight-card">
         <div class="insight-card__icon">
@@ -2655,9 +2635,9 @@ var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n
   (function () {
     function scrollTo(sel) { var t = document.querySelector(sel); if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
     var hint = document.querySelector('.hero__scroll-hint');
-    if (hint) { hint.style.cursor = 'pointer'; hint.addEventListener('click', function () { scrollTo('.social-proof-opener'); }); }
+    if (hint) { hint.style.cursor = 'pointer'; hint.addEventListener('click', function () { scrollTo('.reveal'); }); }
     var mq = document.querySelector('.marquee');
-    if (mq) { mq.style.cursor = 'pointer'; mq.addEventListener('click', function () { scrollTo('.social-proof-opener'); }); }
+    if (mq) { mq.style.cursor = 'pointer'; mq.addEventListener('click', function () { scrollTo('.reveal'); }); }
     var dep = document.querySelector('.testimonials__eyebrow');
     if (dep) { dep.style.cursor = 'pointer'; dep.addEventListener('click', function () { scrollTo('#oferta'); }); }
   })();

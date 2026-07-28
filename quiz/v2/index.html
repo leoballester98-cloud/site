@@ -1046,20 +1046,32 @@ const history = ['s1'];
 const SESSAO_ID = Math.random().toString(36).substring(2, 12) + Date.now().toString(36);
 const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw6j1DpOblCmFmBeEGQtikD-r4ZQJYxOrsqyWUOGCWS/exec';
 
+// Envia o ping de rastreamento de forma confiável (sobrevive à navegação,
+// não é bloqueado como pixel de imagem em navegadores internos de app/iOS).
+function pingApps_(url) {
+  try {
+    if (window.fetch) {
+      fetch(url, { method: 'GET', mode: 'no-cors', keepalive: true, cache: 'no-store' });
+      return;
+    }
+  } catch (e) {}
+  try { new Image().src = url; } catch (e) {}
+}
+
 function trackEtapa(n, name) {
   if (typeof fbq !== 'undefined') fbq('trackCustom', 'QuizEtapa', { etapa: n, nome: name });
-  if (APPS_SCRIPT_URL) new Image().src = APPS_SCRIPT_URL + '?sessao=' + SESSAO_ID + '&etapa=' + n;
+  if (APPS_SCRIPT_URL) pingApps_(APPS_SCRIPT_URL + '?sessao=' + SESSAO_ID + '&etapa=' + n);
 }
 
 function trackCheckout() {
   if (typeof fbq !== 'undefined') fbq('track', 'InitiateCheckout');
-  if (APPS_SCRIPT_URL) new Image().src = APPS_SCRIPT_URL + '?sessao=' + SESSAO_ID + '&etapa=35';
+  if (APPS_SCRIPT_URL) pingApps_(APPS_SCRIPT_URL + '?sessao=' + SESSAO_ID + '&etapa=35');
 }
 
 function enviarRespostas() {
   if (!APPS_SCRIPT_URL) return;
   const payload = encodeURIComponent(JSON.stringify(answers));
-  new Image().src = APPS_SCRIPT_URL + '?action=respostas&sessao=' + SESSAO_ID + '&data=' + payload;
+  pingApps_(APPS_SCRIPT_URL + '?action=respostas&sessao=' + SESSAO_ID + '&data=' + payload);
 }
 
 const ICONS = {

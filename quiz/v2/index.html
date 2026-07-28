@@ -1044,18 +1044,20 @@ answers.libidoDays = 0; // s22 aceita 0 como resposta válida ("se não percebe,
 const history = ['s1'];
 
 const SESSAO_ID = Math.random().toString(36).substring(2, 12) + Date.now().toString(36);
-const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw6j1DpOblCmFmBeEGQtikD-r4ZQJYxOrsqyWUOGCWS/exec';
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxl0S5SWEEEBU_hb6w8p678QXYf1I9FCAXhMYvZp9gOraH8NHNkcvrOhiOTX8G92ibGkA/exec';
 
-// Envia o ping de rastreamento de forma confiável (sobrevive à navegação,
-// não é bloqueado como pixel de imagem em navegadores internos de app/iOS).
+// Envia o ping de rastreamento por dois caminhos independentes pra maximizar
+// a entrega em navegadores internos de app (Instagram/Facebook/iOS), onde o
+// fetch pode falhar: pixel de imagem (mais robusto em webview) + fetch keepalive
+// (sobrevive à navegação no clique de compra). O dashboard deduplica por sessão,
+// então disparar os dois não distorce as métricas.
 function pingApps_(url) {
+  try { new Image().src = url; } catch (e) {}
   try {
     if (window.fetch) {
       fetch(url, { method: 'GET', mode: 'no-cors', keepalive: true, cache: 'no-store' });
-      return;
     }
   } catch (e) {}
-  try { new Image().src = url; } catch (e) {}
 }
 
 function trackEtapa(n, name) {

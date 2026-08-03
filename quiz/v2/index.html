@@ -1644,7 +1644,7 @@ function showIQO() {
   function cap(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
 
   if (vermelhos.length >= 2) {
-    dtitle = titulosFortes[vermelhos[0].key];
+    dtitle = titulosFortes[vermelhos[0].key] + ' e ' + titulosFortes[vermelhos[1].key];
     dtext = 'Seu ciclo está sendo bloqueado em mais de uma frente. O que está travando você agora: '
       + vermelhos[0].frase + '. ' + cap(vermelhos[1].frase)
       + '. O plano ataca esses dois pontos nos primeiros 14 dias.';

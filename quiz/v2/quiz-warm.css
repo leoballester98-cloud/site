@@ -3291,8 +3291,8 @@ button:focus-visible, .row-card:focus-visible, .simple-opt:focus-visible,
   margin-top: 0;
   margin-bottom: 6px;
 }
-#s25 .stat-rows { gap: 6px; }
-#s25 .section-heading { margin-top: 2px; margin-bottom: 6px; font-size: 17px; }
+#s25 .stat-rows { gap: 5px; }
+#s25 .section-heading { margin-top: 0; margin-bottom: 4px; font-size: 17px; }
 @media (max-width: 480px) {
   /* sem a imagem lateral: linhas em largura cheia, tudo acima da dobra */
   #s25 .imgbox--resume { display: none; }
@@ -3346,17 +3346,21 @@ button:focus-visible, .row-card:focus-visible, .simple-opt:focus-visible,
   align-self: center;
 }
 #s25 .imc-gauge {
-  margin-top: 16px;
-  margin-bottom: 4px;
+  margin-top: 12px;
+  margin-bottom: 2px;
 }
 #s25 .imc-card {
-  padding-bottom: 6px;
-  margin-bottom: 4px;
+  padding-top: 6px;
+  padding-bottom: 4px;
+  margin-bottom: 2px;
 }
 #s25 .alert-box {
-  margin-top: 6px;
-  padding-top: 10px;
-  padding-bottom: 10px;
+  margin-top: 4px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+#s25 .alert-box__title {
+  margin-bottom: 2px;
 }
 #s25 .imc-gauge__tooltip {
   top: -24px;

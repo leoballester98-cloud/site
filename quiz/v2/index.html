@@ -530,8 +530,8 @@
             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 4a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm-2 16v-7H5l3.5-7h7L19 13h-5v7h-4z"/></svg>
           </span>
           <div class="stat-row__body">
-            <div class="stat-row__label">Sinais do ciclo</div>
-            <div class="stat-row__value" id="resumeLifestyle">Invisíveis</div>
+            <div class="stat-row__label">Ciclo</div>
+            <div class="stat-row__value" id="resumeLifestyle">Invisível</div>
           </div>
         </div>
         <div class="stat-row">
@@ -539,8 +539,8 @@
             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M14 14.76V3.5a2.5 2.5 0 0 0-5 0v11.26a4.5 4.5 0 1 0 5 0zM11 5a.5.5 0 0 1 1 0v9.55a3 3 0 1 1-2 0V8h1V5z"/></svg>
           </span>
           <div class="stat-row__body">
-            <div class="stat-row__label">Emocional</div>
-            <div class="stat-row__value" id="resumeCare">Sobrecarregado</div>
+            <div class="stat-row__label">Hormônios</div>
+            <div class="stat-row__value" id="resumeCare">Desregulados</div>
           </div>
         </div>
         <div class="stat-row">
@@ -548,8 +548,8 @@
             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8 5 6 9 6 13a6 6 0 0 0 12 0c0-4-2-8-6-11zm0 17a4 4 0 0 1-4-4c0-2 1-4 2-5 1 1 1 2 1 3a2 2 0 0 0 4 0c0-1 0-2 1-3 1 1 2 3 2 5a4 4 0 0 1-4 4z"/></svg>
           </span>
           <div class="stat-row__body">
-            <div class="stat-row__label">Estado do organismo</div>
-            <div class="stat-row__value" id="resumeActivity">Inflamado</div>
+            <div class="stat-row__label">Inflamação</div>
+            <div class="stat-row__value" id="resumeActivity">Alta</div>
           </div>
         </div>
         <div class="stat-row">
@@ -557,8 +557,8 @@
             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
           </span>
           <div class="stat-row__body">
-            <div class="stat-row__label">Propósito e Crença</div>
-            <div class="stat-row__value" id="resumeFaith">Fragilizado</div>
+            <div class="stat-row__label">Emocional</div>
+            <div class="stat-row__value" id="resumeFaith">Sobrecarregado</div>
           </div>
         </div>
       </div>
@@ -1619,10 +1619,10 @@ function showIQO() {
 
   // Identifica os 2 fatores mais fracos
   const fatoresIQO = [
-    { key: 'f1', score: fators.f1, frase: 'seus sinais do ciclo ainda são invisíveis' },
-    { key: 'f2', score: fators.f2, frase: 'seu estado emocional está sobrecarregado' },
-    { key: 'f3', score: fators.f3, frase: 'seu organismo mostra sinais de inflamação' },
-    { key: 'f4', score: fators.f4, frase: 'sua crença e propósito estão fragilizados' },
+    { key: 'f1', score: fators.f1, frase: 'os sinais do seu ciclo ainda estão invisíveis' },
+    { key: 'f2', score: fators.f2, frase: 'seus hormônios estão desregulados' },
+    { key: 'f3', score: fators.f3, frase: 'sua inflamação está alta' },
+    { key: 'f4', score: fators.f4, frase: 'seu emocional está sobrecarregado' },
   ];
   fatoresIQO.sort(function(a, b) { return a.score - b.score; });
   const piores = fatoresIQO.slice(0, 2);
@@ -1630,9 +1630,9 @@ function showIQO() {
   // Título baseado no fator mais fraco
   const titulos = {
     f1: nlc < 44 ? 'Ciclo Invisível' : 'Ciclo Parcialmente Lido',
-    f2: nlc < 44 ? 'Bloqueio Emocional Crítico' : 'Fator Emocional Ativo',
-    f3: nlc < 44 ? 'Organismo Sobrecarregado' : 'Organismo em Alerta',
-    f4: nlc < 44 ? 'Propósito Fragilizado' : 'Conexão em Construção',
+    f2: nlc < 44 ? 'Hormônios Desregulados' : 'Hormônios em Alerta',
+    f3: nlc < 44 ? 'Inflamação Alta' : 'Inflamação em Alerta',
+    f4: nlc < 44 ? 'Sobrecarga Emocional Crítica' : 'Emocional em Alerta',
   };
   dtitle = titulos[piores[0].key];
 
@@ -1650,22 +1650,34 @@ function showIQO() {
   diagText.textContent = dtext;
 
   // Personalize stat rows — baseadas nos 4 fatores IQO (fators já declarado acima)
+  // Nota + palavra por dimensão. Cores: verde >=75, âmbar 45-74, vermelho <45.
+  function statRowHTML(score, word) {
+    const n = Math.round(score);
+    const cor = n >= 75 ? '#4a7c59' : n >= 45 ? '#b8860b' : '#c0392b';
+    return '<b style="color:' + cor + ';">' + n + '/100</b> · ' + word;
+  }
 
-  // Row 1: Sinais do ciclo (F1)
+  // Row 1: Ciclo (F1)
   const r1 = document.getElementById('resumeLifestyle');
-  if (r1) r1.textContent = fators.f1 >= 75 ? 'Identificado' : fators.f1 >= 45 ? 'Parcialmente lido' : 'Invisíveis';
+  if (r1) r1.innerHTML = statRowHTML(fators.f1, fators.f1 >= 75 ? 'Identificado' : fators.f1 >= 45 ? 'Parcialmente lido' : 'Invisível');
 
-  // Row 2: Emocional (F2)
+  // Row 2: Hormônios (F2 — estresse, sono, humor: eixo do cortisol)
   const r2 = document.getElementById('resumeCare');
-  if (r2) r2.textContent = fators.f2 >= 75 ? 'Equilibrado' : fators.f2 >= 45 ? 'Oscilando' : 'Sobrecarregado';
+  if (r2) r2.innerHTML = statRowHTML(fators.f2, fators.f2 >= 75 ? 'Equilibrados' : fators.f2 >= 45 ? 'Oscilando' : 'Desregulados');
 
-  // Row 3: Estado do organismo (F3)
+  // Row 3: Inflamação (F3 — organismo). Escala invertida na exibição:
+  // f3 alto = organismo saudável = inflamação BAIXA (verde).
   const r3 = document.getElementById('resumeActivity');
-  if (r3) r3.textContent = fators.f3 >= 75 ? 'Estável' : fators.f3 >= 45 ? 'Em alerta' : 'Inflamado';
+  if (r3) {
+    const inflam = Math.round(100 - fators.f3);
+    const corInf = inflam <= 25 ? '#4a7c59' : inflam <= 55 ? '#b8860b' : '#c0392b';
+    const wordInf = fators.f3 >= 75 ? 'Controlada' : fators.f3 >= 45 ? 'Em alerta' : 'Alta';
+    r3.innerHTML = '<b style="color:' + corInf + ';">' + inflam + '/100</b> · ' + wordInf;
+  }
 
-  // Row 4: Propósito e Crença (F4)
+  // Row 4: Emocional (F4 — apoio, propósito, culpa)
   const r4 = document.getElementById('resumeFaith');
-  if (r4) r4.textContent = fators.f4 >= 75 ? 'Forte' : fators.f4 >= 45 ? 'Oscilando' : 'Fragilizado';
+  if (r4) r4.innerHTML = statRowHTML(fators.f4, fators.f4 >= 75 ? 'Equilibrado' : fators.f4 >= 45 ? 'Oscilando' : 'Sobrecarregado');
   // window.__iqo já foi salvo com o valor raw no início da função
 }
 

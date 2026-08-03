@@ -3292,13 +3292,29 @@ button:focus-visible, .row-card:focus-visible, .simple-opt:focus-visible,
   padding-top: 12px;
   padding-bottom: 12px;
 }
+#s25 .alert-box__title {
+  font-size: 16px;
+}
 #s25 .alert-box__text {
-  font-size: 11px;
-  line-height: 1.45;
+  font-size: 14px;
+  line-height: 1.55;
 }
 #s25 .stat-row__value {
-  font-size: 13px;
+  font-size: 14px;
 }
+/* Ícones no estilo da página de vendas: círculo colorido + glifo claro */
+#s25 .stat-row__icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  color: #fdf6ee;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.18);
+}
+#s25 .stat-row__icon svg { width: 55%; height: 55%; }
+#s25 .stat-row:nth-child(1) .stat-row__icon { background: #b0764a; }
+#s25 .stat-row:nth-child(2) .stat-row__icon { background: #5d7a52; }
+#s25 .stat-row:nth-child(3) .stat-row__icon { background: #c9a97a; }
+#s25 .stat-row:nth-child(4) .stat-row__icon { background: #c05b4d; }
 #s25 .imgbox--resume {
   height: 122px;
 }

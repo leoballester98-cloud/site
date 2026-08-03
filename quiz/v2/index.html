@@ -1617,33 +1617,47 @@ function showIQO() {
   let dtitle, dtext;
   const fators = window.__iqoFactors || { f1: 0, f2: 0, f3: 0, f4: 0 };
 
-  // Identifica os 2 fatores mais fracos
+  // O box só cita dimensões em VERMELHO (score < 45), alinhado com as notas.
+  // Vermelho: score < 45 (na inflamação equivale à exibição invertida > 55).
   const fatoresIQO = [
-    { key: 'f1', score: fators.f1, frase: 'os sinais do seu ciclo ainda estão invisíveis' },
-    { key: 'f2', score: fators.f2, frase: 'seus hormônios estão desregulados' },
-    { key: 'f3', score: fators.f3, frase: 'sua inflamação está alta' },
-    { key: 'f4', score: fators.f4, frase: 'seu emocional está sobrecarregado' },
+    { key: 'f1', score: fators.f1, frase: 'os sinais do seu ciclo ainda estão invisíveis', fraseLeve: 'a leitura dos sinais do seu ciclo ainda é parcial' },
+    { key: 'f2', score: fators.f2, frase: 'seus hormônios estão desregulados', fraseLeve: 'seus hormônios ainda oscilam' },
+    { key: 'f3', score: fators.f3, frase: 'sua inflamação está alta', fraseLeve: 'sua inflamação está em alerta' },
+    { key: 'f4', score: fators.f4, frase: 'seu emocional está sobrecarregado', fraseLeve: 'seu emocional ainda oscila' },
   ];
   fatoresIQO.sort(function(a, b) { return a.score - b.score; });
-  const piores = fatoresIQO.slice(0, 2);
+  const vermelhos = fatoresIQO.filter(function(f) { return f.score < 45; });
 
-  // Título baseado no fator mais fraco
-  const titulos = {
-    f1: nlc < 44 ? 'Ciclo Invisível' : 'Ciclo Parcialmente Lido',
-    f2: nlc < 44 ? 'Hormônios Desregulados' : 'Hormônios em Alerta',
-    f3: nlc < 44 ? 'Inflamação Alta' : 'Inflamação em Alerta',
-    f4: nlc < 44 ? 'Sobrecarga Emocional Crítica' : 'Emocional em Alerta',
+  const titulosFortes = {
+    f1: 'Ciclo Invisível',
+    f2: 'Hormônios Desregulados',
+    f3: 'Inflamação Alta',
+    f4: 'Sobrecarga Emocional Crítica',
   };
-  dtitle = titulos[piores[0].key];
+  const titulosLeves = {
+    f1: 'Ciclo Parcialmente Lido',
+    f2: 'Hormônios em Alerta',
+    f3: 'Inflamação em Alerta',
+    f4: 'Emocional em Alerta',
+  };
 
-  // Texto dinâmico com os 2 fatores mais fracos
-  const intro = nlc < 44
-    ? 'Seu ciclo está sendo bloqueado em mais de uma frente.'
-    : 'Você percebe alguns sinais — mas está perdendo justamente os que mais importam.';
-  dtext = intro + ' O que está travando você agora: '
-    + piores[0].frase + '. '
-    + piores[1].frase.charAt(0).toUpperCase() + piores[1].frase.slice(1)
-    + '. O plano ataca esses dois pontos nos primeiros 14 dias.';
+  function cap(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
+
+  if (vermelhos.length >= 2) {
+    dtitle = titulosFortes[vermelhos[0].key];
+    dtext = 'Seu ciclo está sendo bloqueado em mais de uma frente. O que está travando você agora: '
+      + vermelhos[0].frase + '. ' + cap(vermelhos[1].frase)
+      + '. O plano ataca esses dois pontos nos primeiros 14 dias.';
+  } else if (vermelhos.length === 1) {
+    dtitle = titulosFortes[vermelhos[0].key];
+    dtext = 'Seu ciclo está sendo travado principalmente em uma frente: '
+      + vermelhos[0].frase
+      + '. O plano ataca exatamente esse ponto nos primeiros 14 dias.';
+  } else {
+    dtitle = titulosLeves[fatoresIQO[0].key];
+    dtext = 'Nenhuma dimensão está crítica, mas ' + fatoresIQO[0].fraseLeve
+      + ' — e é isso que está segurando o seu resultado. O plano fortalece esse ponto nos primeiros 14 dias.';
+  }
 
   statusEl.innerHTML = 'normal acima de <b id="imcStatusVal">68</b>';
   diagTitle.textContent = dtitle;
@@ -1653,7 +1667,7 @@ function showIQO() {
   // Nota + palavra por dimensão. Cores: verde >=75, âmbar 45-74, vermelho <45.
   function statRowHTML(score, word) {
     const n = Math.round(score);
-    const cor = n >= 75 ? '#4a7c59' : n >= 45 ? '#b8860b' : '#c0392b';
+    const cor = n >= 45 ? '#4a7c59' : '#c0392b';
     return '<b style="color:' + cor + ';">' + n + '/100</b> · ' + word;
   }
 
@@ -1670,7 +1684,7 @@ function showIQO() {
   const r3 = document.getElementById('resumeActivity');
   if (r3) {
     const inflam = Math.round(100 - fators.f3);
-    const corInf = inflam <= 25 ? '#4a7c59' : inflam <= 55 ? '#b8860b' : '#c0392b';
+    const corInf = inflam <= 55 ? '#4a7c59' : '#c0392b';
     const wordInf = fators.f3 >= 75 ? 'Controlada' : fators.f3 >= 45 ? 'Em alerta' : 'Alta';
     r3.innerHTML = '<b style="color:' + corInf + ';">' + inflam + '/100</b> · ' + wordInf;
   }

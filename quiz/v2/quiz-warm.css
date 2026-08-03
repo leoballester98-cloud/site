@@ -3346,18 +3346,21 @@ button:focus-visible, .row-card:focus-visible, .simple-opt:focus-visible,
   align-self: center;
 }
 #s25 .imc-gauge {
-  margin-top: 12px;
-  margin-bottom: 2px;
+  margin-top: 26px; /* folga para o tooltip "Você N" não cobrir o cabeçalho */
+  margin-bottom: 0;
 }
 #s25 .imc-card {
-  padding-top: 6px;
-  padding-bottom: 4px;
-  margin-bottom: 2px;
+  padding-top: 4px;
+  padding-bottom: 2px;
+  margin-bottom: 0;
+}
+#s25 .imc-card__head {
+  margin-bottom: 4px;
 }
 #s25 .alert-box {
-  margin-top: 4px;
-  padding-top: 8px;
-  padding-bottom: 8px;
+  margin-top: 2px;
+  padding-top: 7px;
+  padding-bottom: 7px;
 }
 #s25 .alert-box__title {
   margin-bottom: 2px;

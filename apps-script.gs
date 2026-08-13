@@ -369,13 +369,26 @@ const CRIATIVOS_SHEET = 'Criativos';
 
 const CRIATIVOS_HEADERS = ['ad_id','anuncio','campanha','status','formato','angulo','hook','emocao','estrutura','arquetipo','segmentacao','amplificador','prova','gasto','impressoes','ctr_pct','hook_rate_pct','hold_rate_pct','views25_pct','lpv','custo_lpv','checkouts','custo_checkout','vendas','custo_venda','faturamento','roas','roi_pct','atualizado'];
 
-// preço do produto e o que sobra depois da taxa do checkout
-const PRECO_VENDA     = 37.90;
-const RECEITA_LIQUIDA = 33.50;
+// Faturamento vem do valor de compra que o Meta reporta (já inclui order bump).
+// PRECO_VENDA só é usado como reserva quando a API não devolve valor.
+const PRECO_VENDA   = 37.90;  // preço do produto principal
+const PRECO_BUMP    = 17.00;  // preço do order bump
+const LIQUIDO_VENDA = 33.50;  // o que cai na conta por venda do principal
+const LIQUIDO_BUMP  = 14.48;  // o que cai na conta por order bump
+
+/* Quantos bumps teve dá pra deduzir do valor total, porque os dois preços são fixos:
+   valor = vendas × 37,90 + bumps × 17,00  →  bumps = (valor − vendas × 37,90) ÷ 17,00 */
+function liquido_(faturamento, vendas) {
+  const f = Number(faturamento) || 0;
+  const v = Number(vendas) || 0;
+  if (!v) return 0;
+  const bumps = Math.max(0, Math.round((f - v * PRECO_VENDA) / PRECO_BUMP));
+  return v * LIQUIDO_VENDA + bumps * LIQUIDO_BUMP;
+}
 
 // aba só do robô: uma linha por anúncio por dia (base do filtro de data)
 const CRIATIVOS_DIARIO = 'Criativos_Diario';
-const DIARIO_HEADERS = ['data','ad_id','anuncio','campanha','gasto','impressoes','clicks','v3s','v2s','thruplay','p25','lpv','checkouts','vendas'];
+const DIARIO_HEADERS = ['data','ad_id','anuncio','campanha','gasto','impressoes','clicks','v3s','v2s','thruplay','p25','lpv','checkouts','vendas','valor'];
 
 // 💎 destaque de criativo com métrica excelente (ajuste os limites aqui)
 // Regra: precisa das TRÊS ao mesmo tempo.
@@ -435,16 +448,17 @@ function agruparPor_(rows, campo) {
   const g = {};
   rows.forEach(function (r) {
     const k = String(r[campo] || '(sem etiqueta)');
-    if (!g[k]) g[k] = { n: 0, gasto: 0, checkouts: 0, vendas: 0 };
+    if (!g[k]) g[k] = { n: 0, gasto: 0, checkouts: 0, vendas: 0, faturamento: 0 };
     g[k].n++;
     g[k].gasto += Number(r.gasto) || 0;
     g[k].checkouts += Number(r.checkouts) || 0;
     g[k].vendas += Number(r.vendas) || 0;
+    g[k].faturamento += Number(r.faturamento) || 0;
   });
   return Object.keys(g).map(function (k) {
     const x = g[k];
     return {
-      nome: k, n: x.n, gasto: x.gasto, checkouts: x.checkouts, vendas: x.vendas,
+      nome: k, n: x.n, gasto: x.gasto, checkouts: x.checkouts, vendas: x.vendas, faturamento: x.faturamento,
       custoCheckout: x.checkouts ? x.gasto / x.checkouts : null,
       custoVenda: x.vendas ? x.gasto / x.vendas : null
     };
@@ -481,8 +495,8 @@ function aplicarPeriodo_(rows, range) {
       return o;
     }
     const base3s = a.v3s || a.v2s;
-    const fat = a.compras * PRECO_VENDA;
-    const liq = a.compras * RECEITA_LIQUIDA;
+    const fat = a.valor > 0 ? a.valor : a.compras * PRECO_VENDA;
+    const liq = liquido_(fat, a.compras);
     o.gasto = round2_(a.spend);
     o.impressoes = a.impr;
     o.ctr_pct = a.impr ? Math.round(10000 * a.clicks / a.impr) / 100 : '';
@@ -515,8 +529,8 @@ function renderCriativos_(range) {
   const totVendas = rows.reduce(function (s, r) { return s + (Number(r.vendas) || 0); }, 0);
   const totCheckouts = rows.reduce(function (s, r) { return s + (Number(r.checkouts) || 0); }, 0);
   const testados = rows.filter(function (r) { return String(r.anuncio || '').trim() !== ''; }).length;
-  const totFaturamento = totVendas * PRECO_VENDA;
-  const totLiquido = totVendas * RECEITA_LIQUIDA;
+  const totFaturamento = rows.reduce(function (s, r) { return s + (Number(r.faturamento) || 0); }, 0);
+  const totLiquido = liquido_(totFaturamento, totVendas);
   const roasGeral = totGasto ? totFaturamento / totGasto : 0;
   const roiGeral = totGasto ? 100 * (totLiquido - totGasto) / totGasto : 0;
 
@@ -547,9 +561,9 @@ function renderCriativos_(range) {
       '</tr>';
   };
 
-  const celulasRoi_ = function (vendas, gasto) {
-    const fat = (Number(vendas) || 0) * PRECO_VENDA;
-    const liq = (Number(vendas) || 0) * RECEITA_LIQUIDA;
+  const celulasRoi_ = function (vendas, gasto, faturamento) {
+    const fat = Number(faturamento) || 0;
+    const liq = liquido_(fat, vendas);
     const g2 = Number(gasto) || 0;
     const roas = g2 ? fat / g2 : null;
     const roi = g2 ? 100 * (liq - g2) / g2 : null;
@@ -562,7 +576,7 @@ function renderCriativos_(range) {
     const gs = agruparPor_(rows, campo);
     let h = '<div class="card"><div class="sec-title">' + titulo + '</div><table class="tb"><tr><th>' + titulo.replace('Por ', '') + '</th><th class="num">Criativos</th><th class="num">Gasto</th><th class="num">Checkouts</th><th class="num">R$/Checkout</th><th class="num">Vendas</th><th class="num">R$/Venda</th><th class="num">Faturamento</th><th class="num">ROAS</th><th class="num">ROI</th></tr>';
     gs.forEach(function (g) {
-      h += '<tr><td class="nm">' + g.nome + '</td><td class="num">' + g.n + '</td><td class="num">' + moeda_(g.gasto) + '</td><td class="num">' + g.checkouts + '</td><td class="num">' + moeda_(g.custoCheckout) + '</td><td class="num">' + g.vendas + '</td><td class="num vend">' + moeda_(g.custoVenda) + '</td>' + celulasRoi_(g.vendas, g.gasto) + '</tr>';
+      h += '<tr><td class="nm">' + g.nome + '</td><td class="num">' + g.n + '</td><td class="num">' + moeda_(g.gasto) + '</td><td class="num">' + g.checkouts + '</td><td class="num">' + moeda_(g.custoCheckout) + '</td><td class="num">' + g.vendas + '</td><td class="num vend">' + moeda_(g.custoVenda) + '</td>' + celulasRoi_(g.vendas, g.gasto, g.faturamento) + '</tr>';
     });
     return h + '</table></div>';
   };
@@ -669,8 +683,8 @@ function renderCriativos_(range) {
     <div class="kpi"><div class="lbl">Checkouts</div><div class="val">${totCheckouts}</div></div>
     <div class="kpi"><div class="lbl">Vendas</div><div class="val">${totVendas}</div></div>
     <div class="kpi"><div class="lbl">Faturamento</div><div class="val">${moeda_(totFaturamento)}</div></div>
-    <div class="kpi"><div class="lbl">ROAS</div><div class="val" style="color:${roasGeral >= 1 ? '#2e7d52' : '#c0392b'}">${roasGeral.toFixed(2)}x</div></div>
-    <div class="kpi"><div class="lbl">ROI</div><div class="val" style="color:${roiGeral >= 0 ? '#2e7d52' : '#c0392b'}">${roiGeral.toFixed(0)}%</div></div>
+    <div class="kpi"><div class="lbl">ROAS</div><div class="val" style="color:${!totGasto ? '#8a8a8a' : (roasGeral >= 1 ? '#2e7d52' : '#c0392b')}">${totGasto ? roasGeral.toFixed(2) + 'x' : '—'}</div></div>
+    <div class="kpi"><div class="lbl">ROI</div><div class="val" style="color:${!totGasto ? '#8a8a8a' : (roiGeral >= 0 ? '#2e7d52' : '#c0392b')}">${totGasto ? roiGeral.toFixed(0) + '%' : '—'}</div></div>
   </div>
   <div class="charts">
     <div class="chartCard"><div class="ttl">Custo por venda</div><div class="hint">menor = melhor · só criativos com venda</div><div class="cv"><canvas id="chVenda"></canvas></div></div>
@@ -760,8 +774,13 @@ function renderCriativos_(range) {
   renderCal();
 
   var CR = ${rowsJson};
-  var PRECO_VENDA = ${PRECO_VENDA};
-  var RECEITA_LIQUIDA = ${RECEITA_LIQUIDA};
+  var PRECO_VENDA = ${PRECO_VENDA}, PRECO_BUMP = ${PRECO_BUMP};
+  var LIQUIDO_VENDA = ${LIQUIDO_VENDA}, LIQUIDO_BUMP = ${LIQUIDO_BUMP};
+  function liquidoJs(fat, vendas){
+    var v = Number(vendas) || 0; if(!v) return 0;
+    var bumps = Math.max(0, Math.round(((Number(fat)||0) - v * PRECO_VENDA) / PRECO_BUMP));
+    return v * LIQUIDO_VENDA + bumps * LIQUIDO_BUMP;
+  }
   function nomeCurto(s){ s = String(s||''); return s.length > 22 ? s.slice(0,22) + '…' : s; }
   function ehDiamante(r){
     var ctr = Number(r.ctr_pct) || 0, impr = Number(r.impressoes) || 0, gasto = Number(r.gasto) || 0;
@@ -796,20 +815,21 @@ function renderCriativos_(range) {
     var g = {};
     CR.forEach(function(r){
       var k = String(r[campoGrupo] || '(sem etiqueta)');
-      if(!g[k]) g[k] = { gasto:0, vendas:0, impr:0, cliques:0 };
+      if(!g[k]) g[k] = { gasto:0, vendas:0, impr:0, cliques:0, fat:0 };
       var gasto = Number(r.gasto) || 0;
       var impr = Number(r.impressoes) || 0;
       var ctr = Number(r.ctr_pct) || 0;
       g[k].gasto += gasto;
       g[k].vendas += Number(r.vendas) || 0;
+      g[k].fat += Number(r.faturamento) || 0;
       g[k].impr += impr;
       g[k].cliques += impr * ctr / 100;
     });
     var labels = [], valores = [], fora = [];
     Object.keys(g).forEach(function(k){
       var x = g[k], v = null;
-      var fat = x.vendas * PRECO_VENDA;
-      var liq = x.vendas * RECEITA_LIQUIDA;
+      var fat = x.fat;
+      var liq = liquidoJs(fat, x.vendas);
       if(metrica === 'cpa') v = x.vendas ? x.gasto / x.vendas : null;
       if(metrica === 'roas') v = x.gasto ? fat / x.gasto : null;
       if(metrica === 'faturamento') v = fat;
@@ -834,10 +854,10 @@ function renderCriativos_(range) {
     var ehMoeda = (metrica === 'cpa' || metrica === 'cpc' || metrica === 'gasto' || metrica === 'faturamento');
     var ehX = (metrica === 'roas');
     nota.textContent = metrica === 'cpa' ? 'CPA = gasto ÷ vendas do grupo. Grupos sem venda ficam de fora.'
-      : metrica === 'roas' ? 'ROAS = faturamento ÷ gasto do grupo. Faturamento = vendas × R$' + PRECO_VENDA.toFixed(2) + '. Abaixo de 1x o grupo dá prejuízo.'
-      : metrica === 'roi' ? 'ROI = (vendas × R$' + RECEITA_LIQUIDA.toFixed(2) + ' − gasto) ÷ gasto. Só grupos com ROI positivo cabem na pizza.'
+      : metrica === 'roas' ? 'ROAS = faturamento ÷ gasto do grupo. Faturamento é o valor de compra reportado pelo Meta, já com order bump. Abaixo de 1x o grupo dá prejuízo.'
+      : metrica === 'roi' ? 'ROI = (líquido − gasto) ÷ gasto. Líquido = R$33,50 por venda + R$14,48 por order bump. Só grupos com ROI positivo cabem na pizza.'
         + (d.fora && d.fora.length ? ' No vermelho: ' + d.fora.join(', ') + '.' : '')
-      : metrica === 'faturamento' ? 'Faturamento = vendas × R$' + PRECO_VENDA.toFixed(2) + ' do grupo.'
+      : metrica === 'faturamento' ? 'Faturamento do grupo, valor de compra reportado pelo Meta.'
       : metrica === 'cpc' ? 'CPC = gasto ÷ cliques do grupo.'
       : metrica === 'gasto' ? 'Soma do gasto de cada grupo.'
       : 'CTR médio ponderado por impressões do grupo.';
@@ -888,7 +908,7 @@ function atualizarCriativos() {
   if (!token) throw new Error('Defina a propriedade META_TOKEN nas Configurações do projeto.');
 
   const fields = ['ad_id','ad_name','campaign_id','campaign_name','spend','impressions','clicks',
-    'actions','video_thruplay_watched_actions','video_continuous_2_sec_watched_actions',
+    'actions','action_values','video_thruplay_watched_actions','video_continuous_2_sec_watched_actions',
     'video_p25_watched_actions','video_play_actions'].join(',');
   const filtering = encodeURIComponent(JSON.stringify([{ field: 'campaign.name', operator: 'CONTAIN', value: META_CAMP_FILTRO }]));
   let url = 'https://graph.facebook.com/' + META_API_VER + '/' + META_AD_ACCOUNT + '/insights'
@@ -922,7 +942,7 @@ function atualizarCriativos() {
       v3s: somaAcao_(r.video_3_sec_watched_actions),
       v2s: somaAcao_(r.video_continuous_2_sec_watched_actions),
       p25: somaAcao_(r.video_p25_watched_actions),
-      lpv: 0, ic: 0, compras: 0
+      lpv: 0, ic: 0, compras: 0, valor: 0
     };
     (r.actions || []).forEach(function (ac) {
       const t = ac.action_type || '';
@@ -932,15 +952,21 @@ function atualizarCriativos() {
       if (t === 'initiate_checkout' || t === 'omni_initiated_checkout' || t === 'offsite_conversion.fb_pixel_initiate_checkout') d.ic = Math.max(d.ic, v);
       if (t === 'purchase' || t === 'omni_purchase' || t === 'offsite_conversion.fb_pixel_purchase') d.compras = Math.max(d.compras, v);
     });
+    // valor de compra reportado pelo pixel: já vem com o order bump somado
+    (r.action_values || []).forEach(function (ac) {
+      const t = ac.action_type || '';
+      const v = Number(ac.value) || 0;
+      if (t === 'purchase' || t === 'omni_purchase' || t === 'offsite_conversion.fb_pixel_purchase') d.valor = Math.max(d.valor, v);
+    });
 
     diario.push([String(r.date_start || ''), String(r.ad_id || ''), nome, r.campaign_name || '',
-      round2_(d.spend), d.impr, d.clicks, d.v3s, d.v2s, d.thruplay, d.p25, d.lpv, d.ic, d.compras]);
+      round2_(d.spend), d.impr, d.clicks, d.v3s, d.v2s, d.thruplay, d.p25, d.lpv, d.ic, d.compras, round2_(d.valor)]);
 
-    if (!ag[nome]) ag[nome] = { ad_id: r.ad_id, campanha: r.campaign_name, spend: 0, impr: 0, clicks: 0, thruplay: 0, v3s: 0, v2s: 0, p25: 0, lpv: 0, ic: 0, compras: 0 };
+    if (!ag[nome]) ag[nome] = { ad_id: r.ad_id, campanha: r.campaign_name, spend: 0, impr: 0, clicks: 0, thruplay: 0, v3s: 0, v2s: 0, p25: 0, lpv: 0, ic: 0, compras: 0, valor: 0 };
     const a = ag[nome];
     a.spend += d.spend; a.impr += d.impr; a.clicks += d.clicks;
     a.thruplay += d.thruplay; a.v3s += d.v3s; a.v2s += d.v2s; a.p25 += d.p25;
-    a.lpv += d.lpv; a.ic += d.ic; a.compras += d.compras;
+    a.lpv += d.lpv; a.ic += d.ic; a.compras += d.compras; a.valor += d.valor;
     a.campanha = r.campaign_name || a.campanha;
   });
 
@@ -980,8 +1006,8 @@ function atualizarCriativos() {
     sh.getRange(linha, col('custo_checkout')).setValue(a.ic ? round2_(a.spend / a.ic) : '');
     sh.getRange(linha, col('vendas')).setValue(a.compras || 0);
     sh.getRange(linha, col('custo_venda')).setValue(a.compras ? round2_(a.spend / a.compras) : '');
-    const fat = (a.compras || 0) * PRECO_VENDA;
-    const liq = (a.compras || 0) * RECEITA_LIQUIDA;
+    const fat = a.valor > 0 ? a.valor : (a.compras || 0) * PRECO_VENDA;
+    const liq = liquido_(fat, a.compras);
     sh.getRange(linha, col('faturamento')).setValue(round2_(fat));
     sh.getRange(linha, col('roas')).setValue(a.spend ? Math.round(100 * fat / a.spend) / 100 : '');
     sh.getRange(linha, col('roi_pct')).setValue(a.spend ? round1_(100 * (liq - a.spend) / a.spend) : '');
@@ -1007,16 +1033,18 @@ function gravarDiario_(linhas) {
 function lerDiarioAgregado_(from, to) {
   const sh = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(CRIATIVOS_DIARIO);
   if (!sh || sh.getLastRow() < 2) return null;
-  const vals = sh.getRange(2, 1, sh.getLastRow() - 1, DIARIO_HEADERS.length).getValues();
+  const larg = Math.min(DIARIO_HEADERS.length, sh.getLastColumn());
+  const vals = sh.getRange(2, 1, sh.getLastRow() - 1, larg).getValues();
   const out = {};
   vals.forEach(function (r) {
-    const dia = String(r[0] || '');
+    // o Sheets converte "2026-08-05" em Date; normaliza os dois casos
+    const dia = (r[0] instanceof Date) ? Utilities.formatDate(r[0], TZ, 'yyyy-MM-dd') : String(r[0] || '').slice(0, 10);
     if (!dia) return;
     if (from && dia < from) return;
     if (to && dia > to) return;
     const nome = String(r[2] || '');
     if (!nome) return;
-    if (!out[nome]) out[nome] = { ad_id: r[1], campanha: r[3], spend: 0, impr: 0, clicks: 0, v3s: 0, v2s: 0, thruplay: 0, p25: 0, lpv: 0, ic: 0, compras: 0 };
+    if (!out[nome]) out[nome] = { ad_id: r[1], campanha: r[3], spend: 0, impr: 0, clicks: 0, v3s: 0, v2s: 0, thruplay: 0, p25: 0, lpv: 0, ic: 0, compras: 0, valor: 0 };
     const a = out[nome];
     a.spend += Number(r[4]) || 0;
     a.impr  += Number(r[5]) || 0;
@@ -1028,6 +1056,7 @@ function lerDiarioAgregado_(from, to) {
     a.lpv += Number(r[11]) || 0;
     a.ic += Number(r[12]) || 0;
     a.compras += Number(r[13]) || 0;
+    a.valor += Number(r[14]) || 0;
   });
   return out;
 }

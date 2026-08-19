@@ -4790,11 +4790,9 @@
       gtag('event', 'quiz_etapa', { etapa_numero: numero, etapa_nome: nome });
     }
 
-    // Google Sheets — envia para a planilha via pixel (segue redirecionamentos do Google)
-    if (APPS_SCRIPT_URL !== 'COLE_A_URL_AQUI') {
-      const url = APPS_SCRIPT_URL + '?sessao=' + SESSAO_ID + '&etapa=' + numero;
-      new Image().src = url;
-    }
+    // Rastreamento desligado em 19/08/2026: este quiz antigo gravava na MESMA planilha
+    // do /quiz/v2/, sem nada que diferenciasse a origem, e por isso inflava o funil
+    // e deformava a curva (a estrutura de telas daqui é outra).
   }
 
   function showScreen(next) {

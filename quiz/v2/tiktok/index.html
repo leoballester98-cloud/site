@@ -1064,7 +1064,24 @@ const scores = {};
 answers.libidoDays = 0; // s22 aceita 0 como resposta válida ("se não percebe, deixe 0")
 const history = ['s1'];
 
-const SESSAO_ID = Math.random().toString(36).substring(2, 12) + Date.now().toString(36);
+/* Mesma logica do /quiz/v2/: sessao persistente, bot fora, pagina identificada. */
+const SESSAO_ID = (function () {
+  const novo = function () { return Math.random().toString(36).substring(2, 12) + Date.now().toString(36); };
+  try {
+    let id = sessionStorage.getItem('cf_sessao');
+    if (!id) { id = novo(); sessionStorage.setItem('cf_sessao', id); }
+    return id;
+  } catch (e) { return novo(); }
+})();
+
+const EH_BOT = (function () {
+  try {
+    if (navigator.webdriver) return true;
+    return /bot|crawler|crawling|spider|slurp|headless|phantom|puppeteer|playwright|lighthouse|preview|facebookexternalhit|whatsapp|telegram|bingpreview|python|curl|wget|monitoring|pingdom|gtmetrix|semrush|ahrefs/i.test(navigator.userAgent || '');
+  } catch (e) { return false; }
+})();
+
+const PAGINA = 'tiktok';
 const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxl0S5SWEEEBU_hb6w8p678QXYf1I9FCAXhMYvZp9gOraH8NHNkcvrOhiOTX8G92ibGkA/exec';
 
 // Envia o ping de rastreamento por dois caminhos independentes pra maximizar
@@ -1073,6 +1090,7 @@ const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxl0S5SWEEEBU_h
 // (sobrevive à navegação no clique de compra). O dashboard deduplica por sessão,
 // então disparar os dois não distorce as métricas.
 function pingApps_(url) {
+  if (EH_BOT) return;
   try { new Image().src = url; } catch (e) {}
   try {
     if (window.fetch) {
@@ -1083,12 +1101,12 @@ function pingApps_(url) {
 
 function trackEtapa(n, name) {
   if (typeof fbq !== 'undefined') fbq('trackCustom', 'QuizEtapa', { etapa: n, nome: name });
-  if (APPS_SCRIPT_URL) pingApps_(APPS_SCRIPT_URL + '?sessao=' + SESSAO_ID + '&etapa=' + n);
+  if (APPS_SCRIPT_URL) pingApps_(APPS_SCRIPT_URL + '?sessao=' + SESSAO_ID + '&etapa=' + n + '&p=' + PAGINA);
 }
 
 function trackCheckout() {
   if (typeof fbq !== 'undefined') fbq('track', 'InitiateCheckout');
-  if (APPS_SCRIPT_URL) pingApps_(APPS_SCRIPT_URL + '?sessao=' + SESSAO_ID + '&etapa=35');
+  if (APPS_SCRIPT_URL) pingApps_(APPS_SCRIPT_URL + '?sessao=' + SESSAO_ID + '&etapa=35&p=' + PAGINA);
 }
 
 function enviarRespostas() {

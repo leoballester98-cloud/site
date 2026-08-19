@@ -1067,10 +1067,12 @@ const history = ['s1'];
 const SESSAO_ID = Math.random().toString(36).substring(2, 12) + Date.now().toString(36);
 const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxl0S5SWEEEBU_hb6w8p678QXYf1I9FCAXhMYvZp9gOraH8NHNkcvrOhiOTX8G92ibGkA/exec';
 
-/* Teste de headline. Sem parametro na URL fica a original.
-   ?h=1 troca headline e subtitulo da tela 1.
-   A variante vai junto em todo ping, pra separar o funil das duas no dashboard. */
-const VARIANTE = (new URLSearchParams(location.search).get('h') === '1') ? '1' : '0';
+/* Teste de headline da tela 1.
+   ?h=original -> headline original   ?h=1 -> "Bloqueios Ferteis"
+   Sem parametro tambem cai na original, mas fica marcado como v0, entao
+   trafego direto e organico nao suja a comparacao das duas variantes.
+   A variante vai junto em todo ping, pra separar os funis no dashboard. */
+const VARIANTE = ((new URLSearchParams(location.search).get('h') || '0').replace(/[^a-zA-Z0-9_-]/g, '').slice(0, 20)) || '0';
 (function () {
   if (VARIANTE !== '1') return;
   const h = document.getElementById('h1Var');

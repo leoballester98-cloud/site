@@ -73,8 +73,8 @@
 
   <!-- ═══════ 1. IDADE (intro) ═══════ -->
   <section class="screen active" id="s1" data-step="1" data-section="DIAGNÓSTICO IQO" data-icon="target" data-cta="hidden">
-    <h1 class="q-title-lg" style="max-width:28ch;">Descubra o que impede você de ter um filho.</h1>
-    <p class="q-sub">Um diagnóstico que mede a qualidade da sua ovulação de 0 a 100 e monta o seu plano.<br>Pra começar, qual a sua idade?</p>
+    <h1 class="q-title-lg" id="h1Var" style="max-width:28ch;">Descubra o que impede você de ter um filho.</h1>
+    <p class="q-sub" id="subVar">Um diagnóstico que mede a qualidade da sua ovulação de 0 a 100 e monta o seu plano.<br>Pra começar, qual a sua idade?</p>
     <div class="age-intro">
       <div class="hero-photo">
         <img src="../Images/hero-s1.webp" alt="Mulher sorrindo"/>
@@ -1067,6 +1067,18 @@ const history = ['s1'];
 const SESSAO_ID = Math.random().toString(36).substring(2, 12) + Date.now().toString(36);
 const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxl0S5SWEEEBU_hb6w8p678QXYf1I9FCAXhMYvZp9gOraH8NHNkcvrOhiOTX8G92ibGkA/exec';
 
+/* Teste de headline. Sem parametro na URL fica a original.
+   ?h=1 troca headline e subtitulo da tela 1.
+   A variante vai junto em todo ping, pra separar o funil das duas no dashboard. */
+const VARIANTE = (new URLSearchParams(location.search).get('h') === '1') ? '1' : '0';
+(function () {
+  if (VARIANTE !== '1') return;
+  const h = document.getElementById('h1Var');
+  const s = document.getElementById('subVar');
+  if (h) h.textContent = 'O que separa você do seu filho são Bloqueios Férteis.';
+  if (s) s.innerHTML = 'Descubra o seu em 2 minutos.<br>Pra começar, qual a sua idade?';
+})();
+
 // Envia o ping de rastreamento por dois caminhos independentes pra maximizar
 // a entrega em navegadores internos de app (Instagram/Facebook/iOS), onde o
 // fetch pode falhar: pixel de imagem (mais robusto em webview) + fetch keepalive
@@ -1083,12 +1095,12 @@ function pingApps_(url) {
 
 function trackEtapa(n, name) {
   if (typeof fbq !== 'undefined') fbq('trackCustom', 'QuizEtapa', { etapa: n, nome: name });
-  if (APPS_SCRIPT_URL) pingApps_(APPS_SCRIPT_URL + '?sessao=' + SESSAO_ID + '&etapa=' + n);
+  if (APPS_SCRIPT_URL) pingApps_(APPS_SCRIPT_URL + '?sessao=' + SESSAO_ID + '&etapa=' + n + '&v=' + VARIANTE);
 }
 
 function trackCheckout() {
   if (typeof fbq !== 'undefined') fbq('track', 'InitiateCheckout');
-  if (APPS_SCRIPT_URL) pingApps_(APPS_SCRIPT_URL + '?sessao=' + SESSAO_ID + '&etapa=35');
+  if (APPS_SCRIPT_URL) pingApps_(APPS_SCRIPT_URL + '?sessao=' + SESSAO_ID + '&etapa=35&v=' + VARIANTE);
 }
 
 function enviarRespostas() {

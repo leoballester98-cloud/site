@@ -64,7 +64,9 @@ function doGet(e) {
 function ingest_(p) {
   const sh = getSheet_();
   const tipo = (p.action === 'respostas') ? 'respostas' : 'etapa';
-  sh.appendRow([new Date(), String(p.sessao || ''), tipo, String(p.etapa || ''), String(p.data || '')]);
+  // nos pings de etapa a coluna data fica livre, então ela guarda a variante do teste de headline
+  const extra = (tipo === 'respostas') ? String(p.data || '') : ('v' + String(p.v || '0'));
+  sh.appendRow([new Date(), String(p.sessao || ''), tipo, String(p.etapa || ''), extra]);
 }
 
 function getSheet_() {
@@ -367,7 +369,7 @@ function buildHtml_(d, range) {
    ════════════════════════════════════════════════════ */
 const CRIATIVOS_SHEET = 'Criativos';
 
-const CRIATIVOS_HEADERS = ['ad_id','anuncio','campanha','status','formato','angulo','hook','emocao','estrutura','arquetipo','segmentacao','amplificador','prova','gasto','impressoes','ctr_pct','hook_rate_pct','hold_rate_pct','views25_pct','lpv','custo_lpv','checkouts','custo_checkout','vendas','custo_venda','faturamento','roas','roi_pct','atualizado'];
+const CRIATIVOS_HEADERS = ['ad_id','anuncio','campanha','status','formato','angulo','hook','emocao','estrutura','arquetipo','segmentacao','amplificador','prova','gasto','impressoes','ctr_pct','hook_rate_pct','hold_rate_pct','views25_pct','lpv','custo_lpv','checkouts','custo_checkout','vendas','custo_venda','faturamento','roas','roi_pct','vendas_ajuste','valor_ajuste','atualizado'];
 
 // Faturamento vem do valor de compra que o Meta reporta (já inclui order bump).
 // PRECO_VENDA só é usado como reserva quando a API não devolve valor.
@@ -426,6 +428,13 @@ function getCriativosSheet_() {
     const posCustoVenda = h2.indexOf('custo_venda') + 1; // 1-based
     sh.insertColumnsAfter(posCustoVenda, 3);
     sh.getRange(1, posCustoVenda + 1, 1, 3).setValues([['faturamento','roas','roi_pct']]);
+  }
+  // migração: colunas de ajuste manual, para vendas que o Meta não marcou
+  const h3 = sh.getRange(1, 1, 1, sh.getLastColumn()).getValues()[0];
+  if (h3.indexOf('vendas_ajuste') === -1) {
+    const p3 = h3.indexOf('roi_pct') + 1;
+    sh.insertColumnsAfter(p3, 2);
+    sh.getRange(1, p3 + 1, 1, 2).setValues([['vendas_ajuste','valor_ajuste']]);
   }
   return sh;
 }
@@ -495,8 +504,11 @@ function aplicarPeriodo_(rows, range) {
       return o;
     }
     const base3s = a.v3s || a.v2s;
-    const fat = a.valor > 0 ? a.valor : a.compras * PRECO_VENDA;
-    const liq = liquido_(fat, a.compras);
+    const vAj = Number(r.vendas_ajuste) || 0;
+    const fAj = Number(r.valor_ajuste) || 0;
+    const compras = a.compras + vAj;
+    const fat = (a.valor > 0 ? a.valor : a.compras * PRECO_VENDA) + fAj;
+    const liq = liquido_(fat, compras);
     o.gasto = round2_(a.spend);
     o.impressoes = a.impr;
     o.ctr_pct = a.impr ? Math.round(10000 * a.clicks / a.impr) / 100 : '';
@@ -507,8 +519,8 @@ function aplicarPeriodo_(rows, range) {
     o.custo_lpv = a.lpv ? round2_(a.spend / a.lpv) : '';
     o.checkouts = a.ic || 0;
     o.custo_checkout = a.ic ? round2_(a.spend / a.ic) : '';
-    o.vendas = a.compras || 0;
-    o.custo_venda = a.compras ? round2_(a.spend / a.compras) : '';
+    o.vendas = compras || 0;
+    o.custo_venda = compras ? round2_(a.spend / compras) : '';
     o.faturamento = round2_(fat);
     o.roas = a.spend ? Math.round(100 * fat / a.spend) / 100 : '';
     o.roi_pct = a.spend ? round1_(100 * (liq - a.spend) / a.spend) : '';
@@ -990,7 +1002,7 @@ function atualizarCriativos() {
     const ctrPct = a.impr ? Math.round(10000 * a.clicks / a.impr) / 100 : '';
     let linha = idxPorNome[nome];
     if (!linha) {
-      sh.appendRow([a.ad_id, nome, a.campanha || '', 'rodando', '', '', '', '', '', '', '', '', '', 0, 0, '', '', '', '', '', '', 0, '', 0, '', 0, '', '', hoje]);
+      sh.appendRow([a.ad_id, nome, a.campanha || '', 'rodando', '', '', '', '', '', '', '', '', '', 0, 0, '', '', '', '', '', '', 0, '', 0, '', 0, '', '', '', '', hoje]);
       linha = sh.getLastRow();
       idxPorNome[nome] = linha;
     }
@@ -1004,10 +1016,14 @@ function atualizarCriativos() {
     sh.getRange(linha, col('custo_lpv')).setValue(a.lpv ? round2_(a.spend / a.lpv) : '');
     sh.getRange(linha, col('checkouts')).setValue(a.ic || 0);
     sh.getRange(linha, col('custo_checkout')).setValue(a.ic ? round2_(a.spend / a.ic) : '');
-    sh.getRange(linha, col('vendas')).setValue(a.compras || 0);
-    sh.getRange(linha, col('custo_venda')).setValue(a.compras ? round2_(a.spend / a.compras) : '');
-    const fat = a.valor > 0 ? a.valor : (a.compras || 0) * PRECO_VENDA;
-    const liq = liquido_(fat, a.compras);
+    // ajustes manuais: vendas que o Meta não marcou (a coluna não é sobrescrita)
+    const vAj = Number(sh.getRange(linha, col('vendas_ajuste')).getValue()) || 0;
+    const fAj = Number(sh.getRange(linha, col('valor_ajuste')).getValue()) || 0;
+    const vendasTot = (a.compras || 0) + vAj;
+    sh.getRange(linha, col('vendas')).setValue(vendasTot);
+    sh.getRange(linha, col('custo_venda')).setValue(vendasTot ? round2_(a.spend / vendasTot) : '');
+    const fat = (a.valor > 0 ? a.valor : (a.compras || 0) * PRECO_VENDA) + fAj;
+    const liq = liquido_(fat, vendasTot);
     sh.getRange(linha, col('faturamento')).setValue(round2_(fat));
     sh.getRange(linha, col('roas')).setValue(a.spend ? Math.round(100 * fat / a.spend) / 100 : '');
     sh.getRange(linha, col('roi_pct')).setValue(a.spend ? round1_(100 * (liq - a.spend) / a.spend) : '');

@@ -1120,20 +1120,59 @@ function pingApps_(url) {
   } catch (e) {}
 }
 
+/* ── Supabase ──────────────────────────────────────────────────────────────
+   Durante a migração o quiz grava nos DOIS destinos: Apps Script (dashboard
+   atual) e Supabase (o novo). Assim nada se perde enquanto a troca acontece.
+   Quando o dashboard novo estiver no ar, o pingApps_ sai daqui.
+
+   A chave abaixo é a publishable e fica visível de propósito: quem protege os
+   dados é o RLS, que só deixa esta chave INSERIR em eventos — não ler, não
+   apagar, não alterar. Testado antes de subir.
+
+   O insert não pede a linha de volta: devolver exige permissão de leitura,
+   que o anônimo não tem, e a requisição falharia. */
+const SUPABASE_URL = 'https://lfmjvgkbvkkexwytkfeg.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_YMHtH3C0VuB5X8BFXADwBw_E7FcBFgE';
+
+function pingSupa_(corpo) {
+  if (EH_BOT) return;
+  const url = SUPABASE_URL + '/rest/v1/eventos';
+  try {
+    /* Nada de sendBeacon aqui: ele manda sempre com credenciais, e o Supabase
+       responde Access-Control-Allow-Origin: *, o que o navegador recusa nessa
+       combinação. Pior, ele retorna true só por enfileirar — o erro de CORS vem
+       depois, calado, e o fallback nunca rodaria.
+       fetch com keepalive faz o mesmo trabalho (sobrevive à saída da página) e
+       passa no CORS com credentials omit. */
+    fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'apikey': SUPABASE_KEY,
+                 'Prefer': 'return=minimal' },
+      body: JSON.stringify(corpo),
+      keepalive: true,
+      mode: 'cors',
+      credentials: 'omit'
+    }).catch(function () {});
+  } catch (e) {}
+}
+
 function trackEtapa(n, name) {
   if (typeof fbq !== 'undefined') fbq('trackCustom', 'QuizEtapa', { etapa: n, nome: name });
   if (APPS_SCRIPT_URL) pingApps_(APPS_SCRIPT_URL + '?sessao=' + SESSAO_ID + '&etapa=' + n + '&v=' + VARIANTE + '&p=' + PAGINA);
+  pingSupa_({ sessao: SESSAO_ID, tipo: 'etapa', etapa: Number(n), variante: 'v' + (typeof VARIANTE !== 'undefined' ? VARIANTE : '0'), pagina: PAGINA });
 }
 
 function trackCheckout() {
   if (typeof fbq !== 'undefined') fbq('track', 'InitiateCheckout');
   if (APPS_SCRIPT_URL) pingApps_(APPS_SCRIPT_URL + '?sessao=' + SESSAO_ID + '&etapa=35&v=' + VARIANTE + '&p=' + PAGINA);
+  pingSupa_({ sessao: SESSAO_ID, tipo: 'etapa', etapa: 35, variante: 'v' + (typeof VARIANTE !== 'undefined' ? VARIANTE : '0'), pagina: PAGINA });
 }
 
 function enviarRespostas() {
   if (!APPS_SCRIPT_URL) return;
   const payload = encodeURIComponent(JSON.stringify(answers));
   pingApps_(APPS_SCRIPT_URL + '?action=respostas&sessao=' + SESSAO_ID + '&data=' + payload);
+  pingSupa_({ sessao: SESSAO_ID, tipo: 'respostas', variante: 'v' + (typeof VARIANTE !== 'undefined' ? VARIANTE : '0'), pagina: PAGINA, dados: answers });
 }
 
 const ICONS = {

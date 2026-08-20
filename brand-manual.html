@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-VBLL62GBHC"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-VBLL62GBHC');
+  </script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Manual de Marca — Protocolo Ciclo Fértil</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --terracota:    #C8956C;
+    --terracota-d:  #8B6347;
+    --terracota-dd: #6B3A1F;
+    --creme:        #F5E6D6;
+    --caramelo:     #D4A574;
+    --cacau:        #4A2E1A;
+    --salvia:       #A8B89A;
+    --salvia-d:     #6B8F5E;
+    --marfim:       #FDFAF6;
+    --branco:       #ffffff;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: #e8e0d8;
+    color: var(--cacau);
+  }
+
+  /* ── PAGE SHELL ─────────────────────────────── */
+  .page {
+    width: 210mm;
+    min-height: 297mm;
+    margin: 20px auto;
+    background: var(--marfim);
+    position: relative;
+    overflow: hidden;
+  }
+
+  @media print {
+    body { background: white; }
+    .page {
+      margin: 0;
+      width: 210mm;
+      min-height: 297mm;
+      page-break-after: always;
+      break-after: page;
+    }
+    .page:last-child { page-break-after: avoid; break-after: avoid; }
+  }
+
+  /* ── COVER ──────────────────────────────────── */
+  .cover {
+    background: var(--cacau);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 297mm;
+    padding: 60px;
+    text-align: center;
+    position: relative;
+  }
+
+  .cover__noise {
+    position: absolute; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    opacity: .35;
+    pointer-events: none;
+  }
+
+  .cover__logo {
+    width: 96px;
+    height: 96px;
+    object-fit: contain;
+    margin-bottom: 40px;
+    filter: brightness(0) invert(1);
+    opacity: .9;
+  }
+
+  .cover__eyebrow {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--caramelo);
+    margin-bottom: 20px;
+  }
+
+  .cover__title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 52px;
+    font-weight: 700;
+    color: var(--marfim);
+    line-height: 1.1;
+    margin-bottom: 16px;
+  }
+
+  .cover__sub {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 400;
+    font-style: italic;
+    color: var(--terracota);
+    margin-bottom: 60px;
+  }
+
+  .cover__divider {
+    width: 48px;
+    height: 1px;
+    background: var(--caramelo);
+    margin: 0 auto 60px;
+    opacity: .5;
+  }
+
+  .cover__footer {
+    position: absolute;
+    bottom: 48px;
+    left: 0; right: 0;
+    text-align: center;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--terracota-d);
+  }
+
+  /* ── SECTION PAGES ──────────────────────────── */
+  .inner {
+    padding: 64px 60px;
+    min-height: 297mm;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .section-label {
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--terracota);
+    margin-bottom: 8px;
+  }
+
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 36px;
+    font-weight: 700;
+    color: var(--cacau);
+    line-height: 1.1;
+    margin-bottom: 8px;
+  }
+
+  .section-rule {
+    width: 40px;
+    height: 2px;
+    background: var(--terracota);
+    margin-bottom: 40px;
+  }
+
+  .section-lead {
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--terracota-d);
+    max-width: 480px;
+    margin-bottom: 48px;
+  }
+
+  /* ── MARCA ──────────────────────────────────── */
+  .brand-block {
+    background: var(--creme);
+    border-radius: 16px;
+    padding: 48px;
+    display: flex;
+    align-items: center;
+    gap: 48px;
+    margin-bottom: 32px;
+  }
+
+  .brand-logo-wrap {
+    width: 120px;
+    height: 120px;
+    background: var(--cacau);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .brand-logo-wrap img {
+    width: 72px;
+    height: 72px;
+    object-fit: contain;
+    filter: brightness(0) invert(1);
+  }
+
+  .brand-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--cacau);
+    margin-bottom: 6px;
+  }
+
+  .brand-desc {
+    font-size: 13px;
+    color: var(--terracota-d);
+    line-height: 1.6;
+  }
+
+  .usage-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .usage-card {
+    border-radius: 12px;
+    padding: 24px;
+  }
+
+  .usage-card--ok { background: #eef4ec; border: 1.5px solid var(--salvia); }
+  .usage-card--no { background: #faeaea; border: 1.5px solid #e0a0a0; }
+
+  .usage-card__tag {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  .usage-card--ok .usage-card__tag { color: var(--salvia-d); }
+  .usage-card--no .usage-card__tag { color: #b05050; }
+
+  .usage-card ul {
+    list-style: none;
+    font-size: 13px;
+    color: var(--cacau);
+    line-height: 1.8;
+  }
+
+  .usage-card ul li::before { content: '— '; opacity: .5; }
+
+  /* ── CORES ──────────────────────────────────── */
+  .color-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 12px;
+    margin-bottom: 32px;
+  }
+
+  .color-swatch {
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(74,46,26,.1);
+  }
+
+  .color-swatch__block {
+    height: 80px;
+  }
+
+  .color-swatch__info {
+    background: white;
+    padding: 10px 12px;
+  }
+
+  .color-swatch__name {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--cacau);
+    margin-bottom: 2px;
+  }
+
+  .color-swatch__hex {
+    font-size: 10px;
+    color: var(--terracota-d);
+    font-family: 'DM Sans', monospace;
+    letter-spacing: .5px;
+  }
+
+  .color-roles {
+    background: var(--creme);
+    border-radius: 12px;
+    padding: 28px 32px;
+  }
+
+  .color-roles table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+
+  .color-roles th {
+    text-align: left;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--terracota-d);
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--caramelo);
+  }
+
+  .color-roles td {
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(212,165,116,.2);
+    color: var(--cacau);
+    line-height: 1.4;
+  }
+
+  .color-roles td:first-child {
+    width: 20px;
+  }
+
+  .color-dot {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    display: inline-block;
+  }
+
+  /* ── TIPOGRAFIA ─────────────────────────────── */
+  .type-block {
+    background: var(--creme);
+    border-radius: 16px;
+    padding: 40px 48px;
+    margin-bottom: 20px;
+  }
+
+  .type-tag {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--terracota);
+    margin-bottom: 16px;
+  }
+
+  .type-specimen-serif {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 48px;
+    font-weight: 700;
+    color: var(--cacau);
+    line-height: 1;
+    margin-bottom: 16px;
+  }
+
+  .type-specimen-sans {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 28px;
+    font-weight: 400;
+    color: var(--cacau);
+    line-height: 1.2;
+    margin-bottom: 16px;
+  }
+
+  .type-meta {
+    font-size: 12px;
+    color: var(--terracota-d);
+    line-height: 1.8;
+  }
+
+  .type-meta strong { font-weight: 600; }
+
+  .type-hierarchy {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .type-hier-item {
+    background: white;
+    border-radius: 10px;
+    padding: 20px 24px;
+  }
+
+  .type-hier-label {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--terracota);
+    margin-bottom: 8px;
+  }
+
+  /* ── TOM DE VOZ ─────────────────────────────── */
+  .voice-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 28px;
+  }
+
+  .voice-card {
+    background: var(--creme);
+    border-radius: 12px;
+    padding: 28px;
+  }
+
+  .voice-card__icon {
+    font-size: 24px;
+    margin-bottom: 12px;
+  }
+
+  .voice-card__title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--cacau);
+    margin-bottom: 8px;
+  }
+
+  .voice-card__desc {
+    font-size: 13px;
+    color: var(--terracota-d);
+    line-height: 1.7;
+  }
+
+  .word-lists {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .word-list {
+    border-radius: 12px;
+    padding: 24px 28px;
+  }
+
+  .word-list--yes { background: #eef4ec; border: 1.5px solid var(--salvia); }
+  .word-list--no  { background: #faeaea; border: 1.5px solid #e0a0a0; }
+
+  .word-list__title {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+
+  .word-list--yes .word-list__title { color: var(--salvia-d); }
+  .word-list--no  .word-list__title { color: #b05050; }
+
+  .word-list ul {
+    list-style: none;
+    font-size: 13px;
+    color: var(--cacau);
+    line-height: 2;
+  }
+
+  .word-list ul li::before { content: '· '; font-weight: 700; }
+
+  /* ── ELEMENTOS VISUAIS ──────────────────────── */
+  .visual-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 20px;
+  }
+
+  .visual-card {
+    background: var(--creme);
+    border-radius: 16px;
+    padding: 32px;
+  }
+
+  .visual-card__label {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--terracota-d);
+    margin-bottom: 20px;
+  }
+
+  .btn-demo {
+    display: inline-block;
+    padding: 14px 32px;
+    border-radius: 100px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: .5px;
+    cursor: default;
+    margin-bottom: 12px;
+  }
+
+  .btn-demo--primary {
+    background: var(--cacau);
+    color: var(--marfim);
+  }
+
+  .btn-demo--secondary {
+    background: var(--terracota-dd);
+    color: var(--marfim);
+  }
+
+  .gradient-text-demo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 32px;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--cacau) 0%, var(--terracota) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1.2;
+  }
+
+  .eyebrow-demo {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--terracota);
+    margin-bottom: 8px;
+  }
+
+  .card-demo {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 2px 12px rgba(74,46,26,.08);
+    font-size: 13px;
+    color: var(--cacau);
+    line-height: 1.6;
+  }
+
+  /* ── FOOTER ─────────────────────────────────── */
+  .page-footer {
+    margin-top: auto;
+    padding-top: 32px;
+    border-top: 1px solid var(--creme);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 10px;
+    color: var(--terracota-d);
+    letter-spacing: .5px;
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════
+     CAPA
+═══════════════════════════════════════════════ -->
+<div class="page">
+  <div class="cover">
+    <div class="cover__noise"></div>
+    <img class="cover__logo" src="Images/logo.png" alt="Ciclo Fértil"/>
+    <div class="cover__eyebrow">Identidade Visual</div>
+    <h1 class="cover__title">Protocolo<br>Ciclo Fértil</h1>
+    <p class="cover__sub">Manual de Marca</p>
+    <div class="cover__divider"></div>
+    <div class="cover__footer">© 2026 &nbsp;·&nbsp; Uso interno</div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     SOBRE A MARCA
+═══════════════════════════════════════════════ -->
+<div class="page">
+  <div class="inner">
+    <div class="section-label">01 — Sobre a Marca</div>
+    <h2 class="section-title">Quem somos</h2>
+    <div class="section-rule"></div>
+
+    <p class="section-lead">O Protocolo Ciclo Fértil é um método digital para mulheres que tentam engravidar. Não é mais uma orientação a adicionar à lista — é o caminho claro que une as quatro peças que a ciência validou.</p>
+
+    <div class="brand-block">
+      <div class="brand-logo-wrap">
+        <img src="Images/logo.png" alt="Logo"/>
+      </div>
+      <div>
+        <div class="brand-name">Protocolo Ciclo Fértil</div>
+        <p class="brand-desc">Método de fertilidade natural que combina Corpo, Ciclo, Ambiente e Mente numa sequência aplicável. Voltado para mulheres tentantes brasileiras que já receberam orientações mas nunca tiveram um caminho claro para aplicá-las.</p>
+      </div>
+    </div>
+
+    <div class="usage-row">
+      <div class="usage-card usage-card--ok">
+        <div class="usage-card__tag">✓ Posicionamento correto</div>
+        <ul>
+          <li>Um método com sequência clara</li>
+          <li>4 peças que se encaixam</li>
+          <li>O caminho que faltava</li>
+          <li>Baseado em ciência, aplicado na prática</li>
+        </ul>
+      </div>
+      <div class="usage-card usage-card--no">
+        <div class="usage-card__tag">✗ Evitar</div>
+        <ul>
+          <li>Mais uma dica ou conselho</li>
+          <li>Promessa de gravidez garantida</li>
+          <li>Solução milagrosa ou rápida</li>
+          <li>Substituição de acompanhamento médico</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="page-footer">
+      <span>Protocolo Ciclo Fértil — Manual de Marca</span>
+      <span>01</span>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     PALETA DE CORES
+═══════════════════════════════════════════════ -->
+<div class="page">
+  <div class="inner">
+    <div class="section-label">02 — Identidade Visual</div>
+    <h2 class="section-title">Paleta de Cores</h2>
+    <div class="section-rule"></div>
+
+    <div class="color-grid">
+      <div class="color-swatch">
+        <div class="color-swatch__block" style="background:#4A2E1A;"></div>
+        <div class="color-swatch__info">
+          <div class="color-swatch__name">Cacau</div>
+          <div class="color-swatch__hex">#4A2E1A</div>
+        </div>
+      </div>
+      <div class="color-swatch">
+        <div class="color-swatch__block" style="background:#6B3A1F;"></div>
+        <div class="color-swatch__info">
+          <div class="color-swatch__name">Terracota Escuro</div>
+          <div class="color-swatch__hex">#6B3A1F</div>
+        </div>
+      </div>
+      <div class="color-swatch">
+        <div class="color-swatch__block" style="background:#8B6347;"></div>
+        <div class="color-swatch__info">
+          <div class="color-swatch__name">Terracota Médio</div>
+          <div class="color-swatch__hex">#8B6347</div>
+        </div>
+      </div>
+      <div class="color-swatch">
+        <div class="color-swatch__block" style="background:#C8956C;"></div>
+        <div class="color-swatch__info">
+          <div class="color-swatch__name">Terracota</div>
+          <div class="color-swatch__hex">#C8956C</div>
+        </div>
+      </div>
+      <div class="color-swatch">
+        <div class="color-swatch__block" style="background:#D4A574;"></div>
+        <div class="color-swatch__info">
+          <div class="color-swatch__name">Caramelo</div>
+          <div class="color-swatch__hex">#D4A574</div>
+        </div>
+      </div>
+      <div class="color-swatch">
+        <div class="color-swatch__block" style="background:#F5E6D6;"></div>
+        <div class="color-swatch__info">
+          <div class="color-swatch__name">Creme</div>
+          <div class="color-swatch__hex">#F5E6D6</div>
+        </div>
+      </div>
+      <div class="color-swatch">
+        <div class="color-swatch__block" style="background:#FDFAF6;"></div>
+        <div class="color-swatch__info">
+          <div class="color-swatch__name">Marfim</div>
+          <div class="color-swatch__hex">#FDFAF6</div>
+        </div>
+      </div>
+      <div class="color-swatch">
+        <div class="color-swatch__block" style="background:#A8B89A;"></div>
+        <div class="color-swatch__info">
+          <div class="color-swatch__name">Sálvia</div>
+          <div class="color-swatch__hex">#A8B89A</div>
+        </div>
+      </div>
+      <div class="color-swatch">
+        <div class="color-swatch__block" style="background:#6B8F5E;"></div>
+        <div class="color-swatch__info">
+          <div class="color-swatch__name">Sálvia Escuro</div>
+          <div class="color-swatch__hex">#6B8F5E</div>
+        </div>
+      </div>
+      <div class="color-swatch">
+        <div class="color-swatch__block" style="background:#ffffff; border:1px solid #eee;"></div>
+        <div class="color-swatch__info">
+          <div class="color-swatch__name">Branco</div>
+          <div class="color-swatch__hex">#FFFFFF</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="color-roles">
+      <table>
+        <tr>
+          <th></th>
+          <th>Cor</th>
+          <th>Nome</th>
+          <th>Uso</th>
+        </tr>
+        <tr>
+          <td><span class="color-dot" style="background:#4A2E1A;"></span></td>
+          <td style="padding-left:12px; font-size:11px; font-family:monospace;">#4A2E1A</td>
+          <td style="padding-left:12px;">Cacau</td>
+          <td style="padding-left:12px;">Texto principal, fundos escuros, cabeçalho</td>
+        </tr>
+        <tr>
+          <td><span class="color-dot" style="background:#C8956C;"></span></td>
+          <td style="padding-left:12px; font-size:11px; font-family:monospace;">#C8956C</td>
+          <td style="padding-left:12px;">Terracota</td>
+          <td style="padding-left:12px;">Destaques, ícones, palavras em evidência</td>
+        </tr>
+        <tr>
+          <td><span class="color-dot" style="background:#6B3A1F;"></span></td>
+          <td style="padding-left:12px; font-size:11px; font-family:monospace;">#6B3A1F</td>
+          <td style="padding-left:12px;">Terracota Escuro</td>
+          <td style="padding-left:12px;">Botão CTA principal, call-to-action</td>
+        </tr>
+        <tr>
+          <td><span class="color-dot" style="background:#FDFAF6;"></span></td>
+          <td style="padding-left:12px; font-size:11px; font-family:monospace;">#FDFAF6</td>
+          <td style="padding-left:12px;">Marfim</td>
+          <td style="padding-left:12px;">Fundo principal da página</td>
+        </tr>
+        <tr>
+          <td><span class="color-dot" style="background:#F5E6D6;"></span></td>
+          <td style="padding-left:12px; font-size:11px; font-family:monospace;">#F5E6D6</td>
+          <td style="padding-left:12px;">Creme</td>
+          <td style="padding-left:12px;">Fundo de seções alternadas, cards</td>
+        </tr>
+        <tr>
+          <td><span class="color-dot" style="background:#A8B89A;"></span></td>
+          <td style="padding-left:12px; font-size:11px; font-family:monospace;">#A8B89A</td>
+          <td style="padding-left:12px;">Sálvia</td>
+          <td style="padding-left:12px;">Pilar Ambiente, elementos secundários</td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="page-footer">
+      <span>Protocolo Ciclo Fértil — Manual de Marca</span>
+      <span>02</span>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     TIPOGRAFIA
+═══════════════════════════════════════════════ -->
+<div class="page">
+  <div class="inner">
+    <div class="section-label">03 — Identidade Visual</div>
+    <h2 class="section-title">Tipografia</h2>
+    <div class="section-rule"></div>
+
+    <div class="type-block" style="margin-bottom:20px;">
+      <div class="type-tag">Fonte de Título — Cormorant Garamond</div>
+      <div class="type-specimen-serif">Ciclo Fértil</div>
+      <p class="type-meta">
+        <strong>Família:</strong> Cormorant Garamond &nbsp;·&nbsp;
+        <strong>Pesos:</strong> Regular (400), SemiBold (600), Bold (700), Itálico<br>
+        <strong>Uso:</strong> H1, H2, H3, citações em destaque, eyebrows em serif
+      </p>
+    </div>
+
+    <div class="type-block" style="margin-bottom:20px;">
+      <div class="type-tag">Fonte de Corpo — DM Sans</div>
+      <div class="type-specimen-sans">Método. Resultado. Positivo.</div>
+      <p class="type-meta">
+        <strong>Família:</strong> DM Sans &nbsp;·&nbsp;
+        <strong>Pesos:</strong> Light (300), Regular (400), Medium (500), SemiBold (600)<br>
+        <strong>Uso:</strong> Parágrafos, botões, eyebrows em caps, legendas, UI em geral
+      </p>
+    </div>
+
+    <div class="type-hierarchy">
+      <div class="type-hier-item">
+        <div class="type-hier-label">H1 — Título Hero</div>
+        <div style="font-family:'Cormorant Garamond',serif; font-size:22px; font-weight:700; line-height:1.2; color:var(--cacau);">É o método<br>que faltava.</div>
+        <p style="font-size:11px; color:var(--terracota-d); margin-top:10px;">Cormorant Garamond Bold · 42–52px · Line-height 1.1</p>
+      </div>
+      <div class="type-hier-item">
+        <div class="type-hier-label">H2 — Título de Seção</div>
+        <div style="font-family:'Cormorant Garamond',serif; font-size:20px; font-weight:700; line-height:1.2; background:linear-gradient(135deg,#4A2E1A,#C8956C); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;">4 peças. Uma sequência.</div>
+        <p style="font-size:11px; color:var(--terracota-d); margin-top:10px;">Cormorant Garamond Bold · 32–48px · Gradiente cacau→terracota</p>
+      </div>
+      <div class="type-hier-item">
+        <div class="type-hier-label">Eyebrow</div>
+        <div style="font-family:'DM Sans',sans-serif; font-size:10px; font-weight:600; letter-spacing:3px; text-transform:uppercase; color:var(--terracota);">O CAMINHO QUE FALTAVA</div>
+        <p style="font-size:11px; color:var(--terracota-d); margin-top:10px;">DM Sans Medium · 9–11px · Caps · Letter-spacing 2–3px</p>
+      </div>
+      <div class="type-hier-item">
+        <div class="type-hier-label">Corpo de Texto</div>
+        <div style="font-family:'DM Sans',sans-serif; font-size:13px; line-height:1.7; color:var(--terracota-d);">Cada orientação era uma peça. Faltou quem montasse o caminho.</div>
+        <p style="font-size:11px; color:var(--terracota-d); margin-top:10px;">DM Sans Regular · 15–17px · Line-height 1.7</p>
+      </div>
+    </div>
+
+    <div class="page-footer">
+      <span>Protocolo Ciclo Fértil — Manual de Marca</span>
+      <span>03</span>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     TOM DE VOZ
+═══════════════════════════════════════════════ -->
+<div class="page">
+  <div class="inner">
+    <div class="section-label">04 — Tom de Voz</div>
+    <h2 class="section-title">Como a marca fala</h2>
+    <div class="section-rule"></div>
+
+    <div class="voice-grid" style="margin-bottom:24px;">
+      <div class="voice-card">
+        <div class="voice-card__icon">🤝</div>
+        <div class="voice-card__title">Empática primeiro</div>
+        <p class="voice-card__desc">Valida a dor antes de apresentar a solução. A leitora precisa sentir que é compreendida antes de ser convencida.</p>
+      </div>
+      <div class="voice-card">
+        <div class="voice-card__icon">🎯</div>
+        <div class="voice-card__title">Direta e específica</div>
+        <p class="voice-card__desc">Frases curtas. Sem jargão médico excessivo. Fala como uma amiga que sabe do assunto, não como um especialista distante.</p>
+      </div>
+      <div class="voice-card">
+        <div class="voice-card__icon">⚡</div>
+        <div class="voice-card__title">Confiante, sem arrogância</div>
+        <p class="voice-card__desc">Afirma com clareza. Não pede desculpa por ter a solução. Mas nunca promete o que não pode garantir.</p>
+      </div>
+      <div class="voice-card">
+        <div class="voice-card__icon">🌿</div>
+        <div class="voice-card__title">Acolhedora e real</div>
+        <p class="voice-card__desc">Linguagem de conversa, não de campanha. Reconhece a fé como parte da jornada. Nunca subestima a dor da tentante.</p>
+      </div>
+    </div>
+
+    <div class="word-lists">
+      <div class="word-list word-list--yes">
+        <div class="word-list__title">✓ Palavras da marca</div>
+        <ul>
+          <li>Método</li>
+          <li>Peças</li>
+          <li>Sequência</li>
+          <li>Caminho claro</li>
+          <li>Janela fértil real</li>
+          <li>Corpo que está pronto</li>
+          <li>O que faltava</li>
+          <li>Saber, não adivinhar</li>
+        </ul>
+      </div>
+      <div class="word-list word-list--no">
+        <div class="word-list__title">✗ Evitar sempre</div>
+        <ul>
+          <li>Orientação (= inimigo da marca)</li>
+          <li>Dica, conselho, truque</li>
+          <li>É só relaxar</li>
+          <li>Garantia de gravidez</li>
+          <li>Milagre, mágica, segredo</li>
+          <li>Infértil, problema, defeito</li>
+          <li>Linguagem clínica fria</li>
+          <li>Superlativos vazios</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="page-footer">
+      <span>Protocolo Ciclo Fértil — Manual de Marca</span>
+      <span>04</span>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     ELEMENTOS VISUAIS
+═══════════════════════════════════════════════ -->
+<div class="page">
+  <div class="inner">
+    <div class="section-label">05 — Identidade Visual</div>
+    <h2 class="section-title">Elementos Visuais</h2>
+    <div class="section-rule"></div>
+
+    <div class="visual-row">
+      <div class="visual-card">
+        <div class="visual-card__label">Títulos — Efeito Gradiente</div>
+        <div class="gradient-text-demo">Cada peça.<br>Um método.</div>
+        <p style="font-size:11px; color:var(--terracota-d); margin-top:16px; line-height:1.6;">Gradiente linear 135° de Cacau (#4A2E1A) para Terracota (#C8956C). Aplicado em H2 e palavras-chave em H1.</p>
+      </div>
+      <div class="visual-card">
+        <div class="visual-card__label">Eyebrow — Estilo Padrão</div>
+        <div class="eyebrow-demo">O caminho claro que faltava.</div>
+        <p style="font-size:11px; color:var(--terracota-d); margin-top:4px; line-height:1.6; margin-bottom:20px;">DM Sans Medium · 9–11px · Terracota · Caps · Letter-spacing 2.5px</p>
+        <div class="visual-card__label" style="margin-top:8px;">Eyebrow com ícone</div>
+        <div style="display:flex; align-items:center; gap:8px;">
+          <span style="font-size:14px;">♡</span>
+          <div class="eyebrow-demo" style="margin-bottom:0;">Depoimentos reais</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="visual-row">
+      <div class="visual-card">
+        <div class="visual-card__label">Botões CTA</div>
+        <div style="display:flex; flex-direction:column; gap:12px; align-items:flex-start;">
+          <div class="btn-demo btn-demo--secondary">Quero receber o meu positivo</div>
+          <div class="btn-demo btn-demo--primary">Quero começar agora</div>
+        </div>
+        <p style="font-size:11px; color:var(--terracota-d); margin-top:16px; line-height:1.6;">Border-radius 100px. Font-weight 600. O CTA repete o benefício — nunca apenas "Clique aqui".</p>
+      </div>
+      <div class="visual-card">
+        <div class="visual-card__label">Cards de Conteúdo</div>
+        <div class="card-demo">
+          <div style="font-size:11px; font-weight:600; color:var(--terracota); margin-bottom:6px;">🌿 Corpo</div>
+          <div style="font-size:15px; font-family:'Cormorant Garamond',serif; font-weight:700; margin-bottom:6px;">Alimentação e suplementação no momento certo.</div>
+        </div>
+        <p style="font-size:11px; color:var(--terracota-d); margin-top:12px; line-height:1.6;">Fundo branco · Box-shadow suave · Border-radius 12px · Ícone + título em serif + descrição em sans.</p>
+      </div>
+    </div>
+
+    <div class="visual-card" style="background:var(--cacau); padding:28px 32px;">
+      <div class="visual-card__label" style="color:var(--caramelo);">Fundo Escuro — Seção Hero e Rodapé</div>
+      <p style="font-family:'Cormorant Garamond',serif; font-size:22px; font-weight:700; color:var(--marfim); line-height:1.3;">Não é mais uma orientação<br>pra adicionar à lista.<br><em style="color:var(--terracota);">É o método que faltava.</em></p>
+      <p style="font-size:11px; color:var(--terracota-d); margin-top:12px;">Fundo Cacau. Texto Marfim. Destaque em Terracota itálico.</p>
+    </div>
+
+    <div class="page-footer">
+      <span>Protocolo Ciclo Fértil — Manual de Marca</span>
+      <span>05</span>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

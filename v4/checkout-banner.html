@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-VBLL62GBHC"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-VBLL62GBHC');
+  </script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --terracota:#C4956A; --terracota-d:#8B4A1C; --terracota-dd:#592508;
+    --cacau:#2B1A10; --creme:#F5E6D6; --marfim:#F5EFE6; --salvia-d:#3D5535; --caramelo:#D4A574;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{display:flex;align-items:center;justify-content:center;background:#333;padding:20px;}
+  .banner{
+    position:relative; width:1200px; height:800px; overflow:hidden;
+    background:radial-gradient(120% 120% at 78% 40%, #FBF4EA 0%, var(--marfim) 45%, var(--creme) 100%);
+    font-family:'DM Sans',sans-serif;
+  }
+  /* faixa superior */
+  .top{
+    position:absolute; top:0; left:0; right:0; height:96px;
+    display:flex; align-items:center; justify-content:center; gap:16px;
+    background:linear-gradient(90deg, var(--terracota-dd), var(--terracota-d) 50%, var(--terracota-dd));
+    z-index:5;
+  }
+  .top img{height:52px;width:auto;}
+  .top .name{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:44px;letter-spacing:.03em;color:#fff;text-transform:uppercase;}
+  .top .name small{font-weight:600;font-size:20px;opacity:.85;display:block;letter-spacing:.22em;margin-top:-6px;}
+
+  /* foto esquerda */
+  .photo{position:absolute; top:96px; left:0; width:560px; bottom:78px; overflow:hidden;}
+  .photo img{width:100%;height:100%;object-fit:cover;object-position:center 25%;}
+  .photo::after{content:"";position:absolute;inset:0;
+    background:linear-gradient(90deg, rgba(89,37,8,.12) 0%, rgba(245,230,214,0) 40%, rgba(245,230,214,.85) 82%, var(--creme) 100%),
+               linear-gradient(0deg, rgba(245,239,230,.94) 2%, rgba(245,239,230,.55) 22%, rgba(245,239,230,0) 40%),
+               linear-gradient(0deg, rgba(139,74,28,.16), rgba(196,149,106,.05));}
+
+  /* selo */
+  .seal{position:absolute;top:118px;left:26px;width:150px;height:auto;z-index:6;filter:drop-shadow(0 6px 14px rgba(90,55,20,.35));}
+
+  /* headline sobre a foto */
+  .headline{position:absolute;left:40px;bottom:120px;z-index:6;max-width:520px;}
+  .headline h1{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:78px;line-height:.94;color:var(--cacau);text-shadow:0 2px 14px rgba(245,239,230,.7);}
+  .headline h1 .g{color:var(--salvia-d);}
+  .headline p{font-size:21px;font-weight:600;color:var(--terracota-d);margin-top:14px;line-height:1.35;max-width:490px;}
+  .headline p .g{color:var(--salvia-d);font-weight:800;}
+
+  /* card direita */
+  .card{
+    position:absolute; top:150px; right:48px; width:560px;
+    background:rgba(255,253,248,.9); border:2px solid var(--terracota);
+    border-radius:26px; padding:38px 40px 34px; z-index:6;
+    box-shadow:0 24px 60px rgba(107,58,31,.16); backdrop-filter:blur(4px);
+  }
+  .card h2{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:40px;line-height:1.02;color:var(--terracota-d);text-align:center;}
+  .card .rule{height:2px;background:linear-gradient(90deg,transparent,rgba(196,149,106,.5),transparent);margin:22px 0;}
+  .card .sub{text-align:center;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:24px;letter-spacing:.14em;color:var(--terracota-dd);text-transform:uppercase;margin-bottom:20px;}
+  .card ul{list-style:none;display:flex;flex-direction:column;gap:16px;}
+  .card li{display:flex;align-items:center;gap:14px;font-size:24px;font-weight:600;color:var(--cacau);}
+  .card li svg{width:26px;height:26px;flex-shrink:0;}
+  .price{text-align:center;margin-top:8px;}
+  .price .apenas{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:22px;letter-spacing:.18em;color:var(--terracota-d);text-transform:uppercase;}
+  .price .val{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:96px;line-height:.9;
+    background:linear-gradient(90deg,#C4956A,#A85D28 55%,#7A3F14);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;}
+  .price .val .rs{font-size:44px;vertical-align:super;-webkit-text-fill-color:var(--terracota-d);margin-right:4px;}
+  .price .val .cents{font-size:44px;}
+
+  /* rodapé */
+  .foot{
+    position:absolute;bottom:0;left:0;right:0;height:78px;
+    display:flex;align-items:center;justify-content:center;gap:12px;
+    background:linear-gradient(90deg,var(--terracota-dd),var(--terracota-d) 50%,var(--terracota-dd));z-index:5;
+  }
+  .foot span{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:30px;letter-spacing:.06em;color:#fff;text-transform:uppercase;}
+  .foot svg{width:26px;height:26px;stroke:#fff;}
+</style>
+</head>
+<body>
+  <div class="banner">
+    <div class="top">
+      <img src="/Images/logo.png" alt=""/>
+      <div class="name">Ciclo Fértil<small>ACESSO COMPLETO</small></div>
+    </div>
+
+    <div class="photo"><img src="/Images/printhero.png" alt=""/></div>
+    <img class="seal" src="/Images/selo-garantia-7dias-fita.webp" alt="Garantia 7 dias"/>
+
+    <div class="headline">
+      <h1>Você fez<br/>tudo certo.</h1>
+      <p>Faltava aprender a <span class="g">ler os sinais</span> e <span class="g">blindar seus hormônios</span> na semana certa.</p>
+    </div>
+
+    <div class="card">
+      <h2>Prepare a sua fertilidade<br/>do jeito certo</h2>
+      <div class="rule"></div>
+      <div class="sub">Sem precisar de</div>
+      <ul>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="#B23A2E" stroke-width="2.4" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M8 8l8 8M16 8l-8 8"/></svg>Tratamentos hormonais caros</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="#B23A2E" stroke-width="2.4" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M8 8l8 8M16 8l-8 8"/></svg>Procedimentos invasivos</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="#B23A2E" stroke-width="2.4" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M8 8l8 8M16 8l-8 8"/></svg>Consultas intermináveis</li>
+      </ul>
+      <div class="rule"></div>
+      <div class="price">
+        <div class="apenas">Acesso completo por apenas</div>
+        <div class="val"><span class="rs">R$</span>37<span class="cents">,90</span></div>
+      </div>
+    </div>
+
+    <div class="foot">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16v12H4z"/><path d="M4 7l8 6 8-6"/></svg>
+      <span>Acesso imediato — liberado agora no seu e-mail</span>
+    </div>
+  </div>
+</body>
+</html>

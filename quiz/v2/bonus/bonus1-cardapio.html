@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-VBLL62GBHC"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-VBLL62GBHC');
+  </script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>O Cardápio da Gravidez – Protocolo Ciclo Fértil</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --cream: #FAF6F1;
+    --brown: #6B3D2E;
+    --brown-light: #8B5E3C;
+    --gold: #B8892A;
+    --gold-light: #E4C87A;
+    --text: #2D1B0E;
+    --text-light: #5C3D2E;
+    --accent-bg: #F2EAE0;
+    --green: #4A6741;
+    --red: #8B2E2E;
+  }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    font-size: 11pt;
+    line-height: 1.7;
+  }
+
+  .page {
+    width: 210mm;
+    min-height: 297mm;
+    margin: 0 auto 0;
+    padding: 18mm 20mm;
+    background: var(--cream);
+    page-break-after: always;
+    position: relative;
+  }
+
+  /* CAPA */
+  .cover {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background: linear-gradient(160deg, #2D1B0E 0%, #6B3D2E 50%, #8B5E3C 100%);
+    color: #FAF6F1;
+    min-height: 297mm;
+    padding: 20mm;
+  }
+
+  .cover .brand {
+    font-family: 'Inter', sans-serif;
+    font-size: 9pt;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--gold-light);
+    margin-bottom: 16mm;
+    opacity: 0.85;
+  }
+
+  .cover .bonus-tag {
+    background: var(--gold);
+    color: #2D1B0E;
+    font-size: 8pt;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    padding: 5px 18px;
+    border-radius: 2px;
+    margin-bottom: 10mm;
+    display: inline-block;
+  }
+
+  .cover h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 38pt;
+    font-weight: 700;
+    line-height: 1.15;
+    color: #FAF6F1;
+    margin-bottom: 8mm;
+  }
+
+  .cover h1 span {
+    color: var(--gold-light);
+  }
+
+  .cover .subtitle {
+    font-size: 12pt;
+    color: rgba(250,246,241,0.75);
+    max-width: 130mm;
+    line-height: 1.6;
+    margin-bottom: 18mm;
+  }
+
+  .cover .divider {
+    width: 40mm;
+    height: 1px;
+    background: var(--gold);
+    margin: 0 auto 10mm;
+  }
+
+  .cover .desc {
+    font-size: 10pt;
+    color: rgba(250,246,241,0.6);
+    letter-spacing: 1px;
+  }
+
+  /* HEADER INTERNO */
+  .page-header {
+    border-bottom: 2px solid var(--gold);
+    padding-bottom: 5mm;
+    margin-bottom: 10mm;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .page-header .chapter {
+    font-size: 7pt;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 600;
+  }
+
+  .page-header .title {
+    font-family: 'Playfair Display', serif;
+    font-size: 10pt;
+    color: var(--text-light);
+    font-style: italic;
+  }
+
+  /* SEÇÕES */
+  h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 22pt;
+    color: var(--brown);
+    line-height: 1.25;
+    margin-bottom: 6mm;
+    font-weight: 700;
+  }
+
+  h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 15pt;
+    color: var(--brown-light);
+    margin-bottom: 4mm;
+    margin-top: 7mm;
+    font-weight: 600;
+  }
+
+  h4 {
+    font-size: 10pt;
+    font-weight: 700;
+    color: var(--text);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 3mm;
+    margin-top: 5mm;
+  }
+
+  p { margin-bottom: 4mm; }
+
+  .lead {
+    font-size: 13pt;
+    color: var(--brown-light);
+    line-height: 1.65;
+    border-left: 3px solid var(--gold);
+    padding-left: 6mm;
+    margin-bottom: 8mm;
+    font-style: italic;
+  }
+
+  /* CAIXAS */
+  .box {
+    background: var(--accent-bg);
+    border-radius: 6px;
+    padding: 6mm 7mm;
+    margin: 6mm 0;
+  }
+
+  .box-gold {
+    background: linear-gradient(135deg, #FDF5E6, #F5E6C8);
+    border: 1px solid var(--gold-light);
+    border-radius: 6px;
+    padding: 6mm 7mm;
+    margin: 6mm 0;
+  }
+
+  .box-red {
+    background: #FDF0F0;
+    border-left: 4px solid var(--red);
+    border-radius: 0 6px 6px 0;
+    padding: 5mm 7mm;
+    margin: 5mm 0;
+  }
+
+  .box-green {
+    background: #F0F5EF;
+    border-left: 4px solid var(--green);
+    border-radius: 0 6px 6px 0;
+    padding: 5mm 7mm;
+    margin: 5mm 0;
+  }
+
+  .stat-block {
+    display: flex;
+    gap: 5mm;
+    margin: 6mm 0;
+  }
+
+  .stat {
+    flex: 1;
+    background: var(--brown);
+    color: var(--cream);
+    border-radius: 6px;
+    padding: 5mm 4mm;
+    text-align: center;
+  }
+
+  .stat .num {
+    font-family: 'Playfair Display', serif;
+    font-size: 26pt;
+    font-weight: 700;
+    color: var(--gold-light);
+    display: block;
+    line-height: 1;
+  }
+
+  .stat .label {
+    font-size: 8pt;
+    color: rgba(250,246,241,0.8);
+    margin-top: 2mm;
+    line-height: 1.4;
+  }
+
+  /* LISTAS */
+  ul, ol {
+    padding-left: 5mm;
+    margin-bottom: 4mm;
+  }
+
+  li {
+    margin-bottom: 2mm;
+    padding-left: 2mm;
+  }
+
+  ul li::marker { color: var(--gold); }
+
+  .check-list { list-style: none; padding-left: 0; }
+  .check-list li::before {
+    content: "✓ ";
+    color: var(--green);
+    font-weight: 700;
+  }
+
+  .x-list { list-style: none; padding-left: 0; }
+  .x-list li::before {
+    content: "✗ ";
+    color: var(--red);
+    font-weight: 700;
+  }
+
+  /* GRADE ALIMENTOS */
+  .food-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4mm;
+    margin: 5mm 0;
+  }
+
+  .food-card {
+    background: white;
+    border-radius: 6px;
+    padding: 4mm 5mm;
+    border-top: 3px solid var(--gold);
+  }
+
+  .food-card .food-name {
+    font-weight: 700;
+    font-size: 10pt;
+    color: var(--brown);
+    margin-bottom: 1mm;
+  }
+
+  .food-card .food-why {
+    font-size: 8.5pt;
+    color: var(--text-light);
+    line-height: 1.5;
+  }
+
+  /* TABELA SEMANA */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 5mm 0;
+    font-size: 9pt;
+  }
+
+  th {
+    background: var(--brown);
+    color: var(--cream);
+    padding: 3mm 4mm;
+    text-align: left;
+    font-weight: 600;
+    font-size: 8.5pt;
+  }
+
+  td {
+    padding: 3mm 4mm;
+    border-bottom: 1px solid #E8D5BC;
+    vertical-align: top;
+  }
+
+  tr:nth-child(even) td { background: #FBF7F2; }
+
+  /* RECEITA */
+  .recipe {
+    background: white;
+    border-radius: 8px;
+    padding: 6mm 7mm;
+    margin: 5mm 0;
+    border: 1px solid #E8D5BC;
+  }
+
+  .recipe-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 13pt;
+    color: var(--brown);
+    margin-bottom: 3mm;
+  }
+
+  .recipe-tag {
+    display: inline-block;
+    background: var(--gold-light);
+    color: var(--brown);
+    font-size: 7.5pt;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 2px;
+    margin-bottom: 3mm;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  /* FOOTER */
+  .footer {
+    position: absolute;
+    bottom: 10mm;
+    left: 20mm;
+    right: 20mm;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid #E8D5BC;
+    padding-top: 3mm;
+    font-size: 7.5pt;
+    color: #A08060;
+  }
+
+  @media print {
+    body { background: white; }
+    .page { margin: 0; page-break-after: always; }
+  }
+</style>
+</head>
+<body>
+
+<!-- CAPA -->
+<div class="page cover">
+  <div class="brand">Protocolo Ciclo Fértil</div>
+  <div class="bonus-tag">Bônus 1</div>
+  <h1>O Cardápio<br>da <span>Gravidez</span></h1>
+  <div class="subtitle">O guia de alimentação baseado em ciência para preparar o seu corpo para a concepção — sem dietas malucas nem proibições sem sentido.</div>
+  <div class="divider"></div>
+  <div class="desc">Baseado em pesquisa clínica | Instituto de Nutrição Reprodutiva</div>
+</div>
+
+<!-- PÁGINA 2 — INTRODUÇÃO -->
+<div class="page">
+  <div class="page-header">
+    <span class="chapter">Bônus 1 · O Cardápio da Gravidez</span>
+    <span class="title">Protocolo Ciclo Fértil</span>
+  </div>
+
+  <h2>A comida que você come está construindo — ou destruindo — a sua fertilidade</h2>
+
+  <p class="lead">Antes de ser óvulo, antes de ser embrião, antes de ser bebê — o seu corpo precisa de matéria-prima. E essa matéria-prima chega pelo prato.</p>
+
+  <p>Você já tomou ácido fólico. Provavelmente tentou comer melhor. Mas existe uma diferença enorme entre "comer saudável no geral" e "alimentar a fertilidade de forma estratégica".</p>
+
+  <p>A ciência reprodutiva mais atual é clara: <strong>a nutrição não é um detalhe do processo de engravidar. Ela é a fundação.</strong> O óvulo que vai encontrar o espermatozoide foi formado meses antes, dentro de um folículo que depende de vitaminas, minerais e gorduras corretas para amadurecer com qualidade.</p>
+
+  <div class="box-gold">
+    <h4>O que a pesquisa mostra</h4>
+    <p>Segundo dados do Instituto de Saúde Reprodutiva, deficiências nutricionais específicas estão presentes em <strong>mais de 70% das mulheres que enfrentam dificuldade para engravidar</strong> — mesmo aquelas que comem "razoavelmente bem".</p>
+    <p style="margin:0">O problema não é comer errado. É não comer <em>o que a fertilidade precisa</em>.</p>
+  </div>
+
+  <div class="stat-block">
+    <div class="stat">
+      <span class="num">1 em 6</span>
+      <span class="label">adultos no mundo é afetado por infertilidade</span>
+    </div>
+    <div class="stat">
+      <span class="num">70%</span>
+      <span class="label">dos fatores que afetam a fertilidade são modificáveis pela nutrição</span>
+    </div>
+    <div class="stat">
+      <span class="num">3–6</span>
+      <span class="label">meses para o impacto da alimentação aparecer na qualidade dos óvulos</span>
+    </div>
+  </div>
+
+  <p>Este guia não é uma dieta para emagrecer. Não é uma lista de proibições. É um mapa prático de como alimentar o seu sistema reprodutivo com o que ele precisa — semana após semana.</p>
+
+  <div class="footer">
+    <span>Protocolo Ciclo Fértil</span>
+    <span>O Cardápio da Gravidez</span>
+  </div>
+</div>
+
+<!-- PÁGINA 3 — SABOTADORES -->
+<div class="page">
+  <div class="page-header">
+    <span class="chapter">Capítulo 1</span>
+    <span class="title">Os Sabotadores Invisíveis</span>
+  </div>
+
+  <h2>O que está bloqueando a sua fertilidade sem você perceber</h2>
+
+  <p class="lead">Antes de colocar o que alimenta, é preciso remover o que sabota. Esses são os maiores inimigos do seu sistema reprodutivo.</p>
+
+  <h3>Sabotador 1: Gorduras Trans</h3>
+  <p>As gorduras trans (presentes em biscoitos recheados, salgadinhos, margarinas duras e fast food) causam <strong>inflamação sistêmica</strong> que afeta diretamente os ovários. Estudos mostram que mulheres com alto consumo de trans têm ciclos mais irregulares e menor taxa de ovulação.</p>
+  <div class="box-red">
+    <strong>Evite:</strong> Biscoito recheado, margarina, sorvete cremoso industrializado, massas instantâneas, frango empanado congelado.
+  </div>
+
+  <h3>Sabotador 2: Carboidratos Refinados em Excesso</h3>
+  <p>Farinha branca, açúcar e bebidas açucaradas elevam a insulina repetidamente. Insulina alta em excesso <strong>estimula os ovários a produzirem androgênios</strong> (hormônios masculinos), interferindo na ovulação — especialmente em mulheres com SOP.</p>
+  <div class="box-red">
+    <strong>Reduza drasticamente:</strong> Pão branco, arroz branco em excesso, refrigerantes, sucos industrializados, bolos e doces do dia a dia.
+  </div>
+
+  <h3>Sabotador 3: Ultraprocessados</h3>
+  <p>São aqueles produtos com listas de ingredientes gigantes que você mal reconhece. Eles contêm <strong>conservantes, corantes e disruptores endócrinos</strong> que interferem na comunicação hormonal do seu corpo.</p>
+
+  <h3>Sabotador 4: Metais Pesados</h3>
+  <p>Mercúrio (em peixes grandes como cação e atum em excesso), chumbo e cádmio se acumulam no tecido reprodutivo e <strong>danificam a qualidade dos óvulos</strong> ao longo do tempo.</p>
+  <div class="box-red">
+    <strong>Atenção:</strong> Limite o atum enlatado a 1 vez por semana. Evite cação, tubarão e peixe-espada por completo no período de tentativa.
+  </div>
+
+  <h3>Sabotador 5: Álcool</h3>
+  <p>Mesmo em quantidades "sociais", o álcool afeta os níveis de estrogênio, a qualidade do muco cervical e o ambiente folicular. <strong>Não existe dose segura comprovada para quem está tentando engravidar.</strong></p>
+
+  <div class="box">
+    <h4>A regra de ouro</h4>
+    <p style="margin:0">Você não precisa ser perfeita. Mas a regra 80/20 aqui é real: <strong>80% do tempo fazendo as escolhas certas já produz diferença mensurável</strong> nos hormônios e na qualidade dos folículos ao longo de 3 meses.</p>
+  </div>
+
+  <div class="footer">
+    <span>Protocolo Ciclo Fértil</span>
+    <span>O Cardápio da Gravidez</span>
+  </div>
+</div>
+
+<!-- PÁGINA 4 — ALIMENTOS FÉRTEIS -->
+<div class="page">
+  <div class="page-header">
+    <span class="chapter">Capítulo 2</span>
+    <span class="title">Os Alimentos da Fertilidade</span>
+  </div>
+
+  <h2>O que colocar no prato para nutrir os seus óvulos</h2>
+
+  <p class="lead">Cada folículo que amadurece nos seus ovários está mergulhado em fluido folicular. A qualidade desse fluido depende diretamente do que você come.</p>
+
+  <div class="food-grid">
+    <div class="food-card">
+      <div class="food-name">🥑 Abacate</div>
+      <div class="food-why">Rico em gorduras monoinsaturadas que equilibram hormônios. Fonte de vitamina E, antioxidante folicular. Come com qualquer refeição.</div>
+    </div>
+    <div class="food-card">
+      <div class="food-name">🥦 Brócolis e Couve-flor</div>
+      <div class="food-why">Contêm DIM (diindolilmetano) que ajuda o fígado a metabolizar o excesso de estrogênio. Essencial para equilíbrio hormonal.</div>
+    </div>
+    <div class="food-card">
+      <div class="food-name">🐟 Sardinha e Salmão</div>
+      <div class="food-why">Ômega-3 DHA e EPA reduzem inflamação nos ovários e melhoram a receptividade do endométrio. Pelo menos 3x por semana.</div>
+    </div>
+    <div class="food-card">
+      <div class="food-name">🥚 Ovos (com gema)</div>
+      <div class="food-why">Colina e vitamina D concentradas na gema. A colina é essencial para o desenvolvimento neurológico do bebê desde a pré-concepção.</div>
+    </div>
+    <div class="food-card">
+      <div class="food-name">🫐 Mirtilo e Morango</div>
+      <div class="food-why">Antioxidantes (flavonóides) que protegem o DNA dos óvulos contra o estresse oxidativo. Quanto mais colorido, mais poderoso.</div>
+    </div>
+    <div class="food-card">
+      <div class="food-name">🌱 Feijão e Lentilha</div>
+      <div class="food-why">Fonte de ferro não-heme e folato natural. Ferro adequado é essencial para ovulação regular. Combine com vitamina C para absorção.</div>
+    </div>
+    <div class="food-card">
+      <div class="food-name">🥜 Nozes e Sementes</div>
+      <div class="food-why">Sementes de girassol = vitamina E. Nozes = ômega-3 vegetal. Semente de abóbora = zinco (hormônio da fertilidade). 1 punhado ao dia.</div>
+    </div>
+    <div class="food-card">
+      <div class="food-name">🫚 Azeite extravirgem</div>
+      <div class="food-why">Oleocanthal tem ação anti-inflamatória similar ao ibuprofeno, mas sem efeitos colaterais. Use frio. Nunca frite com azeite extravirgem.</div>
+    </div>
+  </div>
+
+  <h3>As proteínas e a ovulação</h3>
+  <p>Estudos de Harvard mostram que mulheres que consomem mais <strong>proteína vegetal</strong> (feijão, lentilha, grão-de-bico) têm menor risco de infertilidade ovulatória do que quem depende só de proteína animal.</p>
+  <p>Isso não significa abandonar carnes. Significa <strong>diversificar</strong>: pelo menos 3 refeições por semana com proteína vegetal como protagonista.</p>
+
+  <div class="box-green">
+    <h4>A proporção ideal do prato</h4>
+    <ul class="check-list">
+      <li>½ do prato = legumes e vegetais coloridos</li>
+      <li>¼ do prato = proteína (animal ou vegetal de qualidade)</li>
+      <li>¼ do prato = carboidrato complexo (arroz integral, batata-doce, quinoa)</li>
+      <li>Gordura boa em toda refeição (azeite, abacate ou oleaginosas)</li>
+    </ul>
+  </div>
+
+  <div class="footer">
+    <span>Protocolo Ciclo Fértil</span>
+    <span>O Cardápio da Gravidez</span>
+  </div>
+</div>
+
+<!-- PÁGINA 5 — MICRONUTRIENTES -->
+<div class="page">
+  <div class="page-header">
+    <span class="chapter">Capítulo 3</span>
+    <span class="title">Os Micronutrientes que Ativam o Ciclo</span>
+  </div>
+
+  <h2>Os catalisadores invisíveis da fertilidade</h2>
+
+  <p class="lead">Micronutrientes são como interruptores. Quando estão em níveis adequados, o sistema reprodutivo funciona. Quando faltam, os ciclos travam.</p>
+
+  <h3>Folato (a forma correta do ácido fólico)</h3>
+  <p>Você provavelmente já sabe que precisa de ácido fólico. Mas <strong>a forma que você toma importa muito.</strong> O ácido fólico sintético (das farmácias comuns) precisa ser convertido pelo seu corpo para ser usado — e cerca de 40% das mulheres têm uma variação genética (MTHFR) que dificulta essa conversão.</p>
+  <div class="box-gold">
+    <strong>Na alimentação:</strong> folhas verde-escuras (couve, espinafre, rúcula), feijão preto, brócolis, aspargo, beterraba.<br><br>
+    <strong>Importante:</strong> O fechamento do tubo neural do bebê acontece no dia 28 após a concepção — muitas vezes antes de você saber que está grávida. Por isso o folato precisa estar alto <em>antes</em> da gravidez.
+  </div>
+
+  <h3>Vitamina D — o hormônio escondido</h3>
+  <p>A vitamina D não é só vitamina: ela age como hormônio e tem receptores nos ovários, no endométrio e na placenta. Estudos mostram que mulheres com vitamina D adequada têm <strong>maior taxa de ovulação e ciclos mais regulares.</strong></p>
+  <ul>
+    <li><strong>Fontes alimentares:</strong> Sardinha, salmão, gema de ovo, cogumelos expostos ao sol</li>
+    <li><strong>Principal fonte:</strong> Sol (15–20 minutos de exposição diária de braços e pernas)</li>
+    <li><strong>Sinal de alerta:</strong> Mais de 70% das mulheres com SOP têm deficiência de vitamina D</li>
+  </ul>
+
+  <h3>Zinco — o guardião hormonal</h3>
+  <p>O zinco participa diretamente da produção de progesterona (o hormônio da fase lútea que prepara o útero para a implantação) e da regulação do ciclo menstrual.</p>
+  <div class="box">
+    <strong>Fontes ricas:</strong> Semente de abóbora (a mais concentrada), carne vermelha magra, mariscos, grão-de-bico, castanha-de-caju.
+  </div>
+
+  <h3>Magnésio — o relaxante do útero</h3>
+  <p>Magnésio baixo está associado a cólicas intensas, tensão pré-menstrual severa e espasmos uterinos. <strong>Um útero tenso não implanta bem.</strong> Além disso, o magnésio melhora a sensibilidade à insulina — fator crítico para quem tem SOP.</p>
+  <ul>
+    <li><strong>Fontes:</strong> Chocolate amargo (acima de 70%), banana, abacate, espinafre cozido, amêndoas</li>
+  </ul>
+
+  <h3>Iodo — o combustível da tireoide</h3>
+  <p>A tireoide regula todos os hormônios do corpo, incluindo os reprodutivos. Iodo insuficiente cria hipotireoidismo subclínico que <strong>afeta a ovulação e a implantação</strong> mesmo quando os exames convencionais voltam "normais".</p>
+  <div class="box">
+    <strong>Fontes:</strong> Algas marinhas (kombu, nori), peixes do mar, frutos do mar, sal iodado (com moderação).
+  </div>
+
+  <div class="footer">
+    <span>Protocolo Ciclo Fértil</span>
+    <span>O Cardápio da Gravidez</span>
+  </div>
+</div>
+
+<!-- PÁGINA 6 — CARDÁPIO SEMANAL -->
+<div class="page">
+  <div class="page-header">
+    <span class="chapter">Capítulo 4</span>
+    <span class="title">O Cardápio Prático</span>
+  </div>
+
+  <h2>Uma semana de alimentação para a fertilidade</h2>
+
+  <p class="lead">Este cardápio não é rígido. É um modelo. Adapte para o que você gosta, mas mantendo os princípios: variedade de cores, gordura boa em toda refeição, proteína em todo almoço e jantar.</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Dia</th>
+        <th>Café da Manhã</th>
+        <th>Almoço</th>
+        <th>Jantar</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Seg</strong></td>
+        <td>Ovo mexido + abacate + torrada integral</td>
+        <td>Salmão + arroz integral + brócolis com azeite</td>
+        <td>Sopa de lentilha + folhas verdes</td>
+      </tr>
+      <tr>
+        <td><strong>Ter</strong></td>
+        <td>Iogurte natural + granola sem açúcar + frutas vermelhas</td>
+        <td>Frango grelhado + batata-doce + salada colorida</td>
+        <td>Omelete de espinafre + salada</td>
+      </tr>
+      <tr>
+        <td><strong>Qua</strong></td>
+        <td>Smoothie verde (espinafre + banana + chia + leite vegetal)</td>
+        <td>Feijão preto + arroz integral + sardinha + couve refogada</td>
+        <td>Carne magra + legumes assados no azeite</td>
+      </tr>
+      <tr>
+        <td><strong>Qui</strong></td>
+        <td>Tapioca com ovo + abacate</td>
+        <td>Grão-de-bico + quinoa + cenoura + beterraba</td>
+        <td>Tilápia no forno + aspargos + batata-doce</td>
+      </tr>
+      <tr>
+        <td><strong>Sex</strong></td>
+        <td>Mingau de aveia + nozes + banana + canela</td>
+        <td>Frango + macarrão integral + molho de tomate caseiro</td>
+        <td>Sardinha com salada grande + azeite</td>
+      </tr>
+      <tr>
+        <td><strong>Sáb</strong></td>
+        <td>Panqueca de banana + ovo (sem glúten)</td>
+        <td>Arroz + feijão + carne magra + salada</td>
+        <td>Sopa de legumes com frango</td>
+      </tr>
+      <tr>
+        <td><strong>Dom</strong></td>
+        <td>Ovo cozido + pão integral + abacate</td>
+        <td>Peixe no forno + arroz integral + vegetais coloridos</td>
+        <td>Salada completa com grão-de-bico + atum (sem molho)</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Lanches estratégicos</h3>
+  <div class="food-grid">
+    <div class="food-card">
+      <div class="food-name">Manhã (10h)</div>
+      <div class="food-why">1 punhado de nozes ou castanhas + 1 fruta de baixo índice glicêmico (maçã, pera, goiaba)</div>
+    </div>
+    <div class="food-card">
+      <div class="food-name">Tarde (16h)</div>
+      <div class="food-why">1 colher de sopa de semente de abóbora + 1 quadrado de chocolate 70% + chá de erva-mate ou verde</div>
+    </div>
+  </div>
+
+  <div class="box-green">
+    <h4>Hidratação — o esquecido da fertilidade</h4>
+    <p>O muco cervical (essencial para guiar o espermatozoide até o óvulo) depende de hidratação adequada. <strong>2 a 2,5 litros de água por dia.</strong> Chás de ervas sem cafeína contam. Refrigerante, não.</p>
+  </div>
+
+  <div class="footer">
+    <span>Protocolo Ciclo Fértil</span>
+    <span>O Cardápio da Gravidez</span>
+  </div>
+</div>
+
+<!-- PÁGINA 7 — RECEITAS -->
+<div class="page">
+  <div class="page-header">
+    <span class="chapter">Capítulo 5</span>
+    <span class="title">Receitas da Fertilidade</span>
+  </div>
+
+  <h2>3 receitas simples com ingredientes poderosos</h2>
+
+  <div class="recipe">
+    <span class="recipe-tag">Café da Manhã</span>
+    <div class="recipe-title">Smoothie do Ciclo Verde</div>
+    <p><strong>Por que funciona:</strong> Espinafre cru + frutas vermelhas + sementes de chia = folato + antioxidantes + ômega-3 em uma dose só.</p>
+    <p><strong>Ingredientes:</strong></p>
+    <ul>
+      <li>1 xícara de espinafre baby fresco</li>
+      <li>½ xícara de mirtilo (pode ser congelado)</li>
+      <li>1 banana pequena (pode ser congelada para cremosidade)</li>
+      <li>1 colher de sopa de semente de chia</li>
+      <li>200ml de leite vegetal (amêndoa, aveia ou coco)</li>
+      <li>1 colher de chá de mel ou tâmara para adoçar (opcional)</li>
+    </ul>
+    <p><strong>Modo:</strong> Bata tudo no liquidificador. Beba imediatamente. Não coe (a fibra importa).</p>
+  </div>
+
+  <div class="recipe">
+    <span class="recipe-tag">Almoço/Jantar</span>
+    <div class="recipe-title">Bowl Fértil de Salmão</div>
+    <p><strong>Por que funciona:</strong> Ômega-3 (salmão) + antioxidantes (beterraba) + zinco (semente de abóbora) + folato (espinafre).</p>
+    <p><strong>Ingredientes:</strong></p>
+    <ul>
+      <li>150g de salmão grelhado ou assado com alho e azeite</li>
+      <li>½ xícara de quinoa cozida</li>
+      <li>½ beterraba pequena cozida e fatiada</li>
+      <li>1 punhado de espinafre baby</li>
+      <li>¼ abacate fatiado</li>
+      <li>1 colher de sopa de semente de abóbora</li>
+      <li>Molho: azeite + limão + sal + pimenta-do-reino</li>
+    </ul>
+    <p><strong>Modo:</strong> Monte numa tigela grande. Regue com o molho. Sirva imediatamente.</p>
+  </div>
+
+  <div class="recipe">
+    <span class="recipe-tag">Lanche / Sobremesa</span>
+    <div class="recipe-title">Bolinha de Energia Folicular</div>
+    <p><strong>Por que funciona:</strong> Nozes + tâmaras + cacau = magnésio + zinco + antioxidantes sem açúcar refinado.</p>
+    <p><strong>Ingredientes (rende 15 bolinhas):</strong></p>
+    <ul>
+      <li>1 xícara de tâmaras sem caroço (hidratadas em água morna)</li>
+      <li>½ xícara de nozes</li>
+      <li>3 colheres de sopa de cacau em pó puro (sem açúcar)</li>
+      <li>2 colheres de sopa de semente de chia</li>
+      <li>1 pitada de sal marinho</li>
+    </ul>
+    <p><strong>Modo:</strong> Processe tudo no processador. Forme bolinhas. Refrigere por 30 minutos. Guarde por até 1 semana na geladeira.</p>
+  </div>
+
+  <div class="footer">
+    <span>Protocolo Ciclo Fértil</span>
+    <span>O Cardápio da Gravidez</span>
+  </div>
+</div>
+
+<!-- PÁGINA 8 — ENCERRAMENTO -->
+<div class="page">
+  <div class="page-header">
+    <span class="chapter">Conclusão</span>
+    <span class="title">O Cardápio da Gravidez</span>
+  </div>
+
+  <h2>Você está construindo o ninho — um prato de cada vez</h2>
+
+  <p class="lead">A biologia da fertilidade não reage da noite para o dia. Ela responde a padrões. E padrões são construídos com decisões repetidas — não com perfeição.</p>
+
+  <p>O óvulo que você vai ovular daqui a 3 meses está amadurecendo agora, dentro de um folículo que depende do que você come hoje. Isso não é metáfora. É fisiologia.</p>
+
+  <p>Você não precisa virar nutricionista. Não precisa eliminar tudo que ama. Precisa entender o que nutre — e o que sabota — e fazer escolhas informadas.</p>
+
+  <div class="box-gold">
+    <h4>Seus 3 próximos passos práticos</h4>
+    <ol style="padding-left:5mm; margin:0">
+      <li style="margin-bottom:3mm"><strong>Esta semana:</strong> Adicione 1 punhado de sementes oleaginosas por dia ao seu cardápio. Zinco, magnésio e vitamina E em dose diária.</li>
+      <li style="margin-bottom:3mm"><strong>Essa semana:</strong> Troque pelo menos 2 refeições para incluir proteína vegetal (feijão, grão-de-bico, lentilha).</li>
+      <li><strong>Este mês:</strong> Faça dosagem de Vitamina D com seu médico. Se estiver abaixo de 40 ng/mL, corrija com suplementação orientada.</li>
+    </ol>
+  </div>
+
+  <div class="box" style="margin-top:8mm; text-align:center">
+    <p style="font-family:'Playfair Display',serif; font-size:14pt; color:var(--brown); font-style:italic; margin-bottom:3mm">"O corpo que vai carregar seu filho está sendo construído agora.<br>Alimente esse corpo com intenção."</p>
+    <p style="font-size:9pt; color:var(--text-light); margin:0">— Protocolo Ciclo Fértil</p>
+  </div>
+
+  <div style="margin-top:10mm; padding:5mm; border:1px solid #E8D5BC; border-radius:6px; font-size:8.5pt; color:var(--text-light)">
+    <strong>Aviso importante:</strong> Este material é educativo e não substitui orientação médica individualizada. Antes de iniciar qualquer suplementação, consulte seu médico ou nutricionista. As dosagens ideais variam de pessoa para pessoa conforme exames e histórico clínico.
+  </div>
+
+  <div class="footer">
+    <span>Protocolo Ciclo Fértil</span>
+    <span>O Cardápio da Gravidez · Bônus 1</span>
+  </div>
+</div>
+
+</body>
+</html>

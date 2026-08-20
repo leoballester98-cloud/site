@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-VBLL62GBHC"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-VBLL62GBHC');
+  </script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Suplementar para Engravidar – Protocolo Ciclo Fértil</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --cream: #FAF6F1;
+    --purple: #2D1B4E;
+    --purple-mid: #4A2D7A;
+    --purple-light: #6B4FA0;
+    --gold: #B8892A;
+    --gold-light: #E4C87A;
+    --text: #1A1020;
+    --text-light: #4A3060;
+    --accent-bg: #F3EEF8;
+    --green: #2D6A4F;
+    --red: #8B1E1E;
+    --cream-dark: #F0E8F5;
+  }
+
+  body { font-family: 'Inter', sans-serif; background: var(--cream); color: var(--text); font-size: 11pt; line-height: 1.7; }
+
+  .page { width: 210mm; min-height: 297mm; margin: 0 auto; padding: 18mm 20mm; background: var(--cream); page-break-after: always; position: relative; }
+
+  .cover {
+    display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;
+    background: linear-gradient(160deg, #150B2E 0%, #2D1B4E 55%, #4A2D7A 100%);
+    color: #FAF6F1; min-height: 297mm; padding: 20mm;
+  }
+  .cover .brand { font-size: 9pt; letter-spacing: 4px; text-transform: uppercase; color: var(--gold-light); margin-bottom: 16mm; opacity: 0.85; }
+  .cover .bonus-tag { background: var(--gold); color: #150B2E; font-size: 8pt; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; padding: 5px 18px; border-radius: 2px; margin-bottom: 10mm; display: inline-block; }
+  .cover h1 { font-family: 'Playfair Display', serif; font-size: 36pt; font-weight: 700; line-height: 1.15; color: #FAF6F1; margin-bottom: 8mm; }
+  .cover h1 span { color: var(--gold-light); }
+  .cover .subtitle { font-size: 12pt; color: rgba(250,246,241,0.72); max-width: 130mm; line-height: 1.6; margin-bottom: 18mm; }
+  .cover .divider { width: 40mm; height: 1px; background: var(--gold); margin: 0 auto 10mm; }
+  .cover .desc { font-size: 10pt; color: rgba(250,246,241,0.55); letter-spacing: 1px; }
+
+  .page-header { border-bottom: 2px solid var(--gold); padding-bottom: 5mm; margin-bottom: 10mm; display: flex; align-items: center; justify-content: space-between; }
+  .page-header .chapter { font-size: 7pt; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); font-weight: 600; }
+  .page-header .title { font-family: 'Playfair Display', serif; font-size: 10pt; color: var(--text-light); font-style: italic; }
+
+  h2 { font-family: 'Playfair Display', serif; font-size: 22pt; color: var(--purple); line-height: 1.25; margin-bottom: 6mm; font-weight: 700; }
+  h3 { font-family: 'Playfair Display', serif; font-size: 15pt; color: var(--purple-mid); margin-bottom: 4mm; margin-top: 7mm; font-weight: 600; }
+  h4 { font-size: 10pt; font-weight: 700; color: var(--text); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 3mm; margin-top: 5mm; }
+  p { margin-bottom: 4mm; }
+
+  .lead { font-size: 13pt; color: var(--purple-mid); line-height: 1.65; border-left: 3px solid var(--gold); padding-left: 6mm; margin-bottom: 8mm; font-style: italic; }
+
+  .box { background: var(--accent-bg); border-radius: 6px; padding: 6mm 7mm; margin: 6mm 0; }
+  .box-gold { background: linear-gradient(135deg, #FDF5E6, #F5E6C8); border: 1px solid var(--gold-light); border-radius: 6px; padding: 6mm 7mm; margin: 6mm 0; }
+  .box-red { background: #FFF0F0; border-left: 4px solid var(--red); border-radius: 0 6px 6px 0; padding: 5mm 7mm; margin: 5mm 0; }
+  .box-green { background: #EFF6F2; border-left: 4px solid var(--green); border-radius: 0 6px 6px 0; padding: 5mm 7mm; margin: 5mm 0; }
+  .box-purple { background: var(--purple); color: var(--cream); border-radius: 6px; padding: 6mm 7mm; margin: 6mm 0; }
+  .box-purple h4 { color: var(--gold-light); }
+  .box-purple p { color: rgba(250,246,241,0.85); margin-bottom:3mm; }
+
+  .stat-block { display: flex; gap: 5mm; margin: 6mm 0; }
+  .stat { flex: 1; background: var(--purple); color: var(--cream); border-radius: 6px; padding: 5mm 4mm; text-align: center; }
+  .stat .num { font-family: 'Playfair Display', serif; font-size: 24pt; font-weight: 700; color: var(--gold-light); display: block; line-height: 1; }
+  .stat .label { font-size: 8pt; color: rgba(250,246,241,0.8); margin-top: 2mm; line-height: 1.4; }
+
+  .supp-card {
+    background: white;
+    border-radius: 8px;
+    padding: 5mm 6mm;
+    margin: 4mm 0;
+    border-left: 5px solid var(--purple-mid);
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 4mm;
+    align-items: start;
+  }
+  .supp-number { font-family: 'Playfair Display', serif; font-size: 22pt; color: var(--gold); font-weight: 700; line-height: 1; padding-top: 1mm; }
+  .supp-name { font-weight: 700; font-size: 12pt; color: var(--purple); margin-bottom: 1mm; }
+  .supp-dose { font-size: 8.5pt; color: var(--gold); font-weight: 600; margin-bottom: 2mm; text-transform: uppercase; letter-spacing: 1px; }
+  .supp-body { font-size: 9pt; color: var(--text-light); line-height: 1.6; }
+
+  .compare-table { width: 100%; border-collapse: collapse; margin: 5mm 0; font-size: 9pt; }
+  .compare-table th { padding: 3mm 4mm; text-align: left; font-weight: 700; font-size: 9pt; }
+  .compare-table .head-1 { background: #E0D8F0; color: var(--purple); }
+  .compare-table .head-2 { background: var(--purple); color: var(--gold-light); }
+  .compare-table td { padding: 3mm 4mm; border-bottom: 1px solid #E8D5F0; vertical-align: top; }
+  .compare-table .col-1 { background: #FBF8FF; }
+  .compare-table .col-2 { background: #F0EAF8; }
+  .compare-table tr:first-child td { font-weight: 600; }
+
+  ul, ol { padding-left: 5mm; margin-bottom: 4mm; }
+  li { margin-bottom: 2mm; padding-left: 2mm; }
+  ul li::marker { color: var(--gold); }
+  .check-list { list-style: none; padding-left: 0; }
+  .check-list li::before { content: "✓ "; color: var(--green); font-weight: 700; }
+
+  table.basic { width: 100%; border-collapse: collapse; margin: 5mm 0; font-size: 9pt; }
+  table.basic th { background: var(--purple); color: var(--cream); padding: 3mm 4mm; text-align: left; font-size: 8.5pt; }
+  table.basic td { padding: 3mm 4mm; border-bottom: 1px solid #E0D0F0; vertical-align: top; }
+  table.basic tr:nth-child(even) td { background: #FAF5FF; }
+
+  .footer { position: absolute; bottom: 10mm; left: 20mm; right: 20mm; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #E0D0F0; padding-top: 3mm; font-size: 7.5pt; color: #8A70A8; }
+
+  @media print { body { background: white; } .page { margin: 0; page-break-after: always; } }
+</style>
+</head>
+<body>
+
+<!-- CAPA -->
+<div class="page cover">
+  <div class="brand">Protocolo Ciclo Fértil</div>
+  <div class="bonus-tag">Bônus 3</div>
+  <h1>Suplementar<br>para <span>Engravidar</span></h1>
+  <div class="subtitle">Os 5 suplementos que a ciência comprovou — o que tomar, quanto tomar, e por que a maioria das mulheres está tomando a versão errada.</div>
+  <div class="divider"></div>
+  <div class="desc">Arsenal baseado em evidências · Biologia celular e suplementação estratégica</div>
+</div>
+
+<!-- INTRODUÇÃO -->
+<div class="page">
+  <div class="page-header">
+    <span class="chapter">Bônus 3 · Suplementar para Engravidar</span>
+    <span class="title">Protocolo Ciclo Fértil</span>
+  </div>
+
+  <h2>Você provavelmente já está tomando suplementos. O problema é que talvez sejam os errados.</h2>
+
+  <p class="lead">Ácido fólico da farmácia. Ômega-3. Vitamina D. Às vezes inositol. Um gasto real, todo mês — com resultado incerto.</p>
+
+  <p>O problema não é suplementar. Suplementação estratégica para fertilidade é ciência consolidada, com estudos clínicos robustos mostrando melhoras reais na qualidade dos óvulos, no endométrio e até nos resultados de FIV.</p>
+
+  <p>O problema é <strong>suplementar sem estratégia</strong> — tomar a forma errada, na dose errada, sem entender o que cada nutriente faz no seu corpo.</p>
+
+  <div class="stat-block">
+    <div class="stat">
+      <span class="num">~25%</span>
+      <span class="label">dos diagnósticos de infertilidade são por disfunção ovulatória</span>
+    </div>
+    <div class="stat">
+      <span class="num">60%</span>
+      <span class="label">dos ciclos de FIV ainda falham em alcançar gravidez clínica</span>
+    </div>
+    <div class="stat">
+      <span class="num">82,5%</span>
+      <span class="label">taxa de gravidez em FIV com suplementação estratégica de CoQ10 (vs ciclo sem)</span>
+    </div>
+  </div>
+
+  <p>A boa notícia é que <strong>o microambiente celular é modificável.</strong> Os ovários e os folículos respondem à nutrição. E existem 5 suplementos — com mecanismos de ação comprovados — que fazem diferença real.</p>
+
+  <div class="box-gold">
+    <h4>O que torna este guia diferente</h4>
+    <p style="margin:0">Não é uma lista genérica de "vitaminas boas para engravidar". Cada suplemento aqui tem mecanismo de ação explicado, dose de referência baseada em estudos clínicos, e indicação de para quem é mais indicado. A informação que o consultório raramente tem tempo de explicar.</p>
+  </div>
+
+  <div class="footer">
+    <span>Protocolo Ciclo Fértil</span>
+    <span>Suplementar para Engravidar</span>
+  </div>
+</div>
+
+<!-- OS 5 SUPLEMENTOS -->
+<div class="page">
+  <div class="page-header">
+    <span class="chapter">Capítulo 1</span>
+    <span class="title">Os 5 Pilares da Suplementação</span>
+  </div>
+
+  <h2>Os 5 suplementos estratégicos — o que cada um faz</h2>
+
+  <div class="supp-card">
+    <div class="supp-number">1</div>
+    <div>
+      <div class="supp-name">Vitamina D</div>
+      <div class="supp-dose">Modulação Hormonal & Receptores AMH · Dose: corrigir deficiência</div>
+      <div class="supp-body">A vitamina D não é só vitamina — age como hormônio com receptores nos ovários, no endométrio e na placenta. Ela regula negativamente o receptor do AMH (hormônio anti-Mülleriano), <strong>promovendo a maturação dos oócitos</strong>. Também reduz os níveis de LH e FSH, o que é crucial para mulheres com SOP. Metanálise com 2.111 mulheres (22 estudos, SciELO 2023): <strong>melhora de 81% na taxa de ovulação e no desenvolvimento de folículos dominantes</strong> em mulheres com deficiência prévia.</div>
+    </div>
+  </div>
+
+  <div class="supp-card">
+    <div class="supp-number">2</div>
+    <div>
+      <div class="supp-name">Coenzima Q10 (CoQ10)</div>
+      <div class="supp-dose">Energia Mitocondrial & Anti-idade · Dose: 600mg/dia por ≥75 dias</div>
+      <div class="supp-body">O óvulo maduro precisa de mais energia mitocondrial do que qualquer outra célula do corpo humano. A CoQ10 é o componente central dessa produção — e ela <strong>diminui naturalmente com a idade</strong>. Suplementar reverte esse declínio, melhora a clivagem embrionária e reduz apoptose (morte) dos oócitos. Estudo RWE UNES-CO F (2024) com 1.061 pacientes inférteis: <strong>taxa de gravidez clínica de 82,5%</strong> com suplementação prévia de CoQ10 600mg/dia.</div>
+    </div>
+  </div>
+
+  <div class="supp-card">
+    <div class="supp-number">3</div>
+    <div>
+      <div class="supp-name">L-Metilfolato (5-MTHF)</div>
+      <div class="supp-dose">Replicação de DNA & Prevenção de Anomalias · Dose: 400–800 mcg/dia</div>
+      <div class="supp-body">Esta é a forma ativa e biodisponível do folato — e é fundamentalmente diferente do ácido fólico sintético comum. O L-Metilfolato é usado pelas células diretamente, sem necessidade de conversão enzimática. Isso importa porque <strong>até 40% das mulheres têm a variação genética MTHFR</strong> que prejudica a conversão do ácido fólico sintético. Mesmo sem essa mutação, o L-Metilfolato chega mais rápido e em maior concentração nas células reprodutivas.</div>
+    </div>
+  </div>
+
+  <div class="supp-card">
+    <div class="supp-number">4</div>
+    <div>
+      <div class="supp-name">Mio-Inositol</div>
+      <div class="supp-dose">Sensibilidade à Insulina & Ciclicidade · Dose: 4g/dia</div>
+      <div class="supp-body">O mio-inositol atua como agente sensibilizador de insulina a nível folicular — o que o torna o suplemento mais indicado para mulheres com SOP ou resistência à insulina. Ele <strong>regula a ciclicidade menstrual, induz ovulação e melhora a qualidade da maturação do embrião</strong>. Não é um hormônio. É um composto natural que otimiza como as células respondem à insulina e à gonadotrofina coriônica.</div>
+    </div>
+  </div>
+
+  <div class="supp-card">
+    <div class="supp-number">5</div>
+    <div>
+      <div class="supp-name">Melatonina</div>
+      <div class="supp-dose">Antioxidante Folicular · Dose: 3mg/dia (noturno)</div>
+      <div class="supp-body">A melatonina não é só para dormir. Ela é o <strong>antioxidante primário do fluido folicular</strong> — o ambiente interno onde o óvulo amadurece. Mulheres com histórico de falhas de implantação têm níveis significativamente menores de melatonina no fluido folicular. Suplementar melhora a qualidade do oócito, apoia a função lútea precoce e ajusta o ritmo circadiano, que tem papel na síncronização dos hormônios reprodutivos.</div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <span>Protocolo Ciclo Fértil</span>
+    <span>Suplementar para Engravidar</span>
+  </div>
+</div>
+
+<!-- ÁCIDO FÓLICO vs L-METILFOLATO -->
+<div class="page">
+  <div class="page-header">
+    <span class="chapter">Capítulo 2</span>
+    <span class="title">A Verdade sobre o Ácido Fólico</span>
+  </div>
+
+  <h2>Por que o ácido fólico comum pode não estar chegando onde precisa</h2>
+
+  <p class="lead">Esta é provavelmente a informação mais importante deste guia — e a que mais gera impacto prático imediato.</p>
+
+  <p>Você foi orientada a tomar ácido fólico. A prescrição é correta: o folato é essencial para replicação celular, fechamento do tubo neural e qualidade do óvulo. O problema está na <strong>forma</strong>.</p>
+
+  <table class="compare-table">
+    <thead>
+      <tr>
+        <th class="head-1">Ácido Fólico Sintético</th>
+        <th class="head-2">L-Metilfolato (5-MTHF)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="col-1">Sintético (presente em farinhas enriquecidas e vitaminas comuns)</td>
+        <td class="col-2">Biologicamente ativo e natural (6S-5-MTHF)</td>
+      </tr>
+      <tr>
+        <td class="col-1">Precisa de múltiplas conversões enzimáticas pelo corpo</td>
+        <td class="col-2">Uso celular direto e imediato, sem conversão</td>
+      </tr>
+      <tr>
+        <td class="col-1">Menor área sob a curva (AUC): chega mais devagar às células</td>
+        <td class="col-2">Aumenta folato plasmático de forma mais rápida e eficiente</td>
+      </tr>
+      <tr>
+        <td class="col-1">Em mulheres com variante MTHFR: acúmulo no plasma + baixo folato celular</td>
+        <td class="col-2">Contorna a variante genética MTHFR — chega diretamente ao DNA</td>
+      </tr>
+      <tr>
+        <td class="col-1">Risco de folato não metabolizado no soro (crônico com uso regular)</td>
+        <td class="col-2">Virtualmente inexistente o risco de acúmulo não metabolizado</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="box-purple">
+    <h4>O Efeito Gargalo MTHFR</h4>
+    <p>Imagine que o ácido fólico é um carro tentando passar por uma via entupida. Mulheres com variante MTHFR têm esse pedágio quebrado — a enzima que converte o ácido fólico funciona com 30% a 70% menos eficiência.</p>
+    <p>O L-Metilfolato é a via expressa: contorna o pedágio e chega direto à célula. <strong>Não importa se você tem ou não a variante genética</strong> — o L-Metilfolato funciona melhor para todas.</p>
+    <p style="margin:0">Você não precisa fazer o teste genético MTHFR para se beneficiar de tomar L-Metilfolato em vez do ácido fólico sintético.</p>
+  </div>
+
+  <h3>O timing do folato importa mais do que você imagina</h3>
+  <p>O fechamento do tubo neural do bebê acontece por volta do <strong>dia 28 após a concepção</strong> — muitas vezes antes de você saber que está grávida. Isso significa que o folato precisa estar em níveis adequados <em>antes</em> da gravidez acontecer — não depois do teste positivo.</p>
+
+  <div class="box-green">
+    <strong>Recomendação prática:</strong> Inicie o L-Metilfolato (400–800 mcg/dia) pelo menos 3 meses antes de tentar engravidar. Mantenha durante toda a gestação. A suplementação iniciada apenas após o diagnóstico de gravidez começa tarde demais para a proteção do tubo neural.
+  </div>
+
+  <div class="footer">
+    <span>Protocolo Ciclo Fértil</span>
+    <span>Suplementar para Engravidar</span>
+  </div>
+</div>
+
+<!-- PARA QUEM É CADA UM -->
+<div class="page">
+  <div class="page-header">
+    <span class="chapter">Capítulo 3</span>
+    <span class="title">Para Quem é Cada Suplemento</span>
+  </div>
+
+  <h2>Guia de indicação: qual perfil se beneficia mais de cada um</h2>
+
+  <table class="basic">
+    <thead>
+      <tr>
+        <th>Suplemento</th>
+        <th>Mais indicado para</th>
+        <th>Alvo biológico principal</th>
+        <th>Quando iniciar</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Vitamina D</strong></td>
+        <td>Todas — especialmente quem tem SOP, ciclos irregulares ou vitamina D abaixo de 40 ng/mL</td>
+        <td>Ovulação, qualidade folicular, endométrio</td>
+        <td>Imediatamente após dosagem + deficiência confirmada</td>
+      </tr>
+      <tr>
+        <td><strong>CoQ10 (600mg)</strong></td>
+        <td>Mulheres acima de 35 anos, baixa resposta ovariana, FIV planejada, qualidade oocitária comprometida</td>
+        <td>Energia mitocondrial dos oócitos</td>
+        <td>75–90 dias antes da tentativa ou estimulação ovariana</td>
+      </tr>
+      <tr>
+        <td><strong>L-Metilfolato</strong></td>
+        <td>Todas (especialmente com histórico de aborto, mutação MTHFR ou anomalias em gravidez anterior)</td>
+        <td>DNA do oócito e do embrião</td>
+        <td>Pelo menos 3 meses antes — manter na gestação</td>
+      </tr>
+      <tr>
+        <td><strong>Mio-Inositol</strong></td>
+        <td>SOP, resistência à insulina, ciclos irregulares, sobrepeso com dificuldade ovulatória</td>
+        <td>Sensibilidade à insulina, regularização do ciclo</td>
+        <td>3 meses antes — efeito cumulativo</td>
+      </tr>
+      <tr>
+        <td><strong>Melatonina</strong></td>
+        <td>Falhas de implantação repetidas, má qualidade embrionária, estresse oxidativo severo, insônia crônica</td>
+        <td>Fluido folicular, função lútea</td>
+        <td>Sempre à noite — iniciar 60–90 dias antes</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="box-gold">
+    <h4>A sinergia dos 5 pilares</h4>
+    <p>Cada suplemento age em etapas diferentes do ciclo reprodutivo:</p>
+    <ul style="padding-left:5mm; margin:0">
+      <li><strong>Maturação oocitária:</strong> CoQ10 + Melatonina + Vitamina D</li>
+      <li><strong>Ovulação:</strong> Vitamina D + Mio-Inositol</li>
+      <li><strong>Fertilização e clivagem:</strong> CoQ10 + L-Metilfolato</li>
+      <li><strong>Implantação:</strong> Vitamina D + Mio-Inositol + Melatonina</li>
+      <li><strong>Prevenção de anomalias do DNA:</strong> L-Metilfolato (principal)</li>
+    </ul>
+  </div>
+
+  <h3>O que NÃO fazer</h3>
+  <ul>
+    <li><strong>Não tomar CoQ10 acima de 600mg sem orientação</strong> — mais não é necessariamente melhor</li>
+    <li><strong>Não tomar Melatonina de manhã</strong> — desequilibra o ciclo circadiano</li>
+    <li><strong>Não parar o L-Metilfolato ao confirmar gravidez</strong> — manter até pelo menos a 12ª semana</li>
+    <li><strong>Não iniciar Vitamina D em megadose sem exame</strong> — a dosagem correta depende do déficit individual</li>
+    <li><strong>Não substituir prescrição médica por suplementos</strong> — eles são complementares, não substitutos</li>
+  </ul>
+
+  <div class="footer">
+    <span>Protocolo Ciclo Fértil</span>
+    <span>Suplementar para Engravidar</span>
+  </div>
+</div>
+
+<!-- ENCERRAMENTO -->
+<div class="page">
+  <div class="page-header">
+    <span class="chapter">Conclusão</span>
+    <span class="title">Suplementar para Engravidar · Bônus 3</span>
+  </div>
+
+  <h2>O microambiente que você controla</h2>
+
+  <p class="lead">O sucesso reprodutivo não depende só de estimulação hormonal. Ele exige um microambiente celular otimizado — e esse é um terreno onde você tem poder de ação real.</p>
+
+  <p>O sistema médico convencional cuida dos hormônios. Os suplementos estratégicos cuidam do ambiente dentro de cada célula. São duas frentes complementares — não substitutas.</p>
+
+  <p>Quando o óvulo é de qualidade, o embrião tem mais chances de se desenvolver. Quando o endométrio está bem nutrido, a implantação tem mais chances de acontecer. Quando o DNA está íntegro, a gestação tem mais chances de progredir.</p>
+
+  <p><strong>Você não está só esperando. Você está construindo.</strong></p>
+
+  <div class="box">
+    <h4>Seus próximos passos práticos</h4>
+    <ol style="padding-left:5mm; margin:0">
+      <li style="margin-bottom:3mm"><strong>Esta semana:</strong> Dosar Vitamina D (exame 25(OH)D). Se abaixo de 40 ng/mL, iniciar correção com orientação médica.</li>
+      <li style="margin-bottom:3mm"><strong>Esta semana:</strong> Substituir ácido fólico sintético por L-Metilfolato (400–800 mcg/dia). Encontrado em farmácias de manipulação e algumas farmácias convencionais como "Metafolin®" ou "Quatrefolic®".</li>
+      <li style="margin-bottom:3mm"><strong>Se tem SOP ou ciclo irregular:</strong> Iniciar Mio-Inositol 4g/dia (pode dividir em 2 doses de 2g). Efeito esperado em 3–6 meses.</li>
+      <li style="margin-bottom:3mm"><strong>Se tem mais de 35 anos ou planeja FIV:</strong> Iniciar CoQ10 600mg/dia pelo menos 75 dias antes.</li>
+      <li><strong>Levar este guia ao médico</strong> e discutir quais suplementos fazem sentido para o seu caso específico.</li>
+    </ol>
+  </div>
+
+  <div class="box" style="margin-top:6mm; text-align:center">
+    <p style="font-family:'Playfair Display',serif; font-size:13pt; color:var(--purple); font-style:italic; margin-bottom:3mm">"Tratar o microambiente, não apenas o ciclo.<br>É aí que a diferença real acontece."</p>
+    <p style="font-size:9pt; color:var(--text-light); margin:0">— Protocolo Ciclo Fértil</p>
+  </div>
+
+  <div style="margin-top:8mm; padding:5mm; border:1px solid #D0C0E8; border-radius:6px; font-size:8.5pt; color:var(--text-light)">
+    <strong>Aviso importante:</strong> Este material é educativo e informativo. Não substitui prescrição médica ou avaliação nutricional individualizada. As doses citadas são referências da literatura científica e devem ser ajustadas conforme exames e histórico clínico. Converse sempre com seu médico antes de iniciar qualquer suplementação.
+  </div>
+
+  <div class="footer">
+    <span>Protocolo Ciclo Fértil</span>
+    <span>Suplementar para Engravidar · Bônus 3</span>
+  </div>
+</div>
+
+</body>
+</html>

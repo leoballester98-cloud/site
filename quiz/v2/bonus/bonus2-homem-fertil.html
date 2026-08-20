@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-VBLL62GBHC"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-VBLL62GBHC');
+  </script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Homem Fértil – Protocolo Ciclo Fértil</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --cream: #FAF6F1;
+    --navy: #1B2A3E;
+    --navy-light: #2C4A6E;
+    --gold: #B8892A;
+    --gold-light: #E4C87A;
+    --text: #1A1A2E;
+    --text-light: #3A4A5E;
+    --accent-bg: #EEF3F8;
+    --green: #2D6A4F;
+    --red: #7D1D1D;
+    --brown: #6B3D2E;
+    --cream-dark: #F2EAE0;
+  }
+
+  body { font-family: 'Inter', sans-serif; background: var(--cream); color: var(--text); font-size: 11pt; line-height: 1.7; }
+
+  .page { width: 210mm; min-height: 297mm; margin: 0 auto; padding: 18mm 20mm; background: var(--cream); page-break-after: always; position: relative; }
+
+  .cover {
+    display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;
+    background: linear-gradient(160deg, #0F1D2D 0%, #1B2A3E 55%, #2C4A6E 100%);
+    color: #FAF6F1; min-height: 297mm; padding: 20mm;
+  }
+  .cover .brand { font-size: 9pt; letter-spacing: 4px; text-transform: uppercase; color: var(--gold-light); margin-bottom: 16mm; opacity: 0.85; }
+  .cover .bonus-tag { background: var(--gold); color: #0F1D2D; font-size: 8pt; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; padding: 5px 18px; border-radius: 2px; margin-bottom: 10mm; display: inline-block; }
+  .cover h1 { font-family: 'Playfair Display', serif; font-size: 40pt; font-weight: 700; line-height: 1.1; color: #FAF6F1; margin-bottom: 8mm; }
+  .cover h1 span { color: var(--gold-light); }
+  .cover .subtitle { font-size: 12pt; color: rgba(250,246,241,0.72); max-width: 130mm; line-height: 1.6; margin-bottom: 18mm; }
+  .cover .divider { width: 40mm; height: 1px; background: var(--gold); margin: 0 auto 10mm; }
+  .cover .desc { font-size: 10pt; color: rgba(250,246,241,0.55); letter-spacing: 1px; }
+
+  .page-header { border-bottom: 2px solid var(--gold); padding-bottom: 5mm; margin-bottom: 10mm; display: flex; align-items: center; justify-content: space-between; }
+  .page-header .chapter { font-size: 7pt; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); font-weight: 600; }
+  .page-header .title { font-family: 'Playfair Display', serif; font-size: 10pt; color: var(--text-light); font-style: italic; }
+
+  h2 { font-family: 'Playfair Display', serif; font-size: 22pt; color: var(--navy); line-height: 1.25; margin-bottom: 6mm; font-weight: 700; }
+  h3 { font-family: 'Playfair Display', serif; font-size: 15pt; color: var(--navy-light); margin-bottom: 4mm; margin-top: 7mm; font-weight: 600; }
+  h4 { font-size: 10pt; font-weight: 700; color: var(--text); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 3mm; margin-top: 5mm; }
+  p { margin-bottom: 4mm; }
+
+  .lead { font-size: 13pt; color: var(--navy-light); line-height: 1.65; border-left: 3px solid var(--gold); padding-left: 6mm; margin-bottom: 8mm; font-style: italic; }
+
+  .box { background: var(--accent-bg); border-radius: 6px; padding: 6mm 7mm; margin: 6mm 0; }
+  .box-gold { background: linear-gradient(135deg, #FDF5E6, #F5E6C8); border: 1px solid var(--gold-light); border-radius: 6px; padding: 6mm 7mm; margin: 6mm 0; }
+  .box-red { background: #FFF0F0; border-left: 4px solid var(--red); border-radius: 0 6px 6px 0; padding: 5mm 7mm; margin: 5mm 0; }
+  .box-green { background: #EFF6F2; border-left: 4px solid var(--green); border-radius: 0 6px 6px 0; padding: 5mm 7mm; margin: 5mm 0; }
+  .box-navy { background: var(--navy); color: var(--cream); border-radius: 6px; padding: 6mm 7mm; margin: 6mm 0; }
+  .box-navy h4 { color: var(--gold-light); }
+  .box-navy p { color: rgba(250,246,241,0.85); margin-bottom:3mm; }
+
+  .stat-block { display: flex; gap: 5mm; margin: 6mm 0; }
+  .stat { flex: 1; background: var(--navy); color: var(--cream); border-radius: 6px; padding: 5mm 4mm; text-align: center; }
+  .stat .num { font-family: 'Playfair Display', serif; font-size: 26pt; font-weight: 700; color: var(--gold-light); display: block; line-height: 1; }
+  .stat .label { font-size: 8pt; color: rgba(250,246,241,0.8); margin-top: 2mm; line-height: 1.4; }
+
+  .pillar-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4mm; margin: 5mm 0; }
+  .pillar { background: white; border-radius: 6px; padding: 5mm; border-top: 4px solid var(--navy); }
+  .pillar .num { font-family: 'Playfair Display', serif; font-size: 20pt; color: var(--gold); font-weight: 700; }
+  .pillar .name { font-weight: 700; font-size: 10pt; color: var(--navy); margin-bottom: 2mm; }
+  .pillar .desc { font-size: 8.5pt; color: var(--text-light); line-height: 1.5; }
+
+  .week-block { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 4mm; margin: 5mm 0; }
+  .week { background: white; border-radius: 6px; padding: 5mm; border-bottom: 3px solid var(--gold); }
+  .week .period { font-size: 8pt; font-weight: 700; color: var(--gold); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 2mm; }
+  .week .focus { font-family: 'Playfair Display', serif; font-size: 11pt; color: var(--navy); margin-bottom: 2mm; }
+  .week .actions { font-size: 8pt; color: var(--text-light); line-height: 1.5; }
+
+  ul, ol { padding-left: 5mm; margin-bottom: 4mm; }
+  li { margin-bottom: 2mm; padding-left: 2mm; }
+  ul li::marker { color: var(--gold); }
+  .check-list { list-style: none; padding-left: 0; }
+  .check-list li::before { content: "✓ "; color: var(--green); font-weight: 700; }
+  .x-list { list-style: none; padding-left: 0; }
+  .x-list li::before { content: "✗ "; color: var(--red); font-weight: 700; }
+
+  table { width: 100%; border-collapse: collapse; margin: 5mm 0; font-size: 9pt; }
+  th { background: var(--navy); color: var(--cream); padding: 3mm 4mm; text-align: left; font-weight: 600; font-size: 8.5pt; }
+  td { padding: 3mm 4mm; border-bottom: 1px solid #DDE8F0; vertical-align: top; }
+  tr:nth-child(even) td { background: #F5F8FB; }
+
+  .footer { position: absolute; bottom: 10mm; left: 20mm; right: 20mm; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #DDE8F0; padding-top: 3mm; font-size: 7.5pt; color: #7A90A8; }
+
+  @media print { body { background: white; } .page { margin: 0; page-break-after: always; } }
+</style>
+</head>
+<body>
+
+<!-- CAPA -->
+<div class="page cover">
+  <div class="brand">Protocolo Ciclo Fértil</div>
+  <div class="bonus-tag">Bônus 2</div>
+  <h1>Homem<br><span>Fértil</span></h1>
+  <div class="subtitle">O guia de 90 dias para o parceiro — porque metade da equação da gravidez vem dele, e isso nunca é falado.</div>
+  <div class="divider"></div>
+  <div class="desc">Baseado em pesquisa clínica com 965 homens brasileiros</div>
+</div>
+
+<!-- INTRODUÇÃO -->
+<div class="page">
+  <div class="page-header">
+    <span class="chapter">Bônus 2 · Homem Fértil</span>
+    <span class="title">Protocolo Ciclo Fértil</span>
+  </div>
+
+  <h2>O lado da história que ninguém conta</h2>
+
+  <p class="lead">Quando a gravidez não acontece, o foco vai todo para a mulher. Exames, ciclos, hormônios, tratamentos. O homem assiste de longe — e raramente é investigado.</p>
+
+  <p>Esse padrão tem um custo enorme. Porque a ciência é clara: <strong>em 50% dos casos de infertilidade conjugal, o fator é masculino</strong> — seja exclusivo ou combinado. Em metade dos casos. E na maioria dessas situações, <strong>o problema é completamente reversível</strong> com mudanças no estilo de vida.</p>
+
+  <p>O maior estudo com homens brasileiros em processo de FIV — com <strong>965 participantes</strong> — confirmou que fatores modificáveis como alimentação, temperatura testicular, estresse e exposição a químicos domésticos têm impacto direto e mensurável na qualidade do sêmen.</p>
+
+  <div class="stat-block">
+    <div class="stat">
+      <span class="num">50%</span>
+      <span class="label">dos casos de infertilidade têm fator masculino</span>
+    </div>
+    <div class="stat">
+      <span class="num">−52%</span>
+      <span class="label">de queda global na contagem de espermatozoides nas últimas 4 décadas</span>
+    </div>
+    <div class="stat">
+      <span class="num">90</span>
+      <span class="label">dias para renovação completa do esperma — tempo mínimo para mudanças surtirem efeito</span>
+    </div>
+  </div>
+
+  <p>Este guia foi feito para ser lido junto com o parceiro. Ou entregue a ele. Porque a jornada de engravidar é de dois — e quanto antes isso for entendido, mais rápido os resultados aparecem.</p>
+
+  <div class="box-gold">
+    <h4>Por que 90 dias?</h4>
+    <p style="margin:0">A produção de um espermatozoide leva <strong>74 dias</strong> dentro dos testículos, mais <strong>20 dias</strong> de maturação no epidídimo. Total: aproximadamente 90 dias. Qualquer mudança feita hoje só aparece no espermograma daqui a 3 meses. Por isso começar cedo importa — e por isso esperar não faz sentido.</p>
+  </div>
+
+  <div class="footer">
+    <span>Protocolo Ciclo Fértil</span>
+    <span>Homem Fértil</span>
+  </div>
+</div>
+
+<!-- OS 4 PILARES -->
+<div class="page">
+  <div class="page-header">
+    <span class="chapter">Capítulo 1</span>
+    <span class="title">Os 4 Pilares do Esperma Saudável</span>
+  </div>
+
+  <h2>O que o espermograma mede — e o que ele significa</h2>
+
+  <p class="lead">O espermograma avalia 4 dimensões. Cada uma delas tem causas específicas e soluções práticas. Conhecer todas é o primeiro passo.</p>
+
+  <div class="pillar-grid">
+    <div class="pillar">
+      <div class="num">1</div>
+      <div class="name">Quantidade</div>
+      <div class="desc">O volume total. Referência normal: 40 a 300 milhões por ejaculação. Baixo volume é chamado de oligozoospermia e pode ter causas hormonais, varicocelares ou nutricionais.</div>
+    </div>
+    <div class="pillar">
+      <div class="num">2</div>
+      <div class="name">Motilidade</div>
+      <div class="desc">A eficiência do "motor". Não basta ter quantidade: os espermatozoides precisam nadar em linha reta e com velocidade. Referência: mais de 40% com motilidade progressiva.</div>
+    </div>
+    <div class="pillar">
+      <div class="num">3</div>
+      <div class="name">Morfologia</div>
+      <div class="desc">A "aerodinâmica" estrutural. Mesmo com muitos e rápidos, se a forma estiver errada, a penetração no óvulo fica comprometida. Estresse oxidativo é o principal culpado.</div>
+    </div>
+    <div class="pillar">
+      <div class="num">4</div>
+      <div class="name">Integridade do DNA</div>
+      <div class="desc">O mais ignorado e o mais importante. DNA fragmentado causa falhas de implantação e abortos de repetição — mesmo com FIV. Não aparece no espermograma básico.</div>
+    </div>
+  </div>
+
+  <div class="box-navy">
+    <h4>O exame que falta</h4>
+    <p>O espermograma convencional não avalia a integridade do DNA espermático (fragmentação). Esse exame, chamado de <strong>DFI (Índice de Fragmentação do DNA)</strong>, é essencial para casais com falhas de implantação repetidas ou abortos.</p>
+    <p style="margin:0">Fragmentação alta do DNA espermático é tratável com antioxidantes específicos e mudanças no estilo de vida. Pergunte ao urologista ou andrologista.</p>
+  </div>
+
+  <h3>A armadilha da aromatase</h3>
+  <p>Um dos mecanismos menos conhecidos da infertilidade masculina. A enzima <strong>aromatase</strong>, presente na gordura visceral (barriga), converte testosterona em estrogênio. Quanto mais gordura abdominal, mais testosterona vira estrogênio — e menos sobra para a produção de espermatozoides.</p>
+  <p>Esse ciclo se autoalimenta: menos testosterona → mais acúmulo de gordura → mais aromatase → ainda menos testosterona. O resultado no espermograma é queda progressiva de quantidade e qualidade.</p>
+  <div class="box-green">
+    <strong>Solução:</strong> Redução de peso corporal de apenas 5–10% já resulta em melhora mensurável na testosterona livre e na qualidade seminal em 3 a 6 meses.
+  </div>
+
+  <div class="footer">
+    <span>Protocolo Ciclo Fértil</span>
+    <span>Homem Fértil</span>
+  </div>
+</div>
+
+<!-- SABOTADORES -->
+<div class="page">
+  <div class="page-header">
+    <span class="chapter">Capítulo 2</span>
+    <span class="title">Os Sabotadores da Fertilidade Masculina</span>
+  </div>
+
+  <h2>O que está atacando os espermatozoides sem o homem saber</h2>
+
+  <h3>1. A Termodinâmica Testicular</h3>
+  <p>Os testículos ficam fora do corpo por uma razão: a produção de espermatozoides exige temperatura <strong>2 a 3°C abaixo da temperatura corporal</strong> — em torno de 34°C. Qualquer coisa que eleve essa temperatura prejudica a espermatogênese.</p>
+  <div class="x-list" style="padding-left:0;">
+    <li>Notebook no colo por horas (eleva temperatura local em até 2,5°C)</li>
+    <li>Cueca justa (comprime e isola termicamente)</li>
+    <li>Banhos quentes longos e sauna frequente</li>
+    <li>Trabalho sentado por mais de 6 horas sem pausa</li>
+    <li>Assentos aquecidos no carro</li>
+  </div>
+  <div class="box-green" style="margin-top:4mm">
+    <ul class="check-list" style="margin:0">
+      <li>Cueca boxer de algodão (algodão respira melhor)</li>
+      <li>Levantar a cada 45–60 minutos se trabalha sentado</li>
+      <li>Banho frio ou morno (não quente) como hábito diário</li>
+    </ul>
+  </div>
+
+  <h3>2. O Equilíbrio Cortisol–Testosterona</h3>
+  <p>O cortisol (hormônio do estresse) e a testosterona compartilham o mesmo precursor hormonal (pregnenolona). Em situação de estresse crônico, o corpo prioriza cortisol — e a testosterona cai. Isso é fisiologia, não fraqueza.</p>
+  <p>O stress da tentativa em si — as cobranças, a ansiedade do casal, a sensação de pressão — pode criar um ciclo onde o estresse piora a fertilidade masculina que, por sua vez, aumenta o estresse.</p>
+  <div class="box">
+    <strong>Estratégias comprovadas:</strong> Exercício físico moderado 3–4x por semana (melhora testosterona), 7–8h de sono (pico de testosterona ocorre durante sono profundo), e redução de álcool (que eleva cortisol e suprime hormônios sexuais).
+  </div>
+
+  <h3>3. Disruptores Endócrinos (EDCs)</h3>
+  <p>São substâncias que imitam ou bloqueiam hormônios no corpo. Estão em embalagens plásticas, cosméticos, pesticidas e produtos de limpeza — e agem silenciosamente.</p>
+
+  <table>
+    <thead>
+      <tr><th>Substância</th><th>Onde está</th><th>Efeito</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>BPA</strong></td>
+        <td>Plásticos rígidos, latas de alimento, recibos térmicos</td>
+        <td>Imita estrogênio, reduz produção de testosterona</td>
+      </tr>
+      <tr>
+        <td><strong>Ftalatos</strong></td>
+        <td>Embalagens flexíveis, fragrâncias sintéticas, PVC</td>
+        <td>Interfere na morfologia espermática</td>
+      </tr>
+      <tr>
+        <td><strong>Parabenos</strong></td>
+        <td>Shampoo, desodorante, creme convencional</td>
+        <td>Dano ao DNA espermático</td>
+      </tr>
+      <tr>
+        <td><strong>Pesticidas</strong></td>
+        <td>Frutas e vegetais não orgânicos (especialmente morangos, maçã, uva)</td>
+        <td>Redução de motilidade espermática</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>4. Tabaco e Álcool</h3>
+  <p>Os dados são diretos: fumantes têm espermatozoides com <strong>13% menos motilidade</strong> e <strong>morfologia significativamente pior</strong>. O álcool acima de 5 doses semanais está associado a queda de testosterona e piora dos 4 parâmetros do espermograma.</p>
+
+  <div class="footer">
+    <span>Protocolo Ciclo Fértil</span>
+    <span>Homem Fértil</span>
+  </div>
+</div>
+
+<!-- NUTRIÇÃO MASCULINA -->
+<div class="page">
+  <div class="page-header">
+    <span class="chapter">Capítulo 3</span>
+    <span class="title">A Nutrição que Constrói Espermatozoides</span>
+  </div>
+
+  <h2>Comer certo não é coisa de mulher</h2>
+
+  <p class="lead">O espermatozoide é uma célula. Como toda célula, ele é construído com os nutrientes disponíveis no corpo. Nutrir esse processo é uma decisão masculina que afeta o casal inteiro.</p>
+
+  <table>
+    <thead>
+      <tr><th>Nutriente</th><th>Função</th><th>Fontes Principais</th><th>Dose Referência</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Zinco</strong></td>
+        <td>Produção de testosterona e estrutura do DNA espermático</td>
+        <td>Ostra, carne vermelha magra, semente de abóbora, castanha-de-caju</td>
+        <td>11 mg/dia</td>
+      </tr>
+      <tr>
+        <td><strong>Selênio</strong></td>
+        <td>Motilidade e integridade estrutural do flagelo espermático</td>
+        <td>Castanha-do-Pará (2–3 un./dia), atum, ovos</td>
+        <td>55–200 mcg/dia</td>
+      </tr>
+      <tr>
+        <td><strong>Vitamina C</strong></td>
+        <td>Antioxidante — protege DNA espermático do estresse oxidativo</td>
+        <td>Acerola, goiaba, pimentão vermelho, kiwi</td>
+        <td>500–1000 mg/dia</td>
+      </tr>
+      <tr>
+        <td><strong>Ômega-3 (DHA)</strong></td>
+        <td>Fluidez da membrana espermática — essencial para motilidade</td>
+        <td>Salmão, sardinha, atum (sem exagero), linhaça</td>
+        <td>1–2g EPA+DHA/dia</td>
+      </tr>
+      <tr>
+        <td><strong>Vitamina E</strong></td>
+        <td>Proteção antioxidante da membrana lipídica do espermatozoide</td>
+        <td>Semente de girassol, amêndoas, azeite, abacate</td>
+        <td>15 mg/dia</td>
+      </tr>
+      <tr>
+        <td><strong>Folato</strong></td>
+        <td>Replicação do DNA — fragmentação e anomalias cromossômicas</td>
+        <td>Feijão, lentilha, brócolis, espinafre</td>
+        <td>400 mcg/dia</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="box-gold">
+    <h4>O "trio de ouro" da fertilidade masculina</h4>
+    <p><strong>Zinco + Selênio + Vitamina C</strong> — combinados, têm ação sinérgica sobre a qualidade seminal. Estudos controlados mostram melhora em todos os 4 parâmetros do espermograma em 3 meses de suplementação orientada.</p>
+    <p style="margin:0"><em>Atenção: a dose de selênio não deve ser ultrapassada. Acima de 400 mcg/dia pode ser tóxica. Consulte médico ou nutricionista antes de suplementar.</em></p>
+  </div>
+
+  <h3>O que reduzir</h3>
+  <ul class="x-list">
+    <li>Alimentos de soja em excesso (fitoestrógenos em alta dose podem suprimir testosterona)</li>
+    <li>Produtos industrializados com corantes e conservantes</li>
+    <li>Gordura trans e fast food (inflamação oxidativa testicular)</li>
+    <li>Açúcar em excesso (pior sensibilidade à insulina = mais gordura visceral = mais aromatase)</li>
+  </ul>
+
+  <div class="footer">
+    <span>Protocolo Ciclo Fértil</span>
+    <span>Homem Fértil</span>
+  </div>
+</div>
+
+<!-- PLANO 12 SEMANAS -->
+<div class="page">
+  <div class="page-header">
+    <span class="chapter">Capítulo 4</span>
+    <span class="title">O Protocolo de 90 Dias</span>
+  </div>
+
+  <h2>O plano prático de 12 semanas</h2>
+
+  <p class="lead">Lembre: qualquer mudança que começar hoje só aparecerá no próximo espermograma em 3 meses. Comece agora — não espere o diagnóstico.</p>
+
+  <div class="week-block">
+    <div class="week">
+      <div class="period">Semanas 1–4</div>
+      <div class="focus">Limpar o Terreno</div>
+      <div class="actions">
+        Eliminar álcool, tabaco e ultraprocessados.<br><br>
+        Trocar cueca boxer.<br><br>
+        Eliminar notebook no colo.<br><br>
+        Começar hidratação adequada (2L/dia).<br><br>
+        Fazer espermograma basal (ter número de partida).
+      </div>
+    </div>
+    <div class="week">
+      <div class="period">Semanas 5–8</div>
+      <div class="focus">Construir o Combustível</div>
+      <div class="actions">
+        Adicionar zinco, selênio, ômega-3 e vitamina C à dieta ou suplementação.<br><br>
+        Iniciar exercício físico moderado 3–4x/sem.<br><br>
+        Regular o sono para 7–8h consistentes.<br><br>
+        Reduzir gordura abdominal com alimentação e movimento.<br><br>
+        Reduzir cosméticos com parabenos.
+      </div>
+    </div>
+    <div class="week">
+      <div class="period">Semanas 9–12</div>
+      <div class="focus">Consolidar e Testar</div>
+      <div class="actions">
+        Manter todos os hábitos anteriores.<br><br>
+        Gerenciar estresse ativamente (meditação, caminhada, respiração).<br><br>
+        Revisar exposição a plásticos e pesticidas.<br><br>
+        Repetir espermograma na semana 12 para comparar parâmetros.<br><br>
+        Consultar andrologista com os dois resultados.
+      </div>
+    </div>
+  </div>
+
+  <div class="box-navy" style="margin-top:6mm">
+    <h4>Para casais fazendo FIV</h4>
+    <p>O estudo de Paulus (2002) e dados clínicos brasileiros mostram que a qualidade seminal afeta diretamente a taxa de fertilização e a qualidade embrionária — não só a concepção natural. Iniciar o protocolo de 90 dias <strong>antes</strong> da estimulação ovariana pode aumentar significativamente as chances de embriões de boa qualidade.</p>
+    <p style="margin:0">Converse com o andrologista sobre o exame de fragmentação de DNA espermático (DFI) antes de qualquer ciclo de FIV.</p>
+  </div>
+
+  <h3>O que esperar</h3>
+  <p>Resultados variam de homem para homem, mas estudos consistentes mostram:</p>
+  <ul class="check-list">
+    <li>Melhora de motilidade em 6–12 semanas com ajuste nutricional</li>
+    <li>Aumento de contagem em 10–16 semanas com redução de disruptores</li>
+    <li>Melhora de morfologia em 12–16 semanas com controle de temperatura e antioxidantes</li>
+    <li>Redução de fragmentação do DNA em 3 meses com vitamina C + vitamina E + Coenzima Q10</li>
+  </ul>
+
+  <div class="footer">
+    <span>Protocolo Ciclo Fértil</span>
+    <span>Homem Fértil</span>
+  </div>
+</div>
+
+<!-- ENCERRAMENTO -->
+<div class="page">
+  <div class="page-header">
+    <span class="chapter">Conclusão</span>
+    <span class="title">Homem Fértil · Bônus 2</span>
+  </div>
+
+  <h2>Esse filho é de dois — e a solução também</h2>
+
+  <p class="lead">A maior mudança que um casal tentante pode fazer não é médica. É cultural. É parar de tratar a fertilidade como "problema da mulher" e encarar como o que é: uma jornada de dois.</p>
+
+  <p>Quando o homem entra ativamente no processo — faz o espermograma, muda a alimentação, controla a temperatura, reduz o álcool — as chances do casal aumentam de forma mensurável. E algo mais acontece: a mulher se sente menos sozinha.</p>
+
+  <p>Esse é talvez o benefício mais invisível e mais real: <strong>dividir o peso da tentativa.</strong></p>
+
+  <div class="box-gold">
+    <h4>O que pedir ao médico</h4>
+    <ol style="padding-left:5mm; margin:0">
+      <li style="margin-bottom:2mm">Espermograma completo (quantidade, motilidade, morfologia)</li>
+      <li style="margin-bottom:2mm">Fragmentação de DNA espermático (DFI) — especialmente em abortos de repetição ou falhas de FIV</li>
+      <li style="margin-bottom:2mm">Dosagem hormonal: testosterona total e livre, FSH, LH, prolactina</li>
+      <li>Avaliação de varicocele (dilatação das veias testiculares — causa tratável de infertilidade masculina)</li>
+    </ol>
+  </div>
+
+  <div class="box" style="margin-top:8mm; text-align:center">
+    <p style="font-family:'Playfair Display',serif; font-size:14pt; color:var(--navy); font-style:italic; margin-bottom:3mm">"O homem que entra nessa jornada junto não é apenas um parceiro melhor.<br>É metade da solução."</p>
+    <p style="font-size:9pt; color:var(--text-light); margin:0">— Protocolo Ciclo Fértil</p>
+  </div>
+
+  <div style="margin-top:10mm; padding:5mm; border:1px solid #DDE8F0; border-radius:6px; font-size:8.5pt; color:var(--text-light)">
+    <strong>Aviso importante:</strong> Este material é educativo e não substitui orientação médica individualizada. A suplementação deve ser sempre orientada por médico ou nutricionista, considerando exames e histórico clínico individual. Doses citadas são referências gerais da literatura científica.
+  </div>
+
+  <div class="footer">
+    <span>Protocolo Ciclo Fértil</span>
+    <span>Homem Fértil · Bônus 2</span>
+  </div>
+</div>
+
+</body>
+</html>

@@ -1172,13 +1172,13 @@ function tabelaGrupo(titulo, campo, rows) {
       '<div class="rangePanel" id="painelG_' + campo + '" style="display:none;"><div class="presets only" id="listaG_' + campo + '"></div></div>' +
     '</div></div>' +
     (gs.length ? '<div class="tbwrap"><table class="tb"><tr><th>' + titulo.replace('Por ', '') + '</th>' +
-      ['Criativos','Gasto','Checkouts','R$/Check','Vendas','R$/Venda','Faturamento','ROAS','ROI'].map(h => '<th class="num">' + h + '</th>').join('') + '</tr>' +
+      ['Criativos','Gasto','Checkouts','R$/Check','Vendas','R$/Venda','Faturamento','ROAS'].map(h => '<th class="num">' + h + '</th>').join('') + '</tr>' +
       gs.map(g => '<tr><td class="nm">' + esc(g.nome) + '</td><td class="num">' + g.n + '</td>' +
         '<td class="num">' + moeda(g.gasto) + '</td><td class="num">' + g.checkouts + '</td>' +
         '<td class="num">' + moeda(g.custoCheckout) + '</td><td class="num">' + g.vendas + '</td>' +
         '<td class="num">' + moeda(g.custoVenda) + '</td><td class="num">' + moeda(g.fat) + '</td>' +
         '<td class="num" style="color:' + (g.roas >= 1 ? '#2e7d52' : '#c0392b') + '">' + (g.roas == null ? '—' : g.roas.toFixed(2) + 'x') + '</td>' +
-        '<td class="num" style="color:' + (g.roi >= 0 ? '#2e7d52' : '#c0392b') + '">' + (g.roi == null ? '—' : g.roi.toFixed(0) + '%') + '</td></tr>').join('') +
+        '</tr>').join('') +
       '</table></div>' : '<div class="vazio">Nenhum criativo com esse filtro.</div>') + '</div>';
 }
 
@@ -1222,14 +1222,12 @@ async function verCriativos() {
   const tot = vis.reduce((a, r) => ({ gasto:a.gasto + r.gasto, checkouts:a.checkouts + Number(r.checkouts || 0),
     vendas:a.vendas + r.vendas, fat:a.fat + r.faturamento }), { gasto:0, checkouts:0, vendas:0, fat:0 });
   const roasG = tot.gasto ? tot.fat / tot.gasto : null;
-  const roiG = tot.gasto ? ((liquido(tot.fat, tot.vendas) - tot.gasto) / tot.gasto) * 100 : null;
   const contados = CRIATIVOS.filter(r => !/Teste A\/B/i.test(r.campanha || '')).length;
 
   document.getElementById('conteudo').innerHTML =
     '<div class="kpis">' + kpi('Gasto em anúncio', moeda(tot.gasto)) + kpi('Checkouts', tot.checkouts) +
       kpi('Vendas', tot.vendas) + kpi('Faturamento', moeda(tot.fat)) +
       kpi('ROAS', roasG == null ? '—' : roasG.toFixed(2) + 'x') +
-      kpi('ROI', roiG == null ? '—' : roiG.toFixed(0) + '%') +
       '<div class="kpi selo-crt"><div class="lbl">' + ico('Criativos') + '<span>Criativos</span></div>' +
         '<div class="val">' + contados + '/' + META_CRIATIVOS + '</div></div>' + '</div>' +
     '<div class="charts">' +
@@ -1290,7 +1288,7 @@ async function verCriativos() {
 }
 
 let pieChart = null, pieMet = 'vendas', pieGrp = 'angulo';
-const OPC_PIE_MET = [['roi','ROI'],['roas','ROAS'],['cpa','CPA (custo por venda)'],['gasto','Gasto'],
+const OPC_PIE_MET = [['roas','ROAS'],['cpa','CPA (custo por venda)'],['gasto','Gasto'],
                      ['vendas','Vendas'],['faturamento','Faturamento']];
 /* Vendas é contagem, não dinheiro — formatar com moeda() daria 'R$34.00'. */
 const fmtPie = (met, v) => met === 'roi'  ? v.toFixed(0) + '%'

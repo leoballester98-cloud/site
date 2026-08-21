@@ -1562,7 +1562,15 @@ document.getElementById('formLogin').addEventListener('submit', async ev => {
 });
 async function sair() { await sb.auth.signOut(); location.reload(); }
 
-document.addEventListener('click', ev => { if (!ev.target.closest('.grp')) fecharPaineis(); });
+/* Fecha os painéis ao clicar fora. O isConnected não é detalhe: clicar num dia
+   do calendário redesenha a grade, e o elemento clicado sai do DOM antes do
+   clique chegar aqui. Órfão, ele não tem mais o .grp acima — o código lia isso
+   como "clicou fora" e fechava o painel no primeiro clique, deixando impossível
+   escolher a segunda data. */
+document.addEventListener('click', ev => {
+  if (!ev.target.isConnected) return;
+  if (!ev.target.closest('.grp')) fecharPaineis();
+});
 pintarPresets();
 aplicarTema(localStorage.getItem('cf_tema') || 'auto');
 // sempre trilho ao abrir; no celular 'mini' é o estado fechado da gaveta

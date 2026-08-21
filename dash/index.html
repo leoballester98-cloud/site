@@ -6,13 +6,100 @@
 <meta name="robots" content="noindex, nofollow"/>
 <title>Dashboard — Ciclo Fértil</title>
 <style>
-  *{box-sizing:border-box;margin:0;padding:0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif;}
-  body{background:#f4f5f4;color:#1a1a1a;padding:24px;}
+/* ── Tokens ────────────────────────────────────────────────────────────────
+   Tema claro é o padrão; escuro tem passos PRÓPRIOS, não o claro invertido —
+   as duas paletas de série foram validadas separadamente contra o próprio
+   fundo (scripts/validate_palette.js da skill dataviz).
+   Três escopos: :root = claro · @media = automático pelo sistema ·
+   [data-theme] = a escolha do usuário, que vence os dois. */
+:root{
+  --bg:#f4f5f4; --surface:#ffffff; --surface-2:#fafbfa; --linha:#e8eae9;
+  --ink:#1a1a1a; --ink-2:#5b6560; --ink-3:#8a8a8a;
+  --marca:#1a7a4f; --marca-fraca:#eef5f1;
+  --lateral:#ffffff; --lateral-ink:#5b6560;
+  --curva-bg:#0d1512; --curva-ink:#e8f3ec; --curva-grade:rgba(255,255,255,.06);
+  --s1:#2a78d6; --s2:#eb6834; --s3:#1baf7a; --s4:#eda100; --s5:#e87ba4; --s6:#008300; --s7:#4a3aa7;
+  --bom:#1a7a4f; --ruim:#c0392b;
+  --sombra:0 1px 2px rgba(16,24,20,.04), 0 8px 24px rgba(16,24,20,.05);
+}
+@media (prefers-color-scheme: dark){
+  :root:where(:not([data-theme="claro"])){
+    --bg:#121413; --surface:#1a1d1c; --surface-2:#202422; --linha:#2c312f;
+    --ink:#f2f4f3; --ink-2:#a6b0ab; --ink-3:#79837e;
+    --marca:#35d07f; --marca-fraca:#1c2b24;
+    --lateral:#171a19; --lateral-ink:#a6b0ab;
+    --curva-bg:#0b0f0d; --curva-ink:#e8f3ec; --curva-grade:rgba(255,255,255,.07);
+    --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500; --s5:#d55181; --s6:#008300; --s7:#9085e9;
+    --bom:#35d07f; --ruim:#e66767;
+    --sombra:0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.25);
+  }
+}
+:root[data-theme="escuro"]{
+  --bg:#121413; --surface:#1a1d1c; --surface-2:#202422; --linha:#2c312f;
+  --ink:#f2f4f3; --ink-2:#a6b0ab; --ink-3:#79837e;
+  --marca:#35d07f; --marca-fraca:#1c2b24;
+  --lateral:#171a19; --lateral-ink:#a6b0ab;
+  --curva-bg:#0b0f0d; --curva-ink:#e8f3ec; --curva-grade:rgba(255,255,255,.07);
+  --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500; --s5:#d55181; --s6:#008300; --s7:#9085e9;
+  --bom:#35d07f; --ruim:#e66767;
+  --sombra:0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.25);
+}
+
+*{box-sizing:border-box;margin:0;padding:0;font-family:ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif;}
+body{background:var(--bg);color:var(--ink);}
+
+/* ── Estrutura: lateral fixa + conteúdo ── */
+.app{display:flex;min-height:100vh;}
+.side{width:236px;flex:none;background:var(--lateral);border-right:1px solid var(--linha);
+  display:flex;flex-direction:column;position:sticky;top:0;height:100vh;transition:width .16s ease;}
+.side.mini{width:64px;}
+.side .marca{display:flex;align-items:center;gap:10px;padding:18px 16px;font-weight:700;font-size:16px;color:var(--ink);white-space:nowrap;overflow:hidden;}
+.side .marca i{width:28px;height:28px;flex:none;border-radius:8px;background:var(--marca);display:grid;place-items:center;color:#fff;font-style:normal;font-size:14px;font-weight:700;}
+.side nav{padding:6px 10px;display:flex;flex-direction:column;gap:2px;flex:1;}
+.side nav button{display:flex;align-items:center;gap:11px;padding:10px 11px;border:none;background:none;border-radius:10px;
+  font-size:14.5px;font-weight:500;color:var(--lateral-ink);cursor:pointer;white-space:nowrap;overflow:hidden;text-align:left;width:100%;}
+.side nav button:hover{background:var(--surface-2);color:var(--ink);}
+.side nav button.on{background:var(--marca-fraca);color:var(--marca);font-weight:600;}
+.side nav button svg{width:19px;height:19px;flex:none;}
+.side .pe{padding:10px;border-top:1px solid var(--linha);display:flex;flex-direction:column;gap:2px;}
+/* o rodapé usa os mesmos botões do nav — sem isto o SVG estica pra preencher */
+.side .pe button{display:flex;align-items:center;gap:11px;padding:10px 11px;border:none;background:none;border-radius:10px;
+  font-size:14.5px;font-weight:500;color:var(--lateral-ink);cursor:pointer;white-space:nowrap;overflow:hidden;text-align:left;width:100%;}
+.side .pe button:hover{background:var(--surface-2);color:var(--ink);}
+.side .pe button svg{width:19px;height:19px;flex:none;}
+.side.mini .rot{display:none;}
+.side.mini .marca{justify-content:center;padding:18px 0;}
+.side.mini nav button,.side.mini .pe button{justify-content:center;padding:10px 0;}
+
+.main{flex:1;min-width:0;display:flex;flex-direction:column;}
+.top{display:flex;align-items:center;gap:12px;padding:14px 22px;border-bottom:1px solid var(--linha);
+  background:var(--surface);position:sticky;top:0;z-index:50;flex-wrap:wrap;}
+.top .titulo{font-size:15.5px;font-weight:600;flex:1;min-width:120px;}
+.top .quando{font-size:13px;color:var(--ink-3);}
+.icobtn{width:36px;height:36px;border:1px solid var(--linha);background:var(--surface);border-radius:9px;
+  display:grid;place-items:center;cursor:pointer;color:var(--ink-2);}
+.icobtn:hover{background:var(--surface-2);color:var(--ink);}
+.icobtn svg{width:17px;height:17px;}
+.corpo{padding:22px;max-width:1720px;width:100%;}
+.h1p{font-size:23px;font-weight:600;margin-bottom:16px;}
+
   /* Antes travava em 1180px e sobrava um terço da tela vazio num monitor grande.
      O teto alto existe pra tabela de 21 colunas parar de rolar na horizontal. */
-  .wrap{max-width:1640px;margin:0 auto;}
 
 
+  @media(max-width:900px){
+    .side{position:fixed;left:0;top:0;z-index:80;width:64px;}
+    .side .rot{display:none;}
+    .side.mini{width:236px;}          /* no celular o botão ABRE em vez de recolher */
+    .side.mini .rot{display:inline;}
+    .side.mini .marca{justify-content:flex-start;padding:18px 16px;}
+    .side.mini nav button,.side.mini .pe button{justify-content:flex-start;padding:10px 11px;}
+    .main{margin-left:64px;}
+    .corpo{padding:14px;}
+    .top{padding:12px 14px;}
+    .top .quando{display:none;}
+    #conteudo > div[style*="grid-template-columns"]{grid-template-columns:1fr !important;}
+  }
   @media(max-width:760px){
     body{padding:12px;}
     .charts{grid-template-columns:1fr;}
@@ -21,7 +108,7 @@
     .filtros{gap:8px;}
     .rangePanel{left:auto;right:0;max-width:calc(100vw - 24px);}
     .rangePanel{flex-direction:column;}
-    .presets{width:100%;border-right:none;border-bottom:1px solid #eee;}
+    .presets{width:100%;border-right:none;border-bottom:1px solid var(--linha);}
     .calarea{width:100%;}
     .painel{min-width:0;width:calc(100vw - 24px);left:auto;right:0;}
     .etq{grid-template-columns:1fr;}
@@ -38,95 +125,89 @@
     .tabs button{flex:1;padding:9px 10px;}
   }
 
-  .login{max-width:380px;margin:12vh auto;background:#fff;border-radius:16px;padding:32px;box-shadow:0 2px 18px rgba(0,0,0,.06);}
+  .login{max-width:380px;margin:12vh auto;background:var(--surface);border-radius:16px;padding:32px;box-shadow:0 2px 18px rgba(0,0,0,.06);}
   .login h1{font-size:20px;font-weight:600;margin-bottom:4px;}
-  .login p{font-size:13.5px;color:#8a8a8a;margin-bottom:22px;}
-  .login label{display:block;font-size:12px;color:#8a8a8a;text-transform:uppercase;letter-spacing:.04em;font-weight:700;margin-bottom:6px;}
-  .login input{width:100%;border:1px solid #dcdcdc;border-radius:9px;padding:12px 13px;font-size:15px;margin-bottom:16px;}
-  .login input:focus{outline:none;border-color:#1a7a4f;}
-  .login button{width:100%;background:#1a7a4f;color:#fff;border:none;border-radius:9px;padding:13px;font-size:15px;font-weight:600;cursor:pointer;}
+  .login p{font-size:13.5px;color:var(--ink-3);margin-bottom:22px;}
+  .login label{display:block;font-size:12px;color:var(--ink-3);text-transform:uppercase;letter-spacing:.04em;font-weight:700;margin-bottom:6px;}
+  .login input{width:100%;border:1px solid var(--linha);border-radius:9px;padding:12px 13px;font-size:15px;margin-bottom:16px;}
+  .login input:focus{outline:none;border-color:var(--marca);}
+  .login button{width:100%;background:var(--marca);color:#fff;border:none;border-radius:9px;padding:13px;font-size:15px;font-weight:600;cursor:pointer;}
   .login button:disabled{opacity:.55;cursor:default;}
   .erro{background:#fdf0ee;border:1px solid #f0cfc8;color:#a8422f;border-radius:9px;padding:11px 13px;font-size:13.5px;margin-bottom:16px;}
 
-  h1.tit{font-size:22px;font-weight:600;margin-bottom:16px;}
-  .sub{color:#7a7a7a;font-size:14px;margin-bottom:16px;}
-  .sair{float:right;border:1px solid #dcdcdc;background:#fff;border-radius:8px;padding:8px 14px;font-size:13px;cursor:pointer;color:#666;}
   /* os dois flutuam à direita, então quem separa do botão Sair é o margin-right */
-  .selo-crt{float:right;background:#fff;border:1px solid #e6e6e6;border-radius:12px;padding:10px 18px;text-align:center;margin-right:16px;}
-  .selo-crt .lbl{font-size:11.5px;color:#8a8a8a;text-transform:uppercase;letter-spacing:.04em;}
+  .selo-crt{float:right;background:var(--surface);border:1px solid var(--linha);border-radius:12px;padding:10px 18px;text-align:center;margin-right:16px;}
+  .selo-crt .lbl{font-size:11.5px;color:var(--ink-3);text-transform:uppercase;letter-spacing:.04em;}
   .selo-crt .val{font-size:24px;font-weight:600;line-height:1.15;}
-  .tabs{display:flex;gap:6px;margin-bottom:16px;}
-  .tabs button{padding:9px 20px;border-radius:10px;font-size:14.5px;font-weight:600;color:#666;background:#fff;border:1px solid #e2e2e2;cursor:pointer;}
-  .tabs button.on{background:#1a7a4f;color:#fff;border-color:#1a7a4f;}
 
   .filtros{display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap;align-items:center;}
-  .filtros select,.filtros input[type=date]{border:1px solid #d5d5d5;background:#fff;border-radius:10px;padding:11px 14px;font-size:14px;color:#333;cursor:pointer;}
-  .filtros select:focus{outline:none;border-color:#1a7a4f;}
-  .filtros select.on{border-color:#1a7a4f;background:#f0f7f3;font-weight:600;}
-  .btn{border:1px solid #d5d5d5;background:#fff;border-radius:10px;padding:11px 16px;font-size:14px;font-weight:600;color:#333;cursor:pointer;}
-  .btn.on{border-color:#1a7a4f;color:#1a7a4f;background:#f0f7f3;}
+  .filtros select,.filtros input[type=date]{border:1px solid var(--linha);background:var(--surface);border-radius:10px;padding:11px 14px;font-size:14px;color:var(--ink);cursor:pointer;}
+  .filtros select:focus{outline:none;border-color:var(--marca);}
+  .filtros select.on{border-color:var(--marca);background:var(--marca-fraca);font-weight:600;}
+  .btn{border:1px solid var(--linha);background:var(--surface);border-radius:10px;padding:11px 16px;font-size:14px;font-weight:600;color:var(--ink);cursor:pointer;}
+  .btn.on{border-color:var(--marca);color:var(--marca);background:var(--marca-fraca);}
   .grp{position:relative;}
-  .rangeBtn{border:1px solid #d5d5d5;background:#fff;border-radius:10px;padding:11px 17px;font-size:14.5px;font-weight:600;color:#333;cursor:pointer;display:inline-flex;align-items:center;gap:8px;}
-  .rangeBtn.on{border-color:#1a7a4f;color:#1a7a4f;background:#f0f7f3;}
+  .rangeBtn{border:1px solid var(--linha);background:var(--surface);border-radius:10px;padding:11px 17px;font-size:14.5px;font-weight:600;color:var(--ink);cursor:pointer;display:inline-flex;align-items:center;gap:8px;}
+  .rangeBtn.on{border-color:var(--marca);color:var(--marca);background:var(--marca-fraca);}
   .rangeBtn .car{color:#999;font-size:11px;}
-  .rangePanel{position:absolute;top:52px;left:0;z-index:60;background:#fff;border:1px solid #e2e2e2;border-radius:14px;box-shadow:0 10px 34px rgba(0,0,0,.14);display:flex;overflow:hidden;}
-  .presets{width:200px;border-right:1px solid #eee;padding:8px;}
+  .rangePanel{position:absolute;top:52px;left:0;z-index:60;background:var(--surface);border:1px solid var(--linha);border-radius:14px;box-shadow:0 10px 34px rgba(0,0,0,.14);display:flex;overflow:hidden;}
+  .presets{width:200px;border-right:1px solid var(--linha);padding:8px;}
   .presets.only{border-right:none;}
-  .presets a{display:block;padding:10px 13px;border-radius:8px;font-size:14px;color:#444;cursor:pointer;}
-  .presets a:hover{background:#f1f4f2;}
-  .presets a.active{background:#e9f3ee;color:#2f6b4f;font-weight:600;}
-  .presets .div{height:1px;background:#eee;margin:6px 8px;}
+  .presets a{display:block;padding:10px 13px;border-radius:8px;font-size:14px;color:var(--ink-2);cursor:pointer;}
+  .presets a:hover{background:var(--surface-2);}
+  .presets a.active{background:var(--marca-fraca);color:var(--marca);font-weight:600;}
+  .presets .div{height:1px;background:var(--linha);margin:6px 8px;}
   .calarea{padding:14px 16px;width:292px;}
-  .calnav{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;font-weight:600;font-size:14px;color:#333;}
-  .calnav button{border:none;background:none;font-size:20px;line-height:1;cursor:pointer;color:#666;padding:2px 10px;border-radius:6px;}
+  .calnav{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;font-weight:600;font-size:14px;color:var(--ink);}
+  .calnav button{border:none;background:none;font-size:20px;line-height:1;cursor:pointer;color:var(--ink-2);padding:2px 10px;border-radius:6px;}
   .calnav button:hover{background:#f0f0f0;}
   .calgrid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;}
-  .caldow{font-size:11.5px;color:#aaa;text-align:center;padding:4px 0;text-transform:uppercase;}
-  .calday{text-align:center;font-size:13px;padding:8px 0;border-radius:7px;cursor:pointer;color:#333;}
-  .calday:hover{background:#eef2f0;}
+  .caldow{font-size:11.5px;color:var(--ink-3);text-align:center;padding:4px 0;text-transform:uppercase;}
+  .calday{text-align:center;font-size:13px;padding:8px 0;border-radius:7px;cursor:pointer;color:var(--ink);}
+  .calday:hover{background:var(--surface-2);}
   .calday.muted{visibility:hidden;}
-  .calday.inrange{background:#e9f3ee;border-radius:0;}
-  .calday.edge{background:#1a7a4f;color:#fff;border-radius:7px;}
-  .calfoot{display:flex;align-items:center;gap:10px;margin-top:10px;padding-top:10px;border-top:1px solid #eee;}
-  .calsel{flex:1;font-size:13px;color:#666;}
+  .calday.inrange{background:var(--marca-fraca);border-radius:0;}
+  .calday.edge{background:var(--marca);color:#fff;border-radius:7px;}
+  .calfoot{display:flex;align-items:center;gap:10px;margin-top:10px;padding-top:10px;border-top:1px solid var(--linha);}
+  .calsel{flex:1;font-size:13px;color:var(--ink-2);}
   .vpan{width:310px;padding:12px;display:block;}
-  .vsearch{width:100%;border:1px solid #e2e2e2;border-radius:8px;padding:9px 11px;font-size:13.5px;outline:none;margin-bottom:8px;}
-  .vsearch:focus{border-color:#1a7a4f;}
+  .vsearch{width:100%;border:1px solid var(--linha);border-radius:8px;padding:9px 11px;font-size:13.5px;outline:none;margin-bottom:8px;}
+  .vsearch:focus{border-color:var(--marca);}
   .vlist{max-height:270px;overflow-y:auto;margin-bottom:8px;}
-  .vitem{display:flex;align-items:center;gap:9px;padding:8px 9px;border-radius:8px;cursor:pointer;font-size:13.5px;color:#333;}
-  .vitem:hover{background:#f1f4f2;}
-  .vitem input{margin:0;cursor:pointer;accent-color:#1a7a4f;}
+  .vitem{display:flex;align-items:center;gap:9px;padding:8px 9px;border-radius:8px;cursor:pointer;font-size:13.5px;color:var(--ink);}
+  .vitem:hover{background:var(--surface-2);}
+  .vitem input{margin:0;cursor:pointer;accent-color:var(--marca);}
   .vitem .cod{font-weight:600;flex:1;}
   .vitem .qtd{color:#999;font-size:12px;white-space:nowrap;}
   .vempty{color:#999;font-size:13px;padding:14px 9px;text-align:center;}
-  .painel{position:absolute;top:52px;left:0;z-index:60;background:#fff;border:1px solid #e2e2e2;border-radius:14px;box-shadow:0 10px 34px rgba(0,0,0,.14);padding:18px 20px;min-width:520px;flex-direction:column;}
+  .painel{position:absolute;top:52px;left:0;z-index:60;background:var(--surface);border:1px solid var(--linha);border-radius:14px;box-shadow:0 10px 34px rgba(0,0,0,.14);padding:18px 20px;min-width:520px;flex-direction:column;}
   .etq{display:grid;grid-template-columns:repeat(2,minmax(210px,1fr));gap:16px 22px;}
-  .etq label{display:flex;flex-direction:column;gap:6px;font-size:11.5px;color:#8a8a8a;text-transform:uppercase;letter-spacing:.04em;font-weight:700;}
-  .etq select,.etq input{border:1px solid #dcdcdc;border-radius:8px;padding:10px 12px;font-size:14px;color:#333;background:#fff;width:100%;}
-  .pfoot{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:18px;padding-top:14px;border-top:1px solid #eee;}
-  .limpar{border:none;background:none;color:#666;font-size:13.5px;text-decoration:underline;cursor:pointer;}
-  .prim{background:#1a7a4f;color:#fff;border:none;border-radius:8px;padding:9px 18px;font-size:14px;font-weight:600;cursor:pointer;}
+  .etq label{display:flex;flex-direction:column;gap:6px;font-size:11.5px;color:var(--ink-3);text-transform:uppercase;letter-spacing:.04em;font-weight:700;}
+  .etq select,.etq input{border:1px solid var(--linha);border-radius:8px;padding:10px 12px;font-size:14px;color:var(--ink);background:var(--surface);width:100%;}
+  .pfoot{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:18px;padding-top:14px;border-top:1px solid var(--linha);}
+  .limpar{border:none;background:none;color:var(--ink-2);font-size:13.5px;text-decoration:underline;cursor:pointer;}
+  .prim{background:var(--marca);color:#fff;border:none;border-radius:8px;padding:9px 18px;font-size:14px;font-weight:600;cursor:pointer;}
 
   .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:18px;}
-  .kpi{background:#fff;border-radius:14px;padding:16px 18px;}
-  .kpi .lbl{font-size:12.5px;color:#8a8a8a;text-transform:uppercase;letter-spacing:.04em;}
+  .kpi{background:var(--surface);border-radius:14px;padding:16px 18px;}
+  .kpi .lbl{font-size:12.5px;color:var(--ink-3);text-transform:uppercase;letter-spacing:.04em;}
   .kpi .val{font-size:28px;font-weight:600;margin-top:4px;}
 
-  .card{background:#fff;border-radius:14px;padding:18px 20px;margin-bottom:18px;}
+  .card{background:var(--surface);border-radius:14px;padding:18px 20px;margin-bottom:18px;}
   .sec{font-size:17px;font-weight:600;margin-bottom:12px;}
   .cabsec{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:12px;flex-wrap:wrap;}
-  .curva{background:#0d1512;border-radius:14px;padding:18px 16px 10px;margin-bottom:18px;}
-  .curva .cab{display:flex;justify-content:space-between;color:#e8f3ec;font-size:14px;margin-bottom:8px;}
+  .curva{background:var(--curva-bg);border-radius:14px;padding:18px 16px 10px;margin-bottom:18px;}
+  .curva .cab{display:flex;justify-content:space-between;color:var(--curva-ink);font-size:14px;margin-bottom:8px;}
   .cvFunil{position:relative;height:340px;}
   @media(max-width:760px){ .cvFunil{height:230px;} }
   .alerta-box{background:#fdf0ee;border:1px solid #f0cfc8;color:#a8422f;border-radius:10px;padding:12px 14px;font-size:13.5px;margin-bottom:18px;}
 
-  .lin{display:flex;align-items:center;gap:12px;padding:11px 8px;border-bottom:1px solid #f4f4f4;font-size:14px;}
+  .lin{display:flex;align-items:center;gap:12px;padding:11px 8px;border-bottom:1px solid var(--linha);font-size:14px;}
   .lin.alerta{background:#fdf0ee;border-radius:8px;}
   .lin.pitch{opacity:.6;}
-  .lin .n{width:26px;color:#aaa;font-size:12.5px;text-align:right;}
+  .lin .n{width:26px;color:var(--ink-3);font-size:12.5px;text-align:right;}
   .lin .nome{flex:1;}
-  .lin .barra{width:32%;height:8px;background:#eee;border-radius:5px;overflow:hidden;}
+  .lin .barra{width:32%;height:8px;background:var(--linha);border-radius:5px;overflow:hidden;}
   .lin .barra i{display:block;height:100%;}
   .lin .pct{width:56px;text-align:right;font-weight:600;}
   .lin .queda{width:82px;text-align:right;font-size:12.5px;color:#bbb;}
@@ -134,33 +215,33 @@
 
   .charts{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px;}
   @media(max-width:1400px){ .charts{grid-template-columns:repeat(2,1fr);} }
-  .cchart{background:#fff;border-radius:14px;padding:16px 14px;}
+  .cchart{background:var(--surface);border-radius:14px;padding:16px 14px;}
   .cchart .ttl{font-size:15.5px;font-weight:600;margin-bottom:14px;}
   .cchart .cv{position:relative;height:290px;}
   .pieWrap{position:relative;height:320px;max-width:560px;margin:0 auto;}
 
   .tbwrap{overflow-x:auto;margin:0 -20px;padding:0 20px;}
   table.tb{width:100%;border-collapse:collapse;font-size:14px;}
-  .tb th{text-align:left;color:#3f4a44;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;padding:14px;background:#f2f4f3;border-bottom:2px solid #d8e0db;white-space:nowrap;}
-  .tb td{padding:17px 14px;border-bottom:1px solid #f2f2f2;white-space:nowrap;max-width:230px;overflow:hidden;text-overflow:ellipsis;}
-  .tb tbody tr:hover td{background:#fafbfa;}
-  .tb .nm{font-weight:600;position:sticky;left:0;background:#fff;z-index:2;max-width:300px;cursor:pointer;}
-  .tb tr:hover .nm{background:#fafbfa;}
-  .tb th:first-child{position:sticky;left:0;z-index:3;background:#f2f4f3;}
+  .tb th{text-align:left;color:var(--ink-2);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;padding:14px;background:var(--surface-2);border-bottom:2px solid var(--linha);white-space:nowrap;}
+  .tb td{padding:17px 14px;border-bottom:1px solid var(--linha);white-space:nowrap;max-width:230px;overflow:hidden;text-overflow:ellipsis;}
+  .tb tbody tr:hover td{background:var(--surface-2);}
+  .tb .nm{font-weight:600;position:sticky;left:0;background:var(--surface);z-index:2;max-width:300px;cursor:pointer;}
+  .tb tr:hover .nm{background:var(--surface-2);}
+  .tb th:first-child{position:sticky;left:0;z-index:3;background:var(--surface-2);}
   .tb .num,.tb th.num{text-align:right;}
-  .vazio{color:#aaa;padding:28px 4px;font-size:14px;}
+  .vazio{color:var(--ink-3);padding:28px 4px;font-size:14px;}
   .aviso{background:#fff8e6;border:1px solid #f0dca8;color:#7a5b12;border-radius:10px;padding:11px 13px;font-size:13px;margin-top:12px;}
-  .carregando{color:#aaa;font-size:14px;padding:40px 0;text-align:center;}
-  .nota{font-size:13px;color:#8a8a8a;margin-top:8px;line-height:1.5;}
+  .carregando{color:var(--ink-3);font-size:14px;padding:40px 0;text-align:center;}
+  .nota{font-size:13px;color:var(--ink-3);margin-top:8px;line-height:1.5;}
 
-  .medalhas{margin-top:14px;display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px;font-size:13px;color:#666;}
-  .medalhas b{color:#333;font-weight:600;}
-  .medalhas .tt{font-size:11.5px;color:#9a9a9a;text-transform:uppercase;letter-spacing:.05em;font-weight:700;}
+  .medalhas{margin-top:14px;display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px;font-size:13px;color:var(--ink-2);}
+  .medalhas b{color:var(--ink);font-weight:600;}
+  .medalhas .tt{font-size:11.5px;color:var(--ink-3);text-transform:uppercase;letter-spacing:.05em;font-weight:700;}
 
   .modal{position:fixed;inset:0;background:rgba(0,0,0,.4);display:flex;align-items:center;justify-content:center;z-index:100;padding:20px;}
-  .modal .box{background:#fff;border-radius:16px;padding:26px 28px;max-width:760px;width:100%;max-height:88vh;overflow:auto;}
+  .modal .box{background:var(--surface);border-radius:16px;padding:26px 28px;max-width:760px;width:100%;max-height:88vh;overflow:auto;}
   .modal h2{font-size:18px;font-weight:600;margin-bottom:4px;}
-  .modal .qual{font-size:13px;color:#8a8a8a;margin-bottom:20px;}
+  .modal .qual{font-size:13px;color:var(--ink-3);margin-bottom:20px;}
 </style>
 </head>
 <body>
@@ -176,59 +257,86 @@
   </form>
 </div>
 
-<div id="telaDash" class="wrap" style="display:none;">
-  <button class="sair" onclick="sair()">Sair</button>
-  <div id="seloCrt"></div>
-  <h1 class="tit">Ciclo Fértil</h1>
+<div id="telaDash" style="display:none;">
+<div class="app">
+  <aside class="side" id="lateral">
+    <div class="marca"><i>CF</i><span class="rot">Ciclo Fértil</span></div>
+    <nav>
+      <button id="navGeral"     class="on" onclick="trocarAba('geral')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg>
+        <span class="rot">Visão Geral</span></button>
+      <button id="navFunil"     onclick="trocarAba('funil')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 4h18l-7 8v7l-4 2v-9z"/></svg>
+        <span class="rot">Funil</span></button>
+      <button id="navCriativos" onclick="trocarAba('criativos')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M10 9l5 3-5 3z"/></svg>
+        <span class="rot">Criativos</span></button>
+    </nav>
+    <div class="pe">
+      <button onclick="ciclarTema()" id="btnTema">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        <span class="rot" id="rotTema">Tema claro</span></button>
+      <button onclick="sair()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>
+        <span class="rot">Sair</span></button>
+    </div>
+  </aside>
 
-  <div class="tabs">
-    <button id="tabFunil" class="on" onclick="trocarAba('funil')">Funil</button>
-    <button id="tabCriativos" onclick="trocarAba('criativos')">Criativos</button>
-  </div>
-
-  <div class="filtros">
-    <div class="grp">
-      <button class="rangeBtn" id="btnData" onclick="abrir('painelData')">
-        <span id="lblData">Máximo (todos)</span><span class="car">▼</span>
+  <div class="main">
+    <header class="top">
+      <button class="icobtn" onclick="alternarLateral()" title="Recolher menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
       </button>
-      <div class="rangePanel" id="painelData" style="display:none;">
-        <div class="presets" id="presets"></div>
-        <div class="calarea">
-          <div class="calnav"><button onclick="calMove(-1)">‹</button><span id="calTitulo"></span><button onclick="calMove(1)">›</button></div>
-          <div class="calgrid" id="calGrid"></div>
-          <div class="calfoot"><span class="calsel" id="calSel">Selecione as datas</span><button class="prim" onclick="calAplicar()">Aplicar</button></div>
+      <div class="titulo" id="tituloPagina">Visão Geral</div>
+      <span class="quando" id="quando"></span>
+      <button class="icobtn" onclick="carregar()" title="Recarregar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 12a9 9 0 1 1-2.6-6.4M21 3v6h-6"/></svg>
+      </button>
+      <div class="filtros" style="margin:0;">
+        <div class="grp">
+          <button class="rangeBtn" id="btnData" onclick="abrir('painelData')">
+            <span id="lblData">Máximo (todos)</span><span class="car">▼</span>
+          </button>
+          <div class="rangePanel" id="painelData" style="display:none;">
+            <div class="presets" id="presets"></div>
+            <div class="calarea">
+              <div class="calnav"><button onclick="calMove(-1)">‹</button><span id="calTitulo"></span><button onclick="calMove(1)">›</button></div>
+              <div class="calgrid" id="calGrid"></div>
+              <div class="calfoot"><span class="calsel" id="calSel">Selecione as datas</span><button class="prim" onclick="calAplicar()">Aplicar</button></div>
+            </div>
+          </div>
+        </div>
+        <div class="grp soFunil">
+          <button class="rangeBtn" id="btnFunil" onclick="abrir('painelFunil')"><span id="lblFunil">Todos os funis</span><span class="car">▼</span></button>
+          <div class="rangePanel" id="painelFunil" style="display:none;"><div class="presets only" id="listaFunil"></div></div>
+        </div>
+        <div class="grp soFunil">
+          <button class="rangeBtn" id="btnFonte" onclick="abrir('painelFonte')"><span id="lblFonte">Todas as fontes</span><span class="car">▼</span></button>
+          <div class="rangePanel" id="painelFonte" style="display:none;"><div class="presets only" id="listaFonte"></div></div>
+        </div>
+        <div class="grp soFunil">
+          <button class="rangeBtn" id="btnVar" onclick="abrir('painelVar')"><span id="lblVar">Todas as URLs</span><span class="car">▼</span></button>
+          <div class="rangePanel" id="painelVar" style="display:none;">
+            <div class="vpan">
+              <input class="vsearch" id="vBusca" placeholder="Buscar variante..." oninput="pintarVars()" autocomplete="off"/>
+              <div class="vlist" id="vLista"></div>
+              <div class="calfoot" style="justify-content:flex-end;"><button class="prim" onclick="aplicarVars()">Aplicar</button></div>
+            </div>
+          </div>
+        </div>
+        <div class="grp soCriativos" style="display:none;">
+          <button class="rangeBtn" id="btnStatus" onclick="abrir('painelStatus')"><span id="lblStatus">Todos os status</span><span class="car">▼</span></button>
+          <div class="rangePanel" id="painelStatus" style="display:none;"><div class="presets only" id="listaStatus"></div></div>
         </div>
       </div>
-    </div>
+    </header>
 
-    <div class="grp soFunil">
-      <button class="rangeBtn" id="btnFunil" onclick="abrir('painelFunil')"><span id="lblFunil">Todos os funis</span><span class="car">▼</span></button>
-      <div class="rangePanel" id="painelFunil" style="display:none;"><div class="presets only" id="listaFunil"></div></div>
-    </div>
-    <div class="grp soFunil">
-      <button class="rangeBtn" id="btnFonte" onclick="abrir('painelFonte')"><span id="lblFonte">Todas as fontes</span><span class="car">▼</span></button>
-      <div class="rangePanel" id="painelFonte" style="display:none;"><div class="presets only" id="listaFonte"></div></div>
-    </div>
-    <div class="grp soFunil">
-      <button class="rangeBtn" id="btnVar" onclick="abrir('painelVar')">
-        <span id="lblVar">Todas as URLs</span><span class="car">▼</span>
-      </button>
-      <div class="rangePanel vpanWrap" id="painelVar" style="display:none;">
-        <div class="vpan">
-          <input class="vsearch" id="vBusca" placeholder="Buscar variante..." oninput="pintarVars()" autocomplete="off"/>
-          <div class="vlist" id="vLista"></div>
-          <div class="calfoot" style="justify-content:flex-end;"><button class="prim" onclick="aplicarVars()">Aplicar</button></div>
-        </div>
-      </div>
-    </div>
-
-    <div class="grp soCriativos" style="display:none;">
-      <button class="rangeBtn" id="btnStatus" onclick="abrir('painelStatus')"><span id="lblStatus">Todos os status</span><span class="car">▼</span></button>
-      <div class="rangePanel" id="painelStatus" style="display:none;"><div class="presets only" id="listaStatus"></div></div>
+    <div class="corpo">
+      <div id="seloCrt"></div>
+      <div id="conteudo"><div class="carregando">Carregando…</div></div>
     </div>
   </div>
-
-  <div id="conteudo"><div class="carregando">Carregando…</div></div>
+</div>
 </div>
 
 <div id="modal"></div>
@@ -275,7 +383,7 @@ function liquido(fat, vendas) {
    oito cores ficavam abaixo do piso de croma — liam como cinza.
    Estas passam nos seis. Os slots são fixos: cor segue a entidade, nunca a
    posição, então filtrar não repinta quem sobrou. */
-const SERIES = ['#2a78d6','#eb6834','#1baf7a','#eda100','#e87ba4','#008300'];
+// as cores vêm dos tokens do tema (ver paleta()), não fixas aqui
 
 const MEDALHAS = [
   { selo:'💎', nome:'Diamante', vendas:30, roas:1.50 },
@@ -302,7 +410,7 @@ const rotuloValor = { id:'rotuloValor', afterDatasetsDraw(ch, a, opts) {
   const ctx = ch.ctx, fmt = (opts && opts.fmt) || (v => v);
   ctx.save();
   ctx.font = '600 12.5px -apple-system, Segoe UI, Roboto, Arial, sans-serif';
-  ctx.textBaseline = 'middle'; ctx.textAlign = 'left'; ctx.fillStyle = '#555';
+  ctx.textBaseline = 'middle'; ctx.textAlign = 'left'; ctx.fillStyle = tok('--ink-2');
   ch.data.datasets.forEach((ds, di) => ch.getDatasetMeta(di).data.forEach((bar, i) =>
     ctx.fillText(fmt(ds.data[i]), bar.x + 8, bar.y)));
   ctx.restore();
@@ -416,7 +524,32 @@ function abrir(id) {
 const fecharPaineis = () => ['painelData','painelVar','painelEtq','painelFunil','painelFonte','painelStatus','painelPieMet','painelPieGrp','painelG_formato','painelG_angulo','painelG_emocao'].forEach(k => {
   const el = document.getElementById(k); if (el) el.style.display = 'none'; });
 
-let aba = 'funil', graficos = [], filtroEtq = {}, CRIATIVOS = [];
+let aba = 'geral', graficos = [], filtroEtq = {}, CRIATIVOS = [];
+
+/* Tema em três estados: automático segue o sistema, claro e escuro vencem ele.
+   Guardado no navegador, então a escolha sobrevive ao recarregar. */
+const TEMAS = ['auto', 'claro', 'escuro'];
+const ROTULO_TEMA = { auto: 'Tema automático', claro: 'Tema claro', escuro: 'Tema escuro' };
+function aplicarTema(t) {
+  if (t === 'auto') document.documentElement.removeAttribute('data-theme');
+  else document.documentElement.setAttribute('data-theme', t);
+  localStorage.setItem('cf_tema', t);
+  const r = document.getElementById('rotTema'); if (r) r.textContent = ROTULO_TEMA[t];
+  const b = document.getElementById('btnTema'); if (b) b.title = ROTULO_TEMA[t];
+  if (graficos.length) carregar();   // Chart.js lê a cor no momento do desenho
+}
+function ciclarTema() {
+  const atual = localStorage.getItem('cf_tema') || 'auto';
+  aplicarTema(TEMAS[(TEMAS.indexOf(atual) + 1) % TEMAS.length]);
+}
+function alternarLateral() {
+  const l = document.getElementById('lateral');
+  l.classList.toggle('mini');
+  localStorage.setItem('cf_lateral', l.classList.contains('mini') ? 'mini' : 'full');
+}
+// lê os tokens do tema atual em vez de cravar hex no JS
+const tok = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const paleta = () => ['--s1','--s2','--s3','--s4','--s5','--s6'].map(tok);
 let VARIANTES = [], marcadas = {};
 
 /* Ponto único do nome de cada variante. 0 e original são a MESMA página — o
@@ -483,13 +616,16 @@ function pintarVars() {
 function aplicarVars() { fecharPaineis(); carregar(); }
 function selecionadas() { return VARIANTES.map(v => v.variante).filter(v => marcadas[v]); }
 
+const TITULOS = { geral:'Visão Geral', funil:'Funil', criativos:'Criativos' };
 function trocarAba(nova) {
   aba = nova;
-  document.getElementById('tabFunil').className = nova === 'funil' ? 'on' : '';
-  document.getElementById('tabCriativos').className = nova === 'criativos' ? 'on' : '';
+  ['geral','funil','criativos'].forEach(k =>
+    document.getElementById('nav' + k[0].toUpperCase() + k.slice(1)).className = k === nova ? 'on' : '');
+  document.getElementById('tituloPagina').textContent = TITULOS[nova];
   document.querySelectorAll('.soFunil').forEach(e => e.style.display = nova === 'funil' ? '' : 'none');
   document.querySelectorAll('.soCriativos').forEach(e => e.style.display = nova === 'criativos' ? '' : 'none');
   document.getElementById('seloCrt').innerHTML = '';
+  localStorage.setItem('cf_aba', nova);
   carregar();
 }
 
@@ -500,9 +636,112 @@ async function carregar() {
   alvo.innerHTML = '<div class="carregando">Carregando…</div>';
   limparGraficos();
   document.querySelectorAll('.filtros select').forEach(s => s.className = s.className.replace(' on','') + (s.value ? ' on' : ''));
-  try { if (aba === 'funil') await verFunil(); else await verCriativos(); }
+  try {
+    if (aba === 'geral') await verGeral();
+    else if (aba === 'funil') await verFunil();
+    else await verCriativos();
+    const ag = new Date();
+    document.getElementById('quando').textContent = 'Atualizado às ' +
+      ag.toLocaleTimeString('pt-BR', { hour:'2-digit', minute:'2-digit' });
+  }
   catch (e) { alvo.innerHTML = '<div class="card"><div class="erro">Erro ao carregar: ' + esc(e.message || e) + '</div></div>'; }
 }
+
+// ══════════════════════ VISÃO GERAL ══════════════════════
+/* Não repete as outras abas: junta o dinheiro (que vive em Criativos) com a
+   saúde do funil (que vive em Funil) e mostra a evolução dia a dia, que hoje
+   não existia em lugar nenhum — as duas abas mostram total do período. */
+async function verGeral() {
+  const p = periodo();
+  const [rD, rC, rF, rV] = await Promise.all([
+    sb.rpc('fn_diario',    { p_de:p.de, p_ate:p.ate }),
+    sb.rpc('fn_criativos', { p_de:p.de, p_ate:p.ate }),
+    sb.rpc('fn_funil',     { p_de:p.de, p_ate:p.ate }),
+    sb.rpc('fn_variantes', { p_de:p.de, p_ate:p.ate }),
+  ]);
+  if (rD.error) throw rD.error;
+
+  const dias = rD.data || [];
+  const tot = dias.reduce((a, d) => ({
+    gasto: a.gasto + Number(d.gasto), fat: a.fat + Number(d.faturamento),
+    vendas: a.vendas + Number(d.vendas), checkouts: a.checkouts + Number(d.checkouts) }),
+    { gasto:0, fat:0, vendas:0, checkouts:0 });
+  const roas = tot.gasto ? tot.fat / tot.gasto : null;
+  const roi  = tot.gasto ? ((liquido(tot.fat, tot.vendas) - tot.gasto) / tot.gasto) * 100 : null;
+
+  // melhor criativo do período: menor custo por venda entre os que venderam
+  const crs = (rC.data || []).map(r => {
+    const g = Number(r.gasto) || 0, v = Number(r.vendas) || 0, val = Number(r.valor) || 0;
+    const fat = val > 0 ? val : v * PRECO_VENDA;
+    return { nome: r.anuncio, gasto: g, vendas: v, cpa: v ? g / v : null, roas: g ? fat / g : null };
+  }).filter(r => r.cpa != null).sort((a, b) => a.cpa - b.cpa);
+  const melhor = crs[0];
+
+  const f = rF.data;
+  const t1 = (f.etapas.find(e => e.n === 1) || {}).sessoes || 0;
+  const t2 = (f.etapas.find(e => e.n === 2) || {}).sessoes || 0;
+  const quedaT1 = t1 ? Math.round((100 - (t2 / t1) * 100) * 10) / 10 : 0;
+
+  const vars = (rV.data || []).filter(v => v.variante !== 'v0').slice(0, 2);
+
+  const cor = v => v == null ? 'var(--ink-3)' : (v >= 0 ? 'var(--bom)' : 'var(--ruim)');
+  document.getElementById('conteudo').innerHTML =
+    '<div class="kpis">' +
+      kpi('Gasto', moeda(tot.gasto)) + kpi('Vendas', tot.vendas) +
+      kpi('Faturamento', moeda(tot.fat)) +
+      '<div class="kpi"><div class="lbl">ROAS</div><div class="val" style="color:' +
+        (roas == null ? 'var(--ink-3)' : roas >= 1 ? 'var(--bom)' : 'var(--ruim)') + '">' +
+        (roas == null ? '—' : roas.toFixed(2) + 'x') + '</div></div>' +
+      '<div class="kpi"><div class="lbl">ROI</div><div class="val" style="color:' + cor(roi) + '">' +
+        (roi == null ? '—' : roi.toFixed(0) + '%') + '</div></div>' +
+    '</div>' +
+    '<div style="display:grid;grid-template-columns:minmax(0,2.1fr) minmax(260px,1fr);gap:16px;align-items:start;">' +
+      '<div class="card"><div class="sec">Gasto e faturamento por dia</div>' +
+        (dias.length ? '<div style="position:relative;height:330px;"><canvas id="cvGeral"></canvas></div>'
+                     : '<div class="vazio">Sem dados no período.</div>') + '</div>' +
+      '<div style="display:flex;flex-direction:column;gap:16px;">' +
+        '<div class="card"><div class="sec">Funil do quiz</div>' +
+          linhaInfo('Visitantes', String(f.visitantes)) +
+          linhaInfo('Queda na tela 1', quedaT1 + ' pts') +
+          linhaInfo('Chegaram ao fim', (f.visitantes ? (f.fim / f.visitantes * 100).toFixed(1) : 0) + '%') +
+          linhaInfo('Clicaram em comprar', (f.visitantes ? (f.compraram / f.visitantes * 100).toFixed(1) : 0) + '%') +
+        '</div>' +
+        '<div class="card"><div class="sec">Melhor criativo</div>' +
+          (melhor ? linhaInfo(melhor.nome, moeda(melhor.cpa) + ' / venda') +
+                    linhaInfo('Vendas', String(melhor.vendas)) +
+                    linhaInfo('ROAS', melhor.roas ? melhor.roas.toFixed(2) + 'x' : '—')
+                  : '<div class="vazio">Nenhuma venda no período.</div>') +
+        '</div>' +
+        (vars.length >= 2 ? '<div class="card"><div class="sec">Teste de headline</div>' +
+          vars.map(v => linhaInfo(rotuloVariante(v.variante), v.sessoes + ' sessões')).join('') +
+          '<div class="nota">Comparação completa na aba Funil.</div></div>' : '') +
+      '</div>' +
+    '</div>';
+
+  if (!dias.length) return;
+  const ctx = document.getElementById('cvGeral').getContext('2d');
+  const P = paleta();
+  graficos.push(new Chart(ctx, {
+    type:'line',
+    data:{ labels: dias.map(d => d.data.slice(8,10) + '/' + d.data.slice(5,7)),
+      datasets:[
+        { label:'Faturamento', data: dias.map(d => Number(d.faturamento)), borderColor:P[2], backgroundColor:P[2] + '22',
+          borderWidth:2, fill:true, tension:.35, pointRadius:0, pointHoverRadius:5 },
+        { label:'Gasto', data: dias.map(d => Number(d.gasto)), borderColor:P[1],
+          borderWidth:2, fill:false, tension:.35, pointRadius:0, pointHoverRadius:5 },
+      ] },
+    options:{ responsive:true, maintainAspectRatio:false, interaction:{ mode:'index', intersect:false },
+      plugins:{ legend:{ display:true, position:'bottom', labels:{ color:tok('--ink-2'), boxWidth:12, boxHeight:2, padding:14 } },
+        tooltip:{ callbacks:{ label:c => c.dataset.label + ': ' + moeda(c.parsed.y) } } },
+      scales:{ y:{ ticks:{ color:tok('--ink-3'), callback:v => 'R$' + Math.round(v) }, grid:{ color:tok('--linha') } },
+               x:{ ticks:{ color:tok('--ink-3'), maxTicksLimit:12 }, grid:{ display:false } } } }
+  }));
+}
+
+const linhaInfo = (rot, val) =>
+  '<div style="display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px solid var(--linha);font-size:14px;">' +
+  '<span style="color:var(--ink-2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">' + esc(rot) + '</span>' +
+  '<span style="font-weight:600;white-space:nowrap;">' + esc(val) + '</span></div>';
 
 // ══════════════════════ FUNIL ══════════════════════
 function calcFunil(d) {
@@ -569,8 +808,8 @@ async function verFunil() {
 
   const ctx = document.getElementById('cv').getContext('2d');
   const g = ctx.createLinearGradient(0, 0, 0, 280);
-  g.addColorStop(0, 'rgba(53,208,127,0.45)'); g.addColorStop(1, 'rgba(53,208,127,0.02)');
-  const CORES_L = SERIES;
+  g.addColorStop(0, 'rgba(53,208,127,0.42)'); g.addColorStop(1, 'rgba(53,208,127,0.02)');
+  const CORES_L = paleta();
   const datasets = comparando
     ? series.map((s, i) => ({ label: rotulo(s.nome), data: s.calc.linhas.map(l => l.ret),
         borderColor: CORES_L[i % CORES_L.length], borderWidth:2, fill:false, tension:.4, pointRadius:0 }))
@@ -580,12 +819,12 @@ async function verFunil() {
       plugins:{ legend:{ display:comparando, labels:{ color:'#cfe5d8', boxWidth:12, boxHeight:2 } },
         tooltip:{ callbacks:{ title:t => 'Tela ' + A.linhas[t[0].dataIndex].n + ' — ' + A.linhas[t[0].dataIndex].nome,
           label:c => (comparando ? c.dataset.label + ': ' : '') + c.parsed.y + '% ainda no funil' } } },
-      scales:{ y:{ min:0, max:100, ticks:{ color:'#6b8f7b', callback:v => v + '%' }, grid:{ color:'rgba(255,255,255,.06)' } },
+      scales:{ y:{ min:0, max:100, ticks:{ color:'#6b8f7b', callback:v => v + '%' }, grid:{ color:tok('--curva-grade') } },
                x:{ ticks:{ color:'#6b8f7b', maxTicksLimit:10 }, grid:{ display:false } } } } }));
 }
 
 function cardComparacao(series, rot) {
-  const CORES_L = SERIES;
+  const CORES_L = paleta();
   const t1 = s => (s.calc.linhas[1] || {}).ret || 0;
   /* só destaca quem for maior que TODOS os outros; empate no topo não premia ninguém */
   const topo = vals => { const m = Math.max(...vals); return (m > 0 && vals.filter(x => x === m).length === 1) ? m : -1; };
@@ -640,11 +879,11 @@ function barra(id, itens, campo, cor, ehMoeda, asc) {
                   barPercentage:.72, maxBarThickness:26 }] },
     options:{ indexAxis:'y', responsive:true, maintainAspectRatio:false, layout:{ padding:{ right:10 } },
       plugins:{ legend:{ display:false }, rotuloValor:{ fmt }, tooltip:{ callbacks:{ label:c => fmt(c.parsed.x) } } },
-      scales:{ x:{ max: teto, ticks:{ font:{ size:12 }, color:'#8a8a8a', maxTicksLimit:6,
+      scales:{ x:{ max: teto, ticks:{ font:{ size:12 }, color:tok('--ink-3'), maxTicksLimit:6,
                      callback:v => ehMoeda ? 'R$' + Math.round(v) : Math.round(v) + '%' }, grid:{ color:'#f0f0f0' } },
                // a faixa do nome nunca passa de 42% do cartão, senão sobra pouco pra barra
                y:{ afterFit(sc) { sc.width = larguraFaixa; },
-                   ticks:{ font:{ size:12.5 }, color:'#444', crossAlign:'far', autoSkip:false },
+                   ticks:{ font:{ size:12.5 }, color:tok('--ink-2'), crossAlign:'far', autoSkip:false },
                    grid:{ display:false } } } } }));
 }
 
@@ -779,10 +1018,10 @@ async function verCriativos() {
   ['formato','angulo','emocao'].forEach(pintarStatusGrupo);
   montarFiltroEtq();   // o painel só existe depois que o card foi desenhado
 
-  barra('chVenda', vis, 'custoVenda',    SERIES[0], true,  true);
-  barra('chCheck', vis, 'custoCheckout',  SERIES[1], true,  true);
-  barra('chHook',  vis, 'hookRate',       SERIES[2], false, false);
-  barra('chHold',  vis, 'hold',           '#4a3aa7', false, false);
+  barra('chVenda', vis, 'custoVenda',    paleta()[0], true,  true);
+  barra('chCheck', vis, 'custoCheckout',  paleta()[1], true,  true);
+  barra('chHook',  vis, 'hookRate',       paleta()[2], false, false);
+  barra('chHold',  vis, 'hold',           tok('--s7'), false, false);
 
   pintarPie(vis);
   desenharPie(vis);
@@ -813,7 +1052,7 @@ function desenharPie(rows) {
   const validos = gs.filter(g => val(g) != null && val(g) > 0);
   /* Donut só lê bem até 6 fatias; o excedente vira "Outros" em vez de gerar
      mais uma cor — a 7ª seria indistinguível das anteriores sob daltonismo. */
-  const CORES = SERIES;
+  const CORES = paleta();
   if (pieChart) { try { pieChart.destroy(); } catch (e) {} }
   const nota = document.getElementById('pieNota');
   if (!validos.length) {
@@ -848,9 +1087,9 @@ function desenharPie(rows) {
   pieChart = new Chart(alvo, {
     type:'doughnut',
     data:{ labels: fatias.map(g => g.nome),
-      datasets:[{ data: fatias.map(valorDe), backgroundColor: CORES, borderWidth:2, borderColor:'#fff' }] },
+      datasets:[{ data: fatias.map(valorDe), backgroundColor: CORES, borderWidth:2, borderColor:tok('--surface') }] },
     options:{ responsive:true, maintainAspectRatio:false,
-      plugins:{ legend:{ position:'right', labels:{ font:{ size:13 }, boxWidth:15, padding:12, color:'#444' } },
+      plugins:{ legend:{ position:'right', labels:{ font:{ size:13 }, boxWidth:15, padding:12, color:tok('--ink-2') } },
         tooltip:{ callbacks:{ label:c => c.label + ': ' + (met === 'roi' ? c.parsed.toFixed(0) + '%' : met === 'roas' ? c.parsed.toFixed(2) + 'x' : moeda(c.parsed)) } } } } });
   graficos.push(pieChart);
 }
@@ -928,7 +1167,20 @@ async function sair() { await sb.auth.signOut(); location.reload(); }
 
 document.addEventListener('click', ev => { if (!ev.target.closest('.grp')) fecharPaineis(); });
 pintarPresets();
-sb.auth.getSession().then(({ data }) => mostrarConforme(data.session));
+aplicarTema(localStorage.getItem('cf_tema') || 'auto');
+if (localStorage.getItem('cf_lateral') === 'mini') document.getElementById('lateral').classList.add('mini');
+aba = localStorage.getItem('cf_aba') || 'geral';
+sb.auth.getSession().then(({ data }) => {
+  if (data.session) trocarAbaSilenciosa(aba);
+  mostrarConforme(data.session);
+});
+function trocarAbaSilenciosa(a) {
+  ['geral','funil','criativos'].forEach(k =>
+    document.getElementById('nav' + k[0].toUpperCase() + k.slice(1)).className = k === a ? 'on' : '');
+  document.getElementById('tituloPagina').textContent = TITULOS[a];
+  document.querySelectorAll('.soFunil').forEach(e => e.style.display = a === 'funil' ? '' : 'none');
+  document.querySelectorAll('.soCriativos').forEach(e => e.style.display = a === 'criativos' ? '' : 'none');
+}
 </script>
 </body>
 </html>

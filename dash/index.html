@@ -678,12 +678,8 @@ async function carregar() {
    não existia em lugar nenhum — as duas abas mostram total do período. */
 async function verGeral() {
   const p = periodo();
-  const [rD, rC, rF, rV] = await Promise.all([
-    sb.rpc('fn_diario',    { p_de:p.de, p_ate:p.ate }),
-    sb.rpc('fn_criativos', { p_de:p.de, p_ate:p.ate }),
-    sb.rpc('fn_funil',     { p_de:p.de, p_ate:p.ate }),
-    sb.rpc('fn_variantes', { p_de:p.de, p_ate:p.ate }),
-  ]);
+  // só fn_diario: as outras três alimentavam os cartões laterais que saíram
+  const rD = await sb.rpc('fn_diario', { p_de:p.de, p_ate:p.ate });
   if (rD.error) throw rD.error;
 
   const dias = rD.data || [];
@@ -693,21 +689,6 @@ async function verGeral() {
     { gasto:0, fat:0, vendas:0, checkouts:0 });
   const roas = tot.gasto ? tot.fat / tot.gasto : null;
   const roi  = tot.gasto ? ((liquido(tot.fat, tot.vendas) - tot.gasto) / tot.gasto) * 100 : null;
-
-  // melhor criativo do período: menor custo por venda entre os que venderam
-  const crs = (rC.data || []).map(r => {
-    const g = Number(r.gasto) || 0, v = Number(r.vendas) || 0, val = Number(r.valor) || 0;
-    const fat = val > 0 ? val : v * PRECO_VENDA;
-    return { nome: r.anuncio, gasto: g, vendas: v, cpa: v ? g / v : null, roas: g ? fat / g : null };
-  }).filter(r => r.cpa != null).sort((a, b) => a.cpa - b.cpa);
-  const melhor = crs[0];
-
-  const f = rF.data;
-  const t1 = (f.etapas.find(e => e.n === 1) || {}).sessoes || 0;
-  const t2 = (f.etapas.find(e => e.n === 2) || {}).sessoes || 0;
-  const quedaT1 = t1 ? Math.round((100 - (t2 / t1) * 100) * 10) / 10 : 0;
-
-  const vars = (rV.data || []).filter(v => v.variante !== 'v0').slice(0, 2);
 
   const cor = v => v == null ? 'var(--ink-3)' : (v >= 0 ? 'var(--bom)' : 'var(--ruim)');
   document.getElementById('conteudo').innerHTML =
@@ -720,28 +701,9 @@ async function verGeral() {
       '<div class="kpi"><div class="lbl">ROI</div><div class="val" style="color:' + cor(roi) + '">' +
         (roi == null ? '—' : roi.toFixed(0) + '%') + '</div></div>' +
     '</div>' +
-    '<div style="display:grid;grid-template-columns:minmax(0,2.1fr) minmax(260px,1fr);gap:16px;align-items:start;">' +
-      '<div class="card"><div class="sec">Gasto e faturamento por dia</div>' +
-        (dias.length ? '<div style="position:relative;height:330px;"><canvas id="cvGeral"></canvas></div>'
-                     : '<div class="vazio">Sem dados no período.</div>') + '</div>' +
-      '<div style="display:flex;flex-direction:column;gap:16px;">' +
-        '<div class="card"><div class="sec">Funil do quiz</div>' +
-          linhaInfo('Visitantes', String(f.visitantes)) +
-          linhaInfo('Queda na tela 1', quedaT1 + ' pts') +
-          linhaInfo('Chegaram ao fim', (f.visitantes ? (f.fim / f.visitantes * 100).toFixed(1) : 0) + '%') +
-          linhaInfo('Clicaram em comprar', (f.visitantes ? (f.compraram / f.visitantes * 100).toFixed(1) : 0) + '%') +
-        '</div>' +
-        '<div class="card"><div class="sec">Melhor criativo</div>' +
-          (melhor ? linhaInfo(melhor.nome, moeda(melhor.cpa) + ' / venda') +
-                    linhaInfo('Vendas', String(melhor.vendas)) +
-                    linhaInfo('ROAS', melhor.roas ? melhor.roas.toFixed(2) + 'x' : '—')
-                  : '<div class="vazio">Nenhuma venda no período.</div>') +
-        '</div>' +
-        (vars.length >= 2 ? '<div class="card"><div class="sec">Teste de headline</div>' +
-          vars.map(v => linhaInfo(rotuloVariante(v.variante), v.sessoes + ' sessões')).join('') +
-          '<div class="nota">Comparação completa na aba Funil.</div></div>' : '') +
-      '</div>' +
-    '</div>';
+    '<div class="card"><div class="sec">Gasto e faturamento por dia</div>' +
+      (dias.length ? '<div style="position:relative;height:400px;"><canvas id="cvGeral"></canvas></div>'
+                   : '<div class="vazio">Sem dados no período.</div>') + '</div>';
 
   if (!dias.length) return;
   const ctx = document.getElementById('cvGeral').getContext('2d');

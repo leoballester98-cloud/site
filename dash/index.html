@@ -392,7 +392,7 @@ function calAplicar() {
 }
 
 function abrir(id) {
-  ['painelData','painelVar','painelEtq','painelFunil','painelFonte','painelStatus'].forEach(k => {
+  ['painelData','painelVar','painelEtq','painelFunil','painelFonte','painelStatus','painelPieMet','painelPieGrp'].forEach(k => {
     const el = document.getElementById(k); if (!el) return;
     el.style.display = (k === id && el.style.display === 'none') ? 'flex' : 'none';
   });
@@ -402,7 +402,7 @@ function abrir(id) {
   if (id === 'painelFonte') pintarFonte();
   if (id === 'painelStatus') pintarStatus();
 }
-const fecharPaineis = () => ['painelData','painelVar','painelEtq','painelFunil','painelFonte','painelStatus'].forEach(k => {
+const fecharPaineis = () => ['painelData','painelVar','painelEtq','painelFunil','painelFonte','painelStatus','painelPieMet','painelPieGrp'].forEach(k => {
   const el = document.getElementById(k); if (el) el.style.display = 'none'; });
 
 let aba = 'funil', graficos = [], filtroEtq = {}, CRIATIVOS = [];
@@ -419,17 +419,21 @@ function pintarLista(idLista, idBtn, idLbl, opcoes, atual, aoEscolher) {
   el.innerHTML = opcoes.map(([v, l]) =>
     '<a class="' + (atual === v ? 'active' : '') + '" data-v="' + esc(v) + '">' + esc(l) + '</a>').join('');
   el.querySelectorAll('a').forEach(a =>
-    a.addEventListener('click', () => { aoEscolher(a.getAttribute('data-v')); fecharPaineis(); carregar(); }));
+    a.addEventListener('click', () => {
+      const recarregar = aoEscolher(a.getAttribute('data-v'));
+      fecharPaineis();
+      if (recarregar !== false) carregar();
+    }));
   const op = opcoes.find(o => o[0] === atual) || opcoes[0];
   document.getElementById(idLbl).textContent = op[1];
   document.getElementById(idBtn).className = 'rangeBtn' + (atual ? ' on' : '');
 }
-const pintarFunil = () => pintarLista('listaFunil','btnFunil','lblFunil', OPC_FUNIL, fFunil, v => fFunil = v);
-const pintarFonte = () => pintarLista('listaFonte','btnFonte','lblFonte', OPC_FONTE, fFonte, v => fFonte = v);
+const pintarFunil = () => pintarLista('listaFunil','btnFunil','lblFunil', OPC_FUNIL, fFunil, v => { fFunil = v; });
+const pintarFonte = () => pintarLista('listaFonte','btnFonte','lblFonte', OPC_FONTE, fFonte, v => { fFonte = v; });
 function pintarStatus() {
   const sts = [...new Set(CRIATIVOS.map(r => (r.status || '').trim()).filter(Boolean))].sort();
   pintarLista('listaStatus','btnStatus','lblStatus',
-    [['','Todos os status'], ...sts.map(x => [x, x])], fStatus, v => fStatus = v);
+    [['','Todos os status'], ...sts.map(x => [x, x])], fStatus, v => { fStatus = v; });
 }
 
 function pintarVars() {
@@ -675,8 +679,12 @@ async function verCriativos() {
           return '<div class="cchart"><div class="ttl">' + t + '</div><div class="cv"><canvas id="' + id + '"></canvas></div></div>'; }).join('') +
     '</div>' +
     '<div class="card"><div class="cabsec"><div class="sec" style="margin:0;">Análise por grupo</div>' +
-      '<div><select id="pieMetrica"><option value="roi">ROI</option><option value="roas">ROAS</option><option value="cpa">CPA (custo por venda)</option><option value="gasto">Gasto</option><option value="faturamento">Faturamento</option></select> ' +
-      '<select id="pieGrupo">' + ETIQUETAS.filter(e => e[0] !== 'status').map(e => '<option value="' + e[0] + '">' + e[1] + '</option>').join('') + '</select></div></div>' +
+      '<div style="display:flex;gap:10px;">' +
+        '<div class="grp"><button class="rangeBtn" id="btnPieMet" onclick="abrir(\'painelPieMet\')"><span id="lblPieMet"></span><span class="car">▼</span></button>' +
+          '<div class="rangePanel" id="painelPieMet" style="display:none;"><div class="presets only" id="listaPieMet"></div></div></div>' +
+        '<div class="grp"><button class="rangeBtn" id="btnPieGrp" onclick="abrir(\'painelPieGrp\')"><span id="lblPieGrp"></span><span class="car">▼</span></button>' +
+          '<div class="rangePanel" id="painelPieGrp" style="display:none;"><div class="presets only" id="listaPieGrp"></div></div></div>' +
+      '</div></div>' +
       '<div class="pieWrap"><canvas id="pie"></canvas></div><div class="nota" id="pieNota"></div></div>' +
     '<div class="card"><div class="sec">Todos os criativos</div>' +
       '<div class="nota" style="margin:-6px 0 10px;">' + vis.length + ' de ' + CRIATIVOS.length + ' criativos · clique no nome pra editar as etiquetas</div>' +
@@ -708,14 +716,27 @@ async function verCriativos() {
   barra('chHook',  vis, 'hook', '#b0764a', false, false);
   barra('chHold',  vis, 'hold', '#7a5da8', false, false);
 
-  document.getElementById('pieMetrica').addEventListener('change', () => desenharPie(vis));
-  document.getElementById('pieGrupo').addEventListener('change', () => desenharPie(vis));
+  pintarPie(vis);
   desenharPie(vis);
 }
 
-let pieChart = null;
+let pieChart = null, pieMet = 'roi', pieGrp = 'formato';
+const OPC_PIE_MET = [['roi','ROI'],['roas','ROAS'],['cpa','CPA (custo por venda)'],['gasto','Gasto'],['faturamento','Faturamento']];
+
+/* Estes dois também eram select nativo — mesmo componente dos filtros da barra. */
+function pintarPie(rows) {
+  pintarLista('listaPieMet','btnPieMet','lblPieMet', OPC_PIE_MET, pieMet,
+    v => { pieMet = v; setTimeout(() => { pintarPie(rows); desenharPie(rows); }, 0); return false; });
+  pintarLista('listaPieGrp','btnPieGrp','lblPieGrp',
+    ETIQUETAS.filter(e => e[0] !== 'status'), pieGrp,
+    v => { pieGrp = v; setTimeout(() => { pintarPie(rows); desenharPie(rows); }, 0); return false; });
+  // aqui o botão sempre tem escolha, então nunca fica com o contorno de "ativo"
+  document.getElementById('btnPieMet').className = 'rangeBtn';
+  document.getElementById('btnPieGrp').className = 'rangeBtn';
+}
+
 function desenharPie(rows) {
-  const met = document.getElementById('pieMetrica').value, campo = document.getElementById('pieGrupo').value;
+  const met = pieMet, campo = pieGrp;
   const gs = agrupar(rows, campo);
   const val = g => met === 'roi' ? g.roi : met === 'roas' ? g.roas : met === 'cpa' ? g.custoVenda : met === 'gasto' ? g.gasto : g.fat;
   const validos = gs.filter(g => val(g) != null && val(g) > 0);

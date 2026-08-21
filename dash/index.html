@@ -1076,14 +1076,17 @@ async function verGeral() {
   if (!dias.length) return;
   const ctx = document.getElementById('cvGeral').getContext('2d');
   const P = paleta();
+  /* Com um dia só não existe segmento pra desenhar, e ponto de raio 0 é
+     invisível: o gráfico saía vazio no filtro 'Hoje' mesmo tendo dado. */
+  const pontos = dias.length <= 2 ? 5 : 0;
   graficos.push(new Chart(ctx, {
     type:'line',
     data:{ labels: dias.map(d => d.data.slice(8,10) + '/' + d.data.slice(5,7)),
       datasets:[
         { label:'Faturamento', data: dias.map(d => Number(d.faturamento)), borderColor:P[2], backgroundColor:P[2] + '22',
-          borderWidth:2, fill:true, tension:.35, pointRadius:0, pointHoverRadius:5 },
+          borderWidth:2, fill:true, tension:.35, pointRadius:pontos, pointHoverRadius:5 },
         { label:'Gasto', data: dias.map(d => Number(d.gasto)), borderColor:P[1],
-          borderWidth:2, fill:false, tension:.35, pointRadius:0, pointHoverRadius:5 },
+          borderWidth:2, fill:false, tension:.35, pointRadius:pontos, pointHoverRadius:5 },
       ] },
     options:{ responsive:true, maintainAspectRatio:false, interaction:{ mode:'index', intersect:false },
       plugins:{ legend:{ display:true, position:'bottom', labels:{ color:tok('--ink-2'), boxWidth:12, boxHeight:2, padding:14 } },
@@ -1091,7 +1094,9 @@ async function verGeral() {
       /* Grade nos DOIS sentidos, como na referência: a vertical é o que deixa
          ler a data de um pico sem escorregar de coluna. Sem borda de eixo — a
          própria grade delimita a área. */
-      scales:{ y:{ ticks:{ color:tok('--ink-3'), callback:v => 'R$' + Math.round(v) },
+      /* Começa no zero: com um dia só o eixo ia de R$50 a R$80 e a diferença
+         entre gasto e faturamento parecia enorme. */
+      scales:{ y:{ beginAtZero:true, ticks:{ color:tok('--ink-3'), callback:v => 'R$' + Math.round(v) },
                    border:{ display:false }, grid:{ color:tok('--linha'), drawTicks:false } },
                x:{ ticks:{ color:tok('--ink-3'), maxTicksLimit:12 },
                    border:{ display:false }, grid:{ color:tok('--linha'), drawTicks:false } } } }

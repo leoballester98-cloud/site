@@ -100,7 +100,9 @@
   .vitem .cod{font-weight:600;flex:1;}
   .vitem .qtd{color:#999;font-size:12px;white-space:nowrap;}
   .vempty{color:#999;font-size:13px;padding:14px 9px;text-align:center;}
-  .painel{position:absolute;top:52px;left:0;z-index:60;background:#fff;border:1px solid #e2e2e2;border-radius:14px;box-shadow:0 10px 34px rgba(0,0,0,.14);padding:18px 20px;min-width:520px;flex-direction:column;}
+  /* ancorado à direita: este botão fica na ponta direita do card, e à esquerda
+     o painel de 520px saía da tela */
+  .painel{position:absolute;top:52px;right:0;z-index:60;background:#fff;border:1px solid #e2e2e2;border-radius:14px;box-shadow:0 10px 34px rgba(0,0,0,.14);padding:18px 20px;min-width:520px;flex-direction:column;}
   .etq{display:grid;grid-template-columns:repeat(2,minmax(210px,1fr));gap:16px 22px;}
   .etq label{display:flex;flex-direction:column;gap:6px;font-size:11.5px;color:#8a8a8a;text-transform:uppercase;letter-spacing:.04em;font-weight:700;}
   .etq select,.etq input{border:1px solid #dcdcdc;border-radius:8px;padding:10px 12px;font-size:14px;color:#333;background:#fff;width:100%;}
@@ -665,7 +667,10 @@ async function verCriativos() {
     const fat = valor > 0 ? valor : vendas * PRECO_VENDA;
     return { ...r, gasto, impressoes: impr, vendas,
       ctr: impr ? (Number(r.clicks) / impr) * 100 : null,
-      hook: impr && v3s ? (v3s / impr) * 100 : null,
+      /* hookRate, não 'hook': a etiqueta que você escreve também se chama hook,
+         e o spread acima traz ela do banco. Nomear igual apagava o texto e
+         deixava o número aparecer na coluna Hook da tabela. */
+      hookRate: impr && v3s ? (v3s / impr) * 100 : null,
       hold: v3s ? (Number(r.thruplay) / v3s) * 100 : null,   // ThruPlay ÷ plays de 3s
       views25: impr ? (Number(r.p25) / impr) * 100 : null,
       custoVenda: vendas ? gasto / vendas : null,
@@ -728,7 +733,7 @@ async function verCriativos() {
             ['status','formato','estrutura','angulo','hook','emocao','amplificador','arquetipo','segmentacao','prova']
               .map(c => '<td title="' + esc(r[c] || '') + '">' + esc(r[c] || '—') + '</td>').join('') +
             '<td class="num">' + moeda(r.gasto) + '</td><td class="num">' + pct(r.ctr) + '</td>' +
-            '<td class="num">' + pct(r.hook) + '</td><td class="num">' + pct(r.hold) + '</td>' +
+            '<td class="num">' + pct(r.hookRate) + '</td><td class="num">' + pct(r.hold) + '</td>' +
             '<td class="num">' + (r.checkouts || 0) + '</td><td class="num">' + moeda(r.custoCheckout) + '</td>' +
             '<td class="num">' + r.vendas + '</td><td class="num">' + moeda(r.custoVenda) + '</td>' +
             '<td class="num">' + (r.faturamento ? moeda(r.faturamento) : '—') + '</td>' +
@@ -746,7 +751,7 @@ async function verCriativos() {
 
   barra('chVenda', vis, 'custoVenda', '#1a7a4f', true, true);
   barra('chCheck', vis, 'custoCheckout', '#5d8aa8', true, true);
-  barra('chHook',  vis, 'hook', '#b0764a', false, false);
+  barra('chHook',  vis, 'hookRate', '#b0764a', false, false);
   barra('chHold',  vis, 'hold', '#7a5da8', false, false);
 
   pintarPie(vis);

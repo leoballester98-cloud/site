@@ -1138,20 +1138,17 @@ function pingSupa_(corpo) {
 
 function trackEtapa(n, name) {
   if (typeof fbq !== 'undefined') fbq('trackCustom', 'QuizEtapa', { etapa: n, nome: name });
-  if (APPS_SCRIPT_URL) pingApps_(APPS_SCRIPT_URL + '?sessao=' + SESSAO_ID + '&etapa=' + n + '&p=' + PAGINA);
   pingSupa_({ sessao: SESSAO_ID, tipo: 'etapa', etapa: Number(n), variante: 'v' + (typeof VARIANTE !== 'undefined' ? VARIANTE : '0'), pagina: PAGINA });
 }
 
 function trackCheckout() {
   if (typeof fbq !== 'undefined') fbq('track', 'InitiateCheckout');
-  if (APPS_SCRIPT_URL) pingApps_(APPS_SCRIPT_URL + '?sessao=' + SESSAO_ID + '&etapa=35&p=' + PAGINA);
   pingSupa_({ sessao: SESSAO_ID, tipo: 'etapa', etapa: 35, variante: 'v' + (typeof VARIANTE !== 'undefined' ? VARIANTE : '0'), pagina: PAGINA });
 }
 
 function enviarRespostas() {
   if (!APPS_SCRIPT_URL) return;
   const payload = encodeURIComponent(JSON.stringify(answers));
-  pingApps_(APPS_SCRIPT_URL + '?action=respostas&sessao=' + SESSAO_ID + '&data=' + payload);
   pingSupa_({ sessao: SESSAO_ID, tipo: 'respostas', variante: 'v' + (typeof VARIANTE !== 'undefined' ? VARIANTE : '0'), pagina: PAGINA, dados: answers });
 }
 

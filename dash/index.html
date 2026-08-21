@@ -1076,9 +1076,12 @@ async function verGeral() {
   if (!dias.length) return;
   const ctx = document.getElementById('cvGeral').getContext('2d');
   const P = paleta();
-  /* Com um dia só não existe segmento pra desenhar, e ponto de raio 0 é
-     invisível: o gráfico saía vazio no filtro 'Hoje' mesmo tendo dado. */
-  const pontos = dias.length <= 2 ? 5 : 0;
+  /* Com um dia só não existe segmento de linha pra desenhar, então o ponto é
+     o gráfico inteiro — e com raio 0 ele é invisível. Só mostrar o ponto não
+     bastou: a escala de categoria encosta o único ponto na borda esquerda, com
+     metade dele cortada pelo eixo. O offset centraliza a categoria na faixa. */
+  const poucos = dias.length <= 2;
+  const pontos = poucos ? 5 : 0;
   graficos.push(new Chart(ctx, {
     type:'line',
     data:{ labels: dias.map(d => d.data.slice(8,10) + '/' + d.data.slice(5,7)),
@@ -1098,7 +1101,7 @@ async function verGeral() {
          entre gasto e faturamento parecia enorme. */
       scales:{ y:{ beginAtZero:true, ticks:{ color:tok('--ink-3'), callback:v => 'R$' + Math.round(v) },
                    border:{ display:false }, grid:{ color:tok('--linha'), drawTicks:false } },
-               x:{ ticks:{ color:tok('--ink-3'), maxTicksLimit:12 },
+               x:{ offset: poucos, ticks:{ color:tok('--ink-3'), maxTicksLimit:12 },
                    border:{ display:false }, grid:{ color:tok('--linha'), drawTicks:false } } } }
   }));
 }

@@ -157,6 +157,20 @@ body{background:var(--bg);color:var(--ink);}
   .kpi.selo-crt{border-style:dashed;}
   /* métrica ainda não alimentada: tracejada pra não parecer um número real */
   .kpi.pendente{border-style:dashed;}
+  /* cartão por fonte de tráfego, no lugar em que a referência põe */
+  .fontes{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;}
+  .card.fonte{margin-bottom:0;}
+  .card.fonte .cab{display:flex;align-items:center;gap:9px;font-size:16px;font-weight:700;color:var(--ink);margin-bottom:14px;}
+  .card.fonte .rot{font-size:13px;font-weight:600;color:var(--ink-2);}
+  .card.fonte .grande{font-size:34px;font-weight:700;letter-spacing:-.02em;margin:2px 0 4px;}
+  .card.fonte .antes{font-size:13px;color:var(--ink-3);padding-bottom:14px;border-bottom:1px solid var(--linha);}
+  .card.fonte .linhas{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:4px 20px;padding:14px 0;}
+  .card.fonte .linhas div{display:flex;justify-content:space-between;gap:10px;font-size:13.5px;padding:3px 0;}
+  .card.fonte .linhas span{color:var(--ink-2);}
+  .card.fonte .linhas b{font-weight:600;}
+  .card.fonte .pe{display:flex;justify-content:space-between;gap:10px;font-size:13.5px;
+    padding-top:12px;border-top:1px solid var(--linha);color:var(--ink-2);}
+  .card.fonte .pe b{color:var(--ink);font-weight:600;}
   .kpi.pendente .val{color:var(--ink-3);}
   .kpis.topo{grid-template-columns:repeat(5,minmax(0,1fr));}
   @media(max-width:1250px){ .kpis.topo{grid-template-columns:repeat(3,minmax(0,1fr));} }
@@ -522,6 +536,10 @@ const esc   = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({'&':'&am
 /* Ícones por rótulo. Traço aberto, como os da lateral — o ícone é apoio de
    leitura, não decoração: quem varre a linha acha a métrica pela silhueta antes
    de ler. Rótulo sem entrada no mapa simplesmente não ganha ícone. */
+const LOGO_META = '<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">' +
+  '<circle cx="12" cy="12" r="10" fill="#0866ff"/>' +
+  '<path fill="#fff" d="M15.4 15.5l.44-2.87h-2.75v-1.86c0-.79.38-1.55 1.61-1.55h1.25V6.78s-1.13-.19-2.22-.19c-2.26 0-3.74 1.37-3.74 3.86v2.18H7.47v2.87h2.52v6.94a10 10 0 0 0 3.1 0V15.5h2.31Z"/>' +
+'</svg>';
 const SVG = d => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">' + d + '</svg>';
 const ICONES = {
   'gasto em anúncio':     '<path d="M3 11 20.5 3.5 13 21l-2.5-7.5L3 11Z"/>',
@@ -901,12 +919,21 @@ async function apagarCusto(id) {
 async function verGeral() {
   const p = periodo();
   // fn_funil volta só pela conversão do funil — o resto do cartão dele saiu
-  const [rD, rF, custos] = await Promise.all([
+  /* Janela imediatamente anterior, do mesmo tamanho, pra comparação. Com
+     'Máximo' não existe anterior — não há início definido — e aí não compara. */
+  const ant = (function () {
+    if (!p.de || !p.ate) return null;
+    const n = Math.round((Date.parse(p.ate) - Date.parse(p.de)) / 86400000) + 1;
+    const fim = maisDias(new Date(p.de + 'T12:00:00Z'), -1);
+    return { de: iso(maisDias(fim, -(n - 1))), ate: iso(fim) };
+  })();
+  const [rD, rF, custos, rA] = await Promise.all([
     sb.rpc('fn_diario', { p_de:p.de, p_ate:p.ate }),
     sb.rpc('fn_funil',  { p_de:p.de, p_ate:p.ate }),
     // se a tabela de custos falhar, a Visão Geral não cai junto: o operacional
     // entra como zero. A aba Custos mostra o erro de verdade.
     custosDoPeriodo().catch(() => []),
+    ant ? sb.rpc('fn_diario', { p_de:ant.de, p_ate:ant.ate }) : Promise.resolve({ data:[] }),
   ]);
   if (rD.error) throw rD.error;
 
@@ -941,6 +968,19 @@ async function verGeral() {
      contagem de vendas — e por venda ja e o ticket medio, seria carta repetida. */
   const arpu = (fun && fun.visitantes) ? tot.fat / fun.visitantes : null;
 
+  /* Cartão por fonte, como na referência. Aqui só cabe um: o gasto no banco vem
+     todo da conta do Meta. O TikTok traz tráfego mas não tem investimento
+     registrado, e um cartão dele seria uma linha de zeros fingindo ser dado. */
+  const fatAnterior = (rA.data || []).reduce((a, d) => a + Number(d.faturamento), 0);
+  const varFat = (ant && fatAnterior > 0) ? ((tot.fat - fatAnterior) / fatAnterior) * 100 : null;
+  const ultimaVenda = dias.filter(d => Number(d.vendas) > 0).map(d => d.data).sort().pop() || null;
+  const quandoVendeu = (function () {
+    if (!ultimaVenda) return 'sem venda no período';
+    const dif = Math.round((Date.parse(iso(hojeSP())) - Date.parse(ultimaVenda)) / 86400000);
+    return dif <= 0 ? 'hoje' : dif === 1 ? 'ontem' : 'há ' + dif + ' dias';
+  })();
+
+
   const cor = v => v == null ? 'var(--ink-3)' : (v >= 0 ? 'var(--bom)' : 'var(--ruim)');
   document.getElementById('conteudo').innerHTML =
     /* Arranjo da referência: coluna principal com os números de topo e o
@@ -962,6 +1002,28 @@ async function verGeral() {
         '<div class="card"><div class="sec">' + ico('Gasto e faturamento por dia') + '<span>Gasto e faturamento por dia</span></div>' +
           (dias.length ? '<div style="position:relative;height:400px;"><canvas id="cvGeral"></canvas></div>'
                        : '<div class="vazio">Sem dados no período.</div>') + '</div>' +
+        '<div class="fontes">' +
+          '<div class="card fonte">' +
+            '<div class="cab">' + LOGO_META + '<span>Meta Ads</span></div>' +
+            '<div class="rot">Faturamento</div>' +
+            '<div class="grande">' + moeda(tot.fat) + '</div>' +
+            '<div class="antes">' +
+              (ant ? 'Anterior: ' + moeda(fatAnterior) +
+                     (varFat == null ? ''
+                       : '<b style="color:' + cor(varFat) + '"> ' + (varFat >= 0 ? '↗' : '↘') + ' ' +
+                         (varFat >= 0 ? '+' : '') + varFat.toFixed(1) + '%</b>')
+                   : 'Sem período anterior para comparar') +
+            '</div>' +
+            '<div class="linhas">' +
+              '<div><span>Gasto</span><b>' + moeda(tot.gasto) + '</b></div>' +
+              '<div><span>Lucro</span><b style="color:' + cor(lucro) + '">' + moeda(lucro) + '</b></div>' +
+              '<div><span>ROAS</span><b style="color:' + (roas == null ? 'var(--ink-3)' : roas >= 1 ? 'var(--bom)' : 'var(--ruim)') + '">' +
+                (roas == null ? '—' : roas.toFixed(2) + 'x') + '</b></div>' +
+              '<div><span>ROI</span><b style="color:' + cor(roi) + '">' + (roi == null ? '—' : roi.toFixed(0) + '%') + '</b></div>' +
+            '</div>' +
+            '<div class="pe"><span>Última venda</span><b>' + quandoVendeu + '</b></div>' +
+          '</div>' +
+        '</div>' +
       '</div>' +
       '<div class="regua">' +
         kpi('Gasto em anúncio', moeda(tot.gasto)) +

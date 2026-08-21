@@ -1028,6 +1028,17 @@ async function verGeral() {
   })();
 
 
+  /* Com o filtro num dia só, busca o detalhe por hora — é o que dá pontos
+     suficientes pra existir uma linha. Vindo vazio (dia fora da janela curta
+     que o robô mantém), cai no diário. */
+  let horas = null;
+  if (dias.length === 1) {
+    const rH = await sb.rpc('fn_horario', { p_de:dias[0].data, p_ate:dias[0].data });
+    const lin = rH.error ? [] : (rH.data || []);
+    if (lin.some(h => Number(h.gasto) > 0 || Number(h.faturamento) > 0)) horas = lin;
+  }
+  const tituloGrafico = horas ? 'Gasto e faturamento por hora' : 'Gasto e faturamento por dia';
+
   const cor = v => v == null ? 'var(--ink-3)' : (v >= 0 ? 'var(--bom)' : 'var(--ruim)');
   document.getElementById('conteudo').innerHTML =
     /* Arranjo da referência: coluna principal com os números de topo e o
@@ -1046,7 +1057,7 @@ async function verGeral() {
         (roi == null ? '—' : roi.toFixed(0) + '%') + '</div></div>' +
           kpi('Vendas', tot.vendas) +
         '</div>' +
-        '<div class="card"><div class="sec">' + ico('Gasto e faturamento por dia') + '<span>Gasto e faturamento por dia</span></div>' +
+        '<div class="card"><div class="sec">' + ico('Gasto e faturamento por dia') + '<span>' + tituloGrafico + '</span></div>' +
           (dias.length ? '<div style="position:relative;height:400px;"><canvas id="cvGeral"></canvas></div>'
                        : '<div class="vazio">Sem dados no período.</div>') + '</div>' +
         '<div class="fontes">' +
@@ -1082,24 +1093,23 @@ async function verGeral() {
   if (!dias.length) return;
   const ctx = document.getElementById('cvGeral').getContext('2d');
   const P = paleta();
-  /* Um dia só não tem linha: linha liga dois pontos. Aí a pergunta deixa de ser
-     "como evoluiu" e passa a ser "quanto entrou contra quanto saiu" — que é
-     comparação de grandeza, ou seja, barra. Com dois dias ou mais, volta a ser
-     série temporal e a linha é a forma certa. */
-  const umDia = dias.length === 1;
-  const rotulos = dias.map(d => d.data.slice(8,10) + '/' + d.data.slice(5,7));
-  const fat = dias.map(d => Number(d.faturamento));
-  const gas = dias.map(d => Number(d.gasto));
+  /* Sempre linha. Com um dia só o eixo vira HORA em vez de data: linha liga dois
+     pontos, e um dia sozinho não tem o segundo — quebrado por hora, tem 24.
+     As horas vêm de fn_horario, que o robô alimenta numa janela curta. */
+  const rotulos = horas
+    ? horas.map(h => String(h.hora).padStart(2,'0') + 'h')
+    : dias.map(d => d.data.slice(8,10) + '/' + d.data.slice(5,7));
+  const fat = horas ? horas.map(h => Number(h.faturamento)) : dias.map(d => Number(d.faturamento));
+  const gas = horas ? horas.map(h => Number(h.gasto))       : dias.map(d => Number(d.gasto));
+  const poucos = rotulos.length <= 2;
   graficos.push(new Chart(ctx, {
-    type: umDia ? 'bar' : 'line',
+    type:'line',
     data:{ labels: rotulos,
-      datasets: umDia
-        ? [ { label:'Faturamento', data:fat, backgroundColor:P[2], borderRadius:4, maxBarThickness:64 },
-            { label:'Gasto',       data:gas, backgroundColor:P[1], borderRadius:4, maxBarThickness:64 } ]
-        : [ { label:'Faturamento', data:fat, borderColor:P[2], backgroundColor:P[2] + '22',
-              borderWidth:2, fill:true, tension:.35, pointRadius:dias.length <= 2 ? 5 : 0, pointHoverRadius:5 },
-            { label:'Gasto', data:gas, borderColor:P[1],
-              borderWidth:2, fill:false, tension:.35, pointRadius:dias.length <= 2 ? 5 : 0, pointHoverRadius:5 } ] },
+      datasets:[
+        { label:'Faturamento', data:fat, borderColor:P[2], backgroundColor:P[2] + '22',
+          borderWidth:2, fill:true, tension:.35, pointRadius:poucos ? 5 : 0, pointHoverRadius:5 },
+        { label:'Gasto', data:gas, borderColor:P[1],
+          borderWidth:2, fill:false, tension:.35, pointRadius:poucos ? 5 : 0, pointHoverRadius:5 } ] },
     options:{ responsive:true, maintainAspectRatio:false, interaction:{ mode:'index', intersect:false },
       plugins:{ legend:{ display:true, position:'bottom', labels:{ color:tok('--ink-2'), boxWidth:12, boxHeight:2, padding:14 } },
         tooltip:{ callbacks:{ label:c => c.dataset.label + ': ' + moeda(c.parsed.y) } } },
@@ -1110,7 +1120,7 @@ async function verGeral() {
          entre gasto e faturamento parecia enorme. */
       scales:{ y:{ beginAtZero:true, ticks:{ color:tok('--ink-3'), callback:v => 'R$' + Math.round(v) },
                    border:{ display:false }, grid:{ color:tok('--linha'), drawTicks:false } },
-               x:{ offset: dias.length <= 2, ticks:{ color:tok('--ink-3'), maxTicksLimit:12 },
+               x:{ offset: poucos, ticks:{ color:tok('--ink-3'), maxTicksLimit:12 },
                    border:{ display:false }, grid:{ color:tok('--linha'), drawTicks:false } } } }
   }));
 }

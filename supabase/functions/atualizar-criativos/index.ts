@@ -17,6 +17,7 @@ const CAMP_FILTRO   = 'Quiz';                 // só campanhas com isso no nome
 const EXCLUIR_CAMP  = ['120251947450640652', '120251870932890652'];  // testes descartados
 const EXCLUIR_ADS   = ['120251807360980652'];                        // cópia acidental do ad3
 const DIAS          = 1095;                   // 3 anos, dentro do limite de 37 meses da API
+const DIAS_HORA     = 7;                      // janela do detalhe por hora (ver abaixo)
 
 const soma = (arr: any[] | undefined) =>
   (arr ?? []).reduce((s, x) => s + (Number(x.value) || 0), 0);
@@ -208,8 +209,75 @@ async function atualizar() {
     if (error) throw new Error('Erro gravando criativos: ' + error.message);
   }
 
+  const horas = await atualizarHoras(db, token, ate);
+
   return { linhas_meta: linhas.length, dias_gravados: diario.length,
-           criativos: paraGravar.length, ate };
+           criativos: paraGravar.length, horas_gravadas: horas, ate };
+}
+
+/* Detalhe por hora, só dos últimos dias.
+
+   Serve pro gráfico da Visão Geral: filtrando um dia único não há linha a
+   desenhar, porque linha liga dois pontos. Por hora, um dia vira 24.
+
+   A janela é curta de propósito — hora × anúncio × dia multiplica rápido, e
+   puxar isso pra 3 anos daria centenas de páginas na API a cada 5 minutos.
+   O fuso é o da CONTA de anúncios, o mesmo que o Meta usa pra fechar o dia. */
+async function atualizarHoras(db: any, token: string, ate: string) {
+  const desde = diasAtras(ate, DIAS_HORA - 1);
+  const params = new URLSearchParams({
+    level: 'ad',
+    time_range: JSON.stringify({ since: desde, until: ate }),
+    time_increment: '1',
+    breakdowns: 'hourly_stats_aggregated_by_advertiser_time_zone',
+    limit: '500',
+    fields: 'ad_name,spend,actions,action_values',
+    filtering: JSON.stringify([{ field: 'campaign.name', operator: 'CONTAIN', value: CAMP_FILTRO }]),
+    access_token: token,
+  });
+
+  const linhas = await metaFetch(`https://graph.facebook.com/${META_API_VER}/${META_CONTA}/insights?` + params.toString());
+
+  const mapa: Record<string, any> = {};
+  for (const r of linhas) {
+    // vem como '13:00:00 - 13:59:59'
+    const hora = parseInt(String(r.hourly_stats_aggregated_by_advertiser_time_zone || '').slice(0, 2), 10);
+    if (isNaN(hora) || hora < 0 || hora > 23) continue;
+
+    const nome = r.ad_name || '(sem nome)';
+    const chave = r.date_start + '|' + hora + '|' + nome;
+    if (!mapa[chave]) {
+      mapa[chave] = { data: r.date_start, hora, anuncio: nome, gasto: 0, checkouts: 0, vendas: 0, valor: 0 };
+    }
+    const m = mapa[chave];
+    m.gasto += Number(r.spend) || 0;
+
+    // max e não soma: a API repete o mesmo evento em vários action_type
+    let ck = 0, vd = 0, vl = 0;
+    for (const ac of (r.actions ?? [])) {
+      const t = ac.action_type || '', v = Number(ac.value) || 0;
+      if (['initiate_checkout', 'omni_initiated_checkout', 'offsite_conversion.fb_pixel_initiate_checkout'].includes(t)) ck = Math.max(ck, v);
+      if (['purchase', 'omni_purchase', 'offsite_conversion.fb_pixel_purchase'].includes(t)) vd = Math.max(vd, v);
+    }
+    for (const ac of (r.action_values ?? [])) {
+      const t = ac.action_type || '', v = Number(ac.value) || 0;
+      if (['purchase', 'omni_purchase', 'offsite_conversion.fb_pixel_purchase'].includes(t)) vl = Math.max(vl, v);
+    }
+    m.checkouts += ck; m.vendas += vd; m.valor += vl;
+  }
+
+  const linhasHora = Object.values(mapa);
+
+  // reescreve só a janela; o que é mais antigo que ela fica onde está
+  const del = await db.from('criativos_hora').delete().gte('data', desde);
+  if (del.error) throw new Error('Erro limpando horas: ' + del.error.message);
+
+  for (let i = 0; i < linhasHora.length; i += 500) {
+    const { error } = await db.from('criativos_hora')
+      .upsert(linhasHora.slice(i, i + 500), { onConflict: 'data,hora,anuncio' });
+    if (error) throw new Error('Erro gravando horas: ' + error.message);
+  }
+  return linhasHora.length;
 }
 
 /* Grava o resultado da última execução. Como a resposta HTTP sai antes do

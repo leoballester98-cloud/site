@@ -164,7 +164,10 @@ body{background:var(--bg);color:var(--ink);}
   .card.fonte .rot{font-size:13px;font-weight:600;color:var(--ink-2);}
   .card.fonte .grande{font-size:34px;font-weight:700;letter-spacing:-.02em;margin:2px 0 4px;}
   .card.fonte .antes{font-size:13px;color:var(--ink-3);padding-bottom:14px;border-bottom:1px solid var(--linha);}
-  .card.fonte .linhas{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:4px 20px;padding:14px 0;}
+  .card.fonte .linhas{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px 22px;padding:14px 0;}
+  .card.fonte.pendente{border-style:dashed;}
+  .card.fonte.pendente .grande,.card.fonte.pendente .linhas b{color:var(--ink-3);}
+  .card.fonte .cab em{font-style:normal;font-size:12px;font-weight:500;color:var(--ink-3);margin-left:auto;}
   .card.fonte .linhas div{display:flex;justify-content:space-between;gap:10px;font-size:13.5px;padding:3px 0;}
   .card.fonte .linhas span{color:var(--ink-2);}
   .card.fonte .linhas b{font-weight:600;}
@@ -536,6 +539,10 @@ const esc   = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({'&':'&am
 /* Ícones por rótulo. Traço aberto, como os da lateral — o ícone é apoio de
    leitura, não decoração: quem varre a linha acha a métrica pela silhueta antes
    de ler. Rótulo sem entrada no mapa simplesmente não ganha ícone. */
+const LOGO_TIKTOK = '<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">' +
+  '<circle cx="12" cy="12" r="10" fill="#010101"/>' +
+  '<path fill="#fff" d="M13.1 5.5h1.72c.12.9.53 1.7 1.16 2.28.6.55 1.37.88 2.2.94v1.79a5.4 5.4 0 0 1-3.2-1.08v4.4a3.94 3.94 0 1 1-3.94-3.94c.18 0 .35.01.52.04v1.83a2.15 2.15 0 1 0 1.55 2.07V5.5Z"/>' +
+'</svg>';
 const LOGO_META = '<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">' +
   '<circle cx="12" cy="12" r="10" fill="#0866ff"/>' +
   '<path fill="#fff" d="M15.4 15.5l.44-2.87h-2.75v-1.86c0-.79.38-1.55 1.61-1.55h1.25V6.78s-1.13-.19-2.22-.19c-2.26 0-3.74 1.37-3.74 3.86v2.18H7.47v2.87h2.52v6.94a10 10 0 0 0 3.1 0V15.5h2.31Z"/>' +
@@ -912,6 +919,36 @@ async function apagarCusto(id) {
   await verCustos();
 }
 
+/* Um cartão por fonte de tráfego. `pendente` marca a fonte que ainda não tem
+   gasto no banco: os números vão zerados, mas tracejados, pra ninguém ler um
+   zero de ausência como zero medido. */
+function cartaoFonte(o) {
+  const cor2 = v => v == null ? 'var(--ink-3)' : (v >= 0 ? 'var(--bom)' : 'var(--ruim)');
+  const linha = (rot, val, cor) =>
+    '<div><span>' + rot + '</span><b' + (cor ? ' style="color:' + cor + '"' : '') + '>' + val + '</b></div>';
+  return '<div class="card fonte' + (o.pendente ? ' pendente' : '') + '">' +
+    '<div class="cab">' + o.logo + '<span>' + o.nome + '</span>' +
+      (o.pendente ? '<em>sem investimento registrado</em>' : '') + '</div>' +
+    '<div class="rot">Faturamento</div>' +
+    '<div class="grande">' + moeda(o.fat) + '</div>' +
+    '<div class="antes">' +
+      (o.anterior == null ? (o.pendente ? 'Nada a comparar' : 'Sem período anterior para comparar')
+        : 'Anterior: ' + moeda(o.anterior) +
+          (o.variacao == null ? ''
+            : '<b style="color:' + cor2(o.variacao) + '"> ' + (o.variacao >= 0 ? '↗' : '↘') + ' ' +
+              (o.variacao >= 0 ? '+' : '') + o.variacao.toFixed(1) + '%</b>')) +
+    '</div>' +
+    '<div class="linhas">' +
+      linha('Gasto', moeda(o.gasto)) +
+      linha('Lucro', moeda(o.lucro), o.pendente ? null : cor2(o.lucro)) +
+      linha('ROAS', o.roas == null ? '—' : o.roas.toFixed(2) + 'x',
+            o.pendente || o.roas == null ? null : o.roas >= 1 ? 'var(--bom)' : 'var(--ruim)') +
+      linha('ROI', o.roi == null ? '—' : o.roi.toFixed(0) + '%', o.pendente ? null : cor2(o.roi)) +
+    '</div>' +
+    '<div class="pe"><span>Última venda</span><b>' + o.ultima + '</b></div>' +
+  '</div>';
+}
+
 // ══════════════════════ VISÃO GERAL ══════════════════════
 /* Não repete as outras abas: junta o dinheiro (que vive em Criativos) com a
    saúde do funil (que vive em Funil) e mostra a evolução dia a dia, que hoje
@@ -1003,26 +1040,14 @@ async function verGeral() {
           (dias.length ? '<div style="position:relative;height:400px;"><canvas id="cvGeral"></canvas></div>'
                        : '<div class="vazio">Sem dados no período.</div>') + '</div>' +
         '<div class="fontes">' +
-          '<div class="card fonte">' +
-            '<div class="cab">' + LOGO_META + '<span>Meta Ads</span></div>' +
-            '<div class="rot">Faturamento</div>' +
-            '<div class="grande">' + moeda(tot.fat) + '</div>' +
-            '<div class="antes">' +
-              (ant ? 'Anterior: ' + moeda(fatAnterior) +
-                     (varFat == null ? ''
-                       : '<b style="color:' + cor(varFat) + '"> ' + (varFat >= 0 ? '↗' : '↘') + ' ' +
-                         (varFat >= 0 ? '+' : '') + varFat.toFixed(1) + '%</b>')
-                   : 'Sem período anterior para comparar') +
-            '</div>' +
-            '<div class="linhas">' +
-              '<div><span>Gasto</span><b>' + moeda(tot.gasto) + '</b></div>' +
-              '<div><span>Lucro</span><b style="color:' + cor(lucro) + '">' + moeda(lucro) + '</b></div>' +
-              '<div><span>ROAS</span><b style="color:' + (roas == null ? 'var(--ink-3)' : roas >= 1 ? 'var(--bom)' : 'var(--ruim)') + '">' +
-                (roas == null ? '—' : roas.toFixed(2) + 'x') + '</b></div>' +
-              '<div><span>ROI</span><b style="color:' + cor(roi) + '">' + (roi == null ? '—' : roi.toFixed(0) + '%') + '</b></div>' +
-            '</div>' +
-            '<div class="pe"><span>Última venda</span><b>' + quandoVendeu + '</b></div>' +
-          '</div>' +
+          cartaoFonte({ logo:LOGO_META, nome:'Meta Ads', fat:tot.fat, gasto:tot.gasto,
+                        lucro:lucro, roas:roas, roi:roi, ultima:quandoVendeu,
+                        anterior: ant ? fatAnterior : null, variacao: varFat }) +
+          /* Zerado de propósito: não há gasto de TikTok no banco. Fica tracejado
+             pra não ser lido como zero medido — é ausência de dado, não resultado. */
+          cartaoFonte({ logo:LOGO_TIKTOK, nome:'TikTok Ads', fat:0, gasto:0,
+                        lucro:0, roas:null, roi:null, ultima:'—',
+                        anterior:null, variacao:null, pendente:true }) +
         '</div>' +
       '</div>' +
       '<div class="regua">' +

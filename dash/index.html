@@ -616,9 +616,20 @@ function barra(id, itens, campo, cor, ehMoeda, asc) {
      tamanho da caixa, não o valor. */
   el.parentNode.style.height = Math.max(96, 46 + itens.length * 34) + 'px';
   const fmt = v => ehMoeda ? 'R$' + Number(v).toFixed(2) : Number(v).toFixed(1) + '%';
-  /* 26 caracteres é o que cabe na faixa de 200px reservada pro nome. Antes eram 34,
-     e o excesso vazava por cima da área do gráfico. */
-  const curto = s => String(s || '').length > 26 ? String(s).slice(0, 26) + '…' : String(s || '');
+  /* O corte tem que sair da largura REAL da faixa, não de um número fixo: com 4
+     cartões numa linha a faixa cai pra ~155px, e 26 caracteres não cabem ali —
+     era isso que fazia o nome vazar por cima do gráfico. Medido no canvas, não
+     estimado por média de caractere. */
+  const larguraFaixa = Math.min(200, (el.parentNode.clientWidth || 380) * 0.42);
+  const med = el.getContext('2d');
+  med.font = '12.5px -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Arial, sans-serif';
+  const cabe = larguraFaixa - 16;
+  const curto = (txt) => {
+    let t = String(txt || '');
+    if (med.measureText(t).width <= cabe) return t;
+    while (t.length > 1 && med.measureText(t + '…').width > cabe) t = t.slice(0, -1);
+    return t.trimEnd() + '…';
+  };
   const valores = itens.map(r => Number(r[campo]));
   /* Estica o eixo 22% além do maior valor: sobra espaço pro rótulo da barra mais
      longa caber fora, então todos ficam fora, sem exceção. */
@@ -632,7 +643,7 @@ function barra(id, itens, campo, cor, ehMoeda, asc) {
       scales:{ x:{ max: teto, ticks:{ font:{ size:12 }, color:'#8a8a8a', maxTicksLimit:6,
                      callback:v => ehMoeda ? 'R$' + Math.round(v) : Math.round(v) + '%' }, grid:{ color:'#f0f0f0' } },
                // a faixa do nome nunca passa de 42% do cartão, senão sobra pouco pra barra
-               y:{ afterFit(sc) { sc.width = Math.min(200, sc.chart.width * 0.42); },
+               y:{ afterFit(sc) { sc.width = larguraFaixa; },
                    ticks:{ font:{ size:12.5 }, color:'#444', crossAlign:'far', autoSkip:false },
                    grid:{ display:false } } } } }));
 }

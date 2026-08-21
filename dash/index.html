@@ -37,7 +37,39 @@
   .btn{border:1px solid #d5d5d5;background:#fff;border-radius:10px;padding:11px 16px;font-size:14px;font-weight:600;color:#333;cursor:pointer;}
   .btn.on{border-color:#1a7a4f;color:#1a7a4f;background:#f0f7f3;}
   .grp{position:relative;}
-  .painel{position:absolute;top:50px;left:0;z-index:60;background:#fff;border:1px solid #e2e2e2;border-radius:14px;box-shadow:0 10px 34px rgba(0,0,0,.14);padding:18px 20px;min-width:520px;}
+  .rangeBtn{border:1px solid #d5d5d5;background:#fff;border-radius:10px;padding:11px 17px;font-size:14.5px;font-weight:600;color:#333;cursor:pointer;display:inline-flex;align-items:center;gap:8px;}
+  .rangeBtn.on{border-color:#1a7a4f;color:#1a7a4f;background:#f0f7f3;}
+  .rangeBtn .car{color:#999;font-size:11px;}
+  .rangePanel{position:absolute;top:52px;left:0;z-index:60;background:#fff;border:1px solid #e2e2e2;border-radius:14px;box-shadow:0 10px 34px rgba(0,0,0,.14);display:flex;overflow:hidden;}
+  .presets{width:200px;border-right:1px solid #eee;padding:8px;}
+  .presets a{display:block;padding:10px 13px;border-radius:8px;font-size:14px;color:#444;cursor:pointer;}
+  .presets a:hover{background:#f1f4f2;}
+  .presets a.active{background:#e9f3ee;color:#2f6b4f;font-weight:600;}
+  .presets .div{height:1px;background:#eee;margin:6px 8px;}
+  .calarea{padding:14px 16px;width:292px;}
+  .calnav{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;font-weight:600;font-size:14px;color:#333;}
+  .calnav button{border:none;background:none;font-size:20px;line-height:1;cursor:pointer;color:#666;padding:2px 10px;border-radius:6px;}
+  .calnav button:hover{background:#f0f0f0;}
+  .calgrid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;}
+  .caldow{font-size:11.5px;color:#aaa;text-align:center;padding:4px 0;text-transform:uppercase;}
+  .calday{text-align:center;font-size:13px;padding:8px 0;border-radius:7px;cursor:pointer;color:#333;}
+  .calday:hover{background:#eef2f0;}
+  .calday.muted{visibility:hidden;}
+  .calday.inrange{background:#e9f3ee;border-radius:0;}
+  .calday.edge{background:#1a7a4f;color:#fff;border-radius:7px;}
+  .calfoot{display:flex;align-items:center;gap:10px;margin-top:10px;padding-top:10px;border-top:1px solid #eee;}
+  .calsel{flex:1;font-size:13px;color:#666;}
+  .vpan{width:310px;padding:12px;display:block;}
+  .vsearch{width:100%;border:1px solid #e2e2e2;border-radius:8px;padding:9px 11px;font-size:13.5px;outline:none;margin-bottom:8px;}
+  .vsearch:focus{border-color:#1a7a4f;}
+  .vlist{max-height:270px;overflow-y:auto;margin-bottom:8px;}
+  .vitem{display:flex;align-items:center;gap:9px;padding:8px 9px;border-radius:8px;cursor:pointer;font-size:13.5px;color:#333;}
+  .vitem:hover{background:#f1f4f2;}
+  .vitem input{margin:0;cursor:pointer;accent-color:#1a7a4f;}
+  .vitem .cod{font-weight:600;flex:1;}
+  .vitem .qtd{color:#999;font-size:12px;white-space:nowrap;}
+  .vempty{color:#999;font-size:13px;padding:14px 9px;text-align:center;}
+  .painel{position:absolute;top:52px;left:0;z-index:60;background:#fff;border:1px solid #e2e2e2;border-radius:14px;box-shadow:0 10px 34px rgba(0,0,0,.14);padding:18px 20px;min-width:520px;flex-direction:column;}
   .etq{display:grid;grid-template-columns:repeat(2,minmax(210px,1fr));gap:16px 22px;}
   .etq label{display:flex;flex-direction:column;gap:6px;font-size:11.5px;color:#8a8a8a;text-transform:uppercase;letter-spacing:.04em;font-weight:700;}
   .etq select,.etq input{border:1px solid #dcdcdc;border-radius:8px;padding:10px 12px;font-size:14px;color:#333;background:#fff;width:100%;}
@@ -123,20 +155,34 @@
   </div>
 
   <div class="filtros">
-    <select id="fPeriodo">
-      <option value="hoje">Hoje</option><option value="ontem">Ontem</option>
-      <option value="7">Últimos 7 dias</option><option value="14">Últimos 14 dias</option>
-      <option value="28">Últimos 28 dias</option><option value="30">Últimos 30 dias</option>
-      <option value="todos" selected>Máximo (todos)</option>
-      <option value="custom">Personalizado…</option>
-    </select>
-    <input type="date" id="fDe"  style="display:none;"/>
-    <input type="date" id="fAte" style="display:none;"/>
+    <div class="grp">
+      <button class="rangeBtn" id="btnData" onclick="abrir('painelData')">
+        <span>📅</span><span id="lblData">Máximo (todos)</span><span class="car">▼</span>
+      </button>
+      <div class="rangePanel" id="painelData" style="display:none;">
+        <div class="presets" id="presets"></div>
+        <div class="calarea">
+          <div class="calnav"><button onclick="calMove(-1)">‹</button><span id="calTitulo"></span><button onclick="calMove(1)">›</button></div>
+          <div class="calgrid" id="calGrid"></div>
+          <div class="calfoot"><span class="calsel" id="calSel">Selecione as datas</span><button class="prim" onclick="calAplicar()">Aplicar</button></div>
+        </div>
+      </div>
+    </div>
 
     <select id="fFunil" class="soFunil"><option value="">Todos os funis</option><option value="brasil">Brasil</option><option value="latam">Latam</option></select>
     <select id="fFonte" class="soFunil"><option value="">Todas as fontes</option><option value="meta">Meta</option><option value="tiktok">TikTok</option></select>
-    <select id="fVariante" class="soFunil"><option value="">Todas as URLs</option></select>
-    <select id="fComparar" class="soFunil"><option value="">Sem comparação</option></select>
+    <div class="grp soFunil">
+      <button class="rangeBtn" id="btnVar" onclick="abrir('painelVar')">
+        <span>🔀</span><span id="lblVar">Todas as URLs</span><span class="car">▼</span>
+      </button>
+      <div class="rangePanel vpanWrap" id="painelVar" style="display:none;">
+        <div class="vpan">
+          <input class="vsearch" id="vBusca" placeholder="Buscar variante..." oninput="pintarVars()" autocomplete="off"/>
+          <div class="vlist" id="vLista"></div>
+          <div class="calfoot" style="justify-content:flex-end;"><button class="prim" onclick="aplicarVars()">Aplicar</button></div>
+        </div>
+      </div>
+    </div>
 
     <select id="fStatus" class="soCriativos" style="display:none;"><option value="">Todos os status</option></select>
     <div class="grp soCriativos" style="display:none;">
@@ -219,22 +265,123 @@ const rotuloValor = { id:'rotuloValor', afterDatasetsDraw(ch, a, opts) {
   ctx.restore();
 }};
 
+/* ══════ Filtro de data: presets + calendário, como no dashboard antigo ══════ */
+const iso = d => d.toISOString().slice(0, 10);
+const hojeSP = () => new Date(Date.now() - 3 * 3600 * 1000);   // America/Sao_Paulo
+const maisDias = (d, n) => { const x = new Date(d); x.setUTCDate(x.getUTCDate() + n); return x; };
+const brDate = k => k ? k.slice(8,10) + '/' + k.slice(5,7) + '/' + k.slice(0,4) : '';
+const MESES = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+
+const PRESETS = [
+  ['hoje','Hoje'], ['ontem','Ontem'], ['7','Últimos 7 dias'], ['14','Últimos 14 dias'],
+  ['28','Últimos 28 dias'], ['30','Últimos 30 dias'], ['div',''],
+  ['semana','Esta semana'], ['semana_passada','Semana passada'],
+  ['mes','Este mês'], ['mes_passado','Mês passado'], ['div',''],
+  ['todos','Máximo (todos)'],
+];
+
+let presetAtual = 'todos', rangeCustom = { de:null, ate:null };
+let calMes = hojeSP(), selDe = null, selAte = null;
+
 function periodo() {
-  const v = document.getElementById('fPeriodo').value;
-  const custom = v === 'custom';
-  document.getElementById('fDe').style.display  = custom ? '' : 'none';
-  document.getElementById('fAte').style.display = custom ? '' : 'none';
-  if (custom) return { de: document.getElementById('fDe').value || null, ate: document.getElementById('fAte').value || null };
-  if (v === 'todos') return { de: null, ate: null };
-  const hoje = new Date(Date.now() - 3 * 3600 * 1000);   // America/Sao_Paulo
-  const iso = d => d.toISOString().slice(0, 10);
-  if (v === 'hoje')  return { de: iso(hoje), ate: iso(hoje) };
-  if (v === 'ontem') { const o = new Date(hoje); o.setUTCDate(o.getUTCDate() - 1); return { de: iso(o), ate: iso(o) }; }
-  const d = new Date(hoje); d.setUTCDate(d.getUTCDate() - (Number(v) - 1));
-  return { de: iso(d), ate: iso(hoje) };
+  if (presetAtual === 'custom') return { de: rangeCustom.de, ate: rangeCustom.ate };
+  const h = hojeSP();
+  switch (presetAtual) {
+    case 'todos': return { de:null, ate:null };
+    case 'hoje':  return { de: iso(h), ate: iso(h) };
+    case 'ontem': { const o = maisDias(h, -1); return { de: iso(o), ate: iso(o) }; }
+    case 'semana': { const ws = maisDias(h, -((h.getUTCDay() + 6) % 7)); return { de: iso(ws), ate: iso(h) }; }
+    case 'semana_passada': { const ws = maisDias(h, -((h.getUTCDay() + 6) % 7));
+      return { de: iso(maisDias(ws, -7)), ate: iso(maisDias(ws, -1)) }; }
+    case 'mes': return { de: iso(h).slice(0,8) + '01', ate: iso(h) };
+    case 'mes_passado': { const p = new Date(Date.UTC(h.getUTCFullYear(), h.getUTCMonth(), 0));
+      return { de: iso(p).slice(0,8) + '01', ate: iso(p) }; }
+    default: return { de: iso(maisDias(h, -(Number(presetAtual) - 1))), ate: iso(h) };
+  }
 }
 
+function rotuloPeriodo() {
+  if (presetAtual === 'custom') {
+    if (!rangeCustom.de) return 'Personalizado';
+    return rangeCustom.de === rangeCustom.ate ? brDate(rangeCustom.de)
+      : brDate(rangeCustom.de) + ' – ' + brDate(rangeCustom.ate);
+  }
+  const p = PRESETS.find(x => x[0] === presetAtual);
+  return p ? p[1] : 'Máximo (todos)';
+}
+
+function pintarPresets() {
+  document.getElementById('presets').innerHTML = PRESETS.map(([k, l]) =>
+    k === 'div' ? '<div class="div"></div>'
+      : '<a class="' + (presetAtual === k ? 'active' : '') + '" onclick="usarPreset(\'' + k + '\')">' + l + '</a>').join('');
+  document.getElementById('lblData').textContent = rotuloPeriodo();
+  document.getElementById('btnData').className = 'rangeBtn' + (presetAtual !== 'todos' ? ' on' : '');
+}
+function usarPreset(k) { presetAtual = k; fecharPaineis(); pintarPresets(); carregar(); }
+
+function pintarCal() {
+  const y = calMes.getUTCFullYear(), m = calMes.getUTCMonth();
+  document.getElementById('calTitulo').textContent = MESES[m] + ' ' + y;
+  const ini = (new Date(Date.UTC(y, m, 1)).getUTCDay() + 6) % 7;
+  const dias = new Date(Date.UTC(y, m + 1, 0)).getUTCDate();
+  let h = ['seg','ter','qua','qui','sex','sáb','dom'].map(d => '<div class="caldow">' + d + '</div>').join('');
+  for (let i = 0; i < ini; i++) h += '<div class="calday muted"></div>';
+  for (let d = 1; d <= dias; d++) {
+    const k = y + '-' + String(m + 1).padStart(2,'0') + '-' + String(d).padStart(2,'0');
+    let cls = 'calday';
+    if (selDe && selAte && k >= selDe && k <= selAte) cls += ' inrange';
+    if (k === selDe || k === selAte) cls += ' edge';
+    h += '<div class="' + cls + '" onclick="calPick(\'' + k + '\')">' + d + '</div>';
+  }
+  document.getElementById('calGrid').innerHTML = h;
+  document.getElementById('calSel').textContent = selDe && selAte ? (brDate(selDe) + ' – ' + brDate(selAte))
+    : selDe ? (brDate(selDe) + ' – …') : 'Selecione as datas';
+}
+function calMove(n) { calMes = new Date(Date.UTC(calMes.getUTCFullYear(), calMes.getUTCMonth() + n, 1)); pintarCal(); }
+function calPick(k) {
+  if (!selDe || (selDe && selAte)) { selDe = k; selAte = null; }
+  else if (k >= selDe) selAte = k;
+  else { selAte = selDe; selDe = k; }
+  pintarCal();
+}
+function calAplicar() {
+  if (!selDe) { alert('Selecione uma data no calendário'); return; }
+  presetAtual = 'custom'; rangeCustom = { de: selDe, ate: selAte || selDe };
+  fecharPaineis(); pintarPresets(); carregar();
+}
+
+function abrir(id) {
+  ['painelData','painelVar','painelEtq'].forEach(k => {
+    const el = document.getElementById(k); if (!el) return;
+    el.style.display = (k === id && el.style.display === 'none') ? 'flex' : 'none';
+  });
+  if (id === 'painelData') pintarCal();
+  if (id === 'painelVar') pintarVars();
+}
+const fecharPaineis = () => ['painelData','painelVar','painelEtq'].forEach(k => {
+  const el = document.getElementById(k); if (el) el.style.display = 'none'; });
+
 let aba = 'funil', graficos = [], filtroEtq = {}, CRIATIVOS = [];
+let VARIANTES = [], marcadas = {};
+
+function pintarVars() {
+  const q = (document.getElementById('vBusca').value || '').toLowerCase();
+  const rot = v => v.replace(/^v/, 'h=');
+  const vis = VARIANTES.filter(v => !q || rot(v.variante).toLowerCase().includes(q));
+  const el = document.getElementById('vLista');
+  if (!vis.length) {
+    el.innerHTML = '<div class="vempty">' + (VARIANTES.length ? 'Nada com esse nome.' : 'Nenhuma variante neste período.') + '</div>';
+    return;
+  }
+  el.innerHTML = vis.map(v =>
+    '<label class="vitem"><input type="checkbox" data-v="' + esc(v.variante) + '"' + (marcadas[v.variante] ? ' checked' : '') + '>' +
+    '<span class="cod">' + esc(rot(v.variante)) + '</span>' +
+    '<span class="qtd">' + v.sessoes + (v.sessoes === 1 ? ' sessão' : ' sessões') + '</span></label>').join('');
+  el.querySelectorAll('input').forEach(i =>
+    i.addEventListener('change', () => { marcadas[i.getAttribute('data-v')] = i.checked; }));
+}
+function aplicarVars() { fecharPaineis(); carregar(); }
+function selecionadas() { return VARIANTES.map(v => v.variante).filter(v => marcadas[v]); }
 
 function trocarAba(nova) {
   aba = nova;
@@ -279,28 +426,27 @@ async function verFunil() {
   const p = periodo();
   const fu = document.getElementById('fFunil').value || null;
   const fo = document.getElementById('fFonte').value || null;
-  const va = document.getElementById('fVariante').value;
-  const vb = document.getElementById('fComparar').value;
+  const rotulo = v => (v || 'todas').replace(/^v/, 'h=');
 
-  const pedidos = [
-    sb.rpc('fn_funil', { p_de:p.de, p_ate:p.ate, p_variantes: va ? [va] : null, p_funil:fu, p_fonte:fo }),
-    sb.rpc('fn_variantes', { p_de:p.de, p_ate:p.ate, p_funil:fu, p_fonte:fo }),
-  ];
-  if (vb) pedidos.push(sb.rpc('fn_funil', { p_de:p.de, p_ate:p.ate, p_variantes:[vb], p_funil:fu, p_fonte:fo }));
-  const [rA, rV, rB] = await Promise.all(pedidos);
-  if (rA.error) throw rA.error;
+  const rV = await sb.rpc('fn_variantes', { p_de:p.de, p_ate:p.ate, p_funil:fu, p_fonte:fo });
+  VARIANTES = rV.data || [];
+  Object.keys(marcadas).forEach(k => { if (!VARIANTES.some(v => v.variante === k)) delete marcadas[k]; });
+  const sel = selecionadas();
+  document.getElementById('lblVar').textContent = !sel.length ? 'Todas as URLs'
+    : sel.length === 1 ? rotulo(sel[0]) : (sel.length + ' variantes');
+  document.getElementById('btnVar').className = 'rangeBtn' + (sel.length ? ' on' : '');
+  pintarVars();
 
-  const vars = rV.data || [];
-  const rotulo = v => v.replace(/^v/, 'h=');
-  ['fVariante','fComparar'].forEach((id, i) => {
-    const sel = document.getElementById(id), atual = sel.value;
-    sel.innerHTML = '<option value="">' + (i ? 'Sem comparação' : 'Todas as URLs') + '</option>' +
-      vars.map(v => '<option value="' + esc(v.variante) + '">' + esc(rotulo(v.variante)) + ' · ' + v.sessoes + '</option>').join('');
-    sel.value = atual;
-  });
+  /* 1 marcada filtra o funil. 2 ou mais viram séries pra comparar — uma chamada
+     por variante, porque passar todas juntas somaria em vez de separar. */
+  const alvos = sel.length >= 2 ? sel.slice(0, MAX_LINHAS) : [sel[0] || null];
+  const res = await Promise.all(alvos.map(v =>
+    sb.rpc('fn_funil', { p_de:p.de, p_ate:p.ate, p_variantes: v ? [v] : null, p_funil:fu, p_fonte:fo })));
+  const errado = res.find(r => r.error); if (errado) throw errado.error;
 
-  const A = calcFunil(rA.data), B = rB && !rB.error ? calcFunil(rB.data) : null;
-  const dA = rA.data, dB = rB ? rB.data : null;
+  const series = res.map((r, i) => ({ nome: alvos[i], dados: r.data, calc: calcFunil(r.data) }));
+  const A = series[0].calc, dA = series[0].dados;
+  const comparando = series.length > 1;
 
   document.getElementById('conteudo').innerHTML =
     '<div class="kpis">' + kpi('Visitantes', dA.visitantes) + kpi('Chegaram ao fim', A.pctFim + '%') +
@@ -310,7 +456,7 @@ async function verFunil() {
         THRESH + ' pts: <b>tela ' + A.alertas.join(', ') + '</b>. Vale revisar a pergunta.</div>' : '') +
     '<div class="curva"><div class="cab"><span>Retenção do funil</span><span style="color:#5f8a72;">' + TOTAL_TELAS + ' telas</span></div>' +
       '<div style="position:relative;height:280px;"><canvas id="cv"></canvas></div></div>' +
-    (B ? cardComparacao(va, vb, dA, dB, A, B) : '') +
+    (comparando ? cardComparacao(series, rotulo) : '') +
     '<div class="card"><div class="sec">Etapas do Quiz</div>' + A.linhas.map(l =>
       '<div class="lin' + (l.alerta ? ' alerta' : '') + (l.pitch ? ' pitch' : '') + '">' +
         '<span class="n">' + l.n + '</span><span class="nome">' + esc(l.nome) + '</span>' +
@@ -318,40 +464,43 @@ async function verFunil() {
         '<span class="pct">' + l.ret + '%</span>' +
         '<span class="queda' + (l.alerta ? ' on' : '') + '">' + (l.n > 1 && l.drop > 0 ? (l.alerta ? '▼ ' : '-') + l.drop + ' pts' : '') + '</span>' +
       '</div>').join('') +
-      (B ? '<div class="nota">Esta lista e os KPIs mostram só ' + esc(va ? rotulo(va) : 'todas as URLs') + '. A comparação está no gráfico e no quadro acima.</div>' : '') +
+      (comparando ? '<div class="nota">Esta lista e os KPIs mostram só ' + esc(rotulo(series[0].nome)) + '. A comparação está no gráfico e no quadro acima.</div>' : '') +
     '</div>';
 
   const ctx = document.getElementById('cv').getContext('2d');
   const g = ctx.createLinearGradient(0, 0, 0, 280);
   g.addColorStop(0, 'rgba(53,208,127,0.45)'); g.addColorStop(1, 'rgba(53,208,127,0.02)');
-  const datasets = B
-    ? [{ label: rotulo(va || 'todas'), data: A.linhas.map(l => l.ret), borderColor:'#35d07f', borderWidth:2, fill:false, tension:.4, pointRadius:0 },
-       { label: rotulo(vb),            data: B.linhas.map(l => l.ret), borderColor:'#f5a623', borderWidth:2, fill:false, tension:.4, pointRadius:0 }]
+  const CORES_L = ['#35d07f','#f5a623','#4a9fe0','#e0679a','#b78ce0','#7fd4c1'];
+  const datasets = comparando
+    ? series.map((s, i) => ({ label: rotulo(s.nome), data: s.calc.linhas.map(l => l.ret),
+        borderColor: CORES_L[i % CORES_L.length], borderWidth:2, fill:false, tension:.4, pointRadius:0 }))
     : [{ data: A.linhas.map(l => l.ret), borderColor:'#35d07f', borderWidth:2, backgroundColor:g, fill:true, tension:.4, pointRadius:0, pointHoverRadius:5 }];
   graficos.push(new Chart(ctx, { type:'line', data:{ labels:A.linhas.map(l => l.n), datasets },
     options:{ responsive:true, maintainAspectRatio:false,
-      plugins:{ legend:{ display:!!B, labels:{ color:'#cfe5d8', boxWidth:12, boxHeight:2 } },
+      plugins:{ legend:{ display:comparando, labels:{ color:'#cfe5d8', boxWidth:12, boxHeight:2 } },
         tooltip:{ callbacks:{ title:t => 'Tela ' + A.linhas[t[0].dataIndex].n + ' — ' + A.linhas[t[0].dataIndex].nome,
-          label:c => (B ? c.dataset.label + ': ' : '') + c.parsed.y + '% ainda no funil' } } },
+          label:c => (comparando ? c.dataset.label + ': ' : '') + c.parsed.y + '% ainda no funil' } } },
       scales:{ y:{ min:0, max:100, ticks:{ color:'#6b8f7b', callback:v => v + '%' }, grid:{ color:'rgba(255,255,255,.06)' } },
                x:{ ticks:{ color:'#6b8f7b', maxTicksLimit:10 }, grid:{ display:false } } } } }));
 }
 
-function cardComparacao(va, vb, dA, dB, A, B) {
-  const rot = v => (v || 'todas').replace(/^v/, 'h=');
-  const t1 = X => (X.linhas[1] || {}).ret || 0;
-  // só destaca quem for maior que o outro; empate não premia ninguém
-  const win = (x, y) => x > y ? ' style="color:#1a7a4f;font-weight:700"' : '';
-  const linha = (nome, d, X, o, oX) =>
-    '<tr><td><b>' + esc(rot(nome)) + '</b></td><td class="num">' + d.visitantes + '</td>' +
-    '<td class="num"' + win(t1(X), t1(oX)) + '>' + t1(X) + '%</td>' +
-    '<td class="num"' + win(X.pctFim, oX.pctFim) + '>' + X.pctFim + '%</td>' +
-    '<td class="num"' + win(X.pctCompra, oX.pctCompra) + '>' + X.pctCompra + '%</td></tr>';
-  const baixas = [[va, dA], [vb, dB]].filter(x => x[1].visitantes < MIN_SESSOES).map(x => rot(x[0]) + ' (' + x[1].visitantes + ')');
+function cardComparacao(series, rot) {
+  const CORES_L = ['#35d07f','#f5a623','#4a9fe0','#e0679a','#b78ce0','#7fd4c1'];
+  const t1 = s => (s.calc.linhas[1] || {}).ret || 0;
+  /* só destaca quem for maior que TODOS os outros; empate no topo não premia ninguém */
+  const topo = vals => { const m = Math.max(...vals); return (m > 0 && vals.filter(x => x === m).length === 1) ? m : -1; };
+  const best = { t1: topo(series.map(t1)), fim: topo(series.map(s => s.calc.pctFim)), cpr: topo(series.map(s => s.calc.pctCompra)) };
+  const cel = (v, b) => '<td class="num"' + (v === b ? ' style="color:#1a7a4f;font-weight:700"' : '') + '>' + v + '%</td>';
+  const baixas = series.filter(s => s.dados.visitantes < MIN_SESSOES).map(s => rot(s.nome) + ' (' + s.dados.visitantes + ')');
   return '<div class="card"><div class="sec">Comparação de variantes</div>' +
     '<table class="tb"><tr><th>Variante</th><th class="num">Visitantes</th><th class="num">Passou da tela 1</th>' +
     '<th class="num">Chegou ao fim</th><th class="num">Clicou em comprar</th></tr>' +
-    linha(va, dA, A, vb, B) + linha(vb, dB, B, va, A) + '</table>' +
+    series.map((s, i) =>
+      '<tr><td class="nm"><i style="display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:7px;background:' +
+      CORES_L[i % CORES_L.length] + '"></i><b>' + esc(rot(s.nome)) + '</b></td>' +
+      '<td class="num">' + s.dados.visitantes + '</td>' +
+      cel(t1(s), best.t1) + cel(s.calc.pctFim, best.fim) + cel(s.calc.pctCompra, best.cpr) + '</tr>').join('') +
+    '</table>' +
     (baixas.length ? '<div class="aviso">⚠ Volume baixo em <b>' + esc(baixas.join(', ')) +
       '</b>. Abaixo de ' + MIN_SESSOES + ' sessões por variante a diferença ainda pode ser sorte.</div>' : '') + '</div>';
 }
@@ -534,7 +683,7 @@ function montarFiltroEtq() {
     filtroEtq[s.getAttribute('data-campo')] = s.value; verCriativos();
   }));
 }
-const togglePainel = () => { const p = document.getElementById('painelEtq'); p.style.display = p.style.display === 'none' ? 'block' : 'none'; };
+const togglePainel = () => abrir('painelEtq');
 const limparEtq = () => { filtroEtq = {}; document.getElementById('fStatus').value = ''; verCriativos(); };
 
 // ── edição de etiquetas ──
@@ -586,7 +735,9 @@ document.getElementById('formLogin').addEventListener('submit', async ev => {
 });
 async function sair() { await sb.auth.signOut(); location.reload(); }
 
-document.querySelectorAll('.filtros select, .filtros input[type=date]').forEach(s => s.addEventListener('change', carregar));
+document.querySelectorAll('.filtros select').forEach(s => s.addEventListener('change', carregar));
+document.addEventListener('click', ev => { if (!ev.target.closest('.grp')) fecharPaineis(); });
+pintarPresets();
 sb.auth.getSession().then(({ data }) => mostrarConforme(data.session));
 </script>
 </body>

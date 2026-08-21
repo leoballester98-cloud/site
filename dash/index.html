@@ -12,11 +12,10 @@
      O teto alto existe pra tabela de 21 colunas parar de rolar na horizontal. */
   .wrap{max-width:1640px;margin:0 auto;}
 
-  @media(max-width:1100px){
-    .charts{grid-template-columns:1fr;}
-  }
+
   @media(max-width:760px){
     body{padding:12px;}
+    .charts{grid-template-columns:1fr;}
     .kpis{grid-template-columns:repeat(2,1fr);gap:10px;}
     .kpi .val{font-size:24px;}
     .filtros{gap:8px;}
@@ -135,8 +134,9 @@
   .lin .queda{width:82px;text-align:right;font-size:12.5px;color:#bbb;}
   .lin .queda.on{color:#c0392b;font-weight:600;}
 
-  .charts{display:grid;grid-template-columns:repeat(auto-fit,minmax(430px,1fr));gap:16px;margin-bottom:20px;}
-  .cchart{background:#fff;border-radius:14px;padding:18px 20px;}
+  .charts{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px;}
+  @media(max-width:1400px){ .charts{grid-template-columns:repeat(2,1fr);} }
+  .cchart{background:#fff;border-radius:14px;padding:16px 14px;}
   .cchart .ttl{font-size:15.5px;font-weight:600;margin-bottom:14px;}
   .cchart .cv{position:relative;height:290px;}
   .pieWrap{position:relative;height:320px;max-width:560px;margin:0 auto;}
@@ -271,6 +271,14 @@ function liquido(fat, vendas) {
   const bumps = Math.max(0, Math.round(((Number(fat) || 0) - v * PRECO_VENDA) / PRECO_BUMP));
   return v * LIQ_VENDA + bumps * LIQ_BUMP;
 }
+/* Paleta validada com scripts/validate_palette.js da skill dataviz.
+   A anterior reprovava em três testes: marrom↔verde davam ΔE 4.4 pra daltônico
+   (indistinguíveis), roxo↔azul davam 12.7 mesmo com visão normal, e cinco das
+   oito cores ficavam abaixo do piso de croma — liam como cinza.
+   Estas passam nos seis. Os slots são fixos: cor segue a entidade, nunca a
+   posição, então filtrar não repinta quem sobrou. */
+const SERIES = ['#2a78d6','#eb6834','#1baf7a','#eda100','#e87ba4','#008300'];
+
 const MEDALHAS = [
   { selo:'💎', nome:'Diamante', vendas:30, roas:1.50 },
   { selo:'🥇', nome:'Ouro',     vendas:50, roas:1.25 },
@@ -556,7 +564,7 @@ async function verFunil() {
   const ctx = document.getElementById('cv').getContext('2d');
   const g = ctx.createLinearGradient(0, 0, 0, 280);
   g.addColorStop(0, 'rgba(53,208,127,0.45)'); g.addColorStop(1, 'rgba(53,208,127,0.02)');
-  const CORES_L = ['#35d07f','#f5a623','#4a9fe0','#e0679a','#b78ce0','#7fd4c1'];
+  const CORES_L = SERIES;
   const datasets = comparando
     ? series.map((s, i) => ({ label: rotulo(s.nome), data: s.calc.linhas.map(l => l.ret),
         borderColor: CORES_L[i % CORES_L.length], borderWidth:2, fill:false, tension:.4, pointRadius:0 }))
@@ -571,7 +579,7 @@ async function verFunil() {
 }
 
 function cardComparacao(series, rot) {
-  const CORES_L = ['#35d07f','#f5a623','#4a9fe0','#e0679a','#b78ce0','#7fd4c1'];
+  const CORES_L = SERIES;
   const t1 = s => (s.calc.linhas[1] || {}).ret || 0;
   /* só destaca quem for maior que TODOS os outros; empate no topo não premia ninguém */
   const topo = vals => { const m = Math.max(...vals); return (m > 0 && vals.filter(x => x === m).length === 1) ? m : -1; };
@@ -597,6 +605,10 @@ function barra(id, itens, campo, cor, ehMoeda, asc) {
                .sort((a, b) => asc ? a[campo] - b[campo] : b[campo] - a[campo]).slice(0, 8);
   const el = document.getElementById(id);
   if (!itens.length) { el.parentNode.innerHTML = '<div class="vazio">Sem dados ainda</div>'; return; }
+  /* Altura acompanha a quantidade de barras. Com container fixo, um único
+     criativo virava um bloco gigante ocupando 290px — a barra comunicava o
+     tamanho da caixa, não o valor. */
+  el.parentNode.style.height = Math.max(96, 46 + itens.length * 34) + 'px';
   const fmt = v => ehMoeda ? 'R$' + Number(v).toFixed(2) : Number(v).toFixed(1) + '%';
   /* 26 caracteres é o que cabe na faixa de 200px reservada pro nome. Antes eram 34,
      e o excesso vazava por cima da área do gráfico. */
@@ -607,7 +619,8 @@ function barra(id, itens, campo, cor, ehMoeda, asc) {
   const teto = Math.max(...valores) * 1.22;
   graficos.push(new Chart(el, { type:'bar', plugins:[rotuloValor],
     data:{ labels: itens.map(r => (medalha(r.vendas, r.roas || 0) ? medalha(r.vendas, r.roas || 0).selo + ' ' : '') + curto(r.anuncio)),
-      datasets:[{ data: valores, backgroundColor:cor, borderRadius:6, barPercentage:.78 }] },
+      datasets:[{ data: valores, backgroundColor:cor, borderRadius:4,
+                  barPercentage:.72, maxBarThickness:26 }] },
     options:{ indexAxis:'y', responsive:true, maintainAspectRatio:false, layout:{ padding:{ right:10 } },
       plugins:{ legend:{ display:false }, rotuloValor:{ fmt }, tooltip:{ callbacks:{ label:c => fmt(c.parsed.x) } } },
       scales:{ x:{ max: teto, ticks:{ font:{ size:12 }, color:'#8a8a8a', maxTicksLimit:6,
@@ -749,10 +762,10 @@ async function verCriativos() {
   ['formato','angulo','emocao'].forEach(pintarStatusGrupo);
   montarFiltroEtq();   // o painel só existe depois que o card foi desenhado
 
-  barra('chVenda', vis, 'custoVenda', '#1a7a4f', true, true);
-  barra('chCheck', vis, 'custoCheckout', '#5d8aa8', true, true);
-  barra('chHook',  vis, 'hookRate', '#b0764a', false, false);
-  barra('chHold',  vis, 'hold', '#7a5da8', false, false);
+  barra('chVenda', vis, 'custoVenda',    SERIES[0], true,  true);
+  barra('chCheck', vis, 'custoCheckout',  SERIES[1], true,  true);
+  barra('chHook',  vis, 'hookRate',       SERIES[2], false, false);
+  barra('chHold',  vis, 'hold',           '#4a3aa7', false, false);
 
   pintarPie(vis);
   desenharPie(vis);
@@ -775,18 +788,50 @@ function pintarPie(rows) {
 
 function desenharPie(rows) {
   const met = pieMet, campo = pieGrp;
+  // o bloco pode ter sido substituído por número/aviso na renderização anterior
+  const wrap = document.querySelector('.pieWrap');
+  if (wrap && !document.getElementById('pie')) wrap.innerHTML = '<canvas id="pie"></canvas>';
   const gs = agrupar(rows, campo);
   const val = g => met === 'roi' ? g.roi : met === 'roas' ? g.roas : met === 'cpa' ? g.custoVenda : met === 'gasto' ? g.gasto : g.fat;
   const validos = gs.filter(g => val(g) != null && val(g) > 0);
-  const CORES = ['#1a7a4f','#b0764a','#5d8aa8','#7a5da8','#c05b4d','#c9a97a','#4a6b6b','#8a8a5d'];
+  /* Donut só lê bem até 6 fatias; o excedente vira "Outros" em vez de gerar
+     mais uma cor — a 7ª seria indistinguível das anteriores sob daltonismo. */
+  const CORES = SERIES;
   if (pieChart) { try { pieChart.destroy(); } catch (e) {} }
   const nota = document.getElementById('pieNota');
-  if (!validos.length) { nota.textContent = 'Sem dados para essa combinação.'; return; }
+  if (!validos.length) {
+    document.getElementById('pie').parentNode.innerHTML = '<div class="vazio" style="text-align:center;">Sem dados para essa combinação.</div>';
+    nota.textContent = ''; return;
+  }
   const fora = gs.filter(g => val(g) == null || val(g) <= 0).map(g => g.nome);
-  nota.textContent = fora.length ? 'Fora da pizza (sem valor positivo): ' + fora.join(', ') + '.' : '';
-  pieChart = new Chart(document.getElementById('pie'), {
+  const ord = validos.slice().sort((a, b) => val(b) - val(a));
+  const top = ord.slice(0, 6), resto = ord.slice(6);
+  const fatias = resto.length
+    ? [...top, { nome: 'Outros (' + resto.length + ')', _v: resto.reduce((a, g) => a + val(g), 0) }]
+    : top;
+  const valorDe = g => g._v !== undefined ? g._v : val(g);
+  nota.textContent = [
+    fora.length ? 'Fora da pizza (sem valor positivo): ' + fora.join(', ') + '.' : '',
+    resto.length ? '"Outros" reúne ' + resto.map(g => g.nome).join(', ') + '.' : ''
+  ].filter(Boolean).join(' ');
+  /* Uma fatia só não é uma rosca: é um círculo inteiro, que não compara nada.
+     Nesse caso o número é o gráfico. */
+  const alvo = document.getElementById('pie');
+  if (fatias.length < 2) {
+    const g = fatias[0], v = valorDe(g);
+    const txt = met === 'roi' ? v.toFixed(0) + '%' : met === 'roas' ? v.toFixed(2) + 'x' : moeda(v);
+    alvo.parentNode.innerHTML =
+      '<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:6px;">' +
+        '<div style="font-size:44px;font-weight:600;">' + esc(txt) + '</div>' +
+        '<div style="font-size:14px;color:#8a8a8a;">' + esc(g.nome) + '</div>' +
+        '<div style="font-size:12.5px;color:#aaa;">único grupo com valor neste período</div>' +
+      '</div>';
+    return;
+  }
+  pieChart = new Chart(alvo, {
     type:'doughnut',
-    data:{ labels: validos.map(g => g.nome), datasets:[{ data: validos.map(val), backgroundColor: CORES, borderWidth:0 }] },
+    data:{ labels: fatias.map(g => g.nome),
+      datasets:[{ data: fatias.map(valorDe), backgroundColor: CORES, borderWidth:2, borderColor:'#fff' }] },
     options:{ responsive:true, maintainAspectRatio:false,
       plugins:{ legend:{ position:'right', labels:{ font:{ size:13 }, boxWidth:15, padding:12, color:'#444' } },
         tooltip:{ callbacks:{ label:c => c.label + ': ' + (met === 'roi' ? c.parsed.toFixed(0) + '%' : met === 'roas' ? c.parsed.toFixed(2) + 'x' : moeda(c.parsed)) } } } } });

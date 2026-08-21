@@ -99,9 +99,7 @@
   .vitem .cod{font-weight:600;flex:1;}
   .vitem .qtd{color:#999;font-size:12px;white-space:nowrap;}
   .vempty{color:#999;font-size:13px;padding:14px 9px;text-align:center;}
-  /* ancorado à direita: este botão fica na ponta direita do card, e à esquerda
-     o painel de 520px saía da tela */
-  .painel{position:absolute;top:52px;right:0;z-index:60;background:#fff;border:1px solid #e2e2e2;border-radius:14px;box-shadow:0 10px 34px rgba(0,0,0,.14);padding:18px 20px;min-width:520px;flex-direction:column;}
+  .painel{position:absolute;top:52px;left:0;z-index:60;background:#fff;border:1px solid #e2e2e2;border-radius:14px;box-shadow:0 10px 34px rgba(0,0,0,.14);padding:18px 20px;min-width:520px;flex-direction:column;}
   .etq{display:grid;grid-template-columns:repeat(2,minmax(210px,1fr));gap:16px 22px;}
   .etq label{display:flex;flex-direction:column;gap:6px;font-size:11.5px;color:#8a8a8a;text-transform:uppercase;letter-spacing:.04em;font-weight:700;}
   .etq select,.etq input{border:1px solid #dcdcdc;border-radius:8px;padding:10px 12px;font-size:14px;color:#333;background:#fff;width:100%;}
@@ -400,6 +398,14 @@ function abrir(id) {
     const el = document.getElementById(k); if (!el) return;
     el.style.display = (k === id && el.style.display === 'none') ? 'flex' : 'none';
   });
+  /* Vira o painel pro outro lado quando ele sairia da tela. Marcar um por um
+     quebraria de novo assim que um botão mudasse de lugar — aqui ele mede. */
+  const p = document.getElementById(id);
+  if (p && p.style.display !== 'none') {
+    p.style.left = '0'; p.style.right = 'auto';
+    const r = p.getBoundingClientRect();
+    if (r.right > window.innerWidth - 8) { p.style.left = 'auto'; p.style.right = '0'; }
+  }
   if (id === 'painelData') pintarCal();
   if (id === 'painelVar') pintarVars();
   if (id === 'painelFunil') pintarFunil();

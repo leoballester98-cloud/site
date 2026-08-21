@@ -191,13 +191,14 @@ Deno.serve(async (req) => {
       .map((nome) => {
         const a = ag[nome];
         const st = statusAtual[nome];
-        const auto = a.recente ? 'rodando' : 'testado';
+        const auto = a.recente ? 'ativo' : 'testado';
         return {
           anuncio: nome,
           ad_id: String(a.ad_id ?? ''),
           campanha: a.campanha ?? '',
           // rótulo que você escreveu à mão (ex: descartado) é preservado
-          status: (!st || st === 'rodando' || st === 'testado') ? auto : statusAtual[nome],
+          // 'rodando' era o nome antigo de 'ativo' — segue sendo sobrescrito
+          status: (!st || st === 'ativo' || st === 'rodando' || st === 'testado') ? auto : statusAtual[nome],
           atualizado: new Date().toISOString(),
         };
       });

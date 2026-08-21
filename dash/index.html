@@ -24,7 +24,10 @@
   --lateral:#ffffff; --lateral-ink:#5b6560;
   --curva-bg:#0d1512; --curva-ink:#e8f3ec; --curva-grade:rgba(255,255,255,.06);
   --s1:#2a78d6; --s2:#eb6834; --s3:#1baf7a; --s4:#eda100; --s5:#e87ba4; --s6:#008300; --s7:#4a3aa7;
-  --bom:#1a7a4f; --ruim:#c0392b;
+  /* verde de destaque. No escuro é o verde da Supabase (#3ECF8E) exato: 9.1:1
+     sobre o fundo. No claro ele dá 2.0:1 sobre branco — ilegível — então vai o
+     passo escuro da mesma família, 4.7:1. */
+  --bom:#0b8457; --ruim:#c0392b;
   --sombra:0 1px 2px rgba(16,24,20,.04), 0 8px 24px rgba(16,24,20,.05);
 }
 @media (prefers-color-scheme: dark){
@@ -35,7 +38,7 @@
     --lateral:#171a19; --lateral-ink:#a6b0ab;
     --curva-bg:#0b0f0d; --curva-ink:#e8f3ec; --curva-grade:rgba(255,255,255,.07);
     --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500; --s5:#d55181; --s6:#008300; --s7:#9085e9;
-    --bom:#35d07f; --ruim:#e66767;
+    --bom:#3ecf8e; --ruim:#e66767;
     --sombra:0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.25);
   }
 }
@@ -46,7 +49,7 @@
   --lateral:#171a19; --lateral-ink:#a6b0ab;
   --curva-bg:#0b0f0d; --curva-ink:#e8f3ec; --curva-grade:rgba(255,255,255,.07);
   --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500; --s5:#d55181; --s6:#008300; --s7:#9085e9;
-  --bom:#35d07f; --ruim:#e66767;
+  --bom:#3ecf8e; --ruim:#e66767;
   --sombra:0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.25);
 }
 
@@ -276,7 +279,16 @@ body{background:var(--bg);color:var(--ink);}
   .carregando{color:var(--ink-3);font-size:14px;padding:40px 0;text-align:center;}
   .nota{font-size:13px;color:var(--ink-3);margin-top:8px;line-height:1.5;}
 
-  .medalhas{margin-top:14px;display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px;font-size:13px;color:var(--ink-2);}
+  .medalhas{margin-top:14px;display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px;font-size:13px;color:var(--ink-2);
+    cursor:pointer;border-radius:10px;padding:8px 10px;margin-left:-10px;}
+  .medalhas:hover{background:var(--surface-2);}
+  #btnData .cal{width:15px;height:15px;flex:none;color:var(--ink-2);margin-right:2px;}
+  .medalhas .mudar{color:var(--marca);font-weight:600;text-decoration:underline;}
+  /* mesma grade do editor de etiquetas, só que em linha por faixa */
+  .lmed{display:grid;grid-template-columns:64px minmax(0,1fr) 116px 116px;gap:10px;margin-bottom:10px;align-items:center;}
+  .lmed input{border:1px solid var(--linha);border-radius:8px;padding:10px 12px;font-size:14px;color:var(--ink);background:var(--surface);width:100%;}
+  .lmed.cab{font-size:12px;font-weight:700;color:var(--ink-2);text-transform:uppercase;letter-spacing:.04em;margin-bottom:6px;}
+  @media(max-width:600px){ .lmed{grid-template-columns:56px minmax(0,1fr);} .lmed.cab{display:none;} }
   .medalhas b{color:var(--ink);font-weight:600;}
   .medalhas .tt{font-size:11.5px;color:var(--ink-3);text-transform:uppercase;letter-spacing:.05em;font-weight:700;}
 
@@ -340,6 +352,7 @@ body{background:var(--bg);color:var(--ink);}
       <div class="filtros" style="margin:0;">
         <div class="grp">
           <button class="rangeBtn" id="btnData" onclick="abrir('painelData')">
+            <svg class="cal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><rect x="3" y="5" width="18" height="16" rx="2.5"/><path d="M8 3v4M16 3v4M3 10h18"/></svg>
             <span id="lblData">Máximo (todos)</span><span class="car">▼</span>
           </button>
           <div class="rangePanel" id="painelData" style="display:none;">
@@ -429,13 +442,67 @@ function liquido(fat, vendas) {
    posição, então filtrar não repinta quem sobrou. */
 // as cores vêm dos tokens do tema (ver paleta()), não fixas aqui
 
-const MEDALHAS = [
+/* Critério das medalhas. Vem do banco (config.medalhas), não daqui: você muda
+   pela tela e o colaborador vê a mesma régua. Isto é só o padrão de partida,
+   usado se a leitura falhar. A ORDEM importa — ganha a primeira que bater. */
+let MEDALHAS = [
   { selo:'💎', nome:'Diamante', vendas:30, roas:1.50 },
   { selo:'🥇', nome:'Ouro',     vendas:50, roas:1.25 },
   { selo:'🥈', nome:'Prata',    vendas:30, roas:1.25 },
   { selo:'🥉', nome:'Bronze',   vendas:15, roas:1.25 },
 ];
 const medalha = (v, r) => MEDALHAS.find(m => v >= m.vendas && r >= m.roas) || null;
+
+async function carregarMedalhas() {
+  const { data, error } = await sb.from('config').select('valor').eq('chave','medalhas').maybeSingle();
+  if (!error && data && Array.isArray(data.valor) && data.valor.length) {
+    MEDALHAS = data.valor.map(m => ({ selo:String(m.selo || ''), nome:String(m.nome || ''),
+                                      vendas:Number(m.vendas) || 0, roas:Number(m.roas) || 0 }));
+  }
+}
+
+/* Mesmo padrão do editor de etiquetas: clica e abre a caixa pra preencher. */
+function editarMedalhas() {
+  const linha = (m, i) =>
+    '<div class="lmed">' +
+      '<input id="md_selo_' + i + '" value="' + esc(m.selo) + '" maxlength="4" aria-label="Selo"/>' +
+      '<input id="md_nome_' + i + '" value="' + esc(m.nome) + '" placeholder="Nome"/>' +
+      '<input id="md_vendas_' + i + '" type="number" min="0" step="1" value="' + m.vendas + '"/>' +
+      '<input id="md_roas_' + i + '" type="number" min="0" step="0.01" value="' + m.roas + '"/>' +
+    '</div>';
+  document.getElementById('modal').innerHTML =
+    '<div class="modal" onclick="if(event.target===this)fecharModal()"><div class="box">' +
+      '<h2>Critério das medalhas</h2>' +
+      '<div class="qual">Um criativo leva a PRIMEIRA medalha cuja régua ele alcança, de cima pra baixo.</div>' +
+      '<div id="mdErro" class="erro" style="display:none;"></div>' +
+      '<div class="lmed cab"><span>Selo</span><span>Nome</span><span>Vendas mín.</span><span>ROAS mín.</span></div>' +
+      MEDALHAS.map(linha).join('') +
+      '<div class="nota">Deixe o nome em branco para remover a faixa.</div>' +
+      '<div class="pfoot"><button class="limpar" onclick="fecharModal()">Cancelar</button>' +
+      '<button class="prim" id="mdSalvar" onclick="salvarMedalhas(' + MEDALHAS.length + ')">Salvar</button></div>' +
+    '</div></div>';
+}
+
+async function salvarMedalhas(n) {
+  const btn = document.getElementById('mdSalvar'); btn.disabled = true; btn.textContent = 'Salvando…';
+  const erro = document.getElementById('mdErro');
+  const val = (c, i) => document.getElementById('md_' + c + '_' + i).value;
+  const novas = [];
+  for (let i = 0; i < n; i++) {
+    const nome = val('nome', i).trim();
+    if (!nome) continue;                       // linha sem nome = faixa removida
+    novas.push({ selo: val('selo', i).trim(), nome,
+                 vendas: Number(val('vendas', i)) || 0, roas: Number(val('roas', i)) || 0 });
+  }
+  const falhar = m => { erro.textContent = m; erro.style.display = 'block';
+                        btn.disabled = false; btn.textContent = 'Salvar'; };
+  if (!novas.length) return falhar('Deixe pelo menos uma faixa.');
+  const { error } = await sb.from('config')
+    .upsert({ chave:'medalhas', valor:novas, atualizado:new Date().toISOString() }, { onConflict:'chave' });
+  if (error) return falhar('Não salvou: ' + error.message);
+  MEDALHAS = novas;
+  fecharModal(); await verCriativos();
+}
 
 const ETIQUETAS = [['status','Status'],['formato','Formato'],['estrutura','Estrutura'],['angulo','Ângulo'],
   ['hook','Hook'],['emocao','Emoção'],['amplificador','Amplificador'],['arquetipo','Arquétipo'],
@@ -526,14 +593,15 @@ function periodo() {
   }
 }
 
+/* O botão mostra a DATA, não o nome do atalho: 'Semana passada' obriga a abrir
+   o painel pra saber de quando a quando. Com 'Máximo' não há data a mostrar —
+   o começo depende do dado — então esse fica pelo nome. */
 function rotuloPeriodo() {
-  if (presetAtual === 'custom') {
-    if (!rangeCustom.de) return 'Personalizado';
-    return rangeCustom.de === rangeCustom.ate ? brDate(rangeCustom.de)
-      : brDate(rangeCustom.de) + ' – ' + brDate(rangeCustom.ate);
-  }
-  const p = PRESETS.find(x => x[0] === presetAtual);
-  return p ? p[1] : 'Máximo (todos)';
+  const faixa = (de, ate) => !de ? null
+    : de === ate ? brDate(de) : brDate(de) + ' – ' + brDate(ate);
+  if (presetAtual === 'custom') return faixa(rangeCustom.de, rangeCustom.ate) || 'Personalizado';
+  const p = periodo();
+  return faixa(p.de, p.ate) || 'Máximo (todos)';
 }
 
 function pintarPresets() {
@@ -649,7 +717,12 @@ const NOMES_VAR = {
   'voriginal': 'h=original (com parâmetro)',
 };
 const rotuloVariante = v => !v ? 'Todas as URLs' : (NOMES_VAR[v] || String(v).replace(/^v/, 'h='));
-let fFunil = '', fFonte = '', fStatus = '';
+/* 'ativo' por padrão: o que interessa no dia a dia é o que está no ar. O robô
+   grava 'ativo'; linhas antigas gravadas como 'rodando' são tratadas como o
+   mesmo status até o robô rodar de novo. */
+const ATIVO = 'ativo';
+const normStatus = v => (String(v || '').trim().toLowerCase() === 'rodando' ? ATIVO : String(v || '').trim());
+let fFunil = '', fFonte = '', fStatus = ATIVO;
 
 const OPC_FUNIL = [['','Todos os funis'],['brasil','Brasil'],['latam','Latam']];
 const OPC_FONTE = [['','Todas as fontes'],['meta','Meta'],['tiktok','TikTok']];
@@ -675,16 +748,17 @@ const pintarFonte = () => pintarLista('listaFonte','btnFonte','lblFonte', OPC_FO
 /* O status de cada agrupamento sai dos criativos visíveis, não da lista inteira:
    filtrando por etiqueta, só aparecem os status que ainda existem ali. */
 function pintarStatusGrupo(campo) {
-  const sts = [...new Set(CRIATIVOS.map(r => (r.status || '').trim()).filter(Boolean))].sort();
+  const sts = [...new Set(CRIATIVOS.map(r => normStatus(r.status)).filter(Boolean))].sort();
   pintarLista('listaG_' + campo, 'btnG_' + campo, 'lblG_' + campo,
-    [['','Todos os status'], ...sts.map(x => [x, x])], statusGrupo[campo] || '',
+    [['','Todos os status'], ...sts.map(x => [x, x[0].toUpperCase() + x.slice(1)])],
+    statusGrupo[campo] === undefined ? ATIVO : statusGrupo[campo],
     v => { statusGrupo[campo] = v; setTimeout(verCriativos, 0); return false; });
 }
 
 function pintarStatus() {
-  const sts = [...new Set(CRIATIVOS.map(r => (r.status || '').trim()).filter(Boolean))].sort();
+  const sts = [...new Set(CRIATIVOS.map(r => normStatus(r.status)).filter(Boolean))].sort();
   pintarLista('listaStatus','btnStatus','lblStatus',
-    [['','Todos os status'], ...sts.map(x => [x, x])], fStatus, v => { fStatus = v; });
+    [['','Todos os status'], ...sts.map(x => [x, x[0].toUpperCase() + x.slice(1)])], fStatus, v => { fStatus = v; });
 }
 
 function pintarVars() {
@@ -860,7 +934,8 @@ async function verGeral() {
     '<div class="geral">' +
       '<div class="col">' +
         '<div class="kpis quatro">' +
-          kpi('Faturamento', moeda(tot.fat)) +
+          '<div class="kpi"><div class="lbl">' + ico('Faturamento') + '<span>Faturamento</span></div>' +
+            '<div class="val" style="color:var(--bom)">' + moeda(tot.fat) + '</div></div>' +
           '<div class="kpi"><div class="lbl">' + ico('ROAS') + '<span>ROAS</span></div><div class="val" style="color:' +
         (roas == null ? 'var(--ink-3)' : roas >= 1 ? 'var(--bom)' : 'var(--ruim)') + '">' +
         (roas == null ? '—' : roas.toFixed(2) + 'x') + '</div></div>' +
@@ -1086,11 +1161,11 @@ function agrupar(rows, campo) {
 }
 
 /* Cada agrupamento tem o seu próprio seletor de status, como no dashboard antigo:
-   dá pra ver "por formato só o que está rodando" sem mexer no filtro geral. */
+   dá pra ver "por formato só o que está ativo" sem mexer no filtro geral. */
 let statusGrupo = {};
 function tabelaGrupo(titulo, campo, rows) {
-  const stG = statusGrupo[campo] || '';
-  const gs = agrupar(stG ? rows.filter(r => (r.status || '').trim() === stG) : rows, campo);
+  const stG = statusGrupo[campo] === undefined ? ATIVO : statusGrupo[campo];
+  const gs = agrupar(stG ? rows.filter(r => normStatus(r.status) === stG) : rows, campo);
   return '<div class="card"><div class="cabsec"><div class="sec" style="margin:0;">' + titulo + '</div>' +
     '<div class="grp"><button class="rangeBtn" id="btnG_' + campo + '" onclick="abrir(\'painelG_' + campo + '\')">' +
       '<span id="lblG_' + campo + '"></span><span class="car">▼</span></button>' +
@@ -1109,7 +1184,11 @@ function tabelaGrupo(titulo, campo, rows) {
 
 async function verCriativos() {
   const p = periodo();
-  const { data, error } = await sb.rpc('fn_criativos', { p_de:p.de, p_ate:p.ate });
+  // o critério vem junto: se ele mudar, as medalhas desta renderização já obedecem
+  const [{ data, error }] = await Promise.all([
+    sb.rpc('fn_criativos', { p_de:p.de, p_ate:p.ate }),
+    carregarMedalhas(),
+  ]);
   if (error) throw error;
 
   CRIATIVOS = (data || []).map(r => {
@@ -1137,7 +1216,7 @@ async function verCriativos() {
   pintarStatus();
   const stAtual = fStatus;
   let vis = CRIATIVOS;
-  if (stAtual) vis = vis.filter(r => (r.status || '').trim() === stAtual);
+  if (stAtual) vis = vis.filter(r => normStatus(r.status) === stAtual);
   Object.keys(filtroEtq).forEach(c => { if (filtroEtq[c]) vis = vis.filter(r => String(r[c] || '').trim() === filtroEtq[c]); });
 
   const tot = vis.reduce((a, r) => ({ gasto:a.gasto + r.gasto, checkouts:a.checkouts + Number(r.checkouts || 0),
@@ -1189,8 +1268,10 @@ async function verCriativos() {
             '<td class="num">' + (r.faturamento ? moeda(r.faturamento) : '—') + '</td>' +
             '<td class="num" style="color:' + (r.roas >= 1 ? '#2e7d52' : '#c0392b') + '">' + (r.roas == null ? '—' : r.roas.toFixed(2) + 'x') + '</td></tr>';
         }).join('') + '</table></div>' : '<div class="vazio">Nenhum criativo neste período.</div>') +
-      '<div class="medalhas"><span class="tt">Medalhas <span style="font-weight:400;text-transform:none;letter-spacing:0;">vendas · ROAS mín.</span></span>' +
-        MEDALHAS.map(m => '<span>' + m.selo + ' <b>' + m.nome + '</b> ' + m.vendas + '+ · ' + m.roas.toFixed(2).replace('.', ',') + 'x</span>').join('') + '</div>' +
+      '<div class="medalhas" onclick="editarMedalhas()" title="Clique para mudar o critério">' +
+        '<span class="tt">Medalhas <span style="font-weight:400;text-transform:none;letter-spacing:0;">vendas · ROAS mín.</span></span>' +
+        MEDALHAS.map(m => '<span>' + m.selo + ' <b>' + m.nome + '</b> ' + m.vendas + '+ · ' + m.roas.toFixed(2).replace('.', ',') + 'x</span>').join('') +
+        '<span class="mudar">mudar critério</span></div>' +
     '</div>' +
     tabelaGrupo('Por formato', 'formato', vis) +
     tabelaGrupo('Por ângulo', 'angulo', vis) +
@@ -1302,7 +1383,7 @@ function montarFiltroEtq() {
   }));
 }
 const togglePainel = () => abrir('painelEtq');
-const limparEtq = () => { filtroEtq = {}; fStatus = ''; verCriativos(); };
+const limparEtq = () => { filtroEtq = {}; fStatus = ATIVO; verCriativos(); };
 
 // ── edição de etiquetas ──
 function editar(anuncio) {

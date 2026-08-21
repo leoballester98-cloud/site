@@ -308,6 +308,8 @@ body{background:var(--bg);color:var(--ink);}
     cursor:pointer;border-radius:10px;padding:8px 10px;margin-left:-10px;}
   .medalhas:hover{background:var(--surface-2);}
   #btnData .cal{width:15px;height:15px;flex:none;color:var(--ink-2);margin-right:2px;}
+  /* ☰ é só do celular: no desktop a lateral abre sozinha no hover */
+  @media(min-width:901px){ #btnMenu{display:none;} }
   .medalhas .mudar{color:var(--marca);font-weight:600;text-decoration:underline;}
   /* mesma grade do editor de etiquetas, só que em linha por faixa */
   .lmed{display:grid;grid-template-columns:64px minmax(0,1fr) 116px 116px;gap:10px;margin-bottom:10px;align-items:center;}
@@ -366,7 +368,7 @@ body{background:var(--bg);color:var(--ink);}
 
   <div class="main">
     <header class="top">
-      <button class="icobtn" onclick="alternarLateral()" title="Recolher menu">
+      <button class="icobtn" id="btnMenu" onclick="alternarLateral()" title="Menu">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
       </button>
       <div class="titulo" id="tituloPagina">Visão Geral</div>
@@ -731,12 +733,14 @@ document.addEventListener('click', e => {
   if (!e.target.closest('#lateral') && !e.target.closest('.top .icobtn')) fecharGaveta();
 });
 
+/* No desktop a lateral é SEMPRE trilho que abre no hover — não há mais estado
+   fixo. O botão só existia pra fixar aberta, e fixar aberta era justamente o
+   que matava o hover: um clique sem querer e o comportamento sumia sem pista
+   de como voltar. No celular não existe hover, então lá ele segue abrindo. */
 function alternarLateral() {
   const l = document.getElementById('lateral');
   l.classList.toggle('mini');
-  // a lateral é fixa, então quem abre espaço pro conteúdo é a margem do .main
   document.querySelector('.main').classList.toggle('recuado', l.classList.contains('mini'));
-  localStorage.setItem('cf_lateral2', l.classList.contains('mini') ? 'mini' : 'fixa');
 }
 // lê os tokens do tema atual em vez de cravar hex no JS
 Chart.defaults.font.family = "Inter, ui-sans-serif, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif";
@@ -1556,13 +1560,11 @@ async function sair() { await sb.auth.signOut(); location.reload(); }
 document.addEventListener('click', ev => { if (!ev.target.closest('.grp')) fecharPaineis(); });
 pintarPresets();
 aplicarTema(localStorage.getItem('cf_tema') || 'auto');
-/* Trilho por padrão: é o estado em que ela abre no hover. Fixa aberta só se o
-   usuário pediu no botão — chave nova de propósito, pra quem tinha 'full'
-   gravado não continuar preso no estado que não expande. */
-if (localStorage.getItem('cf_lateral2') !== 'fixa') {
-  document.getElementById('lateral').classList.add('mini');
-  document.querySelector('.main').classList.add('recuado');
-}
+// sempre trilho ao abrir; no celular 'mini' é o estado fechado da gaveta
+localStorage.removeItem('cf_lateral2');
+localStorage.removeItem('cf_lateral');
+document.getElementById('lateral').classList.add('mini');
+document.querySelector('.main').classList.add('recuado');
 aba = localStorage.getItem('cf_aba') || 'geral';
 sb.auth.getSession().then(({ data }) => {
   if (data.session) trocarAbaSilenciosa(aba);

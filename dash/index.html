@@ -1076,21 +1076,24 @@ async function verGeral() {
   if (!dias.length) return;
   const ctx = document.getElementById('cvGeral').getContext('2d');
   const P = paleta();
-  /* Com um dia só não existe segmento de linha pra desenhar, então o ponto é
-     o gráfico inteiro — e com raio 0 ele é invisível. Só mostrar o ponto não
-     bastou: a escala de categoria encosta o único ponto na borda esquerda, com
-     metade dele cortada pelo eixo. O offset centraliza a categoria na faixa. */
-  const poucos = dias.length <= 2;
-  const pontos = poucos ? 5 : 0;
+  /* Um dia só não tem linha: linha liga dois pontos. Aí a pergunta deixa de ser
+     "como evoluiu" e passa a ser "quanto entrou contra quanto saiu" — que é
+     comparação de grandeza, ou seja, barra. Com dois dias ou mais, volta a ser
+     série temporal e a linha é a forma certa. */
+  const umDia = dias.length === 1;
+  const rotulos = dias.map(d => d.data.slice(8,10) + '/' + d.data.slice(5,7));
+  const fat = dias.map(d => Number(d.faturamento));
+  const gas = dias.map(d => Number(d.gasto));
   graficos.push(new Chart(ctx, {
-    type:'line',
-    data:{ labels: dias.map(d => d.data.slice(8,10) + '/' + d.data.slice(5,7)),
-      datasets:[
-        { label:'Faturamento', data: dias.map(d => Number(d.faturamento)), borderColor:P[2], backgroundColor:P[2] + '22',
-          borderWidth:2, fill:true, tension:.35, pointRadius:pontos, pointHoverRadius:5 },
-        { label:'Gasto', data: dias.map(d => Number(d.gasto)), borderColor:P[1],
-          borderWidth:2, fill:false, tension:.35, pointRadius:pontos, pointHoverRadius:5 },
-      ] },
+    type: umDia ? 'bar' : 'line',
+    data:{ labels: rotulos,
+      datasets: umDia
+        ? [ { label:'Faturamento', data:fat, backgroundColor:P[2], borderRadius:4, maxBarThickness:64 },
+            { label:'Gasto',       data:gas, backgroundColor:P[1], borderRadius:4, maxBarThickness:64 } ]
+        : [ { label:'Faturamento', data:fat, borderColor:P[2], backgroundColor:P[2] + '22',
+              borderWidth:2, fill:true, tension:.35, pointRadius:dias.length <= 2 ? 5 : 0, pointHoverRadius:5 },
+            { label:'Gasto', data:gas, borderColor:P[1],
+              borderWidth:2, fill:false, tension:.35, pointRadius:dias.length <= 2 ? 5 : 0, pointHoverRadius:5 } ] },
     options:{ responsive:true, maintainAspectRatio:false, interaction:{ mode:'index', intersect:false },
       plugins:{ legend:{ display:true, position:'bottom', labels:{ color:tok('--ink-2'), boxWidth:12, boxHeight:2, padding:14 } },
         tooltip:{ callbacks:{ label:c => c.dataset.label + ': ' + moeda(c.parsed.y) } } },
@@ -1101,7 +1104,7 @@ async function verGeral() {
          entre gasto e faturamento parecia enorme. */
       scales:{ y:{ beginAtZero:true, ticks:{ color:tok('--ink-3'), callback:v => 'R$' + Math.round(v) },
                    border:{ display:false }, grid:{ color:tok('--linha'), drawTicks:false } },
-               x:{ offset: poucos, ticks:{ color:tok('--ink-3'), maxTicksLimit:12 },
+               x:{ offset: dias.length <= 2, ticks:{ color:tok('--ink-3'), maxTicksLimit:12 },
                    border:{ display:false }, grid:{ color:tok('--linha'), drawTicks:false } } } }
   }));
 }

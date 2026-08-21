@@ -226,13 +226,6 @@
       <button class="rangeBtn" id="btnStatus" onclick="abrir('painelStatus')"><span id="lblStatus">Todos os status</span><span class="car">▼</span></button>
       <div class="rangePanel" id="painelStatus" style="display:none;"><div class="presets only" id="listaStatus"></div></div>
     </div>
-    <div class="grp soCriativos" style="display:none;">
-      <button class="btn" id="btnEtq" onclick="togglePainel()">Filtrar por etiqueta</button>
-      <div class="painel" id="painelEtq" style="display:none;">
-        <div class="etq" id="etqCampos"></div>
-        <div class="pfoot"><button class="limpar" onclick="limparEtq()">Limpar tudo</button><button class="prim" onclick="togglePainel()">Fechar</button></div>
-      </div>
-    </div>
   </div>
 
   <div id="conteudo"><div class="carregando">Carregando…</div></div>
@@ -685,7 +678,6 @@ async function verCriativos() {
     return String(a.anuncio).localeCompare(String(b.anuncio));
   });
 
-  montarFiltroEtq();
   pintarStatus();
   const stAtual = fStatus;
   let vis = CRIATIVOS;
@@ -700,10 +692,6 @@ async function verCriativos() {
 
   document.getElementById('seloCrt').innerHTML =
     '<div class="selo-crt"><div class="lbl">Criativos</div><div class="val">' + contados + '/' + META_CRIATIVOS + '</div></div>';
-
-  const nAtivos = Object.values(filtroEtq).filter(Boolean).length + (stAtual ? 1 : 0);
-  document.getElementById('btnEtq').textContent = nAtivos ? (nAtivos + (nAtivos > 1 ? ' filtros' : ' filtro')) : 'Filtrar por etiqueta';
-  document.getElementById('btnEtq').className = 'btn' + (nAtivos ? ' on' : '');
 
   document.getElementById('conteudo').innerHTML =
     '<div class="kpis">' + kpi('Gasto total', moeda(tot.gasto)) + kpi('Checkouts', tot.checkouts) +
@@ -723,8 +711,14 @@ async function verCriativos() {
           '<div class="rangePanel" id="painelPieGrp" style="display:none;"><div class="presets only" id="listaPieGrp"></div></div></div>' +
       '</div></div>' +
       '<div class="pieWrap"><canvas id="pie"></canvas></div><div class="nota" id="pieNota"></div></div>' +
-    '<div class="card"><div class="sec">Todos os criativos</div>' +
-      '<div class="nota" style="margin:-6px 0 10px;">' + vis.length + ' de ' + CRIATIVOS.length + ' criativos · clique no nome pra editar as etiquetas</div>' +
+    '<div class="card"><div class="cabsec"><div class="sec" style="margin:0;">Todos os criativos</div>' +
+      '<div class="grp"><button class="btn" id="btnEtq" onclick="togglePainel()">Filtrar por etiqueta</button>' +
+        '<div class="painel" id="painelEtq" style="display:none;">' +
+          '<div class="etq" id="etqCampos"></div>' +
+          '<div class="pfoot"><button class="limpar" onclick="limparEtq()">Limpar tudo</button>' +
+          '<button class="prim" onclick="togglePainel()">Fechar</button></div>' +
+        '</div></div></div>' +
+      '<div class="nota" style="margin:-4px 0 10px;">' + vis.length + ' de ' + CRIATIVOS.length + ' criativos · clique no nome pra editar as etiquetas</div>' +
       (vis.length ? '<div class="tbwrap"><table class="tb"><tr>' +
         ['Anúncio','Status','Formato','Estrutura','Ângulo','Hook','Emoção','Amplificador','Arquétipo','Segmentação','Prova'].map(h => '<th>' + h + '</th>').join('') +
         ['Gasto','CTR','Hook rate','Hold rate','Checkouts','R$/Check','Vendas','R$/Venda','Faturamento','ROAS'].map(h => '<th class="num">' + h + '</th>').join('') + '</tr>' +
@@ -748,6 +742,7 @@ async function verCriativos() {
     tabelaGrupo('Por emoção', 'emocao', vis);
 
   ['formato','angulo','emocao'].forEach(pintarStatusGrupo);
+  montarFiltroEtq();   // o painel só existe depois que o card foi desenhado
 
   barra('chVenda', vis, 'custoVenda', '#1a7a4f', true, true);
   barra('chCheck', vis, 'custoCheckout', '#5d8aa8', true, true);
@@ -796,6 +791,11 @@ function desenharPie(rows) {
 // ── filtro por etiqueta ──
 function montarFiltroEtq() {
   const el = document.getElementById('etqCampos');
+  if (!el) return;
+  const nAtivos = Object.values(filtroEtq).filter(Boolean).length;
+  const btn = document.getElementById('btnEtq');
+  btn.textContent = nAtivos ? (nAtivos + (nAtivos > 1 ? ' filtros' : ' filtro')) : 'Filtrar por etiqueta';
+  btn.className = 'btn' + (nAtivos ? ' on' : '');
   el.innerHTML = ETIQUETAS.filter(e => e[0] !== 'status').map(([c, lbl]) => {
     const vals = [...new Set(CRIATIVOS.map(r => String(r[c] || '').trim()).filter(Boolean))].sort();
     if (!vals.length) return '';

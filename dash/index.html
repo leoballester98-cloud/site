@@ -678,8 +678,11 @@ async function carregar() {
    não existia em lugar nenhum — as duas abas mostram total do período. */
 async function verGeral() {
   const p = periodo();
-  // só fn_diario: as outras três alimentavam os cartões laterais que saíram
-  const rD = await sb.rpc('fn_diario', { p_de:p.de, p_ate:p.ate });
+  // fn_funil volta só pela conversão do funil — o resto do cartão dele saiu
+  const [rD, rF] = await Promise.all([
+    sb.rpc('fn_diario', { p_de:p.de, p_ate:p.ate }),
+    sb.rpc('fn_funil',  { p_de:p.de, p_ate:p.ate }),
+  ]);
   if (rD.error) throw rD.error;
 
   const dias = rD.data || [];
@@ -690,16 +693,27 @@ async function verGeral() {
   const roas = tot.gasto ? tot.fat / tot.gasto : null;
   const roi  = tot.gasto ? ((liquido(tot.fat, tot.vendas) - tot.gasto) / tot.gasto) * 100 : null;
 
+  /* Conversão do funil = quem clicou em comprar na última tela ÷ visitantes.
+     Vem do funil, não do Meta: é a mesma conta da aba Funil.
+     Conversão do checkout = vendas ÷ visitas ao checkout, as duas do Meta. */
+  const fun = rF.data;
+  const convFunil = (fun && fun.visitantes) ? (fun.compraram / fun.visitantes) * 100 : null;
+  const convCheck = tot.checkouts ? (tot.vendas / tot.checkouts) * 100 : null;
+  const pct = v => v == null ? '—' : v.toFixed(1) + '%';
+
   const cor = v => v == null ? 'var(--ink-3)' : (v >= 0 ? 'var(--bom)' : 'var(--ruim)');
   document.getElementById('conteudo').innerHTML =
     '<div class="kpis">' +
-      kpi('Gasto', moeda(tot.gasto)) + kpi('Vendas', tot.vendas) +
+      kpi('Gasto total', moeda(tot.gasto)) + kpi('Checkouts', tot.checkouts) +
+      kpi('Vendas', tot.vendas) +
       kpi('Faturamento', moeda(tot.fat)) +
       '<div class="kpi"><div class="lbl">ROAS</div><div class="val" style="color:' +
         (roas == null ? 'var(--ink-3)' : roas >= 1 ? 'var(--bom)' : 'var(--ruim)') + '">' +
         (roas == null ? '—' : roas.toFixed(2) + 'x') + '</div></div>' +
       '<div class="kpi"><div class="lbl">ROI</div><div class="val" style="color:' + cor(roi) + '">' +
         (roi == null ? '—' : roi.toFixed(0) + '%') + '</div></div>' +
+      kpi('Conversão do funil', pct(convFunil)) +
+      kpi('Conversão do checkout', pct(convCheck)) +
     '</div>' +
     '<div class="card"><div class="sec">Gasto e faturamento por dia</div>' +
       (dias.length ? '<div style="position:relative;height:400px;"><canvas id="cvGeral"></canvas></div>'

@@ -296,6 +296,12 @@ body{background:var(--bg);color:var(--ink);}
   .tb .nm{display:flex;align-items:center;gap:6px;}
   .tb .nm .txt{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
   .tb .nm .selo{flex:none;}
+  /* O lápis é a pista de que a linha é editável. Fica sempre visível, fraco —
+     revelar só no hover esconderia a função inteira no celular, que não tem. */
+  .tb .nm .edit{flex:none;display:grid;place-items:center;width:22px;height:22px;
+    border-radius:6px;color:var(--ink-3);opacity:.55;transition:opacity .12s,color .12s;}
+  .tb .nm .edit svg{width:14px;height:14px;stroke-width:1.9;}
+  .tb tr:hover .nm .edit{opacity:1;color:var(--marca);background:var(--marca-fraca);}
   .tb tr:hover .nm{background:var(--surface-2);}
   .tb th:first-child{position:sticky;left:0;z-index:3;background:var(--surface-2);}
   .tb .num,.tb th.num{text-align:right;}
@@ -1385,14 +1391,17 @@ async function verCriativos() {
           '<div class="pfoot"><button class="limpar" onclick="limparEtq()">Limpar tudo</button>' +
           '<button class="prim" onclick="togglePainel()">Fechar</button></div>' +
         '</div></div></div>' +
-      '<div class="nota" style="margin:-4px 0 10px;">' + vis.length + ' de ' + CRIATIVOS.length + ' criativos · clique no nome pra editar as etiquetas</div>' +
+      '<div class="nota" style="margin:-4px 0 10px;">' + vis.length + ' de ' + CRIATIVOS.length + ' criativos · clique na linha pra editar as etiquetas</div>' +
       (vis.length ? '<div class="tbwrap"><table class="tb"><tr>' +
         ['Anúncio','Status','Formato','Estrutura','Ângulo','Hook','Emoção','Amplificador','Arquétipo','Segmentação','Prova'].map(h => '<th>' + h + '</th>').join('') +
         ['Gasto','CTR','Hook rate','Hold rate','Checkouts','R$/Check','Vendas','R$/Venda','Faturamento','ROAS'].map(h => '<th class="num">' + h + '</th>').join('') + '</tr>' +
         vis.map(r => { const m = medalha(r.vendas, r.roas || 0);
-          return '<tr><td class="nm" title="clique pra editar" onclick="editar(' + JSON.stringify(r.anuncio).replace(/"/g,'&quot;') + ')">' +
+          const alvo = JSON.stringify(r.anuncio).replace(/"/g,'&quot;');
+          return '<tr><td class="nm" title="Editar etiquetas" onclick="editar(' + alvo + ')">' +
             '<span class="txt">' + esc(r.anuncio) + '</span>' +
-            (m ? '<span class="selo" title="' + m.nome + '">' + m.selo + '</span>' : '') + '</td>' +
+            (m ? '<span class="selo" title="' + m.nome + '">' + m.selo + '</span>' : '') +
+            '<span class="edit" aria-hidden="true">' + SVG('<path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5Z"/>') + '</span>' +
+          '</td>' +
             ['status','formato','estrutura','angulo','hook','emocao','amplificador','arquetipo','segmentacao','prova']
               .map(c => '<td title="' + esc(r[c] || '') + '">' + esc(r[c] || '—') + '</td>').join('') +
             '<td class="num">' + moeda(r.gasto) + '</td><td class="num">' + pct(r.ctr) + '</td>' +

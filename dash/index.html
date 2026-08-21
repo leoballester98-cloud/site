@@ -569,7 +569,7 @@ function alternarLateral() {
   l.classList.toggle('mini');
   // a lateral é fixa, então quem abre espaço pro conteúdo é a margem do .main
   document.querySelector('.main').classList.toggle('recuado', l.classList.contains('mini'));
-  localStorage.setItem('cf_lateral', l.classList.contains('mini') ? 'mini' : 'full');
+  localStorage.setItem('cf_lateral2', l.classList.contains('mini') ? 'mini' : 'fixa');
 }
 // lê os tokens do tema atual em vez de cravar hex no JS
 const tok = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
@@ -1196,7 +1196,10 @@ async function sair() { await sb.auth.signOut(); location.reload(); }
 document.addEventListener('click', ev => { if (!ev.target.closest('.grp')) fecharPaineis(); });
 pintarPresets();
 aplicarTema(localStorage.getItem('cf_tema') || 'auto');
-if (localStorage.getItem('cf_lateral') === 'mini') {
+/* Trilho por padrão: é o estado em que ela abre no hover. Fixa aberta só se o
+   usuário pediu no botão — chave nova de propósito, pra quem tinha 'full'
+   gravado não continuar preso no estado que não expande. */
+if (localStorage.getItem('cf_lateral2') !== 'fixa') {
   document.getElementById('lateral').classList.add('mini');
   document.querySelector('.main').classList.add('recuado');
 }

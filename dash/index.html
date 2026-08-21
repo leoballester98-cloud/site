@@ -10,7 +10,6 @@
   body{background:#f4f5f4;color:#1a1a1a;padding:24px;}
   .wrap{max-width:1180px;margin:0 auto;}
 
-  /* ── login ── */
   .login{max-width:380px;margin:12vh auto;background:#fff;border-radius:16px;padding:32px;box-shadow:0 2px 18px rgba(0,0,0,.06);}
   .login h1{font-size:20px;font-weight:600;margin-bottom:4px;}
   .login p{font-size:13.5px;color:#8a8a8a;margin-bottom:22px;}
@@ -21,56 +20,82 @@
   .login button:disabled{opacity:.55;cursor:default;}
   .erro{background:#fdf0ee;border:1px solid #f0cfc8;color:#a8422f;border-radius:9px;padding:11px 13px;font-size:13.5px;margin-bottom:16px;}
 
-  /* ── topo ── */
   h1.tit{font-size:22px;font-weight:600;}
   .sub{color:#7a7a7a;font-size:14px;margin-bottom:16px;}
   .sair{float:right;border:1px solid #dcdcdc;background:#fff;border-radius:8px;padding:8px 14px;font-size:13px;cursor:pointer;color:#666;}
+  .selo-crt{float:right;background:#fff;border:1px solid #e6e6e6;border-radius:12px;padding:10px 18px;text-align:center;margin-left:14px;}
+  .selo-crt .lbl{font-size:11.5px;color:#8a8a8a;text-transform:uppercase;letter-spacing:.04em;}
+  .selo-crt .val{font-size:24px;font-weight:600;line-height:1.15;}
   .tabs{display:flex;gap:6px;margin-bottom:16px;}
   .tabs button{padding:9px 20px;border-radius:10px;font-size:14.5px;font-weight:600;color:#666;background:#fff;border:1px solid #e2e2e2;cursor:pointer;}
   .tabs button.on{background:#1a7a4f;color:#fff;border-color:#1a7a4f;}
 
-  /* ── filtros ── */
   .filtros{display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap;align-items:center;}
-  .filtros select{border:1px solid #d5d5d5;background:#fff;border-radius:10px;padding:11px 14px;font-size:14px;color:#333;cursor:pointer;}
+  .filtros select,.filtros input[type=date]{border:1px solid #d5d5d5;background:#fff;border-radius:10px;padding:11px 14px;font-size:14px;color:#333;cursor:pointer;}
   .filtros select:focus{outline:none;border-color:#1a7a4f;}
   .filtros select.on{border-color:#1a7a4f;background:#f0f7f3;font-weight:600;}
+  .btn{border:1px solid #d5d5d5;background:#fff;border-radius:10px;padding:11px 16px;font-size:14px;font-weight:600;color:#333;cursor:pointer;}
+  .btn.on{border-color:#1a7a4f;color:#1a7a4f;background:#f0f7f3;}
+  .grp{position:relative;}
+  .painel{position:absolute;top:50px;left:0;z-index:60;background:#fff;border:1px solid #e2e2e2;border-radius:14px;box-shadow:0 10px 34px rgba(0,0,0,.14);padding:18px 20px;min-width:520px;}
+  .etq{display:grid;grid-template-columns:repeat(2,minmax(210px,1fr));gap:16px 22px;}
+  .etq label{display:flex;flex-direction:column;gap:6px;font-size:11.5px;color:#8a8a8a;text-transform:uppercase;letter-spacing:.04em;font-weight:700;}
+  .etq select,.etq input{border:1px solid #dcdcdc;border-radius:8px;padding:10px 12px;font-size:14px;color:#333;background:#fff;width:100%;}
+  .pfoot{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:18px;padding-top:14px;border-top:1px solid #eee;}
+  .limpar{border:none;background:none;color:#666;font-size:13.5px;text-decoration:underline;cursor:pointer;}
+  .prim{background:#1a7a4f;color:#fff;border:none;border-radius:8px;padding:9px 18px;font-size:14px;font-weight:600;cursor:pointer;}
 
-  /* ── kpis ── */
-  .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-bottom:18px;}
+  .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:18px;}
   .kpi{background:#fff;border-radius:14px;padding:16px 18px;}
   .kpi .lbl{font-size:12.5px;color:#8a8a8a;text-transform:uppercase;letter-spacing:.04em;}
-  .kpi .val{font-size:29px;font-weight:600;margin-top:4px;}
+  .kpi .val{font-size:28px;font-weight:600;margin-top:4px;}
 
   .card{background:#fff;border-radius:14px;padding:18px 20px;margin-bottom:18px;}
   .sec{font-size:17px;font-weight:600;margin-bottom:12px;}
+  .cabsec{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:12px;flex-wrap:wrap;}
   .curva{background:#0d1512;border-radius:14px;padding:18px 16px 10px;margin-bottom:18px;}
   .curva .cab{display:flex;justify-content:space-between;color:#e8f3ec;font-size:14px;margin-bottom:8px;}
+  .alerta-box{background:#fdf0ee;border:1px solid #f0cfc8;color:#a8422f;border-radius:10px;padding:12px 14px;font-size:13.5px;margin-bottom:18px;}
 
-  /* ── etapas ── */
   .lin{display:flex;align-items:center;gap:12px;padding:11px 8px;border-bottom:1px solid #f4f4f4;font-size:14px;}
   .lin.alerta{background:#fdf0ee;border-radius:8px;}
   .lin.pitch{opacity:.6;}
   .lin .n{width:26px;color:#aaa;font-size:12.5px;text-align:right;}
   .lin .nome{flex:1;}
-  .lin .barra{width:34%;height:8px;background:#eee;border-radius:5px;overflow:hidden;}
+  .lin .barra{width:32%;height:8px;background:#eee;border-radius:5px;overflow:hidden;}
   .lin .barra i{display:block;height:100%;}
   .lin .pct{width:56px;text-align:right;font-weight:600;}
   .lin .queda{width:82px;text-align:right;font-size:12.5px;color:#bbb;}
   .lin .queda.on{color:#c0392b;font-weight:600;}
 
-  /* ── tabela ── */
+  .charts{display:grid;grid-template-columns:repeat(auto-fit,minmax(430px,1fr));gap:16px;margin-bottom:20px;}
+  .cchart{background:#fff;border-radius:14px;padding:18px 20px;}
+  .cchart .ttl{font-size:15.5px;font-weight:600;margin-bottom:14px;}
+  .cchart .cv{position:relative;height:290px;}
+  .pieWrap{position:relative;height:320px;max-width:560px;margin:0 auto;}
+
   .tbwrap{overflow-x:auto;margin:0 -20px;padding:0 20px;}
   table.tb{width:100%;border-collapse:collapse;font-size:14px;}
   .tb th{text-align:left;color:#3f4a44;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;padding:14px;background:#f2f4f3;border-bottom:2px solid #d8e0db;white-space:nowrap;}
   .tb td{padding:17px 14px;border-bottom:1px solid #f2f2f2;white-space:nowrap;max-width:230px;overflow:hidden;text-overflow:ellipsis;}
   .tb tbody tr:hover td{background:#fafbfa;}
-  .tb .nm{font-weight:600;position:sticky;left:0;background:#fff;z-index:2;max-width:300px;}
+  .tb .nm{font-weight:600;position:sticky;left:0;background:#fff;z-index:2;max-width:300px;cursor:pointer;}
   .tb tr:hover .nm{background:#fafbfa;}
   .tb th:first-child{position:sticky;left:0;z-index:3;background:#f2f4f3;}
   .tb .num,.tb th.num{text-align:right;}
   .vazio{color:#aaa;padding:28px 4px;font-size:14px;}
   .aviso{background:#fff8e6;border:1px solid #f0dca8;color:#7a5b12;border-radius:10px;padding:11px 13px;font-size:13px;margin-top:12px;}
   .carregando{color:#aaa;font-size:14px;padding:40px 0;text-align:center;}
+  .nota{font-size:13px;color:#8a8a8a;margin-top:8px;line-height:1.5;}
+
+  .medalhas{margin-top:14px;display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px;font-size:13px;color:#666;}
+  .medalhas b{color:#333;font-weight:600;}
+  .medalhas .tt{font-size:11.5px;color:#9a9a9a;text-transform:uppercase;letter-spacing:.05em;font-weight:700;}
+
+  .modal{position:fixed;inset:0;background:rgba(0,0,0,.4);display:flex;align-items:center;justify-content:center;z-index:100;padding:20px;}
+  .modal .box{background:#fff;border-radius:16px;padding:26px 28px;max-width:760px;width:100%;max-height:88vh;overflow:auto;}
+  .modal h2{font-size:18px;font-weight:600;margin-bottom:4px;}
+  .modal .qual{font-size:13px;color:#8a8a8a;margin-bottom:20px;}
 </style>
 </head>
 <body>
@@ -80,16 +105,15 @@
   <p>Acesso restrito.</p>
   <div id="loginErro" class="erro" style="display:none;"></div>
   <form id="formLogin">
-    <label>E-mail</label>
-    <input type="email" id="email" autocomplete="username" required/>
-    <label>Senha</label>
-    <input type="password" id="senha" autocomplete="current-password" required/>
+    <label>E-mail</label><input type="email" id="email" autocomplete="username" required/>
+    <label>Senha</label><input type="password" id="senha" autocomplete="current-password" required/>
     <button type="submit" id="btnEntrar">Entrar</button>
   </form>
 </div>
 
 <div id="telaDash" class="wrap" style="display:none;">
   <button class="sair" onclick="sair()">Sair</button>
+  <div id="seloCrt"></div>
   <h1 class="tit">Ciclo Fértil</h1>
   <div class="sub" id="subTitulo">—</div>
 
@@ -100,42 +124,47 @@
 
   <div class="filtros">
     <select id="fPeriodo">
-      <option value="hoje">Hoje</option>
-      <option value="ontem">Ontem</option>
-      <option value="7">Últimos 7 dias</option>
-      <option value="14">Últimos 14 dias</option>
-      <option value="28">Últimos 28 dias</option>
-      <option value="30">Últimos 30 dias</option>
+      <option value="hoje">Hoje</option><option value="ontem">Ontem</option>
+      <option value="7">Últimos 7 dias</option><option value="14">Últimos 14 dias</option>
+      <option value="28">Últimos 28 dias</option><option value="30">Últimos 30 dias</option>
       <option value="todos" selected>Máximo (todos)</option>
+      <option value="custom">Personalizado…</option>
     </select>
-    <select id="fFunil" class="soFunil">
-      <option value="">Todos os funis</option>
-      <option value="brasil">Brasil</option>
-      <option value="latam">Latam</option>
-    </select>
-    <select id="fFonte" class="soFunil">
-      <option value="">Todas as fontes</option>
-      <option value="meta">Meta</option>
-      <option value="tiktok">TikTok</option>
-    </select>
+    <input type="date" id="fDe"  style="display:none;"/>
+    <input type="date" id="fAte" style="display:none;"/>
+
+    <select id="fFunil" class="soFunil"><option value="">Todos os funis</option><option value="brasil">Brasil</option><option value="latam">Latam</option></select>
+    <select id="fFonte" class="soFunil"><option value="">Todas as fontes</option><option value="meta">Meta</option><option value="tiktok">TikTok</option></select>
     <select id="fVariante" class="soFunil"><option value="">Todas as URLs</option></select>
+    <select id="fComparar" class="soFunil"><option value="">Sem comparação</option></select>
+
     <select id="fStatus" class="soCriativos" style="display:none;"><option value="">Todos os status</option></select>
+    <div class="grp soCriativos" style="display:none;">
+      <button class="btn" id="btnEtq" onclick="togglePainel()">⚙️ Filtrar por etiqueta</button>
+      <div class="painel" id="painelEtq" style="display:none;">
+        <div class="etq" id="etqCampos"></div>
+        <div class="pfoot"><button class="limpar" onclick="limparEtq()">Limpar tudo</button><button class="prim" onclick="togglePainel()">Fechar</button></div>
+      </div>
+    </div>
   </div>
 
   <div id="conteudo"><div class="carregando">Carregando…</div></div>
 </div>
 
+<div id="modal"></div>
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <script>
-/* A chave abaixo é a publishable e fica visível de propósito. Quem protege os
-   dados é o RLS + a lista de e-mails autorizados no banco, não o segredo dela.
-   Sem login, as funções de leitura respondem "permission denied". Testado. */
+/* A chave é a publishable e fica visível de propósito. Quem protege os dados é
+   o RLS + a lista de e-mails no banco. Sem login as funções respondem
+   "permission denied" — verificado a partir desta página. */
 const SUPABASE_URL = 'https://lfmjvgkbvkkexwytkfeg.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_YMHtH3C0VuB5X8BFXADwBw_E7FcBFgE';
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 const TOTAL_TELAS = 34, BODY_INI = 3, BODY_FIM = 29, PITCH = 30, THRESH = 5;
+const META_CRIATIVOS = 25, MIN_SESSOES = 200, MAX_LINHAS = 6;
 
 const NOMES = ['(abertura/idade)','(prova social)','Seu ciclo menstrual é…',
 'Qual é o seu maior desejo nesse momento?','Em qual área você sente algo travado?',
@@ -153,8 +182,6 @@ const NOMES = ['(abertura/idade)','(prova social)','Seu ciclo menstrual é…',
 'Em quantos dias seu desejo sexual aumenta?','(RESULTADO diagnóstico — início do pitch)',
 'Quando começou sua última menstruação?','(loading)','gráfico fascinations','Página de vendas'];
 
-/* Mesmos números do dashboard antigo: o líquido desconta a taxa do checkout,
-   por isso o ROI fica bem abaixo do ROAS. */
 const PRECO_VENDA = 37.90, PRECO_BUMP = 17.00, LIQ_VENDA = 33.50, LIQ_BUMP = 14.48;
 function liquido(fat, vendas) {
   const v = Number(vendas) || 0;
@@ -162,34 +189,52 @@ function liquido(fat, vendas) {
   const bumps = Math.max(0, Math.round(((Number(fat) || 0) - v * PRECO_VENDA) / PRECO_BUMP));
   return v * LIQ_VENDA + bumps * LIQ_BUMP;
 }
-
 const MEDALHAS = [
   { selo:'💎', nome:'Diamante', vendas:30, roas:1.50 },
   { selo:'🥇', nome:'Ouro',     vendas:50, roas:1.25 },
   { selo:'🥈', nome:'Prata',    vendas:30, roas:1.25 },
   { selo:'🥉', nome:'Bronze',   vendas:15, roas:1.25 },
 ];
-function medalha(vendas, roas) {
-  for (const m of MEDALHAS) if (vendas >= m.vendas && roas >= m.roas) return m;
-  return null;
-}
+const medalha = (v, r) => MEDALHAS.find(m => v >= m.vendas && r >= m.roas) || null;
 
-const moeda = (v) => (v === '' || v == null || isNaN(v)) ? '—' : 'R$' + Number(v).toFixed(2);
-const pct = (v) => (v == null || isNaN(v)) ? '—' : Number(v).toFixed(1) + '%';
-const esc = (s) => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const ETIQUETAS = [['status','Status'],['formato','Formato'],['estrutura','Estrutura'],['angulo','Ângulo'],
+  ['hook','Hook'],['emocao','Emoção'],['amplificador','Amplificador'],['arquetipo','Arquétipo'],
+  ['segmentacao','Segmentação'],['prova','Prova']];
+
+const moeda = v => (v === '' || v == null || isNaN(v)) ? '—' : 'R$' + Number(v).toFixed(2);
+const pct   = v => (v == null || isNaN(v)) ? '—' : Number(v).toFixed(1) + '%';
+const esc   = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const kpi   = (l, v) => '<div class="kpi"><div class="lbl">' + l + '</div><div class="val">' + v + '</div></div>';
+
+/* Valor escrito na ponta de cada barra. Sem isso é preciso medir a barra contra
+   o eixo no olho, que é o que tornava esses gráficos ruins de ler. */
+const rotuloValor = { id:'rotuloValor', afterDatasetsDraw(ch, a, opts) {
+  const ctx = ch.ctx, fmt = (opts && opts.fmt) || (v => v);
+  ctx.save(); ctx.font = '600 12.5px -apple-system, Segoe UI, Roboto, Arial, sans-serif'; ctx.textBaseline = 'middle';
+  ch.data.datasets.forEach((ds, di) => ch.getDatasetMeta(di).data.forEach((bar, i) => {
+    const t = fmt(ds.data[i]), w = ctx.measureText(t).width;
+    if (bar.x + 8 + w <= ch.chartArea.right) { ctx.fillStyle = '#555'; ctx.textAlign = 'left';  ctx.fillText(t, bar.x + 8, bar.y); }
+    else                                     { ctx.fillStyle = '#fff'; ctx.textAlign = 'right'; ctx.fillText(t, bar.x - 8, bar.y); }
+  }));
+  ctx.restore();
+}};
 
 function periodo() {
   const v = document.getElementById('fPeriodo').value;
+  const custom = v === 'custom';
+  document.getElementById('fDe').style.display  = custom ? '' : 'none';
+  document.getElementById('fAte').style.display = custom ? '' : 'none';
+  if (custom) return { de: document.getElementById('fDe').value || null, ate: document.getElementById('fAte').value || null };
   if (v === 'todos') return { de: null, ate: null };
-  const hoje = new Date(Date.now() - 3 * 3600 * 1000);
-  const iso = (d) => d.toISOString().slice(0, 10);
+  const hoje = new Date(Date.now() - 3 * 3600 * 1000);   // America/Sao_Paulo
+  const iso = d => d.toISOString().slice(0, 10);
   if (v === 'hoje')  return { de: iso(hoje), ate: iso(hoje) };
   if (v === 'ontem') { const o = new Date(hoje); o.setUTCDate(o.getUTCDate() - 1); return { de: iso(o), ate: iso(o) }; }
   const d = new Date(hoje); d.setUTCDate(d.getUTCDate() - (Number(v) - 1));
   return { de: iso(d), ate: iso(hoje) };
 }
 
-let aba = 'funil', grafico = null;
+let aba = 'funil', graficos = [], filtroEtq = {}, CRIATIVOS = [];
 
 function trocarAba(nova) {
   aba = nova;
@@ -197,201 +242,351 @@ function trocarAba(nova) {
   document.getElementById('tabCriativos').className = nova === 'criativos' ? 'on' : '';
   document.querySelectorAll('.soFunil').forEach(e => e.style.display = nova === 'funil' ? '' : 'none');
   document.querySelectorAll('.soCriativos').forEach(e => e.style.display = nova === 'criativos' ? '' : 'none');
+  document.getElementById('seloCrt').innerHTML = '';
   carregar();
 }
+
+function limparGraficos() { graficos.forEach(g => { try { g.destroy(); } catch (e) {} }); graficos = []; }
 
 async function carregar() {
   const alvo = document.getElementById('conteudo');
   alvo.innerHTML = '<div class="carregando">Carregando…</div>';
-  document.querySelectorAll('.filtros select').forEach(s => s.className = (s.className.replace(' on','')) + (s.value ? ' on' : ''));
-  try {
-    if (aba === 'funil') await verFunil(); else await verCriativos();
-  } catch (e) {
-    alvo.innerHTML = '<div class="card"><div class="erro">Erro ao carregar: ' + esc(e.message || e) + '</div></div>';
-  }
+  limparGraficos();
+  document.querySelectorAll('.filtros select').forEach(s => s.className = s.className.replace(' on','') + (s.value ? ' on' : ''));
+  try { if (aba === 'funil') await verFunil(); else await verCriativos(); }
+  catch (e) { alvo.innerHTML = '<div class="card"><div class="erro">Erro ao carregar: ' + esc(e.message || e) + '</div></div>'; }
 }
 
-// ══════════════════════════ FUNIL ══════════════════════════
+// ══════════════════════ FUNIL ══════════════════════
+function calcFunil(d) {
+  const base = (d.etapas.find(e => e.n === 1) || {}).sessoes || 0;
+  const ret = n => base ? Math.round(((d.etapas.find(e => e.n === n) || {}).sessoes / base) * 1000) / 10 : 0;
+  let maiorQueda = { tela: 0, drop: 0 }; const alertas = [];
+  const linhas = d.etapas.map(e => {
+    const r = ret(e.n), rAnt = e.n > 1 ? ret(e.n - 1) : 100;
+    const drop = e.n > 1 ? Math.round((rAnt - r) * 10) / 10 : 0;
+    const corpo = e.n >= BODY_INI && e.n <= BODY_FIM, alerta = corpo && drop > THRESH;
+    if (corpo && drop > maiorQueda.drop) maiorQueda = { tela: e.n, drop };
+    if (alerta) alertas.push(e.n);
+    return { n: e.n, nome: NOMES[e.n - 1] || ('Tela ' + e.n), ret: r, drop, alerta, pitch: e.n >= PITCH };
+  });
+  return { linhas, maiorQueda, alertas,
+    pctFim: d.visitantes ? Math.round((d.fim / d.visitantes) * 1000) / 10 : 0,
+    pctCompra: d.visitantes ? Math.round((d.compraram / d.visitantes) * 1000) / 10 : 0 };
+}
+
 async function verFunil() {
   const p = periodo();
   const fu = document.getElementById('fFunil').value || null;
   const fo = document.getElementById('fFonte').value || null;
   const va = document.getElementById('fVariante').value;
+  const vb = document.getElementById('fComparar').value;
 
-  const [funil, vars] = await Promise.all([
-    sb.rpc('fn_funil', { p_de: p.de, p_ate: p.ate, p_variantes: va ? [va] : null, p_funil: fu, p_fonte: fo }),
-    sb.rpc('fn_variantes', { p_de: p.de, p_ate: p.ate, p_funil: fu, p_fonte: fo }),
-  ]);
-  if (funil.error) throw funil.error;
+  const pedidos = [
+    sb.rpc('fn_funil', { p_de:p.de, p_ate:p.ate, p_variantes: va ? [va] : null, p_funil:fu, p_fonte:fo }),
+    sb.rpc('fn_variantes', { p_de:p.de, p_ate:p.ate, p_funil:fu, p_fonte:fo }),
+  ];
+  if (vb) pedidos.push(sb.rpc('fn_funil', { p_de:p.de, p_ate:p.ate, p_variantes:[vb], p_funil:fu, p_fonte:fo }));
+  const [rA, rV, rB] = await Promise.all(pedidos);
+  if (rA.error) throw rA.error;
 
-  // o seletor de variantes sai dos dados: variante nova aparece sozinha
-  const sel = document.getElementById('fVariante');
-  const atual = sel.value;
-  sel.innerHTML = '<option value="">Todas as URLs</option>' +
-    (vars.data || []).map(v => '<option value="' + esc(v.variante) + '">' +
-      esc(v.variante.replace(/^v/, 'h=')) + ' · ' + v.sessoes + ' sessões</option>').join('');
-  sel.value = atual;
-
-  const d = funil.data;
-  const base = (d.etapas.find(e => e.n === 1) || {}).sessoes || 0;
-  const ret = (n) => base ? Math.round(((d.etapas.find(e => e.n === n) || {}).sessoes / base) * 1000) / 10 : 0;
-
-  let maiorQueda = { tela: 0, drop: 0 };
-  const linhas = d.etapas.map(e => {
-    const r = ret(e.n), rAnt = e.n > 1 ? ret(e.n - 1) : 100;
-    const drop = e.n > 1 ? Math.round((rAnt - r) * 10) / 10 : 0;
-    const corpo = e.n >= BODY_INI && e.n <= BODY_FIM;
-    const alerta = corpo && drop > THRESH;
-    if (corpo && drop > maiorQueda.drop) maiorQueda = { tela: e.n, drop };
-    return { n: e.n, nome: NOMES[e.n - 1] || ('Tela ' + e.n), ret: r, drop, alerta, pitch: e.n >= PITCH };
+  const vars = rV.data || [];
+  const rotulo = v => v.replace(/^v/, 'h=');
+  ['fVariante','fComparar'].forEach((id, i) => {
+    const sel = document.getElementById(id), atual = sel.value;
+    sel.innerHTML = '<option value="">' + (i ? 'Sem comparação' : 'Todas as URLs') + '</option>' +
+      vars.map(v => '<option value="' + esc(v.variante) + '">' + esc(rotulo(v.variante)) + ' · ' + v.sessoes + '</option>').join('');
+    sel.value = atual;
   });
 
-  const pctFim = d.visitantes ? Math.round((d.fim / d.visitantes) * 1000) / 10 : 0;
-  const pctCompra = d.visitantes ? Math.round((d.compraram / d.visitantes) * 1000) / 10 : 0;
+  const A = calcFunil(rA.data), B = rB && !rB.error ? calcFunil(rB.data) : null;
+  const dA = rA.data, dB = rB ? rB.data : null;
 
   document.getElementById('conteudo').innerHTML =
-    '<div class="kpis">' +
-      kpi('Visitantes', d.visitantes) +
-      kpi('Chegaram ao fim', pctFim + '%') +
-      kpi('Clicaram em comprar', pctCompra + '%') +
-      kpi('Maior queda no corpo', maiorQueda.tela ? ('Tela ' + maiorQueda.tela) : '—') +
-    '</div>' +
+    '<div class="kpis">' + kpi('Visitantes', dA.visitantes) + kpi('Chegaram ao fim', A.pctFim + '%') +
+      kpi('Clicaram em comprar', A.pctCompra + '%') +
+      kpi('Maior queda no corpo', A.maiorQueda.tela ? ('Tela ' + A.maiorQueda.tela) : '—') + '</div>' +
+    (A.alertas.length ? '<div class="alerta-box">⚠ ' + A.alertas.length + ' tela(s) do corpo com queda acima de ' +
+        THRESH + ' pts: <b>tela ' + A.alertas.join(', ') + '</b>. Vale revisar a pergunta.</div>' : '') +
     '<div class="curva"><div class="cab"><span>Retenção do funil</span><span style="color:#5f8a72;">' + TOTAL_TELAS + ' telas</span></div>' +
-      '<div style="position:relative;height:260px;"><canvas id="cv"></canvas></div></div>' +
-    '<div class="card"><div class="sec">Etapas do Quiz</div>' +
-      linhas.map(l =>
-        '<div class="lin' + (l.alerta ? ' alerta' : '') + (l.pitch ? ' pitch' : '') + '">' +
-          '<span class="n">' + l.n + '</span><span class="nome">' + esc(l.nome) + '</span>' +
-          '<span class="barra"><i style="width:' + l.ret + '%;background:' + (l.alerta ? '#d84a3a' : l.pitch ? '#9a9a9a' : '#6b9e7e') + ';"></i></span>' +
-          '<span class="pct">' + l.ret + '%</span>' +
-          '<span class="queda' + (l.alerta ? ' on' : '') + '">' + (l.n > 1 && l.drop > 0 ? (l.alerta ? '▼ ' : '-') + l.drop + ' pts' : '') + '</span>' +
-        '</div>').join('') +
+      '<div style="position:relative;height:280px;"><canvas id="cv"></canvas></div></div>' +
+    (B ? cardComparacao(va, vb, dA, dB, A, B) : '') +
+    '<div class="card"><div class="sec">Etapas do Quiz</div>' + A.linhas.map(l =>
+      '<div class="lin' + (l.alerta ? ' alerta' : '') + (l.pitch ? ' pitch' : '') + '">' +
+        '<span class="n">' + l.n + '</span><span class="nome">' + esc(l.nome) + '</span>' +
+        '<span class="barra"><i style="width:' + l.ret + '%;background:' + (l.alerta ? '#d84a3a' : l.pitch ? '#9a9a9a' : '#6b9e7e') + ';"></i></span>' +
+        '<span class="pct">' + l.ret + '%</span>' +
+        '<span class="queda' + (l.alerta ? ' on' : '') + '">' + (l.n > 1 && l.drop > 0 ? (l.alerta ? '▼ ' : '-') + l.drop + ' pts' : '') + '</span>' +
+      '</div>').join('') +
+      (B ? '<div class="nota">Esta lista e os KPIs mostram só ' + esc(va ? rotulo(va) : 'todas as URLs') + '. A comparação está no gráfico e no quadro acima.</div>' : '') +
     '</div>';
 
-  if (grafico) grafico.destroy();
   const ctx = document.getElementById('cv').getContext('2d');
-  const g = ctx.createLinearGradient(0, 0, 0, 260);
+  const g = ctx.createLinearGradient(0, 0, 0, 280);
   g.addColorStop(0, 'rgba(53,208,127,0.45)'); g.addColorStop(1, 'rgba(53,208,127,0.02)');
-  grafico = new Chart(ctx, {
-    type: 'line',
-    data: { labels: linhas.map(l => l.n), datasets: [{ data: linhas.map(l => l.ret),
-      borderColor: '#35d07f', borderWidth: 2, backgroundColor: g, fill: true, tension: .4, pointRadius: 0, pointHoverRadius: 5 }] },
-    options: { responsive: true, maintainAspectRatio: false,
-      plugins: { legend: { display: false }, tooltip: { callbacks: {
-        title: (t) => 'Tela ' + linhas[t[0].dataIndex].n + ' — ' + linhas[t[0].dataIndex].nome,
-        label: (c) => c.parsed.y + '% ainda no funil' } } },
-      scales: { y: { min: 0, max: 100, ticks: { color: '#6b8f7b', callback: v => v + '%' }, grid: { color: 'rgba(255,255,255,.06)' } },
-                x: { ticks: { color: '#6b8f7b', maxTicksLimit: 10 }, grid: { display: false } } } }
-  });
+  const datasets = B
+    ? [{ label: rotulo(va || 'todas'), data: A.linhas.map(l => l.ret), borderColor:'#35d07f', borderWidth:2, fill:false, tension:.4, pointRadius:0 },
+       { label: rotulo(vb),            data: B.linhas.map(l => l.ret), borderColor:'#f5a623', borderWidth:2, fill:false, tension:.4, pointRadius:0 }]
+    : [{ data: A.linhas.map(l => l.ret), borderColor:'#35d07f', borderWidth:2, backgroundColor:g, fill:true, tension:.4, pointRadius:0, pointHoverRadius:5 }];
+  graficos.push(new Chart(ctx, { type:'line', data:{ labels:A.linhas.map(l => l.n), datasets },
+    options:{ responsive:true, maintainAspectRatio:false,
+      plugins:{ legend:{ display:!!B, labels:{ color:'#cfe5d8', boxWidth:12, boxHeight:2 } },
+        tooltip:{ callbacks:{ title:t => 'Tela ' + A.linhas[t[0].dataIndex].n + ' — ' + A.linhas[t[0].dataIndex].nome,
+          label:c => (B ? c.dataset.label + ': ' : '') + c.parsed.y + '% ainda no funil' } } },
+      scales:{ y:{ min:0, max:100, ticks:{ color:'#6b8f7b', callback:v => v + '%' }, grid:{ color:'rgba(255,255,255,.06)' } },
+               x:{ ticks:{ color:'#6b8f7b', maxTicksLimit:10 }, grid:{ display:false } } } } }));
 }
 
-const kpi = (l, v) => '<div class="kpi"><div class="lbl">' + l + '</div><div class="val">' + v + '</div></div>';
+function cardComparacao(va, vb, dA, dB, A, B) {
+  const rot = v => (v || 'todas').replace(/^v/, 'h=');
+  const t1 = X => (X.linhas[1] || {}).ret || 0;
+  // só destaca quem for maior que o outro; empate não premia ninguém
+  const win = (x, y) => x > y ? ' style="color:#1a7a4f;font-weight:700"' : '';
+  const linha = (nome, d, X, o, oX) =>
+    '<tr><td><b>' + esc(rot(nome)) + '</b></td><td class="num">' + d.visitantes + '</td>' +
+    '<td class="num"' + win(t1(X), t1(oX)) + '>' + t1(X) + '%</td>' +
+    '<td class="num"' + win(X.pctFim, oX.pctFim) + '>' + X.pctFim + '%</td>' +
+    '<td class="num"' + win(X.pctCompra, oX.pctCompra) + '>' + X.pctCompra + '%</td></tr>';
+  const baixas = [[va, dA], [vb, dB]].filter(x => x[1].visitantes < MIN_SESSOES).map(x => rot(x[0]) + ' (' + x[1].visitantes + ')');
+  return '<div class="card"><div class="sec">Comparação de variantes</div>' +
+    '<table class="tb"><tr><th>Variante</th><th class="num">Visitantes</th><th class="num">Passou da tela 1</th>' +
+    '<th class="num">Chegou ao fim</th><th class="num">Clicou em comprar</th></tr>' +
+    linha(va, dA, A, vb, B) + linha(vb, dB, B, va, A) + '</table>' +
+    (baixas.length ? '<div class="aviso">⚠ Volume baixo em <b>' + esc(baixas.join(', ')) +
+      '</b>. Abaixo de ' + MIN_SESSOES + ' sessões por variante a diferença ainda pode ser sorte.</div>' : '') + '</div>';
+}
 
-// ══════════════════════════ CRIATIVOS ══════════════════════════
+// ══════════════════════ CRIATIVOS ══════════════════════
+function barra(id, itens, campo, cor, ehMoeda, asc) {
+  itens = itens.filter(r => r[campo] != null && !isNaN(r[campo]) && r[campo] > 0)
+               .sort((a, b) => asc ? a[campo] - b[campo] : b[campo] - a[campo]).slice(0, 8);
+  const el = document.getElementById(id);
+  if (!itens.length) { el.parentNode.innerHTML = '<div class="vazio">Sem dados ainda</div>'; return; }
+  const fmt = v => ehMoeda ? 'R$' + Number(v).toFixed(2) : Number(v).toFixed(1) + '%';
+  const curto = s => String(s || '').length > 34 ? String(s).slice(0, 34) + '…' : String(s || '');
+  graficos.push(new Chart(el, { type:'bar', plugins:[rotuloValor],
+    data:{ labels: itens.map(r => (medalha(r.vendas, r.roas || 0) ? medalha(r.vendas, r.roas || 0).selo + ' ' : '') + curto(r.anuncio)),
+      datasets:[{ data: itens.map(r => Number(r[campo])), backgroundColor:cor, borderRadius:6, barPercentage:.78 }] },
+    options:{ indexAxis:'y', responsive:true, maintainAspectRatio:false, layout:{ padding:{ right:58 } },
+      plugins:{ legend:{ display:false }, rotuloValor:{ fmt }, tooltip:{ callbacks:{ label:c => fmt(c.parsed.x) } } },
+      scales:{ x:{ ticks:{ font:{ size:12 }, color:'#8a8a8a', callback:v => ehMoeda ? 'R$' + v : v + '%' }, grid:{ color:'#f0f0f0' } },
+               y:{ ticks:{ font:{ size:12.5 }, color:'#444', crossAlign:'far' }, grid:{ display:false } } } } }));
+}
+
+function agrupar(rows, campo) {
+  const g = {};
+  rows.forEach(r => {
+    const k = String(r[campo] || '(sem etiqueta)');
+    if (!g[k]) g[k] = { nome:k, n:0, gasto:0, checkouts:0, vendas:0, fat:0 };
+    g[k].n++; g[k].gasto += r.gasto; g[k].checkouts += Number(r.checkouts || 0);
+    g[k].vendas += r.vendas; g[k].fat += r.faturamento;
+  });
+  return Object.values(g).map(x => ({ ...x,
+    custoCheckout: x.checkouts ? x.gasto / x.checkouts : null,
+    custoVenda: x.vendas ? x.gasto / x.vendas : null,
+    roas: x.gasto ? x.fat / x.gasto : null,
+    roi: x.gasto ? ((liquido(x.fat, x.vendas) - x.gasto) / x.gasto) * 100 : null }))
+    .sort((a, b) => (a.custoVenda ?? 1e9) - (b.custoVenda ?? 1e9));
+}
+
+function tabelaGrupo(titulo, campo, rows) {
+  const gs = agrupar(rows, campo);
+  return '<div class="card"><div class="sec">' + titulo + '</div>' +
+    (gs.length ? '<div class="tbwrap"><table class="tb"><tr><th>' + titulo.replace('Por ', '') + '</th>' +
+      ['Criativos','Gasto','Checkouts','R$/Check','Vendas','R$/Venda','Faturamento','ROAS','ROI'].map(h => '<th class="num">' + h + '</th>').join('') + '</tr>' +
+      gs.map(g => '<tr><td class="nm">' + esc(g.nome) + '</td><td class="num">' + g.n + '</td>' +
+        '<td class="num">' + moeda(g.gasto) + '</td><td class="num">' + g.checkouts + '</td>' +
+        '<td class="num">' + moeda(g.custoCheckout) + '</td><td class="num">' + g.vendas + '</td>' +
+        '<td class="num">' + moeda(g.custoVenda) + '</td><td class="num">' + moeda(g.fat) + '</td>' +
+        '<td class="num" style="color:' + (g.roas >= 1 ? '#2e7d52' : '#c0392b') + '">' + (g.roas == null ? '—' : g.roas.toFixed(2) + 'x') + '</td>' +
+        '<td class="num" style="color:' + (g.roi >= 0 ? '#2e7d52' : '#c0392b') + '">' + (g.roi == null ? '—' : g.roi.toFixed(0) + '%') + '</td></tr>').join('') +
+      '</table></div>' : '<div class="vazio">Nenhum criativo com esse filtro.</div>') + '</div>';
+}
+
 async function verCriativos() {
   const p = periodo();
-  const { data, error } = await sb.rpc('fn_criativos', { p_de: p.de, p_ate: p.ate });
+  const { data, error } = await sb.rpc('fn_criativos', { p_de:p.de, p_ate:p.ate });
   if (error) throw error;
 
-  const rows = (data || []).map(r => {
+  CRIATIVOS = (data || []).map(r => {
     const impr = Number(r.impressoes) || 0, gasto = Number(r.gasto) || 0;
     const v3s = Number(r.v3s) || 0, vendas = Number(r.vendas) || 0, valor = Number(r.valor) || 0;
     const fat = valor > 0 ? valor : vendas * PRECO_VENDA;
     return { ...r, gasto, impressoes: impr, vendas,
       ctr: impr ? (Number(r.clicks) / impr) * 100 : null,
       hook: impr && v3s ? (v3s / impr) * 100 : null,
-      // hold rate = ThruPlay ÷ plays de 3s, não ÷ impressões
-      hold: v3s ? (Number(r.thruplay) / v3s) * 100 : null,
+      hold: v3s ? (Number(r.thruplay) / v3s) * 100 : null,   // ThruPlay ÷ plays de 3s
+      views25: impr ? (Number(r.p25) / impr) * 100 : null,
       custoVenda: vendas ? gasto / vendas : null,
       custoCheckout: Number(r.checkouts) ? gasto / Number(r.checkouts) : null,
-      faturamento: fat,
-      roas: gasto ? fat / gasto : null,
+      faturamento: fat, roas: gasto ? fat / gasto : null,
       roi: gasto ? ((liquido(fat, vendas) - gasto) / gasto) * 100 : null };
-  });
-
-  // quem teve entrega no período primeiro, do maior ROI pro menor
-  rows.sort((a, b) => {
+  }).sort((a, b) => {
     if ((a.gasto > 0) !== (b.gasto > 0)) return a.gasto > 0 ? -1 : 1;
     if (a.gasto > 0 && a.roi !== b.roi) return (b.roi ?? -1e9) - (a.roi ?? -1e9);
     return String(a.anuncio).localeCompare(String(b.anuncio));
   });
 
-  const st = document.getElementById('fStatus');
-  const stAtual = st.value;
-  const statuses = [...new Set(rows.map(r => (r.status || '').trim()).filter(Boolean))].sort();
-  st.innerHTML = '<option value="">Todos os status</option>' +
-    statuses.map(s => '<option value="' + esc(s) + '">' + esc(s) + '</option>').join('');
+  montarFiltroEtq();
+  const st = document.getElementById('fStatus'), stAtual = st.value;
+  const sts = [...new Set(CRIATIVOS.map(r => (r.status || '').trim()).filter(Boolean))].sort();
+  st.innerHTML = '<option value="">Todos os status</option>' + sts.map(s => '<option value="' + esc(s) + '">' + esc(s) + '</option>').join('');
   st.value = stAtual;
 
-  const vis = stAtual ? rows.filter(r => (r.status || '').trim() === stAtual) : rows;
+  let vis = CRIATIVOS;
+  if (stAtual) vis = vis.filter(r => (r.status || '').trim() === stAtual);
+  Object.keys(filtroEtq).forEach(c => { if (filtroEtq[c]) vis = vis.filter(r => String(r[c] || '').trim() === filtroEtq[c]); });
 
-  const tot = vis.reduce((a, r) => ({
-    gasto: a.gasto + r.gasto, checkouts: a.checkouts + Number(r.checkouts || 0),
-    vendas: a.vendas + r.vendas, fat: a.fat + r.faturamento }), { gasto:0, checkouts:0, vendas:0, fat:0 });
-  const roasGeral = tot.gasto ? tot.fat / tot.gasto : null;
-  const roiGeral = tot.gasto ? ((liquido(tot.fat, tot.vendas) - tot.gasto) / tot.gasto) * 100 : null;
+  const tot = vis.reduce((a, r) => ({ gasto:a.gasto + r.gasto, checkouts:a.checkouts + Number(r.checkouts || 0),
+    vendas:a.vendas + r.vendas, fat:a.fat + r.faturamento }), { gasto:0, checkouts:0, vendas:0, fat:0 });
+  const roasG = tot.gasto ? tot.fat / tot.gasto : null;
+  const roiG = tot.gasto ? ((liquido(tot.fat, tot.vendas) - tot.gasto) / tot.gasto) * 100 : null;
+  const contados = CRIATIVOS.filter(r => !/Teste A\/B/i.test(r.campanha || '')).length;
+
+  document.getElementById('seloCrt').innerHTML =
+    '<div class="selo-crt"><div class="lbl">Criativos</div><div class="val">' + contados + '/' + META_CRIATIVOS + '</div></div>';
+
+  const nAtivos = Object.values(filtroEtq).filter(Boolean).length + (stAtual ? 1 : 0);
+  document.getElementById('btnEtq').textContent = nAtivos ? (nAtivos + (nAtivos > 1 ? ' filtros' : ' filtro')) : '⚙️ Filtrar por etiqueta';
+  document.getElementById('btnEtq').className = 'btn' + (nAtivos ? ' on' : '');
 
   document.getElementById('conteudo').innerHTML =
-    '<div class="kpis">' +
-      kpi('Criativos', vis.length) +
-      kpi('Gasto total', moeda(tot.gasto)) +
-      kpi('Checkouts', tot.checkouts) +
-      kpi('Vendas', tot.vendas) +
-      kpi('Faturamento', moeda(tot.fat)) +
-      kpi('ROAS', roasGeral == null ? '—' : roasGeral.toFixed(2) + 'x') +
-      kpi('ROI', roiGeral == null ? '—' : roiGeral.toFixed(0) + '%') +
+    '<div class="kpis">' + kpi('Gasto total', moeda(tot.gasto)) + kpi('Checkouts', tot.checkouts) +
+      kpi('Vendas', tot.vendas) + kpi('Faturamento', moeda(tot.fat)) +
+      kpi('ROAS', roasG == null ? '—' : roasG.toFixed(2) + 'x') +
+      kpi('ROI', roiG == null ? '—' : roiG.toFixed(0) + '%') + '</div>' +
+    '<div class="charts">' +
+      ['Custo por venda|chVenda','Custo por checkout|chCheck','Hook rate|chHook','Hold rate|chHold']
+        .map(x => { const [t, id] = x.split('|');
+          return '<div class="cchart"><div class="ttl">' + t + '</div><div class="cv"><canvas id="' + id + '"></canvas></div></div>'; }).join('') +
     '</div>' +
+    '<div class="card"><div class="cabsec"><div class="sec" style="margin:0;">Análise por grupo</div>' +
+      '<div><select id="pieMetrica"><option value="roi">ROI</option><option value="roas">ROAS</option><option value="cpa">CPA (custo por venda)</option><option value="gasto">Gasto</option><option value="faturamento">Faturamento</option></select> ' +
+      '<select id="pieGrupo">' + ETIQUETAS.filter(e => e[0] !== 'status').map(e => '<option value="' + e[0] + '">' + e[1] + '</option>').join('') + '</select></div></div>' +
+      '<div class="pieWrap"><canvas id="pie"></canvas></div><div class="nota" id="pieNota"></div></div>' +
     '<div class="card"><div class="sec">Todos os criativos</div>' +
+      '<div class="nota" style="margin:-6px 0 10px;">' + vis.length + ' de ' + CRIATIVOS.length + ' criativos · clique no nome pra editar as etiquetas</div>' +
       (vis.length ? '<div class="tbwrap"><table class="tb"><tr>' +
-        ['Anúncio','Status','Formato','Estrutura','Ângulo','Emoção'].map(h => '<th>' + h + '</th>').join('') +
-        ['Gasto','CTR','Hook','Hold','Checkouts','R$/Check','Vendas','R$/Venda','Faturamento','ROAS'].map(h => '<th class="num">' + h + '</th>').join('') +
-        '</tr>' + vis.map(r => {
-          const m = medalha(r.vendas, r.roas || 0);
-          return '<tr>' +
-            '<td class="nm" title="' + esc(r.anuncio) + '">' + (m ? m.selo + ' ' : '') + esc(r.anuncio) + '</td>' +
-            '<td>' + esc(r.status || '—') + '</td><td>' + esc(r.formato || '—') + '</td>' +
-            '<td>' + esc(r.estrutura || '—') + '</td><td>' + esc(r.angulo || '—') + '</td>' +
-            '<td>' + esc(r.emocao || '—') + '</td>' +
-            '<td class="num">' + moeda(r.gasto) + '</td>' +
-            '<td class="num">' + pct(r.ctr) + '</td><td class="num">' + pct(r.hook) + '</td>' +
-            '<td class="num">' + pct(r.hold) + '</td>' +
+        ['Anúncio','Status','Formato','Estrutura','Ângulo','Hook','Emoção','Amplificador','Arquétipo','Segmentação','Prova'].map(h => '<th>' + h + '</th>').join('') +
+        ['Gasto','CTR','Hook rate','Hold rate','Checkouts','R$/Check','Vendas','R$/Venda','Faturamento','ROAS'].map(h => '<th class="num">' + h + '</th>').join('') + '</tr>' +
+        vis.map(r => { const m = medalha(r.vendas, r.roas || 0);
+          return '<tr><td class="nm" title="clique pra editar" onclick="editar(' + JSON.stringify(r.anuncio).replace(/"/g,'&quot;') + ')">' +
+            (m ? '<span title="' + m.nome + '">' + m.selo + '</span> ' : '') + esc(r.anuncio) + '</td>' +
+            ['status','formato','estrutura','angulo','hook','emocao','amplificador','arquetipo','segmentacao','prova']
+              .map(c => '<td title="' + esc(r[c] || '') + '">' + esc(r[c] || '—') + '</td>').join('') +
+            '<td class="num">' + moeda(r.gasto) + '</td><td class="num">' + pct(r.ctr) + '</td>' +
+            '<td class="num">' + pct(r.hook) + '</td><td class="num">' + pct(r.hold) + '</td>' +
             '<td class="num">' + (r.checkouts || 0) + '</td><td class="num">' + moeda(r.custoCheckout) + '</td>' +
             '<td class="num">' + r.vendas + '</td><td class="num">' + moeda(r.custoVenda) + '</td>' +
             '<td class="num">' + (r.faturamento ? moeda(r.faturamento) : '—') + '</td>' +
-            '<td class="num" style="color:' + (r.roas >= 1 ? '#2e7d52' : '#c0392b') + '">' +
-              (r.roas == null ? '—' : r.roas.toFixed(2) + 'x') + '</td></tr>';
-        }).join('') + '</table></div>'
-      : '<div class="vazio">Nenhum criativo neste período.</div>') +
-    '</div>';
+            '<td class="num" style="color:' + (r.roas >= 1 ? '#2e7d52' : '#c0392b') + '">' + (r.roas == null ? '—' : r.roas.toFixed(2) + 'x') + '</td></tr>';
+        }).join('') + '</table></div>' : '<div class="vazio">Nenhum criativo neste período.</div>') +
+      '<div class="medalhas"><span class="tt">Medalhas <span style="font-weight:400;text-transform:none;letter-spacing:0;">vendas · ROAS mín.</span></span>' +
+        MEDALHAS.map(m => '<span>' + m.selo + ' <b>' + m.nome + '</b> ' + m.vendas + '+ · ' + m.roas.toFixed(2).replace('.', ',') + 'x</span>').join('') +
+        '<span style="color:#a5a5a5;font-size:12.5px;">ROAS 1,25x ≈ +10% de ROI · 1,50x ≈ +33%</span></div>' +
+    '</div>' +
+    tabelaGrupo('Por formato', 'formato', vis) +
+    tabelaGrupo('Por ângulo', 'angulo', vis) +
+    tabelaGrupo('Por emoção', 'emocao', vis);
+
+  barra('chVenda', vis, 'custoVenda', '#1a7a4f', true, true);
+  barra('chCheck', vis, 'custoCheckout', '#5d8aa8', true, true);
+  barra('chHook',  vis, 'hook', '#b0764a', false, false);
+  barra('chHold',  vis, 'hold', '#7a5da8', false, false);
+
+  document.getElementById('pieMetrica').addEventListener('change', () => desenharPie(vis));
+  document.getElementById('pieGrupo').addEventListener('change', () => desenharPie(vis));
+  desenharPie(vis);
 }
 
-// ══════════════════════════ LOGIN ══════════════════════════
+let pieChart = null;
+function desenharPie(rows) {
+  const met = document.getElementById('pieMetrica').value, campo = document.getElementById('pieGrupo').value;
+  const gs = agrupar(rows, campo);
+  const val = g => met === 'roi' ? g.roi : met === 'roas' ? g.roas : met === 'cpa' ? g.custoVenda : met === 'gasto' ? g.gasto : g.fat;
+  const validos = gs.filter(g => val(g) != null && val(g) > 0);
+  const CORES = ['#1a7a4f','#b0764a','#5d8aa8','#7a5da8','#c05b4d','#c9a97a','#4a6b6b','#8a8a5d'];
+  if (pieChart) { try { pieChart.destroy(); } catch (e) {} }
+  const nota = document.getElementById('pieNota');
+  if (!validos.length) { nota.textContent = 'Sem dados para essa combinação.'; return; }
+  const fora = gs.filter(g => val(g) == null || val(g) <= 0).map(g => g.nome);
+  nota.textContent = fora.length ? 'Fora da pizza (sem valor positivo): ' + fora.join(', ') + '.' : '';
+  pieChart = new Chart(document.getElementById('pie'), {
+    type:'doughnut',
+    data:{ labels: validos.map(g => g.nome), datasets:[{ data: validos.map(val), backgroundColor: CORES, borderWidth:0 }] },
+    options:{ responsive:true, maintainAspectRatio:false,
+      plugins:{ legend:{ position:'right', labels:{ font:{ size:13 }, boxWidth:15, padding:12, color:'#444' } },
+        tooltip:{ callbacks:{ label:c => c.label + ': ' + (met === 'roi' ? c.parsed.toFixed(0) + '%' : met === 'roas' ? c.parsed.toFixed(2) + 'x' : moeda(c.parsed)) } } } } });
+  graficos.push(pieChart);
+}
+
+// ── filtro por etiqueta ──
+function montarFiltroEtq() {
+  const el = document.getElementById('etqCampos');
+  el.innerHTML = ETIQUETAS.filter(e => e[0] !== 'status').map(([c, lbl]) => {
+    const vals = [...new Set(CRIATIVOS.map(r => String(r[c] || '').trim()).filter(Boolean))].sort();
+    if (!vals.length) return '';
+    return '<label>' + lbl + '<select data-campo="' + c + '"><option value="">Todos</option>' +
+      vals.map(v => '<option value="' + esc(v) + '"' + (filtroEtq[c] === v ? ' selected' : '') + '>' +
+        esc(v.length > 30 ? v.slice(0, 30) + '…' : v) + '</option>').join('') + '</select></label>';
+  }).join('');
+  el.querySelectorAll('select').forEach(s => s.addEventListener('change', () => {
+    filtroEtq[s.getAttribute('data-campo')] = s.value; verCriativos();
+  }));
+}
+const togglePainel = () => { const p = document.getElementById('painelEtq'); p.style.display = p.style.display === 'none' ? 'block' : 'none'; };
+const limparEtq = () => { filtroEtq = {}; document.getElementById('fStatus').value = ''; verCriativos(); };
+
+// ── edição de etiquetas ──
+function editar(anuncio) {
+  const r = CRIATIVOS.find(x => x.anuncio === anuncio); if (!r) return;
+  document.getElementById('modal').innerHTML =
+    '<div class="modal" onclick="if(event.target===this)fecharModal()"><div class="box">' +
+      '<h2>Editar etiquetas</h2><div class="qual">' + esc(anuncio) + '</div>' +
+      '<div id="edErro" class="erro" style="display:none;"></div>' +
+      '<div class="etq">' + ETIQUETAS.map(([c, lbl]) =>
+        '<label>' + lbl + '<input id="ed_' + c + '" value="' + esc(r[c] || '') + '"/></label>').join('') +
+        '<label>Ajuste de vendas<input id="ed_vendas_ajuste" type="number" value="0"/></label>' +
+        '<label>Ajuste de valor (R$)<input id="ed_valor_ajuste" type="number" step="0.01" value="0"/></label>' +
+      '</div>' +
+      '<div class="nota">Os ajustes somam ao que o Meta reportou — use quando houver venda que ele não marcou.</div>' +
+      '<div class="pfoot"><button class="limpar" onclick="fecharModal()">Cancelar</button>' +
+      '<button class="prim" id="edSalvar" onclick="salvarEdicao(' + JSON.stringify(anuncio).replace(/"/g,'&quot;') + ')">Salvar</button></div>' +
+    '</div></div>';
+}
+const fecharModal = () => { document.getElementById('modal').innerHTML = ''; };
+
+async function salvarEdicao(anuncio) {
+  const btn = document.getElementById('edSalvar'); btn.disabled = true; btn.textContent = 'Salvando…';
+  const campos = {};
+  ETIQUETAS.forEach(([c]) => { campos[c] = document.getElementById('ed_' + c).value.trim() || null; });
+  campos.vendas_ajuste = Number(document.getElementById('ed_vendas_ajuste').value) || 0;
+  campos.valor_ajuste  = Number(document.getElementById('ed_valor_ajuste').value) || 0;
+  const { error } = await sb.from('criativos').update(campos).eq('anuncio', anuncio);
+  btn.disabled = false; btn.textContent = 'Salvar';
+  if (error) { const e = document.getElementById('edErro'); e.textContent = 'Não salvou: ' + error.message; e.style.display = 'block'; return; }
+  fecharModal(); await verCriativos();
+}
+
+// ══════════════════════ LOGIN ══════════════════════
 async function mostrarConforme(sessao) {
   document.getElementById('telaLogin').style.display = sessao ? 'none' : 'block';
   document.getElementById('telaDash').style.display  = sessao ? 'block' : 'none';
-  if (sessao) {
-    document.getElementById('subTitulo').textContent = sessao.user.email;
-    await carregar();
-  }
+  if (sessao) { document.getElementById('subTitulo').textContent = sessao.user.email; await carregar(); }
 }
-
-document.getElementById('formLogin').addEventListener('submit', async (ev) => {
+document.getElementById('formLogin').addEventListener('submit', async ev => {
   ev.preventDefault();
   const btn = document.getElementById('btnEntrar'), err = document.getElementById('loginErro');
   btn.disabled = true; btn.textContent = 'Entrando…'; err.style.display = 'none';
   const { data, error } = await sb.auth.signInWithPassword({
-    email: document.getElementById('email').value.trim(),
-    password: document.getElementById('senha').value,
-  });
+    email: document.getElementById('email').value.trim(), password: document.getElementById('senha').value });
   btn.disabled = false; btn.textContent = 'Entrar';
   if (error) { err.textContent = 'E-mail ou senha incorretos.'; err.style.display = 'block'; return; }
   await mostrarConforme(data.session);
 });
-
 async function sair() { await sb.auth.signOut(); location.reload(); }
 
-document.querySelectorAll('.filtros select').forEach(s => s.addEventListener('change', carregar));
-
+document.querySelectorAll('.filtros select, .filtros input[type=date]').forEach(s => s.addEventListener('change', carregar));
 sb.auth.getSession().then(({ data }) => mostrarConforme(data.session));
 </script>
 </body>

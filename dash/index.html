@@ -393,7 +393,7 @@ function calAplicar() {
 }
 
 function abrir(id) {
-  ['painelData','painelVar','painelEtq','painelFunil','painelFonte','painelStatus','painelPieMet','painelPieGrp'].forEach(k => {
+  ['painelData','painelVar','painelEtq','painelFunil','painelFonte','painelStatus','painelPieMet','painelPieGrp','painelG_formato','painelG_angulo','painelG_emocao'].forEach(k => {
     const el = document.getElementById(k); if (!el) return;
     el.style.display = (k === id && el.style.display === 'none') ? 'flex' : 'none';
   });
@@ -402,12 +402,22 @@ function abrir(id) {
   if (id === 'painelFunil') pintarFunil();
   if (id === 'painelFonte') pintarFonte();
   if (id === 'painelStatus') pintarStatus();
+  if (id.indexOf('painelG_') === 0) pintarStatusGrupo(id.replace('painelG_', ''));
 }
-const fecharPaineis = () => ['painelData','painelVar','painelEtq','painelFunil','painelFonte','painelStatus','painelPieMet','painelPieGrp'].forEach(k => {
+const fecharPaineis = () => ['painelData','painelVar','painelEtq','painelFunil','painelFonte','painelStatus','painelPieMet','painelPieGrp','painelG_formato','painelG_angulo','painelG_emocao'].forEach(k => {
   const el = document.getElementById(k); if (el) el.style.display = 'none'; });
 
 let aba = 'funil', graficos = [], filtroEtq = {}, CRIATIVOS = [];
 let VARIANTES = [], marcadas = {};
+
+/* Ponto único do nome de cada variante. 0 e original são a MESMA página — o
+   'original' só existe porque o teste no Meta precisava de uma URL com
+   parâmetro pra separar do tráfego que já vinha. Variante nova sai como h=N. */
+const NOMES_VAR = {
+  'v0':        'Original (sem parâmetro)',
+  'voriginal': 'h=original (com parâmetro)',
+};
+const rotuloVariante = v => !v ? 'Todas as URLs' : (NOMES_VAR[v] || String(v).replace(/^v/, 'h='));
 let fFunil = '', fFonte = '', fStatus = '';
 
 const OPC_FUNIL = [['','Todos os funis'],['brasil','Brasil'],['latam','Latam']];
@@ -431,6 +441,15 @@ function pintarLista(idLista, idBtn, idLbl, opcoes, atual, aoEscolher) {
 }
 const pintarFunil = () => pintarLista('listaFunil','btnFunil','lblFunil', OPC_FUNIL, fFunil, v => { fFunil = v; });
 const pintarFonte = () => pintarLista('listaFonte','btnFonte','lblFonte', OPC_FONTE, fFonte, v => { fFonte = v; });
+/* O status de cada agrupamento sai dos criativos visíveis, não da lista inteira:
+   filtrando por etiqueta, só aparecem os status que ainda existem ali. */
+function pintarStatusGrupo(campo) {
+  const sts = [...new Set(CRIATIVOS.map(r => (r.status || '').trim()).filter(Boolean))].sort();
+  pintarLista('listaG_' + campo, 'btnG_' + campo, 'lblG_' + campo,
+    [['','Todos os status'], ...sts.map(x => [x, x])], statusGrupo[campo] || '',
+    v => { statusGrupo[campo] = v; setTimeout(verCriativos, 0); return false; });
+}
+
 function pintarStatus() {
   const sts = [...new Set(CRIATIVOS.map(r => (r.status || '').trim()).filter(Boolean))].sort();
   pintarLista('listaStatus','btnStatus','lblStatus',
@@ -439,8 +458,7 @@ function pintarStatus() {
 
 function pintarVars() {
   const q = (document.getElementById('vBusca').value || '').toLowerCase();
-  const rot = v => v.replace(/^v/, 'h=');
-  const vis = VARIANTES.filter(v => !q || rot(v.variante).toLowerCase().includes(q));
+  const vis = VARIANTES.filter(v => !q || rotuloVariante(v.variante).toLowerCase().includes(q));
   const el = document.getElementById('vLista');
   if (!vis.length) {
     el.innerHTML = '<div class="vempty">' + (VARIANTES.length ? 'Nada com esse nome.' : 'Nenhuma variante neste período.') + '</div>';
@@ -448,7 +466,7 @@ function pintarVars() {
   }
   el.innerHTML = vis.map(v =>
     '<label class="vitem"><input type="checkbox" data-v="' + esc(v.variante) + '"' + (marcadas[v.variante] ? ' checked' : '') + '>' +
-    '<span class="cod">' + esc(rot(v.variante)) + '</span>' +
+    '<span class="cod">' + esc(rotuloVariante(v.variante)) + '</span>' +
     '<span class="qtd">' + v.sessoes + (v.sessoes === 1 ? ' sessão' : ' sessões') + '</span></label>').join('');
   el.querySelectorAll('input').forEach(i =>
     i.addEventListener('change', () => { marcadas[i.getAttribute('data-v')] = i.checked; }));
@@ -498,7 +516,7 @@ function calcFunil(d) {
 async function verFunil() {
   const p = periodo();
   const fu = fFunil || null, fo = fFonte || null;
-  const rotulo = v => (v || 'todas').replace(/^v/, 'h=');
+  const rotulo = rotuloVariante;
   pintarFunil(); pintarFonte();
 
   const rV = await sb.rpc('fn_variantes', { p_de:p.de, p_ate:p.ate, p_funil:fu, p_fonte:fo });
@@ -506,7 +524,7 @@ async function verFunil() {
   Object.keys(marcadas).forEach(k => { if (!VARIANTES.some(v => v.variante === k)) delete marcadas[k]; });
   const sel = selecionadas();
   document.getElementById('lblVar').textContent = !sel.length ? 'Todas as URLs'
-    : sel.length === 1 ? rotulo(sel[0]) : (sel.length + ' variantes');
+    : sel.length === 1 ? rotuloVariante(sel[0]) : (sel.length + ' variantes');
   document.getElementById('btnVar').className = 'rangeBtn' + (sel.length ? ' on' : '');
   pintarVars();
 
@@ -621,9 +639,17 @@ function agrupar(rows, campo) {
     .sort((a, b) => (a.custoVenda ?? 1e9) - (b.custoVenda ?? 1e9));
 }
 
+/* Cada agrupamento tem o seu próprio seletor de status, como no dashboard antigo:
+   dá pra ver "por formato só o que está rodando" sem mexer no filtro geral. */
+let statusGrupo = {};
 function tabelaGrupo(titulo, campo, rows) {
-  const gs = agrupar(rows, campo);
-  return '<div class="card"><div class="sec">' + titulo + '</div>' +
+  const stG = statusGrupo[campo] || '';
+  const gs = agrupar(stG ? rows.filter(r => (r.status || '').trim() === stG) : rows, campo);
+  return '<div class="card"><div class="cabsec"><div class="sec" style="margin:0;">' + titulo + '</div>' +
+    '<div class="grp"><button class="rangeBtn" id="btnG_' + campo + '" onclick="abrir(\'painelG_' + campo + '\')">' +
+      '<span id="lblG_' + campo + '"></span><span class="car">▼</span></button>' +
+      '<div class="rangePanel" id="painelG_' + campo + '" style="display:none;"><div class="presets only" id="listaG_' + campo + '"></div></div>' +
+    '</div></div>' +
     (gs.length ? '<div class="tbwrap"><table class="tb"><tr><th>' + titulo.replace('Por ', '') + '</th>' +
       ['Criativos','Gasto','Checkouts','R$/Check','Vendas','R$/Venda','Faturamento','ROAS','ROI'].map(h => '<th class="num">' + h + '</th>').join('') + '</tr>' +
       gs.map(g => '<tr><td class="nm">' + esc(g.nome) + '</td><td class="num">' + g.n + '</td>' +
@@ -715,12 +741,13 @@ async function verCriativos() {
             '<td class="num" style="color:' + (r.roas >= 1 ? '#2e7d52' : '#c0392b') + '">' + (r.roas == null ? '—' : r.roas.toFixed(2) + 'x') + '</td></tr>';
         }).join('') + '</table></div>' : '<div class="vazio">Nenhum criativo neste período.</div>') +
       '<div class="medalhas"><span class="tt">Medalhas <span style="font-weight:400;text-transform:none;letter-spacing:0;">vendas · ROAS mín.</span></span>' +
-        MEDALHAS.map(m => '<span>' + m.selo + ' <b>' + m.nome + '</b> ' + m.vendas + '+ · ' + m.roas.toFixed(2).replace('.', ',') + 'x</span>').join('') +
-        '<span style="color:#a5a5a5;font-size:12.5px;">ROAS 1,25x ≈ +10% de ROI · 1,50x ≈ +33%</span></div>' +
+        MEDALHAS.map(m => '<span>' + m.selo + ' <b>' + m.nome + '</b> ' + m.vendas + '+ · ' + m.roas.toFixed(2).replace('.', ',') + 'x</span>').join('') + '</div>' +
     '</div>' +
     tabelaGrupo('Por formato', 'formato', vis) +
     tabelaGrupo('Por ângulo', 'angulo', vis) +
     tabelaGrupo('Por emoção', 'emocao', vis);
+
+  ['formato','angulo','emocao'].forEach(pintarStatusGrupo);
 
   barra('chVenda', vis, 'custoVenda', '#1a7a4f', true, true);
   barra('chCheck', vis, 'custoCheckout', '#5d8aa8', true, true);

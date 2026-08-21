@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<meta name="robots" content="noindex, nofollow"/>
+<title>Dashboard — Ciclo Fértil</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif;}
+  body{background:#f4f5f4;color:#1a1a1a;padding:24px;}
+  .wrap{max-width:1180px;margin:0 auto;}
+
+  /* ── login ── */
+  .login{max-width:380px;margin:12vh auto;background:#fff;border-radius:16px;padding:32px;box-shadow:0 2px 18px rgba(0,0,0,.06);}
+  .login h1{font-size:20px;font-weight:600;margin-bottom:4px;}
+  .login p{font-size:13.5px;color:#8a8a8a;margin-bottom:22px;}
+  .login label{display:block;font-size:12px;color:#8a8a8a;text-transform:uppercase;letter-spacing:.04em;font-weight:700;margin-bottom:6px;}
+  .login input{width:100%;border:1px solid #dcdcdc;border-radius:9px;padding:12px 13px;font-size:15px;margin-bottom:16px;}
+  .login input:focus{outline:none;border-color:#1a7a4f;}
+  .login button{width:100%;background:#1a7a4f;color:#fff;border:none;border-radius:9px;padding:13px;font-size:15px;font-weight:600;cursor:pointer;}
+  .login button:disabled{opacity:.55;cursor:default;}
+  .erro{background:#fdf0ee;border:1px solid #f0cfc8;color:#a8422f;border-radius:9px;padding:11px 13px;font-size:13.5px;margin-bottom:16px;}
+
+  /* ── topo ── */
+  h1.tit{font-size:22px;font-weight:600;}
+  .sub{color:#7a7a7a;font-size:14px;margin-bottom:16px;}
+  .sair{float:right;border:1px solid #dcdcdc;background:#fff;border-radius:8px;padding:8px 14px;font-size:13px;cursor:pointer;color:#666;}
+  .tabs{display:flex;gap:6px;margin-bottom:16px;}
+  .tabs button{padding:9px 20px;border-radius:10px;font-size:14.5px;font-weight:600;color:#666;background:#fff;border:1px solid #e2e2e2;cursor:pointer;}
+  .tabs button.on{background:#1a7a4f;color:#fff;border-color:#1a7a4f;}
+
+  /* ── filtros ── */
+  .filtros{display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap;align-items:center;}
+  .filtros select{border:1px solid #d5d5d5;background:#fff;border-radius:10px;padding:11px 14px;font-size:14px;color:#333;cursor:pointer;}
+  .filtros select:focus{outline:none;border-color:#1a7a4f;}
+  .filtros select.on{border-color:#1a7a4f;background:#f0f7f3;font-weight:600;}
+
+  /* ── kpis ── */
+  .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-bottom:18px;}
+  .kpi{background:#fff;border-radius:14px;padding:16px 18px;}
+  .kpi .lbl{font-size:12.5px;color:#8a8a8a;text-transform:uppercase;letter-spacing:.04em;}
+  .kpi .val{font-size:29px;font-weight:600;margin-top:4px;}
+
+  .card{background:#fff;border-radius:14px;padding:18px 20px;margin-bottom:18px;}
+  .sec{font-size:17px;font-weight:600;margin-bottom:12px;}
+  .curva{background:#0d1512;border-radius:14px;padding:18px 16px 10px;margin-bottom:18px;}
+  .curva .cab{display:flex;justify-content:space-between;color:#e8f3ec;font-size:14px;margin-bottom:8px;}
+
+  /* ── etapas ── */
+  .lin{display:flex;align-items:center;gap:12px;padding:11px 8px;border-bottom:1px solid #f4f4f4;font-size:14px;}
+  .lin.alerta{background:#fdf0ee;border-radius:8px;}
+  .lin.pitch{opacity:.6;}
+  .lin .n{width:26px;color:#aaa;font-size:12.5px;text-align:right;}
+  .lin .nome{flex:1;}
+  .lin .barra{width:34%;height:8px;background:#eee;border-radius:5px;overflow:hidden;}
+  .lin .barra i{display:block;height:100%;}
+  .lin .pct{width:56px;text-align:right;font-weight:600;}
+  .lin .queda{width:82px;text-align:right;font-size:12.5px;color:#bbb;}
+  .lin .queda.on{color:#c0392b;font-weight:600;}
+
+  /* ── tabela ── */
+  .tbwrap{overflow-x:auto;margin:0 -20px;padding:0 20px;}
+  table.tb{width:100%;border-collapse:collapse;font-size:14px;}
+  .tb th{text-align:left;color:#3f4a44;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;padding:14px;background:#f2f4f3;border-bottom:2px solid #d8e0db;white-space:nowrap;}
+  .tb td{padding:17px 14px;border-bottom:1px solid #f2f2f2;white-space:nowrap;max-width:230px;overflow:hidden;text-overflow:ellipsis;}
+  .tb tbody tr:hover td{background:#fafbfa;}
+  .tb .nm{font-weight:600;position:sticky;left:0;background:#fff;z-index:2;max-width:300px;}
+  .tb tr:hover .nm{background:#fafbfa;}
+  .tb th:first-child{position:sticky;left:0;z-index:3;background:#f2f4f3;}
+  .tb .num,.tb th.num{text-align:right;}
+  .vazio{color:#aaa;padding:28px 4px;font-size:14px;}
+  .aviso{background:#fff8e6;border:1px solid #f0dca8;color:#7a5b12;border-radius:10px;padding:11px 13px;font-size:13px;margin-top:12px;}
+  .carregando{color:#aaa;font-size:14px;padding:40px 0;text-align:center;}
+</style>
+</head>
+<body>
+
+<div id="telaLogin" class="login" style="display:none;">
+  <h1>Dashboard Ciclo Fértil</h1>
+  <p>Acesso restrito.</p>
+  <div id="loginErro" class="erro" style="display:none;"></div>
+  <form id="formLogin">
+    <label>E-mail</label>
+    <input type="email" id="email" autocomplete="username" required/>
+    <label>Senha</label>
+    <input type="password" id="senha" autocomplete="current-password" required/>
+    <button type="submit" id="btnEntrar">Entrar</button>
+  </form>
+</div>
+
+<div id="telaDash" class="wrap" style="display:none;">
+  <button class="sair" onclick="sair()">Sair</button>
+  <h1 class="tit">Ciclo Fértil</h1>
+  <div class="sub" id="subTitulo">—</div>
+
+  <div class="tabs">
+    <button id="tabFunil" class="on" onclick="trocarAba('funil')">Funil</button>
+    <button id="tabCriativos" onclick="trocarAba('criativos')">Criativos</button>
+  </div>
+
+  <div class="filtros">
+    <select id="fPeriodo">
+      <option value="hoje">Hoje</option>
+      <option value="ontem">Ontem</option>
+      <option value="7">Últimos 7 dias</option>
+      <option value="14">Últimos 14 dias</option>
+      <option value="28">Últimos 28 dias</option>
+      <option value="30">Últimos 30 dias</option>
+      <option value="todos" selected>Máximo (todos)</option>
+    </select>
+    <select id="fFunil" class="soFunil">
+      <option value="">Todos os funis</option>
+      <option value="brasil">Brasil</option>
+      <option value="latam">Latam</option>
+    </select>
+    <select id="fFonte" class="soFunil">
+      <option value="">Todas as fontes</option>
+      <option value="meta">Meta</option>
+      <option value="tiktok">TikTok</option>
+    </select>
+    <select id="fVariante" class="soFunil"><option value="">Todas as URLs</option></select>
+    <select id="fStatus" class="soCriativos" style="display:none;"><option value="">Todos os status</option></select>
+  </div>
+
+  <div id="conteudo"><div class="carregando">Carregando…</div></div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+/* A chave abaixo é a publishable e fica visível de propósito. Quem protege os
+   dados é o RLS + a lista de e-mails autorizados no banco, não o segredo dela.
+   Sem login, as funções de leitura respondem "permission denied". Testado. */
+const SUPABASE_URL = 'https://lfmjvgkbvkkexwytkfeg.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_YMHtH3C0VuB5X8BFXADwBw_E7FcBFgE';
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+const TOTAL_TELAS = 34, BODY_INI = 3, BODY_FIM = 29, PITCH = 30, THRESH = 5;
+
+const NOMES = ['(abertura/idade)','(prova social)','Seu ciclo menstrual é…',
+'Qual é o seu maior desejo nesse momento?','Em qual área você sente algo travado?',
+'Há quanto tempo está tentando engravidar?','Você nota mudanças no muco ao longo do mês?',
+'Você já notou muco tipo clara de ovo?','Usa sabonete íntimo/ducha/lenços com frequência?',
+'Já mediu a temperatura ao acordar?','Você sabe quando está ovulando?',
+'Sente dor de um lado do ventre no meio do ciclo?','Como você identifica seu período fértil?',
+'Como descreveria seu estresse hoje?','Tem um momento do dia só pra você?',
+'Fica ansiosa quando a menstruação vai chegar?','Intensidade da pressão de engravidar?',
+'Seu humor muda bastante no dia?','Como descreveria seu sono?','Frequência de atividade física?',
+'Como descreveria sua alimentação?','Sente inchaço/cansaço/dores sem causa?',
+'Ainda acredita que vai conseguir engravidar?','Tem prática de meditação/oração/respiração?',
+'Consegue ter momentos de alegria e leveza?','Você se culpa quando o ciclo não vem?',
+'Quantos dias dura seu ciclo?','Quantos dias dura sua menstruação?',
+'Em quantos dias seu desejo sexual aumenta?','(RESULTADO diagnóstico — início do pitch)',
+'Quando começou sua última menstruação?','(loading)','gráfico fascinations','Página de vendas'];
+
+/* Mesmos números do dashboard antigo: o líquido desconta a taxa do checkout,
+   por isso o ROI fica bem abaixo do ROAS. */
+const PRECO_VENDA = 37.90, PRECO_BUMP = 17.00, LIQ_VENDA = 33.50, LIQ_BUMP = 14.48;
+function liquido(fat, vendas) {
+  const v = Number(vendas) || 0;
+  if (!v) return 0;
+  const bumps = Math.max(0, Math.round(((Number(fat) || 0) - v * PRECO_VENDA) / PRECO_BUMP));
+  return v * LIQ_VENDA + bumps * LIQ_BUMP;
+}
+
+const MEDALHAS = [
+  { selo:'💎', nome:'Diamante', vendas:30, roas:1.50 },
+  { selo:'🥇', nome:'Ouro',     vendas:50, roas:1.25 },
+  { selo:'🥈', nome:'Prata',    vendas:30, roas:1.25 },
+  { selo:'🥉', nome:'Bronze',   vendas:15, roas:1.25 },
+];
+function medalha(vendas, roas) {
+  for (const m of MEDALHAS) if (vendas >= m.vendas && roas >= m.roas) return m;
+  return null;
+}
+
+const moeda = (v) => (v === '' || v == null || isNaN(v)) ? '—' : 'R$' + Number(v).toFixed(2);
+const pct = (v) => (v == null || isNaN(v)) ? '—' : Number(v).toFixed(1) + '%';
+const esc = (s) => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+function periodo() {
+  const v = document.getElementById('fPeriodo').value;
+  if (v === 'todos') return { de: null, ate: null };
+  const hoje = new Date(Date.now() - 3 * 3600 * 1000);
+  const iso = (d) => d.toISOString().slice(0, 10);
+  if (v === 'hoje')  return { de: iso(hoje), ate: iso(hoje) };
+  if (v === 'ontem') { const o = new Date(hoje); o.setUTCDate(o.getUTCDate() - 1); return { de: iso(o), ate: iso(o) }; }
+  const d = new Date(hoje); d.setUTCDate(d.getUTCDate() - (Number(v) - 1));
+  return { de: iso(d), ate: iso(hoje) };
+}
+
+let aba = 'funil', grafico = null;
+
+function trocarAba(nova) {
+  aba = nova;
+  document.getElementById('tabFunil').className = nova === 'funil' ? 'on' : '';
+  document.getElementById('tabCriativos').className = nova === 'criativos' ? 'on' : '';
+  document.querySelectorAll('.soFunil').forEach(e => e.style.display = nova === 'funil' ? '' : 'none');
+  document.querySelectorAll('.soCriativos').forEach(e => e.style.display = nova === 'criativos' ? '' : 'none');
+  carregar();
+}
+
+async function carregar() {
+  const alvo = document.getElementById('conteudo');
+  alvo.innerHTML = '<div class="carregando">Carregando…</div>';
+  document.querySelectorAll('.filtros select').forEach(s => s.className = (s.className.replace(' on','')) + (s.value ? ' on' : ''));
+  try {
+    if (aba === 'funil') await verFunil(); else await verCriativos();
+  } catch (e) {
+    alvo.innerHTML = '<div class="card"><div class="erro">Erro ao carregar: ' + esc(e.message || e) + '</div></div>';
+  }
+}
+
+// ══════════════════════════ FUNIL ══════════════════════════
+async function verFunil() {
+  const p = periodo();
+  const fu = document.getElementById('fFunil').value || null;
+  const fo = document.getElementById('fFonte').value || null;
+  const va = document.getElementById('fVariante').value;
+
+  const [funil, vars] = await Promise.all([
+    sb.rpc('fn_funil', { p_de: p.de, p_ate: p.ate, p_variantes: va ? [va] : null, p_funil: fu, p_fonte: fo }),
+    sb.rpc('fn_variantes', { p_de: p.de, p_ate: p.ate, p_funil: fu, p_fonte: fo }),
+  ]);
+  if (funil.error) throw funil.error;
+
+  // o seletor de variantes sai dos dados: variante nova aparece sozinha
+  const sel = document.getElementById('fVariante');
+  const atual = sel.value;
+  sel.innerHTML = '<option value="">Todas as URLs</option>' +
+    (vars.data || []).map(v => '<option value="' + esc(v.variante) + '">' +
+      esc(v.variante.replace(/^v/, 'h=')) + ' · ' + v.sessoes + ' sessões</option>').join('');
+  sel.value = atual;
+
+  const d = funil.data;
+  const base = (d.etapas.find(e => e.n === 1) || {}).sessoes || 0;
+  const ret = (n) => base ? Math.round(((d.etapas.find(e => e.n === n) || {}).sessoes / base) * 1000) / 10 : 0;
+
+  let maiorQueda = { tela: 0, drop: 0 };
+  const linhas = d.etapas.map(e => {
+    const r = ret(e.n), rAnt = e.n > 1 ? ret(e.n - 1) : 100;
+    const drop = e.n > 1 ? Math.round((rAnt - r) * 10) / 10 : 0;
+    const corpo = e.n >= BODY_INI && e.n <= BODY_FIM;
+    const alerta = corpo && drop > THRESH;
+    if (corpo && drop > maiorQueda.drop) maiorQueda = { tela: e.n, drop };
+    return { n: e.n, nome: NOMES[e.n - 1] || ('Tela ' + e.n), ret: r, drop, alerta, pitch: e.n >= PITCH };
+  });
+
+  const pctFim = d.visitantes ? Math.round((d.fim / d.visitantes) * 1000) / 10 : 0;
+  const pctCompra = d.visitantes ? Math.round((d.compraram / d.visitantes) * 1000) / 10 : 0;
+
+  document.getElementById('conteudo').innerHTML =
+    '<div class="kpis">' +
+      kpi('Visitantes', d.visitantes) +
+      kpi('Chegaram ao fim', pctFim + '%') +
+      kpi('Clicaram em comprar', pctCompra + '%') +
+      kpi('Maior queda no corpo', maiorQueda.tela ? ('Tela ' + maiorQueda.tela) : '—') +
+    '</div>' +
+    '<div class="curva"><div class="cab"><span>Retenção do funil</span><span style="color:#5f8a72;">' + TOTAL_TELAS + ' telas</span></div>' +
+      '<div style="position:relative;height:260px;"><canvas id="cv"></canvas></div></div>' +
+    '<div class="card"><div class="sec">Etapas do Quiz</div>' +
+      linhas.map(l =>
+        '<div class="lin' + (l.alerta ? ' alerta' : '') + (l.pitch ? ' pitch' : '') + '">' +
+          '<span class="n">' + l.n + '</span><span class="nome">' + esc(l.nome) + '</span>' +
+          '<span class="barra"><i style="width:' + l.ret + '%;background:' + (l.alerta ? '#d84a3a' : l.pitch ? '#9a9a9a' : '#6b9e7e') + ';"></i></span>' +
+          '<span class="pct">' + l.ret + '%</span>' +
+          '<span class="queda' + (l.alerta ? ' on' : '') + '">' + (l.n > 1 && l.drop > 0 ? (l.alerta ? '▼ ' : '-') + l.drop + ' pts' : '') + '</span>' +
+        '</div>').join('') +
+    '</div>';
+
+  if (grafico) grafico.destroy();
+  const ctx = document.getElementById('cv').getContext('2d');
+  const g = ctx.createLinearGradient(0, 0, 0, 260);
+  g.addColorStop(0, 'rgba(53,208,127,0.45)'); g.addColorStop(1, 'rgba(53,208,127,0.02)');
+  grafico = new Chart(ctx, {
+    type: 'line',
+    data: { labels: linhas.map(l => l.n), datasets: [{ data: linhas.map(l => l.ret),
+      borderColor: '#35d07f', borderWidth: 2, backgroundColor: g, fill: true, tension: .4, pointRadius: 0, pointHoverRadius: 5 }] },
+    options: { responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false }, tooltip: { callbacks: {
+        title: (t) => 'Tela ' + linhas[t[0].dataIndex].n + ' — ' + linhas[t[0].dataIndex].nome,
+        label: (c) => c.parsed.y + '% ainda no funil' } } },
+      scales: { y: { min: 0, max: 100, ticks: { color: '#6b8f7b', callback: v => v + '%' }, grid: { color: 'rgba(255,255,255,.06)' } },
+                x: { ticks: { color: '#6b8f7b', maxTicksLimit: 10 }, grid: { display: false } } } }
+  });
+}
+
+const kpi = (l, v) => '<div class="kpi"><div class="lbl">' + l + '</div><div class="val">' + v + '</div></div>';
+
+// ══════════════════════════ CRIATIVOS ══════════════════════════
+async function verCriativos() {
+  const p = periodo();
+  const { data, error } = await sb.rpc('fn_criativos', { p_de: p.de, p_ate: p.ate });
+  if (error) throw error;
+
+  const rows = (data || []).map(r => {
+    const impr = Number(r.impressoes) || 0, gasto = Number(r.gasto) || 0;
+    const v3s = Number(r.v3s) || 0, vendas = Number(r.vendas) || 0, valor = Number(r.valor) || 0;
+    const fat = valor > 0 ? valor : vendas * PRECO_VENDA;
+    return { ...r, gasto, impressoes: impr, vendas,
+      ctr: impr ? (Number(r.clicks) / impr) * 100 : null,
+      hook: impr && v3s ? (v3s / impr) * 100 : null,
+      // hold rate = ThruPlay ÷ plays de 3s, não ÷ impressões
+      hold: v3s ? (Number(r.thruplay) / v3s) * 100 : null,
+      custoVenda: vendas ? gasto / vendas : null,
+      custoCheckout: Number(r.checkouts) ? gasto / Number(r.checkouts) : null,
+      faturamento: fat,
+      roas: gasto ? fat / gasto : null,
+      roi: gasto ? ((liquido(fat, vendas) - gasto) / gasto) * 100 : null };
+  });
+
+  // quem teve entrega no período primeiro, do maior ROI pro menor
+  rows.sort((a, b) => {
+    if ((a.gasto > 0) !== (b.gasto > 0)) return a.gasto > 0 ? -1 : 1;
+    if (a.gasto > 0 && a.roi !== b.roi) return (b.roi ?? -1e9) - (a.roi ?? -1e9);
+    return String(a.anuncio).localeCompare(String(b.anuncio));
+  });
+
+  const st = document.getElementById('fStatus');
+  const stAtual = st.value;
+  const statuses = [...new Set(rows.map(r => (r.status || '').trim()).filter(Boolean))].sort();
+  st.innerHTML = '<option value="">Todos os status</option>' +
+    statuses.map(s => '<option value="' + esc(s) + '">' + esc(s) + '</option>').join('');
+  st.value = stAtual;
+
+  const vis = stAtual ? rows.filter(r => (r.status || '').trim() === stAtual) : rows;
+
+  const tot = vis.reduce((a, r) => ({
+    gasto: a.gasto + r.gasto, checkouts: a.checkouts + Number(r.checkouts || 0),
+    vendas: a.vendas + r.vendas, fat: a.fat + r.faturamento }), { gasto:0, checkouts:0, vendas:0, fat:0 });
+  const roasGeral = tot.gasto ? tot.fat / tot.gasto : null;
+  const roiGeral = tot.gasto ? ((liquido(tot.fat, tot.vendas) - tot.gasto) / tot.gasto) * 100 : null;
+
+  document.getElementById('conteudo').innerHTML =
+    '<div class="kpis">' +
+      kpi('Criativos', vis.length) +
+      kpi('Gasto total', moeda(tot.gasto)) +
+      kpi('Checkouts', tot.checkouts) +
+      kpi('Vendas', tot.vendas) +
+      kpi('Faturamento', moeda(tot.fat)) +
+      kpi('ROAS', roasGeral == null ? '—' : roasGeral.toFixed(2) + 'x') +
+      kpi('ROI', roiGeral == null ? '—' : roiGeral.toFixed(0) + '%') +
+    '</div>' +
+    '<div class="card"><div class="sec">Todos os criativos</div>' +
+      (vis.length ? '<div class="tbwrap"><table class="tb"><tr>' +
+        ['Anúncio','Status','Formato','Estrutura','Ângulo','Emoção'].map(h => '<th>' + h + '</th>').join('') +
+        ['Gasto','CTR','Hook','Hold','Checkouts','R$/Check','Vendas','R$/Venda','Faturamento','ROAS'].map(h => '<th class="num">' + h + '</th>').join('') +
+        '</tr>' + vis.map(r => {
+          const m = medalha(r.vendas, r.roas || 0);
+          return '<tr>' +
+            '<td class="nm" title="' + esc(r.anuncio) + '">' + (m ? m.selo + ' ' : '') + esc(r.anuncio) + '</td>' +
+            '<td>' + esc(r.status || '—') + '</td><td>' + esc(r.formato || '—') + '</td>' +
+            '<td>' + esc(r.estrutura || '—') + '</td><td>' + esc(r.angulo || '—') + '</td>' +
+            '<td>' + esc(r.emocao || '—') + '</td>' +
+            '<td class="num">' + moeda(r.gasto) + '</td>' +
+            '<td class="num">' + pct(r.ctr) + '</td><td class="num">' + pct(r.hook) + '</td>' +
+            '<td class="num">' + pct(r.hold) + '</td>' +
+            '<td class="num">' + (r.checkouts || 0) + '</td><td class="num">' + moeda(r.custoCheckout) + '</td>' +
+            '<td class="num">' + r.vendas + '</td><td class="num">' + moeda(r.custoVenda) + '</td>' +
+            '<td class="num">' + (r.faturamento ? moeda(r.faturamento) : '—') + '</td>' +
+            '<td class="num" style="color:' + (r.roas >= 1 ? '#2e7d52' : '#c0392b') + '">' +
+              (r.roas == null ? '—' : r.roas.toFixed(2) + 'x') + '</td></tr>';
+        }).join('') + '</table></div>'
+      : '<div class="vazio">Nenhum criativo neste período.</div>') +
+    '</div>';
+}
+
+// ══════════════════════════ LOGIN ══════════════════════════
+async function mostrarConforme(sessao) {
+  document.getElementById('telaLogin').style.display = sessao ? 'none' : 'block';
+  document.getElementById('telaDash').style.display  = sessao ? 'block' : 'none';
+  if (sessao) {
+    document.getElementById('subTitulo').textContent = sessao.user.email;
+    await carregar();
+  }
+}
+
+document.getElementById('formLogin').addEventListener('submit', async (ev) => {
+  ev.preventDefault();
+  const btn = document.getElementById('btnEntrar'), err = document.getElementById('loginErro');
+  btn.disabled = true; btn.textContent = 'Entrando…'; err.style.display = 'none';
+  const { data, error } = await sb.auth.signInWithPassword({
+    email: document.getElementById('email').value.trim(),
+    password: document.getElementById('senha').value,
+  });
+  btn.disabled = false; btn.textContent = 'Entrar';
+  if (error) { err.textContent = 'E-mail ou senha incorretos.'; err.style.display = 'block'; return; }
+  await mostrarConforme(data.session);
+});
+
+async function sair() { await sb.auth.signOut(); location.reload(); }
+
+document.querySelectorAll('.filtros select').forEach(s => s.addEventListener('change', carregar));
+
+sb.auth.getSession().then(({ data }) => mostrarConforme(data.session));
+</script>
+</body>
+</html>

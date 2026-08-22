@@ -3723,8 +3723,8 @@ body.marca-na-tela-1:has(#s1.screen.active) .wrap {
   display: flex; align-items: center; justify-content: space-between; gap: 8px;
   padding: 9px 10px;
   border-radius: 10px;
-  background: var(--ink);
-  color: var(--bg);
+  background: var(--blue);
+  color: #fff;
   font-family: 'DM Sans', system-ui, sans-serif;
   font-size: clamp(12.5px, 3.5vw, 15px); font-weight: 500; line-height: 1.2;
   text-align: left;
@@ -3734,12 +3734,12 @@ body.marca-na-tela-1:has(#s1.screen.active) .wrap {
   width: 26px; height: 26px;
   display: grid; place-items: center;
   border-radius: 50%;
-  background: var(--bg);
-  color: var(--ink);
+  background: #fff;
+  color: var(--blue-d);
 }
 .age-foto__chev svg { width: 13px; height: 13px; }
 .age-foto:active { transform: scale(.985); }
-.age-foto.selected { box-shadow: 0 0 0 2px var(--ink); }
+.age-foto.selected { box-shadow: 0 0 0 2px var(--blue); }
 
 /* Linha fina acima dos termos, como na referência */
 .s1-sep {

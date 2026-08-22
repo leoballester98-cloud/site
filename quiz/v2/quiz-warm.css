@@ -3681,12 +3681,25 @@ button:focus-visible, .row-card:focus-visible, .simple-opt:focus-visible,
 
 /* Título no formato da referência: nome do plano em caixa alta, instrução
    curta embaixo. Só na h=2 — as outras variantes mantêm o título em frase. */
-.s1-h2 #h1Var {
+/* A referência usa o título em ~6% da largura da tela; o nosso vinha em 8,5% e
+   encostava nas bordas. O clamp segura a proporção no celular e põe teto no
+   desktop, onde 6vw viraria um título gigante. O balance divide as duas linhas
+   em partes parecidas em vez de deixar uma cheia e outra com uma palavra. */
+/* Seletor pesado de propósito: existe um "#s1 h1.q-title-lg { font-size: 32px }"
+   nas media queries que vence qualquer regra mais simples. E o max-width vem
+   inline no HTML, que só cede a !important — mexer no inline mudaria também as
+   variantes h=0 e h=1, que dependem dele. */
+#s1.s1-h2 h1#h1Var {
   text-transform: uppercase;
   letter-spacing: -.01em;
-  max-width: 20ch;
+  font-size: clamp(22px, 6.1vw, 34px);
+  line-height: 1.14;
+  max-width: 22ch !important;
+  margin-left: auto;
+  margin-right: auto;
+  text-wrap: balance;
 }
-.s1-h2 #subVar {
+#s1.s1-h2 p#subVar {
   text-transform: uppercase;
   letter-spacing: .08em;
   font-size: 14px;

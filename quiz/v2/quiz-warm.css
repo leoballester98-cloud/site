@@ -3648,7 +3648,10 @@ body.marca-na-tela-1:has(#s1.screen.active) .wrap {
   display: flex; flex-direction: column;
   padding-bottom: 10px;
 }
-#s1.s1-h2 {
+/* O .active é obrigatório aqui: '.screen{display:none}' pesa menos que
+   '#s1.s1-h2', então sem ele a tela 1 nunca sumia e aparecia empilhada em cima
+   das telas seguintes. */
+#s1.s1-h2.active {
   display: flex;
   flex-direction: column;
   flex: 1 1 auto;
@@ -3657,9 +3660,9 @@ body.marca-na-tela-1:has(#s1.screen.active) .wrap {
   padding-top: 0;
   padding-bottom: 0;
 }
-#s1.s1-h2 > * { flex: 0 0 auto; }
+#s1.s1-h2.active > * { flex: 0 0 auto; }
 /* precisa vencer a regra acima, que tem id e por isso pesa mais */
-#s1.s1-h2 > .age-fotos { flex: 1 1 auto; min-height: 0; }
+#s1.s1-h2.active > .age-fotos { flex: 1 1 auto; min-height: 0; }
 
 /* Título: sans de largura normal, como na referência — a display condensada do
    quiz fica pesada demais e some com o ar entre as letras. */
@@ -3762,7 +3765,7 @@ body.marca-na-tela-1:has(#s1.screen.active) .wrap {
   body.marca-na-tela-1:has(#s1.screen.active) .wrap { display: block; max-width: 1180px; }
   /* título numa linha só, como na referência */
   #s1.s1-h2 h1#h1Var { max-width: 40ch !important; }
-  #s1.s1-h2 { display: block; overflow: visible; padding-top: 32px; }
+  #s1.s1-h2.active { display: block; overflow: visible; padding-top: 32px; }
   .age-fotos { grid-template-columns: repeat(4, minmax(0, 1fr)); grid-template-rows: none; gap: 16px; }
   /* no desktop sobra altura, então o cartão volta a ter proporção própria */
   .age-foto { height: auto; aspect-ratio: 1 / 1.06; }

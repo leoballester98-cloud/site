@@ -3697,3 +3697,17 @@ button:focus-visible, .row-card:focus-visible, .simple-opt:focus-visible,
   .age-fotos { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
   .age-foto__bar { font-size: 15px; }
 }
+
+/* Cabeçalho da tela 1 na variante h=2: some passo e seção, entra a marca.
+   Sai sozinho quando o quiz avança, porque a regra depende de #s1 estar ativa. */
+body.marca-na-tela-1:has(#s1.screen.active) .header__step,
+body.marca-na-tela-1:has(#s1.screen.active) .header__section,
+body.marca-na-tela-1:has(#s1.screen.active) .progress { visibility: hidden; }
+body.marca-na-tela-1:has(#s1.screen.active) .header__inner { position: relative; }
+body.marca-na-tela-1:has(#s1.screen.active) .header__inner::after {
+  content: 'Ciclo Fértil';
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 17px; font-weight: 700; letter-spacing: -.01em;
+  color: var(--ink, #2b1d16);
+}

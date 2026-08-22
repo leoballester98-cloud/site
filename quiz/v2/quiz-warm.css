@@ -3216,10 +3216,12 @@ button:focus-visible, .row-card:focus-visible, .simple-opt:focus-visible,
   #s1 h1.q-title-lg { font-size: 38px; }
 }
 
-/* ── títulos com 4+ linhas: reduz para caber em 3 ──────── */
+/* Títulos com 4+ linhas encolhem por MEDIÇÃO agora, em ajustarTitulo() no JS.
+   A regra que estava aqui valia só até 480px e dependia de uma lista de ids
+   mantida à mão: no desktop nunca agia, e texto novo ficava de fora. */
 @media (max-width: 480px) {
   #s14 .q-title, #s15 .q-title, #s31 .q-title, #s38 .q-title,
-  #s40 .q-title, #s41 .q-title, #s42 .q-title { font-size: 28px; max-width: 100%; }
+  #s40 .q-title, #s41 .q-title, #s42 .q-title { max-width: 100%; }
 }
 
 /* ── s1: cabe sem scroll em mobile (375×667) ──────────── */

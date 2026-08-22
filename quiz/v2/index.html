@@ -56,7 +56,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"/>
-  <link rel="stylesheet" href="quiz-warm.css?v=190"/>
+  <link rel="stylesheet" href="quiz-warm.css?v=191"/>
 </head>
 <body>
 
@@ -1288,6 +1288,37 @@ function showFooter(screenId) {
   primaryBtn.onclick = () => goNext();
 }
 
+/* Título com mais de 3 linhas encolhe até caber.
+
+   Existia uma regra pra isso no CSS, mas presa dentro de @media(max-width:480px)
+   e amarrada a uma lista de ids escrita à mão — no desktop nunca valia, e cada
+   texto novo exigia lembrar de acrescentar a tela na lista. Medir resolve pra
+   todas as telas e larguras de uma vez. */
+function ajustarTitulo(sec) {
+  if (!sec) return;
+  const t = sec.querySelector('.q-title, .q-title-lg');
+  if (!t) return;
+  t.style.fontSize = '';                 // volta ao tamanho do CSS antes de medir
+  const cs = () => getComputedStyle(t);
+  const linhas = () => {
+    const c = cs();
+    const lh = parseFloat(c.lineHeight) || parseFloat(c.fontSize) * 1.2;
+    return Math.round(t.getBoundingClientRect().height / lh);
+  };
+  const base = parseFloat(cs().fontSize);
+  let f = base, passo = 0;
+  while (linhas() > 3 && f > base * 0.62 && passo++ < 40) {
+    f -= 1;
+    t.style.fontSize = f + 'px';
+  }
+}
+
+let _reajuste;
+window.addEventListener('resize', () => {
+  clearTimeout(_reajuste);
+  _reajuste = setTimeout(() => ajustarTitulo(document.querySelector('.screen.active')), 120);
+});
+
 function goToScreen(next) {
   // Se ainda não está tentando, s11 não faz sentido — pula para s12
   if (next === 's11' && answers.s3 === 'ainda-nao') next = 's12';
@@ -1302,6 +1333,7 @@ function showScreen(id) {
   if (!el) return;
   el.classList.add('active','entering');
   setTimeout(() => el.classList.remove('entering'), 420);
+  ajustarTitulo(el);
   window.scrollTo({ top: 0, behavior: 'smooth' });
   if (history[history.length-1] !== id) history.push(id);
   updateChrome(id);

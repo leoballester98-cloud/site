@@ -3713,9 +3713,13 @@ body.marca-na-tela-1:has(#s1.screen.active) .wrap {
   height: 100%;
   cursor: pointer;
 }
+/* As quatro fotos são normalizadas numa tela 3:4 com a cabeça sempre na mesma
+   altura, então o cover pode preencher o cartão cortando SÓ por baixo — nunca
+   pega rosto, e as pessoas saem no mesmo tamanho. O contain que estava aqui não
+   cortava, mas deixava vazio em cima e cada uma de um tamanho. */
 .age-foto img {
   width: 100%; height: 100%;
-  object-fit: cover; object-position: center 15%;
+  object-fit: cover; object-position: center top;
   display: block;
 }
 .age-foto__bar {

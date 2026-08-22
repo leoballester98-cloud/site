@@ -19,6 +19,7 @@
   --ink-fade: rgba(43,26,16,0.50);
   --ink-mute: rgba(43,26,16,0.28);
   --blue: #C4956A;
+  --cta: var(--cta);                 /* marrom do botao de checkout */
   --blue-d: #8B4A1C;
   --blue-light: rgba(196,149,106,0.18);
   --red: #D17564;
@@ -1720,8 +1721,10 @@ body {
   font-weight: 700;
   color: var(--ink);
 }
+/* Mesmo marrom do botao de checkout, nao o quase-preto da tinta: o preco e a
+   caixa que leva ao mesmo lugar que o botao, entao eles combinam. */
 .plan-card__pill {
-  background: var(--ink);
+  background: var(--cta);
   color: #fff;
   padding: 10px 16px;
   border-radius: 14px;
@@ -2974,7 +2977,7 @@ button:focus-visible, .row-card:focus-visible, .simple-opt:focus-visible,
   margin-bottom: 6px;
 }
 #s30 .sticky-discount-bar__btn {
-  background: #6c391d;
+  background: var(--cta);
 }
 #s30 .btn-primary:hover,
 #s30 .sticky-discount-bar__btn:hover {
@@ -2997,11 +3000,11 @@ button:focus-visible, .row-card:focus-visible, .simple-opt:focus-visible,
   animation: btn-pulse 2s ease-out infinite;
   background: linear-gradient(
     105deg,
-    #6c391d 0%,
-    #6c391d 40%,
+    var(--cta) 0%,
+    var(--cta) 40%,
     rgba(255,255,255,0.18) 50%,
-    #6c391d 60%,
-    #6c391d 100%
+    var(--cta) 60%,
+    var(--cta) 100%
   );
   background-size: 200% auto;
   animation: btn-pulse 2s ease-out infinite, btn-shimmer 3s linear infinite;
@@ -3286,15 +3289,34 @@ button:focus-visible, .row-card:focus-visible, .simple-opt:focus-visible,
   }
 }
 
-/* ── s25: cabe sem scroll em mobile (375×667) ─────────── */
+/* ── s25 ───────────────────────────────────────────────
+   O aperto aqui existe por um motivo: no celular a tela precisa caber sem
+   rolagem em 375x667. Mas as regras estavam FORA de media query e valiam no
+   desktop tambem, onde sobra altura — dai o titulo colado na caixa branca. */
 #s25 .q-title-lg {
-  font-size: 22px;
-  line-height: 1.15;
+  font-size: 30px;
+  line-height: 1.2;
   margin-top: 0;
-  margin-bottom: 6px;
+  margin-bottom: 20px;
 }
-#s25 .stat-rows { gap: 5px; }
-#s25 .section-heading { margin-top: 0; margin-bottom: 4px; font-size: 17px; }
+#s25 .stat-rows { gap: 10px; }
+#s25 .section-heading { margin-top: 30px; margin-bottom: 14px; font-size: 20px; }
+#s25 .stat-rows-wrap { margin-bottom: 24px; }
+#s25 .imc-card { margin-bottom: 4px; }
+
+@media (min-width: 900px) {
+  /* a faixa de 580px deixava a tela estreita num monitor */
+  body:has(#s25.active) .wrap { max-width: 720px; }
+}
+
+@media (max-width: 700px) {
+  /* volta a versão compacta, que é a que cabe sem rolagem */
+  #s25 .q-title-lg { font-size: 22px; line-height: 1.15; margin-bottom: 6px; }
+  #s25 .stat-rows { gap: 5px; }
+  #s25 .section-heading { margin-top: 0; margin-bottom: 4px; font-size: 17px; }
+  #s25 .stat-rows-wrap { margin-bottom: 8px; }
+  #s25 .imc-card { margin-bottom: 0; }
+}
 @media (max-width: 480px) {
   /* sem a imagem lateral: linhas em largura cheia, tudo acima da dobra */
   #s25 .imgbox--resume { display: none; }

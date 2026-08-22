@@ -3708,7 +3708,7 @@ body.marca-na-tela-1:has(#s1.screen.active) .wrap {
   border: 0;
   border-radius: 14px;
   overflow: hidden;
-  background: var(--card);        /* branco, igual aos cartões de opção do quiz */
+  background: var(--card-active);
   min-height: 0;
   height: 100%;
   cursor: pointer;

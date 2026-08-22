@@ -95,21 +95,22 @@
     <div class="age-fotos" id="ageFotos" hidden>
       <button class="age-row age-foto" data-val="18-25" data-next="s2">
         <img src="Images/idade-18-25.webp" alt="" loading="eager" onerror="this.remove()"/>
-        <span class="age-foto__bar"><span>Idade: 18-25</span><span class="age-foto__chev">›</span></span>
+        <span class="age-foto__bar"><span>Idade: 18-25</span><span class="age-foto__chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></span></span>
       </button>
       <button class="age-row age-foto" data-val="26-35" data-next="s2">
         <img src="Images/idade-26-35.webp" alt="" loading="eager" onerror="this.remove()"/>
-        <span class="age-foto__bar"><span>Idade: 26-35</span><span class="age-foto__chev">›</span></span>
+        <span class="age-foto__bar"><span>Idade: 26-35</span><span class="age-foto__chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></span></span>
       </button>
       <button class="age-row age-foto" data-val="36-45" data-next="s2">
         <img src="Images/idade-36-45.webp" alt="" loading="eager" onerror="this.remove()"/>
-        <span class="age-foto__bar"><span>Idade: 36-45</span><span class="age-foto__chev">›</span></span>
+        <span class="age-foto__bar"><span>Idade: 36-45</span><span class="age-foto__chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></span></span>
       </button>
       <button class="age-row age-foto" data-val="46+" data-next="s2">
         <img src="Images/idade-46-mais.webp" alt="" loading="eager" onerror="this.remove()"/>
-        <span class="age-foto__bar"><span>Idade: 46+</span><span class="age-foto__chev">›</span></span>
+        <span class="age-foto__bar"><span>Idade: 46+</span><span class="age-foto__chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></span></span>
       </button>
     </div>
+    <hr class="s1-sep" hidden/>
     <p class="terms">Ao continuar você confirma e garante que leu, entendeu e está de acordo com nossos <a href="termos.html" target="_blank"><b>Termos de Uso</b></a>, <a href="privacidade.html" target="_blank"><b>Política de Privacidade</b></a> e <a href="reembolso.html" target="_blank"><b>Política de Reembolso</b></a>.</p>
   </section>
 
@@ -1139,6 +1140,8 @@ const VARIANTE = ((new URLSearchParams(location.search).get('h') || '0').replace
        ainda não investiu nada nele. Da tela 2 em diante o passo volta, aí já
        vale como progresso. */
     document.body.classList.add('marca-na-tela-1');
+    const sep = document.querySelector('#s1 .s1-sep');
+    if (sep) sep.hidden = false;
     /* Troca a lista de idade pelos cartoes com foto. Os dois blocos ja existem
        no HTML: assim o handler de clique, que roda no load, encontra os dois
        e nao precisa ser religado. */

@@ -3630,85 +3630,144 @@ button:focus-visible, .row-card:focus-visible, .simple-opt:focus-visible,
 [hidden] { display: none !important; }
 
 /* ── Variante h=2 da tela 1: idade em cartões com foto ────────────────────
-   Duas colunas no celular, quatro no desktop — o mesmo salto da referência.
-   A faixa escura fica POR CIMA da foto, não abaixo: assim o cartão tem uma
-   altura só, e fotos de proporções diferentes não desalinham a grade. */
+   Regra que manda em tudo aqui: no celular a tela 1 cabe inteira, sem rolagem.
+   Por isso a grade é flexível e os cartões NÃO têm proporção fixa no mobile —
+   eles encolhem pra caber. A proporção só volta no desktop, onde sobra altura. */
+
+/* A altura sai de uma cadeia de flex, não de uma conta com a altura do cabeçalho:
+   chutar '100svh - 74px' erra sempre que o cabeçalho muda de tamanho. */
+body.marca-na-tela-1:has(#s1.screen.active) {
+  height: 100svh; overflow: hidden;
+  display: flex; flex-direction: column;
+}
+/* O cabeçalho é FIXO: quem reserva o espaço dele é o padding-top da .wrap.
+   Sobrescrever esse padding jogava o conteúdo por baixo do cabeçalho — foi o
+   que quebrou na primeira tentativa. Aqui só o padding de baixo muda. */
+body.marca-na-tela-1:has(#s1.screen.active) .wrap {
+  flex: 1 1 auto; min-height: 0;
+  display: flex; flex-direction: column;
+  padding-bottom: 10px;
+}
+#s1.s1-h2 {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: hidden;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+#s1.s1-h2 > * { flex: 0 0 auto; }
+/* precisa vencer a regra acima, que tem id e por isso pesa mais */
+#s1.s1-h2 > .age-fotos { flex: 1 1 auto; min-height: 0; }
+
+/* Título: sans de largura normal, como na referência — a display condensada do
+   quiz fica pesada demais e some com o ar entre as letras. */
+#s1.s1-h2 h1#h1Var {
+  font-family: 'DM Sans', system-ui, sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0;
+  font-size: clamp(21px, 5.8vw, 42px);
+  line-height: 1.15;
+  max-width: 26ch !important;
+  margin: 0 auto 6px;
+  text-wrap: balance;
+}
+#s1.s1-h2 p#subVar {
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  font-weight: 500;
+  font-size: clamp(13px, 3.6vw, 19px);
+  color: var(--ink-fade);
+  margin: 0 auto 14px;
+  min-height: 0;
+  padding-bottom: 0;
+}
+
 .age-fotos {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px;
-  margin: 22px 0 18px;
+  /* linhas explícitas: sem elas a linha do grid se ajusta ao conteúdo, o
+     height:100% do cartão não tem a que se referir e ele colapsa na barra */
+  grid-template-rows: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  flex: 1 1 auto;      /* come a altura que sobrar, e só ela */
+  min-height: 0;
+  width: 100%;
+  max-width: 1130px;
+  margin: 0 auto;
 }
 .age-foto {
   position: relative;
   display: block;
   padding: 0;
-  border: 1px solid var(--line, rgba(0,0,0,.08));
-  border-radius: 16px;
+  border: 0;
+  border-radius: 14px;
   overflow: hidden;
-  background: var(--card, #f3ede6);
-  aspect-ratio: 3 / 4;
+  background: var(--bg-lift);
   min-height: 0;
+  height: 100%;
   cursor: pointer;
 }
 .age-foto img {
   width: 100%; height: 100%;
-  object-fit: cover; object-position: center 18%;
+  object-fit: cover; object-position: center 15%;
   display: block;
 }
 .age-foto__bar {
-  position: absolute; left: 8px; right: 8px; bottom: 8px;
+  position: absolute; left: 7px; right: 7px; bottom: 7px;
   display: flex; align-items: center; justify-content: space-between; gap: 8px;
-  padding: 11px 12px;
-  border-radius: 11px;
-  background: rgba(38, 26, 20, .88);
+  padding: 9px 10px;
+  border-radius: 10px;
+  background: #3B2A20;
   color: #fff;
-  font-size: 14.5px; font-weight: 600; line-height: 1.2;
+  font-family: 'DM Sans', system-ui, sans-serif;
+  font-size: clamp(12.5px, 3.5vw, 15px); font-weight: 500; line-height: 1.2;
   text-align: left;
 }
 .age-foto__chev {
   flex: none;
-  width: 22px; height: 22px;
+  width: 26px; height: 26px;
   display: grid; place-items: center;
   border-radius: 50%;
-  background: #fff; color: #261a14;
-  font-size: 15px; font-weight: 700;
-  padding-bottom: 2px;
+  background: #fff; color: #3B2A20;
 }
-.age-foto:hover { filter: brightness(1.03); }
+.age-foto__chev svg { width: 13px; height: 13px; }
 .age-foto:active { transform: scale(.985); }
-.age-foto.selected { border-color: var(--accent, #7a5c3e); box-shadow: 0 0 0 2px var(--accent, #7a5c3e); }
+.age-foto.selected { box-shadow: 0 0 0 2px var(--ink); }
 
-/* Título no formato da referência: nome do plano em caixa alta, instrução
-   curta embaixo. Só na h=2 — as outras variantes mantêm o título em frase. */
-/* A referência usa o título em ~6% da largura da tela; o nosso vinha em 8,5% e
-   encostava nas bordas. O clamp segura a proporção no celular e põe teto no
-   desktop, onde 6vw viraria um título gigante. O balance divide as duas linhas
-   em partes parecidas em vez de deixar uma cheia e outra com uma palavra. */
-/* Seletor pesado de propósito: existe um "#s1 h1.q-title-lg { font-size: 32px }"
-   nas media queries que vence qualquer regra mais simples. E o max-width vem
-   inline no HTML, que só cede a !important — mexer no inline mudaria também as
-   variantes h=0 e h=1, que dependem dele. */
-#s1.s1-h2 h1#h1Var {
-  text-transform: uppercase;
-  letter-spacing: -.01em;
-  font-size: clamp(22px, 6.1vw, 34px);
-  line-height: 1.14;
-  max-width: 22ch !important;
-  margin-left: auto;
-  margin-right: auto;
-  text-wrap: balance;
+/* Linha fina acima dos termos, como na referência */
+.s1-sep {
+  width: 100%; max-width: 1130px;
+  margin: 12px auto 10px;
+  border: 0; border-top: 1px solid var(--ink-mute);
 }
-#s1.s1-h2 p#subVar {
-  text-transform: uppercase;
-  letter-spacing: .08em;
-  font-size: 14px;
-  font-weight: 600;
+/* No quiz os termos são position:fixed, colados no rodapé — fora do fluxo, não
+   reservam espaço, e a segunda fila de cartões passava por baixo deles. Aqui
+   eles voltam pro fluxo pra entrar na conta da coluna flex. */
+#s1.s1-h2 .terms {
+  position: static;
+  margin: 0 auto;
+  padding-bottom: 0;
+  font-size: clamp(11px, 3vw, 13px);
+  line-height: 1.45;
 }
+#s1.s1-h2 .terms a { text-decoration: underline; }
 
 @media (min-width: 720px) {
-  .age-fotos { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
-  .age-foto__bar { font-size: 15px; }
+  body.marca-na-tela-1:has(#s1.screen.active) { height: auto; overflow: visible; display: block; }
+  /* O container do quiz trava em 860px e deixava os cartões estreitos; a
+     referência usa uma faixa bem mais larga. Vale só nesta tela. */
+  body.marca-na-tela-1:has(#s1.screen.active) .wrap { display: block; max-width: 1180px; }
+  /* título numa linha só, como na referência */
+  #s1.s1-h2 h1#h1Var { max-width: 40ch !important; }
+  #s1.s1-h2 { display: block; overflow: visible; padding-top: 32px; }
+  .age-fotos { grid-template-columns: repeat(4, minmax(0, 1fr)); grid-template-rows: none; gap: 16px; }
+  /* no desktop sobra altura, então o cartão volta a ter proporção própria */
+  .age-foto { height: auto; aspect-ratio: 1 / 1.06; }
+  #s1.s1-h2 h1#h1Var { margin-bottom: 10px; }
+  #s1.s1-h2 p#subVar { margin-bottom: 22px; }
 }
 
 /* Cabeçalho da tela 1 na variante h=2: some passo e seção, entra a marca.
@@ -3720,7 +3779,8 @@ body.marca-na-tela-1:has(#s1.screen.active) .header__inner { position: relative;
 body.marca-na-tela-1:has(#s1.screen.active) .header__inner::after {
   content: 'Ciclo Fértil';
   position: absolute; inset: 0;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 17px; font-weight: 700; letter-spacing: -.01em;
+  display: flex; align-items: center; justify-content: flex-start;
+  font-family: 'DM Sans', system-ui, sans-serif;
+  font-size: 17px; font-weight: 700; letter-spacing: -.02em;
   color: var(--ink, #2b1d16);
 }

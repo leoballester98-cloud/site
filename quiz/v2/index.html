@@ -56,7 +56,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"/>
-  <link rel="stylesheet" href="quiz-warm.css?v=172"/>
+  <link rel="stylesheet" href="quiz-warm.css?v=173"/>
 </head>
 <body>
 
@@ -86,6 +86,29 @@
         <button class="age-row" data-val="36-45" data-next="s2">36-45 <span style="font-size:12px;opacity:.6;font-weight:400;">anos</span> <span class="age-row__chev">›</span></button>
         <button class="age-row" data-val="46+" data-next="s2">46+ <span style="font-size:12px;opacity:.6;font-weight:400;">anos</span> <span class="age-row__chev">›</span></button>
       </div>
+    </div>
+    <!-- Variante h=2: mesma pergunta, apresentada em cartões com foto.
+         Os botões levam a classe age-row de propósito — o handler de clique já
+         escuta por ela, então seleção, data-val e data-next funcionam sem tocar
+         em nada. As faixas de idade são as MESMAS do bloco acima: mudar isso
+         quebraria a comparação com as outras variantes. -->
+    <div class="age-fotos" id="ageFotos" hidden>
+      <button class="age-row age-foto" data-val="18-25" data-next="s2">
+        <img src="Images/idade-18-25.webp" alt="" loading="eager" onerror="this.remove()"/>
+        <span class="age-foto__bar"><span>Idade: 18-25</span><span class="age-foto__chev">›</span></span>
+      </button>
+      <button class="age-row age-foto" data-val="26-35" data-next="s2">
+        <img src="Images/idade-26-35.webp" alt="" loading="eager" onerror="this.remove()"/>
+        <span class="age-foto__bar"><span>Idade: 26-35</span><span class="age-foto__chev">›</span></span>
+      </button>
+      <button class="age-row age-foto" data-val="36-45" data-next="s2">
+        <img src="Images/idade-36-45.webp" alt="" loading="eager" onerror="this.remove()"/>
+        <span class="age-foto__bar"><span>Idade: 36-45</span><span class="age-foto__chev">›</span></span>
+      </button>
+      <button class="age-row age-foto" data-val="46+" data-next="s2">
+        <img src="Images/idade-46-mais.webp" alt="" loading="eager" onerror="this.remove()"/>
+        <span class="age-foto__bar"><span>Idade: 46+</span><span class="age-foto__chev">›</span></span>
+      </button>
     </div>
     <p class="terms">Ao continuar você confirma e garante que leu, entendeu e está de acordo com nossos <a href="termos.html" target="_blank"><b>Termos de Uso</b></a>, <a href="privacidade.html" target="_blank"><b>Política de Privacidade</b></a> e <a href="reembolso.html" target="_blank"><b>Política de Reembolso</b></a>.</p>
   </section>
@@ -1093,16 +1116,33 @@ const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxl0S5SWEEEBU_h
 
 /* Teste de headline da tela 1.
    ?h=original -> headline original   ?h=1 -> "Bloqueios Ferteis"
+   ?h=2 -> nome do plano em caixa alta + idade em cartoes com foto
    Sem parametro tambem cai na original, mas fica marcado como v0, entao
-   trafego direto e organico nao suja a comparacao das duas variantes.
+   trafego direto e organico nao suja a comparacao das variantes.
    A variante vai junto em todo ping, pra separar os funis no dashboard. */
 const VARIANTE = ((new URLSearchParams(location.search).get('h') || '0').replace(/[^a-zA-Z0-9_-]/g, '').slice(0, 20)) || '0';
 (function () {
-  if (VARIANTE !== '1') return;
   const h = document.getElementById('h1Var');
   const s = document.getElementById('subVar');
-  if (h) h.textContent = 'O que separa você do seu filho são Bloqueios Férteis.';
-  if (s) s.innerHTML = 'Descubra o seu em 2 minutos.<br>Pra começar, qual a sua idade?';
+
+  if (VARIANTE === '1') {
+    if (h) h.textContent = 'O que separa você do seu filho são Bloqueios Férteis.';
+    if (s) s.innerHTML = 'Descubra o seu em 2 minutos.<br>Pra começar, qual a sua idade?';
+    return;
+  }
+
+  if (VARIANTE === '2') {
+    if (h) h.textContent = 'Plano de fertilidade personalizado';
+    if (s) s.textContent = 'Escolha a sua idade';
+    /* Troca a lista de idade pelos cartoes com foto. Os dois blocos ja existem
+       no HTML: assim o handler de clique, que roda no load, encontra os dois
+       e nao precisa ser religado. */
+    const lista = document.querySelector('#s1 .age-intro');
+    const fotos = document.getElementById('ageFotos');
+    if (lista) lista.hidden = true;
+    if (fotos) fotos.hidden = false;
+    document.getElementById('s1').classList.add('s1-h2');
+  }
 })();
 
 // Envia o ping de rastreamento por dois caminhos independentes pra maximizar

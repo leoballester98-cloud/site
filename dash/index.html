@@ -29,6 +29,7 @@
      passo escuro da mesma família, 4.7:1. */
   --bom:#0b8457; --ruim:#c0392b;
   --sombra:0 1px 2px rgba(16,24,20,.04), 0 8px 24px rgba(16,24,20,.05);
+  --dica-bg:#241a14; --dica-ink:#f6f2ee;
 }
 @media (prefers-color-scheme: dark){
   :root:where(:not([data-theme="claro"])){
@@ -40,6 +41,7 @@
     --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500; --s5:#d55181; --s6:#008300; --s7:#9085e9;
     --bom:#3ecf8e; --ruim:#e66767;
     --sombra:0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.25);
+    --dica-bg:#2a302d; --dica-ink:#f2f4f3;
   }
 }
 :root[data-theme="escuro"]{
@@ -51,6 +53,7 @@
   --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500; --s5:#d55181; --s6:#008300; --s7:#9085e9;
   --bom:#3ecf8e; --ruim:#e66767;
   --sombra:0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.25);
+  --dica-bg:#2a302d; --dica-ink:#f2f4f3;
 }
 
 *{box-sizing:border-box;margin:0;padding:0;font-family:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif;}
@@ -255,6 +258,52 @@ body{background:var(--bg);color:var(--ink);}
   .kpi .lbl svg{width:15px;height:15px;flex:none;stroke-width:1.9;}
   .kpi .val{font-size:28px;font-weight:700;color:var(--ink);margin-top:6px;letter-spacing:-.01em;}
   .kpi .ap{font-size:13px;font-weight:400;color:var(--ink-3);}
+
+  /* ── Dica ao passar o mouse ────────────────────────────────────────────
+     Em CSS puro: sem espera, sem script, e some junto com o cartão. O texto
+     vem do atributo, então quem escreve a frase é o mapa DICAS. */
+  .kpi .lbl.temdica{cursor:help;}
+  .ajuda{
+    flex:none; width:14px; height:14px; margin-left:1px;
+    display:grid; place-items:center;
+    border-radius:50%; border:1px solid var(--linha);
+    font-size:9.5px; font-weight:700; font-style:normal; line-height:1;
+    color:var(--ink-3); background:var(--surface-2);
+    transition:color .12s, border-color .12s;
+  }
+  .kpi:hover .ajuda{color:var(--marca); border-color:var(--marca);}
+
+  .kpi{position:relative;}
+  .lbl.temdica::after{
+    content:attr(data-dica);
+    /* abre pra BAIXO: pra cima ela bate na barra fixa do topo, que é onde a
+       primeira fila de cartões encosta */
+    position:absolute; top:calc(100% + 10px); left:0;
+    width:max-content; max-width:270px;
+    padding:10px 12px;
+    border-radius:10px;
+    background:var(--dica-bg); color:var(--dica-ink);
+    font-size:12.5px; font-weight:400; line-height:1.45; letter-spacing:0;
+    text-transform:none; text-align:left;
+    box-shadow:0 8px 24px rgba(0,0,0,.22);
+    opacity:0; visibility:hidden; transform:translateY(-4px);
+    transition:opacity .14s ease, transform .14s ease, visibility .14s;
+    pointer-events:none; z-index:70;
+  }
+  /* a setinha */
+  .lbl.temdica::before{
+    content:''; position:absolute; top:calc(100% + 5px); left:14px;
+    border:5px solid transparent; border-bottom-color:var(--dica-bg);
+    opacity:0; visibility:hidden;
+    transition:opacity .14s ease, visibility .14s;
+    z-index:71;
+  }
+  .kpi:hover .lbl.temdica::after,
+  .kpi:hover .lbl.temdica::before{opacity:1; visibility:visible; transform:translateY(0);}
+
+  /* Na régua da direita a dica abre pro lado de dentro, senão sai da tela. */
+  .geral .regua .lbl.temdica::after{left:auto; right:0;}
+  .geral .regua .lbl.temdica::before{left:auto; right:14px;}
 
   .card{background:var(--surface);border:1px solid var(--linha);border-radius:14px;padding:18px 20px;margin-bottom:18px;}
   .sec{display:flex;align-items:center;gap:8px;font-size:17px;font-weight:600;color:var(--ink);margin-bottom:12px;}
@@ -587,7 +636,36 @@ const ICONES = {
 };
 const ico = nome => { const d = ICONES[String(nome).toLowerCase()]; return d ? SVG(d) : ''; };
 
-const kpi   = (l, v) => '<div class="kpi"><div class="lbl">' + ico(l) + '<span>' + l + '</span></div><div class="val">' + v + '</div></div>';
+/* O que cada número quer dizer, em uma frase. Onde a conta tem uma escolha
+   nossa — ROAS só sobre mídia, ROI sobre tudo, ARPU por visitante — a frase diz
+   isso, porque é exatamente onde dá pra ler errado. */
+const DICAS = {
+  'gasto em anúncio':      'Quanto o Meta cobrou no período. Só mídia, sem taxas nem custo operacional.',
+  'gasto operacional':     'Soma dos custos que você lançou na aba Custos, pela data de competência.',
+  'faturamento':           'Valor bruto das vendas que o pixel atribuiu ao Meta, com o order bump incluído.',
+  'lucro':                 'O que sobrou de verdade: faturamento menos as taxas do checkout, menos anúncio, menos operacional.',
+  'roas':                  'Faturamento ÷ gasto em anúncio. Mede só a mídia — não desconta taxa nem custo operacional.',
+  'roi':                   'Retorno sobre tudo que saiu: (faturamento líquido − anúncio − operacional) ÷ (anúncio + operacional).',
+  'vendas':                'Compras que o pixel atribuiu ao Meta no período.',
+  'checkouts':             'Quantas vezes alguém abriu o checkout. Uma pessoa pode abrir mais de uma vez.',
+  'cpa':                   'Custo total por venda: anúncio + operacional ÷ vendas. Não é só o custo de mídia.',
+  'ticket médio':          'Faturamento ÷ vendas. Quanto entra, em média, por compra.',
+  'arpu':                  'Faturamento ÷ visitantes do quiz. É receita por VISITANTE, não por cliente — não temos identidade de comprador.',
+  'conversão do funil':    'Quem clicou em comprar na última tela ÷ visitantes. Vem do quiz, não do Meta.',
+  'conversão do checkout': 'Vendas ÷ visitas ao checkout. Quanto do que abre o checkout vira compra.',
+  'reembolso':             'Ainda não conectado ao checkout — por isso aparece como “—” e não como zero.',
+  'criativos':             'Quantos criativos entraram no ar, sobre a meta do período.',
+};
+const dica = nome => DICAS[String(nome).toLowerCase()] || '';
+
+const rotulo = l => {
+  const d = dica(l);
+  return '<div class="lbl' + (d ? ' temdica" data-dica="' + esc(d) : '') + '">' +
+         ico(l) + '<span>' + l + '</span>' +
+         (d ? '<i class="ajuda" aria-hidden="true">?</i>' : '') + '</div>';
+};
+
+const kpi   = (l, v) => '<div class="kpi">' + rotulo(l) + '<div class="val">' + v + '</div></div>';
 
 /* Valor escrito SEMPRE fora da barra, do mesmo lado, na mesma cor. Antes ele caía
    pra dentro quando não coubesse — e aí uns ficavam brancos dentro e outros

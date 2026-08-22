@@ -19,7 +19,7 @@
   --ink-fade: rgba(43,26,16,0.50);
   --ink-mute: rgba(43,26,16,0.28);
   --blue: #C4956A;
-  --cta: var(--cta);                 /* marrom do botao de checkout */
+  --cta: #6c391d;                    /* marrom do botao de checkout */
   --blue-d: #8B4A1C;
   --blue-light: rgba(196,149,106,0.18);
   --red: #D17564;
@@ -3307,6 +3307,18 @@ button:focus-visible, .row-card:focus-visible, .simple-opt:focus-visible,
 @media (min-width: 900px) {
   /* a faixa de 580px deixava a tela estreita num monitor */
   body:has(#s25.active) .wrap { max-width: 720px; }
+  /* a coluna da imagem era 160px, pensada pro celular; no monitor a foto
+     ficava perdida ao lado do texto */
+  #s25 .stat-rows-wrap { grid-template-columns: 1fr 250px; gap: 20px; }
+  /* o box era quadrado e centralizado, o que travava a altura em ~122px;
+     aqui ele acompanha a coluna de texto */
+  #s25 .imgbox--resume {
+    align-self: stretch;
+    aspect-ratio: auto;
+    height: auto;
+    min-height: 250px;
+  }
+  #s25 .imgbox--resume img { width: 100%; height: 100%; object-fit: cover; }
 }
 
 @media (max-width: 700px) {

@@ -141,7 +141,7 @@ async function atualizar() {
     const chave = r.date_start + '|' + nome;
     if (!diarioMap[chave]) {
       diarioMap[chave] = {
-        data: r.date_start, anuncio: nome, ad_id: String(r.ad_id ?? ''),
+        data: r.date_start, anuncio: nome, fonte: 'meta', ad_id: String(r.ad_id ?? ''),
         campanha: r.campaign_name ?? '',
         gasto: 0, impressoes: 0, clicks: 0, v3s: 0, v2s: 0,
         thruplay: 0, p25: 0, lpv: 0, checkouts: 0, vendas: 0, valor: 0,
@@ -167,7 +167,9 @@ async function atualizar() {
   /* Reescreve a tabela diária inteira. O erro do delete era engolido: se ele
      falhasse, o insert seguinte batia nas linhas antigas e o erro aparecia
      como "duplicate key", apontando pro lugar errado. */
-  const del = await db.from('criativos_diario').delete().gte('data', '1900-01-01');
+  // só as linhas do Meta: outras plataformas têm robô próprio e não podem ser
+  // apagadas por este
+  const del = await db.from('criativos_diario').delete().eq('fonte', 'meta');
   if (del.error) throw new Error('Erro limpando diário: ' + del.error.message);
 
   /* upsert em vez de insert: idempotente. Se sobrar qualquer linha (delete que
@@ -176,7 +178,7 @@ async function atualizar() {
   let gravadas = 0;
   for (let i = 0; i < diario.length; i += 500) {
     const { error } = await db.from('criativos_diario')
-      .upsert(diario.slice(i, i + 500), { onConflict: 'data,anuncio' });
+      .upsert(diario.slice(i, i + 500), { onConflict: 'data,anuncio,fonte' });
     if (error) throw new Error('Erro gravando diário (lote ' + (i / 500 + 1) + '): ' + error.message);
     gravadas += Math.min(500, diario.length - i);
   }

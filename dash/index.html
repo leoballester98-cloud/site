@@ -448,6 +448,10 @@ body{background:var(--bg);color:var(--ink);}
             </div>
           </div>
         </div>
+        <div class="grp soCriativos">
+          <button class="rangeBtn" id="btnPlat" onclick="abrir('painelPlat')"><span id="lblPlat">Todas as plataformas</span><span class="car">▼</span></button>
+          <div class="rangePanel" id="painelPlat" style="display:none;"><div class="presets only" id="listaPlat"></div></div>
+        </div>
         <div class="grp soFunil">
           <button class="rangeBtn" id="btnFunil" onclick="abrir('painelFunil')"><span id="lblFunil">Todos os funis</span><span class="car">▼</span></button>
           <div class="rangePanel" id="painelFunil" style="display:none;"><div class="presets only" id="listaFunil"></div></div>
@@ -768,7 +772,7 @@ function calAplicar() {
 }
 
 function abrir(id) {
-  ['painelData','painelVar','painelEtq','painelFunil','painelFonte','painelStatus','painelPieMet','painelPieGrp','painelG_formato','painelG_angulo','painelG_emocao'].forEach(k => {
+  ['painelData','painelVar','painelEtq','painelFunil','painelFonte','painelPlat','painelStatus','painelPieMet','painelPieGrp','painelG_formato','painelG_angulo','painelG_emocao'].forEach(k => {
     const el = document.getElementById(k); if (!el) return;
     el.style.display = (k === id && el.style.display === 'none') ? 'flex' : 'none';
   });
@@ -785,9 +789,10 @@ function abrir(id) {
   if (id === 'painelFunil') pintarFunil();
   if (id === 'painelFonte') pintarFonte();
   if (id === 'painelStatus') pintarStatus();
+  if (id === 'painelPlat')   pintarPlat();
   if (id.indexOf('painelG_') === 0) pintarStatusGrupo(id.replace('painelG_', ''));
 }
-const fecharPaineis = () => ['painelData','painelVar','painelEtq','painelFunil','painelFonte','painelStatus','painelPieMet','painelPieGrp','painelG_formato','painelG_angulo','painelG_emocao'].forEach(k => {
+const fecharPaineis = () => ['painelData','painelVar','painelEtq','painelFunil','painelFonte','painelPlat','painelStatus','painelPieMet','painelPieGrp','painelG_formato','painelG_angulo','painelG_emocao'].forEach(k => {
   const el = document.getElementById(k); if (el) el.style.display = 'none'; });
 
 let aba = 'geral', graficos = [], filtroEtq = {}, CRIATIVOS = [];
@@ -845,6 +850,15 @@ const rotuloVariante = v => !v ? 'Todas as URLs' : (NOMES_VAR[v] || String(v).re
 /* 'ativo' por padrão: o que interessa no dia a dia é o que está no ar. O robô
    grava 'ativo'; linhas antigas gravadas como 'rodando' são tratadas como o
    mesmo status até o robô rodar de novo. */
+/* Plataforma de anúncio (Meta, TikTok). Não confundir com o filtro 'fonte' da
+   aba Funil, que é de onde veio o TRÁFEGO da página — são coisas diferentes,
+   por isso o nome aqui é plataforma. */
+let fPlat = '';
+const PLATAFORMAS_FILTRO = [['','Todas as plataformas'],['meta','Meta Ads'],['tiktok','TikTok Ads']];
+function pintarPlat() {
+  pintarLista('listaPlat','btnPlat','lblPlat', PLATAFORMAS_FILTRO, fPlat, v => { fPlat = v; });
+}
+
 const ATIVO = 'ativo';
 const normStatus = v => (String(v || '').trim().toLowerCase() === 'rodando' ? ATIVO : String(v || '').trim());
 let fFunil = '', fFonte = '', fStatus = ATIVO;
@@ -1054,13 +1068,15 @@ async function verGeral() {
     const fim = maisDias(new Date(p.de + 'T12:00:00Z'), -1);
     return { de: iso(maisDias(fim, -(n - 1))), ate: iso(fim) };
   })();
-  const [rD, rF, custos, rA] = await Promise.all([
+  const [rD, rF, custos, rA, rP] = await Promise.all([
     sb.rpc('fn_diario', { p_de:p.de, p_ate:p.ate }),
     sb.rpc('fn_funil',  { p_de:p.de, p_ate:p.ate }),
     // se a tabela de custos falhar, a Visão Geral não cai junto: o operacional
     // entra como zero. A aba Custos mostra o erro de verdade.
     custosDoPeriodo().catch(() => []),
     ant ? sb.rpc('fn_diario', { p_de:ant.de, p_ate:ant.ate }) : Promise.resolve({ data:[] }),
+    // um total por plataforma, pros cartões de fonte
+    sb.rpc('fn_por_fonte', { p_de:p.de, p_ate:p.ate }).catch(() => ({ data:[] })),
   ]);
   if (rD.error) throw rD.error;
 
@@ -1095,17 +1111,14 @@ async function verGeral() {
      contagem de vendas — e por venda ja e o ticket medio, seria carta repetida. */
   const arpu = (fun && fun.visitantes) ? tot.fat / fun.visitantes : null;
 
-  /* Cartão por fonte, como na referência. Aqui só cabe um: o gasto no banco vem
-     todo da conta do Meta. O TikTok traz tráfego mas não tem investimento
-     registrado, e um cartão dele seria uma linha de zeros fingindo ser dado. */
   const fatAnterior = (rA.data || []).reduce((a, d) => a + Number(d.faturamento), 0);
   const varFat = (ant && fatAnterior > 0) ? ((tot.fat - fatAnterior) / fatAnterior) * 100 : null;
-  const ultimaVenda = dias.filter(d => Number(d.vendas) > 0).map(d => d.data).sort().pop() || null;
-  const quandoVendeu = (function () {
-    if (!ultimaVenda) return 'sem venda no período';
-    const dif = Math.round((Date.parse(iso(hojeSP())) - Date.parse(ultimaVenda)) / 86400000);
+  /* Por dia, não por hora: a criativos_diario guarda um dia por anúncio, sem
+     horário. 'há 4 min' precisaria do webhook do checkout. */
+  const desdeQuando = (dia) => {
+    const dif = Math.round((Date.parse(iso(hojeSP())) - Date.parse(dia)) / 86400000);
     return dif <= 0 ? 'hoje' : dif === 1 ? 'ontem' : 'há ' + dif + ' dias';
-  })();
+  };
 
 
   /* Com o filtro num dia só, busca o detalhe por hora — é o que dá pontos
@@ -1118,6 +1131,40 @@ async function verGeral() {
     if (lin.some(h => Number(h.gasto) > 0 || Number(h.faturamento) > 0)) horas = lin;
   }
   const tituloGrafico = horas ? 'Gasto e faturamento por hora' : 'Gasto e faturamento por dia';
+
+  /* Um cartão por plataforma, com o que o banco tiver. As que não aparecem no
+     retorno entram tracejadas e zeradas — ausência de dado, não resultado zero.
+     Quando o robô do TikTok começar a gravar, o cartão dele vira real sozinho. */
+  const PLATAFORMAS = [
+    { chave:'meta',   nome:'Meta Ads',   logo:LOGO_META },
+    { chave:'tiktok', nome:'TikTok Ads', logo:LOGO_TIKTOK },
+  ];
+  const porFonte = {};
+  (rP && rP.data ? rP.data : []).forEach(f => { porFonte[String(f.fonte).toLowerCase()] = f; });
+
+  const cartoesFonte = PLATAFORMAS.map(pl => {
+    const f = porFonte[pl.chave];
+    if (!f || Number(f.gasto) <= 0) {
+      return cartaoFonte({ logo:pl.logo, nome:pl.nome, fat:0, gasto:0, lucro:0,
+                           roas:null, roi:null, ultima:'—',
+                           anterior:null, variacao:null, pendente:true });
+    }
+    const g = Number(f.gasto), fa = Number(f.faturamento), vd = Number(f.vendas);
+    /* O operacional não é por plataforma — ele é da operação inteira. Entra
+       rateado pelo gasto de mídia, senão a soma dos cartões não fecha com o
+       lucro lá de cima. */
+    const parte = tot.gasto ? (g / tot.gasto) * custoOp : 0;
+    const saiuAqui = g + parte;
+    return cartaoFonte({
+      logo:pl.logo, nome:pl.nome, fat:fa, gasto:g,
+      lucro: liquido(fa, vd) - saiuAqui,
+      roas: g ? fa / g : null,
+      roi: saiuAqui ? ((liquido(fa, vd) - saiuAqui) / saiuAqui) * 100 : null,
+      ultima: f.ultima_venda ? desdeQuando(f.ultima_venda) : 'sem venda no período',
+      anterior: pl.chave === 'meta' && ant ? fatAnterior : null,
+      variacao: pl.chave === 'meta' ? varFat : null,
+    });
+  }).join('');
 
   const cor = v => v == null ? 'var(--ink-3)' : (v >= 0 ? 'var(--bom)' : 'var(--ruim)');
   document.getElementById('conteudo').innerHTML =
@@ -1140,16 +1187,7 @@ async function verGeral() {
         '<div class="card"><div class="sec">' + ico('Gasto e faturamento por dia') + '<span>' + tituloGrafico + '</span></div>' +
           (dias.length ? '<div style="position:relative;height:400px;"><canvas id="cvGeral"></canvas></div>'
                        : '<div class="vazio">Sem dados no período.</div>') + '</div>' +
-        '<div class="fontes">' +
-          cartaoFonte({ logo:LOGO_META, nome:'Meta Ads', fat:tot.fat, gasto:tot.gasto,
-                        lucro:lucro, roas:roas, roi:roi, ultima:quandoVendeu,
-                        anterior: ant ? fatAnterior : null, variacao: varFat }) +
-          /* Zerado de propósito: não há gasto de TikTok no banco. Fica tracejado
-             pra não ser lido como zero medido — é ausência de dado, não resultado. */
-          cartaoFonte({ logo:LOGO_TIKTOK, nome:'TikTok Ads', fat:0, gasto:0,
-                        lucro:0, roas:null, roi:null, ultima:'—',
-                        anterior:null, variacao:null, pendente:true }) +
-        '</div>' +
+        '<div class="fontes">' + cartoesFonte + '</div>' +
       '</div>' +
       '<div class="regua">' +
         kpi('Gasto em anúncio', moeda(tot.gasto)) +
@@ -1375,6 +1413,15 @@ function barra(id, itens, campo, cor, ehMoeda, asc) {
                    border:{ display:false }, grid:{ display:false } } } } }));
 }
 
+/* Aceita as duas versões de fn_criativos: a nova, com filtro de plataforma, e a
+   antiga sem ele. Sem isso, a ordem entre rodar o SQL e publicar o dashboard
+   importaria — e quem publicasse primeiro deixaria a aba quebrada no meio. */
+async function criativosDoPeriodo(p) {
+  const r = await sb.rpc('fn_criativos', { p_de:p.de, p_ate:p.ate, p_fonte: fPlat || null });
+  if (!r.error) return r;
+  return await sb.rpc('fn_criativos', { p_de:p.de, p_ate:p.ate });
+}
+
 function agrupar(rows, campo) {
   const g = {};
   rows.forEach(r => {
@@ -1417,7 +1464,7 @@ async function verCriativos() {
   const p = periodo();
   // o critério vem junto: se ele mudar, as medalhas desta renderização já obedecem
   const [{ data, error }] = await Promise.all([
-    sb.rpc('fn_criativos', { p_de:p.de, p_ate:p.ate }),
+    criativosDoPeriodo(p),
     carregarMedalhas(),
   ]);
   if (error) throw error;
@@ -1445,6 +1492,7 @@ async function verCriativos() {
   });
 
   pintarStatus();
+  pintarPlat();
   const stAtual = fStatus;
   let vis = CRIATIVOS;
   if (stAtual) vis = vis.filter(r => normStatus(r.status) === stAtual);

@@ -1079,7 +1079,10 @@ async function verGeral() {
     custosDoPeriodo().catch(() => []),
     ant ? sb.rpc('fn_diario', { p_de:ant.de, p_ate:ant.ate }) : Promise.resolve({ data:[] }),
     // um total por plataforma, pros cartões de fonte
-    sb.rpc('fn_por_fonte', { p_de:p.de, p_ate:p.ate }).catch(() => ({ data:[] })),
+    // Promise.resolve porque sb.rpc() devolve um objeto 'thenable', não uma
+    // Promise: ele tem .then mas não tem .catch, e chamar .catch nele quebra.
+    Promise.resolve(sb.rpc('fn_por_fonte', { p_de:p.de, p_ate:p.ate }))
+      .catch(() => ({ data:[] })),
   ]);
   if (rD.error) throw rD.error;
 

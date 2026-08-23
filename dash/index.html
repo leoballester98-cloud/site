@@ -592,8 +592,11 @@ async function salvarMedalhas(n) {
   fecharModal(); await verCriativos();
 }
 
+/* Hook e Headline são campos separados de propósito: hook é a primeira frase
+   FALADA, headline é o texto ESCRITO na tela. O mesmo vídeo pode ter uma boa e
+   outra ruim, e junto não dá pra saber qual puxou o resultado. */
 const ETIQUETAS = [['status','Status'],['formato','Formato'],['estrutura','Estrutura'],['angulo','Ângulo'],
-  ['hook','Hook'],['emocao','Emoção'],['amplificador','Amplificador'],['arquetipo','Arquétipo'],
+  ['hook','Hook'],['headline','Headline'],['emocao','Emoção'],['amplificador','Amplificador'],['arquetipo','Arquétipo'],
   ['segmentacao','Segmentação'],['prova','Prova']];
 
 const moeda = v => (v === '' || v == null || isNaN(v)) ? '—' : 'R$' + Number(v).toFixed(2);
@@ -1531,7 +1534,7 @@ async function verCriativos() {
         '</div></div></div>' +
       '<div class="nota" style="margin:-4px 0 10px;">' + vis.length + ' de ' + CRIATIVOS.length + ' criativos · clique na linha pra editar as etiquetas</div>' +
       (vis.length ? '<div class="tbwrap"><table class="tb"><tr>' +
-        ['Anúncio','Status','Formato','Estrutura','Ângulo','Hook','Emoção','Amplificador','Arquétipo','Segmentação','Prova'].map(h => '<th>' + h + '</th>').join('') +
+        ['Anúncio','Status','Formato','Estrutura','Ângulo','Hook','Headline','Emoção','Amplificador','Arquétipo','Segmentação','Prova'].map(h => '<th>' + h + '</th>').join('') +
         ['Gasto','CTR','Hook rate','Hold rate','Checkouts','R$/Check','Vendas','R$/Venda','Faturamento','ROAS'].map(h => '<th class="num">' + h + '</th>').join('') + '</tr>' +
         vis.map(r => { const m = medalha(r.vendas, r.roas || 0);
           const alvo = JSON.stringify(r.anuncio).replace(/"/g,'&quot;');
@@ -1542,7 +1545,7 @@ async function verCriativos() {
               '<span class="edit" aria-hidden="true">' + SVG('<path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5Z"/>') + '</span>' +
             '</span>' +
           '</td>' +
-            ['status','formato','estrutura','angulo','hook','emocao','amplificador','arquetipo','segmentacao','prova']
+            ['status','formato','estrutura','angulo','hook','headline','emocao','amplificador','arquetipo','segmentacao','prova']
               .map(c => '<td title="' + esc(r[c] || '') + '">' + esc(r[c] || '—') + '</td>').join('') +
             '<td class="num">' + moeda(r.gasto) + '</td><td class="num">' + pct(r.ctr) + '</td>' +
             '<td class="num">' + pct(r.hookRate) + '</td><td class="num">' + pct(r.hold) + '</td>' +

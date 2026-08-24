@@ -15,13 +15,30 @@
 --  renomear a coluna não corrige o conteúdo dela.
 -- ═══════════════════════════════════════════════════════════════════════════
 
-alter table public.criativos rename column arquetipo to fatia;
-alter table public.criativos rename column estrutura to formato_conteudo;
+/* Condicional pra o script poder rodar de novo sem erro: se a coluna já foi
+   renomeada numa tentativa anterior, ele passa direto. */
+do $ren$
+begin
+  if exists (select 1 from information_schema.columns
+             where table_schema = 'public' and table_name = 'criativos'
+               and column_name = 'arquetipo') then
+    alter table public.criativos rename column arquetipo to fatia;
+  end if;
+
+  if exists (select 1 from information_schema.columns
+             where table_schema = 'public' and table_name = 'criativos'
+               and column_name = 'estrutura') then
+    alter table public.criativos rename column estrutura to formato_conteudo;
+  end if;
+end $ren$;
 
 
-/* fn_criativos devolve as colunas por nome, então precisa ser reescrita junto —
-   senão ela procura uma coluna que não existe mais. */
-create or replace function public.fn_criativos(
+/* fn_criativos devolve as colunas por nome, então precisa ser reescrita junto.
+   DROP antes do CREATE porque 'create or replace' não muda o tipo de retorno de
+   uma função que já existe — e aqui os nomes das colunas de saída mudaram. */
+drop function if exists public.fn_criativos(date, date, text);
+
+create function public.fn_criativos(
   p_de    date default null,
   p_ate   date default null,
   p_fonte text default null

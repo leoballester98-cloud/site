@@ -56,7 +56,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"/>
-  <link rel="stylesheet" href="quiz-warm.css?v=200"/>
+  <link rel="stylesheet" href="quiz-warm.css?v=202"/>
 </head>
 <body>
 
@@ -1170,6 +1170,9 @@ const CARTOES = {
   const s1 = document.getElementById('s1');
   s1.classList.add('s1-h2');
   if (cfg.longa) s1.classList.add('s1-hlonga');
+  /* Gancho por variante, pra quando UMA delas precisar de um ajuste que as
+     outras não querem — hoje é o h=3, que pediu no máximo 3 linhas. */
+  s1.classList.add('s1-v' + VARIANTE);
 })();
 
 // Envia o ping de rastreamento por dois caminhos independentes pra maximizar

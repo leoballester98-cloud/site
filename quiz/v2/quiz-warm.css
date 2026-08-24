@@ -4,9 +4,9 @@
 
 /* DM Sans vinha só até 600, então todo 700 desta folha era faux bold — o
    navegador engordando o 600 na marra, que borra a letra. Carregar o 700 real
-   limpa isso em todo lugar que já pedia 700. Acima disso não vale a pena: o
-   eixo do DM Sans trava em 800 e a diferença pro 700 é 1% de largura. */
-@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;900&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap');
+   limpa isso em todo lugar que já pedia 700. O 800 entra pro título das
+   variantes longas; o eixo do DM Sans trava aí, 900 desenha igual ao 800. */
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;900&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap');
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -3838,6 +3838,7 @@ body.marca-na-tela-1:has(#s1.screen.active) .wrap {
    estreitada à mão. */
 #s1.s1-hlonga h1#h1Var {
   font-size: clamp(17px, 5.1vw, 34px);
+  font-weight: 800;   /* topo do eixo do DM Sans; acima disso ele repete o 800 */
   line-height: 1.18;
   max-width: 32ch !important;
   margin-bottom: 8px;
@@ -3866,6 +3867,21 @@ body.marca-na-tela-1:has(#s1.screen.active) .wrap {
   font-weight: 900;
   font-size: 1.12em;
   letter-spacing: .005em;
+}
+
+/* h=3 pedido em no máximo 3 linhas. Com 125 caracteres numa caixa de 343px
+   isso dá 42 caracteres por linha, e 42 só cabem a 14px — daí o tamanho e o
+   limite de 32ch saírem juntos: 'ch' escala com a fonte, então o teto de ~32
+   caracteres por linha continuaria valendo por menor que ela ficasse, e só
+   encolher a fonte nunca passaria de 4 linhas.
+   Em vw pra acompanhar a largura da tela: num aparelho estreito 14px fixos
+   voltariam a quebrar em 4. Vale só no mobile — no desktop a linha é larga e
+   já cabem 3. */
+@media (max-width: 719px) {
+  #s1.s1-hlonga.s1-v3 h1#h1Var {
+    font-size: clamp(10px, 3.6vw, 14px);
+    max-width: 100% !important;
+  }
 }
 
 @media (min-width: 720px) {

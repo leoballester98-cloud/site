@@ -27,7 +27,9 @@
   /* verde de destaque. No escuro é o verde da Supabase (#3ECF8E) exato: 9.1:1
      sobre o fundo. No claro ele dá 2.0:1 sobre branco — ilegível — então vai o
      passo escuro da mesma família, 4.7:1. */
-  --bom:#0b8457; --ruim:#c0392b;
+  /* atenção: âmbar. No claro vai o passo escuro (4.6:1 sobre branco); no
+     escuro, o passo claro. Mesma família, contraste em cada fundo. */
+  --bom:#0b8457; --ruim:#c0392b; --atencao:#8a6100;
   --sombra:0 1px 2px rgba(16,24,20,.04), 0 8px 24px rgba(16,24,20,.05);
   --dica-bg:#241a14; --dica-ink:#f6f2ee;
 }
@@ -39,7 +41,7 @@
     --lateral:#171a19; --lateral-ink:#a6b0ab;
     --curva-bg:#0b0f0d; --curva-ink:#e8f3ec; --curva-grade:rgba(255,255,255,.07);
     --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500; --s5:#d55181; --s6:#008300; --s7:#9085e9;
-    --bom:#3ecf8e; --ruim:#e66767;
+    --bom:#3ecf8e; --ruim:#e66767; --atencao:#e0a83c;
     --sombra:0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.25);
     --dica-bg:#2a302d; --dica-ink:#f2f4f3;
   }
@@ -51,7 +53,7 @@
   --lateral:#171a19; --lateral-ink:#a6b0ab;
   --curva-bg:#0b0f0d; --curva-ink:#e8f3ec; --curva-grade:rgba(255,255,255,.07);
   --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500; --s5:#d55181; --s6:#008300; --s7:#9085e9;
-  --bom:#3ecf8e; --ruim:#e66767;
+  --bom:#3ecf8e; --ruim:#e66767; --atencao:#e0a83c;
   --sombra:0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.25);
   --dica-bg:#2a302d; --dica-ink:#f2f4f3;
 }
@@ -361,6 +363,23 @@ body{background:var(--bg);color:var(--ink);}
   .carregando{color:var(--ink-3);font-size:14px;padding:40px 0;text-align:center;}
   .nota{font-size:13px;color:var(--ink-3);margin-top:8px;line-height:1.5;}
 
+  /* ── Teste A/B ──────────────────────────────────────────────────────────
+     A etiqueta de veredito recebe a cor por --c, definida na linha: assim uma
+     regra só serve "A vence", "tendência" e "empate", e a cor fica junto da
+     decisão que a escolheu em vez de espalhada em três classes. */
+  .abtag{display:inline-block;padding:2px 9px;border-radius:999px;font-size:11px;
+    font-weight:700;letter-spacing:.02em;color:var(--c);border:1px solid currentColor;
+    white-space:nowrap;vertical-align:middle;}
+  /* O número absoluto manda, a porcentagem apoia — daí ela vir menor e apagada. */
+  .abfrac{font-size:11px;font-weight:500;color:var(--ink-3);}
+  .fcampo{display:flex;flex-direction:column;gap:6px;font-size:13px;font-weight:600;
+    color:var(--ink-2);margin-bottom:14px;}
+  .fcampo input,.fcampo textarea,.fcampo select{border:1px solid var(--linha);border-radius:9px;
+    padding:10px 12px;font-size:14px;font-weight:500;color:var(--ink);background:var(--fundo);
+    font-family:inherit;width:100%;box-sizing:border-box;resize:vertical;}
+  .nota code{background:var(--linha);padding:2px 6px;border-radius:5px;font-size:12px;
+    word-break:break-all;}
+
   /* Rodapé discreto: cinza-claro em repouso, só acende no hover. */
   .medalhas{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;
     gap:4px 16px;margin:26px auto 10px;padding:10px 12px;max-width:920px;
@@ -412,6 +431,9 @@ body{background:var(--bg);color:var(--ink);}
       <button id="navCriativos" onclick="trocarAba('criativos')">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M10 9l5 3-5 3z"/></svg>
         <span class="rot">Criativos</span></button>
+      <button id="navAb"        onclick="trocarAba('ab')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V9M10 20V4M16 20v-7M22 20H2"/></svg>
+        <span class="rot">Teste A/B</span></button>
       <button id="navCustos"    onclick="trocarAba('custos')">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7h14a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7Zm0 0 2.5-3H16"/><circle cx="15.5" cy="13" r="1.4"/></svg>
         <span class="rot">Custos</span></button>
@@ -689,6 +711,7 @@ const ICONES = {
   'custo por checkout':   '<path d="M3 17l5-6 4 3.5L21 5"/><path d="M3 21h18"/>',
   'hook rate':            '<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>',
   'hold rate':            '<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>',
+  'teste a/b':            '<path d="M4 20V9M10 20V4M16 20v-7M22 20H2"/>',
 };
 const ico = nome => { const d = ICONES[String(nome).toLowerCase()]; return d ? SVG(d) : ''; };
 
@@ -970,11 +993,11 @@ function pintarVars() {
 function aplicarVars() { fecharPaineis(); carregar(); }
 function selecionadas() { return VARIANTES.map(v => v.variante).filter(v => marcadas[v]); }
 
-const TITULOS = { geral:'Visão Geral', funil:'Funil', criativos:'Criativos', custos:'Custos operacionais' };
+const TITULOS = { geral:'Visão Geral', funil:'Funil', criativos:'Criativos', ab:'Teste A/B', custos:'Custos operacionais' };
 function trocarAba(nova) {
   aba = nova;
   fecharGaveta();
-  ['geral','funil','criativos','custos'].forEach(k =>
+  ['geral','funil','criativos','ab','custos'].forEach(k =>
     document.getElementById('nav' + k[0].toUpperCase() + k.slice(1)).className = k === nova ? 'on' : '');
   document.getElementById('tituloPagina').textContent = TITULOS[nova];
   document.querySelectorAll('.soFunil').forEach(e => e.style.display = nova === 'funil' ? '' : 'none');
@@ -993,6 +1016,7 @@ async function carregar() {
   try {
     if (aba === 'geral') await verGeral();
     else if (aba === 'funil') await verFunil();
+    else if (aba === 'ab') await verAB();
     else if (aba === 'custos') await verCustos();
     else await verCriativos();
     const ag = new Date();
@@ -1000,6 +1024,203 @@ async function carregar() {
       ag.toLocaleTimeString('pt-BR', { hour:'2-digit', minute:'2-digit' });
   }
   catch (e) { alvo.innerHTML = '<div class="card"><div class="erro">Erro ao carregar: ' + esc(e.message || e) + '</div></div>'; }
+}
+
+// ══════════════════════ TESTE A/B ══════════════════════
+/* O que esta aba faz que uma tabela de porcentagens não faz: dizer QUANDO a
+   diferença é real. Sem isso, 62% contra 58% com 80 sessões parece vitória e
+   não é — é o intervalo de erro dos dois se sobrepondo. */
+
+/* Normal acumulada, aproximação de Zelen & Severo (26.2.17). Erro abaixo de
+   7,5e-8, muito além do que qualquer decisão aqui exige. */
+function normalAcum(z) {
+  const t = 1 / (1 + 0.2316419 * Math.abs(z));
+  const d = 0.3989422804014327 * Math.exp(-z * z / 2);
+  const p = d * t * (0.319381530 + t * (-0.356563782 + t * (1.781477937 +
+            t * (-1.821255978 + t * 1.330274429))));
+  return z > 0 ? 1 - p : p;
+}
+
+/* Teste z de duas proporções, bicaudal.
+   Bicaudal porque a pergunta honesta é "as duas são diferentes?", não "a nova
+   é melhor?" — a segunda já assume a resposta e dobra a chance de falso
+   positivo. */
+function significancia(x1, n1, x2, n2) {
+  if (!n1 || !n2) return null;
+  const p1 = x1 / n1, p2 = x2 / n2;
+  const p = (x1 + x2) / (n1 + n2);
+  const se = Math.sqrt(p * (1 - p) * (1 / n1 + 1 / n2));
+  if (!se) return null;
+  const z = (p1 - p2) / se;
+  return { z, p: 2 * (1 - normalAcum(Math.abs(z))), p1, p2,
+           lift: p2 ? (p1 - p2) / p2 * 100 : null };
+}
+
+/* Quantas sessões POR BRAÇO para enxergar a diferença que está aparecendo.
+   95% de confiança, 80% de poder — o par convencional. Serve pra responder
+   "já posso parar?" antes de parar por impaciência. */
+function amostraNecessaria(p1, p2) {
+  if (p1 === p2 || !isFinite(p1) || !isFinite(p2)) return null;
+  const pm = (p1 + p2) / 2;
+  const n = Math.pow(1.959964 * Math.sqrt(2 * pm * (1 - pm)) +
+                     0.841621 * Math.sqrt(p1 * (1 - p1) + p2 * (1 - p2)), 2) /
+            Math.pow(p1 - p2, 2);
+  return Math.ceil(n);
+}
+
+const URL_QUIZ = 'https://protocolociclofertil.com.br/quiz/v2/';
+
+async function verAB() {
+  const p = periodo();
+  const { data: exps, error: eE } = await sb.from('experimentos').select('*').order('inicio', { ascending:false });
+  if (eE) throw eE;
+  if (!exps || !exps.length) {
+    document.getElementById('conteudo').innerHTML =
+      '<div class="card"><div class="vazio">Nenhum experimento cadastrado. ' +
+      'Rode <b>supabase/12-experimentos.sql</b> no SQL Editor.</div></div>';
+    return;
+  }
+
+  const partes = [];
+  for (const ex of exps) {
+    const { data, error } = await sb.rpc('fn_experimento', { p_exp: ex.chave, p_de: p.de, p_ate: p.ate });
+    if (error) throw error;
+    partes.push(cartaoExperimento(ex, data || []));
+  }
+  document.getElementById('conteudo').innerHTML = partes.join('');
+}
+
+function cartaoExperimento(ex, linhas) {
+  const A = linhas.find(l => l.lado === 'a') || { sessoes:0, tela1:0, tela2:0, fim:0, checkout:0, rotulo:ex.rotulo_a };
+  const B = linhas.find(l => l.lado === 'b') || { sessoes:0, tela1:0, tela2:0, fim:0, checkout:0, rotulo:ex.rotulo_b };
+  const nA = Number(A.tela1), nB = Number(B.tela1);
+
+  /* As três perguntas do experimento. A base de todas é quem VIU a tela 1 —
+     assim as três porcentagens falam da mesma população e podem ser lidas em
+     sequência, como um funil. */
+  const METRICAS = [
+    ['Tela 1 → tela 2', 'tela2',    'Quem passou da primeira tela. É a métrica que a headline mexe mais direto.'],
+    ['Chegou ao fim',   'fim',      'Sessões que alcançaram a tela 34.'],
+    ['Clicou no checkout', 'checkout', 'Sessões que clicaram em comprar na última tela.'],
+  ];
+
+  const badge = (txt, cor) => '<span class="abtag" style="--c:' + cor + '">' + txt + '</span>';
+
+  const linhasHtml = METRICAS.map(([rotulo, campo, ajuda]) => {
+    const xA = Number(A[campo]), xB = Number(B[campo]);
+    const s = significancia(xA, nA, xB, nB);
+    let veredito = badge('sem dados', 'var(--ink-3)'), conf = '—';
+    if (s) {
+      const c = (1 - s.p) * 100;
+      conf = c.toFixed(1) + '%';
+      if (s.p < 0.05)      veredito = badge((s.z > 0 ? 'A vence' : 'B vence'), 'var(--bom)');
+      else if (s.p < 0.20) veredito = badge('tendência', 'var(--atencao)');
+      else                 veredito = badge('empate', 'var(--ink-3)');
+    }
+    const taxa = (x, n) => n ? (x / n * 100).toFixed(1) + '%' : '—';
+    return '<tr><td class="nm" title="' + esc(ajuda) + '">' + esc(rotulo) + '</td>' +
+      '<td class="num">' + xA + ' <span class="abfrac">' + taxa(xA, nA) + '</span></td>' +
+      '<td class="num">' + xB + ' <span class="abfrac">' + taxa(xB, nB) + '</span></td>' +
+      '<td class="num">' + (s && s.lift != null && isFinite(s.lift)
+        ? '<span style="color:' + (s.lift >= 0 ? 'var(--bom)' : 'var(--ruim)') + '">' +
+          (s.lift >= 0 ? '+' : '') + s.lift.toFixed(1) + '%</span>' : '—') + '</td>' +
+      '<td class="num">' + conf + '</td><td class="num">' + veredito + '</td></tr>';
+  }).join('');
+
+  /* Quanto falta, medido na métrica principal. */
+  const sPrim = significancia(Number(A.tela2), nA, Number(B.tela2), nB);
+  let falta = '';
+  if (sPrim && sPrim.p >= 0.05) {
+    const nec = amostraNecessaria(sPrim.p1, sPrim.p2);
+    falta = (nec && isFinite(nec))
+      ? 'Para a diferença atual virar conclusão, são ~<b>' + nec.toLocaleString('pt-BR') +
+        '</b> sessões por braço. Você tem ' + nA + ' e ' + nB + '.'
+      : 'Os dois braços estão praticamente iguais — nesse ritmo o teste não conclui.';
+  } else if (sPrim) {
+    falta = 'A diferença na métrica principal já é estatisticamente sólida. Pode decidir.';
+  }
+
+  /* Desvio de divisão (SRM). O sorteio é 50/50: se a fatia real fugir muito
+     disso, o problema é técnico — um braço quebrando, cache servindo sempre a
+     mesma tela — e NENHUM número acima vale antes de achar a causa. */
+  let alerta = '';
+  const tot = nA + nB;
+  if (tot >= 100) {
+    const z = Math.abs(nA - tot / 2) / Math.sqrt(tot * 0.25);
+    if (z > 3) alerta = '<div class="erro" style="margin-top:10px;">Divisão fora do esperado: ' +
+      nA + ' contra ' + nB + ', quando o sorteio é 50/50. Isso costuma ser falha técnica ' +
+      '(um braço com erro, cache entregando sempre a mesma tela). Investigue antes de ler os números acima.</div>';
+  }
+
+  const estado = ex.fim
+    ? badge('encerrado', 'var(--ink-3)')
+    : badge('rodando', 'var(--bom)');
+
+  return '<div class="card">' +
+    '<div class="cabsec"><div class="sec" style="margin:0;">' + ico('Teste A/B') +
+      '<span>' + esc(ex.rotulo) + '</span> ' + estado + '</div>' +
+      '<button class="limpar" onclick="editarExperimento(' + JSON.stringify(ex.chave).replace(/"/g, '&quot;') + ')">editar</button></div>' +
+    (ex.hipotese ? '<div class="qual">' + esc(ex.hipotese) + '</div>' : '') +
+    '<div class="nota" style="margin-bottom:10px;">URL do experimento: ' +
+      '<code>' + esc(URL_QUIZ + '?ab=' + ex.chave) + '</code>' +
+      (ex.inicio ? ' · começou em ' + brDate(ex.inicio) : '') +
+      (ex.fim ? ' · encerrado em ' + brDate(ex.fim) : '') +
+      (ex.vencedor ? ' · vencedor: <b>' + (ex.vencedor === 'a' ? esc(ex.rotulo_a)
+        : ex.vencedor === 'b' ? esc(ex.rotulo_b) : 'empate') + '</b>' : '') +
+    '</div>' +
+    '<div class="tbwrap"><table class="tb">' +
+      '<tr><th></th>' +
+        '<th class="num">' + esc(A.rotulo || ex.rotulo_a) + '<br><span class="abfrac">' + nA + ' sessões</span></th>' +
+        '<th class="num">' + esc(B.rotulo || ex.rotulo_b) + '<br><span class="abfrac">' + nB + ' sessões</span></th>' +
+        '<th class="num">Diferença</th><th class="num">Confiança</th><th class="num">Veredito</th></tr>' +
+      linhasHtml +
+    '</table></div>' +
+    (falta ? '<div class="nota" style="margin-top:10px;">' + falta + '</div>' : '') +
+    alerta +
+    '</div>';
+}
+
+async function editarExperimento(chave) {
+  const { data, error } = await sb.from('experimentos').select('*').eq('chave', chave).single();
+  if (error) return alert('Não deu pra abrir: ' + error.message);
+  const e = data;
+  document.getElementById('modal').innerHTML =
+    '<div class="modal" onclick="if(event.target===this)fecharModal()"><div class="box">' +
+      '<h2>' + esc(e.rotulo) + '</h2>' +
+      '<div class="qual">Os braços e a divisão 50/50 vivem na página do quiz, não aqui — ' +
+        'mudar a divisão no meio do teste inutiliza a comparação. Aqui você descreve, ' +
+        'anota e encerra.</div>' +
+      '<div id="exErro" class="erro" style="display:none;"></div>' +
+      '<label class="fcampo">Rótulo<input id="ex_rotulo" value="' + esc(e.rotulo) + '" maxlength="80"/></label>' +
+      '<label class="fcampo">Hipótese<textarea id="ex_hip" rows="2" maxlength="400">' + esc(e.hipotese || '') + '</textarea></label>' +
+      '<label class="fcampo">Nota<textarea id="ex_nota" rows="2" maxlength="400">' + esc(e.nota || '') + '</textarea></label>' +
+      '<label class="fcampo">Encerrado em<input id="ex_fim" type="date" value="' + esc(e.fim || '') + '"/></label>' +
+      '<label class="fcampo">Vencedor<select id="ex_venc">' +
+        ['','a','b','empate'].map(v => '<option value="' + v + '"' + (v === (e.vencedor || '') ? ' selected' : '') + '>' +
+          esc(v === '' ? '— ainda rodando —' : v === 'a' ? e.rotulo_a : v === 'b' ? e.rotulo_b : 'Empate') +
+        '</option>').join('') +
+      '</select></label>' +
+      '<div class="pfoot"><button class="limpar" onclick="fecharModal()">Cancelar</button>' +
+      '<button class="prim" id="exSalvar" onclick="salvarExperimento(' + JSON.stringify(chave).replace(/"/g, '&quot;') + ')">Salvar</button></div>' +
+    '</div></div>';
+}
+
+async function salvarExperimento(chave) {
+  const btn = document.getElementById('exSalvar'); btn.disabled = true; btn.textContent = 'Salvando…';
+  const erro = document.getElementById('exErro');
+  const v = id => document.getElementById(id).value.trim();
+  const { error } = await sb.from('experimentos').update({
+    rotulo:   v('ex_rotulo') || chave,
+    hipotese: v('ex_hip')  || null,
+    nota:     v('ex_nota') || null,
+    fim:      v('ex_fim')  || null,
+    vencedor: v('ex_venc') || null,
+  }).eq('chave', chave);
+  if (error) {
+    erro.textContent = 'Não salvou: ' + error.message; erro.style.display = 'block';
+    btn.disabled = false; btn.textContent = 'Salvar'; return;
+  }
+  fecharModal(); await verAB();
 }
 
 // ══════════════════════ CUSTOS OPERACIONAIS ══════════════════════

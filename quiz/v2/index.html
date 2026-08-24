@@ -56,7 +56,28 @@
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"/>
-  <link rel="stylesheet" href="quiz-warm.css?v=206"/>
+  <link rel="stylesheet" href="quiz-warm.css?v=207"/>
+
+  <!-- Anti-flicker do teste A/B.
+       O script que troca a headline mora no fim do <body>, então num aparelho
+       lento o navegador chega a pintar a headline ORIGINAL antes de ela virar
+       a da variante sorteada. Numa página comum isso é um piscar feio; num
+       teste A/B é viés, porque contamina justo a primeira tela — que é a
+       métrica principal deste experimento.
+
+       Esconde só o título e o subtítulo, e só quando há ?ab= na URL: o
+       tráfego normal não paga nada por isso. O timeout é rede de segurança —
+       se o script lá embaixo quebrar, o título volta em 1s em vez de ficar
+       invisível para sempre. -->
+  <style>html.ab-espera #h1Var, html.ab-espera #subVar { visibility: hidden; }</style>
+  <script>
+  (function () {
+    if (!/[?&]ab=[^&]/.test(location.search)) return;
+    var raiz = document.documentElement;
+    raiz.className += ' ab-espera';
+    setTimeout(function () { raiz.classList.remove('ab-espera'); }, 1000);
+  })();
+  </script>
 </head>
 <body>
 
@@ -1118,10 +1139,57 @@ const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxl0S5SWEEEBU_h
 /* Teste de headline da tela 1.
    ?h=original -> headline original   ?h=1 -> "Bloqueios Ferteis"
    ?h=2 a ?h=5 -> idade em cartoes com foto, uma headline diferente em cada
+   ?ab=<chave>  -> experimento A/B: a propria pagina sorteia qual tela mostrar
    Sem parametro tambem cai na original, mas fica marcado como v0, entao
    trafego direto e organico nao suja a comparacao das variantes.
    A variante vai junto em todo ping, pra separar os funis no dashboard. */
-const VARIANTE = ((new URLSearchParams(location.search).get('h') || '0').replace(/[^a-zA-Z0-9_-]/g, '').slice(0, 20)) || '0';
+
+/* ── Experimento A/B ───────────────────────────────────────────────────────
+   Uma URL so recebe o trafego e a pagina sorteia a tela. E a unica forma de
+   comparar duas telas com o MESMO publico: duas campanhas no Meta comparam
+   dois leiloes, nao duas telas — o algoritmo entrega cada uma pra quem ele
+   acha que converte, e a diferenca que aparece no fim e dele, nao sua.
+
+   O sorteio fica preso ao navegador. Sem isso quem voltasse cairia no outro
+   braco: o funil conta por sessao, mas a PESSOA seria a mesma nos dois lados.
+
+   A marca gravada nao reaproveita 'v3'/'voriginal' de proposito. Esses dois
+   valores ja tem trafego direto no banco, vindo de ?h=3 e ?h=original, e os
+   numeros do experimento se misturariam com eles. */
+const EXPERIMENTOS = {
+  h3: {
+    a: { tela: '3',        marca: 'ab-h3'   },
+    b: { tela: 'original', marca: 'ab-orig' },
+  },
+};
+
+const AB = (function () {
+  const chave = (new URLSearchParams(location.search).get('ab') || '')
+                  .replace(/[^a-zA-Z0-9_-]/g, '').slice(0, 20);
+  const exp = EXPERIMENTOS[chave];
+  if (!exp) return null;
+
+  /* localStorage falha em aba anonima e em webview com storage bloqueado.
+     Ali o sorteio vale so pra esta visita — o funil conta por sessao de
+     qualquer jeito, e travar a pagina por causa disso seria pior. */
+  const slot = 'ab_' + chave;
+  let lado = null;
+  try { lado = localStorage.getItem(slot); } catch (e) {}
+  if (lado !== 'a' && lado !== 'b') {
+    lado = Math.random() < 0.5 ? 'a' : 'b';
+    try { localStorage.setItem(slot, lado); } catch (e) {}
+  }
+  return Object.assign({ chave: chave, lado: lado }, exp[lado]);
+})();
+
+/* Duas coisas que antes eram uma variavel so:
+     TELA     = o que a pagina desenha
+     VARIANTE = o que vai pro banco
+   Fora de experimento as duas coincidem. Dentro, a tela e sorteada e a
+   variante carrega a marca do braco. */
+const TELA = AB ? AB.tela
+  : ((new URLSearchParams(location.search).get('h') || '0').replace(/[^a-zA-Z0-9_-]/g, '').slice(0, 20)) || '0';
+const VARIANTE = AB ? AB.marca : TELA;
 
 /* As variantes de cartao com foto dividem o MESMO layout de propósito: a
    headline é a única coisa que muda entre elas, e é ela que o teste mede.
@@ -1139,40 +1207,48 @@ const CARTOES = {
   const h = document.getElementById('h1Var');
   const s = document.getElementById('subVar');
 
-  if (VARIANTE === '1') {
-    if (h) h.textContent = 'O que separa você do seu filho são Bloqueios Férteis.';
-    if (s) s.innerHTML = 'Descubra o seu em 2 minutos.<br>Pra começar, qual a sua idade?';
-    return;
+  /* O finally garante que o titulo reapareca por qualquer caminho de saida,
+     inclusive os dois 'return' abaixo. Quem escondeu foi o anti-flicker la no
+     <head>; se este bloco saisse sem desfazer isso, a headline ficaria
+     invisivel ate o timeout de seguranca estourar. */
+  try {
+    if (TELA === '1') {
+      if (h) h.textContent = 'O que separa você do seu filho são Bloqueios Férteis.';
+      if (s) s.innerHTML = 'Descubra o seu em 2 minutos.<br>Pra começar, qual a sua idade?';
+      return;
+    }
+
+    const cfg = CARTOES[TELA];
+    if (!cfg) return;
+
+    /* innerHTML porque as headlines longas carregam <mark>, <u> e <b> pra
+       marcar os blocos da estrutura. O conteúdo é literal daqui de cima — a
+       URL só escolhe qual chave ler, nunca entra no HTML. */
+    if (h) h.innerHTML = cfg.titulo;
+    if (s) s.textContent = 'Escolha a sua idade';
+    /* Na tela 1 o cabeçalho mostra a MARCA, não o passo. Além de seguir a
+       referência, 'Passo 1/34' logo de cara anuncia o tamanho do quiz pra quem
+       ainda não investiu nada nele. Da tela 2 em diante o passo volta, aí já
+       vale como progresso. */
+    document.body.classList.add('marca-na-tela-1');
+    const sep = document.querySelector('#s1 .s1-sep');
+    if (sep) sep.hidden = false;
+    /* Troca a lista de idade pelos cartoes com foto. Os dois blocos ja existem
+       no HTML: assim o handler de clique, que roda no load, encontra os dois
+       e nao precisa ser religado. */
+    const lista = document.querySelector('#s1 .age-intro');
+    const fotos = document.getElementById('ageFotos');
+    if (lista) lista.hidden = true;
+    if (fotos) fotos.hidden = false;
+    const s1 = document.getElementById('s1');
+    s1.classList.add('s1-h2');
+    if (cfg.longa) s1.classList.add('s1-hlonga');
+    /* Gancho por tela, pra quando UMA delas precisar de um ajuste que as
+       outras não querem — hoje é o h=3, que pediu no máximo 4 linhas. */
+    s1.classList.add('s1-v' + TELA);
+  } finally {
+    document.documentElement.classList.remove('ab-espera');
   }
-
-  const cfg = CARTOES[VARIANTE];
-  if (!cfg) return;
-
-  /* innerHTML porque as headlines longas carregam <u> e <b> pra marcar os dois
-     blocos da estrutura. O conteúdo é literal daqui de cima — a URL só escolhe
-     qual chave ler, nunca entra no HTML. */
-  if (h) h.innerHTML = cfg.titulo;
-  if (s) s.textContent = 'Escolha a sua idade';
-  /* Na tela 1 o cabeçalho mostra a MARCA, não o passo. Além de seguir a
-     referência, 'Passo 1/34' logo de cara anuncia o tamanho do quiz pra quem
-     ainda não investiu nada nele. Da tela 2 em diante o passo volta, aí já
-     vale como progresso. */
-  document.body.classList.add('marca-na-tela-1');
-  const sep = document.querySelector('#s1 .s1-sep');
-  if (sep) sep.hidden = false;
-  /* Troca a lista de idade pelos cartoes com foto. Os dois blocos ja existem
-     no HTML: assim o handler de clique, que roda no load, encontra os dois
-     e nao precisa ser religado. */
-  const lista = document.querySelector('#s1 .age-intro');
-  const fotos = document.getElementById('ageFotos');
-  if (lista) lista.hidden = true;
-  if (fotos) fotos.hidden = false;
-  const s1 = document.getElementById('s1');
-  s1.classList.add('s1-h2');
-  if (cfg.longa) s1.classList.add('s1-hlonga');
-  /* Gancho por variante, pra quando UMA delas precisar de um ajuste que as
-     outras não querem — hoje é o h=3, que pediu no máximo 3 linhas. */
-  s1.classList.add('s1-v' + VARIANTE);
 })();
 
 // Envia o ping de rastreamento por dois caminhos independentes pra maximizar

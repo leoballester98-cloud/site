@@ -3850,11 +3850,16 @@ body.marca-na-tela-1:has(#s1.screen.active) .wrap {
 
 /* Marca os dois blocos da estrutura invisível, como na referência: o resultado
    desejado sublinhado, o mecanismo em peso maior. São só dois de propósito —
-   um terceiro destaque não destacaria mais nada. O sublinhado é fino e afastado
-   pra não bater nos acentos da caixa alta (Ã, É). */
+   um terceiro destaque não destacaria mais nada.
+
+   Os dois usam o MESMO marrom da marca: uma cor só, em dois lugares, lê como
+   sistema; duas cores diferentes leriam como enfeite. O texto em volta segue
+   no --ink quase preto, então o marrom salta sem gritar.
+   O sublinhado fica afastado pra não bater nos acentos da caixa alta (Ã, É). */
 #s1.s1-hlonga h1#h1Var u {
   text-decoration: underline;
-  text-decoration-thickness: .05em;
+  text-decoration-color: var(--cta);
+  text-decoration-thickness: .09em;
   text-underline-offset: .18em;
 }
 /* O destaque troca de FAMÍLIA, não de peso. O eixo de peso do DM Sans é curto:
@@ -3867,6 +3872,7 @@ body.marca-na-tela-1:has(#s1.screen.active) .wrap {
   font-weight: 900;
   font-size: 1.12em;
   letter-spacing: .005em;
+  color: var(--cta);
 }
 
 /* h=3 pedido em no máximo 3 linhas. Com 125 caracteres numa caixa de 343px
@@ -3879,7 +3885,7 @@ body.marca-na-tela-1:has(#s1.screen.active) .wrap {
    já cabem 3. */
 @media (max-width: 719px) {
   #s1.s1-hlonga.s1-v3 h1#h1Var {
-    font-size: clamp(16px, 5.33vw, 20px);
+    font-size: clamp(17px, 5.87vw, 22px);
     max-width: 100% !important;
   }
 }

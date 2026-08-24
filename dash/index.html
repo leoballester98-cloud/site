@@ -518,12 +518,58 @@ const NOMES = ['(abertura/idade)','(prova social)','Seu ciclo menstrual é…',
 'Em quantos dias seu desejo sexual aumenta?','(RESULTADO diagnóstico — início do pitch)',
 'Quando começou sua última menstruação?','(loading)','gráfico fascinations','Página de vendas'];
 
-const PRECO_VENDA = 37.90, PRECO_BUMP = 17.00, LIQ_VENDA = 33.50, LIQ_BUMP = 14.48;
-function liquido(fat, vendas) {
+const PRECO_VENDA = 37.90, PRECO_BUMP = 17.00;
+
+/* Dia da primeira venda registrada. Serve pra uma coisa só: no filtro "todos"
+   o período não tem início, e sem início não dá pra pesar quanto dele caiu em
+   cada faixa de taxa. Se a data estiver errada, o único efeito é o Lucro/ROI
+   do "todos" pender um pouco pra faixa errada — mais nada usa ela. */
+const PRIMEIRA_VENDA = '2026-06-01';
+
+/* O líquido por venda mudou quando o checkout saiu do Celetus pra Kiwify.
+   Uma constante só não serve: o dashboard soma períodos inteiros, e um período
+   que cruza a data arrastaria as vendas antigas pro valor novo.
+   Da faixa mais nova pra mais velha — vale a primeira cujo início já passou.
+
+   O order bump está DESATIVADO desde a troca, então o liqBump da faixa nova
+   nunca chega a ser usado: sem bump, faturamento = vendas × 37,90 e a conta de
+   bumps lá embaixo dá zero sozinha. Ele repete o valor antigo só pra não virar
+   NaN. Quando o bump voltar, ponha aqui o líquido REAL da Kiwify. */
+const TAXAS = [
+  { de: '2026-08-25',    liqVenda: 32.00, liqBump: 14.48 },
+  { de: PRIMEIRA_VENDA,  liqVenda: 33.50, liqBump: 14.48 },
+];
+const taxaEm = d => TAXAS.find(t => String(d || '9999-12-31') >= t.de) || TAXAS[TAXAS.length - 1];
+
+/* Taxa média do período, pesada pelos DIAS de cada faixa. É o que sobra pros
+   números que chegam já somados — cartão por plataforma e tabela de criativos
+   vêm das RPCs sem quebra por dia.
+   Período inteiro de um lado só do corte (o caso normal, e o único daqui a
+   algumas semanas) dá peso 1 numa faixa e o valor sai exato. A média só existe
+   no intervalo que cruza a data. */
+let _taxaCache = { chave: null, taxa: null };
+function taxaDoPeriodo(p) {
+  const de = (p && p.de) || PRIMEIRA_VENDA, ate = (p && p.ate) || iso(hojeSP());
+  const chave = de + '|' + ate;
+  if (_taxaCache.chave === chave) return _taxaCache.taxa;
+  let n = 0, sv = 0, sb = 0;
+  for (let d = new Date(de + 'T00:00:00Z'); iso(d) <= ate && n < 4000; d = maisDias(d, 1)) {
+    const t = taxaEm(iso(d)); sv += t.liqVenda; sb += t.liqBump; n++;
+  }
+  const taxa = n ? { liqVenda: sv / n, liqBump: sb / n } : TAXAS[0];
+  _taxaCache = { chave, taxa };
+  return taxa;
+}
+
+/* 'quando' aceita o dia da venda (string, taxa exata) ou o período (objeto,
+   taxa média). Sem argumento cai no período do filtro, que é o que os
+   agregados precisam. */
+function liquido(fat, vendas, quando) {
   const v = Number(vendas) || 0;
   if (!v) return 0;
+  const t = typeof quando === 'string' ? taxaEm(quando) : taxaDoPeriodo(quando || periodo());
   const bumps = Math.max(0, Math.round(((Number(fat) || 0) - v * PRECO_VENDA) / PRECO_BUMP));
-  return v * LIQ_VENDA + bumps * LIQ_BUMP;
+  return v * t.liqVenda + bumps * t.liqBump;
 }
 /* Paleta validada com scripts/validate_palette.js da skill dataviz.
    A anterior reprovava em três testes: marrom↔verde davam ΔE 4.4 pra daltônico
@@ -1101,10 +1147,16 @@ async function verGeral() {
   const saiu    = tot.gasto + custoOp;
   /* Lucro = o que sobrou de verdade: faturamento MENOS as taxas do checkout
      (é o que liquido() faz), menos anúncio, menos operacional. É o numerador
-     do ROI — os dois sempre têm o mesmo sinal. */
-  const lucro   = liquido(tot.fat, tot.vendas) - saiu;
+     do ROI — os dois sempre têm o mesmo sinal.
+
+     Somado dia a dia, e não sobre o total: cada venda usa a taxa que valia no
+     dia dela, sem média nenhuma. Aqui dá pra ser exato porque a fn_diario já
+     devolve a quebra por dia — nos cartões de plataforma e na tabela de
+     criativos ela não existe, e lá a taxa sai ponderada. */
+  const liqTot  = dias.reduce((a, d) => a + liquido(d.faturamento, d.vendas, d.data), 0);
+  const lucro   = liqTot - saiu;
   const roas = tot.gasto ? tot.fat / tot.gasto : null;
-  const roi  = saiu ? ((liquido(tot.fat, tot.vendas) - saiu) / saiu) * 100 : null;
+  const roi  = saiu ? ((liqTot - saiu) / saiu) * 100 : null;
 
   /* Conversão do funil = quem clicou em comprar na última tela ÷ visitantes.
      Vem do funil, não do Meta: é a mesma conta da aba Funil.

@@ -361,20 +361,23 @@ body{background:var(--bg);color:var(--ink);}
   .carregando{color:var(--ink-3);font-size:14px;padding:40px 0;text-align:center;}
   .nota{font-size:13px;color:var(--ink-3);margin-top:8px;line-height:1.5;}
 
-  .medalhas{margin-top:14px;display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px;font-size:13px;color:var(--ink-2);
-    cursor:pointer;border-radius:10px;padding:8px 10px;margin-left:-10px;}
-  .medalhas:hover{background:var(--surface-2);}
+  /* Rodapé discreto: cinza-claro em repouso, só acende no hover. */
+  .medalhas{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;
+    gap:4px 16px;margin:26px auto 10px;padding:10px 12px;max-width:920px;
+    font-size:12px;color:var(--ink-3);cursor:pointer;border-radius:10px;
+    transition:color .14s, background .14s;}
+  .medalhas:hover{color:var(--ink-2);background:var(--surface-2);}
   #btnData .cal{width:15px;height:15px;flex:none;color:var(--ink-2);margin-right:2px;}
   /* ☰ é só do celular: no desktop a lateral abre sozinha no hover */
   @media(min-width:901px){ #btnMenu{display:none;} }
-  .medalhas .mudar{color:var(--marca);font-weight:600;text-decoration:underline;}
+  .medalhas .mudar{color:var(--ink-3);text-decoration:underline;}
+  .medalhas:hover .mudar{color:var(--marca);}
   /* mesma grade do editor de etiquetas, só que em linha por faixa */
   .lmed{display:grid;grid-template-columns:64px minmax(0,1fr) 116px 116px;gap:10px;margin-bottom:10px;align-items:center;}
   .lmed input{border:1px solid var(--linha);border-radius:8px;padding:10px 12px;font-size:14px;color:var(--ink);background:var(--surface);width:100%;}
   .lmed.cab{font-size:12px;font-weight:700;color:var(--ink-2);text-transform:uppercase;letter-spacing:.04em;margin-bottom:6px;}
   @media(max-width:600px){ .lmed{grid-template-columns:56px minmax(0,1fr);} .lmed.cab{display:none;} }
-  .medalhas b{color:var(--ink);font-weight:600;}
-  .medalhas .tt{font-size:11.5px;color:var(--ink-3);text-transform:uppercase;letter-spacing:.05em;font-weight:700;}
+  .medalhas .tt{font-size:11px;color:inherit;text-transform:uppercase;letter-spacing:.06em;font-weight:600;}
 
   .modal{position:fixed;inset:0;background:rgba(0,0,0,.4);display:flex;align-items:center;justify-content:center;z-index:100;padding:20px;}
   .modal .box{background:var(--surface);border-radius:16px;padding:26px 28px;max-width:760px;width:100%;max-height:88vh;overflow:auto;}
@@ -1557,14 +1560,18 @@ async function verCriativos() {
             '<td class="num">' + (r.faturamento ? moeda(r.faturamento) : '—') + '</td>' +
             '<td class="num" style="color:' + (r.roas >= 1 ? '#2e7d52' : '#c0392b') + '">' + (r.roas == null ? '—' : r.roas.toFixed(2) + 'x') + '</td></tr>';
         }).join('') + '</table></div>' : '<div class="vazio">Nenhum criativo neste período.</div>') +
-      '<div class="medalhas" onclick="editarMedalhas()" title="Clique para mudar o critério">' +
-        '<span class="tt">Medalhas <span style="font-weight:400;text-transform:none;letter-spacing:0;">vendas · ROAS mín.</span></span>' +
-        MEDALHAS.map(m => '<span>' + m.selo + ' <b>' + m.nome + '</b> ' + m.vendas + '+ · ' + m.roas.toFixed(2).replace('.', ',') + 'x</span>').join('') +
-        '<span class="mudar">mudar critério</span></div>' +
     '</div>' +
     tabelaGrupo('Por formato', 'formato', vis) +
     tabelaGrupo('Por ângulo', 'angulo', vis) +
-    tabelaGrupo('Por emoção', 'emocao', vis);
+    tabelaGrupo('Por emoção', 'emocao', vis) +
+    /* No rodapé, fora dos cartões: é referência, não dado. Dentro da tabela ela
+       disputava atenção com os números. */
+    '<div class="medalhas" onclick="editarMedalhas()" title="Clique para mudar o critério">' +
+      '<span class="tt">Medalhas</span>' +
+      MEDALHAS.map(m => '<span>' + m.selo + ' ' + m.nome + ' · ' + m.vendas + '+ vendas · ' +
+                        m.roas.toFixed(2).replace('.', ',') + 'x</span>').join('') +
+      '<span class="mudar">mudar critério</span>' +
+    '</div>';
 
   ['formato','angulo','emocao'].forEach(pintarStatusGrupo);
   montarFiltroEtq();   // o painel só existe depois que o card foi desenhado

@@ -2,7 +2,11 @@
    QUIZ — Réplica muscle-booster · Tema dark
    ════════════════════════════════════════════════════ */
 
-@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;900&family=DM+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap');
+/* DM Sans vinha só até 600, então todo 700 desta folha era faux bold — o
+   navegador engordando o 600 na marra, que borra a letra. Carregar o 700 real
+   limpa isso em todo lugar que já pedia 700. Acima disso não vale a pena: o
+   eixo do DM Sans trava em 800 e a diferença pro 700 é 1% de largura. */
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;900&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap');
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -3812,6 +3816,65 @@ body.marca-na-tela-1:has(#s1.screen.active) .wrap {
   .age-foto { height: auto; aspect-ratio: 1 / 1.06; }
   #s1.s1-h2 h1#h1Var { margin-bottom: 10px; }
   #s1.s1-h2 p#subVar { margin-bottom: 22px; }
+}
+
+/* ── Headline longa: h=3, h=4, h=5 ─────────────────────────────────────────
+   Mesmo layout do h=2, mas o título tem ~130 caracteres contra 33 — no
+   tamanho da h=2 ele viraria seis linhas e comeria a altura dos cartões, que
+   é justo o que não pode acontecer numa tela sem scroll.
+
+   Aqui a linha fica mais larga (mais caracteres por linha) e a fonte menor,
+   pra caber em 4 linhas no mobile e 3 no desktop. As duas coisas andam
+   juntas: 'ch' escala com a fonte, então mexer só no tamanho mudaria a
+   aparência sem tirar uma linha sequer.
+
+   Vem depois do bloco do h=2 porque as duas regras pesam igual (2 ids, 1
+   classe, 1 elemento) — quem ganha é a última. O !important é pelo
+   style="max-width:28ch" que o h1 carrega no HTML.
+
+   No mobile o tamanho dos cartões sai de graça: eles são 'flex: 1 1 auto' e
+   comem só a altura que sobra, então crescer a headline os encolhe sozinho.
+   No desktop têm proporção fixa e não cedem nada — lá a faixa precisa ser
+   estreitada à mão. */
+#s1.s1-hlonga h1#h1Var {
+  font-size: clamp(17px, 5.1vw, 34px);
+  line-height: 1.18;
+  max-width: 32ch !important;
+  margin-bottom: 8px;
+}
+#s1.s1-hlonga p#subVar {
+  font-size: clamp(12px, 3.2vw, 16px);
+  margin-bottom: 10px;
+}
+
+/* Marca os dois blocos da estrutura invisível, como na referência: o resultado
+   desejado sublinhado, o mecanismo em peso maior. São só dois de propósito —
+   um terceiro destaque não destacaria mais nada. O sublinhado é fino e afastado
+   pra não bater nos acentos da caixa alta (Ã, É). */
+#s1.s1-hlonga h1#h1Var u {
+  text-decoration: underline;
+  text-decoration-thickness: .05em;
+  text-underline-offset: .18em;
+}
+/* O destaque troca de FAMÍLIA, não de peso. O eixo de peso do DM Sans é curto:
+   ele trava em 800, e 700 → 800 muda a largura do texto em 1% — invisível num
+   título. A Barlow Condensed 900 é a display que o quiz já usa (e já baixa),
+   então o contraste vem de graça e continua dentro da identidade.
+   O 1.12em compensa a óptica: condensada desenha menor no mesmo corpo. */
+#s1.s1-hlonga h1#h1Var b {
+  font-family: 'Barlow Condensed', 'DM Sans', system-ui, sans-serif;
+  font-weight: 900;
+  font-size: 1.12em;
+  letter-spacing: .005em;
+}
+
+@media (min-width: 720px) {
+  #s1.s1-hlonga h1#h1Var { font-size: clamp(28px, 3.2vw, 42px); max-width: 46ch !important; margin-bottom: 16px; }
+  #s1.s1-hlonga p#subVar { margin-bottom: 20px; }
+  /* Estreitar a faixa encolhe as quatro colunas juntas, e a proporção do
+     cartão faz o resto: menos largura, menos altura. Mexer na aspect-ratio
+     deixaria as fotos com enquadramento diferente do h=2. */
+  #s1.s1-hlonga .age-fotos { max-width: 920px; gap: 14px; }
 }
 
 /* Cabeçalho da tela 1 na variante h=2: some passo e seção, entra a marca.

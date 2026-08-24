@@ -56,7 +56,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"/>
-  <link rel="stylesheet" href="quiz-warm.css?v=195"/>
+  <link rel="stylesheet" href="quiz-warm.css?v=200"/>
 </head>
 <body>
 
@@ -1117,11 +1117,24 @@ const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxl0S5SWEEEBU_h
 
 /* Teste de headline da tela 1.
    ?h=original -> headline original   ?h=1 -> "Bloqueios Ferteis"
-   ?h=2 -> nome do plano em caixa alta + idade em cartoes com foto
+   ?h=2 a ?h=5 -> idade em cartoes com foto, uma headline diferente em cada
    Sem parametro tambem cai na original, mas fica marcado como v0, entao
    trafego direto e organico nao suja a comparacao das variantes.
    A variante vai junto em todo ping, pra separar os funis no dashboard. */
 const VARIANTE = ((new URLSearchParams(location.search).get('h') || '0').replace(/[^a-zA-Z0-9_-]/g, '').slice(0, 20)) || '0';
+
+/* As variantes de cartao com foto dividem o MESMO layout de propósito: a
+   headline é a única coisa que muda entre elas, e é ela que o teste mede.
+   'longa' liga a regra de CSS que encolhe o título — as headlines de h=3 pra
+   frente têm ~130 caracteres contra 33 da h=2, e no tamanho dela empurrariam
+   os cartões pra fora da tela no mobile. */
+const CARTOES = {
+  '2': { titulo: 'Plano de fertilidade personalizado' },
+  '3': { longa: true, titulo: 'Realize o <u>sonho de ser mãe</u> com um plano personalizado para destravar seus <b>bloqueios férteis</b>, em casa, no seu tempo, sem gastar uma fortuna' },
+  '4': { longa: true, titulo: 'Realize o <u>sonho de ser mãe</u> com um plano personalizado para destravar seus <b>bloqueios férteis</b> que cabe na sua rotina e no seu bolso' },
+  '5': { longa: true, titulo: 'Conquiste o <u>seu positivo</u> com um plano personalizado para destravar seus <b>bloqueios férteis</b> mesmo se os seus exames deram normais' }
+};
+
 (function () {
   const h = document.getElementById('h1Var');
   const s = document.getElementById('subVar');
@@ -1132,25 +1145,31 @@ const VARIANTE = ((new URLSearchParams(location.search).get('h') || '0').replace
     return;
   }
 
-  if (VARIANTE === '2') {
-    if (h) h.textContent = 'Plano de fertilidade personalizado';
-    if (s) s.textContent = 'Escolha a sua idade';
-    /* Na tela 1 o cabeçalho mostra a MARCA, não o passo. Além de seguir a
-       referência, 'Passo 1/34' logo de cara anuncia o tamanho do quiz pra quem
-       ainda não investiu nada nele. Da tela 2 em diante o passo volta, aí já
-       vale como progresso. */
-    document.body.classList.add('marca-na-tela-1');
-    const sep = document.querySelector('#s1 .s1-sep');
-    if (sep) sep.hidden = false;
-    /* Troca a lista de idade pelos cartoes com foto. Os dois blocos ja existem
-       no HTML: assim o handler de clique, que roda no load, encontra os dois
-       e nao precisa ser religado. */
-    const lista = document.querySelector('#s1 .age-intro');
-    const fotos = document.getElementById('ageFotos');
-    if (lista) lista.hidden = true;
-    if (fotos) fotos.hidden = false;
-    document.getElementById('s1').classList.add('s1-h2');
-  }
+  const cfg = CARTOES[VARIANTE];
+  if (!cfg) return;
+
+  /* innerHTML porque as headlines longas carregam <u> e <b> pra marcar os dois
+     blocos da estrutura. O conteúdo é literal daqui de cima — a URL só escolhe
+     qual chave ler, nunca entra no HTML. */
+  if (h) h.innerHTML = cfg.titulo;
+  if (s) s.textContent = 'Escolha a sua idade';
+  /* Na tela 1 o cabeçalho mostra a MARCA, não o passo. Além de seguir a
+     referência, 'Passo 1/34' logo de cara anuncia o tamanho do quiz pra quem
+     ainda não investiu nada nele. Da tela 2 em diante o passo volta, aí já
+     vale como progresso. */
+  document.body.classList.add('marca-na-tela-1');
+  const sep = document.querySelector('#s1 .s1-sep');
+  if (sep) sep.hidden = false;
+  /* Troca a lista de idade pelos cartoes com foto. Os dois blocos ja existem
+     no HTML: assim o handler de clique, que roda no load, encontra os dois
+     e nao precisa ser religado. */
+  const lista = document.querySelector('#s1 .age-intro');
+  const fotos = document.getElementById('ageFotos');
+  if (lista) lista.hidden = true;
+  if (fotos) fotos.hidden = false;
+  const s1 = document.getElementById('s1');
+  s1.classList.add('s1-h2');
+  if (cfg.longa) s1.classList.add('s1-hlonga');
 })();
 
 // Envia o ping de rastreamento por dois caminhos independentes pra maximizar
@@ -1296,6 +1315,12 @@ function showFooter(screenId) {
    todas as telas e larguras de uma vez. */
 function ajustarTitulo(sec) {
   if (!sec) return;
+  /* As variantes de headline longa (h=3 em diante) têm tamanho próprio no CSS e
+     ocupam 4 linhas de propósito. O alvo de 3 linhas daqui não conseguiria
+     chegar lá — o max-width é medido em 'ch', que encolhe junto com a fonte, e
+     a linha continua com o mesmo número de caracteres — então só deixaria o
+     título pequeno sem tirar linha nenhuma. */
+  if (sec.classList.contains('s1-hlonga')) return;
   const t = sec.querySelector('.q-title, .q-title-lg');
   if (!t) return;
   t.style.fontSize = '';                 // volta ao tamanho do CSS antes de medir

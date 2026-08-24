@@ -3862,6 +3862,20 @@ body.marca-na-tela-1:has(#s1.screen.active) .wrap {
   text-decoration-thickness: .09em;
   text-underline-offset: .18em;
 }
+
+/* Grifado: a faixa é o mesmo tom das barras de idade logo abaixo, então a tela
+   fica com um marrom só em três alturas em vez de três marrons.
+   box-decoration-break é o que importa aqui: a frase pode quebrar em duas
+   linhas, e sem ele o fundo vira um retângulo só, arredondado apenas na ponta
+   inicial e na final — com clone, cada linha ganha a sua faixa inteira. */
+#s1.s1-hlonga h1#h1Var mark {
+  background: var(--blue);
+  color: var(--ink);
+  padding: 0 .16em .04em;
+  border-radius: .1em;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
 /* O destaque troca de FAMÍLIA, não de peso. O eixo de peso do DM Sans é curto:
    ele trava em 800, e 700 → 800 muda a largura do texto em 1% — invisível num
    título. A Barlow Condensed 900 é a display que o quiz já usa (e já baixa),

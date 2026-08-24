@@ -3879,7 +3879,7 @@ body.marca-na-tela-1:has(#s1.screen.active) .wrap {
    já cabem 3. */
 @media (max-width: 719px) {
   #s1.s1-hlonga.s1-v3 h1#h1Var {
-    font-size: clamp(14px, 4.8vw, 18px);
+    font-size: clamp(16px, 5.33vw, 20px);
     max-width: 100% !important;
   }
 }

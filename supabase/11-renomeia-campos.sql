@@ -15,6 +15,11 @@
 --  renomear a coluna não corrige o conteúdo dela.
 -- ═══════════════════════════════════════════════════════════════════════════
 
+/* A headline vive num campo próprio: o hook é a primeira frase FALADA, a
+   headline é o texto ESCRITO na tela. Fica aqui para este script rodar sozinho,
+   independente do 10-headline.sql ter sido rodado ou não. */
+alter table public.criativos add column if not exists headline text;
+
 /* Condicional pra o script poder rodar de novo sem erro: se a coluna já foi
    renomeada numa tentativa anterior, ele passa direto. */
 do $ren$

@@ -1156,10 +1156,18 @@ const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxl0S5SWEEEBU_h
    A marca gravada nao reaproveita 'v3'/'voriginal' de proposito. Esses dois
    valores ja tem trafego direto no banco, vindo de ?h=3 e ?h=original, e os
    numeros do experimento se misturariam com eles. */
+/* Cada experimento declara O QUE ELE VARIA, e nada mais. O de tela mexe em
+   `tela`; o de preço mexe em `preco` e deixa a tela em paz. Sem essa separação,
+   ligar o teste de preço forçaria uma tela junto — e o resultado seria de duas
+   mudanças ao mesmo tempo. É também o que permite `?ab=preco&h=3` um dia. */
 const EXPERIMENTOS = {
   h3: {
     a: { tela: '3',        marca: 'ab-h3'   },
     b: { tela: 'original', marca: 'ab-orig' },
+  },
+  preco: {
+    a: { preco: '38', marca: 'preco-38' },
+    b: { preco: '68', marca: 'preco-68' },
   },
 };
 
@@ -1182,14 +1190,36 @@ const AB = (function () {
   return Object.assign({ chave: chave, lado: lado }, exp[lado]);
 })();
 
-/* Duas coisas que antes eram uma variavel so:
-     TELA     = o que a pagina desenha
-     VARIANTE = o que vai pro banco
-   Fora de experimento as duas coincidem. Dentro, a tela e sorteada e a
-   variante carrega a marca do braco. */
-const TELA = AB ? AB.tela
+/* O que a pagina desenha, o que ela cobra, e o que ela grava — tres coisas,
+   nao uma. O experimento so sobrescreve o eixo que ELE varia: por isso o
+   `AB.tela &&` em vez de `AB &&`, senao o teste de preco zeraria a tela. */
+const TELA = (AB && AB.tela) ? AB.tela
   : ((new URLSearchParams(location.search).get('h') || '0').replace(/[^a-zA-Z0-9_-]/g, '').slice(0, 20)) || '0';
+const PRECO = (AB && AB.preco) ? AB.preco : '38';
 const VARIANTE = AB ? AB.marca : TELA;
+
+/* Os dois conjuntos de link. A pilula de preco na tela do plano troca junto,
+   la embaixo: se ela ficasse em 37,90 e o checkout abrisse em 67,90, o teste
+   mediria o susto, nao o preco. */
+const LINKS = {
+  '38': {
+    essencial: 'https://pay.kiwify.com.br/dALiRrx',
+    avancado: { f1:'https://pay.kiwify.com.br/seFcrbR', f2:'https://pay.kiwify.com.br/3GoRfIR',
+                f3:'https://pay.kiwify.com.br/fPNitik', f4:'https://kiwify.app/J9qP1Qt' },
+    imersao:  { f1:'https://pay.kiwify.com.br/Se1kK9E', f2:'https://pay.kiwify.com.br/t3YYv6L',
+                f3:'https://pay.kiwify.com.br/8zYV8Qn', f4:'https://pay.kiwify.com.br/8ACzRLE' },
+  },
+  /* f1 = Sinais do Ciclo, f2 = Emocional, f3 = Organismo, f4 = Proposito —
+     a mesma ordem que o cartao do plano mostra pra pessoa. */
+  '68': {
+    essencial: 'https://pay.kiwify.com.br/UpC3zms',
+    avancado: { f1:'https://pay.kiwify.com.br/5DitVFD', f2:'https://pay.kiwify.com.br/l5H4n3S',
+                f3:'https://pay.kiwify.com.br/i2HZnFo', f4:'https://pay.kiwify.com.br/1gGJTyF' },
+    imersao:  { f1:'https://pay.kiwify.com.br/u5C55hA', f2:'https://pay.kiwify.com.br/HGaIecZ',
+                f3:'https://pay.kiwify.com.br/YtF2ys3', f4:'https://pay.kiwify.com.br/eC4iXQ7' },
+  },
+};
+const PRECOS = { '38': ['37', ',90'], '68': ['67', ',90'] };
 
 /* As variantes de cartao com foto dividem o MESMO layout de propósito: a
    headline é a única coisa que muda entre elas, e é ela que o teste mede.
@@ -1249,6 +1279,16 @@ const CARTOES = {
   } finally {
     document.documentElement.classList.remove('ab-espera');
   }
+})();
+
+/* A pílula de preço na tela do plano. Roda aqui, no carregamento, e não junto
+   com a troca dos links: a tela do plano só é montada lá no fim do quiz, mas o
+   elemento já existe no HTML desde o início — e trocar cedo evita depender da
+   ordem em que as telas são preparadas. */
+(function () {
+  const p = PRECOS[PRECO];
+  const pill = document.querySelector('.plan-card__pill-num');
+  if (p && pill) pill.innerHTML = p[0] + '<sup style="font-size:0.55em;">' + p[1] + '</sup>';
 })();
 
 // Envia o ping de rastreamento por dois caminhos independentes pra maximizar
@@ -1708,30 +1748,21 @@ function getDisplayIQO() {
 }
 
 // ── Link de checkout baseado no perfil IQO ───────────────────────────────────
+/* Dois eixos escolhem o link: o PERFIL (quantos ciclos, qual fator mais fraco)
+   e o PREÇO sorteado. O conjunto vem primeiro, o perfil escolhe dentro dele —
+   assim o teste de preço não toca na lógica de perfil, que já estava certa. */
 function getCheckoutLink() {
+  const set = LINKS[PRECO] || LINKS['38'];
   const cycles = getProtocolCycles();
-  const f = window.__iqoFactors || { f1: 50, f2: 50, f3: 50, f4: 50 };
 
   // 1 ciclo → Plano Essencial (todos fatores equilibrados)
-  if (cycles === 1) return 'https://pay.kiwify.com.br/dALiRrx';
+  if (cycles === 1) return set.essencial;
 
-  // Fator mais fraco (menor valor)
-  const fatores = [
-    { key: 'f1', val: f.f1 },
-    { key: 'f2', val: f.f2 },
-    { key: 'f3', val: f.f3 },
-    { key: 'f4', val: f.f4 },
-  ];
-  const weakest = fatores.reduce((a, b) => b.val < a.val ? b : a).key;
+  // Fator mais fraco (menor valor). Empate fica com o primeiro, como antes.
+  const f = window.__iqoFactors || { f1: 50, f2: 50, f3: 50, f4: 50 };
+  const weakest = ['f1', 'f2', 'f3', 'f4'].reduce((a, b) => f[b] < f[a] ? b : a);
 
-  if (cycles === 2) {
-    const map2 = { f1: 'https://pay.kiwify.com.br/seFcrbR', f2: 'https://pay.kiwify.com.br/3GoRfIR', f3: 'https://pay.kiwify.com.br/fPNitik', f4: 'https://kiwify.app/J9qP1Qt' };
-    return map2[weakest] || 'https://pay.kiwify.com.br/dALiRrx';
-  }
-
-  // cycles === 3
-  const map3 = { f1: 'https://pay.kiwify.com.br/Se1kK9E', f2: 'https://pay.kiwify.com.br/t3YYv6L', f3: 'https://pay.kiwify.com.br/8zYV8Qn', f4: 'https://pay.kiwify.com.br/8ACzRLE' };
-  return map3[weakest] || 'https://pay.kiwify.com.br/dALiRrx';
+  return (cycles === 2 ? set.avancado : set.imersao)[weakest] || set.essencial;
 }
 
 // ── Ciclos necessários baseados no perfil IQO ────────────────────────────────

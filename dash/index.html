@@ -361,6 +361,30 @@ body{background:var(--bg);color:var(--ink);}
   .fcheck{flex-direction:row!important;align-items:center;gap:7px!important;cursor:pointer;
     user-select:none;padding-bottom:10px;}
   .fcheck input{width:16px;height:16px;accent-color:var(--marca);cursor:pointer;}
+  /* ── Mapa de calor dia × hora ────────────────────────────────────────────
+     Grade fixa de 24 colunas em vez de auto-fit: a coluna PRECISA ser a hora,
+     e um grid que se reorganiza sozinho quebraria a leitura vertical. Rola na
+     horizontal em tela estreita, que é melhor que amassar as horas. */
+  .mapa{display:flex;gap:22px;align-items:flex-start;flex-wrap:wrap;}
+  .mp-grade{display:grid;grid-template-columns:34px repeat(24,minmax(13px,1fr));
+    gap:2px;align-items:center;flex:1;min-width:430px;}
+  .mp-h{font-size:9.5px;color:var(--ink-3);text-align:center;font-variant-numeric:tabular-nums;
+    padding-bottom:3px;}
+  .mp-d{font-size:11px;color:var(--ink-2);font-weight:600;padding-right:6px;}
+  /* aspect-ratio 1 mantém o quadrado em qualquer largura — célula achatada
+     falsearia a comparação entre linhas e colunas. */
+  .mp-cel{display:block;aspect-ratio:1;border-radius:2.5px;cursor:help;
+    transition:outline-color .1s;outline:1.5px solid transparent;outline-offset:1px;}
+  .mp-cel:hover{outline-color:var(--ink-2);}
+  .mp-lado{min-width:180px;flex:0 1 220px;}
+  .mp-lado-tit{font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;
+    color:var(--ink-3);font-weight:700;margin-bottom:9px;}
+  .mp-lado-l{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--ink-2);
+    margin-bottom:6px;}
+  .mp-lado-l span:first-child{width:26px;flex:none;}
+  .mp-lado-l b{width:26px;text-align:right;color:var(--ink);font-variant-numeric:tabular-nums;}
+  .mp-barra{flex:1;height:6px;border-radius:3px;background:var(--linha);overflow:hidden;}
+  .mp-barra i{display:block;height:100%;border-radius:3px;background:var(--marca);min-width:2px;}
   .fdupla{display:flex;gap:12px;}
   .fdupla .fcampo{flex:1;}
 
@@ -823,6 +847,7 @@ const ICONES = {
   'hook rate':            '<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>',
   'hold rate':            '<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>',
   'teste a/b':            '<path d="M4 20V9M10 20V4M16 20v-7M22 20H2"/>',
+  'vendas por dia e hora':'<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M9 10v10M15 10v10"/>',
   'histórico':            '<path d="M12 8v4l3 2"/><path d="M3.05 11a9 9 0 1 1 .5 4"/><path d="M3 5v5h5"/>',
 };
 const ico = nome => { const d = ICONES[String(nome).toLowerCase()]; return d ? SVG(d) : ''; };
@@ -834,6 +859,7 @@ const DICAS = {
   'gasto em anúncio':      'Quanto o Meta cobrou no período. Só mídia, sem taxas nem custo operacional.',
   'gasto operacional':     'Soma dos custos que você lançou na aba Custos, pela data de competência.',
   'faturamento':           'Valor bruto das vendas que o pixel atribuiu ao Meta, com o order bump incluído.',
+  'vendas por dia e hora': 'Cada quadrado é uma hora de um dia da semana; quanto mais escuro, mais vendas. Todas as horas em São Paulo, tiradas do horário real do pagamento na Kiwify.',
   'valor líquido':         'O que a Kiwify deposita: faturamento menos a taxa dela (8,99% + R$2,49 por venda aprovada). Ainda NÃO desconta anúncio nem operacional — quem faz isso é o Lucro.',
   'lucro':                 'O que sobrou de verdade: faturamento menos as taxas do checkout, menos anúncio, menos operacional.',
   'roas':                  'Faturamento ÷ gasto em anúncio. Mede só a mídia — não desconta taxa nem custo operacional.',
@@ -909,11 +935,11 @@ const dicaFlut = (() => {
   };
 })();
 document.addEventListener('mouseover', ev => {
-  const t = ev.target.closest && ev.target.closest('.tb .temdica');
+  const t = ev.target.closest && ev.target.closest('.tb .temdica, .mapa .temdica');
   if (t) dicaFlut.abrir(t);
 });
 document.addEventListener('mouseout', ev => {
-  if (ev.target.closest && ev.target.closest('.tb .temdica')) dicaFlut.fechar();
+  if (ev.target.closest && ev.target.closest('.tb .temdica, .mapa .temdica')) dicaFlut.fechar();
 });
 /* Rolar move a célula e deixaria a dica pendurada no lugar antigo. */
 document.addEventListener('scroll', () => dicaFlut.fechar(), true);
@@ -1208,6 +1234,71 @@ async function carregar() {
       ag.toLocaleTimeString('pt-BR', { hour:'2-digit', minute:'2-digit' });
   }
   catch (e) { alvo.innerHTML = '<div class="card"><div class="erro">Erro ao carregar: ' + esc(e.message || e) + '</div></div>'; }
+}
+
+/* Mapa de calor dia da semana × hora. A pergunta "qual dia e hora vende mais"
+   é sobre a COMBINAÇÃO — dois gráficos separados, um por dia e um por hora,
+   escondem exatamente o que se procura: um bolsão de quinta à noite soma pouco
+   nos dois eixos separados e desaparece.
+
+   E ele deixa a escassez à vista. Uma grade quase toda vazia se explica sozinha;
+   barras somam tudo e parecem sólidas com três vendas. */
+const DIAS_SEM = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
+
+function mapaHorario(linhas) {
+  const m = Array.from({ length: 7 }, () => new Array(24).fill(0));
+  let total = 0, teto = 0;
+  (linhas || []).forEach(l => {
+    const d = Number(l.dia), h = Number(l.hora), v = Number(l.vendas) || 0;
+    if (d >= 0 && d < 7 && h >= 0 && h < 24) { m[d][h] += v; total += v; }
+  });
+  m.forEach(r => r.forEach(v => { if (v > teto) teto = v; }));
+
+  if (!total) {
+    return '<div class="vazio">Nenhuma venda no período. Este mapa começa a se ' +
+      'formar com as vendas que chegam pelo webhook da Kiwify — leva algumas ' +
+      'semanas até um padrão de dia da semana significar alguma coisa.</div>';
+  }
+
+  const porDia  = m.map(r => r.reduce((a, v) => a + v, 0));
+  const maiorDia = Math.max(...porDia);
+
+  /* Um tom só, do claro ao escuro, proporcional à contagem. Escala de cor com
+     várias matizes daria a impressão de categorias diferentes onde só existe
+     "mais" e "menos". O piso de 12% garante que uma venda solitária apareça. */
+  const cel = (v, d, h) => {
+    const forca = teto ? (v ? 12 + (v / teto) * 88 : 0) : 0;
+    const fundo = v ? 'color-mix(in srgb, var(--marca) ' + forca.toFixed(0) + '%, var(--surface-2))'
+                    : 'var(--surface-2)';
+    const dica = v
+      ? v + (v > 1 ? ' vendas' : ' venda') + ' — ' + DIAS_SEM[d] + ', ' + String(h).padStart(2, '0') + 'h'
+      : 'Nenhuma venda — ' + DIAS_SEM[d] + ', ' + String(h).padStart(2, '0') + 'h';
+    return '<i class="mp-cel temdica" data-dica="' + esc(dica) + '" style="background:' + fundo + '"></i>';
+  };
+
+  return '<div class="mapa">' +
+    '<div class="mp-grade">' +
+      '<div class="mp-canto"></div>' +
+      /* Rótulo a cada 3 horas: 24 números seguidos viram uma faixa cinza que
+         ninguém lê, e de 3 em 3 ainda dá pra localizar qualquer coluna. */
+      Array.from({ length: 24 }, (_, h) =>
+        '<div class="mp-h">' + (h % 3 === 0 ? String(h).padStart(2, '0') : '') + '</div>').join('') +
+      m.map((linha, d) =>
+        '<div class="mp-d">' + DIAS_SEM[d] + '</div>' +
+        linha.map((v, h) => cel(v, d, h)).join('')
+      ).join('') +
+    '</div>' +
+    /* Total por dia ao lado: responde "qual DIA vende mais" sem obrigar a somar
+       24 quadradinhos com o olho. */
+    '<div class="mp-lado">' +
+      '<div class="mp-lado-tit">por dia</div>' +
+      m.map((_, d) =>
+        '<div class="mp-lado-l"><span>' + DIAS_SEM[d] + '</span>' +
+        '<span class="mp-barra"><i style="width:' +
+          (maiorDia ? (porDia[d] / maiorDia * 100).toFixed(0) : 0) + '%"></i></span>' +
+        '<b>' + porDia[d] + '</b></div>').join('') +
+    '</div>' +
+  '</div>';
 }
 
 // ══════════════════════ TESTE A/B ══════════════════════
@@ -1644,51 +1735,6 @@ async function salvarExperimento(chave) {
   fecharModal(); await verAB();
 }
 
-/* Venda que nem o Meta nem o webhook pegaram: cobrança fora da Kiwify, venda
-   antiga sendo reconciliada, ajuste. Vai pra MESMA tabela do webhook — duas
-   tabelas de venda seriam duas contagens pra reconciliar, que é justamente o
-   problema do qual estamos saindo. */
-function abrirVendaManual() {
-  const hoje = iso(hojeSP());
-  document.getElementById('modal').innerHTML =
-    '<div class="modal" onclick="if(event.target===this)fecharModal()"><div class="box">' +
-      '<h2>Lançar venda manual</h2>' +
-      '<div class="qual">Entra junto com as da Kiwify, no mesmo lugar. Use o valor ' +
-        'COBRADO (com o order bump, se teve) — o líquido é calculado a partir dele.</div>' +
-      '<div id="vmErro" class="erro" style="display:none;"></div>' +
-      '<div class="fdupla">' +
-        '<label class="fcampo">Valor cobrado<input id="vmValor" type="text" inputmode="decimal" placeholder="37,90"/></label>' +
-        '<label class="fcampo">Data<input id="vmData" type="date" value="' + hoje + '"/></label>' +
-      '</div>' +
-      '<label class="fcampo">Nota<input id="vmNota" maxlength="120" ' +
-        'placeholder="Ex.: venda que o Meta não marcou"/></label>' +
-      '<div class="pfoot"><button class="limpar" onclick="fecharModal()">Cancelar</button>' +
-      '<button class="prim" id="vmSalvar" onclick="salvarVendaManual()">Lançar</button></div>' +
-    '</div></div>';
-  setTimeout(() => { const e = document.getElementById('vmValor'); if (e) e.focus(); }, 30);
-}
-
-async function salvarVendaManual() {
-  const btn = document.getElementById('vmSalvar');
-  const erro = document.getElementById('vmErro');
-  const falar = m => { erro.textContent = m; erro.style.display = 'block';
-                       btn.disabled = false; btn.textContent = 'Lançar'; };
-  erro.style.display = 'none';
-  const bruto = String(document.getElementById('vmValor').value).replace(',', '.');
-  const valor = Number(bruto);
-  const data = document.getElementById('vmData').value;
-  if (!bruto.trim() || !isFinite(valor) || valor <= 0) return falar('Valor inválido.');
-  if (!data) return falar('Escolhe a data.');
-  btn.disabled = true; btn.textContent = 'Lançando…';
-
-  const { error } = await sb.rpc('fn_venda_manual', {
-    p_valor: valor, p_data: data,
-    p_nota: document.getElementById('vmNota').value.trim() || null });
-  if (error) return falar('Não deu pra lançar: ' + error.message);
-  fecharModal();
-  await carregar();
-}
-
 // ══════════════════════ HISTÓRICO ══════════════════════
 /* O dashboard mede o AGORA. Quando você troca o gateway, muda o preço ou
    reescreve a página, o número de antes deixa de existir em qualquer lugar — e
@@ -2049,7 +2095,7 @@ async function verGeral() {
      faturamento, visitantes e conversão passam a falar do MESMO recorte —
      antes a Visão Geral somava tudo sem opção. */
   const fo = fFonte || null;
-  const [rD, rF, custos, rA, rP, rK] = await Promise.all([
+  const [rD, rF, custos, rA, rP, rK, rH] = await Promise.all([
     sb.rpc('fn_diario', { p_de:p.de, p_ate:p.ate, p_fonte:fo }),
     sb.rpc('fn_funil',  { p_de:p.de, p_ate:p.ate, p_variantes:null, p_funil:null, p_fonte:fo }),
     // se a tabela de custos falhar, a Visão Geral não cai junto: o operacional
@@ -2066,6 +2112,8 @@ async function verGeral() {
        de parar de abrir. */
     Promise.resolve(sb.rpc('fn_vendas_dia', { p_de:p.de, p_ate:p.ate }))
       .catch(() => ({ data:null })),
+    Promise.resolve(sb.rpc('fn_vendas_hora', { p_de:p.de, p_ate:p.ate }))
+      .catch(() => ({ data:[] })),
   ]);
   if (rD.error) throw rD.error;
 
@@ -2235,6 +2283,9 @@ async function verGeral() {
         '<div class="card"><div class="sec">' + ico('Gasto e faturamento por dia') + '<span>' + tituloGrafico + '</span></div>' +
           (dias.length ? '<div style="position:relative;height:400px;"><canvas id="cvGeral"></canvas></div>'
                        : '<div class="vazio">Sem dados no período.</div>') + '</div>' +
+        '<div class="card"><div class="sec">' + ico('Vendas por dia e hora') +
+          '<span>Vendas por dia e hora</span></div>' +
+          mapaHorario(rH && rH.data) + '</div>' +
         '<div class="fontes">' + cartoesFonte + '</div>' +
       '</div>' +
       '<div class="regua">' +
@@ -2253,12 +2304,6 @@ async function verGeral() {
           '<div class="lbl">' + ico('Reembolso') + '<span>Reembolso</span></div>' +
           '<div class="val">—</div>' +
           '<div class="ap">sem ligação com o checkout</div></div>' +
-      '</div>' +
-      /* Fica na Visão Geral e não numa aba própria porque é aqui que você
-         percebe a falta: o número não bate com o extrato, e a correção tem que
-         estar a um clique de onde o erro apareceu. */
-      '<div style="display:flex;justify-content:flex-end;margin-top:14px;">' +
-        '<button class="limpar" onclick="abrirVendaManual()">Lançar venda manual</button>' +
       '</div>' +
     '</div>' +
     /* Com recorte de plataforma ativo, o custo operacional continua entrando

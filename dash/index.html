@@ -557,17 +557,17 @@ body{background:var(--bg);color:var(--ink);}
             </div>
           </div>
         </div>
-        <div class="grp soCriativos">
-          <button class="rangeBtn" id="btnPlat" onclick="abrir('painelPlat')"><span id="lblPlat">Todas as plataformas</span><span class="car">▼</span></button>
-          <div class="rangePanel" id="painelPlat" style="display:none;"><div class="presets only" id="listaPlat"></div></div>
+        <!-- Uma escolha de fonte só, presente em Visão Geral, Funil e Criativos.
+             Antes eram dois controles independentes com nomes diferentes pro
+             mesmo conceito — 'plataformas' em Criativos, 'fontes' em Funil — e
+             escolher TikTok num lado não valia no outro. -->
+        <div class="grp soFonte">
+          <button class="rangeBtn" id="btnFonte" onclick="abrir('painelFonte')"><span id="lblFonte">Todas as fontes</span><span class="car">▼</span></button>
+          <div class="rangePanel" id="painelFonte" style="display:none;"><div class="presets only" id="listaFonte"></div></div>
         </div>
         <div class="grp soFunil">
           <button class="rangeBtn" id="btnFunil" onclick="abrir('painelFunil')"><span id="lblFunil">Todos os funis</span><span class="car">▼</span></button>
           <div class="rangePanel" id="painelFunil" style="display:none;"><div class="presets only" id="listaFunil"></div></div>
-        </div>
-        <div class="grp soFunil">
-          <button class="rangeBtn" id="btnFonte" onclick="abrir('painelFonte')"><span id="lblFonte">Todas as fontes</span><span class="car">▼</span></button>
-          <div class="rangePanel" id="painelFonte" style="display:none;"><div class="presets only" id="listaFonte"></div></div>
         </div>
         <div class="grp soFunil">
           <button class="rangeBtn" id="btnVar" onclick="abrir('painelVar')"><span id="lblVar">Todas as URLs</span><span class="car">▼</span></button>
@@ -991,7 +991,7 @@ function calAplicar() {
 }
 
 function abrir(id) {
-  ['painelData','painelVar','painelEtq','painelFunil','painelFonte','painelPlat','painelStatus','painelPieMet','painelPieGrp','painelG_formato','painelG_angulo','painelG_emocao'].forEach(k => {
+  ['painelData','painelVar','painelEtq','painelFunil','painelFonte','painelStatus','painelPieMet','painelPieGrp','painelG_formato','painelG_angulo','painelG_emocao'].forEach(k => {
     const el = document.getElementById(k); if (!el) return;
     el.style.display = (k === id && el.style.display === 'none') ? 'flex' : 'none';
   });
@@ -1008,10 +1008,9 @@ function abrir(id) {
   if (id === 'painelFunil') pintarFunil();
   if (id === 'painelFonte') pintarFonte();
   if (id === 'painelStatus') pintarStatus();
-  if (id === 'painelPlat')   pintarPlat();
   if (id.indexOf('painelG_') === 0) pintarStatusGrupo(id.replace('painelG_', ''));
 }
-const fecharPaineis = () => ['painelData','painelVar','painelEtq','painelFunil','painelFonte','painelPlat','painelStatus','painelPieMet','painelPieGrp','painelG_formato','painelG_angulo','painelG_emocao'].forEach(k => {
+const fecharPaineis = () => ['painelData','painelVar','painelEtq','painelFunil','painelFonte','painelStatus','painelPieMet','painelPieGrp','painelG_formato','painelG_angulo','painelG_emocao'].forEach(k => {
   const el = document.getElementById(k); if (el) el.style.display = 'none'; });
 
 let aba = 'geral', graficos = [], filtroEtq = {}, CRIATIVOS = [];
@@ -1069,21 +1068,20 @@ const rotuloVariante = v => !v ? 'Todas as URLs' : (NOMES_VAR[v] || String(v).re
 /* 'ativo' por padrão: o que interessa no dia a dia é o que está no ar. O robô
    grava 'ativo'; linhas antigas gravadas como 'rodando' são tratadas como o
    mesmo status até o robô rodar de novo. */
-/* Plataforma de anúncio (Meta, TikTok). Não confundir com o filtro 'fonte' da
-   aba Funil, que é de onde veio o TRÁFEGO da página — são coisas diferentes,
-   por isso o nome aqui é plataforma. */
-let fPlat = '';
-const PLATAFORMAS_FILTRO = [['','Todas as plataformas'],['meta','Meta Ads'],['tiktok','TikTok Ads']];
-function pintarPlat() {
-  pintarLista('listaPlat','btnPlat','lblPlat', PLATAFORMAS_FILTRO, fPlat, v => { fPlat = v; });
-}
-
+/* A fonte vem de dois lugares no banco: criativos_diario.fonte diz em qual
+   plataforma o anúncio rodou, e paginas.fonte diz de qual plataforma a página
+   recebe tráfego. São tabelas diferentes, mas o mesmo recorte de negócio — um
+   anúncio no TikTok manda gente pra página do TikTok. Por isso a escolha é
+   uma só; se algum dia os dois lados discordarem, é erro de configuração, e
+   filtrar junto faz esse erro aparecer em vez de escondê-lo. */
 const ATIVO = 'ativo';
 const normStatus = v => (String(v || '').trim().toLowerCase() === 'rodando' ? ATIVO : String(v || '').trim());
 let fFunil = '', fFonte = '', fStatus = ATIVO;
 
 const OPC_FUNIL = [['','Todos os funis'],['brasil','Brasil'],['latam','Latam']];
-const OPC_FONTE = [['','Todas as fontes'],['meta','Meta'],['tiktok','TikTok']];
+/* Um nome só pra cada plataforma no dashboard inteiro. Antes 'Meta Ads' num
+   filtro e 'Meta' no outro faziam parecer que eram recortes diferentes. */
+const OPC_FONTE = [['','Todas as fontes'],['meta','Meta Ads'],['tiktok','TikTok Ads']];
 
 /* Os três eram <select> nativo e abriam o menu do sistema, destoando dos painéis
    desenhados de data e URL. Agora usam o mesmo componente. */
@@ -1146,6 +1144,12 @@ function trocarAba(nova) {
   document.getElementById('tituloPagina').textContent = TITULOS[nova];
   document.querySelectorAll('.soFunil').forEach(e => e.style.display = nova === 'funil' ? '' : 'none');
   document.querySelectorAll('.soCriativos').forEach(e => e.style.display = nova === 'criativos' ? '' : 'none');
+  /* A fonte aparece nas três abas que sabem o que fazer com ela — assim dá pra
+     mudar o recorte de onde você estiver, sem voltar numa aba só pra isso.
+     Fora delas some: em Teste A/B o recorte é o braço, e em Histórico e Custos
+     não existe fonte. */
+  document.querySelectorAll('.soFonte').forEach(e =>
+    e.style.display = ['geral','funil','criativos'].includes(nova) ? '' : 'none');
   localStorage.setItem('cf_aba', nova);
   carregar();
 }
@@ -1860,13 +1864,19 @@ async function verGeral() {
     const fim = maisDias(new Date(p.de + 'T12:00:00Z'), -1);
     return { de: iso(maisDias(fim, -(n - 1))), ate: iso(fim) };
   })();
+  /* Um recorte só pros dois lados. fn_diario filtra pelo que o robô gravou em
+     criativos_diario.fonte (onde o anúncio rodou); fn_funil filtra por
+     paginas.fonte (de onde a página recebe tráfego). Escolhendo TikTok, gasto,
+     faturamento, visitantes e conversão passam a falar do MESMO recorte —
+     antes a Visão Geral somava tudo sem opção. */
+  const fo = fFonte || null;
   const [rD, rF, custos, rA, rP] = await Promise.all([
-    sb.rpc('fn_diario', { p_de:p.de, p_ate:p.ate }),
-    sb.rpc('fn_funil',  { p_de:p.de, p_ate:p.ate }),
+    sb.rpc('fn_diario', { p_de:p.de, p_ate:p.ate, p_fonte:fo }),
+    sb.rpc('fn_funil',  { p_de:p.de, p_ate:p.ate, p_variantes:null, p_funil:null, p_fonte:fo }),
     // se a tabela de custos falhar, a Visão Geral não cai junto: o operacional
     // entra como zero. A aba Custos mostra o erro de verdade.
     custosDoPeriodo().catch(() => []),
-    ant ? sb.rpc('fn_diario', { p_de:ant.de, p_ate:ant.ate }) : Promise.resolve({ data:[] }),
+    ant ? sb.rpc('fn_diario', { p_de:ant.de, p_ate:ant.ate, p_fonte:fo }) : Promise.resolve({ data:[] }),
     // um total por plataforma, pros cartões de fonte
     // Promise.resolve porque sb.rpc() devolve um objeto 'thenable', não uma
     // Promise: ele tem .then mas não tem .catch, e chamar .catch nele quebra.
@@ -1883,6 +1893,10 @@ async function verGeral() {
   /* ROAS continua só sobre anúncio — é a definição da métrica. O ROI, não:
      ele mede o retorno do dinheiro TODO que saiu, então soma o operacional.
      As taxas de checkout já saíam antes, dentro de liquido(). */
+  /* O custo operacional é da operação inteira, não de uma plataforma. Com um
+     recorte ativo ele continua entrando inteiro — ratear por gasto de mídia
+     seria inventar um número que ninguém mediu. Quem lê o ROI filtrado precisa
+     saber disso, então vira aviso no rodapé. */
   const custoOp = custos.reduce((a, c) => a + Number(c.valor), 0);
   const saiu    = tot.gasto + custoOp;
   /* Lucro = o que sobrou de verdade: faturamento MENOS as taxas do checkout
@@ -1943,7 +1957,9 @@ async function verGeral() {
   const porFonte = {};
   (rP && rP.data ? rP.data : []).forEach(f => { porFonte[String(f.fonte).toLowerCase()] = f; });
 
-  const cartoesFonte = PLATAFORMAS.map(pl => {
+  /* Com um recorte escolhido, mostrar o cartão da outra plataforma zerado
+     diria "TikTok não vendeu nada" quando na verdade ele foi filtrado fora. */
+  const cartoesFonte = PLATAFORMAS.filter(pl => !fo || pl.chave === fo).map(pl => {
     const f = porFonte[pl.chave];
     if (!f || Number(f.gasto) <= 0) {
       return cartaoFonte({ logo:pl.logo, nome:pl.nome, fat:0, gasto:0, lucro:0,
@@ -2007,7 +2023,18 @@ async function verGeral() {
           '<div class="val">—</div>' +
           '<div class="ap">sem ligação com o checkout</div></div>' +
       '</div>' +
-    '</div>';
+    '</div>' +
+    /* Com recorte de plataforma ativo, o custo operacional continua entrando
+       INTEIRO — ele é da operação, não de uma plataforma, e ratear por gasto de
+       mídia inventaria um número que ninguém mediu. Quem lê Lucro e ROI
+       filtrados precisa saber, senão lê como se fosse o custo daquela fatia. */
+    (fo && custoOp > 0
+      ? '<div class="aviso" style="margin-top:4px;">Recorte de <b>' +
+        esc((OPC_FONTE.find(o => o[0] === fo) || [, fo])[1]) + '</b>. Gasto, faturamento, ' +
+        'visitantes e conversão são só dessa plataforma, mas o custo operacional (' +
+        moeda(custoOp) + ') entra inteiro — ele é da operação toda. Lucro e ROI ' +
+        'aqui saem menores do que seriam se o operacional fosse rateado.</div>'
+      : '');
 
   if (!dias.length) return;
   const ctx = document.getElementById('cvGeral').getContext('2d');
@@ -2218,7 +2245,7 @@ function barra(id, itens, campo, cor, ehMoeda, asc) {
    antiga sem ele. Sem isso, a ordem entre rodar o SQL e publicar o dashboard
    importaria — e quem publicasse primeiro deixaria a aba quebrada no meio. */
 async function criativosDoPeriodo(p) {
-  const r = await sb.rpc('fn_criativos', { p_de:p.de, p_ate:p.ate, p_fonte: fPlat || null });
+  const r = await sb.rpc('fn_criativos', { p_de:p.de, p_ate:p.ate, p_fonte: fFonte || null });
   if (!r.error) return r;
   return await sb.rpc('fn_criativos', { p_de:p.de, p_ate:p.ate });
 }
@@ -2293,7 +2320,6 @@ async function verCriativos() {
   });
 
   pintarStatus();
-  pintarPlat();
   const stAtual = fStatus;
   let vis = CRIATIVOS;
   if (stAtual) vis = vis.filter(r => normStatus(r.status) === stAtual);

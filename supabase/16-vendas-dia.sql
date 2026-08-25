@@ -20,7 +20,8 @@ create or replace function public.fn_vendas_dia(
   p_ate date default null
 )
 returns table (
-  data date, vendas bigint, reembolsos bigint, faturamento numeric, por_valor jsonb
+  data date, vendas bigint, reembolsos bigint, faturamento numeric,
+  reembolsado numeric, por_valor jsonb
 )
 language sql
 stable
@@ -43,6 +44,11 @@ as $$
     coalesce(sum(case when b.evento = 'compra_aprovada' then b.valor
                       when b.evento in ('reembolso','chargeback') then -b.valor
                       else 0 end), 0)                               as faturamento,
+    /* Bruto devolvido no dia. O prejuízo de um reembolso é o valor CHEIO: a
+       Kiwify não devolve a taxa dela, então o líquido perde mais do que
+       recebeu. Subtrair só o líquido faria reembolso parecer barato. */
+    coalesce(sum(b.valor) filter (where b.evento in ('reembolso','chargeback')), 0)
+                                                                    as reembolsado,
     (select jsonb_object_agg(x.valor::text, x.n)
        from (select b2.valor, count(*) as n
                from base b2

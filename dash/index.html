@@ -649,42 +649,28 @@ const TAXAS = [
   { de: PRIMEIRA_VENDA,  liqVenda: 33.50, liqBump: 14.48 },
 ];
 
-/* Quanto sobra de cada valor COBRADO, depois da taxa da Kiwify. Chave é o
-   bruto do pedido; valor é o que cai na conta.
+/* Taxa da Kiwify: 8,99% do valor + R$2,49 por venda aprovada.
 
-   Isto existe pra acabar com uma adivinhação: o líquido deduzia quantos bumps
-   havia a partir do faturamento total, assumindo um preço único de R$37,90.
-   Com o teste de preço no ar essa conta virou lixo — 10 vendas a R$67,90 dão
-   R$679, e a dedução enxergava 18 bumps que não existem, inflando o Lucro.
-   Agora o valor de cada pedido vem da Kiwify e o líquido sai por consulta.
+   O fixo é por PEDIDO, não por item — é isso que explica o order bump parecer
+   ter taxa menor: R$17,00 deixam R$15,47 (9%), enquanto R$37,90 deixam R$32,00
+   (15,6%). O bump viaja no mesmo pedido e só paga o percentual.
 
-   null = ainda não sei o líquido desse valor. Melhor um buraco visível, que
-   vira aviso na tela, do que um palpite somado calado ao Lucro. */
-const LIQUIDO_BRUTO = {
-  '37.90': 32.00,          // confirmado
-  '54.90': 32.00 + 15.47,  // 37,90 + order bump
-  '67.90': null,           // teste de preço — falta o líquido real
-  '84.90': null,           // 67,90 + order bump
-};
+   Fórmula e não tabela de preços: assim preço novo não precisa ser cadastrado,
+   e o teste de preço não deixa buraco. As quatro combinações de hoje conferem
+   ao centavo: 37,90->32,00 · 54,90->47,47 · 67,90->59,31 · 84,90->74,78. */
+const KIWIFY_PCT = 0.0899, KIWIFY_FIXO = 2.49;
+const liquidoBruto = v => Math.max(0, v - (v * KIWIFY_PCT + KIWIFY_FIXO));
 
-/* Percentual de referência, tirado do único par que eu conheço (37,90 -> 32,00
-   deixa 84,4%). Serve só pra estimar um valor ainda não cadastrado, e sempre
-   acompanhado de aviso — nunca entra como se fosse número medido. */
-const FRACAO_LIQUIDA = 32.00 / 37.90;
-
-/* Devolve { liquido, estimado } — 'estimado' é quantos reais vieram de palpite,
-   pra tela poder dizer isso em vez de fingir precisão. */
-function liquidoDeValores(porValor) {
-  let liq = 0, estimado = 0;
+/* Reembolso devolve o valor CHEIO ao comprador, e a Kiwify não devolve a taxa
+   dela. Então o prejuízo é o bruto, não o líquido — subtrair só o que você
+   tinha recebido faria o reembolso parecer mais barato do que é. */
+function liquidoDeValores(porValor, reembolsado) {
+  let liq = 0;
   Object.entries(porValor || {}).forEach(([bruto, n]) => {
-    const qtd = Number(n) || 0;
-    const conhecido = LIQUIDO_BRUTO[Number(bruto).toFixed(2)];
-    if (conhecido != null) { liq += qtd * conhecido; }
-    else { const e = Number(bruto) * FRACAO_LIQUIDA; liq += qtd * e; estimado += qtd * e; }
+    liq += (Number(n) || 0) * liquidoBruto(Number(bruto));
   });
-  return { liquido: liq, estimado };
+  return liq - (Number(reembolsado) || 0);
 }
-const taxaEm = d => TAXAS.find(t => String(d || '9999-12-31') >= t.de) || TAXAS[TAXAS.length - 1];
 
 /* Taxa média do período, pesada pelos DIAS de cada faixa. É o que sobra pros
    números que chegam já somados — cartão por plataforma e tabela de criativos
@@ -2107,7 +2093,8 @@ async function verGeral() {
     const k = porDiaK[d.data];
     return { ...d, vendas: k ? Number(k.vendas) : 0,
              faturamento: k ? Number(k.faturamento) : 0,
-             por_valor: k ? k.por_valor : null };
+             por_valor: k ? k.por_valor : null,
+             reembolsado: k ? Number(k.reembolsado) || 0 : 0 };
   });
   /* Dia que teve venda na Kiwify e nenhum gasto no Meta não existe em fn_diario
      — venda orgânica, ou anúncio de outra plataforma. Sem isto ela sumiria. */
@@ -2115,7 +2102,8 @@ async function verGeral() {
     const temNoDiario = new Set((rD.data || []).map(d => d.data));
     kiwify.filter(k => k.data >= KIWIFY_DESDE && !temNoDiario.has(k.data)).forEach(k => dias.push({
       data: k.data, gasto: 0, checkouts: 0,
-      vendas: Number(k.vendas), faturamento: Number(k.faturamento), por_valor: k.por_valor }));
+      vendas: Number(k.vendas), faturamento: Number(k.faturamento),
+      por_valor: k.por_valor, reembolsado: Number(k.reembolsado) || 0 }));
     dias.sort((a, b) => a.data < b.data ? -1 : 1);
   }
   const tot = dias.reduce((a, d) => ({
@@ -2142,15 +2130,9 @@ async function verGeral() {
   /* Com a Kiwify, o líquido sai do valor real de cada pedido. Sem ela, cai na
      dedução antiga — que assume preço único e erra enquanto o teste de preço
      estiver no ar. */
-  let liqEstimado = 0;
-  const liqTot = dias.reduce((a, d) => {
-    if (d.por_valor) {
-      const r = liquidoDeValores(d.por_valor);
-      liqEstimado += r.estimado;
-      return a + r.liquido;
-    }
-    return a + liquido(d.faturamento, d.vendas, d.data);
-  }, 0);
+  const liqTot = dias.reduce((a, d) => d.por_valor
+    ? a + liquidoDeValores(d.por_valor, d.reembolsado)
+    : a + liquido(d.faturamento, d.vendas, d.data), 0);
   const lucro   = liqTot - saiu;
   const roas = tot.gasto ? tot.fat / tot.gasto : null;
   const roi  = saiu ? ((liqTot - saiu) / saiu) * 100 : null;
@@ -2292,11 +2274,6 @@ async function verGeral() {
         (fo ? ', porque há recorte de plataforma ativo — a Kiwify não sabe de qual anúncio veio a venda.'
             : ' — a leitura da Kiwify não respondeu. Confira se <code>16-vendas-dia.sql</code> foi rodado.') +
         ' O Meta conta só o que o pixel atribuiu, então este número tende a ser menor que o real.</div>') +
-    (liqEstimado > 0
-      ? '<div class="aviso" style="margin-top:4px;"><b>' + moeda(liqEstimado) + '</b> do líquido ' +
-        'saiu de estimativa: há vendas em valores cujo líquido real ainda não está cadastrado ' +
-        '(o de R$67,90, do teste de preço). Lucro e ROI estão aproximados até isso ser preenchido.</div>'
-      : '') +
     (fo && custoOp > 0
       ? '<div class="aviso" style="margin-top:4px;">Recorte de <b>' +
         esc((OPC_FONTE.find(o => o[0] === fo) || [, fo])[1]) + '</b>. Gasto, faturamento, ' +

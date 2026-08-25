@@ -2204,7 +2204,13 @@ async function verGeral() {
      registro nenhum — e ler zero ali diria "não vendeu nada" sobre meses que
      venderam. Então o corte é por DIA: antes, o número do Meta; a partir daqui,
      o da Kiwify. É a única leitura honesta enquanto o histórico não for
-     importado. */
+     importado.
+
+     Havia um aviso na tela explicando isso. Saiu: com o filtro em "todos" ele
+     aparecia SEMPRE, e aviso permanente para de ser lido — levando junto a
+     capacidade de avisar quando algo realmente importar. O degrau na série
+     também encolhe sozinho: em algumas semanas o trecho do Meta vira um rabo
+     de dois dias. O fato está anotado no Histórico, que é onde ele dura. */
   const KIWIFY_DESDE = '2026-08-25';
   const usaKiwify = d => kiwify && d >= KIWIFY_DESDE;
 
@@ -2385,13 +2391,6 @@ async function verGeral() {
        filtrados precisa saber, senão lê como se fosse o custo daquela fatia. */
     /* Três recados possíveis, e cada um responde a uma pergunta que a pessoa
        faria olhando o número: de onde ele veio, e quanto dele é chute. */
-    (kiwify && dias.some(d => d.data < KIWIFY_DESDE)
-      ? '<div class="aviso" style="margin-top:4px;">Este período atravessa o dia em que o ' +
-        'webhook da Kiwify entrou (' + brDate(KIWIFY_DESDE) + '). Antes dessa data as vendas ' +
-        'são as que o <b>Meta</b> atribuiu; a partir dela, as que a <b>Kiwify</b> registrou. ' +
-        'O Meta conta menos, então a série tende a dar um degrau nesse dia — é mudança de ' +
-        'medição, não de resultado.</div>'
-      : '') +
     (kiwify
       ? ''
       : '<div class="aviso" style="margin-top:4px;">Vendas e faturamento vindo do <b>Meta</b>' +

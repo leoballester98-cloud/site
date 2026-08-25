@@ -648,6 +648,7 @@ const TAXAS = [
   { de: '2026-08-25',    liqVenda: 32.00, liqBump: 15.47 },
   { de: PRIMEIRA_VENDA,  liqVenda: 33.50, liqBump: 14.48 },
 ];
+const taxaEm = d => TAXAS.find(t => String(d || '9999-12-31') >= t.de) || TAXAS[TAXAS.length - 1];
 
 /* Taxa da Kiwify: 8,99% do valor + R$2,49 por venda aprovada.
 

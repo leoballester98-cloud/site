@@ -477,11 +477,19 @@ body{background:var(--bg);color:var(--ink);}
   .abprog{display:block;height:4px;border-radius:2px;background:var(--linha);
     margin-top:8px;max-width:340px;overflow:hidden;}
   .abprog i{display:block;height:100%;border-radius:2px;background:var(--marca);}
-  /* A coluna que decide o teste de preço ganha um fundo de leve e uma borda à
-     esquerda: com sete colunas, a que importa some no meio se nada a separar. */
-  .abtab th.abdec,.abtab td:nth-last-child(1){background:var(--surface-2);}
-  .abtab th.abdec,.abtab tr td:nth-last-child(1){border-left:1px solid var(--linha);}
   .abtab th,.abtab td{white-space:nowrap;}
+  .ab-hip{font-size:13.5px;color:var(--ink-2);line-height:1.55;max-width:82ch;
+    margin:-4px 0 16px;}
+  .ab-pe{display:flex;align-items:center;flex-wrap:wrap;gap:6px 14px;
+    margin-top:16px;padding-top:12px;border-top:1px solid var(--linha);
+    font-size:12px;color:var(--ink-3);}
+  .ab-pe code{background:var(--surface-2);padding:2px 7px;border-radius:5px;
+    font-size:11.5px;color:var(--ink-2);}
+  .ab-pe .limpar{margin-left:auto;font-size:12px;}
+  /* O cabeçalho da coluna que decide vem em negrito e na cor do texto forte —
+     sem fundo. A versão com faixa cinza pintava a última coluna de QUALQUER
+     tabela, entao aparecia tambem no card de tela, onde nao quer dizer nada. */
+  .abtab th.abdec{color:var(--ink);font-weight:800;}
   .fcampo{display:flex;flex-direction:column;gap:6px;font-size:13px;font-weight:600;
     color:var(--ink-2);margin-bottom:14px;}
   .fcampo input,.fcampo textarea,.fcampo select{border:1px solid var(--linha);border-radius:9px;
@@ -1434,6 +1442,53 @@ function amostraNecessaria(p1, p2) {
 
 const URL_QUIZ = 'https://protocolociclofertil.com.br/quiz/v2/';
 
+/* A URL some do corpo do card, então precisa de um jeito de pegá-la sem
+   selecionar texto pequeno com o mouse. O rótulo confirma na própria tecla —
+   um alerta pra dizer "copiei" interromperia mais do que ajuda.
+
+   Dois caminhos porque o primeiro falha em situações banais: navigator.clipboard
+   recusa se o documento não estiver em foco, e não existe em http sem TLS. O
+   execCommand é obsoleto mas funciona nesses casos, e a última reserva é deixar
+   a URL selecionada na tela pra um Cmd+C manual — nunca um beco sem saída. */
+async function copiarUrl(url, botao) {
+  const avisar = t => {
+    const antes = botao.dataset.antes || botao.textContent;
+    botao.dataset.antes = antes;
+    botao.textContent = t;
+    setTimeout(() => { botao.textContent = antes; }, 1600);
+  };
+
+  try {
+    if (navigator.clipboard && window.isSecureContext) {
+      await navigator.clipboard.writeText(url);
+      return avisar('copiado');
+    }
+  } catch (e) { /* cai no plano B */ }
+
+  const ta = document.createElement('textarea');
+  ta.value = url;
+  ta.setAttribute('readonly', '');
+  /* Fora da tela, mas NÃO display:none nem visibility:hidden — o navegador não
+     seleciona o conteúdo de um elemento que não ocupa espaço. */
+  ta.style.cssText = 'position:fixed;top:0;left:-9999px;opacity:0;';
+  document.body.appendChild(ta);
+  ta.select();
+  let ok = false;
+  try { ok = document.execCommand('copy'); } catch (e) {}
+  ta.remove();
+  if (ok) return avisar('copiado');
+
+  /* Nem um nem outro: mostra a URL selecionada, pra um Cmd+C resolver. */
+  const cod = botao.closest('.ab-pe').querySelector('code');
+  cod.textContent = url;
+  const faixa = document.createRange();
+  faixa.selectNodeContents(cod);
+  const sel = getSelection();
+  sel.removeAllRanges();
+  sel.addRange(faixa);
+  avisar('copie com Cmd+C');
+}
+
 async function verAB() {
   const p = periodo();
   const { data: exps, error: eE } = await sb.from('experimentos').select('*').order('inicio', { ascending:false });
@@ -1671,14 +1726,9 @@ function cartaoExperimento(ex, linhas, vendas, totalVendas) {
     '<div class="cabsec"><div class="sec" style="margin:0;">' + ico('Teste A/B') +
       '<span>' + esc(ex.rotulo) + '</span> ' + estado + '</div>' +
       '<button class="limpar" onclick="editarExperimento(' + JSON.stringify(ex.chave).replace(/"/g, '&quot;') + ')">editar</button></div>' +
-    (ex.hipotese ? '<div class="qual">' + esc(ex.hipotese) + '</div>' : '') +
-    '<div class="nota" style="margin-bottom:10px;">URL do experimento: ' +
-      '<code>' + esc(URL_QUIZ + '?ab=' + ex.chave) + '</code>' +
-      (ex.inicio ? ' · começou em ' + brDate(ex.inicio) : '') +
-      (ex.fim ? ' · encerrado em ' + brDate(ex.fim) : '') +
-      (ex.vencedor ? ' · vencedor: <b>' + (ex.vencedor === 'a' ? esc(ex.rotulo_a)
-        : ex.vencedor === 'b' ? esc(ex.rotulo_b) : 'empate') + '</b>' : '') +
-    '</div>' +
+    /* A hipótese fica logo abaixo do título: ela é a PERGUNTA, e a tabela é a
+       resposta — nessa ordem o card se lê como uma frase só. */
+    (ex.hipotese ? '<div class="ab-hip">' + esc(ex.hipotese) + '</div>' : '') +
     '<div class="tbwrap"><table class="tb abtab">' +
       '<tr><th>Variante</th>' +
         COLS.map(c => '<th class="num' + (c.decide ? ' abdec' : '') + '">' +
@@ -1691,7 +1741,19 @@ function cartaoExperimento(ex, linhas, vendas, totalVendas) {
       linhaBraco(B, B.rotulo || ex.rotulo_b, 'var(--s2)', venceuB) +
       linhaDif + linhaConf + linhaVer +
     '</table></div>' +
-    (falta ? '<div class="nota" style="margin-top:10px;">' + falta + barraProg + '</div>' : '') +
+    (falta ? '<div class="nota" style="margin-top:12px;">' + falta + barraProg + '</div>' : '') +
+    /* URL e datas descem pro rodapé, pequenas. São referência: você abre o card
+       pra ver quem está ganhando, não pra ler a URL — e ela estava ocupando uma
+       linha inteira acima da tabela, empurrando pra baixo o que importa. */
+    '<div class="ab-pe">' +
+      '<code>?ab=' + esc(ex.chave) + '</code>' +
+      (ex.inicio ? '<span>desde ' + brDate(ex.inicio) + '</span>' : '') +
+      (ex.fim ? '<span>encerrado em ' + brDate(ex.fim) + '</span>' : '') +
+      (ex.vencedor ? '<span>vencedor: <b>' + (ex.vencedor === 'a' ? esc(ex.rotulo_a)
+        : ex.vencedor === 'b' ? esc(ex.rotulo_b) : 'empate') + '</b></span>' : '') +
+      '<button class="limpar" onclick="copiarUrl(' +
+        JSON.stringify(URL_QUIZ + '?ab=' + ex.chave).replace(/"/g, '&quot;') + ', this)">copiar URL</button>' +
+    '</div>' +
     (orfas ? '<div class="aviso" style="margin-top:10px;"><b>' + orfas + '</b> venda' + (orfas > 1 ? 's' : '') +
       ' no período sem braço definido — o produto ainda não está em <code>produto_braco</code>. ' +
       'As colunas de dinheiro acima estão contando a menos até isso ser ligado.</div>' : '') +

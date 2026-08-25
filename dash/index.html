@@ -1260,8 +1260,6 @@ function cartaoExperimento(ex, linhas, vendas, totalVendas) {
   const COLS = [
     { rotulo:'Visitantes',         campo:'tela1',    base:null,
       ajuda:'Sessões que abriram a tela 1. É a base das colunas seguintes.' },
-    { rotulo:'Tela 1 → tela 2',    campo:'tela2',    base:'tela1',
-      ajuda:'Quem passou da primeira tela. É onde a headline mexe mais direto.' },
     { rotulo:'Chegou ao fim',      campo:'fim',      base:'tela1',
       ajuda:'Sessões que alcançaram a tela 34.' },
     { rotulo:'Clicou no checkout', campo:'checkout', base:'tela1',
@@ -1376,11 +1374,10 @@ function cartaoExperimento(ex, linhas, vendas, totalVendas) {
      amostra a partir de uma diferença medida em 11 pessoas produzia frases como
      "faltam 15 visitantes" — animadora e sem qualquer base. */
   /* Qual métrica manda no "quanto falta". Havendo venda mapeada, é o
-     R$/visitante: num teste de preço a tela 2 pode empatar e o dinheiro não —
-     medir a distância pela tela 2 daria um alvo que não responde a pergunta.
-     Sem venda ainda, a tela 2 é o melhor sinal que existe. */
+     R$/visitante — é ela que decide. Sem venda ainda, o clique no checkout é o
+     que existe de mais perto do dinheiro. */
   const temDinheiro = (A.vendas + B.vendas) > 0;
-  const sPrim = temDinheiro ? sig.rpv : sig.tela2;
+  const sPrim = temDinheiro ? sig.rpv : sig.checkout;
   const menor = Math.min(nA, nB);
   let falta = '', alvo = 0;
   if (poucos) {
@@ -1393,7 +1390,7 @@ function cartaoExperimento(ex, linhas, vendas, totalVendas) {
       : amostraNecessaria(sPrim.p1, sPrim.p2);
     if (nec && isFinite(nec)) {
       alvo = Math.max(nec, MIN_BRACO);
-      falta = 'Para a diferença em <b>' + (temDinheiro ? 'R$/visitante' : 'tela 1 → tela 2') +
+      falta = 'Para a diferença em <b>' + (temDinheiro ? 'R$/visitante' : 'clique no checkout') +
               '</b> virar conclusão, são ~<b>' + alvo.toLocaleString('pt-BR') +
               '</b> visitantes por braço. Você tem ' + nA + ' e ' + nB + '.';
     } else {

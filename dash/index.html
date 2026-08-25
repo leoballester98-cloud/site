@@ -376,6 +376,24 @@ body{background:var(--bg);color:var(--ink);}
      "o que cada um fez" de "o que isso quer dizer". */
   .tb tr.abcmp td{border-top:2px solid var(--linha);}
   .tb tr.abcmp ~ tr td.nm,.tb tr.abcmp td.nm{color:var(--ink-3);font-weight:600;}
+
+  /* Barra dentro da célula. Fina de propósito: ela apoia a leitura do número,
+     não disputa com ele. Todas partem da mesma borda esquerda — é isso que
+     torna os comprimentos comparáveis entre as duas linhas. */
+  /* Ancorada na DIREITA, sob o número, e não na esquerda da célula: com os
+     valores alinhados à direita, uma barra que começa na esquerda fica solta,
+     longe do número que ela representa. Crescendo pra esquerda a partir da
+     mesma borda, as duas linhas continuam comparáveis e a barra fica embaixo
+     do seu próprio número. */
+  .abbar{display:flex;justify-content:flex-end;height:3px;border-radius:2px;
+    background:var(--linha);margin:6px 0 0 auto;max-width:104px;overflow:hidden;}
+  .abbar i{display:block;height:100%;border-radius:2px;min-width:2px;}
+  /* Faixa no vencedor, e só quando existe vencedor. */
+  .tb tr.abwin td{background:color-mix(in srgb, var(--bom) 7%, transparent);}
+  .tb tr.abwin td:first-child{box-shadow:inset 3px 0 0 var(--bom);}
+  .abprog{display:block;height:4px;border-radius:2px;background:var(--linha);
+    margin-top:8px;max-width:340px;overflow:hidden;}
+  .abprog i{display:block;height:100%;border-radius:2px;background:var(--marca);}
   .fcampo{display:flex;flex-direction:column;gap:6px;font-size:13px;font-weight:600;
     color:var(--ink-2);margin-bottom:14px;}
   .fcampo input,.fcampo textarea,.fcampo select{border:1px solid var(--linha);border-radius:9px;
@@ -1045,20 +1063,58 @@ function normalAcum(z) {
   return z > 0 ? 1 - p : p;
 }
 
-/* Teste z de duas proporções, bicaudal.
-   Bicaudal porque a pergunta honesta é "as duas são diferentes?", não "a nova
-   é melhor?" — a segunda já assume a resposta e dobra a chance de falso
-   positivo. */
+/* log(n!) com cache crescente. Multiplicar fatoriais direto estoura o ponto
+   flutuante bem antes dos tamanhos que este dashboard alcança; somando
+   logaritmos, não estoura nunca. */
+const _logFat = [0, 0];
+function logFat(n) {
+  for (let i = _logFat.length; i <= n; i++) _logFat[i] = _logFat[i - 1] + Math.log(i);
+  return _logFat[n];
+}
+
+/* Fisher exato, bicaudal. Vale em QUALQUER tamanho de amostra — não depende de
+   aproximação nenhuma. Soma a probabilidade de todas as tabelas, com as mesmas
+   margens, tão ou menos prováveis que a observada. */
+function fisher(a, b, c, d) {
+  const n = a + b + c + d;
+  if (!n) return 1;
+  const lp = (x) => logFat(a + b) + logFat(c + d) + logFat(a + c) + logFat(b + d) - logFat(n)
+                  - logFat(x) - logFat(a + b - x) - logFat(a + c - x) - logFat(d - a + x);
+  const p0 = Math.exp(lp(a));
+  let soma = 0;
+  for (let x = Math.max(0, a - d); x <= Math.min(a + b, a + c); x++) {
+    const p = Math.exp(lp(x));
+    if (p <= p0 * (1 + 1e-9)) soma += p;
+  }
+  return Math.min(1, soma);
+}
+
+/* Bicaudal porque a pergunta honesta é "as duas são diferentes?", não "a nova é
+   melhor?" — a segunda já assume a resposta e dobra a chance de falso positivo.
+
+   Qual dos dois testes: o z é rápido mas a aproximação normal só vale com pelo
+   menos 5 sucessos E 5 fracassos em cada braço. Abaixo disso ele infla a
+   confiança — nos primeiros dados reais deste experimento dava 91,3% onde o
+   Fisher dava 81,8%, e 74,9% onde o Fisher dava 54,5%. Então o Fisher entra
+   sempre que alguma célula for pequena, que é justamente quando a diferença
+   entre os dois importa. */
 function significancia(x1, n1, x2, n2) {
   if (!n1 || !n2) return null;
   const p1 = x1 / n1, p2 = x2 / n2;
-  const p = (x1 + x2) / (n1 + n2);
-  const se = Math.sqrt(p * (1 - p) * (1 / n1 + 1 / n2));
-  if (!se) return null;
-  const z = (p1 - p2) / se;
-  return { z, p: 2 * (1 - normalAcum(Math.abs(z))), p1, p2,
+  const miudo = Math.min(x1, n1 - x1, x2, n2 - x2) < 5;
+  const pool = (x1 + x2) / (n1 + n2);
+  const se = Math.sqrt(pool * (1 - pool) * (1 / n1 + 1 / n2));
+  const z = se ? (p1 - p2) / se : 0;
+  const p = miudo ? fisher(x1, n1 - x1, x2, n2 - x2)
+                  : (se ? 2 * (1 - normalAcum(Math.abs(z))) : 1);
+  return { z: p1 - p2 >= 0 ? Math.abs(z) : -Math.abs(z), p, p1, p2, exato: miudo,
            lift: p2 ? (p1 - p2) / p2 * 100 : null };
 }
+
+/* Piso de volume antes de qualquer veredito. Não é estatística, é prudência:
+   com poucas dezenas de visitantes o Fisher já devolve um número honesto, mas
+   um "tendência" nascido de 11 pessoas ensina a confiar em ruído. */
+const MIN_BRACO = 30;
 
 /* Quantas sessões POR BRAÇO para enxergar a diferença que está aparecendo.
    95% de confiança, 80% de poder — o par convencional. Serve pra responder
@@ -1138,21 +1194,39 @@ function cartaoExperimento(ex, linhas) {
     if (c.base) sig[c.campo] = significancia(Number(A[c.campo]), nA, Number(B[c.campo]), nB);
   });
 
-  const linhaBraco = (L, rotulo) =>
-    '<tr><td class="nm"><b>' + esc(rotulo) + '</b></td>' +
+  /* A barra é o que faz esta tabela ser lida de relance: duas linhas empilhadas
+     viram dois comprimentos, e comprimento se compara sem passar pelos dígitos.
+     Todas partem da mesma borda esquerda da célula, senão não haveria o que
+     comparar.
+
+     A cor segue o BRAÇO, sempre a mesma, nunca quem está ganhando. Cor por
+     posição faria a tabela se repintar a cada dado novo, e a memória visual do
+     "azul é a nova" — que é o que permite ler rápido — se perderia. */
+  const linhaBraco = (L, rotulo, cor, venceu) =>
+    '<tr' + (venceu ? ' class="abwin"' : '') + '>' +
+    '<td class="nm"><b>' + esc(rotulo) + '</b></td>' +
     COLS.map(c => {
       const x = Number(L[c.campo]) || 0;
       const d = c.base ? Number(L[c.base]) : tot;
+      const taxa = d ? x / d * 100 : 0;
       return '<td class="num"><b>' + x + '</b> <span class="abfrac">' +
-             (d ? (x / d * 100).toFixed(1) + '%' : '—') + '</span></td>';
+             (d ? taxa.toFixed(1) + '%' : '—') + '</span>' +
+             '<span class="abbar"><i style="width:' + taxa.toFixed(1) + '%;background:' + cor + '"></i></span>' +
+             '</td>';
     }).join('') + '</tr>';
 
   /* As três linhas de baixo comparam os dois braços, então não pertencem a
      nenhum deles. A borda em cima da primeira separa "o que cada um fez" de
      "o que isso quer dizer". */
+  /* Abaixo do piso, confiança e veredito ficam em branco. A diferença bruta
+     continua aparecendo: ela é o que foi medido, não uma conclusão sobre ele. */
+  const poucos = Math.min(nA, nB) < MIN_BRACO;
+
   const linhaDif = '<tr class="abcmp"><td class="nm">Diferença</td>' +
     COLS.map(c => {
-      if (!c.base) return '<td class="num">' + (tot || '—') + '</td>';
+      /* Visitantes não tem diferença que signifique nada: os dois braços DEVEM
+         ficar iguais. O total do período já está no cabeçalho do cartão. */
+      if (!c.base) return '<td class="num">—</td>';
       const s = sig[c.campo];
       if (!s || s.lift == null || !isFinite(s.lift)) return '<td class="num">—</td>';
       return '<td class="num"><span style="color:' + (s.lift >= 0 ? 'var(--bom)' : 'var(--ruim)') + '">' +
@@ -1161,9 +1235,11 @@ function cartaoExperimento(ex, linhas) {
 
   const linhaConf = '<tr><td class="nm">Confiança</td>' +
     COLS.map(c => {
-      if (!c.base) return '<td class="num">—</td>';
+      if (!c.base || poucos) return '<td class="num">—</td>';
       const s = sig[c.campo];
-      return '<td class="num">' + (s ? ((1 - s.p) * 100).toFixed(1) + '%' : '—') + '</td>';
+      return '<td class="num">' + (s ? ((1 - s.p) * 100).toFixed(1) + '%' +
+        (s.exato ? '<span class="abfrac" title="Fisher exato: a amostra é pequena demais para a aproximação normal"> ex</span>' : '')
+        : '—') + '</td>';
     }).join('') + '</tr>';
 
   const linhaVer = '<tr><td class="nm">Veredito</td>' +
@@ -1173,6 +1249,7 @@ function cartaoExperimento(ex, linhas) {
           : torta ? badge('divisão torta', 'var(--ruim)')
           : badge('50/50 ok', 'var(--bom)')) + '</td>';
       }
+      if (poucos) return '<td class="num">' + badge('poucos dados', 'var(--ink-3)') + '</td>';
       const s = sig[c.campo];
       if (!s) return '<td class="num">' + badge('sem dados', 'var(--ink-3)') + '</td>';
       const b = s.p < 0.05 ? badge(s.z > 0 ? esc(A.rotulo || ex.rotulo_a) + ' vence'
@@ -1182,18 +1259,36 @@ function cartaoExperimento(ex, linhas) {
       return '<td class="num">' + b + '</td>';
     }).join('') + '</tr>';
 
-  /* Quanto falta, medido na métrica principal. */
+  /* Quanto falta, medido na métrica principal, com barra pra dar a distância de
+     relance. Enquanto está abaixo do piso, o alvo é o próprio piso: estimar
+     amostra a partir de uma diferença medida em 11 pessoas produzia frases como
+     "faltam 15 visitantes" — animadora e sem qualquer base. */
   const sPrim = sig.tela2;
-  let falta = '';
-  if (sPrim && sPrim.p >= 0.05) {
+  const menor = Math.min(nA, nB);
+  let falta = '', alvo = 0;
+  if (poucos) {
+    alvo = MIN_BRACO;
+    falta = 'Teste começando: <b>' + nA + '</b> e <b>' + nB + '</b> visitantes. ' +
+            'A estatística passa a valer a partir de ' + MIN_BRACO + ' por braço.';
+  } else if (sPrim && sPrim.p >= 0.05) {
     const nec = amostraNecessaria(sPrim.p1, sPrim.p2);
-    falta = (nec && isFinite(nec))
-      ? 'Para a diferença atual virar conclusão, são ~<b>' + nec.toLocaleString('pt-BR') +
-        '</b> visitantes por braço. Você tem ' + nA + ' e ' + nB + '.'
-      : 'Os dois braços estão praticamente iguais — nesse ritmo o teste não conclui.';
+    if (nec && isFinite(nec)) {
+      alvo = Math.max(nec, MIN_BRACO);
+      falta = 'Para a diferença atual virar conclusão, são ~<b>' + alvo.toLocaleString('pt-BR') +
+              '</b> visitantes por braço. Você tem ' + nA + ' e ' + nB + '.';
+    } else {
+      falta = 'Os dois braços estão praticamente iguais — nesse ritmo o teste não conclui.';
+    }
   } else if (sPrim) {
     falta = 'A diferença na métrica principal já é estatisticamente sólida. Pode decidir.';
   }
+  const barraProg = alvo
+    ? '<span class="abprog"><i style="width:' + Math.min(100, menor / alvo * 100).toFixed(1) + '%"></i></span>'
+    : '';
+
+  const decidido = !poucos && sPrim && sPrim.p < 0.05;
+  const venceuA = decidido && sPrim.z > 0;
+  const venceuB = decidido && sPrim.z < 0;
 
   const estado = ex.fim ? badge('encerrado', 'var(--ink-3)') : badge('rodando', 'var(--bom)');
 
@@ -1213,11 +1308,14 @@ function cartaoExperimento(ex, linhas) {
       '<tr><th>Variante</th>' +
         COLS.map(c => '<th class="num" title="' + esc(c.ajuda) + '">' + esc(c.rotulo) + '</th>').join('') +
       '</tr>' +
-      linhaBraco(A, A.rotulo || ex.rotulo_a) +
-      linhaBraco(B, B.rotulo || ex.rotulo_b) +
+      /* O destaque só entra quando existe vencedor de verdade na métrica
+         principal. Marcar quem está na frente antes disso seria transformar
+         ruído em decisão — que é o erro que esta aba inteira existe pra evitar. */
+      linhaBraco(A, A.rotulo || ex.rotulo_a, 'var(--s1)', venceuA) +
+      linhaBraco(B, B.rotulo || ex.rotulo_b, 'var(--s2)', venceuB) +
       linhaDif + linhaConf + linhaVer +
     '</table></div>' +
-    (falta ? '<div class="nota" style="margin-top:10px;">' + falta + '</div>' : '') +
+    (falta ? '<div class="nota" style="margin-top:10px;">' + falta + barraProg + '</div>' : '') +
     alerta +
     '</div>';
 }

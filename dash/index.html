@@ -358,6 +358,9 @@ body{background:var(--bg);color:var(--ink);}
     opacity:0;transition:opacity .12s, color .12s;}
   .tl-item:hover .apagar{opacity:1;}
   .tl-item .apagar:hover{color:var(--ruim);}
+  .fcheck{flex-direction:row!important;align-items:center;gap:7px!important;cursor:pointer;
+    user-select:none;padding-bottom:10px;}
+  .fcheck input{width:16px;height:16px;accent-color:var(--marca);cursor:pointer;}
   .fdupla{display:flex;gap:12px;}
   .fdupla .fcampo{flex:1;}
 
@@ -1148,6 +1151,9 @@ function trocarAba(nova) {
      mudar o recorte de onde você estiver, sem voltar numa aba só pra isso.
      Fora delas some: em Teste A/B o recorte é o braço, e em Histórico e Custos
      não existe fonte. */
+  /* O recado do lançamento é de uma AÇÃO, não um estado da tela: sair da aba e
+     voltar não pode trazer ele de volta. */
+  avisoCusto = '';
   document.querySelectorAll('.soFonte').forEach(e =>
     e.style.display = ['geral','funil','criativos'].includes(nova) ? '' : 'none');
   localStorage.setItem('cf_aba', nova);
@@ -1750,72 +1756,175 @@ async function apagarHistorico(id) {
 /* Primeira aba que ESCREVE no banco. Quem pode é o RLS que decide (05-custos.sql):
    aqui não há checagem de permissão, e não deve haver — validação de acesso no
    navegador é decoração. */
+/* Avulsos e ocorrências dos fixos numa lista só, montada no banco. Se a função
+   ainda não existir (15-custos-fixos.sql não rodado), cai na leitura antiga —
+   a Visão Geral não pode parar de abrir por causa disso. */
 const custosDoPeriodo = async () => {
   const p = periodo();
+  const r = await Promise.resolve(sb.rpc('fn_custos', { p_de:p.de, p_ate:p.ate }))
+    .catch(() => ({ error: true }));
+  if (r && !r.error) return r.data || [];
+
   let q = sb.from('custos').select('*').order('data', { ascending:false }).order('criado_em', { ascending:false });
   if (p.de)  q = q.gte('data', p.de);
   if (p.ate) q = q.lte('data', p.ate);
   const { data, error } = await q;
   if (error) throw error;
-  return data || [];
+  return (data || []).map(c => ({ ...c, fixo: false }));
+};
+
+const custosFixos = async () => {
+  const r = await Promise.resolve(
+    sb.from('custos_fixos').select('*').is('fim', null).order('nome')
+  ).catch(() => ({ error: true }));
+  return (r && !r.error && r.data) ? r.data : [];
 };
 
 async function verCustos() {
-  const linhas = await custosDoPeriodo();
+  const [linhas, fixos] = await Promise.all([custosDoPeriodo(), custosFixos()]);
   const total = linhas.reduce((a, c) => a + Number(c.valor), 0);
+  const mensalFixo = fixos.reduce((a, f) => a + Number(f.valor), 0);
   const hoje = iso(hojeSP());
 
   document.getElementById('conteudo').innerHTML =
     '<div class="kpis cinco">' +
       kpi('Gasto operacional', moeda(total)) +
       kpi('Lançamentos', linhas.length) +
+      kpi('Fixo por mês', moeda(mensalFixo)) +
     '</div>' +
     '<div class="card">' +
       '<div class="sec">' + ico('Gasto operacional') + '<span>Novo lançamento</span></div>' +
       '<div class="fcusto">' +
         '<label>Nome<input id="cNome" maxlength="120" placeholder="Ex.: edição de vídeo"/></label>' +
-        '<label>Valor<input id="cValor" type="number" step="0.01" min="0" placeholder="0,00"/></label>' +
+        /* text e não number: type=number descarta a vírgula em teclado
+           brasileiro antes de o JS ver o que foi digitado — inputmode decimal
+           mantém o teclado numérico no celular sem essa perda. */
+        '<label>Valor<input id="cValor" type="text" inputmode="decimal" placeholder="0,00"/></label>' +
         '<label>Data<input id="cData" type="date" value="' + hoje + '"/></label>' +
+        '<label class="fcheck"><input type="checkbox" id="cFixo" onchange="alternarFixo()"/>' +
+          '<span>Todo mês</span></label>' +
         '<button class="prim" onclick="salvarCusto()">Adicionar</button>' +
       '</div>' +
+      '<div class="nota" id="cNotaFixo" style="display:none;">Vai contar em todo mês a partir ' +
+        'do dia escolhido. Só a regra é guardada — mudar o valor corrige o histórico inteiro.</div>' +
       '<div id="cErro" class="erro" style="display:none;"></div>' +
+      (avisoCusto ? '<div class="aviso" style="margin-top:12px;">' + avisoCusto + '</div>' : '') +
     '</div>' +
+    (fixos.length
+      ? '<div class="card">' +
+          '<div class="sec">' + ico('Gasto operacional') + '<span>Custos fixos</span></div>' +
+          '<div class="qual">Estes se repetem todo mês sozinhos. Encerrar para de contar ' +
+            'daqui pra frente e preserva o histórico — apagar reescreveria o passado.</div>' +
+          '<div class="tbwrap"><table class="tb"><tr><th>Nome</th><th class="num">Por mês</th>' +
+            '<th>Dia</th><th>Desde</th><th></th></tr>' +
+          fixos.map(f =>
+            '<tr><td class="nm">' + esc(f.nome) + '</td>' +
+            '<td class="num">' + moeda(f.valor) + '</td>' +
+            '<td>' + f.dia + '</td>' +
+            '<td>' + brDate(f.inicio) + '</td>' +
+            '<td class="num"><button class="limpar" onclick="encerrarFixo(\'' + f.id + '\')">encerrar</button></td></tr>').join('') +
+          '<tr><td class="nm"><b>Total mensal</b></td><td class="num"><b>' + moeda(mensalFixo) + '</b></td>' +
+            '<td></td><td></td><td></td></tr>' +
+          '</table></div>' +
+        '</div>'
+      : '') +
     '<div class="card">' +
       '<div class="sec">' + ico('Gasto operacional') + '<span>Lançamentos do período</span></div>' +
       (linhas.length
         ? '<div class="tbwrap"><table class="tb"><tr><th>Nome</th><th class="num">Valor</th><th>Data</th><th></th></tr>' +
           linhas.map(c =>
-            '<tr><td class="nm">' + esc(c.nome) + '</td>' +
+            '<tr><td class="nm">' + esc(c.nome) +
+              (c.fixo ? ' <span class="abtag" style="--c:var(--ink-3)">fixo</span>' : '') + '</td>' +
             '<td class="num">' + moeda(c.valor) + '</td>' +
             '<td>' + brDate(c.data) + '</td>' +
-            '<td class="num"><button class="limpar" onclick="apagarCusto(\'' + c.id + '\')">excluir</button></td></tr>').join('') +
+            /* Ocorrência de fixo não tem linha própria pra apagar — ela é
+               calculada. Quem sai é a regra, no card de cima. */
+            '<td class="num">' + (c.fixo ? ''
+              : '<button class="limpar" onclick="apagarCusto(\'' + c.id + '\')">excluir</button>') +
+            '</td></tr>').join('') +
           '<tr><td class="nm"><b>Total</b></td><td class="num"><b>' + moeda(total) + '</b></td><td></td><td></td></tr>' +
           '</table></div>'
         : '<div class="vazio">Nenhum custo lançado neste período.</div>') +
     '</div>';
 }
 
+/* Fica fora de verCustos pra sobreviver ao redesenho: é ele que conta o que
+   acabou de acontecer, e o redesenho é justamente o que apagaria o recado. */
+let avisoCusto = '';
+
 async function salvarCusto() {
   const erro = document.getElementById('cErro');
   const nome = document.getElementById('cNome').value.trim();
-  const valor = Number(document.getElementById('cValor').value);
+  /* Vírgula vira ponto antes do Number(). Em teclado brasileiro é o separador
+     natural, e Number('120,50') é NaN — o lançamento morria em "Valor
+     inválido" sem que a pessoa entendesse o que havia de errado com 120,50. */
+  const bruto = String(document.getElementById('cValor').value).replace(',', '.');
+  const valor = Number(bruto);
   const data = document.getElementById('cData').value;
   const falar = m => { erro.textContent = m; erro.style.display = ''; };
   erro.style.display = 'none';
 
   if (!nome) return falar('Dá um nome pro custo.');
-  if (!(valor >= 0) || isNaN(valor)) return falar('Valor inválido.');
+  if (!bruto.trim() || !isFinite(valor) || valor < 0) return falar('Valor inválido.');
   if (!data) return falar('Escolhe a data.');
 
-  const { error } = await sb.from('custos').insert([{ nome, valor, data }]);
+  /* Fixo guarda a REGRA e vai pra outra tabela; avulso guarda a ocorrência.
+     O dia sai da data escolhida, limitado a 28 — 29, 30 e 31 não existem em
+     todo mês, e um custo que pula fevereiro é um erro difícil de enxergar. */
+  const fixo = !!(document.getElementById('cFixo') || {}).checked;
+  const { error } = fixo
+    ? await sb.from('custos_fixos').insert([{
+        nome, valor, dia: Math.min(28, Number(data.slice(8, 10))), inicio: data }])
+    : await sb.from('custos').insert([{ nome, valor, data }]);
   if (error) return falar('Não deu pra salvar: ' + error.message);
-  await verCustos();
+
+  if (fixo) {
+    avisoCusto = '<b>' + esc(nome) + '</b> de ' + moeda(valor) + ' virou custo fixo, ' +
+      'todo dia ' + Math.min(28, Number(data.slice(8, 10))) + ', a partir de ' + brDate(data) + '.';
+    try { await verCustos(); }
+    catch (e) { falar('Salvou, mas não deu pra atualizar a lista: ' + (e.message || e)); }
+    return;
+  }
+
+  /* O custo salva sempre, mas a lista abaixo respeita o filtro de data. Salvar
+     um custo de ontem com o filtro em "hoje" gravava a linha e não mostrava
+     nada — indistinguível de não ter salvo, e foi o que fez o mesmo custo ser
+     lançado duas vezes. Agora o recado diz onde ele foi parar. */
+  const p = periodo();
+  const foraDoFiltro = (p.de && data < p.de) || (p.ate && data > p.ate);
+  avisoCusto = foraDoFiltro
+    ? '<b>' + esc(nome) + '</b> de ' + moeda(valor) + ' foi lançado em ' + brDate(data) +
+      ', que está fora do período filtrado — por isso ele não aparece na lista abaixo. ' +
+      'Mude o filtro de data pra ver.'
+    : '<b>' + esc(nome) + '</b> de ' + moeda(valor) + ' lançado em ' + brDate(data) + '.';
+
+  /* Se o redesenho falhar, a tela ficaria igualzinha a um save que não
+     aconteceu — que é exatamente a confusão que este bloco existe pra evitar. */
+  try { await verCustos(); }
+  catch (e) { falar('Salvou, mas não deu pra atualizar a lista: ' + (e.message || e)); }
 }
 
 async function apagarCusto(id) {
   if (!confirm('Excluir este lançamento?')) return;
   const { error } = await sb.from('custos').delete().eq('id', id);
   if (error) return alert('Não deu pra excluir: ' + error.message);
+  await verCustos();
+}
+
+function alternarFixo() {
+  const on = document.getElementById('cFixo').checked;
+  document.getElementById('cNotaFixo').style.display = on ? '' : 'none';
+}
+
+/* Encerrar e não apagar: apagar tiraria o custo de todos os meses em que ele
+   realmente existiu, e o lucro do passado mudaria sozinho. O fim fica na
+   véspera, então o mês corrente ainda conta se o dia já passou. */
+async function encerrarFixo(id) {
+  if (!confirm('Parar de contar este custo daqui pra frente?\n\nOs meses anteriores continuam como estão.')) return;
+  const ontem = iso(maisDias(new Date(iso(hojeSP()) + 'T12:00:00Z'), -1));
+  const { error } = await sb.from('custos_fixos').update({ fim: ontem }).eq('id', id);
+  if (error) return alert('Não deu pra encerrar: ' + error.message);
+  avisoCusto = 'Custo fixo encerrado. Ele para de contar a partir de hoje.';
   await verCustos();
 }
 

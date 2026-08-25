@@ -180,8 +180,8 @@ body{background:var(--bg);color:var(--ink);}
     padding-top:12px;border-top:1px solid var(--linha);color:var(--ink-2);}
   .card.fonte .pe b{color:var(--ink);font-weight:600;}
   .kpi.pendente .val{color:var(--ink-3);}
-  .kpis.topo{grid-template-columns:repeat(5,minmax(0,1fr));}
-  @media(max-width:1250px){ .kpis.topo{grid-template-columns:repeat(3,minmax(0,1fr));} }
+  .kpis.topo{grid-template-columns:repeat(6,minmax(0,1fr));}
+  @media(max-width:1450px){ .kpis.topo{grid-template-columns:repeat(3,minmax(0,1fr));} }
   @media(max-width:760px){  .kpis.topo{grid-template-columns:repeat(2,minmax(0,1fr));} }
   /* coluna principal + régua de métricas à direita, como na referência */
   .geral{display:grid;grid-template-columns:minmax(0,2.6fr) minmax(230px,1fr);gap:16px;align-items:start;}
@@ -801,6 +801,7 @@ const ICONES = {
   'lançamentos':          '<path d="M5 3h11l4 4v14a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z"/><path d="M15 3v5h5M9 13h6M9 17h4"/>',
   'checkouts':            '<circle cx="9" cy="20" r="1.4"/><circle cx="17" cy="20" r="1.4"/><path d="M2 3h2.5l2.2 11.2a1.5 1.5 0 0 0 1.5 1.2h8.4a1.5 1.5 0 0 0 1.5-1.2L20 7H5"/>',
   'vendas':               '<path d="M6 8V6a4 4 0 1 1 8 0v2"/><path d="M4 8h14l1 12H3L4 8Z"/>',
+  'valor líquido':        '<path d="M3 7h18v10H3z"/><circle cx="12" cy="12" r="2.6"/><path d="M7 12h.01M17 12h.01"/>',
   'faturamento':          '<circle cx="12" cy="12" r="9"/><path d="M14.5 9.2c-.5-.8-1.4-1.2-2.5-1.2-1.5 0-2.5.7-2.5 1.9 0 2.6 5 1.3 5 4 0 1.3-1.1 2.1-2.6 2.1-1.2 0-2.2-.5-2.6-1.4M12 6.6v10.8"/>',
   'roas':                 '<path d="M3 17l5.5-5.5 3.5 3.5L21 6"/><path d="M15 6h6v6"/>',
   'roi':                  '<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>',
@@ -833,6 +834,7 @@ const DICAS = {
   'gasto em anúncio':      'Quanto o Meta cobrou no período. Só mídia, sem taxas nem custo operacional.',
   'gasto operacional':     'Soma dos custos que você lançou na aba Custos, pela data de competência.',
   'faturamento':           'Valor bruto das vendas que o pixel atribuiu ao Meta, com o order bump incluído.',
+  'valor líquido':         'O que a Kiwify deposita: faturamento menos a taxa dela (8,99% + R$2,49 por venda aprovada). Ainda NÃO desconta anúncio nem operacional — quem faz isso é o Lucro.',
   'lucro':                 'O que sobrou de verdade: faturamento menos as taxas do checkout, menos anúncio, menos operacional.',
   'roas':                  'Faturamento ÷ gasto em anúncio. Mede só a mídia — não desconta taxa nem custo operacional.',
   'roi':                   'Retorno sobre tudo que saiu: (faturamento líquido − anúncio − operacional) ÷ (anúncio + operacional).',
@@ -2218,6 +2220,9 @@ async function verGeral() {
         '<div class="kpis topo">' +
           '<div class="kpi"><div class="lbl">' + ico('Faturamento') + '<span>Faturamento</span></div>' +
             '<div class="val" style="color:var(--bom)">' + moeda(tot.fat) + '</div></div>' +
+          '<div class="kpi">' + rotulo('Valor líquido') +
+            '<div class="val">' + moeda(liqTot) + '</div>' +
+            '<div class="ap">' + (tot.fat ? '−' + moeda(tot.fat - liqTot) + ' de taxa' : '') + '</div></div>' +
           '<div class="kpi"><div class="lbl">' + ico('Lucro') + '<span>Lucro</span></div>' +
             '<div class="val" style="color:' + cor(lucro) + '">' + moeda(lucro) + '</div></div>' +
           '<div class="kpi"><div class="lbl">' + ico('ROAS') + '<span>ROAS</span></div><div class="val" style="color:' +

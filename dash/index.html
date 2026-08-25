@@ -394,6 +394,11 @@ body{background:var(--bg);color:var(--ink);}
   .abprog{display:block;height:4px;border-radius:2px;background:var(--linha);
     margin-top:8px;max-width:340px;overflow:hidden;}
   .abprog i{display:block;height:100%;border-radius:2px;background:var(--marca);}
+  /* A coluna que decide o teste de preço ganha um fundo de leve e uma borda à
+     esquerda: com sete colunas, a que importa some no meio se nada a separar. */
+  .abtab th.abdec,.abtab td:nth-last-child(1){background:var(--surface-2);}
+  .abtab th.abdec,.abtab tr td:nth-last-child(1){border-left:1px solid var(--linha);}
+  .abtab th,.abtab td{white-space:nowrap;}
   .fcampo{display:flex;flex-direction:column;gap:6px;font-size:13px;font-weight:600;
     color:var(--ink-2);margin-bottom:14px;}
   .fcampo input,.fcampo textarea,.fcampo select{border:1px solid var(--linha);border-radius:9px;
@@ -1116,6 +1121,50 @@ function significancia(x1, n1, x2, n2) {
    um "tendência" nascido de 11 pessoas ensina a confiar em ruído. */
 const MIN_BRACO = 30;
 
+/* Receita por visitante — a métrica que decide um teste de PREÇO, porque um
+   preço maior pode converter menos e ainda faturar mais.
+
+   Não dá pra usar o teste de proporção aqui: a comparação não é entre duas
+   taxas, é entre duas médias em reais. Mas a variância não precisa vir da
+   receita venda a venda — cada visitante rende o preço do braço ou rende zero,
+   então a distribuição é Bernoulli vezes preço, e média e variância saem da
+   conversão e do preço médio, que já estão na mão. */
+function significanciaRPV(x1, n1, rec1, x2, n2, rec2) {
+  if (!n1 || !n2) return null;
+  const m1 = rec1 / n1, m2 = rec2 / n2;
+  const p1 = x1 / n1, p2 = x2 / n2;
+  const pr1 = x1 ? rec1 / x1 : 0, pr2 = x2 ? rec2 / x2 : 0;
+  const v1 = p1 * (1 - p1) * pr1 * pr1, v2 = p2 * (1 - p2) * pr2 * pr2;
+  const se = Math.sqrt(v1 / n1 + v2 / n2);
+  if (!se) return null;
+  const z = (m1 - m2) / se;
+  /* v1 e v2 saem daqui porque o cálculo de "quantos visitantes faltam" precisa
+     delas: comparação de médias usa variância, não proporção. */
+  return { z, p: 2 * (1 - normalAcum(Math.abs(z))), m1, m2, v1, v2,
+           lift: m2 ? (m1 - m2) / m2 * 100 : null };
+}
+
+/* Amostra necessária para uma diferença entre MÉDIAS, mesma dupla de sempre
+   (95% de confiança, 80% de poder). É outra fórmula da de proporções, e usar a
+   errada aqui daria número sem sentido — a de proporção espera dois valores
+   entre 0 e 1, e receita por visitante é reais. */
+function amostraNecessariaMedia(v1, v2, dif) {
+  if (!dif || !isFinite(dif)) return null;
+  return Math.ceil(Math.pow(1.959964 + 0.841621, 2) * (v1 + v2) / (dif * dif));
+}
+
+/* Quantas compras aprovadas existem no período, mapeadas ou não. Serve pra uma
+   coisa só, e importante: distinguir "não houve venda" de "houve venda e o
+   produto ainda não está ligado a um braço". Sem isso o cartão mostraria zero
+   nos dois casos, e zero por falta de mapa é mentira, não medição. */
+async function contarVendas(p) {
+  let q = sb.from('vendas').select('id', { count: 'exact', head: true }).eq('evento', 'compra_aprovada');
+  if (p.de)  q = q.gte('ts', p.de  + 'T00:00:00-03:00');
+  if (p.ate) q = q.lte('ts', p.ate + 'T23:59:59-03:00');
+  const { count, error } = await q;
+  return error ? null : (count || 0);
+}
+
 /* Quantas sessões POR BRAÇO para enxergar a diferença que está aparecendo.
    95% de confiança, 80% de poder — o par convencional. Serve pra responder
    "já posso parar?" antes de parar por impaciência. */
@@ -1143,18 +1192,49 @@ async function verAB() {
 
   const partes = [];
   for (const ex of exps) {
-    const { data, error } = await sb.rpc('fn_experimento', { p_exp: ex.chave, p_de: p.de, p_ate: p.ate });
-    if (error) throw error;
-    partes.push(cartaoExperimento(ex, data || []));
+    /* Promise.resolve em volta do rpc: o retorno do supabase-js é um thenable,
+       não uma Promise — tem .then mas não tem .catch, e chamar .catch direto
+       nele derruba a aba inteira. A tolerância existe porque fn_experimento_
+       vendas pode não estar no banco ainda (13-vendas-kiwify.sql), e o funil
+       não deveria sumir por causa disso. */
+    const [rF, rV, totalVendas] = await Promise.all([
+      sb.rpc('fn_experimento', { p_exp: ex.chave, p_de: p.de, p_ate: p.ate }),
+      Promise.resolve(sb.rpc('fn_experimento_vendas', { p_exp: ex.chave, p_de: p.de, p_ate: p.ate }))
+        .catch(() => ({ data: [] })),
+      contarVendas(p).catch(() => null),
+    ]);
+    if (rF.error) throw rF.error;
+    partes.push(cartaoExperimento(ex, rF.data || [], (rV && rV.data) || [], totalVendas));
   }
   document.getElementById('conteudo').innerHTML = partes.join('');
 }
 
-function cartaoExperimento(ex, linhas) {
-  const A = linhas.find(l => l.lado === 'a') || { sessoes:0, tela1:0, tela2:0, fim:0, checkout:0, rotulo:ex.rotulo_a };
-  const B = linhas.find(l => l.lado === 'b') || { sessoes:0, tela1:0, tela2:0, fim:0, checkout:0, rotulo:ex.rotulo_b };
+function cartaoExperimento(ex, linhas, vendas, totalVendas) {
+  const vazio = { sessoes:0, tela1:0, tela2:0, fim:0, checkout:0 };
+  const bruto = (lado, rot) => linhas.find(l => l.lado === lado) || { ...vazio, rotulo: rot };
+
+  /* Junta as duas fontes numa linha só por braço: o funil vem da `eventos`
+     (quem passou por onde) e o dinheiro vem do webhook da Kiwify. Fontes
+     diferentes, mesma linha — é o que permite ler o braço inteiro de uma vez.
+     rpv fica calculado aqui e não no banco: ele é razão de duas coisas que
+     chegam separadas, e a conta tem que ser a mesma dos dois lados. */
+  const dinheiro = {};
+  (vendas || []).forEach(v => { dinheiro[v.marca] = v; });
+  const juntar = (l, marca) => {
+    const d = dinheiro[marca] || { vendas:0, reembolsos:0, receita:0 };
+    const n = Number(l.tela1) || 0;
+    return { ...l, vendas: Number(d.vendas) || 0, reembolsos: Number(d.reembolsos) || 0,
+             receita: Number(d.receita) || 0, rpv: n ? Number(d.receita) / n : 0 };
+  };
+  const A = juntar(bruto('a', ex.rotulo_a), ex.braco_a);
+  const B = juntar(bruto('b', ex.rotulo_b), ex.braco_b);
   const nA = Number(A.tela1), nB = Number(B.tela1);
   const tot = nA + nB;
+
+  /* Venda que existe mas não está ligada a nenhum braço. Zero por falta de mapa
+     não é medição, é mentira — então isso vira aviso, não silêncio. */
+  const mapeadas = A.vendas + B.vendas;
+  const orfas = (totalVendas != null && totalVendas > mapeadas) ? totalVendas - mapeadas : 0;
   const badge = (txt, cor) => '<span class="abtag" style="--c:' + cor + '">' + txt + '</span>';
 
   /* Desvio de divisão (SRM). O sorteio é 50/50: se a fatia real fugir muito
@@ -1179,19 +1259,32 @@ function cartaoExperimento(ex, linhas) {
      população embaixo, as três porcentagens podem ser lidas em sequência. */
   const COLS = [
     { rotulo:'Visitantes',         campo:'tela1',    base:null,
-      ajuda:'Sessões que abriram a tela 1. É a base das outras três colunas.' },
+      ajuda:'Sessões que abriram a tela 1. É a base das colunas seguintes.' },
     { rotulo:'Tela 1 → tela 2',    campo:'tela2',    base:'tela1',
       ajuda:'Quem passou da primeira tela. É onde a headline mexe mais direto.' },
     { rotulo:'Chegou ao fim',      campo:'fim',      base:'tela1',
       ajuda:'Sessões que alcançaram a tela 34.' },
     { rotulo:'Clicou no checkout', campo:'checkout', base:'tela1',
       ajuda:'Sessões que clicaram em comprar na última tela.' },
+    /* Daqui pra baixo o dado vem da Kiwify, não do quiz. Clique no checkout é
+       intenção; venda é dinheiro, e entre os dois some bastante gente. */
+    { rotulo:'Vendas',             campo:'vendas',   base:'tela1', kiwify:true,
+      ajuda:'Compras aprovadas no webhook da Kiwify, já descontados os reembolsos na receita.' },
+    { rotulo:'Receita',            campo:'receita',  base:null, moeda:true, kiwify:true,
+      ajuda:'Receita bruta do braço, menos reembolsos e chargebacks.' },
+    { rotulo:'R$/visitante',       campo:'rpv',      base:null, moeda:true, kiwify:true, decide:true,
+      ajuda:'Receita dividida por visitante. É ESTA que decide um teste de preço: o preço maior pode converter menos e faturar mais.' },
   ];
 
-  /* Uma vez por coluna, reaproveitada pelas três linhas de comparação. */
+  /* Uma vez por coluna, reaproveitada pelas três linhas de comparação.
+     Receita e R$/visitante não são proporção: comparar duas médias em reais
+     pede outro teste, e é o que significanciaRPV faz. Receita sozinha não
+     ganha teste nenhum — ela não é comparável entre braços de tamanho
+     diferente, é o R$/visitante que normaliza isso. */
   const sig = {};
   COLS.forEach(c => {
-    if (c.base) sig[c.campo] = significancia(Number(A[c.campo]), nA, Number(B[c.campo]), nB);
+    if (c.decide) sig[c.campo] = significanciaRPV(A.vendas, nA, A.receita, B.vendas, nB, B.receita);
+    else if (c.base) sig[c.campo] = significancia(Number(A[c.campo]), nA, Number(B[c.campo]), nB);
   });
 
   /* A barra é o que faz esta tabela ser lida de relance: duas linhas empilhadas
@@ -1202,11 +1295,24 @@ function cartaoExperimento(ex, linhas) {
      A cor segue o BRAÇO, sempre a mesma, nunca quem está ganhando. Cor por
      posição faria a tabela se repintar a cada dado novo, e a memória visual do
      "azul é a nova" — que é o que permite ler rápido — se perderia. */
+  /* Colunas em reais não têm base própria pra virar porcentagem, então a barra
+     delas é relativa ao MAIOR dos dois braços — o que se quer ver ali é qual
+     dos dois é maior e por quanto, não que fração de um todo cada um é. */
+  const tetoR = {};
+  COLS.filter(c => c.moeda).forEach(c => {
+    tetoR[c.campo] = Math.max(Number(A[c.campo]) || 0, Number(B[c.campo]) || 0);
+  });
+
   const linhaBraco = (L, rotulo, cor, venceu) =>
     '<tr' + (venceu ? ' class="abwin"' : '') + '>' +
     '<td class="nm"><b>' + esc(rotulo) + '</b></td>' +
     COLS.map(c => {
       const x = Number(L[c.campo]) || 0;
+      if (c.moeda) {
+        const larg = tetoR[c.campo] ? x / tetoR[c.campo] * 100 : 0;
+        return '<td class="num"><b>' + (x ? moeda(x) : '—') + '</b>' +
+               '<span class="abbar"><i style="width:' + larg.toFixed(1) + '%;background:' + cor + '"></i></span></td>';
+      }
       const d = c.base ? Number(L[c.base]) : tot;
       const taxa = d ? x / d * 100 : 0;
       return '<td class="num"><b>' + x + '</b> <span class="abfrac">' +
@@ -1222,11 +1328,15 @@ function cartaoExperimento(ex, linhas) {
      continua aparecendo: ela é o que foi medido, não uma conclusão sobre ele. */
   const poucos = Math.min(nA, nB) < MIN_BRACO;
 
-  const linhaDif = '<tr class="abcmp"><td class="nm">Diferença</td>' +
+  /* Sem dizer "de quem em relação a quem", um -20,8% na coluna de R$/visitante
+     lê como "a receita caiu", quando o que ele diz é que o primeiro braço rende
+     20,8% menos que o segundo — ou seja, que o segundo está ganhando. */
+  const linhaDif = '<tr class="abcmp"><td class="nm">Diferença' +
+    '<br><span class="abfrac">' + esc(A.rotulo || ex.rotulo_a) + ' vs ' + esc(B.rotulo || ex.rotulo_b) + '</span></td>' +
     COLS.map(c => {
       /* Visitantes não tem diferença que signifique nada: os dois braços DEVEM
-         ficar iguais. O total do período já está no cabeçalho do cartão. */
-      if (!c.base) return '<td class="num">—</td>';
+         ficar iguais. Receita crua também não — braço com mais gente fatura
+         mais sem ser melhor; quem compara isso é o R$/visitante. */
       const s = sig[c.campo];
       if (!s || s.lift == null || !isFinite(s.lift)) return '<td class="num">—</td>';
       return '<td class="num"><span style="color:' + (s.lift >= 0 ? 'var(--bom)' : 'var(--ruim)') + '">' +
@@ -1235,20 +1345,22 @@ function cartaoExperimento(ex, linhas) {
 
   const linhaConf = '<tr><td class="nm">Confiança</td>' +
     COLS.map(c => {
-      if (!c.base || poucos) return '<td class="num">—</td>';
       const s = sig[c.campo];
-      return '<td class="num">' + (s ? ((1 - s.p) * 100).toFixed(1) + '%' +
-        (s.exato ? '<span class="abfrac" title="Fisher exato: a amostra é pequena demais para a aproximação normal"> ex</span>' : '')
-        : '—') + '</td>';
+      if (!s || poucos) return '<td class="num">—</td>';
+      return '<td class="num">' + ((1 - s.p) * 100).toFixed(1) + '%' +
+        (s.exato ? '<span class="abfrac" title="Fisher exato: a amostra é pequena demais para a aproximação normal"> ex</span>' : '') +
+        '</td>';
     }).join('') + '</tr>';
 
   const linhaVer = '<tr><td class="nm">Veredito</td>' +
     COLS.map(c => {
-      if (!c.base) {
+      /* A coluna de visitantes não julga resultado — ela julga o sorteio. */
+      if (c.campo === 'tela1') {
         return '<td class="num">' + (!tot ? badge('sem tráfego', 'var(--ink-3)')
           : torta ? badge('divisão torta', 'var(--ruim)')
           : badge('50/50 ok', 'var(--bom)')) + '</td>';
       }
+      if (!sig[c.campo]) return '<td class="num">—</td>';
       if (poucos) return '<td class="num">' + badge('poucos dados', 'var(--ink-3)') + '</td>';
       const s = sig[c.campo];
       if (!s) return '<td class="num">' + badge('sem dados', 'var(--ink-3)') + '</td>';
@@ -1263,7 +1375,12 @@ function cartaoExperimento(ex, linhas) {
      relance. Enquanto está abaixo do piso, o alvo é o próprio piso: estimar
      amostra a partir de uma diferença medida em 11 pessoas produzia frases como
      "faltam 15 visitantes" — animadora e sem qualquer base. */
-  const sPrim = sig.tela2;
+  /* Qual métrica manda no "quanto falta". Havendo venda mapeada, é o
+     R$/visitante: num teste de preço a tela 2 pode empatar e o dinheiro não —
+     medir a distância pela tela 2 daria um alvo que não responde a pergunta.
+     Sem venda ainda, a tela 2 é o melhor sinal que existe. */
+  const temDinheiro = (A.vendas + B.vendas) > 0;
+  const sPrim = temDinheiro ? sig.rpv : sig.tela2;
   const menor = Math.min(nA, nB);
   let falta = '', alvo = 0;
   if (poucos) {
@@ -1271,10 +1388,13 @@ function cartaoExperimento(ex, linhas) {
     falta = 'Teste começando: <b>' + nA + '</b> e <b>' + nB + '</b> visitantes. ' +
             'A estatística passa a valer a partir de ' + MIN_BRACO + ' por braço.';
   } else if (sPrim && sPrim.p >= 0.05) {
-    const nec = amostraNecessaria(sPrim.p1, sPrim.p2);
+    const nec = temDinheiro
+      ? amostraNecessariaMedia(sPrim.v1, sPrim.v2, sPrim.m1 - sPrim.m2)
+      : amostraNecessaria(sPrim.p1, sPrim.p2);
     if (nec && isFinite(nec)) {
       alvo = Math.max(nec, MIN_BRACO);
-      falta = 'Para a diferença atual virar conclusão, são ~<b>' + alvo.toLocaleString('pt-BR') +
+      falta = 'Para a diferença em <b>' + (temDinheiro ? 'R$/visitante' : 'tela 1 → tela 2') +
+              '</b> virar conclusão, são ~<b>' + alvo.toLocaleString('pt-BR') +
               '</b> visitantes por braço. Você tem ' + nA + ' e ' + nB + '.';
     } else {
       falta = 'Os dois braços estão praticamente iguais — nesse ritmo o teste não conclui.';
@@ -1304,9 +1424,10 @@ function cartaoExperimento(ex, linhas) {
       (ex.vencedor ? ' · vencedor: <b>' + (ex.vencedor === 'a' ? esc(ex.rotulo_a)
         : ex.vencedor === 'b' ? esc(ex.rotulo_b) : 'empate') + '</b>' : '') +
     '</div>' +
-    '<div class="tbwrap"><table class="tb">' +
+    '<div class="tbwrap"><table class="tb abtab">' +
       '<tr><th>Variante</th>' +
-        COLS.map(c => '<th class="num" title="' + esc(c.ajuda) + '">' + esc(c.rotulo) + '</th>').join('') +
+        COLS.map(c => '<th class="num' + (c.decide ? ' abdec' : '') + '" title="' + esc(c.ajuda) + '">' +
+                      esc(c.rotulo) + '</th>').join('') +
       '</tr>' +
       /* O destaque só entra quando existe vencedor de verdade na métrica
          principal. Marcar quem está na frente antes disso seria transformar
@@ -1316,6 +1437,9 @@ function cartaoExperimento(ex, linhas) {
       linhaDif + linhaConf + linhaVer +
     '</table></div>' +
     (falta ? '<div class="nota" style="margin-top:10px;">' + falta + barraProg + '</div>' : '') +
+    (orfas ? '<div class="aviso" style="margin-top:10px;"><b>' + orfas + '</b> venda' + (orfas > 1 ? 's' : '') +
+      ' no período sem braço definido — o produto ainda não está em <code>produto_braco</code>. ' +
+      'As colunas de dinheiro acima estão contando a menos até isso ser ligado.</div>' : '') +
     alerta +
     '</div>';
 }

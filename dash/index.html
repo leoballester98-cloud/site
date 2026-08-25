@@ -372,6 +372,10 @@ body{background:var(--bg);color:var(--ink);}
     white-space:nowrap;vertical-align:middle;}
   /* O número absoluto manda, a porcentagem apoia — daí ela vir menor e apagada. */
   .abfrac{font-size:11px;font-weight:500;color:var(--ink-3);}
+  /* As linhas de comparação não pertencem a nenhum braço: a borda separa
+     "o que cada um fez" de "o que isso quer dizer". */
+  .tb tr.abcmp td{border-top:2px solid var(--linha);}
+  .tb tr.abcmp ~ tr td.nm,.tb tr.abcmp td.nm{color:var(--ink-3);font-weight:600;}
   .fcampo{display:flex;flex-direction:column;gap:6px;font-size:13px;font-weight:600;
     color:var(--ink-2);margin-bottom:14px;}
   .fcampo input,.fcampo textarea,.fcampo select{border:1px solid var(--linha);border-radius:9px;
@@ -1094,58 +1098,14 @@ function cartaoExperimento(ex, linhas) {
   const A = linhas.find(l => l.lado === 'a') || { sessoes:0, tela1:0, tela2:0, fim:0, checkout:0, rotulo:ex.rotulo_a };
   const B = linhas.find(l => l.lado === 'b') || { sessoes:0, tela1:0, tela2:0, fim:0, checkout:0, rotulo:ex.rotulo_b };
   const nA = Number(A.tela1), nB = Number(B.tela1);
-
-  /* As três perguntas do experimento. A base de todas é quem VIU a tela 1 —
-     assim as três porcentagens falam da mesma população e podem ser lidas em
-     sequência, como um funil. */
-  const METRICAS = [
-    ['Tela 1 → tela 2', 'tela2',    'Quem passou da primeira tela. É a métrica que a headline mexe mais direto.'],
-    ['Chegou ao fim',   'fim',      'Sessões que alcançaram a tela 34.'],
-    ['Clicou no checkout', 'checkout', 'Sessões que clicaram em comprar na última tela.'],
-  ];
-
+  const tot = nA + nB;
   const badge = (txt, cor) => '<span class="abtag" style="--c:' + cor + '">' + txt + '</span>';
-
-  const linhasHtml = METRICAS.map(([rotulo, campo, ajuda]) => {
-    const xA = Number(A[campo]), xB = Number(B[campo]);
-    const s = significancia(xA, nA, xB, nB);
-    let veredito = badge('sem dados', 'var(--ink-3)'), conf = '—';
-    if (s) {
-      const c = (1 - s.p) * 100;
-      conf = c.toFixed(1) + '%';
-      if (s.p < 0.05)      veredito = badge((s.z > 0 ? 'A vence' : 'B vence'), 'var(--bom)');
-      else if (s.p < 0.20) veredito = badge('tendência', 'var(--atencao)');
-      else                 veredito = badge('empate', 'var(--ink-3)');
-    }
-    const taxa = (x, n) => n ? (x / n * 100).toFixed(1) + '%' : '—';
-    return '<tr><td class="nm" title="' + esc(ajuda) + '">' + esc(rotulo) + '</td>' +
-      '<td class="num">' + xA + ' <span class="abfrac">' + taxa(xA, nA) + '</span></td>' +
-      '<td class="num">' + xB + ' <span class="abfrac">' + taxa(xB, nB) + '</span></td>' +
-      '<td class="num">' + (s && s.lift != null && isFinite(s.lift)
-        ? '<span style="color:' + (s.lift >= 0 ? 'var(--bom)' : 'var(--ruim)') + '">' +
-          (s.lift >= 0 ? '+' : '') + s.lift.toFixed(1) + '%</span>' : '—') + '</td>' +
-      '<td class="num">' + conf + '</td><td class="num">' + veredito + '</td></tr>';
-  }).join('');
-
-  /* Quanto falta, medido na métrica principal. */
-  const sPrim = significancia(Number(A.tela2), nA, Number(B.tela2), nB);
-  let falta = '';
-  if (sPrim && sPrim.p >= 0.05) {
-    const nec = amostraNecessaria(sPrim.p1, sPrim.p2);
-    falta = (nec && isFinite(nec))
-      ? 'Para a diferença atual virar conclusão, são ~<b>' + nec.toLocaleString('pt-BR') +
-        '</b> sessões por braço. Você tem ' + nA + ' e ' + nB + '.'
-      : 'Os dois braços estão praticamente iguais — nesse ritmo o teste não conclui.';
-  } else if (sPrim) {
-    falta = 'A diferença na métrica principal já é estatisticamente sólida. Pode decidir.';
-  }
 
   /* Desvio de divisão (SRM). O sorteio é 50/50: se a fatia real fugir muito
      disso, o problema é técnico — um braço quebrando, cache servindo sempre a
-     mesma tela — e NENHUM número acima vale antes de achar a causa.
+     mesma tela — e NENHUM número da tabela vale antes de achar a causa.
      Abaixo de 100 visitantes não dá pra distinguir desvio de acaso, então nem
      acusa: alarme falso no começo do teste ensina a ignorar o alarme. */
-  const tot = nA + nB;
   const torta = tot >= 100 && Math.abs(nA - tot / 2) / Math.sqrt(tot * 0.25) > 3;
   const alerta = torta
     ? '<div class="erro" style="margin-top:10px;">Divisão fora do esperado: ' +
@@ -1153,9 +1113,89 @@ function cartaoExperimento(ex, linhas) {
       '(um braço com erro, cache entregando sempre a mesma tela). Investigue antes de ler os números acima.</div>'
     : '';
 
-  const estado = ex.fim
-    ? badge('encerrado', 'var(--ink-3)')
-    : badge('rodando', 'var(--bom)');
+
+  /* Uma coluna por número, uma linha por variante — assim cada braço se lê de
+     uma vez, da esquerda pra direita, como uma ficha.
+
+     `base` é o denominador da porcentagem. Visitantes não tem: ele É o
+     denominador dos outros três, então ali a fração mostra a fatia do sorteio.
+     Nos outros a base é sempre `tela1`, e não a etapa anterior — com a mesma
+     população embaixo, as três porcentagens podem ser lidas em sequência. */
+  const COLS = [
+    { rotulo:'Visitantes',         campo:'tela1',    base:null,
+      ajuda:'Sessões que abriram a tela 1. É a base das outras três colunas.' },
+    { rotulo:'Tela 1 → tela 2',    campo:'tela2',    base:'tela1',
+      ajuda:'Quem passou da primeira tela. É onde a headline mexe mais direto.' },
+    { rotulo:'Chegou ao fim',      campo:'fim',      base:'tela1',
+      ajuda:'Sessões que alcançaram a tela 34.' },
+    { rotulo:'Clicou no checkout', campo:'checkout', base:'tela1',
+      ajuda:'Sessões que clicaram em comprar na última tela.' },
+  ];
+
+  /* Uma vez por coluna, reaproveitada pelas três linhas de comparação. */
+  const sig = {};
+  COLS.forEach(c => {
+    if (c.base) sig[c.campo] = significancia(Number(A[c.campo]), nA, Number(B[c.campo]), nB);
+  });
+
+  const linhaBraco = (L, rotulo) =>
+    '<tr><td class="nm"><b>' + esc(rotulo) + '</b></td>' +
+    COLS.map(c => {
+      const x = Number(L[c.campo]) || 0;
+      const d = c.base ? Number(L[c.base]) : tot;
+      return '<td class="num"><b>' + x + '</b> <span class="abfrac">' +
+             (d ? (x / d * 100).toFixed(1) + '%' : '—') + '</span></td>';
+    }).join('') + '</tr>';
+
+  /* As três linhas de baixo comparam os dois braços, então não pertencem a
+     nenhum deles. A borda em cima da primeira separa "o que cada um fez" de
+     "o que isso quer dizer". */
+  const linhaDif = '<tr class="abcmp"><td class="nm">Diferença</td>' +
+    COLS.map(c => {
+      if (!c.base) return '<td class="num">' + (tot || '—') + '</td>';
+      const s = sig[c.campo];
+      if (!s || s.lift == null || !isFinite(s.lift)) return '<td class="num">—</td>';
+      return '<td class="num"><span style="color:' + (s.lift >= 0 ? 'var(--bom)' : 'var(--ruim)') + '">' +
+             (s.lift >= 0 ? '+' : '') + s.lift.toFixed(1) + '%</span></td>';
+    }).join('') + '</tr>';
+
+  const linhaConf = '<tr><td class="nm">Confiança</td>' +
+    COLS.map(c => {
+      if (!c.base) return '<td class="num">—</td>';
+      const s = sig[c.campo];
+      return '<td class="num">' + (s ? ((1 - s.p) * 100).toFixed(1) + '%' : '—') + '</td>';
+    }).join('') + '</tr>';
+
+  const linhaVer = '<tr><td class="nm">Veredito</td>' +
+    COLS.map(c => {
+      if (!c.base) {
+        return '<td class="num">' + (!tot ? badge('sem tráfego', 'var(--ink-3)')
+          : torta ? badge('divisão torta', 'var(--ruim)')
+          : badge('50/50 ok', 'var(--bom)')) + '</td>';
+      }
+      const s = sig[c.campo];
+      if (!s) return '<td class="num">' + badge('sem dados', 'var(--ink-3)') + '</td>';
+      const b = s.p < 0.05 ? badge(s.z > 0 ? esc(A.rotulo || ex.rotulo_a) + ' vence'
+                                           : esc(B.rotulo || ex.rotulo_b) + ' vence', 'var(--bom)')
+              : s.p < 0.20 ? badge('tendência', 'var(--atencao)')
+              : badge('empate', 'var(--ink-3)');
+      return '<td class="num">' + b + '</td>';
+    }).join('') + '</tr>';
+
+  /* Quanto falta, medido na métrica principal. */
+  const sPrim = sig.tela2;
+  let falta = '';
+  if (sPrim && sPrim.p >= 0.05) {
+    const nec = amostraNecessaria(sPrim.p1, sPrim.p2);
+    falta = (nec && isFinite(nec))
+      ? 'Para a diferença atual virar conclusão, são ~<b>' + nec.toLocaleString('pt-BR') +
+        '</b> visitantes por braço. Você tem ' + nA + ' e ' + nB + '.'
+      : 'Os dois braços estão praticamente iguais — nesse ritmo o teste não conclui.';
+  } else if (sPrim) {
+    falta = 'A diferença na métrica principal já é estatisticamente sólida. Pode decidir.';
+  }
+
+  const estado = ex.fim ? badge('encerrado', 'var(--ink-3)') : badge('rodando', 'var(--bom)');
 
   return '<div class="card">' +
     '<div class="cabsec"><div class="sec" style="margin:0;">' + ico('Teste A/B') +
@@ -1170,24 +1210,12 @@ function cartaoExperimento(ex, linhas) {
         : ex.vencedor === 'b' ? esc(ex.rotulo_b) : 'empate') + '</b>' : '') +
     '</div>' +
     '<div class="tbwrap"><table class="tb">' +
-      '<tr><th></th>' +
-        '<th class="num">' + esc(A.rotulo || ex.rotulo_a) + '</th>' +
-        '<th class="num">' + esc(B.rotulo || ex.rotulo_b) + '</th>' +
-        '<th class="num">Diferença</th><th class="num">Confiança</th><th class="num">Veredito</th></tr>' +
-      /* Visitantes abre a tabela: é o denominador das três linhas seguintes, e
-         com ele em cima o bloco lê como funil de fato. Aqui não cabe confiança
-         — não é resultado, é o tamanho da amostra. O que cabe é se o sorteio
-         está saindo parelho, que é a única leitura útil desta linha. */
-      '<tr><td class="nm">Visitantes</td>' +
-        '<td class="num"><b>' + nA + '</b> <span class="abfrac">' +
-          (tot ? (nA / tot * 100).toFixed(1) + '%' : '—') + '</span></td>' +
-        '<td class="num"><b>' + nB + '</b> <span class="abfrac">' +
-          (tot ? (nB / tot * 100).toFixed(1) + '%' : '—') + '</span></td>' +
-        '<td class="num">' + tot + '</td><td class="num">—</td>' +
-        '<td class="num">' + (!tot ? badge('sem tráfego', 'var(--ink-3)')
-          : torta ? badge('divisão torta', 'var(--ruim)')
-          : badge('50/50 ok', 'var(--bom)')) + '</td></tr>' +
-      linhasHtml +
+      '<tr><th>Variante</th>' +
+        COLS.map(c => '<th class="num" title="' + esc(c.ajuda) + '">' + esc(c.rotulo) + '</th>').join('') +
+      '</tr>' +
+      linhaBraco(A, A.rotulo || ex.rotulo_a) +
+      linhaBraco(B, B.rotulo || ex.rotulo_b) +
+      linhaDif + linhaConf + linhaVer +
     '</table></div>' +
     (falta ? '<div class="nota" style="margin-top:10px;">' + falta + '</div>' : '') +
     alerta +

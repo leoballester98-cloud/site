@@ -1142,15 +1142,16 @@ function cartaoExperimento(ex, linhas) {
 
   /* Desvio de divisão (SRM). O sorteio é 50/50: se a fatia real fugir muito
      disso, o problema é técnico — um braço quebrando, cache servindo sempre a
-     mesma tela — e NENHUM número acima vale antes de achar a causa. */
-  let alerta = '';
+     mesma tela — e NENHUM número acima vale antes de achar a causa.
+     Abaixo de 100 visitantes não dá pra distinguir desvio de acaso, então nem
+     acusa: alarme falso no começo do teste ensina a ignorar o alarme. */
   const tot = nA + nB;
-  if (tot >= 100) {
-    const z = Math.abs(nA - tot / 2) / Math.sqrt(tot * 0.25);
-    if (z > 3) alerta = '<div class="erro" style="margin-top:10px;">Divisão fora do esperado: ' +
+  const torta = tot >= 100 && Math.abs(nA - tot / 2) / Math.sqrt(tot * 0.25) > 3;
+  const alerta = torta
+    ? '<div class="erro" style="margin-top:10px;">Divisão fora do esperado: ' +
       nA + ' contra ' + nB + ', quando o sorteio é 50/50. Isso costuma ser falha técnica ' +
-      '(um braço com erro, cache entregando sempre a mesma tela). Investigue antes de ler os números acima.</div>';
-  }
+      '(um braço com erro, cache entregando sempre a mesma tela). Investigue antes de ler os números acima.</div>'
+    : '';
 
   const estado = ex.fim
     ? badge('encerrado', 'var(--ink-3)')
@@ -1170,9 +1171,22 @@ function cartaoExperimento(ex, linhas) {
     '</div>' +
     '<div class="tbwrap"><table class="tb">' +
       '<tr><th></th>' +
-        '<th class="num">' + esc(A.rotulo || ex.rotulo_a) + '<br><span class="abfrac">' + nA + ' sessões</span></th>' +
-        '<th class="num">' + esc(B.rotulo || ex.rotulo_b) + '<br><span class="abfrac">' + nB + ' sessões</span></th>' +
+        '<th class="num">' + esc(A.rotulo || ex.rotulo_a) + '</th>' +
+        '<th class="num">' + esc(B.rotulo || ex.rotulo_b) + '</th>' +
         '<th class="num">Diferença</th><th class="num">Confiança</th><th class="num">Veredito</th></tr>' +
+      /* Visitantes abre a tabela: é o denominador das três linhas seguintes, e
+         com ele em cima o bloco lê como funil de fato. Aqui não cabe confiança
+         — não é resultado, é o tamanho da amostra. O que cabe é se o sorteio
+         está saindo parelho, que é a única leitura útil desta linha. */
+      '<tr><td class="nm">Visitantes</td>' +
+        '<td class="num"><b>' + nA + '</b> <span class="abfrac">' +
+          (tot ? (nA / tot * 100).toFixed(1) + '%' : '—') + '</span></td>' +
+        '<td class="num"><b>' + nB + '</b> <span class="abfrac">' +
+          (tot ? (nB / tot * 100).toFixed(1) + '%' : '—') + '</span></td>' +
+        '<td class="num">' + tot + '</td><td class="num">—</td>' +
+        '<td class="num">' + (!tot ? badge('sem tráfego', 'var(--ink-3)')
+          : torta ? badge('divisão torta', 'var(--ruim)')
+          : badge('50/50 ok', 'var(--bom)')) + '</td></tr>' +
       linhasHtml +
     '</table></div>' +
     (falta ? '<div class="nota" style="margin-top:10px;">' + falta + '</div>' : '') +

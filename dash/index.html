@@ -332,11 +332,34 @@ body{background:var(--bg);color:var(--ink);}
   }
   .dicaflut.on{opacity:1; visibility:visible;}
 
-  /* O Detalhe do histórico é texto corrido — a regra geral da tabela trunca em
-     230px com reticências, o que aqui apagaria justamente o que foi anotado.
-     Aqui ele quebra linha e a célula cresce. */
-  .tb td.livre{white-space:normal;max-width:none;overflow:visible;
-    color:var(--ink-2);line-height:1.5;min-width:260px;}
+  /* ── Linha do tempo do histórico ────────────────────────────────────────
+     O fio à esquerda é o que faz a lista virar tempo: sem ele são blocos
+     soltos; com ele, uma sequência. Os pontos ficam SOBRE o fio, com um anel
+     da cor do fundo, pra parecerem furos nele e não bolinhas ao lado. */
+  .tl{position:relative;padding-left:26px;margin-top:4px;}
+  .tl::before{content:'';position:absolute;left:4px;top:8px;bottom:10px;
+    width:2px;background:var(--linha);border-radius:1px;}
+  .tl-dia{font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;
+    color:var(--ink-3);margin:22px 0 12px;}
+  .tl-dia:first-child{margin-top:6px;}
+  .tl-item{position:relative;padding-bottom:18px;}
+  .tl-item::before{content:'';position:absolute;left:-26px;top:5px;
+    width:10px;height:10px;border-radius:50%;background:var(--c);
+    box-shadow:0 0 0 3.5px var(--surface);}
+  .tl-cab{display:flex;align-items:center;gap:9px;}
+  .tl-tit{font-size:14.5px;font-weight:600;color:var(--ink);}
+  /* max-width em ch: linha longa demais faz o olho perder o começo da próxima.
+     Ela é o limite de leitura confortável, não a largura do cartão. */
+  .tl-txt{font-size:13.5px;color:var(--ink-2);line-height:1.6;margin-top:5px;max-width:78ch;}
+  /* O apagar só aparece no hover: ele é a ação mais rara e a mais destrutiva,
+     e sempre visível competiria com o texto pela atenção. */
+  .tl-item .apagar{margin-left:auto;flex:none;border:0;background:none;cursor:pointer;
+    color:var(--ink-3);font-size:19px;line-height:1;padding:0 4px;border-radius:6px;
+    opacity:0;transition:opacity .12s, color .12s;}
+  .tl-item:hover .apagar{opacity:1;}
+  .tl-item .apagar:hover{color:var(--ruim);}
+  .fdupla{display:flex;gap:12px;}
+  .fdupla .fcampo{flex:1;}
 
   .card{background:var(--surface);border:1px solid var(--linha);border-radius:14px;padding:18px 20px;margin-bottom:18px;}
   .sec{display:flex;align-items:center;gap:8px;font-size:17px;font-weight:600;color:var(--ink);margin-bottom:12px;}
@@ -1592,14 +1615,32 @@ async function salvarExperimento(chave) {
    é justo contra ele que o novo precisa ser comparado. Anotar é o que
    transforma uma mudança em experimento.
 
-   Não filtra por período de propósito: você anota justamente pra achar depois,
-   e um filtro de data esconderia exatamente a nota antiga que você foi buscar. */
+   É linha do tempo e não tabela: o conteúdo aqui é texto de tamanhos
+   diferentes, e tabela obriga tudo a caber na largura da coluna mais estreita.
+   Agrupado por dia porque a pergunta que se faz a um histórico é sempre
+   "quando foi que...".
+
+   Não filtra por período de propósito: você anota pra achar depois, e um filtro
+   de data esconderia exatamente a nota antiga que você foi buscar. */
 const TIPOS_HIST = [
-  ['marco',   'Marco',   'Mudou alguma coisa no ar: gateway, preço, página, campanha.'],
-  ['numero',  'Número',  'Um valor de referência que some depois. "Conversão no Celetus: 2,1%".'],
-  ['decisao', 'Decisão', 'O que você escolheu e por quê — pra daqui a dois meses você lembrar do motivo.'],
-  ['nota',    'Nota',    'Qualquer outra coisa que valha guardar.'],
+  ['marco',   'Marco',   'var(--s2)', 'Mudou alguma coisa no ar: gateway, preço, página, campanha.'],
+  ['numero',  'Número',  'var(--s1)', 'Um valor de referência que some depois. "Conversão no Celetus: 2,1%".'],
+  ['decisao', 'Decisão', 'var(--s7)', 'O que você escolheu e por quê — pra daqui a dois meses lembrar do motivo.'],
+  ['nota',    'Nota',    'var(--ink-3)', 'Qualquer outra coisa que valha guardar.'],
 ];
+const tipoHist = t => TIPOS_HIST.find(x => x[0] === t) || ['nota', 'Nota', 'var(--ink-3)', ''];
+
+/* "Hoje" e "ontem" em vez da data: numa lista que você lê de cima pra baixo, a
+   nota mais nova é a que você acabou de escrever, e ler "25/08/2026" pra ela
+   custa uma tradução mental que não precisa existir. */
+function diaHist(d) {
+  const hoje = iso(hojeSP());
+  if (d === hoje) return 'Hoje';
+  if (d === iso(maisDias(new Date(hoje + 'T12:00:00Z'), -1))) return 'Ontem';
+  const [a, m, dd] = d.split('-');
+  return Number(dd) + ' de ' + MESES[Number(m) - 1].toLowerCase() +
+         (a !== hoje.slice(0, 4) ? ' de ' + a : '');
+}
 
 async function verHistorico() {
   const { data, error } = await sb.from('historico').select('*')
@@ -1611,47 +1652,77 @@ async function verHistorico() {
     return;
   }
   const linhas = data || [];
-  const hoje = iso(hojeSP());
-  const nomeTipo = t => (TIPOS_HIST.find(x => x[0] === t) || [, t])[1];
+
+  /* Agrupa preservando a ordem que o banco já devolveu — reordenar aqui
+     duplicaria a regra de ordenação em dois lugares. */
+  const dias = [];
+  linhas.forEach(h => {
+    const ultimo = dias[dias.length - 1];
+    if (ultimo && ultimo.data === h.data) ultimo.itens.push(h);
+    else dias.push({ data: h.data, itens: [h] });
+  });
+
+  const item = h => {
+    const [, nome, cor] = tipoHist(h.tipo);
+    return '<div class="tl-item" style="--c:' + cor + '">' +
+      '<div class="tl-cab">' +
+        '<span class="abtag" style="--c:' + cor + '">' + esc(nome) + '</span>' +
+        '<span class="tl-tit">' + esc(h.titulo) + '</span>' +
+        '<button class="apagar" title="Apagar" onclick="apagarHistorico(' + h.id + ')">×</button>' +
+      '</div>' +
+      (h.texto ? '<div class="tl-txt">' + esc(h.texto) + '</div>' : '') +
+    '</div>';
+  };
 
   document.getElementById('conteudo').innerHTML =
     '<div class="card">' +
-      '<div class="sec">' + ico('Histórico') + '<span>Anotar</span></div>' +
-      '<div class="fcusto">' +
-        '<label style="flex:1;min-width:240px;">Título<input id="hTit" maxlength="120" placeholder="Ex.: troquei o checkout pra Kiwify"/></label>' +
-        '<label>Tipo<select id="hTipo">' +
-          TIPOS_HIST.map(([v, n, d]) => '<option value="' + v + '" title="' + esc(d) + '">' + n + '</option>').join('') +
-        '</select></label>' +
-        '<label>Data<input id="hData" type="date" value="' + hoje + '"/></label>' +
-      '</div>' +
-      '<div class="fcusto" style="margin-top:12px;">' +
-        '<label style="flex:1;min-width:280px;">Detalhe<textarea id="hTexto" rows="2" maxlength="1200" ' +
-          'placeholder="O número de antes, o motivo da decisão, o que você espera que aconteça."></textarea></label>' +
-        '<button class="prim" onclick="salvarHistorico()">Anotar</button>' +
-      '</div>' +
-      '<div id="hErro" class="erro" style="display:none;"></div>' +
-    '</div>' +
-    '<div class="card">' +
-      '<div class="sec">' + ico('Histórico') + '<span>Linha do tempo</span></div>' +
+      '<div class="cabsec"><div class="sec" style="margin:0;">' + ico('Histórico') +
+        '<span>Linha do tempo</span></div>' +
+        '<button class="prim" onclick="abrirHistorico()">Anotar</button></div>' +
       (linhas.length
-        ? '<div class="tbwrap"><table class="tb"><tr><th>Data</th><th>Tipo</th><th>O quê</th><th>Detalhe</th><th></th></tr>' +
-          linhas.map(h =>
-            '<tr><td style="white-space:nowrap;">' + brDate(h.data) + '</td>' +
-            '<td><span class="abtag" style="--c:var(--ink-3)">' + esc(nomeTipo(h.tipo)) + '</span></td>' +
-            '<td class="nm"><b>' + esc(h.titulo) + '</b></td>' +
-            '<td class="livre">' + esc(h.texto || '—') + '</td>' +
-            '<td class="num"><button class="limpar" onclick="apagarHistorico(' + h.id + ')">excluir</button></td></tr>').join('') +
-          '</table></div>'
-        : '<div class="vazio">Nada anotado ainda. A primeira que vale: qual era a sua conversão antes da mudança que você está testando agora.</div>') +
+        ? '<div class="tl">' + dias.map(d =>
+            '<div class="tl-dia">' + diaHist(d.data) + '</div>' + d.itens.map(item).join('')
+          ).join('') + '</div>'
+        : '<div class="vazio" style="text-align:left;padding:24px 0 8px;">' +
+          '<b>Nada anotado ainda.</b><br>' +
+          'A primeira que vale a pena: qual era a sua conversão antes da mudança que você ' +
+          'está testando agora. Esse número some do dashboard no dia em que a mudança sobe, ' +
+          'e é contra ele que o resultado novo vai ser comparado.</div>') +
     '</div>';
 }
 
+function abrirHistorico() {
+  const hoje = iso(hojeSP());
+  document.getElementById('modal').innerHTML =
+    '<div class="modal" onclick="if(event.target===this)fecharModal()"><div class="box">' +
+      '<h2>Anotar</h2>' +
+      '<div class="qual">O que mudou, quanto era antes, por que você decidiu assim.</div>' +
+      '<div id="hErro" class="erro" style="display:none;"></div>' +
+      '<label class="fcampo">O quê<input id="hTit" maxlength="120" ' +
+        'placeholder="Ex.: troquei o checkout do Celetus pra Kiwify"/></label>' +
+      '<div class="fdupla">' +
+        '<label class="fcampo">Tipo<select id="hTipo">' +
+          TIPOS_HIST.map(([v, n, , d]) => '<option value="' + v + '" title="' + esc(d) + '">' + n + '</option>').join('') +
+        '</select></label>' +
+        '<label class="fcampo">Data<input id="hData" type="date" value="' + hoje + '"/></label>' +
+      '</div>' +
+      '<label class="fcampo">Detalhe<textarea id="hTexto" rows="3" maxlength="1200" ' +
+        'placeholder="O número de antes, o motivo da decisão, o que você espera que aconteça."></textarea></label>' +
+      '<div class="pfoot"><button class="limpar" onclick="fecharModal()">Cancelar</button>' +
+      '<button class="prim" id="hSalvar" onclick="salvarHistorico()">Anotar</button></div>' +
+    '</div></div>';
+  setTimeout(() => { const t = document.getElementById('hTit'); if (t) t.focus(); }, 30);
+}
+
 async function salvarHistorico() {
+  const btn = document.getElementById('hSalvar');
   const erro = document.getElementById('hErro');
   const titulo = document.getElementById('hTit').value.trim();
-  const falar = m => { erro.textContent = m; erro.style.display = ''; };
+  const falar = m => { erro.textContent = m; erro.style.display = 'block';
+                       btn.disabled = false; btn.textContent = 'Anotar'; };
   erro.style.display = 'none';
-  if (!titulo) return falar('Escreve um título — é por ele que você vai achar isso depois.');
+  if (!titulo) return falar('Escreve o que aconteceu — é por aí que você vai achar isso depois.');
+  btn.disabled = true; btn.textContent = 'Salvando…';
 
   const { error } = await sb.from('historico').insert([{
     titulo,
@@ -1660,6 +1731,7 @@ async function salvarHistorico() {
     texto: document.getElementById('hTexto').value.trim() || null,
   }]);
   if (error) return falar('Não deu pra salvar: ' + error.message);
+  fecharModal();
   await verHistorico();
 }
 

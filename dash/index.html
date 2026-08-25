@@ -936,13 +936,19 @@ const dicaFlut = (() => {
     fechar() { if (el) el.classList.remove('on'); },
   };
 })();
-document.addEventListener('mouseover', ev => {
-  const t = ev.target.closest && ev.target.closest('.tb .temdica, .mapa .temdica');
-  if (t) dicaFlut.abrir(t);
-});
-document.addEventListener('mouseout', ev => {
-  if (ev.target.closest && ev.target.closest('.tb .temdica, .mapa .temdica')) dicaFlut.fechar();
-});
+/* Qualquer .temdica com texto, esteja onde estiver. Antes o seletor listava os
+   lugares ('.tb .temdica, .mapa .temdica') e isso quebrou calado no dia em que
+   o mapa perdeu o wrapper .mapa numa reorganização de layout: o atributo
+   continuava lá, a dica parou de abrir, e nada acusou.
+
+   A exceção é o .kpi, que tem a dica própria em CSS puro — as duas juntas
+   abririam dois balões pro mesmo rótulo. */
+const alvoDica = ev => {
+  const t = ev.target.closest && ev.target.closest('.temdica[data-dica]');
+  return (t && !t.closest('.kpi')) ? t : null;
+};
+document.addEventListener('mouseover', ev => { const t = alvoDica(ev); if (t) dicaFlut.abrir(t); });
+document.addEventListener('mouseout',  ev => { if (alvoDica(ev)) dicaFlut.fechar(); });
 /* Rolar move a célula e deixaria a dica pendurada no lugar antigo. */
 document.addEventListener('scroll', () => dicaFlut.fechar(), true);
 

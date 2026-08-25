@@ -2094,8 +2094,16 @@ async function verGeral() {
   const porDiaK = {};
   (kiwify || []).forEach(d => { porDiaK[d.data] = d; });
 
+  /* O webhook só existe a partir desta data. Antes dela a Kiwify não tem
+     registro nenhum — e ler zero ali diria "não vendeu nada" sobre meses que
+     venderam. Então o corte é por DIA: antes, o número do Meta; a partir daqui,
+     o da Kiwify. É a única leitura honesta enquanto o histórico não for
+     importado. */
+  const KIWIFY_DESDE = '2026-08-25';
+  const usaKiwify = d => kiwify && d >= KIWIFY_DESDE;
+
   const dias = (rD.data || []).map(d => {
-    if (!kiwify) return d;
+    if (!usaKiwify(d.data)) return d;
     const k = porDiaK[d.data];
     return { ...d, vendas: k ? Number(k.vendas) : 0,
              faturamento: k ? Number(k.faturamento) : 0,
@@ -2105,7 +2113,7 @@ async function verGeral() {
      — venda orgânica, ou anúncio de outra plataforma. Sem isto ela sumiria. */
   if (kiwify) {
     const temNoDiario = new Set((rD.data || []).map(d => d.data));
-    kiwify.filter(k => !temNoDiario.has(k.data)).forEach(k => dias.push({
+    kiwify.filter(k => k.data >= KIWIFY_DESDE && !temNoDiario.has(k.data)).forEach(k => dias.push({
       data: k.data, gasto: 0, checkouts: 0,
       vendas: Number(k.vendas), faturamento: Number(k.faturamento), por_valor: k.por_valor }));
     dias.sort((a, b) => a.data < b.data ? -1 : 1);
@@ -2271,6 +2279,13 @@ async function verGeral() {
        filtrados precisa saber, senão lê como se fosse o custo daquela fatia. */
     /* Três recados possíveis, e cada um responde a uma pergunta que a pessoa
        faria olhando o número: de onde ele veio, e quanto dele é chute. */
+    (kiwify && dias.some(d => d.data < KIWIFY_DESDE)
+      ? '<div class="aviso" style="margin-top:4px;">Este período atravessa o dia em que o ' +
+        'webhook da Kiwify entrou (' + brDate(KIWIFY_DESDE) + '). Antes dessa data as vendas ' +
+        'são as que o <b>Meta</b> atribuiu; a partir dela, as que a <b>Kiwify</b> registrou. ' +
+        'O Meta conta menos, então a série tende a dar um degrau nesse dia — é mudança de ' +
+        'medição, não de resultado.</div>'
+      : '') +
     (kiwify
       ? ''
       : '<div class="aviso" style="margin-top:4px;">Vendas e faturamento vindo do <b>Meta</b>' +

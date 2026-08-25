@@ -2283,10 +2283,14 @@ async function verGeral() {
         '<div class="card"><div class="sec">' + ico('Gasto e faturamento por dia') + '<span>' + tituloGrafico + '</span></div>' +
           (dias.length ? '<div style="position:relative;height:400px;"><canvas id="cvGeral"></canvas></div>'
                        : '<div class="vazio">Sem dados no período.</div>') + '</div>' +
+        '<div class="fontes">' + cartoesFonte + '</div>' +
+        /* Depois dos cartões de plataforma: eles respondem "quanto entrou e de
+           onde", que é a leitura de rotina. O mapa responde "quando vender
+           mais", que é pergunta de quem já viu o resultado e está decidindo o
+           próximo passo — vem depois na ordem de quem lê. */
         '<div class="card"><div class="sec">' + ico('Vendas por dia e hora') +
           '<span>Vendas por dia e hora</span></div>' +
           mapaHorario(rH && rH.data) + '</div>' +
-        '<div class="fontes">' + cartoesFonte + '</div>' +
       '</div>' +
       '<div class="regua">' +
         kpi('Gasto em anúncio', moeda(tot.gasto)) +

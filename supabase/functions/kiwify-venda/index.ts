@@ -45,11 +45,22 @@ function pega(obj: any, caminhos: string[][]): any {
   return null;
 }
 
-/* Centavos ou reais? A Kiwify manda inteiro em centavos em alguns campos e
-   decimal em outros. Sem essa normalização uma venda de R$67,90 entraria como
-   R$6.790,00 — e o teste de preço apontaria o vencedor errado. */
-function paraReais(v: any): number {
-  const n = Number(String(v).replace(',', '.'));
+/* A Kiwify manda o valor em CENTAVOS, inteiro, em Commissions.charge_amount.
+   Confirmado no payload real: 6134 para uma venda de R$61,34. Então divide por
+   100 e pronto — sem adivinhar a unidade.
+
+   A versão anterior chutava ("se for inteiro e >= 1000, é centavo") e passava
+   nos testes com 3790 e 6790 justamente porque os dois preços do experimento
+   caem acima do corte. Uma venda de R$9,90 chega como 990, ficaria abaixo dele
+   e entraria como R$990,00. O palpite acertava por sorte de faixa de preço. */
+function valorDe(dados: any): number {
+  const cent = pega(dados, [['Commissions', 'charge_amount'], ['charge_amount']]);
+  if (cent !== null && isFinite(Number(cent))) return Number(cent) / 100;
+
+  /* Reserva, caso o campo suma numa versão futura do webhook. Aí a unidade
+     volta a ser desconhecida e o palpite volta com ela — mas o payload cru fica
+     guardado, então dá pra corrigir depois em vez de perder o dado. */
+  const n = Number(String(pega(dados, [['order_total'], ['total'], ['price']]) ?? 0).replace(',', '.'));
   if (!isFinite(n)) return 0;
   return Number.isInteger(n) && Math.abs(n) >= 1000 ? n / 100 : n;
 }
@@ -101,8 +112,7 @@ Deno.serve(async (req) => {
     produto_id: pega(dados, [['product_id'], ['Product', 'product_id'], ['product', 'id'],
                              ['Commissions', 'product_id']])?.toString() ?? null,
     produto: pega(dados, [['product_name'], ['Product', 'product_name'], ['product', 'name']])?.toString() ?? null,
-    valor: paraReais(pega(dados, [['Commissions', 'charge_amount'], ['charge_amount'],
-                                  ['order_total'], ['total'], ['price']]) ?? 0),
+    valor: valorDe(dados),
     moeda: pega(dados, [['Commissions', 'currency'], ['currency']])?.toString() ?? 'BRL',
     status: statusCru || null,
     /* Guarda tudo, inclusive se a assinatura foi conferida: sem isso não dá pra

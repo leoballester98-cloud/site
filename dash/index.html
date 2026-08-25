@@ -362,29 +362,31 @@ body{background:var(--bg);color:var(--ink);}
     user-select:none;padding-bottom:10px;}
   .fcheck input{width:16px;height:16px;accent-color:var(--marca);cursor:pointer;}
   /* ── Mapa de calor dia × hora ────────────────────────────────────────────
-     Grade fixa de 24 colunas em vez de auto-fit: a coluna PRECISA ser a hora,
-     e um grid que se reorganiza sozinho quebraria a leitura vertical. Rola na
-     horizontal em tela estreita, que é melhor que amassar as horas. */
-  .mapa{display:flex;gap:22px;align-items:flex-start;flex-wrap:wrap;}
-  .mp-grade{display:grid;grid-template-columns:34px repeat(24,minmax(13px,1fr));
-    gap:2px;align-items:center;flex:1;min-width:430px;}
-  .mp-h{font-size:9.5px;color:var(--ink-3);text-align:center;font-variant-numeric:tabular-nums;
-    padding-bottom:3px;}
-  .mp-d{font-size:11px;color:var(--ink-2);font-weight:600;padding-right:6px;}
-  /* aspect-ratio 1 mantém o quadrado em qualquer largura — célula achatada
-     falsearia a comparação entre linhas e colunas. */
-  .mp-cel{display:block;aspect-ratio:1;border-radius:2.5px;cursor:help;
-    transition:outline-color .1s;outline:1.5px solid transparent;outline-offset:1px;}
+     Uma grade só, incluindo os totais por dia. Duas grades lado a lado
+     desalinhavam: a altura da linha aqui vem da LARGURA da célula
+     (aspect-ratio), então nenhuma altura fixa numa lista vizinha acompanha.
+
+     Célula com teto de 26px: sem ele a grade estica com a tela e vira um
+     paredão, onde 3px de respiro somem e as linhas leem como um bloco só. */
+  .mp-grade{display:grid;
+    grid-template-columns:36px repeat(24,minmax(12px,26px)) 16px minmax(54px,92px) 26px;
+    gap:5px 3px;align-items:center;justify-content:start;}
+  .mp-h{font-size:9.5px;color:var(--ink-3);text-align:center;
+    font-variant-numeric:tabular-nums;padding-bottom:2px;}
+  .mp-d{font-size:11.5px;color:var(--ink-2);font-weight:600;padding-right:8px;}
+  .mp-cel{display:block;aspect-ratio:1;border-radius:3px;cursor:help;
+    outline:1.5px solid transparent;outline-offset:1px;transition:outline-color .1s;}
   .mp-cel:hover{outline-color:var(--ink-2);}
-  .mp-lado{min-width:180px;flex:0 1 220px;}
-  .mp-lado-tit{font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;
-    color:var(--ink-3);font-weight:700;margin-bottom:9px;}
-  .mp-lado-l{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--ink-2);
-    margin-bottom:6px;}
-  .mp-lado-l span:first-child{width:26px;flex:none;}
-  .mp-lado-l b{width:26px;text-align:right;color:var(--ink);font-variant-numeric:tabular-nums;}
-  .mp-barra{flex:1;height:6px;border-radius:3px;background:var(--linha);overflow:hidden;}
+  .mp-vao{}
+  .mp-tit{font-size:10px;text-transform:uppercase;letter-spacing:.06em;
+    color:var(--ink-3);font-weight:700;padding-bottom:2px;}
+  .mp-barra{height:6px;border-radius:3px;background:var(--linha);overflow:hidden;}
   .mp-barra i{display:block;height:100%;border-radius:3px;background:var(--marca);min-width:2px;}
+  .mp-num{font-size:12px;text-align:right;color:var(--ink);font-variant-numeric:tabular-nums;}
+  /* Em tela estreita a grade rola em vez de amassar as horas: 24 colunas
+     espremidas em 320px não seriam legíveis de jeito nenhum. */
+  @media(max-width:900px){ .card:has(.mp-grade){overflow-x:auto;} }
+
   .fdupla{display:flex;gap:12px;}
   .fdupla .fcampo{flex:1;}
 
@@ -1276,28 +1278,27 @@ function mapaHorario(linhas) {
     return '<i class="mp-cel temdica" data-dica="' + esc(dica) + '" style="background:' + fundo + '"></i>';
   };
 
-  return '<div class="mapa">' +
-    '<div class="mp-grade">' +
+  /* Total do dia entra na MESMA grade, como colunas extras, e não numa lista ao
+     lado. Duas listas de sete itens lado a lado sempre desalinham: a altura da
+     linha do mapa vem da largura da célula (aspect-ratio), e nenhuma altura fixa
+     na lista vizinha acompanha isso. Na mesma grade, alinhar deixa de ser algo
+     que pode dar errado. */
+  return '<div class="mp-grade">' +
       '<div class="mp-canto"></div>' +
       /* Rótulo a cada 3 horas: 24 números seguidos viram uma faixa cinza que
          ninguém lê, e de 3 em 3 ainda dá pra localizar qualquer coluna. */
       Array.from({ length: 24 }, (_, h) =>
         '<div class="mp-h">' + (h % 3 === 0 ? String(h).padStart(2, '0') : '') + '</div>').join('') +
+      '<div class="mp-vao"></div><div class="mp-tit">por dia</div><div></div>' +
+
       m.map((linha, d) =>
         '<div class="mp-d">' + DIAS_SEM[d] + '</div>' +
-        linha.map((v, h) => cel(v, d, h)).join('')
-      ).join('') +
-    '</div>' +
-    /* Total por dia ao lado: responde "qual DIA vende mais" sem obrigar a somar
-       24 quadradinhos com o olho. */
-    '<div class="mp-lado">' +
-      '<div class="mp-lado-tit">por dia</div>' +
-      m.map((_, d) =>
-        '<div class="mp-lado-l"><span>' + DIAS_SEM[d] + '</span>' +
+        linha.map((v, h) => cel(v, d, h)).join('') +
+        '<div class="mp-vao"></div>' +
         '<span class="mp-barra"><i style="width:' +
           (maiorDia ? (porDia[d] / maiorDia * 100).toFixed(0) : 0) + '%"></i></span>' +
-        '<b>' + porDia[d] + '</b></div>').join('') +
-    '</div>' +
+        '<b class="mp-num">' + porDia[d] + '</b>'
+      ).join('') +
   '</div>';
 }
 

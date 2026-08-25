@@ -307,6 +307,37 @@ body{background:var(--bg);color:var(--ink);}
   .geral .regua .lbl.temdica::after{left:auto; right:0;}
   .geral .regua .lbl.temdica::before{left:auto; right:14px;}
 
+  /* Dentro de tabela a dica é outro mecanismo, pelo mesmo mapa DICAS.
+     O CSS puro dos cartões não serve aqui: .tbwrap rola na horizontal, e um
+     elemento absoluto dentro de um container que rola é recortado por ele.
+     E não dá pra pedir "rola só na horizontal, deixa vazar na vertical" — assim
+     que um eixo deixa de ser visible, o outro vira auto junto. Daí a dica da
+     tabela ser um elemento fixo, fora do fluxo, movido por JS. */
+  .tb .lbl.temdica{display:inline-flex;align-items:center;gap:5px;cursor:help;}
+  .tb th .lbl.temdica{justify-content:flex-end;}
+  .tb .lbl.temdica::after,.tb .lbl.temdica::before{display:none;}
+  .tb .ajuda{width:13px;height:13px;font-size:9px;}
+  .dicaflut{
+    position:fixed; z-index:200; left:0; top:0;
+    /* max-content e não largura automática: a caixa é filha do body, que é
+       flex, e sem isso ela era espremida a ~89px — texto longo virava uma
+       coluna de duas palavras. O max-width segura o outro extremo. */
+    width:max-content; max-width:290px;
+    padding:10px 12px; border-radius:10px;
+    background:var(--dica-bg); color:var(--dica-ink);
+    font-size:12.5px; font-weight:400; line-height:1.45; text-align:left;
+    box-shadow:0 8px 24px rgba(0,0,0,.22);
+    opacity:0; visibility:hidden; transition:opacity .14s ease, visibility .14s;
+    pointer-events:none;
+  }
+  .dicaflut.on{opacity:1; visibility:visible;}
+
+  /* O Detalhe do histórico é texto corrido — a regra geral da tabela trunca em
+     230px com reticências, o que aqui apagaria justamente o que foi anotado.
+     Aqui ele quebra linha e a célula cresce. */
+  .tb td.livre{white-space:normal;max-width:none;overflow:visible;
+    color:var(--ink-2);line-height:1.5;min-width:260px;}
+
   .card{background:var(--surface);border:1px solid var(--linha);border-radius:14px;padding:18px 20px;margin-bottom:18px;}
   .sec{display:flex;align-items:center;gap:8px;font-size:17px;font-weight:600;color:var(--ink);margin-bottom:12px;}
   .sec svg{width:17px;height:17px;flex:none;stroke-width:1.9;color:var(--ink-2);}
@@ -461,6 +492,9 @@ body{background:var(--bg);color:var(--ink);}
       <button id="navAb"        onclick="trocarAba('ab')">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V9M10 20V4M16 20v-7M22 20H2"/></svg>
         <span class="rot">Teste A/B</span></button>
+      <button id="navHistorico" onclick="trocarAba('historico')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8v4l3 2"/><path d="M3.05 11a9 9 0 1 1 .5 4"/><path d="M3 5v5h5"/></svg>
+        <span class="rot">Histórico</span></button>
       <button id="navCustos"    onclick="trocarAba('custos')">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7h14a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7Zm0 0 2.5-3H16"/><circle cx="15.5" cy="13" r="1.4"/></svg>
         <span class="rot">Custos</span></button>
@@ -739,6 +773,7 @@ const ICONES = {
   'hook rate':            '<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>',
   'hold rate':            '<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>',
   'teste a/b':            '<path d="M4 20V9M10 20V4M16 20v-7M22 20H2"/>',
+  'histórico':            '<path d="M12 8v4l3 2"/><path d="M3.05 11a9 9 0 1 1 .5 4"/><path d="M3 5v5h5"/>',
 };
 const ico = nome => { const d = ICONES[String(nome).toLowerCase()]; return d ? SVG(d) : ''; };
 
@@ -761,6 +796,18 @@ const DICAS = {
   'conversão do checkout': 'Vendas ÷ visitas ao checkout. Quanto do que abre o checkout vira compra.',
   'reembolso':             'Ainda não conectado ao checkout — por isso aparece como “—” e não como zero.',
   'criativos':             'Quantos criativos entraram no ar, sobre a meta do período.',
+
+  /* Teste A/B. Estas ficam no MESMO mapa das outras de propósito: uma métrica
+     com dois textos diferentes em duas abas é uma métrica que ninguém confia. */
+  'visitantes':            'Sessões que abriram a tela 1. É a base de todas as porcentagens da linha. Os dois braços devem ficar perto de 50/50 — se não ficarem, é falha técnica, não resultado.',
+  'tela 1 → tela 2':       'Quem passou da primeira tela. É onde a headline mexe mais direto, e por isso a pergunta central de um teste de tela.',
+  'chegou ao fim':         'Sessões que alcançaram a tela 34, a última do quiz.',
+  'clicou no checkout':    'Sessões que clicaram em comprar na última tela. É intenção, não compra: entre clicar e pagar some bastante gente.',
+  'receita':               'Receita do braço, já descontados reembolsos e chargebacks. Sozinha ela não compara nada: o braço com mais gente fatura mais sem ser melhor.',
+  'r$/visitante':          'Receita ÷ visitantes. É ESTA que decide um teste de preço, porque um preço maior pode converter menos e faturar mais. Entre R$37,90 e R$67,90 o empate está numa queda de 44% na conversão.',
+  'confiança':             'A chance de a diferença ser real e não sorte. Abaixo de 95% não dá pra concluir — e 60%, 70%, 80% valem tanto quanto jogar moeda.',
+  'veredito':              'A leitura da confiança: acima de 95% há vencedor; entre 80% e 95% é tendência, que pode virar; abaixo disso é empate. Enquanto faltar volume aparece “poucos dados”, porque conclusão tirada de poucas dezenas de pessoas é ruído com cara de resultado.',
+  'diferença':             'Quanto o primeiro braço rende a mais (ou a menos) que o segundo, em porcentagem. É o tamanho do efeito; se ele é real, quem diz é a confiança.',
 };
 const dica = nome => DICAS[String(nome).toLowerCase()] || '';
 
@@ -772,6 +819,53 @@ const rotulo = l => {
 };
 
 const kpi   = (l, v) => '<div class="kpi">' + rotulo(l) + '<div class="val">' + v + '</div></div>';
+
+/* A mesma dica dos cartões, para dentro de tabela, sem o ícone: numa fila de
+   cabeçalhos o ícone vira ruído — ali se procura a palavra. O texto sai do
+   mesmo mapa DICAS, então a explicação de uma métrica é uma só no dashboard
+   inteiro. Rótulo sem dica cadastrada sai limpo, sem o "?" pendurado. */
+const rotuloTb = l => {
+  const d = dica(l);
+  return d ? '<span class="lbl temdica" data-dica="' + esc(d) + '">' + esc(l) +
+             '<i class="ajuda" aria-hidden="true">?</i></span>'
+           : esc(l);
+};
+
+/* Uma dica só, reaproveitada, presa à viewport. Um elemento por rótulo custaria
+   dezenas de nós numa tabela, e todos seriam recortados pelo .tbwrap.
+   Delegado no document: a tabela é reconstruída a cada render, e handler preso
+   na célula morreria junto com ela. */
+const dicaFlut = (() => {
+  let el = null;
+  return {
+    abrir(alvo) {
+      const d = alvo.getAttribute('data-dica');
+      if (!d) return;
+      if (!el) { el = document.createElement('div'); el.className = 'dicaflut'; document.body.appendChild(el); }
+      el.textContent = d;
+      el.classList.add('on');
+      /* Mede DEPOIS de escrever e de mostrar: com o texto anterior, ou invisível,
+         offsetWidth ainda é o do estado passado e a dica sai torta. */
+      const r = alvo.getBoundingClientRect(), w = el.offsetWidth, h = el.offsetHeight;
+      const x = Math.max(8, Math.min(r.left + r.width / 2 - w / 2, innerWidth - w - 8));
+      /* Abre pra baixo; se não couber, pra cima — nas últimas linhas da tabela
+         ela ficaria metade fora da tela. */
+      const y = (r.bottom + 8 + h > innerHeight - 8) ? r.top - h - 8 : r.bottom + 8;
+      el.style.left = x + 'px';
+      el.style.top  = y + 'px';
+    },
+    fechar() { if (el) el.classList.remove('on'); },
+  };
+})();
+document.addEventListener('mouseover', ev => {
+  const t = ev.target.closest && ev.target.closest('.tb .temdica');
+  if (t) dicaFlut.abrir(t);
+});
+document.addEventListener('mouseout', ev => {
+  if (ev.target.closest && ev.target.closest('.tb .temdica')) dicaFlut.fechar();
+});
+/* Rolar move a célula e deixaria a dica pendurada no lugar antigo. */
+document.addEventListener('scroll', () => dicaFlut.fechar(), true);
 
 /* Valor escrito SEMPRE fora da barra, do mesmo lado, na mesma cor. Antes ele caía
    pra dentro quando não coubesse — e aí uns ficavam brancos dentro e outros
@@ -1020,11 +1114,11 @@ function pintarVars() {
 function aplicarVars() { fecharPaineis(); carregar(); }
 function selecionadas() { return VARIANTES.map(v => v.variante).filter(v => marcadas[v]); }
 
-const TITULOS = { geral:'Visão Geral', funil:'Funil', criativos:'Criativos', ab:'Teste A/B', custos:'Custos operacionais' };
+const TITULOS = { geral:'Visão Geral', funil:'Funil', criativos:'Criativos', ab:'Teste A/B', historico:'Histórico', custos:'Custos operacionais' };
 function trocarAba(nova) {
   aba = nova;
   fecharGaveta();
-  ['geral','funil','criativos','ab','custos'].forEach(k =>
+  ['geral','funil','criativos','ab','historico','custos'].forEach(k =>
     document.getElementById('nav' + k[0].toUpperCase() + k.slice(1)).className = k === nova ? 'on' : '');
   document.getElementById('tituloPagina').textContent = TITULOS[nova];
   document.querySelectorAll('.soFunil').forEach(e => e.style.display = nova === 'funil' ? '' : 'none');
@@ -1037,6 +1131,10 @@ function limparGraficos() { graficos.forEach(g => { try { g.destroy(); } catch (
 
 async function carregar() {
   const alvo = document.getElementById('conteudo');
+  /* A dica vive fora do #conteudo, então sobrevive ao redesenho. Se o rótulo
+     sob o mouse sumir junto com a tabela, o mouseout nunca dispara e ela fica
+     pendurada na tela explicando algo que não está mais ali. */
+  dicaFlut.fechar();
   alvo.innerHTML = '<div class="carregando">Carregando…</div>';
   limparGraficos();
   document.querySelectorAll('.filtros select').forEach(s => s.className = s.className.replace(' on','') + (s.value ? ' on' : ''));
@@ -1044,6 +1142,7 @@ async function carregar() {
     if (aba === 'geral') await verGeral();
     else if (aba === 'funil') await verFunil();
     else if (aba === 'ab') await verAB();
+    else if (aba === 'historico') await verHistorico();
     else if (aba === 'custos') await verCustos();
     else await verCriativos();
     const ag = new Date();
@@ -1257,22 +1356,25 @@ function cartaoExperimento(ex, linhas, vendas, totalVendas) {
      denominador dos outros três, então ali a fração mostra a fatia do sorteio.
      Nos outros a base é sempre `tela1`, e não a etapa anterior — com a mesma
      população embaixo, as três porcentagens podem ser lidas em sequência. */
-  const COLS = [
-    { rotulo:'Visitantes',         campo:'tela1',    base:null,
-      ajuda:'Sessões que abriram a tela 1. É a base das colunas seguintes.' },
-    { rotulo:'Chegou ao fim',      campo:'fim',      base:'tela1',
-      ajuda:'Sessões que alcançaram a tela 34.' },
-    { rotulo:'Clicou no checkout', campo:'checkout', base:'tela1',
-      ajuda:'Sessões que clicaram em comprar na última tela.' },
-    /* Daqui pra baixo o dado vem da Kiwify, não do quiz. Clique no checkout é
-       intenção; venda é dinheiro, e entre os dois some bastante gente. */
-    { rotulo:'Vendas',             campo:'vendas',   base:'tela1', kiwify:true,
-      ajuda:'Compras aprovadas no webhook da Kiwify, já descontados os reembolsos na receita.' },
-    { rotulo:'Receita',            campo:'receita',  base:null, moeda:true, kiwify:true,
-      ajuda:'Receita bruta do braço, menos reembolsos e chargebacks.' },
-    { rotulo:'R$/visitante',       campo:'rpv',      base:null, moeda:true, kiwify:true, decide:true,
-      ajuda:'Receita dividida por visitante. É ESTA que decide um teste de preço: o preço maior pode converter menos e faturar mais.' },
-  ];
+  /* Cada teste mostra só as colunas da SUA pergunta. Um teste de tela pergunta
+     quantas pessoas seguem; um de preço pergunta quanto dinheiro entra. Juntar
+     as duas listas não dá mais informação — dá mais coluna pra atravessar antes
+     de achar a que importa. O `foco` vem do banco, então teste novo escolhe a
+     leitura dele sem tocar em código. */
+  const CAMPOS = {
+    tela1:    { rotulo:'Visitantes',         base:null,    sorteio:true },
+    tela2:    { rotulo:'Tela 1 → tela 2',    base:'tela1' },
+    fim:      { rotulo:'Chegou ao fim',      base:'tela1' },
+    checkout: { rotulo:'Clicou no checkout', base:'tela1' },
+    vendas:   { rotulo:'Vendas',             base:'tela1' },
+    receita:  { rotulo:'Receita',            base:null, moeda:true, semTeste:true },
+    rpv:      { rotulo:'R$/visitante',       base:null, moeda:true, decide:true },
+  };
+  const FOCO = {
+    tela:     ['tela1', 'tela2', 'fim', 'checkout'],
+    dinheiro: ['tela1', 'checkout', 'vendas', 'receita', 'rpv'],
+  };
+  const COLS = (FOCO[ex.foco] || FOCO.tela).map(c => ({ campo: c, ...CAMPOS[c] }));
 
   /* Uma vez por coluna, reaproveitada pelas três linhas de comparação.
      Receita e R$/visitante não são proporção: comparar duas médias em reais
@@ -1329,7 +1431,7 @@ function cartaoExperimento(ex, linhas, vendas, totalVendas) {
   /* Sem dizer "de quem em relação a quem", um -20,8% na coluna de R$/visitante
      lê como "a receita caiu", quando o que ele diz é que o primeiro braço rende
      20,8% menos que o segundo — ou seja, que o segundo está ganhando. */
-  const linhaDif = '<tr class="abcmp"><td class="nm">Diferença' +
+  const linhaDif = '<tr class="abcmp"><td class="nm">' + rotuloTb('Diferença') +
     '<br><span class="abfrac">' + esc(A.rotulo || ex.rotulo_a) + ' vs ' + esc(B.rotulo || ex.rotulo_b) + '</span></td>' +
     COLS.map(c => {
       /* Visitantes não tem diferença que signifique nada: os dois braços DEVEM
@@ -1341,7 +1443,7 @@ function cartaoExperimento(ex, linhas, vendas, totalVendas) {
              (s.lift >= 0 ? '+' : '') + s.lift.toFixed(1) + '%</span></td>';
     }).join('') + '</tr>';
 
-  const linhaConf = '<tr><td class="nm">Confiança</td>' +
+  const linhaConf = '<tr><td class="nm">' + rotuloTb('Confiança') + '</td>' +
     COLS.map(c => {
       const s = sig[c.campo];
       if (!s || poucos) return '<td class="num">—</td>';
@@ -1350,10 +1452,10 @@ function cartaoExperimento(ex, linhas, vendas, totalVendas) {
         '</td>';
     }).join('') + '</tr>';
 
-  const linhaVer = '<tr><td class="nm">Veredito</td>' +
+  const linhaVer = '<tr><td class="nm">' + rotuloTb('Veredito') + '</td>' +
     COLS.map(c => {
       /* A coluna de visitantes não julga resultado — ela julga o sorteio. */
-      if (c.campo === 'tela1') {
+      if (c.sorteio) {
         return '<td class="num">' + (!tot ? badge('sem tráfego', 'var(--ink-3)')
           : torta ? badge('divisão torta', 'var(--ruim)')
           : badge('50/50 ok', 'var(--bom)')) + '</td>';
@@ -1423,8 +1525,8 @@ function cartaoExperimento(ex, linhas, vendas, totalVendas) {
     '</div>' +
     '<div class="tbwrap"><table class="tb abtab">' +
       '<tr><th>Variante</th>' +
-        COLS.map(c => '<th class="num' + (c.decide ? ' abdec' : '') + '" title="' + esc(c.ajuda) + '">' +
-                      esc(c.rotulo) + '</th>').join('') +
+        COLS.map(c => '<th class="num' + (c.decide ? ' abdec' : '') + '">' +
+                      rotuloTb(c.rotulo) + '</th>').join('') +
       '</tr>' +
       /* O destaque só entra quando existe vencedor de verdade na métrica
          principal. Marcar quem está na frente antes disso seria transformar
@@ -1482,6 +1584,90 @@ async function salvarExperimento(chave) {
     btn.disabled = false; btn.textContent = 'Salvar'; return;
   }
   fecharModal(); await verAB();
+}
+
+// ══════════════════════ HISTÓRICO ══════════════════════
+/* O dashboard mede o AGORA. Quando você troca o gateway, muda o preço ou
+   reescreve a página, o número de antes deixa de existir em qualquer lugar — e
+   é justo contra ele que o novo precisa ser comparado. Anotar é o que
+   transforma uma mudança em experimento.
+
+   Não filtra por período de propósito: você anota justamente pra achar depois,
+   e um filtro de data esconderia exatamente a nota antiga que você foi buscar. */
+const TIPOS_HIST = [
+  ['marco',   'Marco',   'Mudou alguma coisa no ar: gateway, preço, página, campanha.'],
+  ['numero',  'Número',  'Um valor de referência que some depois. "Conversão no Celetus: 2,1%".'],
+  ['decisao', 'Decisão', 'O que você escolheu e por quê — pra daqui a dois meses você lembrar do motivo.'],
+  ['nota',    'Nota',    'Qualquer outra coisa que valha guardar.'],
+];
+
+async function verHistorico() {
+  const { data, error } = await sb.from('historico').select('*')
+    .order('data', { ascending: false }).order('criado_em', { ascending: false });
+  if (error) {
+    document.getElementById('conteudo').innerHTML =
+      '<div class="card"><div class="vazio">A tabela do histórico ainda não existe. ' +
+      'Rode <b>supabase/14-foco-e-historico.sql</b> no SQL Editor.</div></div>';
+    return;
+  }
+  const linhas = data || [];
+  const hoje = iso(hojeSP());
+  const nomeTipo = t => (TIPOS_HIST.find(x => x[0] === t) || [, t])[1];
+
+  document.getElementById('conteudo').innerHTML =
+    '<div class="card">' +
+      '<div class="sec">' + ico('Histórico') + '<span>Anotar</span></div>' +
+      '<div class="fcusto">' +
+        '<label style="flex:1;min-width:240px;">Título<input id="hTit" maxlength="120" placeholder="Ex.: troquei o checkout pra Kiwify"/></label>' +
+        '<label>Tipo<select id="hTipo">' +
+          TIPOS_HIST.map(([v, n, d]) => '<option value="' + v + '" title="' + esc(d) + '">' + n + '</option>').join('') +
+        '</select></label>' +
+        '<label>Data<input id="hData" type="date" value="' + hoje + '"/></label>' +
+      '</div>' +
+      '<div class="fcusto" style="margin-top:12px;">' +
+        '<label style="flex:1;min-width:280px;">Detalhe<textarea id="hTexto" rows="2" maxlength="1200" ' +
+          'placeholder="O número de antes, o motivo da decisão, o que você espera que aconteça."></textarea></label>' +
+        '<button class="prim" onclick="salvarHistorico()">Anotar</button>' +
+      '</div>' +
+      '<div id="hErro" class="erro" style="display:none;"></div>' +
+    '</div>' +
+    '<div class="card">' +
+      '<div class="sec">' + ico('Histórico') + '<span>Linha do tempo</span></div>' +
+      (linhas.length
+        ? '<div class="tbwrap"><table class="tb"><tr><th>Data</th><th>Tipo</th><th>O quê</th><th>Detalhe</th><th></th></tr>' +
+          linhas.map(h =>
+            '<tr><td style="white-space:nowrap;">' + brDate(h.data) + '</td>' +
+            '<td><span class="abtag" style="--c:var(--ink-3)">' + esc(nomeTipo(h.tipo)) + '</span></td>' +
+            '<td class="nm"><b>' + esc(h.titulo) + '</b></td>' +
+            '<td class="livre">' + esc(h.texto || '—') + '</td>' +
+            '<td class="num"><button class="limpar" onclick="apagarHistorico(' + h.id + ')">excluir</button></td></tr>').join('') +
+          '</table></div>'
+        : '<div class="vazio">Nada anotado ainda. A primeira que vale: qual era a sua conversão antes da mudança que você está testando agora.</div>') +
+    '</div>';
+}
+
+async function salvarHistorico() {
+  const erro = document.getElementById('hErro');
+  const titulo = document.getElementById('hTit').value.trim();
+  const falar = m => { erro.textContent = m; erro.style.display = ''; };
+  erro.style.display = 'none';
+  if (!titulo) return falar('Escreve um título — é por ele que você vai achar isso depois.');
+
+  const { error } = await sb.from('historico').insert([{
+    titulo,
+    tipo:  document.getElementById('hTipo').value,
+    data:  document.getElementById('hData').value || iso(hojeSP()),
+    texto: document.getElementById('hTexto').value.trim() || null,
+  }]);
+  if (error) return falar('Não deu pra salvar: ' + error.message);
+  await verHistorico();
+}
+
+async function apagarHistorico(id) {
+  if (!confirm('Apagar esta anotação?')) return;
+  const { error } = await sb.from('historico').delete().eq('id', id);
+  if (error) return alert('Não deu pra apagar: ' + error.message);
+  await verHistorico();
 }
 
 // ══════════════════════ CUSTOS OPERACIONAIS ══════════════════════

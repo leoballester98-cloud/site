@@ -645,9 +645,45 @@ const PRIMEIRA_VENDA = '2026-06-01';
    bumps lá embaixo dá zero sozinha. Ele repete o valor antigo só pra não virar
    NaN. Quando o bump voltar, ponha aqui o líquido REAL da Kiwify. */
 const TAXAS = [
-  { de: '2026-08-25',    liqVenda: 32.00, liqBump: 14.48 },
+  { de: '2026-08-25',    liqVenda: 32.00, liqBump: 15.47 },
   { de: PRIMEIRA_VENDA,  liqVenda: 33.50, liqBump: 14.48 },
 ];
+
+/* Quanto sobra de cada valor COBRADO, depois da taxa da Kiwify. Chave é o
+   bruto do pedido; valor é o que cai na conta.
+
+   Isto existe pra acabar com uma adivinhação: o líquido deduzia quantos bumps
+   havia a partir do faturamento total, assumindo um preço único de R$37,90.
+   Com o teste de preço no ar essa conta virou lixo — 10 vendas a R$67,90 dão
+   R$679, e a dedução enxergava 18 bumps que não existem, inflando o Lucro.
+   Agora o valor de cada pedido vem da Kiwify e o líquido sai por consulta.
+
+   null = ainda não sei o líquido desse valor. Melhor um buraco visível, que
+   vira aviso na tela, do que um palpite somado calado ao Lucro. */
+const LIQUIDO_BRUTO = {
+  '37.90': 32.00,          // confirmado
+  '54.90': 32.00 + 15.47,  // 37,90 + order bump
+  '67.90': null,           // teste de preço — falta o líquido real
+  '84.90': null,           // 67,90 + order bump
+};
+
+/* Percentual de referência, tirado do único par que eu conheço (37,90 -> 32,00
+   deixa 84,4%). Serve só pra estimar um valor ainda não cadastrado, e sempre
+   acompanhado de aviso — nunca entra como se fosse número medido. */
+const FRACAO_LIQUIDA = 32.00 / 37.90;
+
+/* Devolve { liquido, estimado } — 'estimado' é quantos reais vieram de palpite,
+   pra tela poder dizer isso em vez de fingir precisão. */
+function liquidoDeValores(porValor) {
+  let liq = 0, estimado = 0;
+  Object.entries(porValor || {}).forEach(([bruto, n]) => {
+    const qtd = Number(n) || 0;
+    const conhecido = LIQUIDO_BRUTO[Number(bruto).toFixed(2)];
+    if (conhecido != null) { liq += qtd * conhecido; }
+    else { const e = Number(bruto) * FRACAO_LIQUIDA; liq += qtd * e; estimado += qtd * e; }
+  });
+  return { liquido: liq, estimado };
+}
 const taxaEm = d => TAXAS.find(t => String(d || '9999-12-31') >= t.de) || TAXAS[TAXAS.length - 1];
 
 /* Taxa média do período, pesada pelos DIAS de cada faixa. É o que sobra pros
@@ -1619,6 +1655,51 @@ async function salvarExperimento(chave) {
   fecharModal(); await verAB();
 }
 
+/* Venda que nem o Meta nem o webhook pegaram: cobrança fora da Kiwify, venda
+   antiga sendo reconciliada, ajuste. Vai pra MESMA tabela do webhook — duas
+   tabelas de venda seriam duas contagens pra reconciliar, que é justamente o
+   problema do qual estamos saindo. */
+function abrirVendaManual() {
+  const hoje = iso(hojeSP());
+  document.getElementById('modal').innerHTML =
+    '<div class="modal" onclick="if(event.target===this)fecharModal()"><div class="box">' +
+      '<h2>Lançar venda manual</h2>' +
+      '<div class="qual">Entra junto com as da Kiwify, no mesmo lugar. Use o valor ' +
+        'COBRADO (com o order bump, se teve) — o líquido é calculado a partir dele.</div>' +
+      '<div id="vmErro" class="erro" style="display:none;"></div>' +
+      '<div class="fdupla">' +
+        '<label class="fcampo">Valor cobrado<input id="vmValor" type="text" inputmode="decimal" placeholder="37,90"/></label>' +
+        '<label class="fcampo">Data<input id="vmData" type="date" value="' + hoje + '"/></label>' +
+      '</div>' +
+      '<label class="fcampo">Nota<input id="vmNota" maxlength="120" ' +
+        'placeholder="Ex.: venda que o Meta não marcou"/></label>' +
+      '<div class="pfoot"><button class="limpar" onclick="fecharModal()">Cancelar</button>' +
+      '<button class="prim" id="vmSalvar" onclick="salvarVendaManual()">Lançar</button></div>' +
+    '</div></div>';
+  setTimeout(() => { const e = document.getElementById('vmValor'); if (e) e.focus(); }, 30);
+}
+
+async function salvarVendaManual() {
+  const btn = document.getElementById('vmSalvar');
+  const erro = document.getElementById('vmErro');
+  const falar = m => { erro.textContent = m; erro.style.display = 'block';
+                       btn.disabled = false; btn.textContent = 'Lançar'; };
+  erro.style.display = 'none';
+  const bruto = String(document.getElementById('vmValor').value).replace(',', '.');
+  const valor = Number(bruto);
+  const data = document.getElementById('vmData').value;
+  if (!bruto.trim() || !isFinite(valor) || valor <= 0) return falar('Valor inválido.');
+  if (!data) return falar('Escolhe a data.');
+  btn.disabled = true; btn.textContent = 'Lançando…';
+
+  const { error } = await sb.rpc('fn_venda_manual', {
+    p_valor: valor, p_data: data,
+    p_nota: document.getElementById('vmNota').value.trim() || null });
+  if (error) return falar('Não deu pra lançar: ' + error.message);
+  fecharModal();
+  await carregar();
+}
+
 // ══════════════════════ HISTÓRICO ══════════════════════
 /* O dashboard mede o AGORA. Quando você troca o gateway, muda o preço ou
    reescreve a página, o número de antes deixa de existir em qualquer lugar — e
@@ -1979,7 +2060,7 @@ async function verGeral() {
      faturamento, visitantes e conversão passam a falar do MESMO recorte —
      antes a Visão Geral somava tudo sem opção. */
   const fo = fFonte || null;
-  const [rD, rF, custos, rA, rP] = await Promise.all([
+  const [rD, rF, custos, rA, rP, rK] = await Promise.all([
     sb.rpc('fn_diario', { p_de:p.de, p_ate:p.ate, p_fonte:fo }),
     sb.rpc('fn_funil',  { p_de:p.de, p_ate:p.ate, p_variantes:null, p_funil:null, p_fonte:fo }),
     // se a tabela de custos falhar, a Visão Geral não cai junto: o operacional
@@ -1991,10 +2072,44 @@ async function verGeral() {
     // Promise: ele tem .then mas não tem .catch, e chamar .catch nele quebra.
     Promise.resolve(sb.rpc('fn_por_fonte', { p_de:p.de, p_ate:p.ate }))
       .catch(() => ({ data:[] })),
+    /* Vendas de verdade, da Kiwify. Tolerante porque 16-vendas-dia.sql pode não
+       ter rodado ainda — sem ela a Visão Geral volta ao número do Meta em vez
+       de parar de abrir. */
+    Promise.resolve(sb.rpc('fn_vendas_dia', { p_de:p.de, p_ate:p.ate }))
+      .catch(() => ({ data:null })),
   ]);
   if (rD.error) throw rD.error;
 
-  const dias = rD.data || [];
+  /* ── De onde vem cada número ──────────────────────────────────────────────
+     GASTO e CHECKOUTS: sempre do Meta. Só ele sabe quanto cobrou e quantas
+     vezes o checkout abriu.
+     VENDAS e FATURAMENTO: da Kiwify, que conta o que foi PAGO. O pixel do Meta
+     atribui menos do que aconteceu, e era isso que fazia venda sumir do dash.
+
+     A exceção é o recorte por plataforma: a Kiwify não sabe de qual anúncio
+     veio a venda. Filtrando por Meta ou TikTok, a pergunta passa a ser "como
+     ESTA plataforma performou", e só a atribuição dela responde — então ali as
+     vendas voltam a ser as do Meta, com aviso na tela. */
+  const kiwify = (!fo && rK && !rK.error && rK.data) ? rK.data : null;
+  const porDiaK = {};
+  (kiwify || []).forEach(d => { porDiaK[d.data] = d; });
+
+  const dias = (rD.data || []).map(d => {
+    if (!kiwify) return d;
+    const k = porDiaK[d.data];
+    return { ...d, vendas: k ? Number(k.vendas) : 0,
+             faturamento: k ? Number(k.faturamento) : 0,
+             por_valor: k ? k.por_valor : null };
+  });
+  /* Dia que teve venda na Kiwify e nenhum gasto no Meta não existe em fn_diario
+     — venda orgânica, ou anúncio de outra plataforma. Sem isto ela sumiria. */
+  if (kiwify) {
+    const temNoDiario = new Set((rD.data || []).map(d => d.data));
+    kiwify.filter(k => !temNoDiario.has(k.data)).forEach(k => dias.push({
+      data: k.data, gasto: 0, checkouts: 0,
+      vendas: Number(k.vendas), faturamento: Number(k.faturamento), por_valor: k.por_valor }));
+    dias.sort((a, b) => a.data < b.data ? -1 : 1);
+  }
   const tot = dias.reduce((a, d) => ({
     gasto: a.gasto + Number(d.gasto), fat: a.fat + Number(d.faturamento),
     vendas: a.vendas + Number(d.vendas), checkouts: a.checkouts + Number(d.checkouts) }),
@@ -2016,7 +2131,18 @@ async function verGeral() {
      dia dela, sem média nenhuma. Aqui dá pra ser exato porque a fn_diario já
      devolve a quebra por dia — nos cartões de plataforma e na tabela de
      criativos ela não existe, e lá a taxa sai ponderada. */
-  const liqTot  = dias.reduce((a, d) => a + liquido(d.faturamento, d.vendas, d.data), 0);
+  /* Com a Kiwify, o líquido sai do valor real de cada pedido. Sem ela, cai na
+     dedução antiga — que assume preço único e erra enquanto o teste de preço
+     estiver no ar. */
+  let liqEstimado = 0;
+  const liqTot = dias.reduce((a, d) => {
+    if (d.por_valor) {
+      const r = liquidoDeValores(d.por_valor);
+      liqEstimado += r.estimado;
+      return a + r.liquido;
+    }
+    return a + liquido(d.faturamento, d.vendas, d.data);
+  }, 0);
   const lucro   = liqTot - saiu;
   const roas = tot.gasto ? tot.fat / tot.gasto : null;
   const roi  = saiu ? ((liqTot - saiu) / saiu) * 100 : null;
@@ -2132,11 +2258,30 @@ async function verGeral() {
           '<div class="val">—</div>' +
           '<div class="ap">sem ligação com o checkout</div></div>' +
       '</div>' +
+      /* Fica na Visão Geral e não numa aba própria porque é aqui que você
+         percebe a falta: o número não bate com o extrato, e a correção tem que
+         estar a um clique de onde o erro apareceu. */
+      '<div style="display:flex;justify-content:flex-end;margin-top:14px;">' +
+        '<button class="limpar" onclick="abrirVendaManual()">Lançar venda manual</button>' +
+      '</div>' +
     '</div>' +
     /* Com recorte de plataforma ativo, o custo operacional continua entrando
        INTEIRO — ele é da operação, não de uma plataforma, e ratear por gasto de
        mídia inventaria um número que ninguém mediu. Quem lê Lucro e ROI
        filtrados precisa saber, senão lê como se fosse o custo daquela fatia. */
+    /* Três recados possíveis, e cada um responde a uma pergunta que a pessoa
+       faria olhando o número: de onde ele veio, e quanto dele é chute. */
+    (kiwify
+      ? ''
+      : '<div class="aviso" style="margin-top:4px;">Vendas e faturamento vindo do <b>Meta</b>' +
+        (fo ? ', porque há recorte de plataforma ativo — a Kiwify não sabe de qual anúncio veio a venda.'
+            : ' — a leitura da Kiwify não respondeu. Confira se <code>16-vendas-dia.sql</code> foi rodado.') +
+        ' O Meta conta só o que o pixel atribuiu, então este número tende a ser menor que o real.</div>') +
+    (liqEstimado > 0
+      ? '<div class="aviso" style="margin-top:4px;"><b>' + moeda(liqEstimado) + '</b> do líquido ' +
+        'saiu de estimativa: há vendas em valores cujo líquido real ainda não está cadastrado ' +
+        '(o de R$67,90, do teste de preço). Lucro e ROI estão aproximados até isso ser preenchido.</div>'
+      : '') +
     (fo && custoOp > 0
       ? '<div class="aviso" style="margin-top:4px;">Recorte de <b>' +
         esc((OPC_FONTE.find(o => o[0] === fo) || [, fo])[1]) + '</b>. Gasto, faturamento, ' +

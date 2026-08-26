@@ -163,7 +163,11 @@ body{background:var(--bg);color:var(--ink);}
   /* métrica ainda não alimentada: tracejada pra não parecer um número real */
   .kpi.pendente{border-style:dashed;}
   /* cartão por fonte de tráfego, no lugar em que a referência põe */
-  .fontes{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;}
+  /* margin-bottom igual ao do .card: os cartões de plataforma vivem num grid
+     próprio, que não herda o espaçamento de baixo dos cards — sem isso o bloco
+     seguinte encosta neles e os dois lêem como uma coisa só. */
+  .fontes{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+    gap:16px;margin-bottom:18px;}
   .card.fonte{margin-bottom:0;}
   .card.fonte .cab{display:flex;align-items:center;gap:9px;font-size:16px;font-weight:700;color:var(--ink);margin-bottom:14px;}
   .card.fonte .rot{font-size:13px;font-weight:600;color:var(--ink-2);}

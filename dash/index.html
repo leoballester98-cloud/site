@@ -447,13 +447,23 @@ body{background:var(--bg);color:var(--ink);}
      Documento dentro de um painel de números. A largura de leitura é o que
      separa os dois: aqui o texto para em 74ch, porque linha que atravessa a
      tela inteira cansa antes do fim do parágrafo. */
-  .ac-cat{margin-bottom:26px;}
-  .ac-cat:last-child{margin-bottom:0;}
-  .ac-cat-rot{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:700;
-    text-transform:uppercase;letter-spacing:.07em;color:var(--ink-2);
-    padding-bottom:10px;margin-bottom:14px;border-bottom:1px solid var(--linha);}
+  /* A linha inteira leva o traço; a aba ativa cobre o trecho dela com um traço
+     mais grosso e da cor da marca. É o que faz a aba parecer à frente das
+     outras, e não só escrita em outra cor. */
+  .ac-abas{display:flex;gap:26px;flex-wrap:wrap;
+    border-bottom:1px solid var(--linha);margin-bottom:20px;}
+  .ac-aba{position:relative;background:none;border:0;padding:0 0 11px;
+    font:inherit;font-size:14.5px;color:var(--ink-3);cursor:pointer;
+    display:inline-flex;align-items:center;gap:7px;
+    transition:color .12s;}
+  .ac-aba:hover{color:var(--ink-2);}
+  .ac-aba.on{color:var(--ink);font-weight:700;}
+  .ac-aba.on::after{content:'';position:absolute;left:0;right:0;bottom:-1px;
+    height:2px;background:var(--marca);border-radius:2px 2px 0 0;}
   .ac-n{font-size:11px;font-weight:600;color:var(--ink-3);
     background:var(--surface-2);border-radius:999px;padding:1px 7px;}
+  .ac-aba.on .ac-n{color:var(--marca);
+    background:color-mix(in srgb, var(--marca) 13%, transparent);}
   .ac-grade{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));}
 
   .ac-card{display:flex;flex-direction:column;align-items:flex-start;gap:6px;
@@ -2379,6 +2389,11 @@ const PROCESSOS = [
 
 let procAberto = null;
 
+/* Abre na primeira categoria que TEM processo, não na primeira da lista. Cair
+   numa aba vazia na entrada faz a tela parecer quebrada quando ela só está
+   incompleta. */
+let catAberta = null;
+
 /* Markdown do necessário, não do padrão inteiro: título, lista, tabela, negrito,
    código e régua. É o que os processos usam. Um parser maior seria mais código
    pra manter e nenhuma linha a mais renderizada. */
@@ -2465,6 +2480,10 @@ function fonteProcesso(id) {
 function verAcademy() {
   if (procAberto) return verProcesso(procAberto);
 
+  const cats = Object.keys(ACADEMY);
+  const conta = k => PROCESSOS.filter(p => p.cat === k).length;
+  if (!catAberta || !ACADEMY[catAberta]) catAberta = cats.find(conta) || cats[0];
+
   const cartao = pr =>
     '<button class="ac-card" onclick="verProcesso(' + JSON.stringify(pr.id).replace(/"/g, '&quot;') + ')">' +
       '<span class="ac-tipo ' + pr.tipo + '">' + (pr.tipo === 'prompt' ? 'prompt' : 'visual') + '</span>' +
@@ -2472,24 +2491,34 @@ function verAcademy() {
       '<span class="ac-res">' + esc(pr.resumo) + '</span>' +
     '</button>';
 
+  const lista = PROCESSOS.filter(p => p.cat === catAberta);
+
   document.getElementById('conteudo').innerHTML =
     '<div class="card">' +
       '<div class="sec">' + ico('Academy') + '<span>Processos</span></div>' +
-      '<div class="nota" style="margin:0 0 22px;">Como cada coisa é feita aqui dentro. ' +
+      '<div class="nota" style="margin:0 0 18px;">Como cada coisa é feita aqui dentro. ' +
         'Os marcados como <b>prompt</b> têm botão de copiar — o que vai pra área de ' +
         'transferência é a fonte, não o texto formatado da tela.</div>' +
-      Object.keys(ACADEMY).map(k => {
-        const lista = PROCESSOS.filter(p => p.cat === k);
-        return '<div class="ac-cat">' +
-          '<div class="ac-cat-rot">' + esc(ACADEMY[k].rot) +
-            '<span class="ac-n">' + lista.length + '</span></div>' +
-          (lista.length
-            ? '<div class="ac-grade">' + lista.map(cartao).join('') + '</div>'
-            : '<div class="ac-vazio">Nenhum processo escrito ainda.</div>') +
-        '</div>';
-      }).join('') +
+      /* Categorias em linha, e não empilhadas: com quatro delas a lista vertical
+         empurrava pra baixo justamente o que tem conteúdo. O número ao lado diz
+         quanto tem lá dentro sem precisar entrar. */
+      '<div class="ac-abas" role="tablist">' +
+        cats.map(k =>
+          '<button class="ac-aba' + (k === catAberta ? ' on' : '') + '" role="tab"' +
+            ' aria-selected="' + (k === catAberta) + '"' +
+            ' onclick="abrirCat(' + JSON.stringify(k).replace(/"/g, '&quot;') + ')">' +
+            esc(ACADEMY[k].rot) +
+            (conta(k) ? '<span class="ac-n">' + conta(k) + '</span>' : '') +
+          '</button>').join('') +
+      '</div>' +
+      (lista.length
+        ? '<div class="ac-grade">' + lista.map(cartao).join('') + '</div>'
+        : '<div class="ac-vazio">Nenhum processo de ' +
+          esc(ACADEMY[catAberta].rot.toLowerCase()) + ' escrito ainda.</div>') +
     '</div>';
 }
+
+function abrirCat(k) { catAberta = k; verAcademy(); }
 
 function verProcesso(id) {
   const pr = PROCESSOS.find(p => p.id === id);

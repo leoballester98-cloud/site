@@ -144,9 +144,17 @@ try {
       console.error(`✗ ${arq}\n  classe "${orfa}" usada no HTML mas sem regra de CSS`);
     }
 
-    /* Só os <script> sem src — os externos não estão no arquivo pra conferir. */
-    const blocos = [...html.matchAll(/<script(?![^>]*\bsrc=)[^>]*>([\s\S]*?)<\/script>/g)]
-      .map((m) => m[1]);
+    /* Só os <script> sem src — os externos não estão no arquivo pra conferir —
+       e só os que são JavaScript de verdade. <script type="text/plain"> é um
+       porta-texto: o navegador não executa nada dali, e mandar o conteúdo pro
+       ESLint faz ele reclamar de erro de sintaxe num documento em português. */
+    const ehJs = (tag) => {
+      const t = (tag.match(/\btype\s*=\s*["']([^"']+)["']/) || [])[1];
+      return !t || /^(text|application)\/(java|ecma)script$|^module$/i.test(t.trim());
+    };
+    const blocos = [...html.matchAll(/<script(?![^>]*\bsrc=)([^>]*)>([\s\S]*?)<\/script>/g)]
+      .filter((m) => ehJs(m[1]))
+      .map((m) => m[2]);
     if (!blocos.length) { console.log(`· ${arq}: sem script embutido`); continue; }
     const js = blocos.join('\n;\n');
 

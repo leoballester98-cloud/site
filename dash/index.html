@@ -443,6 +443,86 @@ body{background:var(--bg);color:var(--ink);}
      e existe pra que uma hipótese longa quebre em vez de atravessar a tela. */
   .ab-hip{font-size:13.5px;color:var(--ink-2);line-height:1.55;max-width:90ch;
     margin:6px 0 0;}
+  /* ── Academy ────────────────────────────────────────────────────────────
+     Documento dentro de um painel de números. A largura de leitura é o que
+     separa os dois: aqui o texto para em 74ch, porque linha que atravessa a
+     tela inteira cansa antes do fim do parágrafo. */
+  .ac-cat{margin-bottom:26px;}
+  .ac-cat:last-child{margin-bottom:0;}
+  .ac-cat-rot{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:700;
+    text-transform:uppercase;letter-spacing:.07em;color:var(--ink-2);
+    padding-bottom:10px;margin-bottom:14px;border-bottom:1px solid var(--linha);}
+  .ac-n{font-size:11px;font-weight:600;color:var(--ink-3);
+    background:var(--surface-2);border-radius:999px;padding:1px 7px;}
+  .ac-grade{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));}
+
+  .ac-card{display:flex;flex-direction:column;align-items:flex-start;gap:6px;
+    text-align:left;font:inherit;cursor:pointer;
+    background:var(--surface);border:1px solid var(--linha);border-radius:10px;
+    padding:16px 18px;transition:border-color .12s,transform .12s;}
+  .ac-card:hover{border-color:var(--marca);transform:translateY(-1px);}
+  .ac-tit{font-size:15.5px;font-weight:700;color:var(--ink);line-height:1.3;}
+  .ac-res{font-size:13px;color:var(--ink-2);line-height:1.5;}
+  .ac-tipo{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;
+    padding:2px 7px;border-radius:3px;}
+  .ac-tipo.prompt{background:var(--marca);color:#fff;}
+  .ac-tipo.visual{background:var(--surface-2);color:var(--ink-2);}
+  .ac-vazio{font-size:13.5px;color:var(--ink-3);padding:6px 0 2px;}
+
+  /* Barra de ações grudada no topo: num documento longo o botão de copiar
+     precisa estar onde a pessoa estiver, e não só onde ela entrou. */
+  .ac-topo{position:sticky;top:0;z-index:3;display:flex;align-items:center;
+    justify-content:space-between;gap:12px;flex-wrap:wrap;
+    background:var(--surface);padding:2px 0 14px;margin-bottom:8px;
+    border-bottom:1px solid var(--linha);}
+
+  /* O card do documento tem respiro maior que o dos painéis de número: texto
+     corrido precisa de margem, dado precisa de densidade. */
+  .ac-doc{padding:22px 26px 30px;}
+  .ac-corpo{max-width:74ch;font-size:15px;line-height:1.65;color:var(--ink-2);}
+  .ac-corpo h2{font-size:24px;font-weight:800;color:var(--ink);letter-spacing:-.01em;
+    margin:34px 0 12px;line-height:1.2;}
+  .ac-corpo h2:first-child{margin-top:8px;}
+  .ac-corpo h3{font-size:17px;font-weight:700;color:var(--ink);margin:28px 0 8px;
+    padding-bottom:8px;border-bottom:1px solid var(--linha);}
+  .ac-corpo h4{font-size:15px;font-weight:700;color:var(--ink);margin:20px 0 6px;}
+  .ac-corpo p{margin:0 0 14px;}
+  .ac-corpo b{color:var(--ink);font-weight:700;}
+  .ac-corpo em{font-style:italic;color:var(--ink);}
+  .ac-corpo hr{border:0;border-top:1px solid var(--linha);margin:28px 0;}
+  .ac-corpo code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.88em;
+    background:var(--surface-2);padding:1px 5px;border-radius:4px;color:var(--ink);}
+  .ac-li{margin:0 0 16px;padding-left:20px;}
+  .ac-li li{margin-bottom:8px;}
+  .ac-li li::marker{color:var(--ink-3);}
+
+  .ac-cod{background:var(--surface-2);border:1px solid var(--linha);
+    border-left:3px solid var(--marca);border-radius:0 8px 8px 0;
+    padding:16px 18px;margin:0 0 18px;overflow-x:auto;}
+  .ac-cod code{background:none;padding:0;font-size:13px;line-height:1.8;
+    color:var(--ink-2);white-space:pre;}
+
+  /* Os blocos entre colchetes são notação, não texto — ganham cara de etiqueta
+     pra se distinguirem da frase que fala sobre eles. */
+  .ac-tag{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.86em;
+    color:var(--marca);font-weight:600;}
+  .ac-seta{color:var(--ink-3);}
+
+  .ac-rola{overflow-x:auto;margin:0 0 18px;
+    border:1px solid var(--linha);border-radius:8px;}
+  .ac-tb{border-collapse:collapse;width:100%;min-width:520px;font-size:13.5px;}
+  .ac-tb th{text-align:left;font-size:11px;font-weight:700;text-transform:uppercase;
+    letter-spacing:.05em;color:var(--ink-2);background:var(--surface-2);
+    padding:11px 14px;border-bottom:1px solid var(--linha);white-space:nowrap;}
+  .ac-tb td{padding:11px 14px;border-bottom:1px solid var(--linha);vertical-align:top;
+    line-height:1.5;}
+  .ac-tb tr:last-child td{border-bottom:none;}
+
+  @media(max-width:600px){
+    .ac-corpo{font-size:14.5px;}
+    .ac-topo{flex-direction:column;align-items:stretch;}
+  }
+
   /* ── Registros ──────────────────────────────────────────────────────────
      Lista única com três tipos. O ícone à esquerda diz qual sem gastar uma
      coluna de texto, e o número ganha peso e cor porque é a única coisa que o
@@ -459,15 +539,21 @@ body{background:var(--bg);color:var(--ink);}
   /* Larguras declaradas. O Valor fica à direita e o Período à esquerda: sem
      largura fixa os dois brigam pelo mesmo espaço e encostam, enquanto Nota e
      ações sobram. O respiro entre eles vem do padding do Período. */
-  /* Largura declarada só nas colunas CURTAS. Com table-layout:fixed as de texto
-     entravam no rateio e "O quê" caía pra 78px em tela estreita — virava
-     "conv…". No layout automático elas ficam com a sobra e crescem com a tela,
-     enquanto ícone, valor, período e ações não se mexem. */
-  .rg-tb{width:100%;min-width:760px;}
-  .rg-tb .c-ico{width:34px;}
-  .rg-tb .c-val{width:110px;}
-  .rg-tb .c-per{width:200px;}   /* 183px é o que "01/08/26 a 23/08/26" ocupa */
-  .rg-tb .c-acoes{width:150px;}
+  /* TODAS as colunas com proporção declarada, somando 100%. Com só algumas
+     declaradas, o navegador dava a sobra inteira pras duas de texto e o
+     resultado eram quatro colunas espremidas no meio e duas largas nas pontas —
+     um ritmo diferente a cada trecho da linha.
+
+     Os 96% deixam os 40px do ícone caberem sem estourar. O piso de 1000px é o
+     que a coluna de período precisa: abaixo dele "01/08/26 a 23/08/26" (183px)
+     não cabe nos seus 19,5%, e aí a tabela rola em vez de truncar. */
+  .rg-tb{table-layout:fixed;width:100%;min-width:1000px;}
+  .rg-tb .c-ico{width:40px;}
+  .rg-tb .c-oque{width:29%;}
+  .rg-tb .c-val{width:10.5%;}
+  .rg-tb .c-per{width:19.5%;}
+  .rg-tb .c-nota{width:25%;}
+  .rg-tb .c-acoes{width:12%;}
   .rg-tb th:nth-child(4),.rg-tb td:nth-child(4){padding-left:24px;}
 
   .rg-tb td.rg-t{padding-right:0;color:var(--ink-3);}
@@ -634,6 +720,9 @@ body{background:var(--bg);color:var(--ink);}
       <button id="navRegistros" onclick="trocarAba('registros')">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8v4l3 2"/><path d="M3.05 11a9 9 0 1 1 .5 4"/><path d="M3 5v5h5"/></svg>
         <span class="rot">Registros</span></button>
+      <button id="navAcademy"   onclick="trocarAba('academy')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 2 8l10 5 10-5-10-5Z"/><path d="M6 10.5V16c0 1.4 2.7 2.5 6 2.5s6-1.1 6-2.5v-5.5"/><path d="M22 8v6"/></svg>
+        <span class="rot">Academy</span></button>
       <button id="navCustos"    onclick="trocarAba('custos')">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7h14a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7Zm0 0 2.5-3H16"/><circle cx="15.5" cy="13" r="1.4"/></svg>
         <span class="rot">Custos</span></button>
@@ -1297,11 +1386,11 @@ function pintarVars() {
 function aplicarVars() { fecharPaineis(); carregar(); }
 function selecionadas() { return VARIANTES.map(v => v.variante).filter(v => marcadas[v]); }
 
-const TITULOS = { geral:'Visão Geral', funil:'Funil', criativos:'Criativos', ab:'Teste A/B', registros:'Registros', custos:'Custos operacionais', balanco:'Balanço' };
+const TITULOS = { geral:'Visão Geral', funil:'Funil', criativos:'Criativos', ab:'Teste A/B', registros:'Registros', academy:'Academy', custos:'Custos operacionais', balanco:'Balanço' };
 function trocarAba(nova) {
   aba = nova;
   fecharGaveta();
-  ['geral','funil','criativos','ab','registros','custos','balanco'].forEach(k =>
+  ['geral','funil','criativos','ab','registros','academy','custos','balanco'].forEach(k =>
     document.getElementById('nav' + k[0].toUpperCase() + k.slice(1)).className = k === nova ? 'on' : '');
   document.getElementById('tituloPagina').textContent = TITULOS[nova];
   document.querySelectorAll('.soFunil').forEach(e => e.style.display = nova === 'funil' ? '' : 'none');
@@ -1315,6 +1404,9 @@ function trocarAba(nova) {
   avisoCusto = '';
   document.querySelectorAll('.soFonte').forEach(e =>
     e.style.display = ['geral','funil','criativos'].includes(nova) ? '' : 'none');
+  /* Academy não tem período: é documento, não medição. Deixar o seletor de
+     data ali sugere que o conteúdo muda com ele, e não muda. */
+  document.getElementById('btnData').closest('.grp').style.display = nova === 'academy' ? 'none' : '';
   localStorage.setItem('cf_aba', nova);
   carregar();
 }
@@ -1336,6 +1428,7 @@ async function carregar() {
     else if (aba === 'ab') await verAB();
     else if (aba === 'balanco') await verBalanco();
     else if (aba === 'registros') await verRegistros();
+    else if (aba === 'academy') verAcademy();
     else if (aba === 'custos') await verCustos();
     else await verCriativos();
     const ag = new Date();
@@ -2147,10 +2240,8 @@ async function verRegistros() {
            Valor (à direita) e o Período (à esquerda) encostavam um no outro,
            enquanto Nota e ações sobravam de espaço. */
         ? '<div class="tbwrap"><table class="tb rg-tb">' +
-            /* Os <col> sem classe são as colunas de texto: existem só pra manter
-               a contagem, e ficam com a sobra da largura. */
-            '<colgroup><col class="c-ico"><col><col class="c-val">' +
-            '<col class="c-per"><col><col class="c-acoes"></colgroup>' +
+            '<colgroup><col class="c-ico"><col class="c-oque"><col class="c-val">' +
+            '<col class="c-per"><col class="c-nota"><col class="c-acoes"></colgroup>' +
             '<tr><th></th><th>O quê</th>' +
             '<th class="num">Valor</th><th>Período</th><th>Nota</th><th></th></tr>' +
           regs.map(linha).join('') + '</table></div>'
@@ -2257,6 +2348,195 @@ async function apagarReg(id) {
   const { error } = await sb.from('registros').delete().eq('id', id);
   if (error) return alert('Não deu pra apagar: ' + error.message);
   await verRegistros();
+}
+
+// ══════════════════════ ACADEMY ══════════════════════
+/* Os processos da operação, escritos uma vez e consultados sempre.
+   Dois tipos, e a diferença é o que você faz com eles:
+
+     prompt  vai pra IA. Renderiza formatado pra ler, mas o botão copia a FONTE
+             — com as quebras de linha e os marcadores intactos, que é do que a
+             IA precisa, e não do que a tela mostra.
+     visual  se lê aqui e acabou.
+
+   O texto mora em <script type="text/plain"> no fim do body, e não numa string
+   de JavaScript: processo tem crase, chave e barra invertida no meio, e cada um
+   deles precisaria de escape numa string — um escape errado quebraria o
+   dashboard inteiro por causa de um documento. */
+
+const ACADEMY = {
+  produto:    { rot: 'Produto' },
+  criativo:   { rot: 'Criativo' },
+  resultados: { rot: 'Resultados' },
+  trafego:    { rot: 'Tráfego' },
+};
+
+const PROCESSOS = [
+  { id: 'modelagem-criativo', cat: 'criativo', tipo: 'prompt',
+    titulo: 'Modelagem de criativo',
+    resumo: 'Pegar um roteiro que já funciona, extrair o que faz ele funcionar, e remontar com o nosso produto dentro.' },
+];
+
+let procAberto = null;
+
+/* Markdown do necessário, não do padrão inteiro: título, lista, tabela, negrito,
+   código e régua. É o que os processos usam. Um parser maior seria mais código
+   pra manter e nenhuma linha a mais renderizada. */
+function md(txt) {
+  const ese = t => String(t).replace(/[&<>]/g, c => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;' }[c]));
+
+  /* Blocos de código saem primeiro e voltam no fim. O que está dentro deles é
+     literal — deixar um `|` ou um `*` do exemplo passar pelo resto do parser
+     estragaria justamente o exemplo. */
+  const guardados = [];
+  txt = txt.replace(/```[^\n]*\n([\s\S]*?)```/g, (_, c) => {
+    guardados.push('<pre class="ac-cod"><code>' + ese(c.replace(/\n$/, '')) + '</code></pre>');
+    return '@@COD' + (guardados.length - 1) + '@@';
+  });
+
+  const linha = t => ese(t)
+    .replace(/`([^`]+)`/g, '<code>$1</code>')
+    .replace(/\*\*([^*]+)\*\*/g, '<b>$1</b>')
+    .replace(/(^|[\s(])\*([^*\n]+)\*/g, '$1<em>$2</em>')
+    .replace(/\[([^\]]+)\]/g, '<span class="ac-tag">[$1]</span>')
+    .replace(/→/g, '<span class="ac-seta">→</span>');
+
+  const ls = txt.split('\n');
+  const fora = [];
+  let i = 0;
+
+  while (i < ls.length) {
+    const t = ls[i].trim();
+
+    if (!t) { i++; continue; }
+
+    const g = t.match(/^@@COD(\d+)@@$/);
+    if (g) { fora.push(guardados[+g[1]]); i++; continue; }
+
+    if (/^---+$/.test(t)) { fora.push('<hr>'); i++; continue; }
+
+    const h = t.match(/^(#{1,4})\s+(.*)$/);
+    if (h) { const n = h[1].length + 1; fora.push('<h' + n + '>' + linha(h[2]) + '</h' + n + '>'); i++; continue; }
+
+    /* Tabela só é tabela se a linha seguinte for a régua de separação. Sem essa
+       checagem, qualquer frase com barra vertical viraria uma tabela de uma
+       coluna. */
+    if (/^\|/.test(t) && /^\|[\s:|-]+\|$/.test((ls[i + 1] || '').trim())) {
+      const cel = r => r.trim().replace(/^\||\|$/g, '').split('|').map(c => c.trim());
+      const cab = cel(t);
+      i += 2;
+      const corpo = [];
+      while (i < ls.length && /^\|/.test(ls[i].trim())) { corpo.push(cel(ls[i])); i++; }
+      fora.push('<div class="ac-rola"><table class="ac-tb"><thead><tr>' +
+        cab.map(c => '<th>' + linha(c) + '</th>').join('') + '</tr></thead><tbody>' +
+        corpo.map(r => '<tr>' + r.map(c => '<td>' + linha(c) + '</td>').join('') + '</tr>').join('') +
+        '</tbody></table></div>');
+      continue;
+    }
+
+    if (/^[-*]\s/.test(t)) {
+      const itens = [];
+      /* Linha indentada depois de um item é continuação dele, não item novo — é
+         assim que os princípios ficam escritos, com a explicação embaixo. */
+      while (i < ls.length && (/^[-*]\s/.test(ls[i].trim()) || (/^\s{2,}\S/.test(ls[i]) && itens.length))) {
+        if (/^[-*]\s/.test(ls[i].trim())) itens.push(ls[i].trim().replace(/^[-*]\s/, ''));
+        else itens[itens.length - 1] += ' ' + ls[i].trim();
+        i++;
+      }
+      fora.push('<ul class="ac-li">' + itens.map(x => '<li>' + linha(x) + '</li>').join('') + '</ul>');
+      continue;
+    }
+
+    const par = [];
+    while (i < ls.length && ls[i].trim() &&
+           !/^(#{1,4}\s|[-*]\s|\||---+$|@@COD)/.test(ls[i].trim())) {
+      par.push(ls[i].trim()); i++;
+    }
+    fora.push('<p>' + linha(par.join(' ')) + '</p>');
+  }
+  return fora.join('\n');
+}
+
+function fonteProcesso(id) {
+  const el = document.getElementById('proc-' + id);
+  return el ? el.textContent.replace(/^\n/, '').replace(/\s+$/, '') : '';
+}
+
+function verAcademy() {
+  if (procAberto) return verProcesso(procAberto);
+
+  const cartao = pr =>
+    '<button class="ac-card" onclick="verProcesso(' + JSON.stringify(pr.id).replace(/"/g, '&quot;') + ')">' +
+      '<span class="ac-tipo ' + pr.tipo + '">' + (pr.tipo === 'prompt' ? 'prompt' : 'visual') + '</span>' +
+      '<span class="ac-tit">' + esc(pr.titulo) + '</span>' +
+      '<span class="ac-res">' + esc(pr.resumo) + '</span>' +
+    '</button>';
+
+  document.getElementById('conteudo').innerHTML =
+    '<div class="card">' +
+      '<div class="sec">' + ico('Academy') + '<span>Processos</span></div>' +
+      '<div class="nota" style="margin:0 0 22px;">Como cada coisa é feita aqui dentro. ' +
+        'Os marcados como <b>prompt</b> têm botão de copiar — o que vai pra área de ' +
+        'transferência é a fonte, não o texto formatado da tela.</div>' +
+      Object.keys(ACADEMY).map(k => {
+        const lista = PROCESSOS.filter(p => p.cat === k);
+        return '<div class="ac-cat">' +
+          '<div class="ac-cat-rot">' + esc(ACADEMY[k].rot) +
+            '<span class="ac-n">' + lista.length + '</span></div>' +
+          (lista.length
+            ? '<div class="ac-grade">' + lista.map(cartao).join('') + '</div>'
+            : '<div class="ac-vazio">Nenhum processo escrito ainda.</div>') +
+        '</div>';
+      }).join('') +
+    '</div>';
+}
+
+function verProcesso(id) {
+  const pr = PROCESSOS.find(p => p.id === id);
+  if (!pr) { procAberto = null; return verAcademy(); }
+  procAberto = id;
+
+  document.getElementById('conteudo').innerHTML =
+    '<div class="card ac-doc">' +
+      '<div class="ac-topo">' +
+        '<button class="limpar" onclick="fecharProcesso()">← Processos</button>' +
+        (pr.tipo === 'prompt'
+          ? '<button class="prim" onclick="copiarProcesso(' +
+            JSON.stringify(id).replace(/"/g, '&quot;') + ', this)">Copiar prompt</button>'
+          : '') +
+      '</div>' +
+      '<div class="ac-corpo">' + md(fonteProcesso(id)) + '</div>' +
+    '</div>';
+}
+
+function fecharProcesso() { procAberto = null; verAcademy(); }
+
+/* Copia a FONTE, não a seleção da tela. O que o navegador copiaria da tela vem
+   sem as quebras de linha do original e com a formatação achatada — colar isso
+   numa IA entrega um prompt diferente do que está escrito aqui. */
+async function copiarProcesso(id, botao) {
+  const texto = fonteProcesso(id);
+  const avisar = t => {
+    botao.textContent = t;
+    setTimeout(() => { botao.textContent = 'Copiar prompt'; }, 1800);
+  };
+  try {
+    if (navigator.clipboard && window.isSecureContext) {
+      await navigator.clipboard.writeText(texto);
+      return avisar('Copiado');
+    }
+  } catch (e) { /* cai no plano B */ }
+
+  const ta = document.createElement('textarea');
+  ta.value = texto;
+  ta.setAttribute('readonly', '');
+  ta.style.cssText = 'position:fixed;top:0;left:-9999px;opacity:0;';
+  document.body.appendChild(ta);
+  ta.select();
+  let ok = false;
+  try { ok = document.execCommand('copy'); } catch (e) {}
+  ta.remove();
+  avisar(ok ? 'Copiado' : 'Não deu — selecione e Cmd+C');
 }
 
 // ══════════════════════ CUSTOS OPERACIONAIS ══════════════════════
@@ -3263,6 +3543,158 @@ function trocarAbaSilenciosa(a) {
   document.querySelectorAll('.soFunil').forEach(e => e.style.display = a === 'funil' ? '' : 'none');
   document.querySelectorAll('.soCriativos').forEach(e => e.style.display = a === 'criativos' ? '' : 'none');
 }
+</script>
+
+<!-- Os processos, em texto cru. type="text/plain" pra o navegador nao
+     executar nem interpretar nada aqui dentro, e pra o texto chegar ao
+     botao de copiar exatamente como foi escrito. -->
+<script type="text/plain" id="proc-modelagem-criativo">
+# Modelagem de criativo — Ciclo Fértil
+
+Você vai conduzir uma pessoa pelo processo de modelar um criativo de vídeo que
+já funciona: extrair o que faz ele funcionar e remontar aquilo com o produto
+dela dentro. O que se copia é a estrutura, nunca a fala.
+
+## Como trabalhar — leia antes de tudo
+
+**Você não escreve o criativo. Você ajuda a pessoa a montar.**
+
+O trabalho se divide em dois tipos, e eles não se tratam igual:
+
+- **Mecânico** (transcrever, fatiar, nomear a função de cada bloco): você faz e entrega pronto, para a pessoa conferir.
+- **Escolha** (qual moeda usar no hook, qual ângulo, qual etiqueta, como o produto entra): você apresenta o que está em jogo e **pergunta**. Não decide no lugar dela. Se ela pedir sua opinião, dê uma — curta, com o motivo.
+
+Em todos os passos:
+
+- Entregue exatamente o artefato do passo atual e **pare**.
+- Nada de adiantar o passo seguinte, nada de opções não pedidas, nada de recomendação que não foi solicitada. Cada passo é um turno dela, não seu.
+- Se discordar de uma decisão dela sobre a estrutura, fale **uma vez**, curto. Se ela mantiver, execute a versão dela sem repetir o argumento.
+
+## O processo
+
+**1. Transcrever e cronometrar** · mecânico
+
+A fala inteira, palavra por palavra, fatiada em blocos com tempo. Cronometrar
+importa porque revela se o vídeo corta de propósito ou se a transcrição é que
+ficou pela metade — são coisas diferentes e mudam a estrutura.
+→ transcrição fatiada, com tempo
+
+**2. Tirar a estrutura invisível** · mecânico
+
+Nomear a FUNÇÃO de cada bloco, não resumir o conteúdo. "Tabu nomeado", não
+"ela fala sobre corrimento". Duas funções na mesma fala se juntam com +.
+A quantidade de blocos é a quantidade de movimentos do vídeo.
+→ lista de blocos entre colchetes, na ordem do vídeo, e MAIS NADA
+
+**3. Ajustar a estrutura** · escolha dela
+
+Aponte o que transfere direto, o que trava e onde cabe algo novo. Promessa de
+resultado costuma travar: não se sustenta no produto e o Meta reprova em nicho
+de saúde — o slot fica, a moeda dele muda. Quem decide o esqueleto final é ela.
+→ esqueleto do novo criativo
+
+**4. Selecionar as etiquetas** · escolha dela
+
+Preencha sozinho as que já estão decididas (ver tabela) e pergunte as livres.
+→ as dez etiquetas preenchidas
+
+**5. Definir o ângulo do mecanismo** · escolha dela
+
+Como o produto aparece. "Fulano falou pra fulano que usou e teve resultado" é
+uma das formas — existem várias. Cada roteiro precisa da sua, a mais natural
+possível: ângulo forçado é o que faz o vídeo soar como anúncio.
+→ uma frase dizendo como o produto entra
+
+**6. Escrever bloco a bloco** · junto
+
+Um bloco por vez, do primeiro ao último. Proponha, ela ajusta, só então o
+próximo. Cada bloco tem que cumprir a função que o nome dele diz — se cumprir
+outra coisa, a estrutura quebra mesmo com a frase boa.
+→ roteiro completo
+
+**7. Revisar** · junto
+
+Duas passadas.
+
+*Na escrita* — trocar o que exige tradução mental por aquilo que já está na
+memória de quem assiste. Conferir se cada frase tem contraste.
+
+*Em voz alta* — ela lê o roteiro inteiro falando, imaginando a cena, as ações e
+como aquilo ficaria no formato escolhido. É aqui que aparece o que só quebra na
+boca: frase que não se fala, emenda que não encaixa, trecho que soa decorado.
+Peça que ela leia e diga onde travou.
+→ roteiro gravável
+
+**8. Visual** · junto
+
+Só agora, com o roteiro fechado. Os elementos de storytelling que entram na
+gravação: o que aparece na tela em cada bloco, o que ela faz com as mãos, o que
+está no fundo, onde corta. O visual não é enfeite do roteiro — é a outra metade
+de contar a mesma história.
+→ marcação visual bloco a bloco
+
+## Princípios
+
+Valem em todos os passos.
+
+- **Vender para uma multidão faminta.** Procurar a fome que já existe, não criar vontade. Ensinar música para quem já canta, não ensinar alguém a querer cantar.
+- **Contraste a cada frase.** Não só no hook.
+- **Pensamento, depois contraste.** A leitura gera um pensamento; o contraste em seguida torna esse pensamento impossível de ignorar. Muda a ideia e gera emoção ao mesmo tempo.
+- **Emoção mora em história.** Fato solto não emociona ninguém.
+- **O que é uma história:** uma escalada dinâmica de eventos motivados por conflitos, que geram mudanças significativas na vida de um personagem.
+- **Familiaridade** é o que já faz parte da memória de quem consome. Não é o que é simples — é o que ela já tem guardado.
+- **Looping do hábito:** gatilho, rotina, recompensa. Falar dentro desse loop é falar do que ela já vive, e por isso soa familiar.
+- **Engajamento mental.** Fazer a cabeça de quem assiste trabalhar junto, em vez de só receber.
+- **CTA precisa ter valor.** Ela tem que sentir que o que vai assistir vale muito. Autoridade e exclusividade são o que constroem isso.
+- **Storytelling visual.** Os elementos de história também entram na gravação, não só na fala.
+- **Menos esforço cognitivo.** Isso se resolve na revisão, não na escrita.
+
+## Etiquetas
+
+| Etiqueta | Como escolher | Exemplo |
+|---|---|---|
+| Formato | herda do original | UGC relato |
+| Formato de conteúdo | herda do original; o hook normalmente diz qual é. Dá para combinar formatos e usar hooks contraintuitivos | Diário de tentante |
+| Ângulo | livre; "Assim como você, só que pior" funciona muito | Espelho |
+| Emoção | só duas opções: medo de perder OU desejo de ter | Medo de perder |
+| Amplificador | livre | Angústia da espera |
+| Fatia | livre | A jovem que achou que seria rápido e tem tudo, menos o filho |
+| Segmentação | sempre "Consciente do problema" — o produto fala com quem já sabe que tem um problema | Consciente do problema |
+| Prova | livre | — |
+| Hook | livre | — |
+| Headline | livre | — |
+
+## Notação da estrutura invisível
+
+Um bloco por linha, entre colchetes, nome de função. Sem tempo, sem citação da
+fala, sem explicação:
+
+```
+* [Promessa numerada + Resultado dado]
+* [Dica de graça]
+* [Confissão de incapacidade]
+* [Produto como execução]
+* [Loop aberto]
+```
+
+## O produto
+
+Ciclo Fértil — protocolo de fertilidade para mulheres brasileiras tentando
+engravidar. Quatro pilares: Emocional, Sinais do Ciclo, Organismo e Propósito.
+Um quiz mapeia qual está travando o ciclo e entrega um plano personalizado de
+4, 8 ou 12 semanas. Público: quem fez exames, deu tudo normal, e continua sem
+resposta.
+
+Restrição: **nada de promessa de resultado.** Não se sustenta no produto e o
+Meta reprova em nicho de saúde.
+
+---
+
+Roteiro original a modelar:
+
+[COLAR AQUI]
+
+Comece pelo passo 1.
 </script>
 </body>
 </html>

@@ -65,6 +65,11 @@ function valorDe(dados: any): number {
   return Number.isInteger(n) && Math.abs(n) >= 1000 ? n / 100 : n;
 }
 
+/* Campo em centavos, inteiro, direto da Kiwify. Ausente vira null e não zero:
+   zero seria lido como "recebeu nada", e ausente quer dizer "não sei". */
+const centavos = (v: any) =>
+  (v === null || v === undefined || !isFinite(Number(v))) ? null : Number(v) / 100;
+
 const EVENTOS: Record<string, string> = {
   'order_approved': 'compra_aprovada',
   'order.paid': 'compra_aprovada',
@@ -113,6 +118,14 @@ Deno.serve(async (req) => {
                              ['Commissions', 'product_id']])?.toString() ?? null,
     produto: pega(dados, [['product_name'], ['Product', 'product_name'], ['product', 'name']])?.toString() ?? null,
     valor: valorDe(dados),
+    /* my_commission e product_base_price vêm da Kiwify em centavos. São o que
+       realmente importa: `liquido` é quanto cai na conta (já sem taxa, e sem o
+       juro do parcelamento, que vai pra operadora e não pro produtor), e
+       `preco_base` é o preço do produto sem juro — é ele que separa os braços
+       do teste de preço, porque o valor cobrado numa venda parcelada de R$67,90
+       poderia ser confundido com outro preço. */
+    liquido:    centavos(pega(dados, [['Commissions', 'my_commission']])),
+    preco_base: centavos(pega(dados, [['Commissions', 'product_base_price']])),
     moeda: pega(dados, [['Commissions', 'currency'], ['currency']])?.toString() ?? 'BRL',
     status: statusCru || null,
     /* Guarda tudo, inclusive se a assinatura foi conferida: sem isso não dá pra

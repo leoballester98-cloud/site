@@ -701,28 +701,15 @@ const TAXAS = [
 ];
 const taxaEm = d => TAXAS.find(t => String(d || '9999-12-31') >= t.de) || TAXAS[TAXAS.length - 1];
 
-/* Taxa da Kiwify: 8,99% do valor + R$2,49 por venda aprovada.
+/* O líquido NÃO é calculado aqui. Ele vem da Kiwify, campo `my_commission`,
+   gravado por venda. A fórmula que existia (8,99% + R$2,49) errava em dois
+   casos que o payload real mostrou: venda parcelada, onde o cliente paga mais
+   e o produtor recebe o mesmo, e order bump, que chega como linha separada e
+   não paga a taxa fixa de novo. Ler o número dela também sobrevive a mudança
+   de taxa sem ninguém tocar em nada.
 
-   O fixo é por PEDIDO, não por item — é isso que explica o order bump parecer
-   ter taxa menor: R$17,00 deixam R$15,47 (9%), enquanto R$37,90 deixam R$32,00
-   (15,6%). O bump viaja no mesmo pedido e só paga o percentual.
-
-   Fórmula e não tabela de preços: assim preço novo não precisa ser cadastrado,
-   e o teste de preço não deixa buraco. As quatro combinações de hoje conferem
-   ao centavo: 37,90->32,00 · 54,90->47,47 · 67,90->59,31 · 84,90->74,78. */
-const KIWIFY_PCT = 0.0899, KIWIFY_FIXO = 2.49;
-const liquidoBruto = v => Math.max(0, v - (v * KIWIFY_PCT + KIWIFY_FIXO));
-
-/* Reembolso devolve o valor CHEIO ao comprador, e a Kiwify não devolve a taxa
-   dela. Então o prejuízo é o bruto, não o líquido — subtrair só o que você
-   tinha recebido faria o reembolso parecer mais barato do que é. */
-function liquidoDeValores(porValor, reembolsado) {
-  let liq = 0;
-  Object.entries(porValor || {}).forEach(([bruto, n]) => {
-    liq += (Number(n) || 0) * liquidoBruto(Number(bruto));
-  });
-  return liq - (Number(reembolsado) || 0);
-}
+   As TAXAS abaixo ficam só pro período do Celetus, anterior a 25/08 — ali não
+   existe my_commission, e a única coisa disponível é o valor por venda. */
 
 /* Taxa média do período, pesada pelos DIAS de cada faixa. É o que sobra pros
    números que chegam já somados — cartão por plataforma e tabela de criativos
@@ -887,13 +874,13 @@ const DICAS = {
   'gasto operacional':     'Soma dos custos que você lançou na aba Custos, pela data de competência.',
   'faturamento':           'Valor bruto das vendas que o pixel atribuiu ao Meta, com o order bump incluído.',
   'vendas por dia e hora': 'Cada quadrado é uma hora de um dia da semana; quanto mais escuro, mais vendas. Todas as horas em São Paulo, tiradas do horário real do pagamento na Kiwify.',
-  'valor líquido':         'O que a Kiwify deposita: faturamento menos a taxa dela (8,99% + R$2,49 por venda aprovada). Ainda NÃO desconta anúncio nem operacional — quem faz isso é o Lucro.',
+  'valor líquido':         'O que a Kiwify deposita, lido do próprio webhook (my_commission) e não calculado. Já sem a taxa dela e sem o juro de parcelamento, que o cliente paga e vai pra operadora. Ainda NÃO desconta anúncio nem operacional — quem faz isso é o Lucro.',
   'lucro':                 'O que sobrou de verdade: faturamento menos as taxas do checkout, menos anúncio, menos operacional.',
   'roas':                  'Faturamento ÷ gasto em anúncio. Mede só a mídia — não desconta taxa nem custo operacional.',
   'roi':                   'Retorno sobre tudo que saiu: (faturamento líquido − anúncio − operacional) ÷ (anúncio + operacional).',
-  'vendas':                'Compras que o pixel atribuiu ao Meta no período.',
+  'vendas':                'Compras aprovadas na Kiwify no período, order bump incluído — mesma contagem que o painel dela. Antes de 25/08 são as que o pixel do Meta atribuiu, que contam menos.',
   'checkouts':             'Quantas vezes alguém abriu o checkout. Uma pessoa pode abrir mais de uma vez.',
-  'cpa':                   'Custo total por venda: anúncio + operacional ÷ vendas. Não é só o custo de mídia.',
+  'cpa':                   'Custo total por CLIENTE: anúncio + operacional ÷ vendas, sem contar order bump. O bump não é cliente novo — é venda a mais pra quem você já tinha —, então incluí-lo baratearia o custo de aquisição sem ninguém ter sido adquirido. Por isso este divisor é menor que o número em Vendas.',
   'ticket médio':          'Faturamento ÷ vendas. Quanto entra, em média, por compra.',
   'arpu':                  'Faturamento ÷ visitantes do quiz. É receita por VISITANTE, não por cliente — não temos identidade de comprador.',
   'conversão do funil':    'Quem clicou em comprar na última tela ÷ visitantes. Vem do quiz, não do Meta.',
@@ -2236,8 +2223,10 @@ async function verGeral() {
     const k = porDiaK[d.data];
     return { ...d, vendas: k ? Number(k.vendas) : 0,
              faturamento: k ? Number(k.faturamento) : 0,
-             por_valor: k ? k.por_valor : null,
-             reembolsado: k ? Number(k.reembolsado) || 0 : 0 };
+             /* liquido vem da Kiwify e nao e calculado. semBump e o divisor do
+                CPA: bump nao e cliente novo, e venda a mais pra quem ja era. */
+             liquido: k ? Number(k.liquido) : null,
+             semBump: k ? Number(k.vendas_sem_bump) : 0 };
   });
   /* Dia que teve venda na Kiwify e nenhum gasto no Meta não existe em fn_diario
      — venda orgânica, ou anúncio de outra plataforma. Sem isto ela sumiria. */
@@ -2246,13 +2235,14 @@ async function verGeral() {
     kiwify.filter(k => k.data >= KIWIFY_DESDE && !temNoDiario.has(k.data)).forEach(k => dias.push({
       data: k.data, gasto: 0, checkouts: 0,
       vendas: Number(k.vendas), faturamento: Number(k.faturamento),
-      por_valor: k.por_valor, reembolsado: Number(k.reembolsado) || 0 }));
+      liquido: Number(k.liquido), semBump: Number(k.vendas_sem_bump) }));
     dias.sort((a, b) => a.data < b.data ? -1 : 1);
   }
   const tot = dias.reduce((a, d) => ({
     gasto: a.gasto + Number(d.gasto), fat: a.fat + Number(d.faturamento),
-    vendas: a.vendas + Number(d.vendas), checkouts: a.checkouts + Number(d.checkouts) }),
-    { gasto:0, fat:0, vendas:0, checkouts:0 });
+    vendas: a.vendas + Number(d.vendas), checkouts: a.checkouts + Number(d.checkouts),
+    semBump: a.semBump + Number(d.semBump ?? d.vendas) }),
+    { gasto:0, fat:0, vendas:0, checkouts:0, semBump:0 });
   /* ROAS continua só sobre anúncio — é a definição da métrica. O ROI, não:
      ele mede o retorno do dinheiro TODO que saiu, então soma o operacional.
      As taxas de checkout já saíam antes, dentro de liquido(). */
@@ -2273,8 +2263,10 @@ async function verGeral() {
   /* Com a Kiwify, o líquido sai do valor real de cada pedido. Sem ela, cai na
      dedução antiga — que assume preço único e erra enquanto o teste de preço
      estiver no ar. */
-  const liqTot = dias.reduce((a, d) => d.por_valor
-    ? a + liquidoDeValores(d.por_valor, d.reembolsado)
+  /* Kiwify: o liquido vem pronto. Celetus (antes de 25/08): nao existe
+     my_commission, entao ali a estimativa por faixa de data e o que ha. */
+  const liqTot = dias.reduce((a, d) => d.liquido != null
+    ? a + d.liquido
     : a + liquido(d.faturamento, d.vendas, d.data), 0);
   const lucro   = liqTot - saiu;
   const roas = tot.gasto ? tot.fat / tot.gasto : null;
@@ -2287,7 +2279,11 @@ async function verGeral() {
   const convFunil = (fun && fun.visitantes) ? (fun.compraram / fun.visitantes) * 100 : null;
   const convCheck = tot.checkouts ? (tot.vendas / tot.checkouts) * 100 : null;
   const pct = v => v == null ? '—' : v.toFixed(1) + '%';
-  const cpa    = tot.vendas ? saiu / tot.vendas : null;   // custo TOTAL por venda
+  /* CPA divide por venda SEM bump: bump nao e cliente adquirido, e conta-lo
+     baratearia o custo de aquisicao sem ninguem ter sido adquirido. Por isso
+     Vendas mostra 12 e o CPA divide por 10 — os dois estao certos, medindo
+     coisas diferentes, e a dica da metrica diz isso. */
+  const cpa    = tot.semBump ? saiu / tot.semBump : null;
   const ticket = tot.vendas ? tot.fat   / tot.vendas : null;   // quanto entra por venda
   /* ARPU aqui e receita por VISITANTE do quiz. Nao da pra fazer por cliente
      unico como no painel de referencia: nao temos identidade de comprador, so

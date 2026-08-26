@@ -1382,81 +1382,6 @@ function amostraNecessariaMedia(v1, v2, dif) {
   return Math.ceil(Math.pow(1.959964 + 0.841621, 2) * (v1 + v2) / (dif * dif));
 }
 
-/* Quantas vendas o teste de preço DEVERIA conseguir classificar no período.
-   Serve pra distinguir "não houve venda" de "houve venda que não entrou na
-   conta" — zero por falha de leitura é mentira, não medição.
-
-   Order bump fica fora da contagem: ele não tem preço próprio no teste, é
-   acréscimo de uma venda que já foi classificada. Contá-lo aqui faria todo
-   bump aparecer como venda perdida. */
-async function contarVendas(p) {
-  const r = await Promise.resolve(sb.rpc('fn_vendas_dia', { p_de:p.de, p_ate:p.ate }))
-    .catch(() => ({ error: true }));
-  if (!r || r.error || !r.data) return null;
-  return r.data.reduce((a, d) => a + (Number(d.vendas_sem_bump) || 0), 0);
-}
-
-/* Quantas sessões POR BRAÇO para enxergar a diferença que está aparecendo.
-   95% de confiança, 80% de poder — o par convencional. Serve pra responder
-   "já posso parar?" antes de parar por impaciência. */
-function amostraNecessaria(p1, p2) {
-  if (p1 === p2 || !isFinite(p1) || !isFinite(p2)) return null;
-  const pm = (p1 + p2) / 2;
-  const n = Math.pow(1.959964 * Math.sqrt(2 * pm * (1 - pm)) +
-                     0.841621 * Math.sqrt(p1 * (1 - p1) + p2 * (1 - p2)), 2) /
-            Math.pow(p1 - p2, 2);
-  return Math.ceil(n);
-}
-
-const URL_QUIZ = 'https://protocolociclofertil.com.br/quiz/v2/';
-
-/* A URL some do corpo do card, então precisa de um jeito de pegá-la sem
-   selecionar texto pequeno com o mouse. O rótulo confirma na própria tecla —
-   um alerta pra dizer "copiei" interromperia mais do que ajuda.
-
-   Dois caminhos porque o primeiro falha em situações banais: navigator.clipboard
-   recusa se o documento não estiver em foco, e não existe em http sem TLS. O
-   execCommand é obsoleto mas funciona nesses casos, e a última reserva é deixar
-   a URL selecionada na tela pra um Cmd+C manual — nunca um beco sem saída. */
-async function copiarUrl(url, botao) {
-  const avisar = t => {
-    const antes = botao.dataset.antes || botao.textContent;
-    botao.dataset.antes = antes;
-    botao.textContent = t;
-    setTimeout(() => { botao.textContent = antes; }, 1600);
-  };
-
-  try {
-    if (navigator.clipboard && window.isSecureContext) {
-      await navigator.clipboard.writeText(url);
-      return avisar('copiado');
-    }
-  } catch (e) { /* cai no plano B */ }
-
-  const ta = document.createElement('textarea');
-  ta.value = url;
-  ta.setAttribute('readonly', '');
-  /* Fora da tela, mas NÃO display:none nem visibility:hidden — o navegador não
-     seleciona o conteúdo de um elemento que não ocupa espaço. */
-  ta.style.cssText = 'position:fixed;top:0;left:-9999px;opacity:0;';
-  document.body.appendChild(ta);
-  ta.select();
-  let ok = false;
-  try { ok = document.execCommand('copy'); } catch (e) {}
-  ta.remove();
-  if (ok) return avisar('copiado');
-
-  /* Nem um nem outro: mostra a URL selecionada, pra um Cmd+C resolver. */
-  const cod = botao.closest('.ab-pe').querySelector('code');
-  cod.textContent = url;
-  const faixa = document.createRange();
-  faixa.selectNodeContents(cod);
-  const sel = getSelection();
-  sel.removeAllRanges();
-  sel.addRange(faixa);
-  avisar('copie com Cmd+C');
-}
-
 async function verAB() {
   const p = periodo();
   const { data: exps, error: eE } = await sb.from('experimentos').select('*').order('inicio', { ascending:false });
@@ -1475,19 +1400,18 @@ async function verAB() {
        nele derruba a aba inteira. A tolerância existe porque fn_experimento_
        vendas pode não estar no banco ainda (13-vendas-kiwify.sql), e o funil
        não deveria sumir por causa disso. */
-    const [rF, rV, totalVendas] = await Promise.all([
+    const [rF, rV] = await Promise.all([
       sb.rpc('fn_experimento', { p_exp: ex.chave, p_de: p.de, p_ate: p.ate }),
       Promise.resolve(sb.rpc('fn_experimento_vendas', { p_exp: ex.chave, p_de: p.de, p_ate: p.ate }))
         .catch(() => ({ data: [] })),
-      contarVendas(p).catch(() => null),
     ]);
     if (rF.error) throw rF.error;
-    partes.push(cartaoExperimento(ex, rF.data || [], (rV && rV.data) || [], totalVendas));
+    partes.push(cartaoExperimento(ex, rF.data || [], (rV && rV.data) || []));
   }
   document.getElementById('conteudo').innerHTML = partes.join('');
 }
 
-function cartaoExperimento(ex, linhas, vendas, totalVendas) {
+function cartaoExperimento(ex, linhas, vendas) {
   const vazio = { sessoes:0, tela1:0, tela2:0, fim:0, checkout:0 };
   const bruto = (lado, rot) => linhas.find(l => l.lado === lado) || { ...vazio, rotulo: rot };
 
@@ -1509,12 +1433,6 @@ function cartaoExperimento(ex, linhas, vendas, totalVendas) {
   const nA = Number(A.tela1), nB = Number(B.tela1);
   const tot = nA + nB;
 
-  /* Venda que existe mas não entrou na conta de nenhum braço. Só faz sentido
-     num teste com colunas de dinheiro: num teste de tela não há o que somar, e
-     o alerta ali seria ruído sobre um problema que não existe. */
-  const mapeadas = A.vendas + B.vendas;
-  const orfas = (ex.foco === 'dinheiro' && totalVendas != null && totalVendas > mapeadas)
-    ? totalVendas - mapeadas : 0;
   const badge = (txt, cor) => '<span class="abtag" style="--c:' + cor + '">' + txt + '</span>';
 
   /* Desvio de divisão (SRM). O sorteio é 50/50: se a fatia real fugir muito
@@ -1732,12 +1650,6 @@ function cartaoExperimento(ex, linhas, vendas, totalVendas) {
       '<button class="limpar" onclick="copiarUrl(' +
         JSON.stringify(URL_QUIZ + '?ab=' + ex.chave).replace(/"/g, '&quot;') + ', this)">copiar URL</button>' +
     '</div>' +
-    (orfas ? '<div class="aviso" style="margin-top:10px;">' +
-      '<b>' + orfas + ' venda' + (orfas > 1 ? 's ficaram' : ' ficou') + ' de fora desta tabela.</b> ' +
-      'A Kiwify não informou o preço do produto ' + (orfas > 1 ? 'nelas' : 'nela') + ', então ' +
-      (orfas > 1 ? 'não dá' : 'não deu') + ' pra saber a qual dos dois preços ' +
-      (orfas > 1 ? 'pertencem' : 'pertence') + '. As colunas de Vendas, Receita e R$/visitante ' +
-      'acima estão menores que a realidade — o resto do dashboard não é afetado.</div>' : '') +
     alerta +
     '</div>';
 }

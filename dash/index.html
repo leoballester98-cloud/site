@@ -456,9 +456,25 @@ body{background:var(--bg);color:var(--ink);}
   .rg-n{font-size:11px;color:var(--ink-3);font-variant-numeric:tabular-nums;}
   .rg-chip.on .rg-n{color:var(--marca);}
 
-  .rg-tb td.rg-t{width:26px;padding-right:0;color:var(--ink-3);}
+  /* Larguras declaradas. O Valor fica à direita e o Período à esquerda: sem
+     largura fixa os dois brigam pelo mesmo espaço e encostam, enquanto Nota e
+     ações sobram. O respiro entre eles vem do padding do Período. */
+  /* Largura declarada só nas colunas CURTAS. Com table-layout:fixed as de texto
+     entravam no rateio e "O quê" caía pra 78px em tela estreita — virava
+     "conv…". No layout automático elas ficam com a sobra e crescem com a tela,
+     enquanto ícone, valor, período e ações não se mexem. */
+  .rg-tb{width:100%;min-width:760px;}
+  .rg-tb .c-ico{width:34px;}
+  .rg-tb .c-val{width:110px;}
+  .rg-tb .c-per{width:200px;}   /* 183px é o que "01/08/26 a 23/08/26" ocupa */
+  .rg-tb .c-acoes{width:150px;}
+  .rg-tb th:nth-child(4),.rg-tb td:nth-child(4){padding-left:24px;}
+
+  .rg-tb td.rg-t{padding-right:0;color:var(--ink-3);}
   .rg-ico{width:15px;height:15px;display:block;}
   .rg-tb td.rg-data{white-space:nowrap;color:var(--ink-2);font-variant-numeric:tabular-nums;}
+  .rg-tb td.nm,.rg-tb td.livre{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .rg-tb td.livre{min-width:0;}
   .rg-val{font-weight:700;color:var(--marca);font-variant-numeric:tabular-nums;}
   .rg-vazio{color:var(--linha);}
   .rg-acoes{white-space:nowrap;}
@@ -867,8 +883,18 @@ const ETIQUETAS = [['status','Status'],['formato','Formato'],['formato_conteudo'
   ['hook','Hook'],['headline','Headline'],['emocao','Emoção'],['amplificador','Amplificador'],['fatia','Fatia'],
   ['segmentacao','Segmentação'],['prova','Prova']];
 
-const moeda = v => (v === '' || v == null || isNaN(v)) ? '—' : 'R$' + Number(v).toFixed(2);
-const pct   = v => (v == null || isNaN(v)) ? '—' : Number(v).toFixed(1) + '%';
+/* toFixed devolve SEMPRE ponto decimal e nenhum separador de milhar — é a
+   formatação do JavaScript, não a do lugar. Num dashboard inteiro em português
+   isso saía como "R$2530.00" onde a leitura esperada é "R$2.530,00", e o pior
+   caso não é o estranhamento: é ler 2530 como dois mil e quinhentos quando o
+   ponto, aqui, marca o milhar.
+
+   toLocaleString('pt-BR') resolve os dois de uma vez. As duas casas ficam
+   travadas no dinheiro porque valor com uma casa só lê como número quebrado. */
+const moeda = v => (v === '' || v == null || isNaN(v)) ? '—'
+  : 'R$' + Number(v).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+const pct   = v => (v == null || isNaN(v)) ? '—'
+  : Number(v).toLocaleString('pt-BR', { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + '%';
 const esc   = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 /* Ícones por rótulo. Traço aberto, como os da lateral — o ícone é apoio de
    leitura, não decoração: quem varre a linha acha a métrica pela silhueta antes
@@ -2044,13 +2070,12 @@ const TIPOS = {
   mudanca:  { rot: 'Mudança',  ico: 'M4 4v6h6M20 20v-6h-6M20 9A8 8 0 006 5.3M4 15a8 8 0 0014 3.7' },
 };
 
-/* toFixed devolve ponto decimal — "21.2%" num dashboard inteiro em pt-BR.
-   toLocaleString respeita a vírgula, e o `n` solto some com a casa decimal
-   quando o número é inteiro: "12" e não "12,0". */
+/* Reaproveita moeda e pct em vez de repetir a formatação: duas cópias da
+   mesma regra é uma pra ser corrigida e a outra pra ficar errada. O `n` solto
+   perde a casa decimal quando o número é inteiro — "12", não "12,0". */
 const fmtRef = (v, u) =>
     u === 'R$' ? moeda(v)
-  : u === '%'  ? Number(v).toLocaleString('pt-BR', { minimumFractionDigits: 1,
-                                                     maximumFractionDigits: 1 }) + '%'
+  : u === '%'  ? pct(v)
   : Number(v).toLocaleString('pt-BR', { maximumFractionDigits: 2 });
 const curtaRef = d => d.slice(8, 10) + '/' + d.slice(5, 7) + '/' + d.slice(2, 4);
 
@@ -2084,7 +2109,12 @@ async function verRegistros() {
 
   const linha = r => {
     const t = TIPOS[r.tipo] || TIPOS.mudanca;
-    const fim = r.ate && r.ate !== r.data ? ' – ' + curtaRef(r.ate) : '';
+    /* "01/08/26 a 23/08/26" e nao um travessao: o travessao entre duas datas
+       lê como sinal de menos, e num lugar onde a coluna do lado tem número
+       isso confunde de verdade. */
+    const periodo = r.ate && r.ate !== r.data
+      ? curtaRef(r.data) + ' a ' + curtaRef(r.ate)
+      : curtaRef(r.data);
     /* O número é o que o olho tem que achar primeiro numa lista onde a maioria
        das linhas não tem nenhum. Daí peso e cor da marca — o resto é texto. */
     const val = r.valor != null
@@ -2094,7 +2124,7 @@ async function verRegistros() {
       '<td class="rg-t" title="' + esc(t.rot) + '">' + icoTipo(r.tipo) + '</td>' +
       '<td class="nm"><b>' + esc(r.titulo) + '</b></td>' +
       '<td class="num">' + val + '</td>' +
-      '<td class="rg-data">' + curtaRef(r.data) + fim + '</td>' +
+      '<td class="rg-data">' + periodo + '</td>' +
       '<td class="livre">' + (r.nota ? esc(r.nota) : '—') + '</td>' +
       '<td class="num rg-acoes">' +
         (r.tipo === 'lembrete'
@@ -2113,8 +2143,16 @@ async function verRegistros() {
       '<div class="rg-filtros">' + chip('tudo', 'Tudo') +
         Object.keys(TIPOS).map(k => chip(k, TIPOS[k].rot + 's')).join('') + '</div>' +
       (regs.length
-        ? '<div class="tbwrap"><table class="tb rg-tb"><tr><th></th><th>O quê</th>' +
-            '<th class="num">Valor</th><th>Quando</th><th>Nota</th><th></th></tr>' +
+        /* colgroup e não deixar o navegador decidir: com largura automática o
+           Valor (à direita) e o Período (à esquerda) encostavam um no outro,
+           enquanto Nota e ações sobravam de espaço. */
+        ? '<div class="tbwrap"><table class="tb rg-tb">' +
+            /* Os <col> sem classe são as colunas de texto: existem só pra manter
+               a contagem, e ficam com a sobra da largura. */
+            '<colgroup><col class="c-ico"><col><col class="c-val">' +
+            '<col class="c-per"><col><col class="c-acoes"></colgroup>' +
+            '<tr><th></th><th>O quê</th>' +
+            '<th class="num">Valor</th><th>Período</th><th>Nota</th><th></th></tr>' +
           regs.map(linha).join('') + '</table></div>'
         : '<div class="vazio" style="text-align:left;padding:20px 0 6px;">' +
           (filtroReg === 'tudo'

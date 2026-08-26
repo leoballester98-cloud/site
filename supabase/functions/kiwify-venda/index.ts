@@ -124,6 +124,12 @@ Deno.serve(async (req) => {
        `preco_base` é o preço do produto sem juro — é ele que separa os braços
        do teste de preço, porque o valor cobrado numa venda parcelada de R$67,90
        poderia ser confundido com outro preço. */
+    /* A marca do braço, colada pelo quiz no campo `sck` do checkout e devolvida
+       aqui pela Kiwify. É ela que separa a venda do TESTE da venda das
+       campanhas normais — sem ela a comparação sairia por preço, e como as
+       campanhas atuais também vendem a R$37,90, todas cairiam no braço A.
+       Venda sem marca fica null e simplesmente não entra em teste nenhum. */
+    marca: pega(dados, [['TrackingParameters', 'sck'], ['sck']])?.toString() ?? null,
     liquido:    centavos(pega(dados, [['Commissions', 'my_commission']])),
     preco_base: centavos(pega(dados, [['Commissions', 'product_base_price']])),
     moeda: pega(dados, [['Commissions', 'currency'], ['currency']])?.toString() ?? 'BRL',

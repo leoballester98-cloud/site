@@ -1747,6 +1747,20 @@ function getDisplayIQO() {
   return Math.min(max, Math.max(min, mapped));
 }
 
+/* Cola a marca do braço no link do checkout, no campo `sck` que a Kiwify
+   aceita e devolve no webhook.
+
+   É o que separa a venda do TESTE da venda das campanhas normais. Sem isso, a
+   comparação sairia por preço — e como as campanhas atuais também vendem a
+   R$37,90, todas elas cairiam no braço A e afogariam o teste.
+
+   Link sem marca continua sem marca: tráfego fora de experimento chega limpo
+   e simplesmente não entra na conta. */
+function comMarca(url) {
+  if (!AB || !AB.marca) return url;
+  return url + (url.indexOf('?') === -1 ? '?' : '&') + 'sck=' + encodeURIComponent(AB.marca);
+}
+
 // ── Link de checkout baseado no perfil IQO ───────────────────────────────────
 /* Dois eixos escolhem o link: o PERFIL (quantos ciclos, qual fator mais fraco)
    e o PREÇO sorteado. O conjunto vem primeiro, o perfil escolhe dentro dele —
@@ -1756,13 +1770,13 @@ function getCheckoutLink() {
   const cycles = getProtocolCycles();
 
   // 1 ciclo → Plano Essencial (todos fatores equilibrados)
-  if (cycles === 1) return set.essencial;
+  if (cycles === 1) return comMarca(set.essencial);
 
   // Fator mais fraco (menor valor). Empate fica com o primeiro, como antes.
   const f = window.__iqoFactors || { f1: 50, f2: 50, f3: 50, f4: 50 };
   const weakest = ['f1', 'f2', 'f3', 'f4'].reduce((a, b) => f[b] < f[a] ? b : a);
 
-  return (cycles === 2 ? set.avancado : set.imersao)[weakest] || set.essencial;
+  return comMarca((cycles === 2 ? set.avancado : set.imersao)[weakest] || set.essencial);
 }
 
 // ── Ciclos necessários baseados no perfil IQO ────────────────────────────────

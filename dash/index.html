@@ -156,7 +156,15 @@ body{background:var(--bg);color:var(--ink);}
   .login input:focus{outline:none;border-color:var(--marca);}
   .login button{width:100%;background:var(--marca);color:#fff;border:none;border-radius:9px;padding:13px;font-size:15px;font-weight:600;cursor:pointer;}
   .login button:disabled{opacity:.55;cursor:default;}
-  .erro{background:#fdf0ee;border:1px solid #f0cfc8;color:#a8422f;border-radius:9px;padding:11px 13px;font-size:13.5px;margin-bottom:16px;}
+  /* Aviso e erro saem dos tokens de tema, não de hex fixo. Antes eram creme e
+     rosa claros escritos à mão, que no tema escuro viravam dois blocos
+     luminosos — o aviso brilhava mais que o dado que ele comenta. Com
+     color-mix, a mesma regra dá tinta pálida no claro e véu discreto no
+     escuro, porque --ruim e --atencao já mudam com o tema. */
+  .erro{background:color-mix(in srgb, var(--ruim) 11%, var(--surface));
+    border:1px solid color-mix(in srgb, var(--ruim) 30%, transparent);
+    color:color-mix(in srgb, var(--ruim) 82%, var(--ink));
+    border-radius:9px;padding:11px 13px;font-size:13.5px;margin-bottom:16px;}
 
   /* os dois flutuam à direita, então quem separa do botão Sair é o margin-right */
   .kpi.selo-crt{border-style:dashed;}
@@ -446,7 +454,12 @@ body{background:var(--bg);color:var(--ink);}
   .tb th:first-child{position:sticky;left:0;z-index:3;background:var(--surface-2);}
   .tb .num,.tb th.num{text-align:right;}
   .vazio{color:var(--ink-3);padding:28px 4px;font-size:14px;}
-  .aviso{background:#fff8e6;border:1px solid #f0dca8;color:#7a5b12;border-radius:10px;padding:11px 13px;font-size:13px;margin-top:12px;}
+  .aviso{background:color-mix(in srgb, var(--atencao) 12%, var(--surface));
+    border:1px solid color-mix(in srgb, var(--atencao) 32%, transparent);
+    color:color-mix(in srgb, var(--atencao) 80%, var(--ink));
+    border-radius:10px;padding:11px 13px;font-size:13px;margin-top:12px;line-height:1.5;}
+  .aviso code{background:color-mix(in srgb, var(--atencao) 16%, transparent);
+    padding:1px 5px;border-radius:4px;font-size:12px;}
   .carregando{color:var(--ink-3);font-size:14px;padding:40px 0;text-align:center;}
   .nota{font-size:13px;color:var(--ink-3);margin-top:8px;line-height:1.5;}
 

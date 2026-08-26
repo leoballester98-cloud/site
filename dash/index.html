@@ -473,9 +473,21 @@ body{background:var(--bg);color:var(--ink);}
   .ab-pe{display:flex;align-items:center;flex-wrap:wrap;gap:6px 14px;
     margin-top:16px;padding-top:12px;border-top:1px solid var(--linha);
     font-size:12px;color:var(--ink-3);}
-  .ab-pe code{background:var(--surface-2);padding:2px 7px;border-radius:5px;
-    font-size:11.5px;color:var(--ink-2);}
-  .ab-pe .limpar{margin-left:auto;font-size:12px;}
+  /* O chip é o botão. O ⧉ é o que diz isso — sem ele nada na aparência de um
+     trecho de código sugere que ele responde a clique. Vive no ::after pra não
+     entrar no textContent, que é o que a confirmação troca. */
+  .ab-pe code{background:var(--surface-2);padding:3px 8px;border-radius:5px;
+    font-size:11.5px;color:var(--ink-2);border:1px solid transparent;}
+  .ab-pe code.ab-url{cursor:pointer;transition:border-color .12s, color .12s;}
+  .ab-pe code.ab-url::after{content:'⧉';margin-left:7px;opacity:.55;}
+  .ab-pe code.ab-url:hover{border-color:var(--linha);color:var(--ink);}
+  .ab-pe code.ab-url:hover::after{opacity:1;}
+  .ab-pe code.ab-url.copiando{color:var(--bom);border-color:var(--bom);}
+  .ab-pe code.ab-url.copiando::after{content:'✓';opacity:1;}
+  .ab-pe code.ab-url.copiafalhou{color:var(--atencao);border-color:var(--atencao);
+    user-select:all;}
+  .ab-pe code.ab-url.copiafalhou::after{content:'';margin:0;}
+  .ab-copia-dica{color:var(--atencao);font-weight:600;}
   /* O cabeçalho da coluna que decide vem em negrito e na cor do texto forte —
      sem fundo. A versão com faixa cinza pintava a última coluna de QUALQUER
      tabela, entao aparecia tambem no card de tela, onde nao quer dizer nada. */
@@ -1442,11 +1454,13 @@ const URL_QUIZ = 'https://protocolociclofertil.com.br/quiz/v2/';
    execCommand é obsoleto mas funciona nesses casos, e a última reserva é deixar
    a URL selecionada na tela pra um Cmd+C manual — nunca um beco sem saída. */
 async function copiarUrl(url, botao) {
+  const antesDoChip = botao.textContent;
+  botao.classList.add('copiando');
   const avisar = t => {
     const antes = botao.dataset.antes || botao.textContent;
     botao.dataset.antes = antes;
     botao.textContent = t;
-    setTimeout(() => { botao.textContent = antes; }, 1600);
+    setTimeout(() => { botao.textContent = antes; botao.classList.remove('copiando'); }, 1600);
   };
 
   try {
@@ -1469,15 +1483,34 @@ async function copiarUrl(url, botao) {
   ta.remove();
   if (ok) return avisar('copiado');
 
-  /* Nem um nem outro: mostra a URL selecionada, pra um Cmd+C resolver. */
-  const cod = botao.closest('.ab-pe').querySelector('code');
+  /* Nem um nem outro: mostra a URL selecionada, pra um Cmd+C resolver.
+
+     O aviso vai num elemento à parte, e não trocando o texto do gatilho: agora
+     o gatilho É o chip da URL, então avisar() aqui apagaria justamente a URL
+     que a pessoa precisa selecionar. E o prazo é maior que o do 'copiado' —
+     1,6s dá pra ler uma confirmação, não pra achar o teclado. */
+  const cod = botao.matches('code') ? botao : botao.closest('.ab-pe').querySelector('code');
+  /* Tira o verde do 'copiando'. Chegar aqui é o contrário de sucesso — a
+     combinação ✓ verde com 'copie com Cmd+C' ao lado dizia as duas coisas ao
+     mesmo tempo, e a que o olho pega primeiro é a errada. */
+  botao.classList.remove('copiando');
+  cod.classList.add('copiafalhou');
   cod.textContent = url;
   const faixa = document.createRange();
   faixa.selectNodeContents(cod);
   const sel = getSelection();
   sel.removeAllRanges();
   sel.addRange(faixa);
-  avisar('copie com Cmd+C');
+
+  const dica = document.createElement('span');
+  dica.className = 'ab-copia-dica';
+  dica.textContent = 'copie com Cmd+C';
+  cod.after(dica);
+  setTimeout(() => {
+    dica.remove();
+    cod.classList.remove('copiafalhou');
+    cod.textContent = antesDoChip;
+  }, 8000);
 }
 
 /* Amostra necessária para uma diferença entre MÉDIAS, mesma dupla de sempre
@@ -1846,11 +1879,13 @@ function cartaoExperimento(ex, linhas, vendas) {
        pra ver quem está ganhando, não pra ler a URL — e ela estava ocupando uma
        linha inteira acima da tabela, empurrando pra baixo o que importa. */
     '<div class="ab-pe">' +
-      '<code>?ab=' + esc(ex.chave) + '</code>' +
+      /* O próprio chip copia. Um botão ao lado pra fazer o que o texto do lado
+         dele já representa é um clique a mais e uma peça a mais na linha. */
+      '<code class="ab-url" title="clique para copiar a URL do teste" ' +
+        'onclick="copiarUrl(' + JSON.stringify(URL_QUIZ + '?ab=' + ex.chave).replace(/"/g, '&quot;') +
+        ', this)">?ab=' + esc(ex.chave) + '</code>' +
       (ex.vencedor ? '<span>vencedor: <b>' + (ex.vencedor === 'a' ? esc(ex.rotulo_a)
         : ex.vencedor === 'b' ? esc(ex.rotulo_b) : 'empate') + '</b></span>' : '') +
-      '<button class="limpar" onclick="copiarUrl(' +
-        JSON.stringify(URL_QUIZ + '?ab=' + ex.chave).replace(/"/g, '&quot;') + ', this)">copiar URL</button>' +
     '</div>' +
     alerta +
     '</div>';

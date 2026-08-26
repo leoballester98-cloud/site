@@ -1378,6 +1378,12 @@ function significancia(x1, n1, x2, n2) {
    um "tendência" nascido de 11 pessoas ensina a confiar em ruído. */
 const MIN_BRACO = 30;
 
+/* Piso do teste de PREÇO, em vendas por braço. Dez porque abaixo disso o erro
+   da estimativa de R$/visitante é maior que a diferença que o teste procura:
+   o erro relativo anda perto de 1/√vendas, ou seja ~32% com dez e ~45% com
+   cinco. Comparar dois números com 45% de margem não é medir, é adivinhar. */
+const MIN_VENDAS = 10;
+
 /* Confiança exigida pra chamar um vencedor. 95% é o padrão científico; aqui é
    80%, por escolha dele — com o tráfego atual, esperar 95% significa nunca
    decidir, e nunca decidir também é uma decisão, só que sem ninguém assumir.
@@ -1626,7 +1632,19 @@ function cartaoExperimento(ex, linhas, vendas) {
      "o que isso quer dizer". */
   /* Abaixo do piso, confiança e veredito ficam em branco. A diferença bruta
      continua aparecendo: ela é o que foi medido, não uma conclusão sobre ele. */
-  const poucos = Math.min(nA, nB) < MIN_BRACO;
+  /* O piso é medido na unidade que decide o teste, e ela muda com o tipo.
+     Num teste de tela é o visitante: a passagem de tela se move a cada visita,
+     então 30 visitas por braço já dão sinal.
+     Num teste de preço é a VENDA. R$/visitante só se move quando alguém compra
+     — 30 visitantes sem nenhuma venda não são "quase lá", são zero informação,
+     e a barra enchendo até o piso dizia o contrário. */
+  const porVenda = ex.foco === 'dinheiro';
+  const PISO     = porVenda ? MIN_VENDAS : MIN_BRACO;
+  const unidade  = porVenda ? 'vendas' : 'visitantes';
+  const cA = porVenda ? Number(A.vendas) : nA;
+  const cB = porVenda ? Number(B.vendas) : nB;
+  const menor  = Math.min(cA, cB);
+  const poucos = menor < PISO;
 
   /* Sem dizer "de quem em relação a quem", um -20,8% na coluna de R$/visitante
      lê como "a receita caiu", quando o que ele diz é que o primeiro braço rende
@@ -1682,18 +1700,22 @@ function cartaoExperimento(ex, linhas, vendas) {
      num de preço é quanto entra por visitante. Medir a distância pela métrica
      errada dá um alvo que não responde a pergunta que o teste faz.
 
-     No de preço, enquanto não houver venda, o clique no checkout é o que existe
-     de mais perto do dinheiro — e some assim que a primeira venda entra. */
-  const temDinheiro = (A.vendas + B.vendas) > 0;
-  const campoPrim = ex.foco === 'dinheiro' ? (temDinheiro ? 'rpv' : 'checkout') : 'tela2';
+     No de preço é sempre o R$/visitante, mesmo com zero venda. Ele já caiu pro
+     clique no checkout enquanto não houvesse venda, e isso mentia sobre o que
+     está sendo testado: clique mede reação ao preço, não quanto entra. Um preço
+     pode perder cliques e ainda assim ganhar dinheiro — é exatamente a aposta
+     deste teste, e decidir pelo clique enterraria justamente o braço certo. */
+  const campoPrim = porVenda ? 'rpv' : 'tela2';
   const nomePrim = (CAMPOS[campoPrim] || {}).rotulo || campoPrim;
   const sPrim = sig[campoPrim];
-  const menor = Math.min(nA, nB);
   let falta = '', alvo = 0;
   if (poucos) {
-    alvo = MIN_BRACO;
-    falta = 'Teste começando: <b>' + nA + '</b> e <b>' + nB + '</b> visitantes. ' +
-            'A estatística passa a valer a partir de ' + MIN_BRACO + ' por braço.';
+    alvo = PISO;
+    falta = porVenda
+      ? 'Teste começando: <b>' + cA + '</b> e <b>' + cB + '</b> vendas. Num teste de preço ' +
+        'quem decide é a venda, não a visita — a conta passa a valer com ' + PISO + ' em cada braço.'
+      : 'Teste começando: <b>' + cA + '</b> e <b>' + cB + '</b> visitantes. ' +
+        'A estatística passa a valer a partir de ' + PISO + ' por braço.';
   } else if (sPrim && sPrim.p >= (1 - CONFIANCA)) {
     const nec = campoPrim === 'rpv'
       ? amostraNecessariaMedia(sPrim.v1, sPrim.v2, sPrim.m1 - sPrim.m2)
@@ -1701,7 +1723,7 @@ function cartaoExperimento(ex, linhas, vendas) {
     /* amostraNecessariaMedia só serve pro R$/visitante, que compara médias em
        reais. Nas outras a conta é de proporção. */
     if (nec && isFinite(nec)) {
-      alvo = Math.max(nec, MIN_BRACO);
+      alvo = Math.max(nec, MIN_BRACO);   /* daqui pra frente o alvo é em visitantes */
       falta = 'Para a diferença em <b>' + esc(nomePrim) +
               '</b> virar conclusão, são ~<b>' + alvo.toLocaleString('pt-BR') +
               '</b> visitantes por braço. Você tem ' + nA + ' e ' + nB + '.';
@@ -1711,8 +1733,13 @@ function cartaoExperimento(ex, linhas, vendas) {
   } else if (sPrim) {
     falta = 'A diferença em <b>' + esc(nomePrim) + '</b> já é estatisticamente sólida. Pode decidir.';
   }
+  /* A barra muda de unidade junto com o alvo. Antes do piso ela mede a unidade
+     que decide o teste (venda, no de preço); depois dele o alvo vem de
+     amostraNecessaria*, que responde em VISITANTES nos dois casos. Dividir
+     vendas por um alvo em visitantes daria uma barra parada perto do zero. */
+  const feito = poucos ? menor : Math.min(nA, nB);
   const barraProg = alvo
-    ? '<span class="abprog"><i style="width:' + Math.min(100, menor / alvo * 100).toFixed(1) + '%"></i></span>'
+    ? '<span class="abprog"><i style="width:' + Math.min(100, feito / alvo * 100).toFixed(1) + '%"></i></span>'
     : '';
 
   const decidido = !poucos && sPrim && sPrim.p < (1 - CONFIANCA);
@@ -1726,14 +1753,20 @@ function cartaoExperimento(ex, linhas, vendas) {
      por quanto. A tabela passa a ser o detalhe de quem quiser conferir. */
   let tituloEstado, subEstado, corEstado;
 
+  /* !tot é sobre TRÁFEGO e continua olhando visitante mesmo no teste de preço:
+     "nenhuma venda" e "nenhum visitante" são problemas diferentes, e só o
+     segundo quer dizer que a URL não está rodando. */
   if (!tot) {
     tituloEstado = 'Ainda não chegou ninguém';
     subEstado    = 'O teste começa a contar quando o tráfego entrar pela URL abaixo.';
     corEstado    = 'var(--ink-3)';
   } else if (poucos) {
     tituloEstado = 'Cedo demais pra concluir';
-    subEstado    = '<b>' + nA + '</b> e <b>' + nB + '</b> visitantes. A conta começa a valer ' +
-                   'com ' + MIN_BRACO + ' em cada braço.';
+    subEstado    = porVenda
+      ? '<b>' + cA + '</b> e <b>' + cB + '</b> vendas. Num teste de preço quem decide é a ' +
+        'venda, não a visita — a conta passa a valer com ' + PISO + ' em cada braço.'
+      : '<b>' + cA + '</b> e <b>' + cB + '</b> visitantes. A conta começa a valer ' +
+        'com ' + PISO + ' em cada braço.';
     corEstado    = 'var(--ink-3)';
   } else if (decidido) {
     const venc = venceuA ? (A.rotulo || ex.rotulo_a) : (B.rotulo || ex.rotulo_b);
@@ -1759,7 +1792,7 @@ function cartaoExperimento(ex, linhas, vendas) {
   const semTags = h => String(h).replace(/<[^>]+>/g, '');
   const curto =
       !tot      ? 'sem visitantes ainda'
-    : poucos    ? nA + ' e ' + nB + ' visitantes · piso ' + MIN_BRACO
+    : poucos    ? cA + ' e ' + cB + ' ' + unidade + ' · piso ' + PISO
     : decidido  ? ((1 - sPrim.p) * 100).toFixed(0) + '% de confiança'
     : sPrim     ? ((1 - sPrim.p) * 100).toFixed(0) + '% · alvo ' + (CONFIANCA * 100).toFixed(0) + '%'
                 : '—';

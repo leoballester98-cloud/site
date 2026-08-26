@@ -440,7 +440,10 @@ body{background:var(--bg);color:var(--ink);}
     margin-top:8px;max-width:340px;overflow:hidden;}
   .abprog i{display:block;height:100%;border-radius:2px;background:var(--marca);}
   .abtab th,.abtab td{white-space:nowrap;}
-  .ab-hip{font-size:13.5px;color:var(--ink-2);line-height:1.55;max-width:82ch;
+  /* 90ch é o menor que põe as hipóteses de hoje (96 e 106 caracteres) em uma
+     linha só. Não é a largura da coluna, que tem 1.286px — é limite de leitura,
+     e existe pra que uma hipótese longa quebre em vez de atravessar a tela. */
+  .ab-hip{font-size:13.5px;color:var(--ink-2);line-height:1.55;max-width:90ch;
     margin:6px 0 0;}
   /* Cabeçalho em duas colunas. A direita é estreita de propósito: ela só
      comporta o estado curto, e é isso que impede o card de virar parágrafo. */

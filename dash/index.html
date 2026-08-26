@@ -370,6 +370,12 @@ body{background:var(--bg);color:var(--ink);}
     opacity:0;transition:opacity .12s, color .12s;}
   .tl-item:hover .apagar{opacity:1;}
   .tl-item .apagar:hover{color:var(--ruim);}
+  /* Coluna de texto corrido dentro da tabela. A regra geral do .tb corta em
+     230px com reticências, o que aqui apagaria justamente o que foi escrito —
+     "Troquei o checkout do Celetus pra Ki…". Aqui quebra linha e a célula
+     cresce. */
+  .tb td.livre{white-space:normal;max-width:none;overflow:visible;
+    color:var(--ink-2);line-height:1.5;min-width:200px;}
   .fcheck{flex-direction:row!important;align-items:center;gap:7px!important;cursor:pointer;
     user-select:none;padding-bottom:10px;}
   .fcheck input{width:16px;height:16px;accent-color:var(--marca);cursor:pointer;}
@@ -1922,8 +1928,7 @@ function abrirRef() {
   document.getElementById('modal').innerHTML =
     '<div class="modal" onclick="if(event.target===this)fecharModal()"><div class="box">' +
       '<h2>Guardar número</h2>' +
-      '<div class="qual">O rótulo é seu: escreva com o contexto que importa — ' +
-        '"sem VSL", "na h=2", "antes do teste de preço".</div>' +
+      '<div class="qual">Escreva com o contexto: "sem VSL", "na h=2", "antes do teste".</div>' +
       '<div id="rfErro" class="erro" style="display:none;"></div>' +
       '<label class="fcampo">O quê<input id="rfRot" maxlength="120" ' +
         'placeholder="Ex.: conversão do funil sem VSL"/></label>' +
@@ -1937,15 +1942,14 @@ function abrirRef() {
         '<label class="fcampo">De<input id="rfDe" type="date" value="' + iso(hojeSP()) + '"/></label>' +
         '<label class="fcampo">Até<input id="rfAte" type="date" value="' + iso(hojeSP()) + '"/></label>' +
       '</div>' +
-      '<div class="nota" style="margin:-8px 0 14px;">O período em que esse número valeu. ' +
-        'A comparação vai medir do dia seguinte ao "Até" até hoje.</div>' +
+      '<div class="nota" style="margin:-8px 0 14px;">A comparação mede do dia seguinte ao "Até" até hoje.</div>' +
       '<label class="fcampo">Comparar com<select id="rfMet">' +
         METRICAS_REF.map(([v, l]) => '<option value="' + v + '">' + esc(l) + '</option>').join('') +
       '</select></label>' +
-      '<div class="nota" style="margin:-8px 0 14px;">Escolhendo uma métrica, o valor de hoje ' +
-        'aparece do lado pra comparar. Deixe sem se o número for de algo que o dashboard ' +
-        'não mede mais.</div>' +
-      '<label class="fcampo">Nota<input id="rfNota" maxlength="160" placeholder="opcional"/></label>' +
+      '<div class="nota" style="margin:-8px 0 14px;">Deixe sem comparação se o dashboard não mede mais aquilo.</div>' +
+      '<label class="fcampo">O que mudou depois<input id="rfNota" maxlength="160" ' +
+        'placeholder="Ex.: troquei o checkout pra Kiwify"/></label>' +
+
       '<div class="pfoot"><button class="limpar" onclick="fecharModal()">Cancelar</button>' +
       '<button class="prim" id="rfSalvar" onclick="salvarRef()">Guardar</button></div>' +
     '</div></div>';
@@ -2101,8 +2105,7 @@ async function verHistorico() {
     const desde = iso(maisDias(new Date(fim + 'T12:00:00Z'), 1));
     const atual = (r.metrica && medido[desde]) ? medido[desde][r.metrica] : null;
     const dif = (atual != null && Number(r.valor)) ? (atual - Number(r.valor)) / Number(r.valor) * 100 : null;
-    return '<tr><td class="nm"><b>' + esc(r.rotulo) + '</b>' +
-        (r.nota ? '<br><span class="abfrac">' + esc(r.nota) + '</span>' : '') + '</td>' +
+    return '<tr><td class="nm"><b>' + esc(r.rotulo) + '</b></td>' +
       '<td style="white-space:nowrap;">' + curta(r.data) +
         (fim !== r.data ? ' – ' + curta(fim) : '') + '</td>' +
       '<td class="num"><b>' + fmtRef(r.valor, r.unidade) + '</b></td>' +
@@ -2113,6 +2116,11 @@ async function verHistorico() {
       '<td class="num">' + (dif != null
         ? '<span style="color:' + corDif(dif) + '">' + (dif >= 0 ? '+' : '') + dif.toFixed(1) + '%</span>'
         : '—') + '</td>' +
+      /* O que mudou no fim do período fica na linha, e não como nota pequena
+          embaixo do rótulo: é ele que explica POR QUE 'era' e 'depois' são
+          números diferentes. Sem isso, daqui a três meses sobra a diferença e
+          some a causa. */
+      '<td class="livre">' + (r.nota ? esc(r.nota) : '—') + '</td>' +
       '<td class="num"><button class="limpar" onclick="apagarRef(' + r.id + ')">excluir</button></td></tr>';
   };
 
@@ -2121,13 +2129,13 @@ async function verHistorico() {
       '<div class="cabsec"><div class="sec" style="margin:0;">' + ico('Referências') +
         '<span>Referências</span></div>' +
         '<button class="prim" onclick="abrirRef()">Guardar número</button></div>' +
-      '<div class="qual">Cada número guarda o <b>período</b> em que ele valeu. A comparação ' +
-        'começa no dia seguinte ao fim desse período — assim ela mede o que veio DEPOIS ' +
-        'da mudança, e não uma média que ainda tem o antes dentro.</div>' +
+      /* A tabela já se explica: as colunas Período e Depois mostram as datas.
+          O parágrafo que estava aqui repetia isso em quatro linhas. */
+      '<div class="qual">Números de antes, para comparar com o depois.</div>' +
       (refs.length
         ? '<div class="tbwrap"><table class="tb"><tr><th>O quê</th><th>Período</th>' +
             '<th class="num">Era</th><th class="num">Depois</th>' +
-            '<th class="num">Diferença</th><th></th></tr>' +
+            '<th class="num">Diferença</th><th>O que mudou</th><th></th></tr>' +
           refs.map(linhaRef).join('') + '</table></div>'
         : '<div class="vazio" style="text-align:left;padding:20px 0 6px;">' +
           'Nada guardado ainda. A primeira que vale: a conversão de antes da última ' +

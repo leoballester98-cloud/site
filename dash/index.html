@@ -492,11 +492,11 @@ body{background:var(--bg);color:var(--ink);}
   /* Texto e índice lado a lado. A coluna de texto continua com medida de
      leitura — alargar ela pra ocupar a tela cansaria antes do fim do parágrafo.
      O que muda é que a sobra deixa de ser vazio e passa a ser navegação. */
-  .ac-cols{display:grid;grid-template-columns:minmax(0,1fr) 210px;gap:44px;
-    align-items:start;max-width:940px;margin:0 auto;}
-  /* A barra do topo acompanha a largura do bloco, senão o botão de copiar fica
-     numa borda e o documento em outra. */
-  .ac-doc .ac-topo{max-width:940px;margin:0 auto 8px;}
+  /* Os botões e o índice vão pras BORDAS do card; o texto fica no meio, na
+     medida de leitura. Prender os três a um bloco de 940px espremia tudo numa
+     faixa central e deixava o resto do card vazio dos dois lados. */
+  .ac-cols{display:grid;grid-template-columns:minmax(0,1fr) 220px;gap:56px;
+    align-items:start;}
   .ac-indice{position:sticky;top:64px;display:flex;flex-direction:column;gap:2px;
     padding-left:18px;border-left:1px solid var(--linha);}
   .ac-ind-rot{font-size:10.5px;font-weight:700;text-transform:uppercase;
@@ -512,7 +512,9 @@ body{background:var(--bg);color:var(--ink);}
     .ac-indice{display:none;}
   }
 
-  .ac-corpo{max-width:74ch;font-size:15px;line-height:1.65;color:var(--ink-2);}
+  /* margin auto centraliza o texto dentro da coluna: sem isso ele gruda na
+     esquerda e a sobra toda cai de um lado só. */
+  .ac-corpo{max-width:78ch;margin:0 auto;font-size:15px;line-height:1.65;color:var(--ink-2);}
   .ac-corpo h2{font-size:24px;font-weight:800;color:var(--ink);letter-spacing:-.01em;
     margin:34px 0 12px;line-height:1.2;}
   /* Compensa a barra grudada: sem isso, pular pra uma seção deixa o título dela
@@ -3690,23 +3692,18 @@ de saúde — o slot fica, a moeda dele muda. Quem decide o esqueleto final é e
 **4. Selecionar as etiquetas** · escolha dela
 
 Preencha sozinho as que já estão decididas (ver tabela) e pergunte as livres.
-→ as dez etiquetas preenchidas
+Todas se decidem aqui, inclusive prova, hook e headline — o hook costuma vir
+antes de escrever, e a headline costuma ser ele mesmo.
+→ as onze etiquetas preenchidas
 
-**5. Definir o ângulo do mecanismo** · escolha dela
-
-Como o produto aparece. "Fulano falou pra fulano que usou e teve resultado" é
-uma das formas — existem várias. Cada roteiro precisa da sua, a mais natural
-possível: ângulo forçado é o que faz o vídeo soar como anúncio.
-→ uma frase dizendo como o produto entra
-
-**6. Escrever bloco a bloco** · junto
+**5. Escrever bloco a bloco** · junto
 
 Um bloco por vez, do primeiro ao último. Proponha, ela ajusta, só então o
 próximo. Cada bloco tem que cumprir a função que o nome dele diz — se cumprir
 outra coisa, a estrutura quebra mesmo com a frase boa.
 → roteiro completo
 
-**7. Revisar** · junto
+**6. Revisar** · junto
 
 Duas passadas.
 
@@ -3719,7 +3716,7 @@ boca: frase que não se fala, emenda que não encaixa, trecho que soa decorado.
 Peça que ela leia e diga onde travou.
 → roteiro gravável
 
-**8. Visual** · junto
+**7. Visual** · junto
 
 Só agora, com o roteiro fechado. Os elementos de storytelling que entram na
 gravação: o que aparece na tela em cada bloco, o que ela faz com as mãos, o que
@@ -3750,13 +3747,14 @@ Valem em todos os passos.
 | Formato | herda do original | UGC relato |
 | Formato de conteúdo | herda do original; o hook normalmente diz qual é. Dá para combinar formatos e usar hooks contraintuitivos | Diário de tentante |
 | Ângulo | livre; "Assim como você, só que pior" funciona muito | Espelho |
+| Ângulo do mecanismo | livre; é COMO o produto aparece. Achou sozinha, alguém indicou, foi feito por quem entende. Forçado é o que faz soar anúncio — cada roteiro precisa do seu | Achou sozinha |
 | Emoção | só duas opções: medo de perder OU desejo de ter | Medo de perder |
 | Amplificador | livre | Angústia da espera |
 | Fatia | livre | A jovem que achou que seria rápido e tem tudo, menos o filho |
 | Segmentação | sempre "Consciente do problema" — o produto fala com quem já sabe que tem um problema | Consciente do problema |
-| Prova | livre | — |
+| Prova | livre; o que sustenta o que ela diz | O próprio relato |
 | Hook | livre | — |
-| Headline | livre | — |
+| Headline | costuma ser o próprio hook | igual ao hook |
 
 ## Notação da estrutura invisível
 

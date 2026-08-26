@@ -130,7 +130,16 @@ create table if not exists public.referencias (
   valor     numeric(14,4) not null,
   unidade   text not null default '%' check (unidade in ('%', 'R$', 'n')),
   metrica   text,          -- null = sem comparação automática
-  data      date not null default (now() at time zone 'America/Sao_Paulo')::date,
+  /* Uma referência tem PERÍODO, não data. 'A conversão no Celetus era 21,2%'
+     vale de 01/08 a 23/08, e é isso que define onde o depois começa: dia 24.
+
+     Sem o período, a comparação usava uma janela fixa de 30 dias — que no caso
+     dele pegava 23 dias de Celetus e 2 de Kiwify. O número 'de agora' era quase
+     todo o número de antes, e a comparação diria que nada mudou justamente
+     quando tudo mudou. */
+  data      date not null default (now() at time zone 'America/Sao_Paulo')::date,  -- início
+  ate       date not null default (now() at time zone 'America/Sao_Paulo')::date,  -- fim
+  constraint referencias_periodo_ok check (ate >= data),
   nota      text,
   criado_em timestamptz not null default now()
 );

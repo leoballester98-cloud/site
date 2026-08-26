@@ -1932,8 +1932,13 @@ function abrirRef() {
         '<label class="fcampo">Unidade<select id="rfUni">' +
           '<option value="%">%</option><option value="R$">R$</option><option value="n">número</option>' +
         '</select></label>' +
-        '<label class="fcampo">Quando<input id="rfData" type="date" value="' + iso(hojeSP()) + '"/></label>' +
       '</div>' +
+      '<div class="fdupla">' +
+        '<label class="fcampo">De<input id="rfDe" type="date" value="' + iso(hojeSP()) + '"/></label>' +
+        '<label class="fcampo">Até<input id="rfAte" type="date" value="' + iso(hojeSP()) + '"/></label>' +
+      '</div>' +
+      '<div class="nota" style="margin:-8px 0 14px;">O período em que esse número valeu. ' +
+        'A comparação vai medir do dia seguinte ao "Até" até hoje.</div>' +
       '<label class="fcampo">Comparar com<select id="rfMet">' +
         METRICAS_REF.map(([v, l]) => '<option value="' + v + '">' + esc(l) + '</option>').join('') +
       '</select></label>' +
@@ -1964,7 +1969,8 @@ async function salvarRef() {
     rotulo, valor,
     unidade: document.getElementById('rfUni').value,
     metrica: document.getElementById('rfMet').value || null,
-    data: document.getElementById('rfData').value || iso(hojeSP()),
+    data: document.getElementById('rfDe').value  || iso(hojeSP()),
+    ate:  document.getElementById('rfAte').value || document.getElementById('rfDe').value || iso(hojeSP()),
     nota: document.getElementById('rfNota').value.trim() || null,
   }]);
   if (error) return falar('Não deu pra guardar: ' + error.message);
@@ -2013,19 +2019,19 @@ function diaHist(d) {
 }
 
 async function verHistorico() {
-  /* O "hoje" das referências sai dos ÚLTIMOS 30 DIAS, não do histórico inteiro.
-     Comparar um número guardado num dia contra a média de todos os meses não
-     diz nada — e pior, essa média INCLUI o período de onde o número veio, então
-     ela se compara parcialmente consigo mesma. Trinta dias é curto o bastante
-     pra falar do agora e longo o bastante pra não ser ruído. */
-  const ate = iso(hojeSP()), de = iso(maisDias(new Date(ate + 'T12:00:00Z'), -29));
-  const [{ data, error }, rR, rF, rD] = await Promise.all([
+  /* Cada referência tem o SEU período de comparação, começando no dia seguinte
+     ao fim do período que ela mediu.
+
+     Uma janela fixa não serve. "Conversão no Celetus, 01/08 a 23/08" comparada
+     com os últimos 30 dias pegaria 23 dias de Celetus e 2 de Kiwify — o número
+     "de agora" seria quase todo o número de antes, e a comparação diria que
+     nada mudou justamente quando tudo mudou. */
+  const hoje = iso(hojeSP());
+  const [{ data, error }, rR] = await Promise.all([
     sb.from('historico').select('*')
       .order('data', { ascending: false }).order('criado_em', { ascending: false }),
     Promise.resolve(sb.from('referencias').select('*').order('data', { ascending:false }))
       .catch(() => ({ error: true })),
-    Promise.resolve(sb.rpc('fn_funil',  { p_de:de, p_ate:ate })).catch(() => ({ data:null })),
-    Promise.resolve(sb.rpc('fn_diario', { p_de:de, p_ate:ate })).catch(() => ({ data:[] })),
   ]);
   if (error) {
     document.getElementById('conteudo').innerHTML =
@@ -2056,33 +2062,54 @@ async function verHistorico() {
     '</div>';
   };
 
-  /* Valores dos últimos 30 dias, pra coluna de comparação das referências. */
-  const fun = rF && rF.data;
-  const t = ((rD && rD.data) || []).reduce((a, d) => ({
-    fat:a.fat + Number(d.faturamento), vendas:a.vendas + Number(d.vendas),
-    checkouts:a.checkouts + Number(d.checkouts), gasto:a.gasto + Number(d.gasto) }),
-    { fat:0, vendas:0, checkouts:0, gasto:0 });
-  const agora = {
-    conv_funil:    (fun && fun.visitantes) ? fun.compraram / fun.visitantes * 100 : null,
-    conv_checkout: t.checkouts ? t.vendas / t.checkouts * 100 : null,
-    ticket:        t.vendas ? t.fat / t.vendas : null,
-    arpu:          (fun && fun.visitantes) ? t.fat / fun.visitantes : null,
-    cpa:           t.vendas ? t.gasto / t.vendas : null,
-    roas:          t.gasto ? t.fat / t.gasto : null,
-  };
   const unidadeDe = k => (k === 'ticket' || k === 'arpu' || k === 'cpa') ? 'R$'
                        : (k === 'roas') ? 'n' : '%';
   const corDif = v => v >= 0 ? 'var(--bom)' : 'var(--ruim)';
 
   const refs = (rR && !rR.error && rR.data) ? rR.data : [];
+
+  /* Só as que têm métrica ligada geram consulta, e as janelas repetidas são
+     buscadas uma vez só — duas referências que terminam no mesmo dia dividem
+     o mesmo depois. */
+  const janelas = [...new Set(refs.filter(r => r.metrica)
+    .map(r => iso(maisDias(new Date((r.ate || r.data) + 'T12:00:00Z'), 1))))]
+    .filter(d => d <= hoje);
+
+  const medido = {};
+  await Promise.all(janelas.map(async de => {
+    const [rF, rD] = await Promise.all([
+      Promise.resolve(sb.rpc('fn_funil',  { p_de:de, p_ate:hoje })).catch(() => ({ data:null })),
+      Promise.resolve(sb.rpc('fn_diario', { p_de:de, p_ate:hoje })).catch(() => ({ data:[] })),
+    ]);
+    const fun = rF && rF.data;
+    const t = ((rD && rD.data) || []).reduce((a, d) => ({
+      fat:a.fat + Number(d.faturamento), vendas:a.vendas + Number(d.vendas),
+      checkouts:a.checkouts + Number(d.checkouts), gasto:a.gasto + Number(d.gasto) }),
+      { fat:0, vendas:0, checkouts:0, gasto:0 });
+    medido[de] = {
+      conv_funil:    (fun && fun.visitantes) ? fun.compraram / fun.visitantes * 100 : null,
+      conv_checkout: t.checkouts ? t.vendas / t.checkouts * 100 : null,
+      ticket:        t.vendas ? t.fat / t.vendas : null,
+      arpu:          (fun && fun.visitantes) ? t.fat / fun.visitantes : null,
+      cpa:           t.vendas ? t.gasto / t.vendas : null,
+      roas:          t.gasto ? t.fat / t.gasto : null,
+    };
+  }));
+  const curta = d => d.slice(8, 10) + '/' + d.slice(5, 7);
   const linhaRef = r => {
-    const atual = r.metrica ? agora[r.metrica] : null;
+    const fim = r.ate || r.data;
+    const desde = iso(maisDias(new Date(fim + 'T12:00:00Z'), 1));
+    const atual = (r.metrica && medido[desde]) ? medido[desde][r.metrica] : null;
     const dif = (atual != null && Number(r.valor)) ? (atual - Number(r.valor)) / Number(r.valor) * 100 : null;
     return '<tr><td class="nm"><b>' + esc(r.rotulo) + '</b>' +
         (r.nota ? '<br><span class="abfrac">' + esc(r.nota) + '</span>' : '') + '</td>' +
-      '<td style="white-space:nowrap;">' + brDate(r.data) + '</td>' +
+      '<td style="white-space:nowrap;">' + curta(r.data) +
+        (fim !== r.data ? ' – ' + curta(fim) : '') + '</td>' +
       '<td class="num"><b>' + fmtRef(r.valor, r.unidade) + '</b></td>' +
-      '<td class="num">' + (atual != null ? '<b>' + fmtRef(atual, unidadeDe(r.metrica)) + '</b>' : '—') + '</td>' +
+      '<td class="num">' + (atual != null
+        ? '<b>' + fmtRef(atual, unidadeDe(r.metrica)) + '</b>' +
+          '<br><span class="abfrac">desde ' + curta(desde) + '</span>'
+        : '—') + '</td>' +
       '<td class="num">' + (dif != null
         ? '<span style="color:' + corDif(dif) + '">' + (dif >= 0 ? '+' : '') + dif.toFixed(1) + '%</span>'
         : '—') + '</td>' +
@@ -2094,12 +2121,12 @@ async function verHistorico() {
       '<div class="cabsec"><div class="sec" style="margin:0;">' + ico('Referências') +
         '<span>Referências</span></div>' +
         '<button class="prim" onclick="abrirRef()">Guardar número</button></div>' +
-      '<div class="qual">Números que você quer comparar depois. A coluna do lado mostra ' +
-        'como está nos <b>últimos 30 dias</b> — comparar com o histórico inteiro não diria ' +
-        'nada, porque ele inclui o próprio período de onde o número veio.</div>' +
+      '<div class="qual">Cada número guarda o <b>período</b> em que ele valeu. A comparação ' +
+        'começa no dia seguinte ao fim desse período — assim ela mede o que veio DEPOIS ' +
+        'da mudança, e não uma média que ainda tem o antes dentro.</div>' +
       (refs.length
-        ? '<div class="tbwrap"><table class="tb"><tr><th>O quê</th><th>Quando</th>' +
-            '<th class="num">Era</th><th class="num">Últimos 30 dias</th>' +
+        ? '<div class="tbwrap"><table class="tb"><tr><th>O quê</th><th>Período</th>' +
+            '<th class="num">Era</th><th class="num">Depois</th>' +
             '<th class="num">Diferença</th><th></th></tr>' +
           refs.map(linhaRef).join('') + '</table></div>'
         : '<div class="vazio" style="text-align:left;padding:20px 0 6px;">' +

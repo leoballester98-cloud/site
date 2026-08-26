@@ -443,6 +443,33 @@ body{background:var(--bg);color:var(--ink);}
      e existe pra que uma hipótese longa quebre em vez de atravessar a tela. */
   .ab-hip{font-size:13.5px;color:var(--ink-2);line-height:1.55;max-width:90ch;
     margin:6px 0 0;}
+  /* ── Registros ──────────────────────────────────────────────────────────
+     Lista única com três tipos. O ícone à esquerda diz qual sem gastar uma
+     coluna de texto, e o número ganha peso e cor porque é a única coisa que o
+     olho precisa achar numa lista onde a maioria das linhas não tem nenhum. */
+  .rg-filtros{display:flex;gap:6px;flex-wrap:wrap;margin:2px 0 14px;}
+  .rg-chip{border:1px solid var(--linha);background:transparent;color:var(--ink-2);
+    font:inherit;font-size:12.5px;padding:5px 11px;border-radius:999px;cursor:pointer;
+    display:inline-flex;align-items:center;gap:6px;transition:border-color .12s,color .12s;}
+  .rg-chip:hover{border-color:var(--ink-3);color:var(--ink);}
+  .rg-chip.on{border-color:var(--marca);color:var(--marca);font-weight:600;}
+  .rg-n{font-size:11px;color:var(--ink-3);font-variant-numeric:tabular-nums;}
+  .rg-chip.on .rg-n{color:var(--marca);}
+
+  .rg-tb td.rg-t{width:26px;padding-right:0;color:var(--ink-3);}
+  .rg-ico{width:15px;height:15px;display:block;}
+  .rg-tb td.rg-data{white-space:nowrap;color:var(--ink-2);font-variant-numeric:tabular-nums;}
+  .rg-val{font-weight:700;color:var(--marca);font-variant-numeric:tabular-nums;}
+  .rg-vazio{color:var(--linha);}
+  .rg-acoes{white-space:nowrap;}
+  .rg-acoes .limpar + .limpar{margin-left:8px;}
+
+  /* Concluído fica riscado e apagado, não some: sumir apagaria o histórico do
+     que já foi resolvido. O risco não pega na coluna de ações, senão os botões
+     que ainda funcionam pareceriam desativados. */
+  .rg-l.feito td:not(.rg-acoes){text-decoration:line-through;opacity:.5;}
+  .rg-l.feito .rg-val{color:var(--ink-3);}
+
   /* A coluna 'O que mudou' é texto corrido, não dado: as regras da .tb apertam
      célula pra caber número, e aqui isso truncava a anotação no meio. */
   .tb td.livre{white-space:normal;max-width:none;overflow:visible;
@@ -1998,102 +2025,198 @@ async function verBalanco() {
    traço, que é ruído com cara de dado faltando.
 
    O que sobrou é o que ele usa: escreveu, guardou, acha depois. */
-const fmtRef = (v, u) => u === 'R$' ? moeda(v) : u === '%' ? Number(v).toFixed(1) + '%' : String(v);
+/* ── Registros ─────────────────────────────────────────────────────────────
+   Caderno da operação: qualquer coisa que precise sobreviver ao dashboard.
+
+   Três tipos, uma lista só. Separar em blocos obrigaria a olhar em três
+   lugares pra saber o que aconteceu na semana, que é justamente a pergunta.
+
+   - dado      um número que some do dash quando algo muda ("conversão sem VSL")
+   - lembrete  algo pra fazer ou vigiar; ganha risco quando concluído
+   - mudança   o que foi mexido e quando
+
+   O `valor` é opcional no banco de propósito: a versão anterior exigia número
+   em tudo, e por isso lembrete e mudança simplesmente não cabiam. */
+
+const TIPOS = {
+  dado:     { rot: 'Dado',     ico: 'M3 3v18h18M7 15l4-4 3 3 5-6' },
+  lembrete: { rot: 'Lembrete', ico: 'M12 8v5l3 2M21 12a9 9 0 11-18 0 9 9 0 0118 0z' },
+  mudanca:  { rot: 'Mudança',  ico: 'M4 4v6h6M20 20v-6h-6M20 9A8 8 0 006 5.3M4 15a8 8 0 0014 3.7' },
+};
+
+/* toFixed devolve ponto decimal — "21.2%" num dashboard inteiro em pt-BR.
+   toLocaleString respeita a vírgula, e o `n` solto some com a casa decimal
+   quando o número é inteiro: "12" e não "12,0". */
+const fmtRef = (v, u) =>
+    u === 'R$' ? moeda(v)
+  : u === '%'  ? Number(v).toLocaleString('pt-BR', { minimumFractionDigits: 1,
+                                                     maximumFractionDigits: 1 }) + '%'
+  : Number(v).toLocaleString('pt-BR', { maximumFractionDigits: 2 });
 const curtaRef = d => d.slice(8, 10) + '/' + d.slice(5, 7) + '/' + d.slice(2, 4);
 
+let filtroReg = 'tudo';
+
+function icoTipo(t) {
+  const d = (TIPOS[t] || TIPOS.mudanca).ico;
+  return '<svg class="rg-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" ' +
+         'stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="' + d + '"/></svg>';
+}
+
 async function verRegistros() {
-  const { data, error } = await sb.from('referencias').select('*')
-    .order('data', { ascending: false });
+  const { data, error } = await sb.from('registros').select('*')
+    .order('data', { ascending: false }).order('id', { ascending: false });
   if (error) {
     document.getElementById('conteudo').innerHTML =
-      '<div class="card"><div class="vazio">A tabela de referências ainda não existe. ' +
-      'Rode <b>supabase/19-balanco.sql</b> no SQL Editor.</div></div>';
+      '<div class="card"><div class="vazio">A tabela de registros ainda não existe. ' +
+      'Rode <b>supabase/21-registros.sql</b> no SQL Editor.</div></div>';
     return;
   }
-  const refs = data || [];
+  /* Concluído vai pro fim: ele continua legível, mas para de disputar espaço
+     com o que ainda está aberto. Some seria pior — apagaria o histórico do que
+     você já resolveu. */
+  const todos = (data || []).sort((a, b) => (a.feito ? 1 : 0) - (b.feito ? 1 : 0));
+  const regs = filtroReg === 'tudo' ? todos : todos.filter(r => r.tipo === filtroReg);
+
+  const conta = t => todos.filter(r => t === 'tudo' || r.tipo === t).length;
+  const chip = (id, rot) =>
+    '<button class="rg-chip' + (filtroReg === id ? ' on' : '') + '" onclick="filtrarReg(\'' + id + '\')">' +
+      esc(rot) + ' <span class="rg-n">' + conta(id) + '</span></button>';
 
   const linha = r => {
-    const fim = r.ate || r.data;
-    return '<tr><td class="nm"><b>' + esc(r.rotulo) + '</b></td>' +
-      '<td class="num"><b>' + fmtRef(r.valor, r.unidade) + '</b></td>' +
-      '<td style="white-space:nowrap;">' + curtaRef(r.data) +
-        (fim !== r.data ? ' – ' + curtaRef(fim) : '') + '</td>' +
+    const t = TIPOS[r.tipo] || TIPOS.mudanca;
+    const fim = r.ate && r.ate !== r.data ? ' – ' + curtaRef(r.ate) : '';
+    /* O número é o que o olho tem que achar primeiro numa lista onde a maioria
+       das linhas não tem nenhum. Daí peso e cor da marca — o resto é texto. */
+    const val = r.valor != null
+      ? '<span class="rg-val">' + fmtRef(r.valor, r.unidade) + '</span>'
+      : '<span class="rg-vazio">—</span>';
+    return '<tr class="rg-l' + (r.feito ? ' feito' : '') + '">' +
+      '<td class="rg-t" title="' + esc(t.rot) + '">' + icoTipo(r.tipo) + '</td>' +
+      '<td class="nm"><b>' + esc(r.titulo) + '</b></td>' +
+      '<td class="num">' + val + '</td>' +
+      '<td class="rg-data">' + curtaRef(r.data) + fim + '</td>' +
       '<td class="livre">' + (r.nota ? esc(r.nota) : '—') + '</td>' +
-      '<td class="num"><button class="limpar" onclick="apagarRef(' + r.id + ')">excluir</button></td></tr>';
+      '<td class="num rg-acoes">' +
+        (r.tipo === 'lembrete'
+          ? '<button class="limpar" onclick="marcarReg(' + r.id + ',' + (r.feito ? 'false' : 'true') + ')">' +
+            (r.feito ? 'reabrir' : 'concluir') + '</button>'
+          : '') +
+        '<button class="limpar" onclick="apagarReg(' + r.id + ')">excluir</button>' +
+      '</td></tr>';
   };
 
   document.getElementById('conteudo').innerHTML =
     '<div class="card">' +
       '<div class="cabsec"><div class="sec" style="margin:0;">' + ico('Registros') +
         '<span>Registros</span></div>' +
-        '<button class="prim" onclick="abrirRef()">Guardar número</button></div>' +
-      (refs.length
-        ? '<div class="tbwrap"><table class="tb"><tr><th>O quê</th><th class="num">Valor</th>' +
-            '<th>Período</th><th>O que mudou</th><th></th></tr>' +
-          refs.map(linha).join('') + '</table></div>'
+        '<button class="prim" onclick="abrirReg()">Novo registro</button></div>' +
+      '<div class="rg-filtros">' + chip('tudo', 'Tudo') +
+        Object.keys(TIPOS).map(k => chip(k, TIPOS[k].rot + 's')).join('') + '</div>' +
+      (regs.length
+        ? '<div class="tbwrap"><table class="tb rg-tb"><tr><th></th><th>O quê</th>' +
+            '<th class="num">Valor</th><th>Quando</th><th>Nota</th><th></th></tr>' +
+          regs.map(linha).join('') + '</table></div>'
         : '<div class="vazio" style="text-align:left;padding:20px 0 6px;">' +
-          'Nada guardado ainda. Vale registrar os números que somem do dashboard ' +
-          'quando você muda alguma coisa — a conversão de antes da última mudança, ' +
-          'por exemplo.</div>') +
+          (filtroReg === 'tudo'
+            ? 'Nada guardado ainda. Serve pra número que some do dashboard quando você ' +
+              'muda algo, pra lembrete e pro que você mexeu.'
+            : 'Nenhum registro desse tipo.') + '</div>') +
     '</div>';
 }
 
-function abrirRef() {
+function filtrarReg(t) { filtroReg = t; verRegistros(); }
+
+function abrirReg() {
   const hoje = iso(hojeSP());
   document.getElementById('modal').innerHTML =
     '<div class="modal" onclick="if(event.target===this)fecharModal()"><div class="box">' +
-      '<h2>Guardar número</h2>' +
-      '<div class="qual">Escreva com o contexto: "sem VSL", "na h=2", "antes do teste".</div>' +
-      '<div id="rfErro" class="erro" style="display:none;"></div>' +
-      '<label class="fcampo">O quê<input id="rfRot" maxlength="120" ' +
-        'placeholder="Ex.: conversão do funil sem VSL"/></label>' +
-      '<div class="fdupla">' +
-        '<label class="fcampo">Valor<input id="rfVal" type="text" inputmode="decimal" placeholder="21,2"/></label>' +
-        '<label class="fcampo">Unidade<select id="rfUni">' +
-          '<option value="%">%</option><option value="R$">R$</option><option value="n">número</option>' +
-        '</select></label>' +
+      '<h2>Novo registro</h2>' +
+      '<div id="rgErro" class="erro" style="display:none;"></div>' +
+      '<label class="fcampo">Tipo<select id="rgTipo" onchange="tipoReg()">' +
+        Object.keys(TIPOS).map(k => '<option value="' + k + '">' + TIPOS[k].rot + '</option>').join('') +
+      '</select></label>' +
+      '<div class="qual" id="rgQual"></div>' +
+      '<label class="fcampo">O quê<input id="rgTit" maxlength="160"/></label>' +
+      /* Valor e período só existem pro tipo 'dado'. Campo que não serve pro que
+         você escolheu é campo que você tem que decidir ignorar. */
+      '<div id="rgNum">' +
+        '<div class="fdupla">' +
+          '<label class="fcampo">Valor<input id="rgVal" type="text" inputmode="decimal" placeholder="21,2"/></label>' +
+          '<label class="fcampo">Unidade<select id="rgUni">' +
+            '<option value="%">%</option><option value="R$">R$</option><option value="n">número</option>' +
+          '</select></label>' +
+        '</div>' +
+        '<div class="fdupla">' +
+          '<label class="fcampo">De<input id="rgDe" type="date" value="' + hoje + '"/></label>' +
+          '<label class="fcampo">Até<input id="rgAte" type="date" value="' + hoje + '"/></label>' +
+        '</div>' +
       '</div>' +
-      '<div class="fdupla">' +
-        '<label class="fcampo">De<input id="rfDe" type="date" value="' + hoje + '"/></label>' +
-        '<label class="fcampo">Até<input id="rfAte" type="date" value="' + hoje + '"/></label>' +
-      '</div>' +
-      '<label class="fcampo">O que mudou depois<input id="rfNota" maxlength="160" ' +
-        'placeholder="Ex.: troquei o checkout pra Kiwify"/></label>' +
+      '<label class="fcampo" id="rgDataSo">Quando<input id="rgData" type="date" value="' + hoje + '"/></label>' +
+      '<label class="fcampo">Nota<input id="rgNota" maxlength="200"/></label>' +
       '<div class="pfoot"><button class="limpar" onclick="fecharModal()">Cancelar</button>' +
-      '<button class="prim" id="rfSalvar" onclick="salvarRef()">Guardar</button></div>' +
+      '<button class="prim" id="rgSalvar" onclick="salvarReg()">Guardar</button></div>' +
     '</div></div>';
-  setTimeout(() => { const e = document.getElementById('rfRot'); if (e) e.focus(); }, 30);
+  tipoReg();
+  setTimeout(() => { const e = document.getElementById('rgTit'); if (e) e.focus(); }, 30);
 }
 
-async function salvarRef() {
-  const btn = document.getElementById('rfSalvar');
-  const erro = document.getElementById('rfErro');
+const DICA_TIPO = {
+  dado:     'Escreva com o contexto: "sem VSL", "na h=2", "antes do teste".',
+  lembrete: 'Algo pra fazer ou vigiar. Some do topo quando você concluir.',
+  mudanca:  'O que você mexeu, pra saber depois o que explica a virada no número.',
+};
+const PLACE_TIPO = {
+  dado:     'Ex.: conversão do funil sem VSL',
+  lembrete: 'Ex.: subir criativo novo antes de sexta',
+  mudanca:  'Ex.: troquei o checkout pra Kiwify',
+};
+
+function tipoReg() {
+  const t = document.getElementById('rgTipo').value;
+  document.getElementById('rgQual').textContent = DICA_TIPO[t] || '';
+  document.getElementById('rgTit').placeholder = PLACE_TIPO[t] || '';
+  document.getElementById('rgNum').style.display    = t === 'dado' ? '' : 'none';
+  document.getElementById('rgDataSo').style.display = t === 'dado' ? 'none' : '';
+}
+
+async function salvarReg() {
+  const btn = document.getElementById('rgSalvar');
+  const erro = document.getElementById('rgErro');
   const falar = m => { erro.textContent = m; erro.style.display = 'block';
                        btn.disabled = false; btn.textContent = 'Guardar'; };
-  erro.style.display = 'none';
-  const rotulo = document.getElementById('rfRot').value.trim();
-  const bruto = String(document.getElementById('rfVal').value).replace(',', '.');
-  const valor = Number(bruto);
-  if (!rotulo) return falar('Escreve o que é esse número.');
-  if (!bruto.trim() || !isFinite(valor)) return falar('Valor inválido.');
-  btn.disabled = true; btn.textContent = 'Guardando…';
+  const tipo = document.getElementById('rgTipo').value;
+  const titulo = document.getElementById('rgTit').value.trim();
+  if (!titulo) return falar('Escreve o que é esse registro.');
 
-  const de = document.getElementById('rfDe').value || iso(hojeSP());
-  const { error } = await sb.from('referencias').insert([{
-    rotulo, valor,
-    unidade: document.getElementById('rfUni').value,
-    data: de,
-    ate:  document.getElementById('rfAte').value || de,
-    nota: document.getElementById('rfNota').value.trim() || null,
-  }]);
+  const linha = { tipo, titulo, nota: document.getElementById('rgNota').value.trim() || null };
+
+  if (tipo === 'dado') {
+    const bruto = String(document.getElementById('rgVal').value).replace(',', '.');
+    const valor = Number(bruto);
+    if (!bruto.trim() || !isFinite(valor)) return falar('Dado precisa de um número.');
+    const de = document.getElementById('rgDe').value || iso(hojeSP());
+    Object.assign(linha, { valor, unidade: document.getElementById('rgUni').value,
+                           data: de, ate: document.getElementById('rgAte').value || de });
+  } else {
+    linha.data = document.getElementById('rgData').value || iso(hojeSP());
+  }
+
+  btn.disabled = true; btn.textContent = 'Guardando…';
+  const { error } = await sb.from('registros').insert([linha]);
   if (error) return falar('Não deu pra guardar: ' + error.message);
   fecharModal();
   await verRegistros();
 }
 
-async function apagarRef(id) {
+async function marcarReg(id, feito) {
+  const { error } = await sb.from('registros').update({ feito }).eq('id', id);
+  if (error) return alert('Não deu pra atualizar: ' + error.message);
+  await verRegistros();
+}
+
+async function apagarReg(id) {
   if (!confirm('Apagar este registro?')) return;
-  const { error } = await sb.from('referencias').delete().eq('id', id);
+  const { error } = await sb.from('registros').delete().eq('id', id);
   if (error) return alert('Não deu pra apagar: ' + error.message);
   await verRegistros();
 }

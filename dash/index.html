@@ -1406,6 +1406,55 @@ function amostraNecessaria(p1, p2) {
   return Math.ceil(n);
 }
 
+const URL_QUIZ = 'https://protocolociclofertil.com.br/quiz/v2/';
+
+/* A URL some do corpo do card, então precisa de um jeito de pegá-la sem
+   selecionar texto pequeno com o mouse. O rótulo confirma na própria tecla —
+   um alerta pra dizer "copiei" interromperia mais do que ajuda.
+
+   Dois caminhos porque o primeiro falha em situações banais: navigator.clipboard
+   recusa se o documento não estiver em foco, e não existe em http sem TLS. O
+   execCommand é obsoleto mas funciona nesses casos, e a última reserva é deixar
+   a URL selecionada na tela pra um Cmd+C manual — nunca um beco sem saída. */
+async function copiarUrl(url, botao) {
+  const avisar = t => {
+    const antes = botao.dataset.antes || botao.textContent;
+    botao.dataset.antes = antes;
+    botao.textContent = t;
+    setTimeout(() => { botao.textContent = antes; }, 1600);
+  };
+
+  try {
+    if (navigator.clipboard && window.isSecureContext) {
+      await navigator.clipboard.writeText(url);
+      return avisar('copiado');
+    }
+  } catch (e) { /* cai no plano B */ }
+
+  const ta = document.createElement('textarea');
+  ta.value = url;
+  ta.setAttribute('readonly', '');
+  /* Fora da tela, mas NÃO display:none nem visibility:hidden — o navegador não
+     seleciona o conteúdo de um elemento que não ocupa espaço. */
+  ta.style.cssText = 'position:fixed;top:0;left:-9999px;opacity:0;';
+  document.body.appendChild(ta);
+  ta.select();
+  let ok = false;
+  try { ok = document.execCommand('copy'); } catch (e) {}
+  ta.remove();
+  if (ok) return avisar('copiado');
+
+  /* Nem um nem outro: mostra a URL selecionada, pra um Cmd+C resolver. */
+  const cod = botao.closest('.ab-pe').querySelector('code');
+  cod.textContent = url;
+  const faixa = document.createRange();
+  faixa.selectNodeContents(cod);
+  const sel = getSelection();
+  sel.removeAllRanges();
+  sel.addRange(faixa);
+  avisar('copie com Cmd+C');
+}
+
 /* Amostra necessária para uma diferença entre MÉDIAS, mesma dupla de sempre
    (95% de confiança, 80% de poder). É outra fórmula da de proporções, e usar a
    errada aqui daria número sem sentido — a de proporção espera dois valores

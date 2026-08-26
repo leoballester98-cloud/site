@@ -1,0 +1,11 @@
+{
+  "name": "pagina-de-vendas",
+  "private": true,
+  "description": "Site estático. O node só existe aqui pro checador de HTML — nada é empacotado.",
+  "scripts": {
+    "checar": "node ferramentas/checar-html.mjs dash/index.html quiz/v2/index.html"
+  },
+  "devDependencies": {
+    "eslint": "^9.39.5"
+  }
+}

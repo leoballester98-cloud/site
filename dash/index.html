@@ -441,7 +441,16 @@ body{background:var(--bg);color:var(--ink);}
   .abprog i{display:block;height:100%;border-radius:2px;background:var(--marca);}
   .abtab th,.abtab td{white-space:nowrap;}
   .ab-hip{font-size:13.5px;color:var(--ink-2);line-height:1.55;max-width:82ch;
-    margin:-4px 0 16px;}
+    margin:-4px 0 14px;}
+  /* A resposta do teste, em cima. A barra colorida à esquerda dá o estado sem
+     precisar ler: cinza é cedo, âmbar é indefinido, verde é vencedor. */
+  .ab-estado{border-left:3px solid var(--c);background:var(--surface-2);
+    border-radius:0 10px 10px 0;padding:14px 16px;margin-bottom:18px;}
+  .ab-est-tit{font-size:17px;font-weight:700;color:var(--c);letter-spacing:-.01em;}
+  .ab-est-sub{font-size:13.5px;color:var(--ink-2);line-height:1.55;margin-top:4px;}
+  .ab-est-falta{font-size:12.5px;color:var(--ink-3);line-height:1.5;margin-top:10px;
+    padding-top:10px;border-top:1px solid var(--linha);}
+  .ab-estado .abprog{margin-top:8px;}
   .ab-pe{display:flex;align-items:center;flex-wrap:wrap;gap:6px 14px;
     margin-top:16px;padding-top:12px;border-top:1px solid var(--linha);
     font-size:12px;color:var(--ink-3);}
@@ -851,8 +860,8 @@ const DICAS = {
   'receita':               'Receita do braço, já descontados os reembolsos.',
   'r$/visitante':          'Receita ÷ visitantes. É ela que decide um teste de preço.',
   'diferença':             'Quanto o primeiro braço rende a mais ou a menos que o segundo.',
-  'confiança':             'A chance de a diferença ser real e não sorte.',
-  'veredito':              'Acima de 95% há vencedor; de 80% a 95%, tendência; abaixo, empate.',
+  'veredito':              'Acima de 80% há vencedor; de 60% a 80%, tendência; abaixo, empate.',
+  'confiança':             'A chance de a diferença ser real e não sorte. O alvo aqui é 80%.',
 
   'resultado acumulado':   'Soma do lucro de todos os meses. É o placar do produto desde o começo.',
   'meses no lucro':        'Quantos meses fecharam com lucro, do total de meses com movimento.',
@@ -1350,6 +1359,18 @@ function significancia(x1, n1, x2, n2) {
    um "tendência" nascido de 11 pessoas ensina a confiar em ruído. */
 const MIN_BRACO = 30;
 
+/* Confiança exigida pra chamar um vencedor. 95% é o padrão científico; aqui é
+   80%, por escolha dele — com o tráfego atual, esperar 95% significa nunca
+   decidir, e nunca decidir também é uma decisão, só que sem ninguém assumir.
+
+   O preço é real e está pago de propósito: a 80%, cerca de 1 em 5 vereditos
+   vai apontar um vencedor que não existe. Em troca, a amostra necessária cai
+   uns 43% e o teste conclui em tempo de servir pra alguma coisa.
+
+   Pra voltar ao padrão, é trocar os dois números por 0.95 e 1.959964. */
+const CONFIANCA = 0.80;
+const Z_ALFA    = 1.281552;   // bicaudal, alfa = 0,20
+
 /* Receita por visitante — a métrica que decide um teste de PREÇO, porque um
    preço maior pode converter menos e ainda faturar mais.
 
@@ -1373,13 +1394,25 @@ function significanciaRPV(x1, n1, rec1, x2, n2, rec2) {
            lift: m2 ? (m1 - m2) / m2 * 100 : null };
 }
 
+/* Quantos visitantes POR BRAÇO pra enxergar a diferença que está aparecendo.
+   Poder de 80% — a chance de detectar o efeito, se ele existir de verdade.
+   Serve pra responder "já posso parar?" antes de parar por impaciência. */
+function amostraNecessaria(p1, p2) {
+  if (p1 === p2 || !isFinite(p1) || !isFinite(p2)) return null;
+  const pm = (p1 + p2) / 2;
+  const n = Math.pow(Z_ALFA * Math.sqrt(2 * pm * (1 - pm)) +
+                     0.841621 * Math.sqrt(p1 * (1 - p1) + p2 * (1 - p2)), 2) /
+            Math.pow(p1 - p2, 2);
+  return Math.ceil(n);
+}
+
 /* Amostra necessária para uma diferença entre MÉDIAS, mesma dupla de sempre
    (95% de confiança, 80% de poder). É outra fórmula da de proporções, e usar a
    errada aqui daria número sem sentido — a de proporção espera dois valores
    entre 0 e 1, e receita por visitante é reais. */
 function amostraNecessariaMedia(v1, v2, dif) {
   if (!dif || !isFinite(dif)) return null;
-  return Math.ceil(Math.pow(1.959964 + 0.841621, 2) * (v1 + v2) / (dif * dif));
+  return Math.ceil(Math.pow(Z_ALFA + 0.841621, 2) * (v1 + v2) / (dif * dif));
 }
 
 async function verAB() {
@@ -1563,9 +1596,11 @@ function cartaoExperimento(ex, linhas, vendas) {
       if (poucos) return '<td class="num">' + badge('poucos dados', 'var(--ink-3)') + '</td>';
       const s = sig[c.campo];
       if (!s) return '<td class="num">' + badge('sem dados', 'var(--ink-3)') + '</td>';
-      const b = s.p < 0.05 ? badge(s.z > 0 ? esc(A.rotulo || ex.rotulo_a) + ' vence'
-                                           : esc(B.rotulo || ex.rotulo_b) + ' vence', 'var(--bom)')
-              : s.p < 0.20 ? badge('tendência', 'var(--atencao)')
+      /* Os cortes acompanham a confiança escolhida: vencedor no alvo,
+         tendência na metade do caminho, empate abaixo disso. */
+      const b = s.p < (1 - CONFIANCA) ? badge(s.z > 0 ? esc(A.rotulo || ex.rotulo_a) + ' vence'
+                                                     : esc(B.rotulo || ex.rotulo_b) + ' vence', 'var(--bom)')
+              : s.p < (1 - CONFIANCA) * 2 ? badge('tendência', 'var(--atencao)')
               : badge('empate', 'var(--ink-3)');
       return '<td class="num">' + b + '</td>';
     }).join('') + '</tr>';
@@ -1591,7 +1626,7 @@ function cartaoExperimento(ex, linhas, vendas) {
     alvo = MIN_BRACO;
     falta = 'Teste começando: <b>' + nA + '</b> e <b>' + nB + '</b> visitantes. ' +
             'A estatística passa a valer a partir de ' + MIN_BRACO + ' por braço.';
-  } else if (sPrim && sPrim.p >= 0.05) {
+  } else if (sPrim && sPrim.p >= (1 - CONFIANCA)) {
     const nec = campoPrim === 'rpv'
       ? amostraNecessariaMedia(sPrim.v1, sPrim.v2, sPrim.m1 - sPrim.m2)
       : amostraNecessaria(sPrim.p1, sPrim.p2);
@@ -1612,9 +1647,52 @@ function cartaoExperimento(ex, linhas, vendas) {
     ? '<span class="abprog"><i style="width:' + Math.min(100, menor / alvo * 100).toFixed(1) + '%"></i></span>'
     : '';
 
-  const decidido = !poucos && sPrim && sPrim.p < 0.05;
+  const decidido = !poucos && sPrim && sPrim.p < (1 - CONFIANCA);
   const venceuA = decidido && sPrim.z > 0;
   const venceuB = decidido && sPrim.z < 0;
+
+  /* ── A resposta, em cima e em uma frase ──────────────────────────────────
+     A tabela responde 'quem está ganhando' só se você cruzar linha com coluna
+     de cabeça. Isso é trabalho que a tela devia fazer, não quem lê. Aqui em
+     cima fica o estado do teste em texto: se dá pra concluir, quem venceu, e
+     por quanto. A tabela passa a ser o detalhe de quem quiser conferir. */
+  let tituloEstado, subEstado, corEstado;
+
+  if (!tot) {
+    tituloEstado = 'Ainda não chegou ninguém';
+    subEstado    = 'O teste começa a contar quando o tráfego entrar pela URL abaixo.';
+    corEstado    = 'var(--ink-3)';
+  } else if (poucos) {
+    tituloEstado = 'Cedo demais pra concluir';
+    subEstado    = '<b>' + nA + '</b> e <b>' + nB + '</b> visitantes. A conta começa a valer ' +
+                   'com ' + MIN_BRACO + ' em cada braço.';
+    corEstado    = 'var(--ink-3)';
+  } else if (decidido) {
+    const venc = venceuA ? (A.rotulo || ex.rotulo_a) : (B.rotulo || ex.rotulo_b);
+    const c = CAMPOS[campoPrim] || {};
+    const vA = c.moeda ? moeda(A[campoPrim]) : (Number(A[campoPrim]) / (nA || 1) * 100).toFixed(1) + '%';
+    const vB = c.moeda ? moeda(B[campoPrim]) : (Number(B[campoPrim]) / (nB || 1) * 100).toFixed(1) + '%';
+    tituloEstado = esc(venc) + ' vence';
+    subEstado    = 'Em <b>' + esc(nomePrim) + '</b>: ' + vA + ' contra ' + vB +
+                   ', com <b>' + ((1 - sPrim.p) * 100).toFixed(0) + '%</b> de confiança.';
+    corEstado    = 'var(--bom)';
+  } else {
+    const conf = sPrim ? ((1 - sPrim.p) * 100).toFixed(0) + '%' : '—';
+    tituloEstado = 'Sem vencedor ainda';
+    subEstado    = 'A diferença em <b>' + esc(nomePrim) + '</b> está com ' + conf +
+                   ' de confiança, e o alvo é ' + (CONFIANCA * 100).toFixed(0) + '%.';
+    corEstado    = 'var(--atencao)';
+  }
+
+  const painel =
+    '<div class="ab-estado" style="--c:' + corEstado + '">' +
+      '<div class="ab-est-tit">' + tituloEstado + '</div>' +
+      '<div class="ab-est-sub">' + subEstado + '</div>' +
+      /* Quando é cedo, o subtítulo acima já disse a contagem — repetir `falta`
+         aqui seria a mesma frase duas vezes. Sobra só a barra. */
+      (poucos ? (barraProg ? '<div class="ab-est-falta">' + barraProg + '</div>' : '')
+              : (falta ? '<div class="ab-est-falta">' + falta + barraProg + '</div>' : '')) +
+    '</div>';
 
   const estado = ex.fim ? badge('encerrado', 'var(--ink-3)') : badge('rodando', 'var(--bom)');
 
@@ -1625,6 +1703,7 @@ function cartaoExperimento(ex, linhas, vendas) {
     /* A hipótese fica logo abaixo do título: ela é a PERGUNTA, e a tabela é a
        resposta — nessa ordem o card se lê como uma frase só. */
     (ex.hipotese ? '<div class="ab-hip">' + esc(ex.hipotese) + '</div>' : '') +
+    painel +
     '<div class="tbwrap"><table class="tb abtab">' +
       '<tr><th>Variante</th>' +
         COLS.map(c => '<th class="num' + (c.decide ? ' abdec' : '') + '">' +
@@ -1635,9 +1714,11 @@ function cartaoExperimento(ex, linhas, vendas) {
          ruído em decisão — que é o erro que esta aba inteira existe pra evitar. */
       linhaBraco(A, A.rotulo || ex.rotulo_a, 'var(--s1)', venceuA) +
       linhaBraco(B, B.rotulo || ex.rotulo_b, 'var(--s2)', venceuB) +
-      linhaDif + linhaConf + linhaVer +
+      /* Com pouco dado essas três linhas são só travessão. Some com elas: três
+         linhas vazias fazem a tabela parecer quebrada, e o painel de cima já
+         disse que ainda não dá pra concluir. */
+      (poucos ? '' : linhaDif + linhaConf + linhaVer) +
     '</table></div>' +
-    (falta ? '<div class="nota" style="margin-top:12px;">' + falta + barraProg + '</div>' : '') +
     /* URL e datas descem pro rodapé, pequenas. São referência: você abre o card
        pra ver quem está ganhando, não pra ler a URL — e ela estava ocupando uma
        linha inteira acima da tabela, empurrando pra baixo o que importa. */

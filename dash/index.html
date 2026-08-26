@@ -1694,11 +1694,17 @@ function cartaoExperimento(ex, linhas, vendas, totalVendas) {
      relance. Enquanto está abaixo do piso, o alvo é o próprio piso: estimar
      amostra a partir de uma diferença medida em 11 pessoas produzia frases como
      "faltam 15 visitantes" — animadora e sem qualquer base. */
-  /* Qual métrica manda no "quanto falta". Havendo venda mapeada, é o
-     R$/visitante — é ela que decide. Sem venda ainda, o clique no checkout é o
-     que existe de mais perto do dinheiro. */
+  /* Qual métrica manda no "quanto falta". Ela sai do TIPO do teste, não de um
+     padrão fixo: num teste de tela a pergunta é quem passa da primeira tela;
+     num de preço é quanto entra por visitante. Medir a distância pela métrica
+     errada dá um alvo que não responde a pergunta que o teste faz.
+
+     No de preço, enquanto não houver venda, o clique no checkout é o que existe
+     de mais perto do dinheiro — e some assim que a primeira venda entra. */
   const temDinheiro = (A.vendas + B.vendas) > 0;
-  const sPrim = temDinheiro ? sig.rpv : sig.checkout;
+  const campoPrim = ex.foco === 'dinheiro' ? (temDinheiro ? 'rpv' : 'checkout') : 'tela2';
+  const nomePrim = (CAMPOS[campoPrim] || {}).rotulo || campoPrim;
+  const sPrim = sig[campoPrim];
   const menor = Math.min(nA, nB);
   let falta = '', alvo = 0;
   if (poucos) {
@@ -1706,19 +1712,21 @@ function cartaoExperimento(ex, linhas, vendas, totalVendas) {
     falta = 'Teste começando: <b>' + nA + '</b> e <b>' + nB + '</b> visitantes. ' +
             'A estatística passa a valer a partir de ' + MIN_BRACO + ' por braço.';
   } else if (sPrim && sPrim.p >= 0.05) {
-    const nec = temDinheiro
+    const nec = campoPrim === 'rpv'
       ? amostraNecessariaMedia(sPrim.v1, sPrim.v2, sPrim.m1 - sPrim.m2)
       : amostraNecessaria(sPrim.p1, sPrim.p2);
+    /* amostraNecessariaMedia só serve pro R$/visitante, que compara médias em
+       reais. Nas outras a conta é de proporção. */
     if (nec && isFinite(nec)) {
       alvo = Math.max(nec, MIN_BRACO);
-      falta = 'Para a diferença em <b>' + (temDinheiro ? 'R$/visitante' : 'clique no checkout') +
+      falta = 'Para a diferença em <b>' + esc(nomePrim) +
               '</b> virar conclusão, são ~<b>' + alvo.toLocaleString('pt-BR') +
               '</b> visitantes por braço. Você tem ' + nA + ' e ' + nB + '.';
     } else {
       falta = 'Os dois braços estão praticamente iguais — nesse ritmo o teste não conclui.';
     }
   } else if (sPrim) {
-    falta = 'A diferença na métrica principal já é estatisticamente sólida. Pode decidir.';
+    falta = 'A diferença em <b>' + esc(nomePrim) + '</b> já é estatisticamente sólida. Pode decidir.';
   }
   const barraProg = alvo
     ? '<span class="abprog"><i style="width:' + Math.min(100, menor / alvo * 100).toFixed(1) + '%"></i></span>'

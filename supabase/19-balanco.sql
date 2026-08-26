@@ -22,6 +22,22 @@ returns date language sql immutable as $$ select date '2026-08-25' $$;
 grant execute on function public.kiwify_desde() to authenticated, anon;
 
 
+/* Onde a operação começa pra efeito de balanço. Julho tinha 4 dias soltos de
+   teste — 3 anúncios, R$351,65 — e aparecia na tabela do lado de agosto como se
+   fossem dois meses comparáveis. Não são.
+
+   Por data e não apagando linha: o robô do Meta busca 1095 dias e traria julho
+   de volta na próxima rodada. E dá pra desfazer mudando um número.
+
+   O custo de julho sai junto com a receita. É escolha, não fato: o acumulado
+   fica R$351,65 melhor do que a realidade financeira. Defensável se julho conta
+   como "testes antes de começar". */
+create or replace function public.balanco_desde()
+returns date language sql immutable as $$ select date '2026-08-01' $$;
+
+grant execute on function public.balanco_desde() to authenticated, anon;
+
+
 create or replace function public.fn_balanco()
 returns table (
   mes date, faturamento numeric, liquido numeric,
@@ -47,6 +63,7 @@ as $$
               melhor que existe pra um período que não pode mais ser medido. */
            sum(case when d.data < public.kiwify_desde() then d.vendas * 33.50 else 0 end) as liquido
     from public.criativos_diario d
+    where d.data >= public.balanco_desde()
     group by 1
   ),
   kiwify as (
@@ -58,13 +75,14 @@ as $$
                     else 0 end)                                                           as liquido,
            count(*) filter (where v.evento = 'compra_aprovada')                           as vendas
     from public.vendas v
-    where (v.ts at time zone 'America/Sao_Paulo')::date >= public.kiwify_desde()
+    where (v.ts at time zone 'America/Sao_Paulo')::date >= greatest(public.kiwify_desde(), public.balanco_desde())
     group by 1
   ),
   /* Custo avulso e ocorrência de custo fixo, pela data de competência. */
   op as (
     select date_trunc('month', c.data)::date as mes, sum(c.valor) as operacional
     from public.fn_custos(null, null) c
+    where c.data >= public.balanco_desde()
     group by 1
   ),
   meses as (

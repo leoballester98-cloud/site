@@ -13,7 +13,7 @@
  */
 import { readFileSync, writeFileSync, rmSync, mkdtempSync } from 'node:fs';
 import { tmpdir } from 'node:os';
-import { join } from 'node:path';
+import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { execFileSync } from 'node:child_process';
 
@@ -70,6 +70,49 @@ function autoteste() {
   return m !== null && m.some((x) => x.ruleId === 'no-undef');
 }
 
+/* Classes que existem só como gancho de JS ou espaçador de grade, e por isso
+   nunca vão ter regra própria. Lista curta e explícita: o dia que uma delas
+   ganhar CSS, some daqui. */
+const SEM_CSS_DE_PROPOSITO = new Set([
+  'mp-canto',                             // célula vazia da grade do mapa
+  'soFunil', 'soFonte', 'soCriativos',    // visibilidade por JS, sobre .grp
+]);
+
+function classesOrfas(html, arq) {
+  /* O CSS pode estar em <style> ou num arquivo linkado — o quiz usa
+     quiz-warm.css, e olhar só o inline reportaria as 200 classes dele como
+     órfãs. Um alarme que dispara 200 vezes é um alarme desligado. */
+  let css = [...html.matchAll(/<style[^>]*>([\s\S]*?)<\/style>/g)].map((m) => m[1]).join('\n');
+  for (const m of html.matchAll(/<link[^>]*rel=["']stylesheet["'][^>]*>/g)) {
+    const href = (m[0].match(/href=["']([^"']+)["']/) || [])[1];
+    if (!href || /^https?:|^\/\//.test(href)) continue;   // externo: não dá pra ler
+    try { css += '\n' + readFileSync(join(dirname(arq), href.split('?')[0]), 'utf8'); }
+    catch { return []; }   /* folha que não abre = não sei dizer; melhor calar */
+  }
+  const resto = html.replace(/<style[^>]*>[\s\S]*?<\/style>/g, '');
+  if (!css.trim()) return [];
+
+  const usadas = new Set();
+  for (const m of resto.matchAll(/class="([^"]*)"/g)) {
+    /* Só o pedaço LITERAL, antes da primeira concatenação: em
+       class="' + cls + '" o que vem depois é nome de variável, não de classe,
+       e reportá-lo seria alarme falso toda vez. */
+    const literal = m[1].split(/['"`+${]/)[0];
+    const toks = literal.split(/\s+/).filter(Boolean);
+    /* Se a concatenação começa colada no último token, ele está cortado no meio
+       — 's1-v' + TELA é a classe s1-v3, não uma classe chamada s1-v. */
+    if (literal !== m[1] && !/\s$/.test(literal)) toks.pop();
+    for (const t of toks) if (/^[a-zA-Z][\w-]*$/.test(t)) usadas.add(t);
+  }
+  /* O [,)] no fim exige que a string seja o argumento INTEIRO: em
+     classList.add('s1-v' + TELA) o nome real é s1-v3, e pegar só o pedaço
+     literal reportaria uma classe que nunca existiu. */
+  for (const m of resto.matchAll(/classList\.(?:add|remove|toggle)\('([\w-]+)'\s*[,)]/g)) usadas.add(m[1]);
+
+  const definidas = new Set([...css.matchAll(/\.([a-zA-Z][\w-]*)/g)].map((m) => m[1]));
+  return [...usadas].filter((u) => !definidas.has(u) && !SEM_CSS_DE_PROPOSITO.has(u)).sort();
+}
+
 const alvos = process.argv.slice(2).filter((a) => a !== '--autoteste');
 let falhou = false;
 
@@ -89,9 +132,21 @@ try {
   }
 
   for (const arq of alvos) {
+    const html = readFileSync(arq, 'utf8');
+
+    /* Classe usada sem nenhuma regra de CSS. Mesmo estrago do no-undef e
+       invisível do mesmo jeito: `.mp-grade` sumiu num commit e o mapa de calor
+       virou uma lista de números empilhados, sem erro nenhum no console.
+       Aconteceu com `.livre` e `.fcheck` no mesmo commit, pela mesma razão —
+       recortar uma região do CSS por âncoras leva os vizinhos junto. */
+    for (const orfa of classesOrfas(html, arq)) {
+      falhou = true;
+      console.error(`✗ ${arq}\n  classe "${orfa}" usada no HTML mas sem regra de CSS`);
+    }
+
     /* Só os <script> sem src — os externos não estão no arquivo pra conferir. */
-    const blocos = [...readFileSync(arq, 'utf8')
-      .matchAll(/<script(?![^>]*\bsrc=)[^>]*>([\s\S]*?)<\/script>/g)].map((m) => m[1]);
+    const blocos = [...html.matchAll(/<script(?![^>]*\bsrc=)[^>]*>([\s\S]*?)<\/script>/g)]
+      .map((m) => m[1]);
     if (!blocos.length) { console.log(`· ${arq}: sem script embutido`); continue; }
     const js = blocos.join('\n;\n');
 

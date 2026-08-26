@@ -495,15 +495,23 @@ body{background:var(--bg);color:var(--ink);}
   /* Os botões e o índice vão pras BORDAS do card; o texto fica no meio, na
      medida de leitura. Prender os três a um bloco de 940px espremia tudo numa
      faixa central e deixava o resto do card vazio dos dois lados. */
-  .ac-cols{display:grid;grid-template-columns:minmax(0,1fr) 220px;gap:56px;
-    align-items:start;}
+  .ac-cols{display:grid;grid-template-columns:minmax(0,1fr) 220px;gap:40px;
+    align-items:start;max-width:1040px;margin:0 auto;}
   .ac-indice{position:sticky;top:64px;display:flex;flex-direction:column;gap:2px;
-    padding-left:18px;border-left:1px solid var(--linha);}
+    padding-left:16px;border-left:1px solid var(--linha);}
   .ac-ind-rot{font-size:10.5px;font-weight:700;text-transform:uppercase;
     letter-spacing:.08em;color:var(--ink-3);margin-bottom:8px;}
-  .ac-indice a{font-size:13px;line-height:1.4;color:var(--ink-2);text-decoration:none;
-    padding:5px 0;border-radius:4px;transition:color .12s;}
-  .ac-indice a:hover{color:var(--marca);}
+  /* Verde translúcido em vez de um verde claro fixo: a mesma regra serve nos
+     dois temas, porque o que clareia é a mistura com o fundo de cada um. */
+  .ac-indice a{font-size:13px;line-height:1.4;text-decoration:none;
+    color:color-mix(in srgb, var(--bom) 55%, transparent);
+    padding:5px 0;border-radius:4px;
+    transition:color .12s, border-color .12s;
+    border-left:2px solid transparent;padding-left:10px;margin-left:-12px;}
+  .ac-indice a:hover{color:color-mix(in srgb, var(--bom) 85%, transparent);}
+  /* A seção em que a leitura está: verde cheio e um traço na lateral. A cor
+     sozinha não bastaria pra achar de relance numa lista toda verde. */
+  .ac-indice a.on{color:var(--bom);font-weight:700;border-left-color:var(--bom);}
 
   /* Abaixo de 1000px a sobra não existe: o índice viraria uma lista solta
      empurrando o texto pra baixo, que é o contrário do que ele serve. */
@@ -1457,6 +1465,7 @@ async function carregar() {
      sob o mouse sumir junto com a tabela, o mouseout nunca dispara e ela fica
      pendurada na tela explicando algo que não está mais ali. */
   dicaFlut.fechar();
+  desligarSpy();
   alvo.innerHTML = '<div class="carregando">Carregando…</div>';
   limparGraficos();
   document.querySelectorAll('.filtros select').forEach(s => s.className = s.className.replace(' on','') + (s.value ? ' on' : ''));
@@ -2595,6 +2604,64 @@ function verProcesso(id) {
           : '') +
       '</div>' +
     '</div>';
+  ligarSpy();
+}
+
+/* Marca no índice a seção em que a leitura está.
+
+   Ouve o scroll em captura, como a dica flutuante faz, porque quem rola aqui
+   pode ser a janela ou um container interno — e getBoundingClientRect responde
+   em coordenada de tela nos dois casos. */
+let spyProc = null;
+
+function ligarSpy() {
+  desligarSpy();
+  const nav = document.querySelector('.ac-indice');
+  if (!nav) return;
+  /* As seções saem dos ids que o PRÓPRIO índice aponta, e não de um seletor de
+     tag. A primeira versão procurava h2 enquanto o índice apontava pra h3 — as
+     seções são '##' no markdown, e '##' vira h3 — então ela achava um elemento
+     pra seis links e desistia calada. Amarrado ao href, não tem como divergir. */
+  const links = [...nav.querySelectorAll('a')];
+  const secs  = links.map(a => document.getElementById(a.getAttribute('href').slice(1)));
+  if (!links.length || secs.some(x => !x)) return;
+
+  const marcar = () => {
+    /* A seção atual é a ÚLTIMA cujo título já passou da linha de leitura, e não
+       a primeira visível: com a primeira visível o marcador pula pra seção
+       seguinte assim que o título dela aparece no rodapé da tela, antes de você
+       ter chegado nela. */
+    let atual = 0;
+    secs.forEach((h, i) => { if (h.getBoundingClientRect().top <= 110) atual = i; });
+    links.forEach((a, i) => a.classList.toggle('on', i === atual));
+  };
+
+  /* O gatilho é o IntersectionObserver, não o evento de scroll. Ele é dirigido
+     pelo motor de layout, então dispara mesmo onde o scroll não é despachado
+     como evento — e não custa um cálculo a cada pixel rolado.
+
+     O observador só AVISA que algo mudou; quem decide a seção continua sendo o
+     marcar() acima. Deduzir a seção das entradas do observador dá buraco: nas
+     transições não há nenhuma seção intersectando a faixa, e o marcador
+     apagaria. */
+  const olho = new IntersectionObserver(marcar, { threshold: [0, 1] });
+  secs.forEach(h => olho.observe(h));
+
+  spyProc = marcar;
+  spyProc.olho = olho;
+  window.addEventListener('scroll', marcar, { passive: true });
+  document.addEventListener('scroll', marcar, true);
+  window.addEventListener('resize', marcar);
+  marcar();
+}
+
+function desligarSpy() {
+  if (!spyProc) return;
+  if (spyProc.olho) spyProc.olho.disconnect();
+  window.removeEventListener('scroll', spyProc);
+  document.removeEventListener('scroll', spyProc, true);
+  window.removeEventListener('resize', spyProc);
+  spyProc = null;
 }
 
 /* Rola sem carimbar a âncora na URL: o dashboard guarda a aba no localStorage e
@@ -2605,7 +2672,7 @@ function irSecao(ev, id) {
   if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
-function fecharProcesso() { procAberto = null; verAcademy(); }
+function fecharProcesso() { desligarSpy(); procAberto = null; verAcademy(); }
 
 /* Copia a FONTE, não a seleção da tela. O que o navegador copiaria da tela vem
    sem as quebras de linha do original e com a formatação achatada — colar isso

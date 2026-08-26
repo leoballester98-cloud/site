@@ -569,6 +569,9 @@ body{background:var(--bg);color:var(--ink);}
       <button id="navAb"        onclick="trocarAba('ab')">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V9M10 20V4M16 20v-7M22 20H2"/></svg>
         <span class="rot">Teste A/B</span></button>
+      <button id="navBalanco"   onclick="trocarAba('balanco')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18M3 8h18M6 8l-3 6a3 3 0 0 0 6 0ZM18 8l-3 6a3 3 0 0 0 6 0Z"/></svg>
+        <span class="rot">Balanço</span></button>
       <button id="navHistorico" onclick="trocarAba('historico')">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8v4l3 2"/><path d="M3.05 11a9 9 0 1 1 .5 4"/><path d="M3 5v5h5"/></svg>
         <span class="rot">Histórico</span></button>
@@ -862,6 +865,8 @@ const ICONES = {
   'hold rate':            '<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>',
   'teste a/b':            '<path d="M4 20V9M10 20V4M16 20v-7M22 20H2"/>',
   'vendas por dia e hora':'<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M9 10v10M15 10v10"/>',
+  'balanço':              '<path d="M12 3v18M3 8h18M6 8l-3 6a3 3 0 0 0 6 0ZM18 8l-3 6a3 3 0 0 0 6 0Z"/>',
+  'referências':          '<path d="M8 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2h-2"/><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M8 11h8M8 15h5"/>',
   'histórico':            '<path d="M12 8v4l3 2"/><path d="M3.05 11a9 9 0 1 1 .5 4"/><path d="M3 5v5h5"/>',
 };
 const ico = nome => { const d = ICONES[String(nome).toLowerCase()]; return d ? SVG(d) : ''; };
@@ -903,6 +908,13 @@ const DICAS = {
   'diferença':             'Quanto o primeiro braço rende a mais ou a menos que o segundo.',
   'confiança':             'A chance de a diferença ser real e não sorte.',
   'veredito':              'Acima de 95% há vencedor; de 80% a 95%, tendência; abaixo, empate.',
+
+  'resultado acumulado':   'Soma do lucro de todos os meses. É o placar do produto desde o começo.',
+  'meses no lucro':        'Quantos meses fecharam com lucro, do total de meses com movimento.',
+  'acumulado':             'Lucro somado até aquele mês, incluindo ele.',
+  'anúncio':               'Gasto de mídia no Meta naquele mês.',
+  'operacional':           'Custos lançados e custos fixos daquele mês.',
+  'líquido':               'Faturamento menos a taxa do checkout.',
 };
 const dica = nome => DICAS[String(nome).toLowerCase()] || '';
 
@@ -1213,11 +1225,11 @@ function pintarVars() {
 function aplicarVars() { fecharPaineis(); carregar(); }
 function selecionadas() { return VARIANTES.map(v => v.variante).filter(v => marcadas[v]); }
 
-const TITULOS = { geral:'Visão Geral', funil:'Funil', criativos:'Criativos', ab:'Teste A/B', historico:'Histórico', custos:'Custos operacionais' };
+const TITULOS = { geral:'Visão Geral', funil:'Funil', criativos:'Criativos', ab:'Teste A/B', balanco:'Balanço', historico:'Histórico', custos:'Custos operacionais' };
 function trocarAba(nova) {
   aba = nova;
   fecharGaveta();
-  ['geral','funil','criativos','ab','historico','custos'].forEach(k =>
+  ['geral','funil','criativos','ab','balanco','historico','custos'].forEach(k =>
     document.getElementById('nav' + k[0].toUpperCase() + k.slice(1)).className = k === nova ? 'on' : '');
   document.getElementById('tituloPagina').textContent = TITULOS[nova];
   document.querySelectorAll('.soFunil').forEach(e => e.style.display = nova === 'funil' ? '' : 'none');
@@ -1250,6 +1262,7 @@ async function carregar() {
     if (aba === 'geral') await verGeral();
     else if (aba === 'funil') await verFunil();
     else if (aba === 'ab') await verAB();
+    else if (aba === 'balanco') await verBalanco();
     else if (aba === 'historico') await verHistorico();
     else if (aba === 'custos') await verCustos();
     else await verCriativos();
@@ -1825,6 +1838,197 @@ async function salvarExperimento(chave) {
     btn.disabled = false; btn.textContent = 'Salvar'; return;
   }
   fecharModal(); await verAB();
+}
+
+// ══════════════════════ BALANÇO ══════════════════════
+/* Responde a pergunta que nenhuma outra aba responde: "estou no lucro?".
+   A Visão Geral mostra o período filtrado; aqui o mês é a unidade e o
+   acumulado atravessa todos eles.
+
+   Não respeita o filtro de data de propósito: um balanço filtrado por 7 dias
+   não é um balanço. O acumulado precisa de tudo pra significar alguma coisa. */
+
+/* As métricas que uma referência pode espelhar. A chave casa com o que o
+   dashboard já calcula; o rótulo é o que a pessoa escolhe na lista. Referência
+   sem métrica continua válida — é o caso de "sem VSL", situação que o
+   dashboard não mede mais e por isso vale guardar. */
+const METRICAS_REF = [
+  ['', '— sem comparação —'],
+  ['conv_funil',    'Conversão do funil'],
+  ['conv_checkout', 'Conversão do checkout'],
+  ['ticket',        'Ticket médio'],
+  ['arpu',          'ARPU'],
+  ['cpa',           'CPA'],
+  ['roas',          'ROAS'],
+];
+const MES_CURTO = ['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
+const nomeMes = d => MES_CURTO[Number(d.slice(5, 7)) - 1] + '/' + d.slice(2, 4);
+const fmtRef = (v, u) => u === 'R$' ? moeda(v) : u === '%' ? Number(v).toFixed(1) + '%' : String(v);
+
+async function verBalanco() {
+  const [rB, rR, rF, rD] = await Promise.all([
+    Promise.resolve(sb.rpc('fn_balanco')).catch(() => ({ error: true })),
+    Promise.resolve(sb.from('referencias').select('*').order('data', { ascending: false }))
+      .catch(() => ({ error: true })),
+    Promise.resolve(sb.rpc('fn_funil', { p_de:null, p_ate:null })).catch(() => ({ data:null })),
+    Promise.resolve(sb.rpc('fn_diario', { p_de:null, p_ate:null })).catch(() => ({ data:[] })),
+  ]);
+  if (!rB || rB.error) {
+    document.getElementById('conteudo').innerHTML =
+      '<div class="card"><div class="vazio">O balanço ainda não existe no banco. ' +
+      'Rode <b>supabase/19-balanco.sql</b> no SQL Editor.</div></div>';
+    return;
+  }
+
+  /* Do mais novo pro mais velho na tela, mas o acumulado se constrói do mais
+     VELHO pro mais novo — ele é a soma de tudo que veio antes. */
+  const meses = (rB.data || []).slice();
+  let corrido = 0;
+  const comAcumulado = meses.slice().reverse().map(m => {
+    corrido += Number(m.lucro);
+    return { ...m, acumulado: corrido };
+  }).reverse();
+  const total = corrido;
+
+  const cor = v => v >= 0 ? 'var(--bom)' : 'var(--ruim)';
+  const linha = m =>
+    '<tr><td class="nm"><b>' + nomeMes(m.mes) + '</b></td>' +
+    '<td class="num">' + moeda(m.faturamento) + '</td>' +
+    '<td class="num">' + moeda(m.liquido) + '</td>' +
+    '<td class="num">' + moeda(m.anuncio) + '</td>' +
+    '<td class="num">' + moeda(m.operacional) + '</td>' +
+    '<td class="num"><b style="color:' + cor(m.lucro) + '">' + moeda(m.lucro) + '</b></td>' +
+    '<td class="num" style="color:' + cor(m.acumulado) + '">' + moeda(m.acumulado) + '</td></tr>';
+
+  /* Valores de hoje, pra coluna de comparação das referências. */
+  const fun = rF && rF.data;
+  const dias = (rD && rD.data) || [];
+  const t = dias.reduce((a, d) => ({ fat:a.fat + Number(d.faturamento), vendas:a.vendas + Number(d.vendas),
+    checkouts:a.checkouts + Number(d.checkouts), gasto:a.gasto + Number(d.gasto) }),
+    { fat:0, vendas:0, checkouts:0, gasto:0 });
+  const hoje = {
+    conv_funil:    (fun && fun.visitantes) ? fun.compraram / fun.visitantes * 100 : null,
+    conv_checkout: t.checkouts ? t.vendas / t.checkouts * 100 : null,
+    ticket:        t.vendas ? t.fat / t.vendas : null,
+    arpu:          (fun && fun.visitantes) ? t.fat / fun.visitantes : null,
+    cpa:           t.vendas ? t.gasto / t.vendas : null,
+    roas:          t.gasto ? t.fat / t.gasto : null,
+  };
+  const unidadeDe = k => (k === 'ticket' || k === 'arpu' || k === 'cpa') ? 'R$'
+                       : (k === 'roas') ? 'n' : '%';
+
+  const refs = (rR && !rR.error && rR.data) ? rR.data : [];
+  const linhaRef = r => {
+    const atual = r.metrica ? hoje[r.metrica] : null;
+    const dif = (atual != null && Number(r.valor)) ? (atual - Number(r.valor)) / Number(r.valor) * 100 : null;
+    return '<tr><td class="nm"><b>' + esc(r.rotulo) + '</b>' +
+        (r.nota ? '<br><span class="abfrac">' + esc(r.nota) + '</span>' : '') + '</td>' +
+      '<td>' + brDate(r.data) + '</td>' +
+      '<td class="num"><b>' + fmtRef(r.valor, r.unidade) + '</b></td>' +
+      '<td class="num">' + (atual != null ? '<b>' + fmtRef(atual, unidadeDe(r.metrica)) + '</b>' : '—') + '</td>' +
+      '<td class="num">' + (dif != null
+        ? '<span style="color:' + cor(dif) + '">' + (dif >= 0 ? '+' : '') + dif.toFixed(1) + '%</span>'
+        : '—') + '</td>' +
+      '<td class="num"><button class="limpar" onclick="apagarRef(' + r.id + ')">excluir</button></td></tr>';
+  };
+
+  document.getElementById('conteudo').innerHTML =
+    '<div class="kpis cinco">' +
+      '<div class="kpi">' + rotulo('Resultado acumulado') +
+        '<div class="val" style="color:' + cor(total) + '">' + moeda(total) + '</div>' +
+        '<div class="ap">' + (meses.length ? meses.length + (meses.length > 1 ? ' meses' : ' mês') : '') + '</div></div>' +
+      kpi('Meses no lucro', comAcumulado.filter(m => m.lucro > 0).length + ' de ' + comAcumulado.length) +
+    '</div>' +
+    '<div class="card">' +
+      '<div class="sec">' + ico('Balanço') + '<span>Mês a mês</span></div>' +
+      (comAcumulado.length
+        ? '<div class="tbwrap"><table class="tb"><tr><th>Mês</th>' +
+            ['Faturamento','Líquido','Anúncio','Operacional','Lucro','Acumulado']
+              .map(h => '<th class="num">' + rotuloTb(h) + '</th>').join('') + '</tr>' +
+          comAcumulado.map(linha).join('') + '</table></div>' +
+          /* O acumulado é o número que responde "estou no lucro"; sozinho na
+             tabela ele se perde entre seis colunas. */
+          '<div class="nota">' + (total >= 0
+            ? 'O produto está <b>no lucro</b> em ' + moeda(total) + ' desde o começo.'
+            : 'O produto está <b>no prejuízo</b> em ' + moeda(Math.abs(total)) + '. ' +
+              'É esse o valor que precisa entrar de lucro pra empatar.') + '</div>'
+        : '<div class="vazio">Nenhum mês com movimento ainda.</div>') +
+    '</div>' +
+    '<div class="card">' +
+      '<div class="cabsec"><div class="sec" style="margin:0;">' + ico('Referências') +
+        '<span>Referências</span></div>' +
+        '<button class="prim" onclick="abrirRef()">Guardar número</button></div>' +
+      '<div class="qual">Números que você quer comparar depois. Diferente do Histórico, ' +
+        'que guarda o que aconteceu, aqui fica o que continua servindo de régua.</div>' +
+      (refs.length
+        ? '<div class="tbwrap"><table class="tb"><tr><th>O quê</th><th>Quando</th>' +
+            '<th class="num">Era</th><th class="num">Hoje</th><th class="num">Diferença</th><th></th></tr>' +
+          refs.map(linhaRef).join('') + '</table></div>'
+        : '<div class="vazio" style="text-align:left;padding:20px 0 6px;">' +
+          'Nada guardado ainda. A primeira que vale: a conversão de antes da última ' +
+          'mudança que você fez — ela some do dashboard no dia em que a mudança sobe.</div>') +
+    '</div>';
+}
+
+function abrirRef() {
+  document.getElementById('modal').innerHTML =
+    '<div class="modal" onclick="if(event.target===this)fecharModal()"><div class="box">' +
+      '<h2>Guardar número</h2>' +
+      '<div class="qual">O rótulo é seu: escreva com o contexto que importa — ' +
+        '"sem VSL", "na h=2", "antes do teste de preço".</div>' +
+      '<div id="rfErro" class="erro" style="display:none;"></div>' +
+      '<label class="fcampo">O quê<input id="rfRot" maxlength="120" ' +
+        'placeholder="Ex.: conversão do funil sem VSL"/></label>' +
+      '<div class="fdupla">' +
+        '<label class="fcampo">Valor<input id="rfVal" type="text" inputmode="decimal" placeholder="21,2"/></label>' +
+        '<label class="fcampo">Unidade<select id="rfUni">' +
+          '<option value="%">%</option><option value="R$">R$</option><option value="n">número</option>' +
+        '</select></label>' +
+        '<label class="fcampo">Quando<input id="rfData" type="date" value="' + iso(hojeSP()) + '"/></label>' +
+      '</div>' +
+      '<label class="fcampo">Comparar com<select id="rfMet">' +
+        METRICAS_REF.map(([v, l]) => '<option value="' + v + '">' + esc(l) + '</option>').join('') +
+      '</select></label>' +
+      '<div class="nota" style="margin:-8px 0 14px;">Escolhendo uma métrica, o valor de hoje ' +
+        'aparece do lado pra comparar. Deixe sem se o número for de algo que o dashboard ' +
+        'não mede mais.</div>' +
+      '<label class="fcampo">Nota<input id="rfNota" maxlength="160" placeholder="opcional"/></label>' +
+      '<div class="pfoot"><button class="limpar" onclick="fecharModal()">Cancelar</button>' +
+      '<button class="prim" id="rfSalvar" onclick="salvarRef()">Guardar</button></div>' +
+    '</div></div>';
+  setTimeout(() => { const e = document.getElementById('rfRot'); if (e) e.focus(); }, 30);
+}
+
+async function salvarRef() {
+  const btn = document.getElementById('rfSalvar');
+  const erro = document.getElementById('rfErro');
+  const falar = m => { erro.textContent = m; erro.style.display = 'block';
+                       btn.disabled = false; btn.textContent = 'Guardar'; };
+  erro.style.display = 'none';
+  const rotulo = document.getElementById('rfRot').value.trim();
+  const bruto = String(document.getElementById('rfVal').value).replace(',', '.');
+  const valor = Number(bruto);
+  if (!rotulo) return falar('Escreve o que é esse número.');
+  if (!bruto.trim() || !isFinite(valor)) return falar('Valor inválido.');
+  btn.disabled = true; btn.textContent = 'Guardando…';
+
+  const { error } = await sb.from('referencias').insert([{
+    rotulo, valor,
+    unidade: document.getElementById('rfUni').value,
+    metrica: document.getElementById('rfMet').value || null,
+    data: document.getElementById('rfData').value || iso(hojeSP()),
+    nota: document.getElementById('rfNota').value.trim() || null,
+  }]);
+  if (error) return falar('Não deu pra guardar: ' + error.message);
+  fecharModal();
+  await verBalanco();
+}
+
+async function apagarRef(id) {
+  if (!confirm('Apagar esta referência?')) return;
+  const { error } = await sb.from('referencias').delete().eq('id', id);
+  if (error) return alert('Não deu pra apagar: ' + error.message);
+  await verBalanco();
 }
 
 // ══════════════════════ HISTÓRICO ══════════════════════

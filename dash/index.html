@@ -869,36 +869,40 @@ const ico = nome => { const d = ICONES[String(nome).toLowerCase()]; return d ? S
 /* O que cada número quer dizer, em uma frase. Onde a conta tem uma escolha
    nossa — ROAS só sobre mídia, ROI sobre tudo, ARPU por visitante — a frase diz
    isso, porque é exatamente onde dá pra ler errado. */
-const DICAS = {
-  'gasto em anúncio':      'Quanto o Meta cobrou no período. Só mídia, sem taxas nem custo operacional.',
-  'gasto operacional':     'Soma dos custos que você lançou na aba Custos, pela data de competência.',
-  'faturamento':           'Valor bruto das vendas que o pixel atribuiu ao Meta, com o order bump incluído.',
-  'vendas por dia e hora': 'Cada quadrado é uma hora de um dia da semana; quanto mais escuro, mais vendas. Todas as horas em São Paulo, tiradas do horário real do pagamento na Kiwify.',
-  'valor líquido':         'O que a Kiwify deposita, lido do próprio webhook (my_commission) e não calculado. Já sem a taxa dela e sem o juro de parcelamento, que o cliente paga e vai pra operadora. Ainda NÃO desconta anúncio nem operacional — quem faz isso é o Lucro.',
-  'lucro':                 'O que sobrou de verdade: faturamento menos as taxas do checkout, menos anúncio, menos operacional.',
-  'roas':                  'Faturamento ÷ gasto em anúncio. Mede só a mídia — não desconta taxa nem custo operacional.',
-  'roi':                   'Retorno sobre tudo que saiu: (faturamento líquido − anúncio − operacional) ÷ (anúncio + operacional).',
-  'vendas':                'Compras aprovadas na Kiwify no período, order bump incluído — mesma contagem que o painel dela. Antes de 25/08 são as que o pixel do Meta atribuiu, que contam menos.',
-  'checkouts':             'Quantas vezes alguém abriu o checkout. Uma pessoa pode abrir mais de uma vez.',
-  'cpa':                   'Custo total por CLIENTE: anúncio + operacional ÷ vendas, sem contar order bump. O bump não é cliente novo — é venda a mais pra quem você já tinha —, então incluí-lo baratearia o custo de aquisição sem ninguém ter sido adquirido. Por isso este divisor é menor que o número em Vendas.',
-  'ticket médio':          'Faturamento ÷ vendas. Quanto entra, em média, por compra.',
-  'arpu':                  'Faturamento ÷ visitantes do quiz. É receita por VISITANTE, não por cliente — não temos identidade de comprador.',
-  'conversão do funil':    'Quem clicou em comprar na última tela ÷ visitantes. Vem do quiz, não do Meta.',
-  'conversão do checkout': 'Vendas ÷ visitas ao checkout. Quanto do que abre o checkout vira compra.',
-  'reembolso':             'Ainda não conectado ao checkout — por isso aparece como “—” e não como zero.',
-  'criativos':             'Quantos criativos entraram no ar, sobre a meta do período.',
+/* Uma frase por métrica, dizendo O QUE ELA É. Nada além disso.
 
-  /* Teste A/B. Estas ficam no MESMO mapa das outras de propósito: uma métrica
-     com dois textos diferentes em duas abas é uma métrica que ninguém confia. */
-  'visitantes':            'Sessões que abriram a tela 1. É a base de todas as porcentagens da linha. Os dois braços devem ficar perto de 50/50 — se não ficarem, é falha técnica, não resultado.',
-  'tela 1 → tela 2':       'Quem passou da primeira tela. É onde a headline mexe mais direto, e por isso a pergunta central de um teste de tela.',
+   As que eu tinha escrito chegavam a 300 caracteres porque emendavam ressalva
+   na definição — "e se isso, cuidado com aquilo". Quem passa o mouse quer
+   lembrar o que o número significa, não ler um parágrafo; e explicação que
+   exige leitura deixa de ser lida, aí a métrica volta a ser um número solto. */
+const DICAS = {
+  'gasto em anúncio':      'Quanto o Meta cobrou no período. Só mídia, sem taxas nem operacional.',
+  'gasto operacional':     'Soma dos custos lançados na aba Custos, pela data de competência.',
+  'faturamento':           'Valor bruto das vendas no período, order bump incluído.',
+  'valor líquido':         'Faturamento menos a taxa da Kiwify. É o que ela deposita na sua conta.',
+  'lucro':                 'O que sobrou: valor líquido menos anúncio e menos operacional.',
+  'roas':                  'Faturamento ÷ gasto em anúncio. Mede só a mídia.',
+  'roi':                   'Retorno sobre tudo que saiu: lucro ÷ (anúncio + operacional).',
+  'vendas':                'Compras aprovadas no período, order bump incluído.',
+  'checkouts':             'Quantas vezes alguém abriu o checkout.',
+  'cpa':                   'Anúncio mais operacional ÷ clientes. Order bump não conta como cliente.',
+  'ticket médio':          'Faturamento ÷ vendas.',
+  'arpu':                  'Faturamento ÷ visitantes do quiz.',
+  'conversão do funil':    'Quem clicou em comprar na última tela ÷ visitantes.',
+  'conversão do checkout': 'Vendas ÷ visitas ao checkout.',
+  'reembolso':             'Ainda não conectado ao checkout.',
+  'criativos':             'Quantos criativos entraram no ar, sobre a meta do período.',
+  'vendas por dia e hora': 'Vendas em cada hora de cada dia da semana. Mais escuro, mais vendas.',
+
+  'visitantes':            'Sessões que abriram a tela 1. É a base das porcentagens da linha.',
+  'tela 1 → tela 2':       'Quem passou da primeira tela.',
   'chegou ao fim':         'Sessões que alcançaram a tela 34, a última do quiz.',
-  'clicou no checkout':    'Sessões que clicaram em comprar na última tela. É intenção, não compra: entre clicar e pagar some bastante gente.',
-  'receita':               'Receita do braço, já descontados reembolsos e chargebacks. Sozinha ela não compara nada: o braço com mais gente fatura mais sem ser melhor.',
-  'r$/visitante':          'Receita ÷ visitantes. É ESTA que decide um teste de preço, porque um preço maior pode converter menos e faturar mais. Entre R$37,90 e R$67,90 o empate está numa queda de 44% na conversão.',
-  'confiança':             'A chance de a diferença ser real e não sorte. Abaixo de 95% não dá pra concluir — e 60%, 70%, 80% valem tanto quanto jogar moeda.',
-  'veredito':              'A leitura da confiança: acima de 95% há vencedor; entre 80% e 95% é tendência, que pode virar; abaixo disso é empate. Enquanto faltar volume aparece “poucos dados”, porque conclusão tirada de poucas dezenas de pessoas é ruído com cara de resultado.',
-  'diferença':             'Quanto o primeiro braço rende a mais (ou a menos) que o segundo, em porcentagem. É o tamanho do efeito; se ele é real, quem diz é a confiança.',
+  'clicou no checkout':    'Sessões que clicaram em comprar na última tela.',
+  'receita':               'Receita do braço, já descontados os reembolsos.',
+  'r$/visitante':          'Receita ÷ visitantes. É ela que decide um teste de preço.',
+  'diferença':             'Quanto o primeiro braço rende a mais ou a menos que o segundo.',
+  'confiança':             'A chance de a diferença ser real e não sorte.',
+  'veredito':              'Acima de 95% há vencedor; de 80% a 95%, tendência; abaixo, empate.',
 };
 const dica = nome => DICAS[String(nome).toLowerCase()] || '';
 

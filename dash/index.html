@@ -489,9 +489,35 @@ body{background:var(--bg);color:var(--ink);}
   /* O card do documento tem respiro maior que o dos painéis de número: texto
      corrido precisa de margem, dado precisa de densidade. */
   .ac-doc{padding:22px 26px 30px;}
+  /* Texto e índice lado a lado. A coluna de texto continua com medida de
+     leitura — alargar ela pra ocupar a tela cansaria antes do fim do parágrafo.
+     O que muda é que a sobra deixa de ser vazio e passa a ser navegação. */
+  .ac-cols{display:grid;grid-template-columns:minmax(0,1fr) 210px;gap:44px;
+    align-items:start;max-width:940px;margin:0 auto;}
+  /* A barra do topo acompanha a largura do bloco, senão o botão de copiar fica
+     numa borda e o documento em outra. */
+  .ac-doc .ac-topo{max-width:940px;margin:0 auto 8px;}
+  .ac-indice{position:sticky;top:64px;display:flex;flex-direction:column;gap:2px;
+    padding-left:18px;border-left:1px solid var(--linha);}
+  .ac-ind-rot{font-size:10.5px;font-weight:700;text-transform:uppercase;
+    letter-spacing:.08em;color:var(--ink-3);margin-bottom:8px;}
+  .ac-indice a{font-size:13px;line-height:1.4;color:var(--ink-2);text-decoration:none;
+    padding:5px 0;border-radius:4px;transition:color .12s;}
+  .ac-indice a:hover{color:var(--marca);}
+
+  /* Abaixo de 1000px a sobra não existe: o índice viraria uma lista solta
+     empurrando o texto pra baixo, que é o contrário do que ele serve. */
+  @media(max-width:1000px){
+    .ac-cols{grid-template-columns:minmax(0,1fr);gap:0;}
+    .ac-indice{display:none;}
+  }
+
   .ac-corpo{max-width:74ch;font-size:15px;line-height:1.65;color:var(--ink-2);}
   .ac-corpo h2{font-size:24px;font-weight:800;color:var(--ink);letter-spacing:-.01em;
     margin:34px 0 12px;line-height:1.2;}
+  /* Compensa a barra grudada: sem isso, pular pra uma seção deixa o título dela
+     escondido atrás do botão de copiar. */
+  .ac-corpo h2,.ac-corpo h3{scroll-margin-top:72px;}
   .ac-corpo h2:first-child{margin-top:8px;}
   .ac-corpo h3{font-size:17px;font-weight:700;color:var(--ink);margin:28px 0 8px;
     padding-bottom:8px;border-bottom:1px solid var(--linha);}
@@ -2430,7 +2456,11 @@ function md(txt) {
     if (/^---+$/.test(t)) { fora.push('<hr>'); i++; continue; }
 
     const h = t.match(/^(#{1,4})\s+(.*)$/);
-    if (h) { const n = h[1].length + 1; fora.push('<h' + n + '>' + linha(h[2]) + '</h' + n + '>'); i++; continue; }
+    if (h) {
+      const n = h[1].length + 1;
+      fora.push('<h' + n + ' id="' + apelido(h[2]) + '">' + linha(h[2]) + '</h' + n + '>');
+      i++; continue;
+    }
 
     /* Tabela só é tabela se a linha seguinte for a régua de separação. Sem essa
        checagem, qualquer frase com barra vertical viraria uma tabela de uma
@@ -2469,6 +2499,14 @@ function md(txt) {
     fora.push('<p>' + linha(par.join(' ')) + '</p>');
   }
   return fora.join('\n');
+}
+
+/* Mesmo apelido do título e do item do índice — os dois saem daqui, então não
+   tem como um apontar pra âncora que o outro não criou. */
+function apelido(t) {
+  return 'sec-' + String(t).toLowerCase()
+    .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 40);
 }
 
 function fonteProcesso(id) {
@@ -2524,6 +2562,15 @@ function verProcesso(id) {
   if (!pr) { procAberto = null; return verAcademy(); }
   procAberto = id;
 
+  const fonte = fonteProcesso(id);
+  /* O índice sai da FONTE e não do HTML já montado: ler o markdown é uma linha
+     de regex, e vasculhar o DOM depois exigiria renderizar antes pra só então
+     descobrir o que renderizar do lado. */
+  const secoes = fonte.split('\n')
+    .map(l => l.match(/^##\s+(.*)$/))
+    .filter(Boolean)
+    .map(m => m[1].trim());
+
   document.getElementById('conteudo').innerHTML =
     '<div class="card ac-doc">' +
       '<div class="ac-topo">' +
@@ -2533,8 +2580,27 @@ function verProcesso(id) {
             JSON.stringify(id).replace(/"/g, '&quot;') + ', this)">Copiar prompt</button>'
           : '') +
       '</div>' +
-      '<div class="ac-corpo">' + md(fonteProcesso(id)) + '</div>' +
+      '<div class="ac-cols">' +
+        '<div class="ac-corpo">' + md(fonte) + '</div>' +
+        /* O índice ocupa a sobra que a medida de leitura deixa. Some abaixo de
+           1000px, onde essa sobra não existe e ele viraria uma lista solta
+           empurrando o texto pra baixo. */
+        (secoes.length > 2
+          ? '<nav class="ac-indice" aria-label="Seções"><div class="ac-ind-rot">Neste processo</div>' +
+            secoes.map(t => '<a href="#' + apelido(t) + '" onclick="irSecao(event,' +
+              JSON.stringify(apelido(t)).replace(/"/g, '&quot;') + ')">' + esc(t) + '</a>').join('') +
+            '</nav>'
+          : '') +
+      '</div>' +
     '</div>';
+}
+
+/* Rola sem carimbar a âncora na URL: o dashboard guarda a aba no localStorage e
+   um #hash pendurado ali não significa nada quando você voltar. */
+function irSecao(ev, id) {
+  ev.preventDefault();
+  const el = document.getElementById(id);
+  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
 function fecharProcesso() { procAberto = null; verAcademy(); }

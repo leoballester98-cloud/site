@@ -1951,7 +1951,7 @@ function cartaoExperimento(ex, linhas, vendas) {
       falta = 'Os dois braços estão praticamente iguais — nesse ritmo o teste não conclui.';
     }
   } else if (sPrim) {
-    falta = 'A diferença em <b>' + esc(nomePrim) + '</b> já é estatisticamente sólida. Pode decidir.';
+    falta = 'Pode decidir.';   /* o resto já foi dito no subtítulo */
   }
   /* A barra muda de unidade junto com o alvo. Antes do piso ela mede a unidade
      que decide o teste (venda, no de preço); depois dele o alvo vem de
@@ -1991,11 +1991,17 @@ function cartaoExperimento(ex, linhas, vendas) {
   } else if (decidido) {
     const venc = venceuA ? (A.rotulo || ex.rotulo_a) : (B.rotulo || ex.rotulo_b);
     const c = CAMPOS[campoPrim] || {};
-    const vA = c.moeda ? moeda(A[campoPrim]) : (Number(A[campoPrim]) / (nA || 1) * 100).toFixed(1) + '%';
-    const vB = c.moeda ? moeda(B[campoPrim]) : (Number(B[campoPrim]) / (nB || 1) * 100).toFixed(1) + '%';
+    /* pct e não toFixed: toFixed devolve ponto decimal, e este trecho tinha
+       escapado da correção de formato — saía "32.7%" num painel em português. */
+    const vA = c.moeda ? moeda(A[campoPrim]) : pct(Number(A[campoPrim]) / (nA || 1) * 100);
+    const vB = c.moeda ? moeda(B[campoPrim]) : pct(Number(B[campoPrim]) / (nB || 1) * 100);
     tituloEstado = esc(venc) + ' vence';
+    /* O tamanho da amostra entra aqui porque é ele que responde "por que já
+       concluiu". Sem o número, a confiança de 85% aparece como afirmação que a
+       pessoa tem que aceitar; com ele, dá pra ver de onde veio. */
     subEstado    = 'Em <b>' + esc(nomePrim) + '</b>: ' + vA + ' contra ' + vB +
-                   ', com <b>' + ((1 - sPrim.p) * 100).toFixed(0) + '%</b> de confiança.';
+                   ', em <b>' + cA + '</b> e <b>' + cB + '</b> ' + unidade +
+                   '. ' + ((1 - sPrim.p) * 100).toFixed(0) + '% de confiança.';
     corEstado    = 'var(--bom)';
   } else {
     const conf = sPrim ? ((1 - sPrim.p) * 100).toFixed(0) + '%' : '—';

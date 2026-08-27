@@ -696,6 +696,11 @@ body{background:var(--bg);color:var(--ink);}
   .ab-pe code.ab-url.copiafalhou{color:var(--atencao);border-color:var(--atencao);
     user-select:all;}
   .ab-pe code.ab-url.copiafalhou::after{content:'';margin:0;}
+  /* O vencedor é a única informação do rodapé que vale mais que a URL, então é
+     a única com peso e ícone. O resto da linha continua cinza. */
+  .ab-venc{display:inline-flex;align-items:center;gap:6px;color:var(--ink);}
+  .ab-venc .trofeu{width:15px;height:15px;flex:none;}
+  .ab-venc.empate{color:var(--ink-3);}
   .ab-copia-dica{color:var(--atencao);font-weight:600;}
   /* O cabeçalho da coluna que decide vem em negrito e na cor do texto forte —
      sem fundo. A versão com faixa cinza pintava a última coluna de QUALQUER
@@ -1357,6 +1362,22 @@ function alternarLateral() {
 // lê os tokens do tema atual em vez de cravar hex no JS
 Chart.defaults.font.family = "Inter, ui-sans-serif, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif";
 const tok = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+/* Troféu do vencedor. Preenchido e dourado, diferente de todos os outros
+   ícones do dashboard, que são de traço e herdam a cor do texto. A exceção é o
+   ponto: ele marca a única linha em que o teste terminou com resposta.
+
+   Dois tons chapados e não gradiente: gradiente precisa de um <defs> com id, e
+   com dois testes encerrados na tela o id repetiria. Em 15px ninguém enxerga a
+   diferença entre as duas soluções. */
+const TROFEU =
+  '<svg class="trofeu" viewBox="0 0 24 24" aria-hidden="true">' +
+    '<path d="M7 3.5h10V9a5 5 0 0 1-10 0V3.5Z" fill="#E8B33A"/>' +
+    '<path d="M7 5H5.2a2.2 2.2 0 0 0 0 4.4H7M17 5h1.8a2.2 2.2 0 0 1 0 4.4H17" ' +
+      'fill="none" stroke="#E8B33A" stroke-width="1.7" stroke-linecap="round"/>' +
+    '<path d="M10.6 13.8h2.8v3.2h-2.8z" fill="#C8901B"/>' +
+    '<path d="M8.4 17h7.2l1 3.5H7.4l1-3.5Z" fill="#C8901B"/>' +
+  '</svg>';
+
 const paleta = () => ['--s1','--s2','--s3','--s4','--s5','--s6'].map(tok);
 let VARIANTES = [], marcadas = {};
 
@@ -2079,8 +2100,15 @@ function cartaoExperimento(ex, linhas, vendas) {
       '<code class="ab-url" title="clique para copiar a URL do teste" ' +
         'onclick="copiarUrl(' + JSON.stringify(URL_QUIZ + '?ab=' + ex.chave).replace(/"/g, '&quot;') +
         ', this)">?ab=' + esc(ex.chave) + '</code>' +
-      (ex.vencedor ? '<span>vencedor: <b>' + (ex.vencedor === 'a' ? esc(ex.rotulo_a)
-        : ex.vencedor === 'b' ? esc(ex.rotulo_b) : 'empate') + '</b></span>' : '') +
+      /* Troféu só quando alguém ganhou. Empate leva o traço: um troféu de
+         empate premiaria a ausência de resultado, que é o oposto do que este
+         card serve pra dizer. */
+      (ex.vencedor
+        ? (ex.vencedor === 'empate'
+            ? '<span class="ab-venc empate">empate</span>'
+            : '<span class="ab-venc">' + TROFEU + '<b>' +
+              esc(ex.vencedor === 'a' ? ex.rotulo_a : ex.rotulo_b) + '</b></span>')
+        : '') +
     '</div>' +
     alerta +
     '</div>';

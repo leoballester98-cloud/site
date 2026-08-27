@@ -3287,11 +3287,21 @@ async function verFunil() {
   g.addColorStop(0, 'rgba(53,208,127,0.42)'); g.addColorStop(1, 'rgba(53,208,127,0.02)');
   const CORES_L = paleta();
   const datasets = comparando
+    /* Sombra sob cada linha também na comparação. Com cinco áreas empilhadas o
+       alpha tem que ser baixo, senão vira lama e some justamente a leitura que
+       a sombra existe pra dar: o quanto de funil sobrou embaixo de cada uma. */
     ? series.map((s, i) => ({ label: rotulo(s.nome), data: s.calc.linhas.map(l => l.ret),
-        borderColor: CORES_L[i % CORES_L.length], borderWidth:2, fill:false, tension:.4, pointRadius:0 }))
+        borderColor: CORES_L[i % CORES_L.length],
+        backgroundColor: CORES_L[i % CORES_L.length] + '1f',
+        borderWidth:2, fill:true, tension:.4, pointRadius:0, pointHoverRadius:5 }))
     : [{ data: A.linhas.map(l => l.ret), borderColor:'#35d07f', borderWidth:2, backgroundColor:g, fill:true, tension:.4, pointRadius:0, pointHoverRadius:5 }];
   graficos.push(new Chart(ctx, { type:'line', data:{ labels:A.linhas.map(l => l.n), datasets },
+    /* Sem isto o hover não pegava nunca: o padrão do Chart.js exige acertar o
+       PONTO, e pointRadius é 0, então não havia ponto pra acertar. Com index e
+       intersect false, passar o mouse em qualquer altura da coluna abre todas
+       as séries daquela tela de uma vez. */
     options:{ responsive:true, maintainAspectRatio:false,
+      interaction:{ mode:'index', intersect:false },
       plugins:{ legend:{ display:comparando, labels:{ color:'#cfe5d8', boxWidth:12, boxHeight:2 } },
         tooltip:{ callbacks:{ title:t => 'Tela ' + A.linhas[t[0].dataIndex].n + ' — ' + A.linhas[t[0].dataIndex].nome,
           label:c => (comparando ? c.dataset.label + ': ' : '') + c.parsed.y + '% ainda no funil' } } },

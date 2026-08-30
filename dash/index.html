@@ -1068,6 +1068,7 @@ const ICONES = {
   /* Quiz tem ícone próprio: são três conversões na mesma tela, e o funil de
      todas iguais faria você ler o rótulo toda vez pra saber qual é qual. */
   'conversão do quiz':    '<path d="M9 9a3 3 0 1 1 4 2.8c-.7.3-1 1-1 1.7v.5"/><path d="M12 17.5h.01"/><rect x="3" y="3" width="18" height="18" rx="3"/>',
+  'custo por checkout':   '<path d="M6 6h15l-1.5 9h-12z"/><circle cx="9" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/><path d="M6 6 5 3H2"/>',
   'conversão do checkout':'<path d="M19 5 5 19"/><circle cx="7.5" cy="7.5" r="2.5"/><circle cx="16.5" cy="16.5" r="2.5"/>',
   'visitantes':           '<path d="M16 20v-1.5a3.5 3.5 0 0 0-3.5-3.5h-5A3.5 3.5 0 0 0 4 18.5V20"/><circle cx="10" cy="7.5" r="3.5"/><path d="M20 20v-1.5a3.5 3.5 0 0 0-2.6-3.4"/>',
   'chegaram ao fim':      '<path d="M4 21V4m0 0 6 2 5-2 5 2v9l-5 2-5-2-6 2"/>',
@@ -1121,6 +1122,7 @@ const DICAS = {
   'arpu':                  'Faturamento ÷ visitantes do quiz.',
   'conversão do funil':    'Vendas ÷ visitantes do quiz. Some quando você filtra por fonte: a Kiwify não sabe de qual fonte veio a venda.',
   'conversão do quiz':     'Quem terminou o quiz e clicou em comprar ÷ visitantes.',
+  'custo por checkout':    'Gasto em anúncio ÷ checkouts. Quanto custa fazer alguém clicar em comprar.',
   'conversão do checkout': 'Vendas ÷ visitas ao checkout.',
   'reembolso':             'Ainda não conectado ao checkout.',
   'criativos':             'Quantos criativos entraram no ar, sobre a meta do período.',
@@ -3114,6 +3116,10 @@ async function verGeral() {
      Vendas mostra 12 e o CPA divide por 10 — os dois estao certos, medindo
      coisas diferentes, e a dica da metrica diz isso. */
   const cpa    = tot.semBump ? saiu / tot.semBump : null;
+  /* Divide pelo GASTO em anúncio, não pelo saiu: custo operacional e custo fixo
+     não compram checkout. O CPA usa `saiu` porque ali a pergunta é quanto custa
+     um cliente de verdade, e aí tudo que sai conta. */
+  const custoCheck = tot.checkouts ? tot.gasto / tot.checkouts : null;
   const ticket = tot.vendas ? tot.fat   / tot.vendas : null;   // quanto entra por venda
   /* ARPU aqui e receita por VISITANTE do quiz. Nao da pra fazer por cliente
      unico como no painel de referencia: nao temos identidade de comprador, so
@@ -3217,6 +3223,7 @@ async function verGeral() {
         kpi('Ticket médio', moeda(ticket)) +
         kpi('ARPU', moeda(arpu)) +
         kpi('Checkouts', tot.checkouts) +
+        kpi('Custo por checkout', moeda(custoCheck)) +
         kpi('Conversão do quiz', pct(convQuiz)) +
         kpi('Conversão do checkout', pct(convCheck)) +
         (convFunilVale ? kpi('Conversão do funil', pct(convFunil)) : '') +

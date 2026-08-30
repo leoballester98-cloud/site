@@ -443,6 +443,87 @@ body{background:var(--bg);color:var(--ink);}
      e existe pra que uma hipótese longa quebre em vez de atravessar a tela. */
   .ab-hip{font-size:13.5px;color:var(--ink-2);line-height:1.55;max-width:90ch;
     margin:6px 0 0;}
+  /* ── Calculadora de ROI ─────────────────────────────────────────────────
+     Formulário à esquerda, resultado à direita. O formulário fica grudado ao
+     rolar: você mexe num número e vê a tabela lá embaixo reagir sem perder o
+     campo de vista, que é o ponto inteiro de uma calculadora. */
+  .cc-abas{display:flex;gap:8px;margin-bottom:18px;}
+  .cc-aba{background:var(--surface);border:1px solid var(--linha);border-radius:999px;
+    padding:8px 20px;font:inherit;font-size:14px;color:var(--ink-2);cursor:pointer;
+    transition:border-color .12s,color .12s;}
+  .cc-aba:hover{border-color:var(--ink-3);color:var(--ink);}
+  .cc-aba.on{border-color:var(--marca);color:var(--marca);font-weight:700;
+    background:color-mix(in srgb, var(--marca) 8%, var(--surface));}
+
+  .cc-grade{display:grid;grid-template-columns:300px minmax(0,1fr);gap:18px;align-items:start;}
+  .cc-form{position:sticky;top:16px;}
+  .cc-bloco{margin-bottom:20px;}
+  .cc-bloco:last-child{margin-bottom:0;}
+  .cc-tit{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;
+    color:var(--ink-3);padding-bottom:8px;margin-bottom:12px;border-bottom:1px solid var(--linha);}
+
+  .cc-campo{display:block;margin-bottom:12px;}
+  .cc-campo:last-child{margin-bottom:0;}
+  .cc-rot{display:flex;align-items:center;gap:5px;font-size:13px;color:var(--ink-2);margin-bottom:5px;}
+  /* O sufixo fica DENTRO da caixa: R$ e % ao lado de fora viram texto solto que
+     você tem que ligar ao campo certo com o olho. */
+  .cc-input{position:relative;display:block;}
+  .cc-input i{position:absolute;top:50%;transform:translateY(-50%);left:11px;
+    font-style:normal;font-size:13px;color:var(--ink-3);pointer-events:none;}
+  .cc-input i.fim{left:auto;right:11px;}
+  .cc-input input{width:100%;border:1px solid var(--linha);border-radius:8px;
+    padding:10px 12px 10px 12px;font:inherit;font-size:15px;font-weight:600;
+    color:var(--ink);background:var(--surface);
+    font-variant-numeric:tabular-nums;transition:border-color .12s;}
+  .cc-input i:not(.fim) ~ input{padding-left:34px;}
+  .cc-input input:focus{outline:none;border-color:var(--marca);}
+  /* Some com a setinha do number: ela ocupa espaço e ninguém clica nela. */
+  .cc-input input::-webkit-outer-spin-button,
+  .cc-input input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0;}
+  .cc-input input[type=number]{-moz-appearance:textfield;}
+
+  .cc-check{display:flex;align-items:center;gap:9px;cursor:pointer;user-select:none;
+    font-size:13.5px;color:var(--ink-2);margin-bottom:12px;}
+  .cc-check input{width:16px;height:16px;accent-color:var(--marca);cursor:pointer;}
+
+  /* Os cinco que decidem, grandes. O resto vira linha fina embaixo. */
+  .cc-kpis{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));
+    padding-bottom:16px;margin-bottom:16px;border-bottom:1px solid var(--linha);}
+  .cc-kpi{min-width:0;}
+  .cc-kpi-rot{font-size:11.5px;color:var(--ink-3);text-transform:uppercase;
+    letter-spacing:.05em;font-weight:600;margin-bottom:5px;}
+  .cc-kpi-val{font-size:24px;font-weight:800;letter-spacing:-.02em;
+    font-variant-numeric:tabular-nums;line-height:1.1;}
+
+  .cc-minis{display:flex;flex-wrap:wrap;gap:8px 26px;}
+  .cc-mini{display:flex;align-items:baseline;gap:7px;font-size:14px;}
+  .cc-mini-rot{color:var(--ink-3);}
+  .cc-mini-val{font-weight:700;color:var(--ink);font-variant-numeric:tabular-nums;}
+  .cc-mini-ex{color:var(--ink-3);font-size:12.5px;}
+
+  .cc-be{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));}
+  .cc-be-item{background:var(--surface-2);border-radius:10px;padding:16px 18px;}
+  .cc-be-num{font-size:26px;font-weight:800;letter-spacing:-.02em;color:var(--marca);
+    font-variant-numeric:tabular-nums;line-height:1.1;}
+  .cc-be-rot{font-size:13px;color:var(--ink-2);margin-top:3px;}
+  .cc-be-sub{font-size:12.5px;color:var(--ink-3);margin-top:8px;line-height:1.45;}
+
+  .cc-meta{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));}
+  .cc-meta-l{display:flex;align-items:baseline;justify-content:space-between;gap:12px;
+    padding:11px 14px;background:var(--surface-2);border-radius:8px;font-size:13.5px;}
+  .cc-meta-l span{color:var(--ink-2);}
+  .cc-meta-l b{font-size:15px;color:var(--ink);font-variant-numeric:tabular-nums;}
+
+  /* A linha do investimento que você digitou fica marcada: sem isso a tabela
+     é uma lista de cenários e você perde de vista onde está hoje. */
+  .cc-tb tr.cc-atual td{background:color-mix(in srgb, var(--marca) 7%, transparent);}
+  .cc-tb tr.cc-atual td:first-child{box-shadow:inset 3px 0 0 var(--marca);}
+
+  @media(max-width:900px){
+    .cc-grade{grid-template-columns:minmax(0,1fr);}
+    .cc-form{position:static;}
+  }
+
   /* ── Academy ────────────────────────────────────────────────────────────
      Documento dentro de um painel de números. A largura de leitura é o que
      separa os dois: aqui o texto para em 74ch, porque linha que atravessa a
@@ -771,6 +852,9 @@ body{background:var(--bg);color:var(--ink);}
       <button id="navRegistros" onclick="trocarAba('registros')">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8v4l3 2"/><path d="M3.05 11a9 9 0 1 1 .5 4"/><path d="M3 5v5h5"/></svg>
         <span class="rot">Registros</span></button>
+      <button id="navCalc"      onclick="trocarAba('calc')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M8 6h8M8 11h.01M12 11h.01M16 11h.01M8 15h.01M12 15h.01M16 15v4M8 19h4"/></svg>
+        <span class="rot">Calculadora</span></button>
       <button id="navAcademy"   onclick="trocarAba('academy')">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 2 8l10 5 10-5-10-5Z"/><path d="M6 10.5V16c0 1.4 2.7 2.5 6 2.5s6-1.1 6-2.5v-5.5"/><path d="M22 8v6"/></svg>
         <span class="rot">Academy</span></button>
@@ -1470,11 +1554,11 @@ function pintarVars() {
 function aplicarVars() { fecharPaineis(); carregar(); }
 function selecionadas() { return VARIANTES.map(v => v.variante).filter(v => marcadas[v]); }
 
-const TITULOS = { geral:'Visão Geral', funil:'Funil', criativos:'Criativos', ab:'Teste A/B', registros:'Registros', academy:'Academy', custos:'Custos operacionais', balanco:'Balanço' };
+const TITULOS = { geral:'Visão Geral', funil:'Funil', criativos:'Criativos', ab:'Teste A/B', registros:'Registros', calc:'Calculadora de ROI', academy:'Academy', custos:'Custos operacionais', balanco:'Balanço' };
 function trocarAba(nova) {
   aba = nova;
   fecharGaveta();
-  ['geral','funil','criativos','ab','registros','academy','custos','balanco'].forEach(k =>
+  ['geral','funil','criativos','ab','registros','calc','academy','custos','balanco'].forEach(k =>
     document.getElementById('nav' + k[0].toUpperCase() + k.slice(1)).className = k === nova ? 'on' : '');
   document.getElementById('tituloPagina').textContent = TITULOS[nova];
   document.querySelectorAll('.soFunil').forEach(e => e.style.display = nova === 'funil' ? '' : 'none');
@@ -1490,7 +1574,10 @@ function trocarAba(nova) {
     e.style.display = ['geral','funil','criativos'].includes(nova) ? '' : 'none');
   /* Academy não tem período: é documento, não medição. Deixar o seletor de
      data ali sugere que o conteúdo muda com ele, e não muda. */
-  document.getElementById('btnData').closest('.grp').style.display = nova === 'academy' ? 'none' : '';
+  /* Academy e Calculadora não têm período: uma é documento, a outra é projeção
+     do futuro. Deixar o seletor de data ali sugere que o conteúdo muda com ele. */
+  document.getElementById('btnData').closest('.grp').style.display =
+    (nova === 'academy' || nova === 'calc') ? 'none' : '';
   localStorage.setItem('cf_aba', nova);
   carregar();
 }
@@ -1514,6 +1601,7 @@ async function carregar() {
     else if (aba === 'balanco') await verBalanco();
     else if (aba === 'registros') await verRegistros();
     else if (aba === 'academy') verAcademy();
+    else if (aba === 'calc') verCalculadora();
     else if (aba === 'custos') await verCustos();
     else await verCriativos();
     const ag = new Date();
@@ -2446,6 +2534,338 @@ async function apagarReg(id) {
   const { error } = await sb.from('registros').delete().eq('id', id);
   if (error) return alert('Não deu pra apagar: ' + error.message);
   await verRegistros();
+}
+
+// ══════════════════════ CALCULADORA DE ROI ══════════════════════
+/* Projeção, não medição. Todo o resto do dashboard responde "o que aconteceu";
+   esta aba responde "o que aconteceria se". Por isso não tem período nem toca
+   no banco: os números saem dos campos, e mudar um recalcula tudo na hora.
+
+   Dois modos sobre a mesma matemática. Na avançada o funil se abre em duas
+   etapas, e a conversão final é o produto das duas — com Conv = ConvLP ×
+   ConvCheck as duas calculadoras dão exatamente o mesmo resultado, o que é a
+   garantia de que uma não está mentindo em relação à outra. */
+
+const CALC = {
+  modo: 'basica',
+  investimento: 1000,
+  cpc: 2,
+  aov: 200,
+  conv: 2,          // % — só na básica
+  convLp: 10,       // % — só na avançada
+  convCk: 5,        // % — só na avançada
+  metaRoas: 3,
+  custosOn: false,
+  taxa: 8.99,       // % do faturamento
+  imposto: 0,       // % do faturamento
+  custoUnit: 0,     // R$ por venda
+  outros: 0,        // R$ fixo no período
+};
+
+const DEGRAUS = [100, 500, 1000, 2000, 5000, 10000];
+
+/* Uma conta só, usada pelos dois modos e por cada linha da progressão. Recebe o
+   investimento porque a tabela de progressão varia justamente ele, mantendo o
+   resto constante. */
+function calcular(inv) {
+  const c = CALC;
+  const conv = c.modo === 'basica'
+    ? c.conv / 100
+    : (c.convLp / 100) * (c.convCk / 100);
+
+  const cliques   = c.cpc > 0 ? inv / c.cpc : 0;
+  const checkouts = cliques * (c.modo === 'basica' ? 1 : c.convLp / 100);
+  /* Vendas fracionárias ficam. 2,5 vendas é a projeção matemática correta;
+     arredondar aqui propagaria o erro pro faturamento, pro CPA e pro ROI. O
+     arredondamento é só na hora de mostrar. */
+  const vendas    = cliques * conv;
+  const fat       = vendas * c.aov;
+
+  /* Taxa e imposto incidem sobre o faturamento; custo unitário, sobre cada
+     venda; outros é valor fixo do período. É como cada um funciona de verdade,
+     e misturar tudo num percentual só daria número errado em qualquer cenário
+     que mude o volume. */
+  const taxas  = c.custosOn ? fat * ((c.taxa + c.imposto) / 100) : 0;
+  const custos = c.custosOn ? vendas * c.custoUnit + c.outros : 0;
+
+  const lucro  = fat - inv - taxas - custos;
+  const roas   = inv > 0 ? fat / inv : null;
+  const roi    = inv > 0 ? (lucro / inv) * 100 : null;
+  const cpa    = vendas > 0 ? inv / vendas : null;
+
+  return { inv, conv, cliques, checkouts, vendas, fat, taxas, custos, lucro, roas, roi, cpa };
+}
+
+/* AOV líquido: o que sobra de cada venda depois de taxa, imposto e custo
+   unitário. É ele que manda no ponto de equilíbrio — usar o AOV cheio com
+   custos ligados diria que você empata numa conversão em que já está perdendo. */
+function aovLiquido() {
+  const c = CALC;
+  if (!c.custosOn) return c.aov;
+  return c.aov * (1 - (c.taxa + c.imposto) / 100) - c.custoUnit;
+}
+
+const n2 = v => (v == null || !isFinite(v)) ? '—'
+  : Number(v).toLocaleString('pt-BR', { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+const nInt = v => (v == null || !isFinite(v)) ? '—'
+  : Math.round(v).toLocaleString('pt-BR');
+const pctCalc = v => (v == null || !isFinite(v)) ? '—'
+  : Number(v).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + '%';
+const roasFmt = v => (v == null || !isFinite(v)) ? '—'
+  : Number(v).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + 'x';
+
+function campoCalc(id, rot, val, sufixo, dica) {
+  return '<label class="cc-campo">' +
+    '<span class="cc-rot">' + esc(rot) +
+      (dica ? '<span class="temdica ajuda" data-dica="' + esc(dica) + '">?</span>' : '') + '</span>' +
+    '<span class="cc-input">' +
+      (sufixo === 'R$' ? '<i>R$</i>' : '') +
+      '<input type="number" id="' + id + '" value="' + val + '" step="any" min="0" ' +
+        'oninput="mudarCalc(' + JSON.stringify(id).replace(/"/g, '&quot;') + ', this.value)"/>' +
+      (sufixo === '%' ? '<i class="fim">%</i>' : '') +
+    '</span></label>';
+}
+
+function mudarCalc(id, valor) {
+  const mapa = {
+    cInv:'investimento', cCpc:'cpc', cAov:'aov', cConv:'conv',
+    cLp:'convLp', cCk:'convCk', cMeta:'metaRoas',
+    cTaxa:'taxa', cImp:'imposto', cUnit:'custoUnit', cOutros:'outros',
+  };
+  const k = mapa[id];
+  if (!k) return;
+  const v = Number(String(valor).replace(',', '.'));
+  CALC[k] = isFinite(v) && v >= 0 ? v : 0;
+  pintarCalc();   /* só o resultado; os campos não são redesenhados */
+}
+
+function modoCalc(m) { CALC.modo = m; verCalculadora(); }
+function alternarCustos() { CALC.custosOn = !CALC.custosOn; verCalculadora(); }
+
+/* Divisão por zero e valores impossíveis viram aviso, não NaN na tela. */
+function problemasCalc() {
+  const c = CALC, p = [];
+  if (!(c.investimento > 0)) p.push('O investimento precisa ser maior que zero.');
+  if (!(c.cpc > 0))          p.push('O CPC precisa ser maior que zero, senão não dá pra saber quantos cliques o investimento compra.');
+  if (!(c.aov > 0))          p.push('O AOV precisa ser maior que zero.');
+  const convs = c.modo === 'basica' ? [['Conversão do funil', c.conv]]
+    : [['Conversão até o checkout', c.convLp], ['Conversão do checkout', c.convCk]];
+  convs.forEach(([rot, v]) => {
+    if (v < 0 || v > 100) p.push(rot + ' precisa ficar entre 0% e 100%.');
+    if (v === 0) p.push(rot + ' está em zero, então a projeção não gera venda nenhuma.');
+  });
+  if (c.custosOn && aovLiquido() <= 0)
+    p.push('Com esses custos, cada venda sai no prejuízo antes do anúncio. Nenhuma conversão empata.');
+  return p;
+}
+
+function verCalculadora() {
+  const c = CALC;
+  const av = c.modo === 'avancada';
+
+  const inputs =
+    '<div class="cc-bloco"><div class="cc-tit">Aquisição</div>' +
+      campoCalc('cInv', 'Investimento', c.investimento, 'R$',
+        'Quanto você vai colocar em anúncio no período.') +
+      campoCalc('cCpc', 'CPC', c.cpc, 'R$',
+        'Custo por clique. Quanto você paga, em média, por cada pessoa que clica no anúncio.') +
+    '</div>' +
+
+    '<div class="cc-bloco"><div class="cc-tit">Funil</div>' +
+      (av
+        ? campoCalc('cLp', 'Do clique até o checkout', c.convLp, '%',
+            'De cada 100 pessoas que clicam no anúncio, quantas chegam a clicar em comprar.') +
+          campoCalc('cCk', 'Do checkout até a compra', c.convCk, '%',
+            'De cada 100 que clicam em comprar, quantas pagam.')
+        : campoCalc('cConv', 'Conversão do funil', c.conv, '%',
+            'De cada 100 pessoas que clicam no anúncio, quantas compram.')) +
+    '</div>' +
+
+    '<div class="cc-bloco"><div class="cc-tit">Oferta</div>' +
+      campoCalc('cAov', 'AOV', c.aov, 'R$',
+        'Quanto cada comprador gera, em média. Inclui order bump e upsell.') +
+    '</div>' +
+
+    '<div class="cc-bloco">' +
+      '<label class="cc-check"><input type="checkbox" ' + (c.custosOn ? 'checked' : '') +
+        ' onchange="alternarCustos()"/><span>Incluir outros custos</span></label>' +
+      (c.custosOn
+        ? campoCalc('cTaxa',   'Taxa da plataforma', c.taxa, '%',
+            'Percentual que o checkout retém. Na Kiwify são 8,99%.') +
+          campoCalc('cImp',    'Impostos', c.imposto, '%',
+            'Percentual sobre o faturamento.') +
+          campoCalc('cUnit',   'Custo por venda', c.custoUnit, 'R$',
+            'Produto, entrega, suporte. O que sai a cada venda.') +
+          campoCalc('cOutros', 'Outros custos', c.outros, 'R$',
+            'Valor fixo do período: ferramentas, equipe, o que não varia com o volume.')
+        : '') +
+    '</div>' +
+
+    '<div class="cc-bloco"><div class="cc-tit">Meta</div>' +
+      campoCalc('cMeta', 'ROAS que eu quero', c.metaRoas, 'x',
+        'Quantas vezes o faturamento tem que ser maior que o investimento.') +
+    '</div>';
+
+  document.getElementById('conteudo').innerHTML =
+    '<div class="cc-abas">' +
+      '<button class="cc-aba' + (av ? '' : ' on') + '" onclick="modoCalc(\'basica\')">Básica</button>' +
+      '<button class="cc-aba' + (av ? ' on' : '') + '" onclick="modoCalc(\'avancada\')">Avançada</button>' +
+    '</div>' +
+    '<div class="cc-grade">' +
+      '<div class="card cc-form">' + inputs + '</div>' +
+      '<div id="ccRes"></div>' +
+    '</div>';
+
+  pintarCalc();
+}
+
+/* Só o lado do resultado se redesenha. Redesenhar os campos junto tiraria o
+   foco do input no meio da digitação, e o número que você está escrevendo
+   sumiria a cada tecla. */
+function pintarCalc() {
+  const c = CALC, av = c.modo === 'avancada';
+  const alvo = document.getElementById('ccRes');
+  if (!alvo) return;
+
+  const probs = problemasCalc();
+  if (probs.length) {
+    alvo.innerHTML = '<div class="card"><div class="erro">' +
+      probs.map(esc).join('<br>') + '</div></div>';
+    limparGraficos();
+    return;
+  }
+
+  const r = calcular(c.investimento);
+  const aovLiq = aovLiquido();
+  const convBE = aovLiq > 0 ? (c.cpc / aovLiq) * 100 : null;
+  const cpaMax = aovLiq;
+
+  /* Meta de ROAS. Cada linha responde "o que teria que mudar, se tudo o mais
+     ficasse igual" — por isso são quatro respostas e não uma. */
+  const meta      = c.metaRoas;
+  const cpaMeta   = meta > 0 ? c.aov / meta : null;
+  const convMeta  = c.aov > 0 ? (meta * c.cpc / c.aov) * 100 : null;
+  const cpcMeta   = meta > 0 ? (r.conv * c.aov) / meta : null;
+  const aovMeta   = r.conv > 0 ? (meta * c.cpc) / r.conv : null;
+
+  const cor = v => v == null ? 'var(--ink-3)' : v >= 0 ? 'var(--bom)' : 'var(--ruim)';
+
+  const kpiG = (rot, val, cr) =>
+    '<div class="cc-kpi"><div class="cc-kpi-rot">' + esc(rot) + '</div>' +
+      '<div class="cc-kpi-val"' + (cr ? ' style="color:' + cr + '"' : '') + '>' + val + '</div></div>';
+
+  const kpiP = (rot, val, extra) =>
+    '<div class="cc-mini"><span class="cc-mini-rot">' + esc(rot) + '</span>' +
+      '<span class="cc-mini-val">' + val + '</span>' +
+      (extra ? '<span class="cc-mini-ex">' + extra + '</span>' : '') + '</div>';
+
+  alvo.innerHTML =
+    '<div class="card">' +
+      '<div class="cc-kpis">' +
+        kpiG('Investimento', moeda(r.inv)) +
+        kpiG('Faturamento', moeda(r.fat), 'var(--bom)') +
+        kpiG('Lucro', moeda(r.lucro), cor(r.lucro)) +
+        kpiG('ROAS', roasFmt(r.roas), r.roas >= 1 ? 'var(--bom)' : 'var(--ruim)') +
+        kpiG('ROI', r.roi == null ? '—' : n2(r.roi) + '%', cor(r.roi)) +
+      '</div>' +
+      '<div class="cc-minis">' +
+        kpiP('Cliques', nInt(r.cliques)) +
+        (av ? kpiP('Checkouts', nInt(r.checkouts)) : '') +
+        /* Vendas com casa decimal: 2,5 é a projeção certa, e mostrar 2 ou 3
+           esconderia que o número está no fio. */
+        kpiP('Vendas', '≈ ' + n2(r.vendas)) +
+        kpiP('CPA', moeda(r.cpa)) +
+        (av ? kpiP('Conversão final', pctCalc(r.conv * 100)) : '') +
+        (c.custosOn ? kpiP('Taxas e custos', moeda(r.taxas + r.custos)) : '') +
+      '</div>' +
+    '</div>' +
+
+    '<div class="card">' +
+      '<div class="sec">' + ico('Ponto de equilíbrio') + '<span>Ponto de equilíbrio</span></div>' +
+      '<div class="cc-be">' +
+        '<div class="cc-be-item"><div class="cc-be-num">' + pctCalc(convBE) + '</div>' +
+          '<div class="cc-be-rot">de conversão pra empatar</div>' +
+          '<div class="cc-be-sub">Você está em ' + pctCalc(r.conv * 100) +
+            (convBE != null && r.conv * 100 >= convBE
+              ? ' <b style="color:var(--bom)">acima</b>' : ' <b style="color:var(--ruim)">abaixo</b>') + '</div></div>' +
+        '<div class="cc-be-item"><div class="cc-be-num">' + moeda(cpaMax) + '</div>' +
+          '<div class="cc-be-rot">de CPA máximo</div>' +
+          '<div class="cc-be-sub">Acima disso cada venda dá prejuízo. Você está em ' + moeda(r.cpa) + '.</div></div>' +
+      '</div>' +
+      (c.custosOn
+        ? '<div class="nota" style="margin:14px 0 0;">O ponto de equilíbrio usa o AOV <b>líquido</b> de ' +
+          moeda(aovLiq) + ', não os ' + moeda(c.aov) + ' cheios. Com taxa e custo dentro, empatar exige ' +
+          'mais conversão do que a conta sem eles diria.</div>'
+        : '') +
+    '</div>' +
+
+    '<div class="card">' +
+      '<div class="sec">' + ico('Meta de ROAS') + '<span>Pra bater ' + roasFmt(meta) + '</span></div>' +
+      '<div class="cc-meta">' +
+        '<div class="cc-meta-l"><span>CPA máximo</span><b>' + moeda(cpaMeta) + '</b></div>' +
+        '<div class="cc-meta-l"><span>Conversão necessária</span><b>' + pctCalc(convMeta) + '</b></div>' +
+        '<div class="cc-meta-l"><span>CPC máximo</span><b>' + moeda(cpcMeta) + '</b></div>' +
+        '<div class="cc-meta-l"><span>AOV necessário</span><b>' + moeda(aovMeta) + '</b></div>' +
+      '</div>' +
+      '<div class="nota" style="margin:14px 0 0;">Cada linha responde o que teria que mudar <b>se todo o resto ' +
+        'ficasse igual</b>. São quatro caminhos diferentes pro mesmo ROAS, não quatro condições ao mesmo tempo.</div>' +
+    '</div>' +
+
+    '<div class="card">' +
+      '<div class="sec">' + ico('Progressão de investimento') + '<span>Se você escalar</span></div>' +
+      '<div class="tbwrap"><table class="tb cc-tb"><tr>' +
+        ['Investimento','Cliques', av ? 'Checkouts' : null, 'Vendas','CPA','Faturamento','Lucro','ROAS','ROI']
+          .filter(Boolean).map(h => '<th class="num">' + h + '</th>').join('') + '</tr>' +
+        DEGRAUS.map(v => { const d = calcular(v);
+          return '<tr' + (v === c.investimento ? ' class="cc-atual"' : '') + '>' +
+            '<td class="num"><b>' + moeda(d.inv) + '</b></td>' +
+            '<td class="num">' + nInt(d.cliques) + '</td>' +
+            (av ? '<td class="num">' + nInt(d.checkouts) + '</td>' : '') +
+            '<td class="num">' + n2(d.vendas) + '</td>' +
+            '<td class="num">' + moeda(d.cpa) + '</td>' +
+            '<td class="num">' + moeda(d.fat) + '</td>' +
+            '<td class="num" style="color:' + cor(d.lucro) + '">' + moeda(d.lucro) + '</td>' +
+            '<td class="num">' + roasFmt(d.roas) + '</td>' +
+            '<td class="num" style="color:' + cor(d.roi) + '">' + (d.roi == null ? '—' : n2(d.roi) + '%') + '</td>' +
+          '</tr>'; }).join('') +
+      '</table></div>' +
+      '<div class="nota" style="margin:12px 0 0;">CPC, conversão e AOV ficam constantes na projeção. Na vida real ' +
+        'o CPC sobe conforme você escala, então o lucro dos degraus de cima é o teto, não a previsão.</div>' +
+    '</div>' +
+
+    '<div class="card">' +
+      '<div class="sec">' + ico('Investimento e retorno') + '<span>Investimento e retorno</span></div>' +
+      '<div style="position:relative;height:300px;"><canvas id="cvCalc"></canvas></div>' +
+    '</div>';
+
+  desenharCalc(av);
+}
+
+function desenharCalc() {
+  limparGraficos();
+  const el = document.getElementById('cvCalc');
+  if (!el || typeof Chart === 'undefined') return;
+  const P = paleta();
+  const ds = DEGRAUS.map(calcular);
+  graficos.push(new Chart(el.getContext('2d'), {
+    type: 'line',
+    data: { labels: DEGRAUS.map(v => moeda(v)),
+      datasets: [
+        { label:'Faturamento', data: ds.map(d => d.fat), borderColor:P[2],
+          backgroundColor:P[2] + '1f', borderWidth:2, fill:true, tension:.3, pointRadius:4 },
+        { label:'Lucro', data: ds.map(d => d.lucro), borderColor:P[1],
+          backgroundColor:P[1] + '1f', borderWidth:2, fill:true, tension:.3, pointRadius:4 },
+      ] },
+    options: { responsive:true, maintainAspectRatio:false,
+      interaction:{ mode:'index', intersect:false },
+      plugins:{ legend:{ display:true, position:'bottom',
+          labels:{ color:tok('--ink-2'), boxWidth:12, boxHeight:2, padding:14 } },
+        tooltip:{ callbacks:{ label: x => x.dataset.label + ': ' + moeda(x.parsed.y) } } },
+      scales:{ y:{ ticks:{ color:tok('--ink-3'), callback: v => 'R$' + Math.round(v) },
+                   border:{ display:false }, grid:{ color:tok('--linha'), drawTicks:false } },
+               x:{ ticks:{ color:tok('--ink-3') },
+                   border:{ display:false }, grid:{ color:tok('--linha'), drawTicks:false } } } }
+  }));
 }
 
 // ══════════════════════ ACADEMY ══════════════════════

@@ -519,6 +519,15 @@ body{background:var(--bg);color:var(--ink);}
   .cc-tb tr.cc-atual td{background:color-mix(in srgb, var(--marca) 7%, transparent);}
   .cc-tb tr.cc-atual td:first-child{box-shadow:inset 3px 0 0 var(--marca);}
 
+  /* Estado de abertura: sem números, sem gráfico vazio, e com o caminho mais
+     curto pra sair dele logo abaixo do texto que explica por que ele existe. */
+  .cc-vazio{text-align:center;padding:34px 20px;}
+  .cc-vazio-tit{font-size:17px;font-weight:700;color:var(--ink);}
+  .cc-vazio-sub{font-size:14px;color:var(--ink-2);margin:8px 0 20px;}
+  .cc-vazio-nota{font-size:12.5px;color:var(--ink-3);margin-top:12px;line-height:1.5;
+    max-width:44ch;margin-left:auto;margin-right:auto;}
+  .cc-puxar{width:100%;margin-top:6px;justify-content:center;}
+
   @media(max-width:900px){
     .cc-grade{grid-template-columns:minmax(0,1fr);}
     .cc-form{position:static;}
@@ -2546,14 +2555,16 @@ async function apagarReg(id) {
    ConvCheck as duas calculadoras dão exatamente o mesmo resultado, o que é a
    garantia de que uma não está mentindo em relação à outra. */
 
+/* Abre vazia. Número de exemplo na tela é número que você acredita sem querer:
+   você olha o ROI de 100% e ele fica na cabeça como se fosse seu. */
 const CALC = {
   modo: 'basica',
-  investimento: 1000,
-  cpc: 2,
-  aov: 200,
-  conv: 2,          // % — só na básica
-  convLp: 10,       // % — só na avançada
-  convCk: 5,        // % — só na avançada
+  investimento: null,
+  cpc: null,
+  aov: null,
+  conv: null,       // % — só na básica
+  convLp: null,     // % — só na avançada
+  convCk: null,     // % — só na avançada
   metaRoas: 3,
   custosOn: false,
   taxa: 8.99,       // % do faturamento
@@ -2620,7 +2631,8 @@ function campoCalc(id, rot, val, sufixo, dica) {
       (dica ? '<span class="temdica ajuda" data-dica="' + esc(dica) + '">?</span>' : '') + '</span>' +
     '<span class="cc-input">' +
       (sufixo === 'R$' ? '<i>R$</i>' : '') +
-      '<input type="number" id="' + id + '" value="' + val + '" step="any" min="0" ' +
+      '<input type="number" id="' + id + '" value="' + (val == null ? '' : val) + '" ' +
+        'step="any" min="0" placeholder="0" ' +
         'oninput="mudarCalc(' + JSON.stringify(id).replace(/"/g, '&quot;') + ', this.value)"/>' +
       (sufixo === '%' ? '<i class="fim">%</i>' : '') +
     '</span></label>';
@@ -2634,15 +2646,76 @@ function mudarCalc(id, valor) {
   };
   const k = mapa[id];
   if (!k) return;
-  const v = Number(String(valor).replace(',', '.'));
-  CALC[k] = isFinite(v) && v >= 0 ? v : 0;
+  /* Vazio vira null, não zero. Zero é uma afirmação ("meu CPC é zero") e
+     dispararia o aviso de divisão por zero antes de você ter digitado nada. */
+  const t = String(valor).trim();
+  const v = Number(t.replace(',', '.'));
+  CALC[k] = t === '' ? null : (isFinite(v) && v >= 0 ? v : 0);
   pintarCalc();   /* só o resultado; os campos não são redesenhados */
+}
+
+/* Preenche com o que os anúncios entregaram de verdade nos últimos 14 dias.
+
+   As conversões saem sobre CLIQUE, não sobre visitante do quiz, porque é assim
+   que a calculadora encadeia: Cliques = Investimento ÷ CPC, e todo o resto
+   pendura nos cliques. Usar visitante aqui daria um número maior e uma projeção
+   otimista — nem todo clique vira visita.
+
+   O investimento não vem: ele é a pergunta ("e se eu colocar X"), não o dado. */
+async function puxarMeusNumeros(botao) {
+  const antes = botao.textContent;
+  botao.disabled = true;
+  botao.textContent = 'Buscando…';
+  const falhar = m => { botao.disabled = false; botao.textContent = antes;
+                        alert(m); };
+
+  const hoje = hojeSP();
+  const de = new Date(hoje); de.setDate(de.getDate() - 13);
+  const r = await Promise.resolve(
+      sb.rpc('fn_criativos', { p_de: iso(de), p_ate: iso(hoje), p_fonte: null }))
+    .catch(() => ({ error: true }));
+  if (!r || r.error || !r.data) return falhar('Não deu pra buscar os números.');
+
+  const t = r.data.reduce((a, c) => ({
+    gasto:     a.gasto     + Number(c.gasto || 0),
+    clicks:    a.clicks    + Number(c.clicks || 0),
+    checkouts: a.checkouts + Number(c.checkouts || 0),
+    vendas:    a.vendas    + Number(c.vendas || 0),
+    valor:     a.valor     + Number(c.valor || 0),
+  }), { gasto:0, clicks:0, checkouts:0, vendas:0, valor:0 });
+
+  if (!t.clicks) return falhar('Sem cliques registrados nos últimos 14 dias.');
+  if (!t.vendas) return falhar('Sem vendas nos últimos 14 dias, então não dá pra calcular conversão nem AOV.');
+
+  const r2 = v => Math.round(v * 100) / 100;
+  CALC.cpc = r2(t.gasto / t.clicks);
+  CALC.aov = r2(t.valor / t.vendas);
+  CALC.conv   = r2((t.vendas / t.clicks) * 100);
+  CALC.convLp = t.checkouts ? r2((t.checkouts / t.clicks) * 100) : null;
+  CALC.convCk = t.checkouts ? r2((t.vendas / t.checkouts) * 100) : null;
+  /* Investimento sugerido é o que ele gastou de verdade no período. Serve de
+     ponto de partida pra mexer, e deixa a primeira linha da projeção fazer
+     sentido em vez de sair do nada. */
+  if (CALC.investimento == null) CALC.investimento = Math.round(t.gasto);
+
+  verCalculadora();
 }
 
 function modoCalc(m) { CALC.modo = m; verCalculadora(); }
 function alternarCustos() { CALC.custosOn = !CALC.custosOn; verCalculadora(); }
 
 /* Divisão por zero e valores impossíveis viram aviso, não NaN na tela. */
+/* Quais campos ainda estão em branco. Separado dos problemas porque em branco
+   não é erro: é o estado normal de quem acabou de abrir a aba. */
+function faltandoCalc() {
+  const c = CALC;
+  const base = [['Investimento', c.investimento], ['CPC', c.cpc], ['AOV', c.aov]];
+  const funil = c.modo === 'basica'
+    ? [['Conversão do funil', c.conv]]
+    : [['Do clique até o checkout', c.convLp], ['Do checkout até a compra', c.convCk]];
+  return base.concat(funil).filter(([, v]) => v == null).map(([r]) => r);
+}
+
 function problemasCalc() {
   const c = CALC, p = [];
   if (!(c.investimento > 0)) p.push('O investimento precisa ser maior que zero.');
@@ -2704,7 +2777,9 @@ function verCalculadora() {
     '<div class="cc-bloco"><div class="cc-tit">Meta</div>' +
       campoCalc('cMeta', 'ROAS que eu quero', c.metaRoas, 'x',
         'Quantas vezes o faturamento tem que ser maior que o investimento.') +
-    '</div>';
+    '</div>' +
+
+    '<button class="limpar cc-puxar" onclick="puxarMeusNumeros(this)">Usar meus números</button>';
 
   document.getElementById('conteudo').innerHTML =
     '<div class="cc-abas">' +
@@ -2726,6 +2801,20 @@ function pintarCalc() {
   const c = CALC, av = c.modo === 'avancada';
   const alvo = document.getElementById('ccRes');
   if (!alvo) return;
+
+  const falta = faltandoCalc();
+  if (falta.length) {
+    alvo.innerHTML =
+      '<div class="card"><div class="cc-vazio">' +
+        '<div class="cc-vazio-tit">Preencha os campos pra ver a projeção</div>' +
+        '<div class="cc-vazio-sub">Faltam: ' + falta.map(esc).join(', ') + '.</div>' +
+        '<button class="prim" onclick="puxarMeusNumeros(this)">Usar meus números</button>' +
+        '<div class="cc-vazio-nota">Preenche CPC, AOV e conversão com o que os seus ' +
+          'anúncios entregaram nos últimos 14 dias.</div>' +
+      '</div></div>';
+    limparGraficos();
+    return;
+  }
 
   const probs = problemasCalc();
   if (probs.length) {

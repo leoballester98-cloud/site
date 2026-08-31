@@ -564,6 +564,9 @@ body{background:var(--bg);color:var(--ink);}
   .ac-tit{font-size:15.5px;font-weight:700;color:var(--ink);line-height:1.3;}
   .ac-res{font-size:13px;color:var(--ink-2);line-height:1.5;}
   .ac-vazio{font-size:13.5px;color:var(--ink-3);padding:6px 0 2px;}
+  .ac-cit{margin:14px 0;padding:2px 0 2px 16px;border-left:3px solid var(--marca);
+    color:var(--ink-2);font-style:italic;line-height:1.6;}
+  .ac-cit b{font-style:normal;color:var(--ink);}
 
   /* Barra de ações grudada no topo: num documento longo o botão de copiar
      precisa estar onde a pessoa estiver, e não só onde ela entrou. */
@@ -2989,6 +2992,9 @@ const PROCESSOS = [
   { id: 'vsl-hibrida', cat: 'vsl',
     titulo: 'Estrutura de VSL · Híbrida',
     resumo: 'Os dois mecanismos do Georgi com os três fechamentos do Benson. 18 blocos.' },
+  { id: 'vsl-gradualizacao', cat: 'vsl',
+    titulo: 'Gradualização · Eugene Schwartz',
+    resumo: 'A cadeia de aceitações que faz alguém aceitar uma conclusão que rejeitaria de cara. Roda dentro dos blocos 3, 4, 8 e 13.' },
   { id: 'vsl-mini', cat: 'vsl',
     titulo: 'Mini VSL para quiz (modelada da Hannah Franklin)',
     resumo: 'A estrutura da Hannah adaptada pro funil de quiz. 21 blocos, 8 minutos, um fechamento, cada um com o bloco original dela embaixo.' },
@@ -3066,6 +3072,19 @@ function md(txt) {
       continue;
     }
 
+    /* Citação. Entrou quando a ficha de Gradualização passou a citar o
+       Breakthrough Advertising: sem isto o `>` virava texto e as linhas da
+       citação se juntavam num parágrafo com sinais de maior no meio. */
+    if (/^>\s?/.test(t)) {
+      const ls2 = [];
+      while (i < ls.length && /^>\s?/.test(ls[i].trim())) {
+        ls2.push(ls[i].trim().replace(/^>\s?/, ''));
+        i++;
+      }
+      fora.push('<blockquote class="ac-cit">' + linha(ls2.join(' ')) + '</blockquote>');
+      continue;
+    }
+
     if (/^[-*]\s/.test(t)) {
       const itens = [];
       /* Linha indentada depois de um item é continuação dele, não item novo — é
@@ -3081,7 +3100,7 @@ function md(txt) {
 
     const par = [];
     while (i < ls.length && ls[i].trim() &&
-           !/^(#{1,4}\s|[-*]\s|\||---+$|@@COD)/.test(ls[i].trim())) {
+           !/^(#{1,4}\s|[-*]\s|>|\||---+$|@@COD)/.test(ls[i].trim())) {
       par.push(ls[i].trim()); i++;
     }
     fora.push('<p>' + linha(par.join(' ')) + '</p>');
@@ -5514,6 +5533,8 @@ O próprio CEO do Instagram já confirmou
 Que o que funcionava antes não funciona mais
 ```
 
+**Aqui roda gradualização.** A cadeia leva da dor que ela sente até a suspeita de que a causa é outra. Ver a ficha **Gradualização**.
+
 **O que transfere:** a dor com caso concreto e autoridade externa colada.
 **O que muda:** ela constrói a dor e espera reconhecimento. Você devolve os
 sinais que a pessoa acabou de marcar. É leitura, não adivinhação.
@@ -5550,6 +5571,8 @@ Você também não vai precisar ser criativo e muito menos ter uma câmera de ci
 É porque você já deve ter visto conteúdos incríveis pegando pouquíssimos likes
 E aqueles conteúdos idiotas com milhões de vídeos
 ```
+
+**Aqui roda gradualização**, e é o bloco onde ela mais pesa depois do 8: a pessoa precisa aceitar uma causa que nunca ouviu. Ver a ficha **Gradualização**.
 
 **O que transfere:** a estrutura em três tempos. Primeiro nega as causas que
 todo mundo acredita, depois nomeia a causa real, depois prova com um caso.
@@ -5648,6 +5671,8 @@ Aplicar os gatilhos do loop viciante no roteiro
 Terceiro
 Repetir o padrão que funciona
 ```
+
+**Aqui roda gradualização, com força máxima.** É a cadeia de oito degraus da Hannah, e é por isso que este é o bloco mais longo da estrutura. Ver a ficha **Gradualização**.
 
 **O que transfere:** a analogia do cotidiano vem **antes** da aplicação. Ela
 ensina escovar dentes primeiro e só depois liga em conteúdo. E fecha em três
@@ -5764,6 +5789,8 @@ Cês tão entendendo? O programa foi praticamente o mesmo por 30 anos
 O cinema investe milhões pra refazer filmes que deram certo no passado
 Enquanto a gente tem medo de repetir, a mente humana ama o efeito familiaridade
 ```
+
+**Aqui roda gradualização.** Chaves, Faustão, cinema e música são quatro degraus que ninguém contesta, e juntos derrubam a objeção. Ver a ficha **Gradualização**.
 
 **O que transfere:** ela pega **uma** objeção, a que mata a venda, e responde com
 exemplos culturais que ninguém contesta. **O que muda:** você sabe quais
@@ -7540,13 +7567,23 @@ família, porque um é a resposta do outro. Na controle o nome é "o loop
 viciante".
 → 3 nomes possíveis, com o motivo de cada um
 
-**Passo 4 · O corte da VSL 1** · escolha
+**Passo 4 · A cadeia de gradualização** · escolha
+
+Antes de escrever qualquer bloco de mecanismo, monte a cadeia de aceitações que
+leva até ele. Monta-se de trás pra frente, começando pela conclusão. A ficha
+**Gradualização** traz o processo inteiro.
+
+Isso vale para os blocos 3, 4, 8 e 13. Escrever esses quatro sem cadeia é
+escrever parágrafo em vez de argumento.
+→ a cadeia numerada, com o motivo de cada degrau
+
+**Passo 5 · O corte da VSL 1** · escolha
 
 Decidir exatamente onde a VSL 1 para. Ela nomeia a causa e não explica a
 solução. Definir isso antes evita reescrever os dois primeiros blocos depois.
 → a frase exata em que a VSL 1 termina, antes do CTA
 
-**Passos 5 em diante · Um bloco por turno** · escolha
+**Passos 6 em diante · Um bloco por turno** · escolha
 
 Na ordem das tabelas, VSL 1 do bloco 1 ao 22, depois VSL 2, depois VSL 3. Em
 cada turno, e só para o bloco daquele turno:
@@ -7586,6 +7623,179 @@ concorrentes, 15 VSLs medidas. Aprovada em 31/08/2026.
 Os tempos vêm da estrutura de mini VSL de 21 blocos, redistribuídos em três
 VSLs. A ficha **Modelagem VSL (Hannah Franklin)** traz a controle inteira,
 fatiada em 44 blocos.
+</script>
+<script type="text/plain" id="proc-vsl-gradualizacao">
+# Gradualização
+
+A técnica do Eugene Schwartz, do Breakthrough Advertising, para fazer alguém
+aceitar uma conclusão que ele rejeitaria se você começasse por ela.
+
+## O que é
+
+Nas palavras dele:
+
+> Gradualização é a arte de começar seu anúncio com uma declaração que será
+> imediata e inteiramente aceita, e então construir uma **cadeia de aceitações**
+> sobre esta primeira declaração. O propósito desta cadeia é levar seu leitor a
+> uma conclusão que ele então aceitará, mas que ele não teria aceitado tão
+> prontamente sem as afirmações preliminares.
+
+Cada degrau é pequeno o bastante para não gerar resistência. Somados, eles
+chegam onde um salto sozinho não chegaria.
+
+## O papel dela
+
+Duas coisas que o Schwartz faz questão de separar, e que mudam como você usa
+isso.
+
+**Ela decide a arquitetura, não o conteúdo.**
+
+> Gradualização determina — não o conteúdo do seu anúncio, mas sua **estrutura**,
+> sua **arquitetura**, a maneira como você constrói.
+
+Ou seja: não é uma coisa que você escreve. É a ordem em que você coloca o que já
+ia escrever.
+
+**Ela não é prova.**
+
+> Este processo de Gradualização não tem nada a ver com o oferecimento de prova,
+> ou explicação, ou testemunhos ou documentação.
+
+Prova é outro capítulo do livro, a **Mecanização**: a demonstração de que o
+produto faz o que você afirma. As duas se empilham, mas são trabalhos
+diferentes. Gradualização faz a pessoa aceitar; mecanização mostra que funciona.
+
+**Por que isso importa mais que empilhar promessa:**
+
+> Uma promessa totalmente acreditada tem dez vezes mais poder de venda que dez
+> promessas parcialmente acreditadas.
+
+## Como montar a cadeia
+
+Monta-se **de trás pra frente**. É contraintuitivo e é o único jeito que
+funciona.
+
+- Escreva a **conclusão** que você quer que ela aceite no fim
+- Pergunte: ela aceitaria isso agora, do jeito que está? Se não, **o que ela precisaria aceitar antes** para que isso ficasse óbvio?
+- Repita a pergunta sobre a resposta anterior
+- Continue até chegar numa afirmação que ela aceita **sem pensar**
+- Inverta a lista. Essa é a cadeia
+- Passe degrau por degrau perguntando: aqui tem salto? Se tiver, falta um degrau no meio
+
+O teste do primeiro degrau é duro: se a pessoa precisa **concordar**, ele ainda
+não é o primeiro. O primeiro degrau é aquele em que ela nem percebe que
+concordou.
+
+## Exemplo trabalhado: a cadeia da Hannah Franklin
+
+A VSL controle usa gradualização no bloco do mecanismo da solução. Oito degraus:
+
+| # | o que ela afirma | por que é aceito |
+|---|------------------|------------------|
+| 1 | O cérebro tem parte consciente e subconsciente | Conhecimento comum |
+| 2 | Aprender a dirigir usa a consciente | Todo mundo viveu |
+| 3 | Com repetição, dirigir vira automático | Todo mundo viveu |
+| 4 | É assim que hábitos se formam | Consequência dos anteriores |
+| 5 | Escovar os dentes virou hábito assim | Cena da infância dela, e da sua |
+| 6 | Hábito é gatilho, rotina e recompensa | Já foi demonstrado no degrau 5 |
+| 7 | Conteúdo cria o mesmo loop | O salto, mas já preparado |
+| 8 | Logo, o algoritmo premia quem repete formato | A conclusão que ela queria desde o início |
+
+**O degrau 8 seria rejeitado se dito no degrau 1.** Dito no 8, é óbvio.
+
+## Os sete movimentos dela
+
+Vale copiar a mecânica, não só a ideia.
+
+- **1 · Prepara o terreno** com uma divisão simples: mente consciente e subconsciente
+- **2 · Primeira analogia**, dirigir: o que era consciente vira automático
+- **3 · Segunda analogia**, escovar os dentes: uma cena de infância, não um conceito
+- **4 · Só agora nomeia** os três passos: gatilho, rotina e recompensa
+- **5 · Roda os três passos no exemplo banal**: mau hálito, escovar, frescor
+- **6 · A pergunta que vira a chave**: "mas o que isso tem a ver com o problema?"
+- **7 · Roda os mesmos três passos no contexto dela**
+
+**Duas decisões dela que fazem isso funcionar:**
+
+Ela **nomeia os passos depois do exemplo, não antes**. O exemplo compra a
+crença; o nome só carimba. Abrir com o nome seria jargão.
+
+Ela **roda a sequência duas vezes**. Uma em algo que ninguém contesta, outra no
+problema que ela vende. A pessoa aceita a primeira sem resistência e a segunda
+vem de carona.
+
+## Onde isso entra numa mini VSL
+
+Gradualização não é um bloco. Ela roda **dentro** de blocos. Numa estrutura de
+21 blocos, os quatro onde ela pesa:
+
+| bloco | a cadeia serve para |
+|-------|----------------------|
+| 3 · Agitação | Levar da dor que ela sente até a suspeita de que a causa é outra |
+| 4 · Mecanismo do PROBLEMA | Fazer aceitar uma causa que ela nunca ouviu |
+| 8 · Mecanismo da SOLUÇÃO | Fazer a solução parecer consequência, não promessa |
+| 13 · Quebra de objeções | Derrubar a objeção com exemplos que ela não contesta |
+
+O bloco 8 é onde ela pesa mais, e é o mais longo da estrutura justamente por
+isso.
+
+## Como trabalhar, leia antes de tudo
+
+Copie esta ficha inteira e cole numa IA. O que vem daqui pra baixo é instrução
+pra ela.
+
+**Você não escreve a cadeia. Você ajuda a pessoa a montar.**
+
+- **Mecânico** (inverter a lista, checar salto entre degraus, contar quantos degraus há): você faz e entrega pronto.
+- **Escolha** (qual é a conclusão, qual analogia usar, onde começa a cadeia): você apresenta o que está em jogo e **pergunta**.
+
+Entregue o artefato do passo atual e **pare**. Cada passo é um turno dela.
+
+## O processo
+
+**Passo 1 · A conclusão** · escolha
+
+Qual é a única coisa que a pessoa precisa aceitar no fim desse bloco? Uma frase,
+não três.
+→ a conclusão, escrita como ela seria dita
+
+**Passo 2 · A cadeia, de trás pra frente** · escolha
+
+Pergunte o que ela precisaria aceitar antes, e repita sobre cada resposta, até
+chegar numa afirmação que ela aceita sem pensar.
+→ a lista, de baixo pra cima
+
+**Passo 3 · A cadeia na ordem** · mecânico
+
+Inverta e numere. Marque cada degrau com o motivo de ele ser aceito.
+→ a cadeia numerada, com o motivo de cada degrau
+
+**Passo 4 · Caça ao salto** · mecânico
+
+Degrau por degrau: aqui a pessoa precisa acreditar em algo que ainda não foi
+estabelecido? Se sim, falta degrau no meio.
+→ a lista dos saltos, ou a confirmação de que não há
+
+**Passo 5 · A analogia** · escolha
+
+Se a cadeia for longa, uma analogia do cotidiano faz o trabalho de três degraus.
+Ela precisa ser **cena**, não ilustração: "minha mãe me mandando escovar os
+dentes" é cena; "imagine um rádio" não é.
+→ 3 analogias possíveis, com o motivo de cada uma
+
+**Passo 6 · A copy** · escolha
+
+Só agora se escreve. A cadeia vira falas, na ordem, com o tempo do bloco.
+→ o bloco escrito, com o tempo conferido
+
+## Sobre esta ficha
+
+Baseada no capítulo de Gradualização do Breakthrough Advertising, de Eugene
+Schwartz. As citações vêm de uma tradução automática do livro, então o
+português delas foi ajustado sem mexer no sentido.
+
+O exemplo trabalhado é da VSL controle da Hannah Franklin. A ficha **Modelagem
+VSL (Hannah Franklin)** traz a transcrição completa dela, fatiada em 44 blocos.
 </script>
 </body>
 </html>

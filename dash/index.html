@@ -563,10 +563,6 @@ body{background:var(--bg);color:var(--ink);}
   .ac-card:hover{border-color:var(--marca);transform:translateY(-1px);}
   .ac-tit{font-size:15.5px;font-weight:700;color:var(--ink);line-height:1.3;}
   .ac-res{font-size:13px;color:var(--ink-2);line-height:1.5;}
-  .ac-tipo{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;
-    padding:2px 7px;border-radius:3px;}
-  .ac-tipo.prompt{background:var(--marca);color:#fff;}
-  .ac-tipo.visual{background:var(--surface-2);color:var(--ink-2);}
   .ac-vazio{font-size:13.5px;color:var(--ink-3);padding:6px 0 2px;}
 
   /* Barra de ações grudada no topo: num documento longo o botão de copiar
@@ -2959,12 +2955,13 @@ function desenharCalc() {
 
 // ══════════════════════ ACADEMY ══════════════════════
 /* Os processos da operação, escritos uma vez e consultados sempre.
-   Dois tipos, e a diferença é o que você faz com eles:
 
-     prompt  vai pra IA. Renderiza formatado pra ler, mas o botão copia a FONTE
-             — com as quebras de linha e os marcadores intactos, que é do que a
-             IA precisa, e não do que a tela mostra.
-     visual  se lê aqui e acabou.
+   Todo processo é copiável: renderiza formatado pra ler, mas o botão copia a
+   FONTE — com as quebras de linha e os marcadores intactos, que é do que a IA
+   precisa, e não do que a tela mostra. Já houve aqui um campo `tipo` separando
+   'prompt' de 'visual', com etiqueta no cartão; saiu porque a distinção não se
+   sustenta na prática: qualquer documento daqui pode virar prompt no dia em que
+   fizer falta, e a etiqueta só cobrava uma decisão adiantada.
 
    O texto mora em <script type="text/plain"> no fim do body, e não numa string
    de JavaScript: processo tem crase, chave e barra invertida no meio, e cada um
@@ -2974,13 +2971,24 @@ function desenharCalc() {
 const ACADEMY = {
   produto:  { rot: 'Produto' },
   criativo: { rot: 'Criativo' },
+  vsl:      { rot: 'VSL' },
   trafego:  { rot: 'Tráfego' },
 };
 
 const PROCESSOS = [
-  { id: 'modelagem-criativo', cat: 'criativo', tipo: 'prompt',
+  { id: 'modelagem-criativo', cat: 'criativo',
     titulo: 'Modelagem de criativo',
     resumo: 'Pegar um roteiro que já funciona, extrair o que faz ele funcionar, e remontar com o nosso produto dentro.' },
+
+  { id: 'vsl-georgi', cat: 'vsl',
+    titulo: 'Estrutura de VSL · Stefan Georgi',
+    resumo: 'Mecanismo do problema e mecanismo da solução, os dois batizados. 13 blocos, 40% do tempo em mecanismo.' },
+  { id: 'vsl-benson', cat: 'vsl',
+    titulo: 'Estrutura de VSL · Jon Benson',
+    resumo: 'História no comando e três fechamentos completos. 15 blocos.' },
+  { id: 'vsl-hibrida', cat: 'vsl',
+    titulo: 'Estrutura de VSL · Híbrida',
+    resumo: 'Os dois mecanismos do Georgi com os três fechamentos do Benson. 18 blocos.' },
 ];
 
 let procAberto = null;
@@ -3094,7 +3102,6 @@ function verAcademy() {
 
   const cartao = pr =>
     '<button class="ac-card" onclick="verProcesso(' + JSON.stringify(pr.id).replace(/"/g, '&quot;') + ')">' +
-      '<span class="ac-tipo ' + pr.tipo + '">' + (pr.tipo === 'prompt' ? 'prompt' : 'visual') + '</span>' +
       '<span class="ac-tit">' + esc(pr.titulo) + '</span>' +
       '<span class="ac-res">' + esc(pr.resumo) + '</span>' +
     '</button>';
@@ -3105,8 +3112,8 @@ function verAcademy() {
     '<div class="card">' +
       '<div class="sec">' + ico('Academy') + '<span>Processos</span></div>' +
       '<div class="nota" style="margin:0 0 18px;">Como cada coisa é feita aqui dentro. ' +
-        'Os marcados como <b>prompt</b> têm botão de copiar — o que vai pra área de ' +
-        'transferência é a fonte, não o texto formatado da tela.</div>' +
+        'Todo processo tem botão de copiar — o que vai pra área de transferência ' +
+        'é a fonte, não o texto formatado da tela.</div>' +
       /* Categorias em linha, e não empilhadas: com quatro delas a lista vertical
          empurrava pra baixo justamente o que tem conteúdo. O número ao lado diz
          quanto tem lá dentro sem precisar entrar. */
@@ -3146,10 +3153,8 @@ function verProcesso(id) {
     '<div class="card ac-doc">' +
       '<div class="ac-topo">' +
         '<button class="limpar" onclick="fecharProcesso()">← Processos</button>' +
-        (pr.tipo === 'prompt'
-          ? '<button class="prim" onclick="copiarProcesso(' +
-            JSON.stringify(id).replace(/"/g, '&quot;') + ', this)">Copiar prompt</button>'
-          : '') +
+        '<button class="prim" onclick="copiarProcesso(' +
+          JSON.stringify(id).replace(/"/g, '&quot;') + ', this)">Copiar prompt</button>' +
       '</div>' +
       '<div class="ac-cols">' +
         '<div class="ac-corpo">' + md(fonte) + '</div>' +
@@ -4485,6 +4490,143 @@ Roteiro original a modelar:
 [COLAR AQUI]
 
 Comece pelo passo 1.
+</script>
+
+<script type="text/plain" id="proc-vsl-georgi">
+# Estrutura de VSL · Stefan Georgi
+
+RMBC é o processo: Research, Mechanism, Brief, Copy. A estrutura abaixo é o
+roteiro que sai dele.
+
+O peso é a fatia do tempo total. Numa VSL de 30 minutos, 15% são 4 minutos e
+meio.
+
+## Os 13 blocos
+
+| # | bloco | o que faz | peso |
+|---|-------|-----------|------|
+| 1 | Lead | Um dos tipos fixos: história, proclamação, nós contra eles, segredo, pergunta | 10% |
+| 2 | Ponte de intriga | O único trabalho do lead é entregar a pessoa no mecanismo | 3% |
+| 3 | Mecanismo do PROBLEMA | A causa escondida. Tem nome próprio | 15% |
+| 4 | Absolvição | A culpa não é sua, é da causa | 4% |
+| 5 | Mecanismo da SOLUÇÃO | O que neutraliza a causa. Também tem nome próprio | 25% |
+| 6 | Prova entremeada | Estudo, caso, credencial, dentro do mecanismo e não depois | 8% |
+| 7 | Revelação do produto | O produto como veículo do mecanismo | 8% |
+| 8 | Escada de valor | Quanto valeria, em degraus | 5% |
+| 9 | Oferta e preço | O número | 5% |
+| 10 | Bônus | Empilha valor | 5% |
+| 11 | Garantia | Tira o risco | 4% |
+| 12 | Escassez | Por que agora | 3% |
+| 13 | Fechamento e CTA | Um só, grande | 5% |
+
+## A marca do método
+
+Os blocos 3 e 5 somam **40%** da VSL. É a proporção que separa esse método dos
+outros, e é onde a maioria dos roteiros encolhe justamente o que não devia.
+
+Os dois mecanismos ganham **nome batizado**. Sem nome, a solução chega como
+promessa. Com nome, chega como consequência de uma causa que a pessoa acabou de
+aceitar.
+
+Separar mecanismo do problema de mecanismo da solução é a contribuição central.
+Quase todo mundo junta os dois num bloco só.
+
+## Sobre esta ficha
+
+Reconstruída a partir do método publicado, não transcrita de uma fonte única. As
+proporções são estimativa em cima de VSL de 30 minutos.
+</script>
+
+<script type="text/plain" id="proc-vsl-benson">
+# Estrutura de VSL · Jon Benson
+
+Ele inventou o formato de VSL em 2005. A estrutura é dirigida pela história e
+fecha três vezes.
+
+O peso é a fatia do tempo total.
+
+## Os 15 blocos
+
+| # | bloco | o que faz | peso |
+|---|-------|-----------|------|
+| 1 | Interrupção de padrão | Choca antes de explicar | 3% |
+| 2 | Callout | Chama o público pelo nome | 3% |
+| 3 | Promessa grande | O que ela vai ter | 4% |
+| 4 | Agitação | A dor, em cena e não em conceito | 8% |
+| 5 | Backstory | Quem fala e por que sofreu igual | 15% |
+| 6 | A descoberta | A cena da virada | 10% |
+| 7 | A solução revelada | O que ele achou | 8% |
+| 8 | Produto | O que é | 5% |
+| 9 | FECHAMENTO 1 emocional | Preço, garantia, CTA. Completo | 7% |
+| 10 | Benefícios e prova | O que muda na vida dela | 10% |
+| 11 | Quebra de objeções | E se... | 8% |
+| 12 | FECHAMENTO 2 lógico | A conta fecha. Preço e CTA de novo | 5% |
+| 13 | Escassez | Por que agora | 4% |
+| 14 | Recapitulação | Tudo que ela leva | 5% |
+| 15 | FECHAMENTO 3 medo de perder | O último | 5% |
+
+## A marca do método
+
+Três fechamentos, cada um **completo**: preço, garantia e CTA nos três. E cada
+um puxa uma motivação diferente, coração, cabeça e medo de perder.
+
+A lógica é simples: quem já decidiu no minuto 12 não deveria ser obrigado a
+assistir até o minuto 30 pra descobrir que existe um botão.
+
+A história carrega o roteiro, e o mecanismo aparece dentro dela. É o inverso do
+Georgi, onde o mecanismo carrega e a história dá credibilidade a ele.
+
+## Sobre esta ficha
+
+Reconstruída a partir do que ficou público do método, não transcrita de uma
+fonte única. Confiança menor que a da ficha do Georgi. As proporções são
+estimativa em cima de VSL de 30 minutos.
+</script>
+
+<script type="text/plain" id="proc-vsl-hibrida">
+# Estrutura de VSL · Híbrida
+
+Pega os dois mecanismos nomeados do Georgi e os três fechamentos do Benson.
+
+O peso é a fatia do tempo total.
+
+## Os 18 blocos
+
+| # | bloco | de onde | peso |
+|---|-------|---------|------|
+| 1 | Interrupção e callout | Benson | 4% |
+| 2 | Promessa grande | ambos | 4% |
+| 3 | Agitação em cena | Benson | 7% |
+| 4 | Mecanismo do PROBLEMA batizado | Georgi | 12% |
+| 5 | Absolvição | Georgi | 3% |
+| 6 | Backstory comprimida | Benson | 8% |
+| 7 | A descoberta | Benson | 6% |
+| 8 | Mecanismo da SOLUÇÃO batizado | Georgi | 15% |
+| 9 | Prova entremeada | Georgi | 6% |
+| 10 | Produto | ambos | 5% |
+| 11 | FECHAMENTO 1 emocional | Benson | 6% |
+| 12 | O que tem dentro | ambos | 6% |
+| 13 | Quebra de objeções | ambos | 5% |
+| 14 | FECHAMENTO 2 lógico | Benson | 4% |
+| 15 | Escada de valor | Georgi | 3% |
+| 16 | Oferta, bônus e garantia | ambos | 4% |
+| 17 | Escassez e recapitulação | ambos | 3% |
+| 18 | FECHAMENTO 3 medo de perder | Benson | 4% |
+
+## O que a híbrida corrige
+
+Mecanismo ocupa **27%**, história **14%**, e fechamento **14%** dividido em três.
+
+Do lado do Georgi, entram os pontos de saída antecipada que a estrutura dele não
+tem: quem convenceu no minuto 20 não fica refém dos últimos 10.
+
+Do lado do Benson, entra a causa nomeada, que faz a solução parecer inevitável
+em vez de prometida.
+
+## Sobre esta ficha
+
+Síntese das duas fichas anteriores, não um método publicado por ninguém. As
+proporções são estimativa em cima de VSL de 30 minutos.
 </script>
 </body>
 </html>

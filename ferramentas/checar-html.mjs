@@ -76,6 +76,10 @@ function autoteste() {
 const SEM_CSS_DE_PROPOSITO = new Set([
   'mp-canto',                             // célula vazia da grade do mapa
   'soFunil', 'soFonte', 'soCriativos',    // visibilidade por JS, sobre .grp
+  /* Filhos de flex no quiz: o pai dimensiona, então regra própria seria regra
+     vazia. Conferido no navegador com a tela ativa — os cinco renderizam. */
+  'guarantee-block__seal', 'number-one__center',
+  'number-one__laurel', 'number-one__laurel--left', 'number-one__laurel--right',
 ]);
 
 function classesOrfas(html, arq) {

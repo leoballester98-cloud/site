@@ -583,7 +583,7 @@
       <div class="alert-box" style="margin-top:14px;">
         <span class="alert-box__icon">☝️</span>
         <div class="alert-box__body">
-          <p class="alert-box__title" id="iqoDiagTitle">Ovulação Invisível</p>
+          <p class="alert-box__title" id="iqoDiagTitle">Janela Fértil Desconhecida</p>
           <p class="alert-box__text" id="iqoDiagText">Seu corpo está enviando todos os sinais certos. Você ainda não aprendeu a linguagem deles. Isso não é culpa sua. Ninguém ensinou. O Protocolo Ciclo Fértil resolve isso nos primeiros 14 dias.</p>
         </div>
       </div>
@@ -598,7 +598,7 @@
           </span>
           <div class="stat-row__body">
             <div class="stat-row__label">Ciclo</div>
-            <div class="stat-row__value" id="resumeLifestyle">Invisível</div>
+            <div class="stat-row__value" id="resumeLifestyle">Desconhecida</div>
           </div>
         </div>
         <div class="stat-row">
@@ -606,8 +606,8 @@
             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M14 14.76V3.5a2.5 2.5 0 0 0-5 0v11.26a4.5 4.5 0 1 0 5 0zM11 5a.5.5 0 0 1 1 0v9.55a3 3 0 1 1-2 0V8h1V5z"/></svg>
           </span>
           <div class="stat-row__body">
-            <div class="stat-row__label">Hormônios</div>
-            <div class="stat-row__value" id="resumeCare">Desregulados</div>
+            <div class="stat-row__label">Emocional</div>
+            <div class="stat-row__value" id="resumeCare">Sobrecarregado</div>
           </div>
         </div>
         <div class="stat-row">
@@ -615,8 +615,8 @@
             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8 5 6 9 6 13a6 6 0 0 0 12 0c0-4-2-8-6-11zm0 17a4 4 0 0 1-4-4c0-2 1-4 2-5 1 1 1 2 1 3a2 2 0 0 0 4 0c0-1 0-2 1-3 1 1 2 3 2 5a4 4 0 0 1-4 4z"/></svg>
           </span>
           <div class="stat-row__body">
-            <div class="stat-row__label">Inflamação</div>
-            <div class="stat-row__value" id="resumeActivity">Alta</div>
+            <div class="stat-row__label">Organismo</div>
+            <div class="stat-row__value" id="resumeActivity">Sobrecarregado</div>
           </div>
         </div>
         <div class="stat-row">
@@ -624,8 +624,8 @@
             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
           </span>
           <div class="stat-row__body">
-            <div class="stat-row__label">Emocional</div>
-            <div class="stat-row__value" id="resumeFaith">Sobrecarregado</div>
+            <div class="stat-row__label">Propósito</div>
+            <div class="stat-row__value" id="resumeFaith">Esgotada</div>
           </div>
         </div>
       </div>
@@ -1900,11 +1900,22 @@ function calculateIQO() {
     const max = ids.length * maxPer;
     return max > 0 ? (total / max) * 100 : 0;
   }
+  /* s33 (humor ao longo do dia) mora no EMOCIONAL, não no organismo: a pergunta
+     é sobre estado de ânimo, e é isso que ela pontua. Estava no f3 e puxava a
+     nota do organismo pra baixo por um motivo emocional. */
   const f1 = factorScore(['s12','s13','s14','s15','s5','s17','s18','s22'], 3);
-  const f2 = factorScore(['s19','s31','s32','s34'], 3);
-  const f3 = factorScore(['s33','s35','s36','s37','s38'], 3);
+  const f2 = factorScore(['s19','s31','s32','s34','s33'], 3);
+  const f3 = factorScore(['s35','s36','s37','s38'], 3);
   const f4 = factorScore(['s39','s40','s41','s42'], 3);
   window.__iqoFactors = { f1, f2, f3, f4 };
+
+  /* Dentro do organismo cabem dois quadros diferentes, e o título do diagnóstico
+     precisa dizer qual é o dela. Sono e sedentarismo apontam pro eixo hormonal;
+     alimentação e inchaço/dores apontam pra inflamação. A atividade física conta
+     nos dois. Ganha o pior dos dois. */
+  const f3horm   = factorScore(['s35','s36'], 3);
+  const f3inflam = factorScore(['s36','s37','s38'], 3);
+  window.__iqoQuadroF3 = f3horm <= f3inflam ? 'hormonal' : 'inflamatorio';
   return Math.round((f1 + f2 + f3 + f4) / 4);
 }
 
@@ -1940,28 +1951,37 @@ function showIQO() {
   let dtitle, dtext;
   const fators = window.__iqoFactors || { f1: 0, f2: 0, f3: 0, f4: 0 };
 
+  /* Os quatro fatores são Ciclo, Emocional, Organismo e Propósito — é o que as
+     telas de cada um perguntam. Os títulos estavam pendurados no fator errado:
+     o emocional ficava no f4, que pergunta sobre fé e autocobrança, e o f2, que
+     pergunta sobre estresse, se chamava hormônios. Quem tinha o propósito como
+     ponto fraco lia "seu emocional está sobrecarregado" sem ter respondido nada
+     sobre estresse. */
+  const hormonal = window.__iqoQuadroF3 === 'hormonal';
+
   // O box só cita dimensões em VERMELHO (score < 45), alinhado com as notas.
-  // Vermelho: score < 45 (na inflamação equivale à exibição invertida > 55).
   const fatoresIQO = [
-    { key: 'f1', score: fators.f1, frase: 'os sinais do seu ciclo ainda estão invisíveis', fraseLeve: 'a leitura dos sinais do seu ciclo ainda é parcial' },
-    { key: 'f2', score: fators.f2, frase: 'seus hormônios estão desregulados', fraseLeve: 'seus hormônios ainda oscilam' },
-    { key: 'f3', score: fators.f3, frase: 'sua inflamação está alta', fraseLeve: 'sua inflamação está em alerta' },
-    { key: 'f4', score: fators.f4, frase: 'seu emocional está sobrecarregado', fraseLeve: 'seu emocional ainda oscila' },
+    { key: 'f1', score: fators.f1, frase: 'você ainda não consegue identificar sua janela fértil', fraseLeve: 'sua leitura da janela fértil ainda é incerta' },
+    { key: 'f2', score: fators.f2, frase: 'seu emocional está sobrecarregado', fraseLeve: 'seu emocional está abalado' },
+    { key: 'f3', score: fators.f3,
+      frase:     hormonal ? 'seus hormônios estão desregulados' : 'sua inflamação está alta',
+      fraseLeve: hormonal ? 'seus hormônios estão instáveis'    : 'sua inflamação está moderada' },
+    { key: 'f4', score: fators.f4, frase: 'sua esperança está se esgotando', fraseLeve: 'sua esperança está enfraquecida' },
   ];
   fatoresIQO.sort(function(a, b) { return a.score - b.score; });
   const vermelhos = fatoresIQO.filter(function(f) { return f.score < 45; });
 
   const titulosFortes = {
-    f1: 'Ciclo Invisível',
-    f2: 'Hormônios Desregulados',
-    f3: 'Inflamação Alta',
-    f4: 'Sobrecarga Emocional Crítica',
+    f1: 'Janela Fértil Desconhecida',
+    f2: 'Sobrecarga Emocional Crítica',
+    f3: hormonal ? 'Hormônios Desregulados' : 'Inflamação Alta',
+    f4: 'Esperança Esgotada',
   };
   const titulosLeves = {
-    f1: 'Ciclo Parcialmente Lido',
-    f2: 'Hormônios em Alerta',
-    f3: 'Inflamação em Alerta',
-    f4: 'Emocional em Alerta',
+    f1: 'Janela Fértil Incerta',
+    f2: 'Emocional Abalado',
+    f3: hormonal ? 'Hormônios Instáveis' : 'Inflamação Moderada',
+    f4: 'Esperança Enfraquecida',
   };
 
   function cap(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
@@ -1990,31 +2010,34 @@ function showIQO() {
   // Nota + palavra por dimensão. Cores: verde >=75, âmbar 45-74, vermelho <45.
   function statRowHTML(score, word) {
     const n = Math.round(score);
-    const cor = n >= 45 ? '#4a7c59' : '#c0392b';
+    /* Três faixas, como as palavras. Faltava o âmbar: 45 a 74 saía verde, e aí
+       "71/100 · Em desequilíbrio" aparecia com a cor de tudo certo. */
+    const cor = n >= 75 ? '#4a7c59' : n >= 45 ? '#b8860b' : '#c0392b';
     return '<b style="color:' + cor + ';">' + n + '/100</b> · ' + word;
   }
 
-  // Row 1: Ciclo (F1)
+  /* As quatro linhas são as quatro dimensões, na ordem dos fatores. O título do
+     diagnóstico, acima delas, é que diz o quadro específico dela.
+
+     A linha do organismo já foi exibida invertida, como `100 - f3`, pra ler como
+     "inflamação". Saiu: com as outras três subindo quando é bom, uma descendo
+     fazia 70/100 significar coisas opostas na mesma tela. */
+
+  // Row 1: Ciclo (f1)
   const r1 = document.getElementById('resumeLifestyle');
-  if (r1) r1.innerHTML = statRowHTML(fators.f1, fators.f1 >= 75 ? 'Identificado' : fators.f1 >= 45 ? 'Parcialmente lido' : 'Invisível');
+  if (r1) r1.innerHTML = statRowHTML(fators.f1, fators.f1 >= 75 ? 'Identificada' : fators.f1 >= 45 ? 'Incerta' : 'Desconhecida');
 
-  // Row 2: Hormônios (F2 — estresse, sono, humor: eixo do cortisol)
+  // Row 2: Emocional (f2 — estresse, ansiedade, pressão, humor)
   const r2 = document.getElementById('resumeCare');
-  if (r2) r2.innerHTML = statRowHTML(fators.f2, fators.f2 >= 75 ? 'Equilibrados' : fators.f2 >= 45 ? 'Oscilando' : 'Desregulados');
+  if (r2) r2.innerHTML = statRowHTML(fators.f2, fators.f2 >= 75 ? 'Equilibrado' : fators.f2 >= 45 ? 'Abalado' : 'Sobrecarregado');
 
-  // Row 3: Inflamação (F3 — organismo). Escala invertida na exibição:
-  // f3 alto = organismo saudável = inflamação BAIXA (verde).
+  // Row 3: Organismo (f3 — sono, atividade, alimentação, dores)
   const r3 = document.getElementById('resumeActivity');
-  if (r3) {
-    const inflam = Math.round(100 - fators.f3);
-    const corInf = inflam <= 55 ? '#4a7c59' : '#c0392b';
-    const wordInf = fators.f3 >= 75 ? 'Controlada' : fators.f3 >= 45 ? 'Em alerta' : 'Alta';
-    r3.innerHTML = '<b style="color:' + corInf + ';">' + inflam + '/100</b> · ' + wordInf;
-  }
+  if (r3) r3.innerHTML = statRowHTML(fators.f3, fators.f3 >= 75 ? 'Saudável' : fators.f3 >= 45 ? 'Em desequilíbrio' : 'Sobrecarregado');
 
-  // Row 4: Emocional (F4 — apoio, propósito, culpa)
+  // Row 4: Propósito (f4 — fé, alegria, autocobrança)
   const r4 = document.getElementById('resumeFaith');
-  if (r4) r4.innerHTML = statRowHTML(fators.f4, fators.f4 >= 75 ? 'Equilibrado' : fators.f4 >= 45 ? 'Oscilando' : 'Sobrecarregado');
+  if (r4) r4.innerHTML = statRowHTML(fators.f4, fators.f4 >= 75 ? 'Firme' : fators.f4 >= 45 ? 'Enfraquecida' : 'Esgotada');
   // window.__iqo já foi salvo com o valor raw no início da função
 }
 

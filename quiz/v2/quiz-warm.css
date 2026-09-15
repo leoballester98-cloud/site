@@ -4140,63 +4140,70 @@ body.marca-solta:has(#s1.screen.active) .header__inner::after {
   .age-grid .age-row.age-quad { min-height: 72px; font-size: 18px; }
 }
 
-/* ── Desktop: o mesmo padrao da tela original ─────────────────────────────
-   No empilhamento do celular a imagem estica pra largura toda e vira 480px de
-   altura, jogando a grade e o botao pra baixo da dobra — 86px na tela 6, 200px
-   na 8. Ninguem no desktop via o elemento de decisao sem rolar.
+/* ── Desktop: a mesma disposicao do celular, na escala do desktop ────────
+   Empilhado, centralizado, na ordem do celular — o que muda e so o tamanho de
+   cada peca. Duas colunas chegaram a ser testadas aqui e foram desfeitas: elas
+   quebram a leitura de cima pra baixo que as tres referencias usam, e e essa
+   ordem que o molde vende.
 
-   A saida e a que a tela original ja usa: titulo e subtitulo centralizados em
-   cima, e embaixo duas colunas — imagem a esquerda, acao a direita. O corte em
-   900px e o mesmo que a original usa, entao as duas viram desktop na mesma
-   largura.
+   O trabalho, entao, e caber: no empilhamento largo a foto 4:3 viraria 450px de
+   altura sozinha e jogaria a grade pra fora da dobra. Por isso a coluna trava
+   em 600px e a imagem ganha teto de altura — o corte vem do object-fit, nao da
+   proporcao, entao o enquadramento nao muda.
 
-   'display: contents' no bloco da tela: os filhos dele (foto, bullets, botao)
-   precisam cair em colunas DIFERENTES, e isso so acontece se eles forem itens
-   da mesma grade. O [hidden] continua ganhando, porque e !important — as telas
-   que nao foram sorteadas seguem escondidas. */
+   900px e o mesmo corte que a tela original usa pra virar desktop. */
 @media (min-width: 900px) {
-  #s1.s1-alt {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    column-gap: 22px;
-    row-gap: 14px;
-    align-items: start;
-    align-content: start;
-    max-width: 840px;
+  #s1.s1-alt { max-width: 600px; }
+
+  /* 38px e o tamanho do titulo na tela original, medido nela. A caixa vai a
+     620px porque a headline dos moldes e mais longa: na largura da coluna ela
+     quebrava em cinco linhas, uma torre de texto que empurrava tudo pra baixo. */
+  #s1.s1-alt > h1#h1Var { font-size: 38px; max-width: 620px !important; margin-bottom: 10px; }
+  #s1.s1-alt > p#subVar { font-size: 17px; max-width: 46ch; margin-bottom: 14px; }
+
+  .t-alt { gap: 16px; }
+  #s1.s1-alt .t6-hero { max-height: 200px; }
+  #s1.s1-alt .t7-par img { aspect-ratio: 16 / 10; }
+  /* Dois pares empilhados cobram o dobro de altura de qualquer outra prova.
+     O 2/1 e o que faz a tela 8 caber na dobra com os dois. */
+  #s1.s1-alt .t8-par img { aspect-ratio: 2 / 1; }
+  /* A barra do desktop reserva 70px no topo da .wrap por causa do passo e da
+     barra de progresso. Nestas telas ela mostra so o nome, entao 62px ja deixa
+     folga sobre uma barra de 57px — e os pixels devolvidos sao o que falta pra
+     grade e o botao entrarem na dobra. */
+  body.marca-solta:has(#s1.screen.active) .wrap { padding-top: 66px; }
+  #s1.s1-alt .t6-bullets { gap: 9px; }
+  #s1.s1-alt .t6-bullets li { font-size: 17px; }
+  #s1.s1-alt .t-sub, #s1.s1-alt .t-micro { font-size: 16px; }
+  #s1.s1-alt > .age-grid { margin-top: 14px; }
+  #s1.s1-alt .age-row.age-quad { min-height: 66px; font-size: 17px; }
+  #s1.s1-alt .t-cta { min-height: 62px; font-size: 19px; }
+}
+
+/* ── A barra da marca no celular, nos moldes novos ────────────────────────
+   Passo, secao e barra de progresso ficavam so com visibility:hidden — sumiam
+   da vista mas continuavam ocupando os 57px de altura da barra, e o topo da
+   .wrap reservava 92px por causa deles. Numa barra que mostra unicamente o
+   nome, isso e altura paga por nada, e era o que sobrava de rolagem nas tres
+   telas.
+
+   display:none em vez de visibility:hidden, e o ::after da marca sai do
+   absoluto pro fluxo — senao, com os irmaos fora, a barra colapsaria pra zero
+   e o nome ficaria por cima do conteudo. So no celular: acima de 900px a
+   pagina ja cabe na dobra e nao ha o que economizar. */
+@media (max-width: 899px) {
+  body.marca-solta:has(#s1.screen.active) .header__step,
+  body.marca-solta:has(#s1.screen.active) .header__section,
+  body.marca-solta:has(#s1.screen.active) .progress { display: none; }
+  body.marca-solta:has(#s1.screen.active) .header__inner { padding: 7px 14px; gap: 0; }
+  body.marca-solta:has(#s1.screen.active) .header__inner::after {
+    position: static;
+    inset: auto;
+    font-size: 15px;
+    line-height: 1.35;
   }
-  #s1.s1-alt > .t-alt { display: contents; }
-
-  /* Titulo e subtitulo atravessam as duas colunas, centralizados. 38px e 16px
-     sao os mesmos numeros da tela original, medidos nela. */
-  #s1.s1-alt > h1#h1Var {
-    grid-column: 1 / -1;
-    font-size: 38px;
-    max-width: 490px !important;
-    margin-bottom: 0;
-  }
-  #s1.s1-alt > p#subVar { grid-column: 1 / -1; font-size: 16px; max-width: 400px; margin-bottom: 0; }
-  #s1.s1-alt > .s1-sep, #s1.s1-alt > .terms { grid-column: 1 / -1; }
-
-  /* A imagem ocupa a coluna da esquerda e as linhas que a coluna da direita
-     gastar. O 'span 4' cobre o caso mais cheio (bullets + sub + grade). */
-  #s1.s1-alt .t6-hero,
-  #s1.s1-alt .t7-prova,
-  #s1.s1-alt .t8-prova { grid-column: 1; grid-row: auto / span 4; align-self: center; }
-
-  /* Texto e acao na coluna da direita, centrados verticalmente no conjunto. */
-  #s1.s1-alt .t6-bullets,
-  #s1.s1-alt .t-sub,
-  #s1.s1-alt .t-micro,
-  #s1.s1-alt .t-cta,
-  #s1.s1-alt > .age-grid { grid-column: 2; margin-left: 0; margin-right: 0; }
-  #s1.s1-alt .t6-bullets { align-self: end; }
-  #s1.s1-alt > .age-grid { margin-top: 0; }
-
-  /* Sem teto de altura a foto 4:3 numa coluna de 400px daria 300px e empurraria
-     o resto; com ele a coluna da esquerda para de mandar na altura da pagina. */
-  #s1.s1-alt .t6-hero { max-height: 380px; }
-  #s1.s1-alt .t7-par img { aspect-ratio: 4 / 5; }
-  #s1.s1-alt .t8-par img { aspect-ratio: 4 / 3; }
-  #s1.s1-alt .t6-bullets li { justify-content: flex-start; text-align: left; }
-  #s1.s1-alt .t-sub, #s1.s1-alt .t-micro { text-align: left; max-width: none; }
+  /* 54 e nao 48: a barra termina em 51px, e com 48 a primeira linha do titulo
+     passava por baixo dela. Os 6px que isso custa saem do rodape, que tinha
+     24px de folga sem nada embaixo. */
+  body.marca-solta:has(#s1.screen.active) .wrap { padding-top: 54px; padding-bottom: 14px; }
 }

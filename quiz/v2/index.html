@@ -56,7 +56,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"/>
-  <link rel="stylesheet" href="quiz-warm.css?v=252"/>
+  <link rel="stylesheet" href="quiz-warm.css?v=263"/>
 
   <!-- Anti-flicker do teste A/B.
        O script que troca a headline mora no fim do <body>, então num aparelho
@@ -157,10 +157,13 @@
          costura na mão do CSS, e ela nunca cai onde o corte da foto pede. -->
     <div class="t-alt" id="tela7" hidden>
       <div class="t7-prova">
-        <div class="t7-par">
-          <img id="t7Img" src="Images/idade-26-35.webp" alt="" decoding="async" loading="eager"/>
+        <div class="t7-janela">
+          <div class="t7-trilho" id="t7Trilho"></div>
+          <button class="t7-seta t7-seta--ant" id="t7Ant" type="button" aria-label="Imagem anterior"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
+          <button class="t7-seta t7-seta--prox" id="t7Prox" type="button" aria-label="Próxima imagem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
         </div>
         <div class="t7-legenda" id="t7Legenda"></div>
+        <div class="t7-dots" id="t7Dots"></div>
       </div>
       <p class="t-sub" id="t7Sub"></p>
       <button class="t-cta" id="t7Cta" type="button"></button>
@@ -1344,10 +1347,26 @@ const TELAS = {
     subAbaixo: true,
     /* <u> no desejo, <mark> no mecanismo. O <b> que estava aqui nao aparecia:
        a headline inteira era peso 800 e nao sobrava contraste pro negrito. */
-    titulo: 'CONQUISTE O <u>SEU POSITIVO</u> COM UM <mark>PLANO DE FERTILIDADE PERSONALIZADO</mark> PRA SUA ROTINA E PRO SEU BOLSO!',
-    legenda: 'grávida no 2º ciclo',
-    sub: 'um <u>protocolo simples</u> pra destravar os <b>4 bloqueios que travam a sua ovulação em 30 dias</b>, usando <b>o que já tem na sua casa</b>, <b>sem precisar de tratamento caro!</b>',
-    cta: 'COMEÇAR MEU PLANO'
+    /* Headline de MECANISMO, nao de promessa. Schwartz, cap. 3: num mercado que
+       ja ouviu toda promessa em todo extremo, repetir ou exagerar nao fura
+       mais — o que fura e mostrar COMO funciona. E este mecanismo nao e novo
+       pra ela: a VSL 1 passa tres minutos instalando o modo sobrevivencia.
+       Quem viu o video chega aqui e reconhece. */
+    titulo: 'DESLIGUE O <span class="selo">MODO SOBREVIVÊNCIA</span> QUE SEGURA <u>A SUA GRAVIDEZ</u>',
+    /* O bloco de prova e um carrossel. Imagem e legenda de cada slide moram
+       aqui, num lugar so, porque e o que vai ser trocado com mais frequencia. */
+    slides: [
+      { img: 'Images/antes-depois.webp' },
+      { img: 'Images/gancho-bebe.webp' }
+    ],
+    /* O sub afia a headline em vez de competir com ela: o titulo manda desligar
+       o modo sobrevivencia, e aqui ela ve onde ele esta e como desliga. O sub
+       antigo apresentava OUTRO mecanismo (4 bloqueios na ovulacao), e a mulher
+       ficava com dois na cabeca em dois segundos.
+       'IQO' saiu: e sigla interna, e numa primeira tela ela teria que aprender
+       o termo antes de entender a frase. O nome segue valendo dentro do quiz. */
+    sub: 'Em 3 minutos você vê na tela <b>qual das 4 áreas do seu corpo está no modo sobrevivência</b>. E o passo a passo pra desligar.',
+    cta: 'FAZER O TESTE GRÁTIS'
   },
   '8': {
     grade: 'botao',
@@ -1357,6 +1376,75 @@ const TELAS = {
     cta: 'FAZER TESTE GRÁTIS AGORA!'
   }
 };
+
+/* ── O carrossel de prova da tela 7 ────────────────────────────────────────
+   Avanca sozinho e tambem no arrasto. Quem toca manda: o automatico para de
+   vez no primeiro toque, porque voltar a girar embaixo do dedo da pessoa e a
+   forma mais rapida de ela perder a prova que estava lendo.
+
+   A legenda vive FORA do trilho, e nao dentro de cada slide: assim ela nao
+   anda junto na animacao, e o bloco inteiro nao muda de altura quando uma
+   legenda tem duas linhas e a outra tem uma. */
+function montarCarrossel(slides) {
+  const trilho = document.getElementById('t7Trilho');
+  const leg = document.getElementById('t7Legenda');
+  const dots = document.getElementById('t7Dots');
+  if (!trilho || !slides.length) return;
+
+  trilho.innerHTML = slides.map(function (sl, i) {
+    return '<div class="t7-slide"><img src="' + sl.img + '" alt="" decoding="async" loading="' +
+           (i ? 'lazy' : 'eager') + '"/></div>';
+  }).join('');
+  dots.innerHTML = slides.map(function (_, i) {
+    return '<button class="t7-dot' + (i ? '' : ' on') + '" type="button" aria-label="Imagem ' + (i + 1) + '"></button>';
+  }).join('');
+
+  let i = 0, auto = null;
+  function ir(n) {
+    i = (n + slides.length) % slides.length;
+    trilho.style.transform = 'translateX(' + (-i * 100) + '%)';
+    leg.textContent = slides[i].legenda || '';
+    dots.querySelectorAll('.t7-dot').forEach(function (d, k) { d.classList.toggle('on', k === i); });
+  }
+  function parar() { clearInterval(auto); auto = null; }
+  ir(0);
+
+  /* prefers-reduced-motion nao e preferencia estetica: pra quem marcou, coisa
+     que anda sozinha na tela chega a dar enjoo. Ali o carrossel fica parado e
+     so as bolinhas e o arrasto continuam valendo. */
+  const quieto = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!quieto && slides.length > 1) auto = setInterval(function () { ir(i + 1); }, 3200);
+
+  dots.addEventListener('click', function (e) {
+    const b = e.target.closest('.t7-dot'); if (!b) return;
+    parar(); ir([].indexOf.call(dots.children, b));
+  });
+
+  /* As setas param o automatico pelo mesmo motivo das bolinhas: quem assumiu o
+     controle nao quer o carrossel andando por baixo. Com um slide so elas nem
+     existem — seta que nao leva a lugar nenhum e ruido. */
+  const ant = document.getElementById('t7Ant');
+  const prox = document.getElementById('t7Prox');
+  if (slides.length < 2) {
+    if (ant) ant.hidden = true;
+    if (prox) prox.hidden = true;
+    dots.hidden = true;
+  } else {
+    if (ant) ant.addEventListener('click', function () { parar(); ir(i - 1); });
+    if (prox) prox.addEventListener('click', function () { parar(); ir(i + 1); });
+  }
+
+  /* passive:true no touchstart/touchmove — sem isso o navegador segura a
+     rolagem esperando pra ver se a gente vai cancelar ela. */
+  let x0 = null;
+  trilho.addEventListener('touchstart', function (e) { parar(); x0 = e.touches[0].clientX; }, { passive: true });
+  trilho.addEventListener('touchend', function (e) {
+    if (x0 === null) return;
+    const d = e.changedTouches[0].clientX - x0;
+    if (Math.abs(d) > 40) ir(i + (d < 0 ? 1 : -1));
+    x0 = null;
+  });
+}
 
 (function () {
   const h = document.getElementById('h1Var');
@@ -1407,10 +1495,7 @@ const TELAS = {
         if (ul) ul.innerHTML = molde.bullets.map(function (t) { return '<li>' + t + '</li>'; }).join('');
       }
 
-      if (molde.legenda) {
-        const leg = document.getElementById('t7Legenda');
-        if (leg) leg.textContent = molde.legenda;
-      }
+      if (molde.slides) montarCarrossel(molde.slides);
       if (molde.micro) {
         const mic = document.getElementById('t8Micro');
         if (mic) mic.innerHTML = molde.micro;

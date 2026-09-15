@@ -4090,13 +4090,67 @@ body.marca-solta:has(#s1.screen.active) .header__inner::after {
   box-shadow: var(--shadow-card);
   overflow: hidden;
 }
-/* Uma imagem por bloco: a comparacao ja vem montada dentro do arquivo, com a
-   divisao desenhada. Com duas <img> a costura ficava por conta do CSS, e ela
-   nunca cai onde o corte da foto pede. */
-.t7-par { display: block; aspect-ratio: var(--prova-ar); overflow: hidden; }
-.t7-par img { width: 100%; height: 100%; object-fit: cover; display: block; background: var(--card-active); }
+/* ── O carrossel de prova ────────────────────────────────────────────────
+   A janela recorta, o trilho anda. A proporcao vive na JANELA e nao nos
+   slides: assim o bloco nao muda de altura quando entra uma imagem de
+   proporcao diferente da outra, e a pagina nao pula no meio da animacao. */
+.t7-janela { aspect-ratio: var(--prova-ar); overflow: hidden; position: relative; }
+
+/* As setas ficam POR CIMA da imagem, nao fora dela: fora, elas roubariam
+   altura do bloco, e altura e o que esta em falta nessas telas. */
+.t7-seta {
+  position: absolute; top: 50%;
+  width: 36px; height: 36px;
+  display: grid; place-items: center;
+  padding: 0; border: 0;
+  background: none;
+  color: #fff;
+  cursor: pointer;
+  transform: translateY(-50%);
+  transition: opacity .18s;
+  opacity: .92;
+}
+/* Sem o circulo branco atras, a seta depende do proprio contorno pra se
+   sustentar. A sombra resolve os dois casos: sobre imagem clara ela desenha a
+   borda, sobre imagem escura ela so nao atrapalha. */
+.t7-seta svg {
+  width: 22px; height: 22px; display: block;
+  filter: drop-shadow(0 1px 3px rgba(0,0,0,0.55));
+}
+/* O alvo de toque vai a 44px sem engordar o circulo: o desenho continua de 36,
+   e o dedo acerta numa area maior que ele. */
+.t7-seta::after { content: ''; position: absolute; inset: -4px; border-radius: 999px; }
+.t7-seta--ant { left: 8px; }
+.t7-seta--ant svg { transform: rotate(180deg); }
+.t7-seta--prox { right: 8px; }
+.t7-seta:hover { opacity: 1; }
+.t7-seta:active { transform: translateY(-50%) scale(0.94); }
+.t7-trilho {
+  display: flex;
+  height: 100%;
+  transition: transform .45s cubic-bezier(.4,0,.2,1);
+  will-change: transform;
+}
+.t7-slide { flex: 0 0 100%; height: 100%; }
+.t7-slide img { width: 100%; height: 100%; object-fit: cover; display: block; background: var(--card-active); }
+@media (prefers-reduced-motion: reduce) { .t7-trilho { transition: none; } }
+
+.t7-dots { display: flex; justify-content: center; gap: 7px; padding: 10px 0 12px; }
+.t7-dot {
+  width: 7px; height: 7px; padding: 0;
+  border: 0; border-radius: 999px;
+  background: var(--hair-strong);
+  cursor: pointer;
+  transition: background .2s, width .2s;
+}
+/* A bolinha ativa alonga em vez de so trocar de cor: quem nao distingue bem
+   as duas cores continua vendo em qual slide esta, pela forma. */
+.t7-dot.on { background: var(--blue-d); width: 18px; }
+/* Sem legenda a faixa branca some de vez, em vez de virar uma tira vazia
+   embaixo da imagem. O :empty faz isso sozinho — nao precisa de classe. */
+.t7-legenda:empty { display: none; }
 .t7-legenda {
-  padding: 12px 10px;
+  padding: 12px 10px 8px;
   text-align: center;
   font-size: 14px;
   color: var(--ink-fade);
@@ -4333,13 +4387,14 @@ body.marca-solta:has(#s1.screen.active) .header__inner::after {
      aspect-ratio estivesse na <img>, ela reimporia a altura depois do flex
      encolher o pai, e a imagem voltava a crescer. */
   #s1.s1-alt.active .t6-hero img,
-  #s1.s1-alt.active .t7-par img,
+  #s1.s1-alt.active .t7-slide img,
   #s1.s1-alt.active .t8-par img { height: 100%; object-fit: cover; }
   #s1.s1-alt.active .t6-hero,
-  #s1.s1-alt.active .t7-par,
+  #s1.s1-alt.active .t7-janela,
   #s1.s1-alt.active .t8-par { overflow: hidden; }
+  #s1.s1-alt.active .t7-janela { flex: 0 1 auto; min-height: 0; }
   #s1.s1-alt.active .t-alt { flex: 0 1 auto; min-height: 0; display: flex; flex-direction: column; }
-  #s1.s1-alt.active .t7-par, #s1.s1-alt.active .t8-par { flex: 0 1 auto; min-height: 0; }
+  #s1.s1-alt.active .t8-par { flex: 0 1 auto; min-height: 0; }
   /* A sobra que a imagem nao come mais vira respiro entre os blocos, em vez de
      empilhar tudo no topo e deixar um buraco embaixo. */
   #s1.s1-alt.active { justify-content: center; gap: 2px; }

@@ -35,6 +35,11 @@
   --shadow-cta: 0 10px 30px -10px rgba(196,149,106,0.55);
   --radius-card: 14px;
   --radius-button: 999px;
+  /* A proporcao da imagem de prova das telas 6, 7 e 8. Uma imagem so, ocupando
+     o espaco que os dois blocos da referencia ocupam juntos: 600x300 no
+     desktop. Fica aqui em cima porque as tres telas compartilham a medida — e
+     o dia em que ela mudar, muda num lugar. */
+  --prova-ar: 2 / 1;
 }
 
 html {
@@ -3970,7 +3975,7 @@ body.marca-solta:has(#s1.screen.active) .header__inner::after {
   font-size: clamp(20px, 5.4vw, 30px);
   line-height: 1.18;
   max-width: 24ch !important;
-  margin: 16px auto 10px;
+  margin: 20px auto 10px;
   text-align: center;
   text-wrap: balance;
   color: var(--ink);
@@ -4004,7 +4009,9 @@ body.marca-solta:has(#s1.screen.active) .header__inner::after {
   border-radius: 18px;
   overflow: hidden;
   background: var(--card-active);
-  aspect-ratio: 4 / 3;
+  /* A mesma proporcao da prova das telas 7 e 8: as tres compartilham a medida,
+     entao a foto tem o mesmo tamanho em qualquer molde. */
+  aspect-ratio: var(--prova-ar);
 }
 /* 'center 22%' e nao o centro: o corte 4:3 numa foto retrato come a cabeca se
    ancorar no meio. Puxar pra cima mantem o rosto sempre no quadro. */
@@ -4054,7 +4061,7 @@ body.marca-solta:has(#s1.screen.active) .header__inner::after {
    divisao desenhada. Com duas <img> a costura ficava por conta do CSS, e ela
    nunca cai onde o corte da foto pede. */
 .t7-par { display: block; }
-.t7-par img { width: 100%; aspect-ratio: 4 / 1; object-fit: cover; display: block; background: var(--card-active); }
+.t7-par img { width: 100%; aspect-ratio: var(--prova-ar); object-fit: cover; display: block; background: var(--card-active); }
 .t7-legenda {
   padding: 12px 10px;
   text-align: center;
@@ -4078,7 +4085,7 @@ body.marca-solta:has(#s1.screen.active) .header__inner::after {
   overflow: hidden;
   background: var(--green-d);
 }
-.t8-par img { width: 100%; aspect-ratio: 4 / 1; object-fit: cover; display: block; background: var(--card-active); }
+.t8-par img { width: 100%; aspect-ratio: var(--prova-ar); object-fit: cover; display: block; background: var(--card-active); }
 .t-micro {
   text-align: center;
   font-size: clamp(13px, 3.4vw, 15px);
@@ -4140,6 +4147,18 @@ body.marca-solta:has(#s1.screen.active) .header__inner::after {
   font-size: 15px; line-height: 1;
 }
 
+/* A caixa do titulo solta a partir de 600px. O 24ch do celular equivale a uns
+   500px e segurava a headline em quatro linhas em qualquer tela larga — e o
+   corte de 900px, onde o desktop comeca, deixava de fora justo quem navega com
+   a janela pela metade, que e onde o problema aparecia. Solto, quem limita e a
+   .wrap, e a headline cabe em tres linhas de 600px pra cima. */
+@media (min-width: 600px) {
+  /* 24px de respiro aqui tambem, e nao so acima de 900: quem navega com a
+     janela pela metade caia no valor do celular e via a headline encostada na
+     faixa do nome. */
+  #s1.s1-alt > h1#h1Var { max-width: none !important; margin-top: 24px; }
+}
+
 @media (min-width: 720px) {
   #s1.s1-alt { max-width: 680px; }
   .t6-bullets li { font-size: 18px; }
@@ -4172,21 +4191,23 @@ body.marca-solta:has(#s1.screen.active) .header__inner::after {
      600px da coluna de propósito: o alvo e a headline caber em TRES linhas, e
      na largura da coluna ela quebrava em cinco — uma torre de texto que
      empurrava a foto e a grade pra fora da dobra. */
-  #s1.s1-alt > h1#h1Var { font-size: 38px; max-width: 840px !important; margin-top: 24px; margin-bottom: 12px; }
+  #s1.s1-alt > h1#h1Var { font-size: 38px; margin-top: 24px; margin-bottom: 12px; }
   #s1.s1-alt > p#subVar { font-size: 17px; max-width: 46ch; margin-bottom: 14px; }
 
-  .t-alt { gap: 16px; }
-  #s1.s1-alt .t6-hero { max-height: 200px; }
+  .t-alt { gap: 12px; }
   /* A barra do desktop reserva 70px no topo da .wrap por causa do passo e da
      barra de progresso. Nestas telas ela mostra so o nome, entao 62px ja deixa
      folga sobre uma barra de 57px — e os pixels devolvidos sao o que falta pra
      grade e o botao entrarem na dobra. */
   body.marca-solta:has(#s1.screen.active) .wrap { padding-top: 66px; }
-  #s1.s1-alt .t6-bullets { gap: 9px; }
-  #s1.s1-alt .t6-bullets li { font-size: 17px; }
+  /* A tela 6 carrega tres bullets e uma grade de quatro botoes, coisa que as
+     outras duas nao tem. Com a imagem na mesma altura das outras, e aqui que a
+     altura extra tem que sair — apertando o que e secundario, nao a foto. */
+  #s1.s1-alt .t6-bullets { gap: 7px; }
+  #s1.s1-alt .t6-bullets li { font-size: 16px; }
   #s1.s1-alt .t-sub, #s1.s1-alt .t-micro { font-size: 16px; }
-  #s1.s1-alt > .age-grid { margin-top: 14px; }
-  #s1.s1-alt .age-row.age-quad { min-height: 66px; font-size: 17px; }
+  #s1.s1-alt > .age-grid { margin-top: 10px; gap: 10px; }
+  #s1.s1-alt .age-row.age-quad { min-height: 58px; font-size: 17px; }
   #s1.s1-alt .t-cta { min-height: 62px; font-size: 19px; }
 }
 

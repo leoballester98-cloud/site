@@ -56,7 +56,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"/>
-  <link rel="stylesheet" href="quiz-warm.css?v=220"/>
+  <link rel="stylesheet" href="quiz-warm.css?v=225"/>
 
   <!-- Anti-flicker do teste A/B.
        O script que troca a headline mora no fim do <body>, então num aparelho
@@ -166,15 +166,14 @@
       <button class="t-cta" id="t7Cta" type="button"></button>
     </div>
 
-    <!-- Molde C: selo de urgência, dois blocos de prova, botão único. Mesma
-         regra da tela 7: uma imagem por bloco, com a divisão já dentro dela. -->
+    <!-- Molde C: selo de urgência, bloco de prova, botão único. Mesma regra da
+         tela 7: UMA imagem, ocupando o espaço que os dois blocos da referência
+         ocupam juntos. As quatro cenas da referência vêm montadas dentro do
+         arquivo, com as divisões desenhadas. -->
     <div class="t-alt" id="tela8" hidden>
       <div class="t8-prova">
         <div class="t8-par">
-          <img id="t8ImgA" src="Images/idade-18-25.webp" alt="" decoding="async" loading="eager"/>
-        </div>
-        <div class="t8-par">
-          <img id="t8ImgB" src="Images/essa1.webp" alt="" decoding="async" loading="lazy"/>
+          <img id="t8Img" src="Images/idade-18-25.webp" alt="" decoding="async" loading="eager"/>
         </div>
       </div>
       <p class="t-micro" id="t8Micro"></p>

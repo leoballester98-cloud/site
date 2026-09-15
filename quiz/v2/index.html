@@ -56,7 +56,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"/>
-  <link rel="stylesheet" href="quiz-warm.css?v=210"/>
+  <link rel="stylesheet" href="quiz-warm.css?v=211"/>
 
   <!-- Anti-flicker do teste A/B.
        O script que troca a headline mora no fim do <body>, então num aparelho
@@ -1612,7 +1612,12 @@ function ajustarTitulo(sec) {
      chegar lá — o max-width é medido em 'ch', que encolhe junto com a fonte, e
      a linha continua com o mesmo número de caracteres — então só deixaria o
      título pequeno sem tirar linha nenhuma. */
-  if (sec.classList.contains('s1-hlonga')) return;
+  /* Os moldes novos também ficam de fora, pelo mesmo motivo: a headline deles
+     tem 4 ou 5 linhas de propósito, como nas referências. Sem esta linha o
+     ajuste derrubava o título de 38px pra 27px no desktop caçando 3 linhas —
+     e, como ele começa zerando o style inline, também apagava qualquer tamanho
+     definido na mão. */
+  if (sec.classList.contains('s1-hlonga') || sec.classList.contains('s1-alt')) return;
   const t = sec.querySelector('.q-title, .q-title-lg');
   if (!t) return;
   t.style.fontSize = '';                 // volta ao tamanho do CSS antes de medir

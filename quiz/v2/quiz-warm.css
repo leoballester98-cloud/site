@@ -4139,3 +4139,64 @@ body.marca-solta:has(#s1.screen.active) .header__inner::after {
   .t6-bullets li { font-size: 18px; }
   .age-grid .age-row.age-quad { min-height: 72px; font-size: 18px; }
 }
+
+/* ── Desktop: o mesmo padrao da tela original ─────────────────────────────
+   No empilhamento do celular a imagem estica pra largura toda e vira 480px de
+   altura, jogando a grade e o botao pra baixo da dobra — 86px na tela 6, 200px
+   na 8. Ninguem no desktop via o elemento de decisao sem rolar.
+
+   A saida e a que a tela original ja usa: titulo e subtitulo centralizados em
+   cima, e embaixo duas colunas — imagem a esquerda, acao a direita. O corte em
+   900px e o mesmo que a original usa, entao as duas viram desktop na mesma
+   largura.
+
+   'display: contents' no bloco da tela: os filhos dele (foto, bullets, botao)
+   precisam cair em colunas DIFERENTES, e isso so acontece se eles forem itens
+   da mesma grade. O [hidden] continua ganhando, porque e !important — as telas
+   que nao foram sorteadas seguem escondidas. */
+@media (min-width: 900px) {
+  #s1.s1-alt {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 22px;
+    row-gap: 14px;
+    align-items: start;
+    align-content: start;
+    max-width: 840px;
+  }
+  #s1.s1-alt > .t-alt { display: contents; }
+
+  /* Titulo e subtitulo atravessam as duas colunas, centralizados. 38px e 16px
+     sao os mesmos numeros da tela original, medidos nela. */
+  #s1.s1-alt > h1#h1Var {
+    grid-column: 1 / -1;
+    font-size: 38px;
+    max-width: 490px !important;
+    margin-bottom: 0;
+  }
+  #s1.s1-alt > p#subVar { grid-column: 1 / -1; font-size: 16px; max-width: 400px; margin-bottom: 0; }
+  #s1.s1-alt > .s1-sep, #s1.s1-alt > .terms { grid-column: 1 / -1; }
+
+  /* A imagem ocupa a coluna da esquerda e as linhas que a coluna da direita
+     gastar. O 'span 4' cobre o caso mais cheio (bullets + sub + grade). */
+  #s1.s1-alt .t6-hero,
+  #s1.s1-alt .t7-prova,
+  #s1.s1-alt .t8-prova { grid-column: 1; grid-row: auto / span 4; align-self: center; }
+
+  /* Texto e acao na coluna da direita, centrados verticalmente no conjunto. */
+  #s1.s1-alt .t6-bullets,
+  #s1.s1-alt .t-sub,
+  #s1.s1-alt .t-micro,
+  #s1.s1-alt .t-cta,
+  #s1.s1-alt > .age-grid { grid-column: 2; margin-left: 0; margin-right: 0; }
+  #s1.s1-alt .t6-bullets { align-self: end; }
+  #s1.s1-alt > .age-grid { margin-top: 0; }
+
+  /* Sem teto de altura a foto 4:3 numa coluna de 400px daria 300px e empurraria
+     o resto; com ele a coluna da esquerda para de mandar na altura da pagina. */
+  #s1.s1-alt .t6-hero { max-height: 380px; }
+  #s1.s1-alt .t7-par img { aspect-ratio: 4 / 5; }
+  #s1.s1-alt .t8-par img { aspect-ratio: 4 / 3; }
+  #s1.s1-alt .t6-bullets li { justify-content: flex-start; text-align: left; }
+  #s1.s1-alt .t-sub, #s1.s1-alt .t-micro { text-align: left; max-width: none; }
+}

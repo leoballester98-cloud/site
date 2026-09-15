@@ -4093,8 +4093,8 @@ body.marca-solta:has(#s1.screen.active) .header__inner::after {
 /* Uma imagem por bloco: a comparacao ja vem montada dentro do arquivo, com a
    divisao desenhada. Com duas <img> a costura ficava por conta do CSS, e ela
    nunca cai onde o corte da foto pede. */
-.t7-par { display: block; }
-.t7-par img { width: 100%; aspect-ratio: var(--prova-ar); object-fit: cover; display: block; background: var(--card-active); }
+.t7-par { display: block; aspect-ratio: var(--prova-ar); overflow: hidden; }
+.t7-par img { width: 100%; height: 100%; object-fit: cover; display: block; background: var(--card-active); }
 .t7-legenda {
   padding: 12px 10px;
   text-align: center;
@@ -4113,12 +4113,13 @@ body.marca-solta:has(#s1.screen.active) .header__inner::after {
 .t8-prova { display: flex; flex-direction: column; gap: 12px; }
 .t8-par {
   display: block;
+  aspect-ratio: var(--prova-ar);
   border: 3px solid var(--green-d);
   border-radius: 8px;
   overflow: hidden;
   background: var(--green-d);
 }
-.t8-par img { width: 100%; aspect-ratio: var(--prova-ar); object-fit: cover; display: block; background: var(--card-active); }
+.t8-par img { width: 100%; height: 100%; object-fit: cover; display: block; background: var(--card-active); }
 .t-micro {
   text-align: center;
   font-size: clamp(13px, 3.4vw, 15px);
@@ -4274,4 +4275,124 @@ body.marca-solta:has(#s1.screen.active) .header__inner::after {
      passava por baixo dela. Os 6px que isso custa saem do rodape, que tinha
      24px de folga sem nada embaixo. */
   body.marca-solta:has(#s1.screen.active) .wrap { padding-top: 54px; padding-bottom: 14px; }
+}
+
+/* ── Telas 6, 7 e 8: cabem sempre, em qualquer aparelho ──────────────────
+   O iPhone com a barra do Safari tem menos altura util do que o 812 que eu
+   media, e a segunda fileira de botoes caia pra fora. Chutar altura por
+   aparelho nao resolve: cada um tem uma barra de um tamanho.
+
+   A saida e a mesma do h=2 — travar a tela em 100svh e deixar o layout se
+   acomodar dentro dela. 'svh' e a altura COM as barras do navegador na tela,
+   que e o pior caso; com 'vh' a conta usaria a tela cheia e sobraria conteudo
+   embaixo da barra.
+
+   Quem cede espaco e a foto, e so ela: titulo, bullets, subtitulo e botoes
+   mantem o corpo que tem. A hierarquia nao muda de aparelho pra aparelho, o
+   que muda e a altura da imagem.
+
+   Vale em qualquer largura, nao so no celular: no desktop a tela 6 tambem
+   passava da dobra, pela mesma causa. A regra e uma so — a primeira tela abre
+   inteira, em qualquer aparelho. */
+@media (min-width: 1px) {
+  body.marca-solta:has(#s1.screen.active) {
+    height: 100svh; overflow: hidden;
+    display: flex; flex-direction: column;
+  }
+  /* O cabecalho e fixo: quem reserva o espaco dele e o padding-top da .wrap.
+     Sobrescrever esse padding jogaria o conteudo por baixo da barra. */
+  body.marca-solta:has(#s1.screen.active) .wrap {
+    flex: 1 1 auto; min-height: 0;
+    display: flex; flex-direction: column;
+    padding-bottom: 8px;
+  }
+  /* '.active' e obrigatorio: '.screen{display:none}' pesa menos que
+     '#s1.s1-alt', entao sem ele a tela 1 nunca sumiria e apareceria empilhada
+     em cima das seguintes. */
+  #s1.s1-alt.active {
+    display: flex; flex-direction: column;
+    flex: 1 1 auto; min-height: 0;
+    padding-top: 0; padding-bottom: 0;
+  }
+  #s1.s1-alt.active > * { flex: 0 0 auto; }
+
+  /* A imagem come a altura que sobrar, e so ela. O min-height existe pra ela
+     nao sumir num aparelho muito baixo — abaixo disso e melhor rolar do que
+     mostrar uma tira. */
+  /* 'flex: 0 1 auto' e o ponto: a imagem PODE encolher quando falta altura, mas
+     nunca cresce. Com '1 1' ela inflava pra ocupar a sobra e ficava 300px num
+     aparelho grande contra 170px num pequeno — a proporcao mudava de aparelho
+     pra aparelho, que e justamente o que nao pode. A aspect-ratio segue sendo o
+     teto; o min-height e o piso. */
+  #s1.s1-alt.active .t6-hero,
+  #s1.s1-alt.active .t7-prova,
+  #s1.s1-alt.active .t8-prova {
+    flex: 0 1 auto; min-height: 96px;
+  }
+  /* A proporcao fica no container; a <img> so preenche o que sobrar dele. Se a
+     aspect-ratio estivesse na <img>, ela reimporia a altura depois do flex
+     encolher o pai, e a imagem voltava a crescer. */
+  #s1.s1-alt.active .t6-hero img,
+  #s1.s1-alt.active .t7-par img,
+  #s1.s1-alt.active .t8-par img { height: 100%; object-fit: cover; }
+  #s1.s1-alt.active .t6-hero,
+  #s1.s1-alt.active .t7-par,
+  #s1.s1-alt.active .t8-par { overflow: hidden; }
+  #s1.s1-alt.active .t-alt { flex: 0 1 auto; min-height: 0; display: flex; flex-direction: column; }
+  #s1.s1-alt.active .t7-par, #s1.s1-alt.active .t8-par { flex: 0 1 auto; min-height: 0; }
+  /* A sobra que a imagem nao come mais vira respiro entre os blocos, em vez de
+     empilhar tudo no topo e deixar um buraco embaixo. */
+  #s1.s1-alt.active { justify-content: center; gap: 2px; }
+  #s1.s1-alt.active .t8-prova { display: flex; flex-direction: column; }
+
+  /* O texto de termos vira barra FIXA no rodape abaixo de 480px — regra antiga,
+     feita pra tela original. Aqui ela quebrava tudo: a barra sai do fluxo, o
+     flex nao conta a altura dela, e a segunda fileira de botoes passava por
+     baixo. Como a promessa e 'cabe inteiro sem rolar', os termos voltam a ser
+     conteudo e entram na conta. */
+  #s1.s1-alt.active .terms {
+    position: static;
+    margin: 0;
+    padding: 6px 0 0;
+    background: none;
+    border-top: 0;
+    font-size: 10px;
+    line-height: 1.35;
+  }
+}
+
+/* ── Desktop de tela baixa (notebook) ────────────────────────────────────
+   A trava de 100svh garante que cabe, mas quem paga a conta e sempre a foto:
+   num notebook de 700px de altura a tela 6 espremia a imagem ate 6:1, uma tira.
+   Aqui a escala inteira desce um degrau — o titulo continua sendo o maior, o
+   subtitulo o menor, a hierarquia nao muda — e a imagem volta a ter altura. */
+@media (min-width: 900px) and (max-height: 800px) {
+  #s1.s1-alt > h1#h1Var { font-size: 32px; margin-top: 14px; margin-bottom: 8px; }
+  #s1.s1-alt > p#subVar { font-size: 15px; margin-bottom: 10px; }
+  #s1.s1-alt .t6-bullets { gap: 7px; }
+  #s1.s1-alt .t6-bullets li { font-size: 15px; }
+  #s1.s1-alt .t6-bullets li::before { width: 20px; height: 20px; font-size: 12px; }
+  #s1.s1-alt .t-sub, #s1.s1-alt .t-micro { font-size: 14px; margin-top: 6px; }
+  #s1.s1-alt > .age-grid { margin-top: 8px; gap: 10px; }
+  #s1.s1-alt .age-row.age-quad { min-height: 56px; font-size: 16px; }
+  #s1.s1-alt .t-cta { min-height: 54px; font-size: 17px; }
+  .t-alt { gap: 10px; }
+}
+
+/* ── Aparelho muito baixo (SE antigo, 568px de altura) ───────────────────
+   Ultimo degrau da escala. A tela 8 nao fechava aqui: ela tem o titulo mais
+   longo dos tres moldes, e num aparelho desse a diferenca de uma linha decide.
+   Desce tudo junto pra hierarquia continuar de pe. */
+@media (max-height: 600px) {
+  #s1.s1-alt h1#h1Var { font-size: 19px; margin: 10px auto 6px; }
+  #s1.s1-alt p#subVar { font-size: 12.5px; margin-bottom: 8px; }
+  #s1.s1-alt .t6-bullets { gap: 6px; }
+  #s1.s1-alt .t6-bullets li { font-size: 14px; }
+  #s1.s1-alt .t6-bullets li::before { width: 18px; height: 18px; font-size: 11px; }
+  #s1.s1-alt .t-sub, #s1.s1-alt .t-micro { font-size: 12.5px; }
+  #s1.s1-alt > .age-grid { margin-top: 6px; gap: 8px; }
+  #s1.s1-alt .age-row.age-quad { min-height: 48px; font-size: 14px; }
+  #s1.s1-alt .t-cta { min-height: 48px; font-size: 15px; }
+  #s1.s1-alt.active .terms { font-size: 9px; }
+  .t-alt { gap: 8px; }
 }

@@ -4069,6 +4069,10 @@ body.marca-solta:has(#s1.screen.active) .header__inner::after {
   font-size: 13px; font-weight: 700; line-height: 1;
 }
 
+/* Destaque leve no subtitulo: um degrau de cor e meio de peso, so o suficiente
+   pra segunda frase se separar da primeira. Nao pode pegar o marrom da marca —
+   ali ele briga com a headline, que e quem manda na tela. */
+.t-sub b { color: var(--ink-soft); font-weight: 600; }
 .t-sub {
   font-size: clamp(13px, 3.5vw, 15px);
   line-height: 1.5;

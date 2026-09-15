@@ -3927,3 +3927,215 @@ body.marca-na-tela-1:has(#s1.screen.active) .header__inner::after {
   font-size: 17px; font-weight: 700; letter-spacing: -.02em;
   color: var(--ink, #2b1d16);
 }
+
+/* ════════════════════════════════════════════════════════════════════════
+   TELAS 6, 7 e 8 — moldes novos de primeira tela
+   ════════════════════════════════════════════════════════════════════════
+   Três layouts copiados de referências de mercado. O que eles têm em comum:
+   headline em caixa alta e peso alto, prova logo abaixo dela, e a grade de
+   idade no fim. O que muda é o formato da prova e se a grade aparece de cara
+   ou atrás de um botão.
+
+   Nenhum trava a altura da janela: ao contrário do h=2, que cabe exato em uma
+   tela, estes três são altos de propósito e rolam. É por isso que eles usam
+   'marca-solta' e não 'marca-na-tela-1'. */
+
+/* Cabeçalho sem passo, só a marca — a mesma regra do h=2, agora valendo
+   também pros moldes novos. */
+body.marca-solta:has(#s1.screen.active) .header__step,
+body.marca-solta:has(#s1.screen.active) .header__section,
+body.marca-solta:has(#s1.screen.active) .progress { visibility: hidden; }
+body.marca-solta:has(#s1.screen.active) .header__inner { position: relative; }
+body.marca-solta:has(#s1.screen.active) .header__inner::after {
+  content: 'Ciclo Fértil';
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'DM Sans', system-ui, sans-serif;
+  font-size: 17px; font-weight: 700; letter-spacing: -.02em;
+  color: var(--ink, #2b1d16);
+}
+
+#s1.s1-alt { max-width: 640px; margin: 0 auto; }
+
+/* Título: DM Sans de largura normal, como nas referências. A display
+   condensada do quiz some com o ar entre as letras em caixa alta. */
+#s1.s1-alt h1#h1Var {
+  font-family: 'DM Sans', system-ui, sans-serif;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: -.01em;
+  font-size: clamp(20px, 5.4vw, 30px);
+  line-height: 1.18;
+  max-width: 24ch !important;
+  margin: 0 auto 10px;
+  text-align: center;
+  text-wrap: balance;
+  color: var(--ink);
+}
+#s1.s1-alt h1#h1Var mark {
+  background: none;
+  color: var(--blue-d);
+  font-weight: 800;
+}
+#s1.s1-alt h1#h1Var u { text-decoration-thickness: 2px; text-underline-offset: 3px; }
+
+#s1.s1-alt p#subVar {
+  text-transform: none;
+  letter-spacing: 0;
+  font-weight: 400;
+  font-size: clamp(13px, 3.5vw, 15px);
+  line-height: 1.5;
+  color: var(--ink-fade);
+  text-align: center;
+  max-width: 46ch;
+  margin: 0 auto 16px;
+  min-height: 0;
+  padding-bottom: 0;
+}
+#s1.s1-alt p#subVar b { color: var(--ink-soft); font-weight: 700; }
+
+.t-alt { display: flex; flex-direction: column; gap: 14px; }
+
+/* ── Molde A (tela 6) ──────────────────────────────────────────────────── */
+.t6-hero {
+  border-radius: 18px;
+  overflow: hidden;
+  background: var(--card-active);
+  aspect-ratio: 4 / 3;
+}
+/* 'center 22%' e nao o centro: o corte 4:3 numa foto retrato come a cabeca se
+   ancorar no meio. Puxar pra cima mantem o rosto sempre no quadro. */
+.t6-hero img { width: 100%; height: 100%; object-fit: cover; object-position: center 22%; display: block; }
+
+.t6-bullets { list-style: none; display: flex; flex-direction: column; gap: 10px; margin: 2px 0; }
+.t6-bullets li {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  font-weight: 700;
+  font-size: clamp(14px, 3.8vw, 17px);
+  text-transform: uppercase;
+  letter-spacing: -.01em;
+  color: var(--ink);
+  text-align: center;
+}
+/* O check é desenhado, não emoji: emoji muda de forma em cada sistema e o
+   Android entrega um verde que não combina com nada da página. */
+.t6-bullets li::before {
+  content: '✓';
+  flex: 0 0 auto;
+  width: 21px; height: 21px;
+  display: grid; place-items: center;
+  border-radius: 6px;
+  background: var(--green-d);
+  color: #fff;
+  font-size: 13px; font-weight: 700; line-height: 1;
+}
+
+.t-sub {
+  font-size: clamp(13px, 3.5vw, 15px);
+  line-height: 1.5;
+  color: var(--ink-fade);
+  text-align: center;
+  max-width: 44ch;
+  margin: 0 auto;
+}
+
+/* ── Molde B (tela 7) ──────────────────────────────────────────────────── */
+.t7-prova {
+  background: var(--card);
+  border: 1px solid var(--hair);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+}
+.t7-par { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; background: var(--hair); }
+.t7-par img { width: 100%; aspect-ratio: 3 / 4; object-fit: cover; object-position: center 20%; display: block; background: var(--card-active); }
+.t7-legenda {
+  padding: 12px 10px;
+  text-align: center;
+  font-size: 14px;
+  color: var(--ink-fade);
+}
+
+/* ── Molde C (tela 8) ──────────────────────────────────────────────────── */
+.t8-selo {
+  background: #C6301E;
+  color: #fff;
+  padding: 1px 7px;
+  border-radius: 4px;
+  display: inline-block;
+}
+.t8-prova { display: flex; flex-direction: column; gap: 12px; }
+.t8-par {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 3px;
+  border: 3px solid var(--green-d);
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--green-d);
+}
+.t8-par img { width: 100%; aspect-ratio: 1 / 1; object-fit: cover; object-position: center 20%; display: block; background: var(--card-active); }
+.t-micro {
+  text-align: center;
+  font-size: clamp(13px, 3.4vw, 15px);
+  color: var(--ink-soft);
+  margin: 2px auto 0;
+}
+
+/* ── O botão único das telas 7 e 8 ─────────────────────────────────────── */
+.t-cta {
+  width: 100%;
+  min-height: 58px;
+  border: 0;
+  border-radius: var(--radius-card);
+  background: var(--cta);
+  color: #fff;
+  font-family: 'DM Sans', system-ui, sans-serif;
+  font-size: clamp(15px, 4.2vw, 18px);
+  font-weight: 700;
+  letter-spacing: .01em;
+  cursor: pointer;
+  box-shadow: var(--shadow-cta);
+}
+.t-cta:active { transform: scale(0.99); }
+/* O verde do molde C não é enfeite: ali ele diz "grátis, pode clicar", que é
+   metade do que a referência vende no botão. Tom puxado pro terroso pra não
+   brigar com o creme da página. */
+.t-cta--verde { background: #3E7B3A; box-shadow: 0 10px 30px -10px rgba(62,123,58,0.55); }
+
+/* ── A grade de idade compartilhada ────────────────────────────────────── */
+.age-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 16px;
+}
+/* justify-content explicito: a .age-row base usa space-between pra jogar o
+   chevron na ponta direita, e aqui o chevron vem ANTES do texto — sem isto o
+   rotulo era empurrado pra borda oposta. */
+.age-grid .age-row.age-quad {
+  display: flex; align-items: center; justify-content: flex-start; gap: 10px;
+  min-height: 64px;
+  padding: 0 14px;
+  border: 0;
+  border-radius: var(--radius-card);
+  background: var(--blue);
+  color: #fff;
+  font-size: clamp(14px, 3.8vw, 17px);
+  font-weight: 600;
+  text-align: left;
+  box-shadow: var(--shadow-card);
+}
+.age-grid .age-row.age-quad:hover { background: var(--blue-d); }
+.age-quad__ico {
+  flex: 0 0 auto;
+  width: 26px; height: 26px;
+  display: grid; place-items: center;
+  border: 1.5px solid rgba(255,255,255,0.65);
+  border-radius: 999px;
+  font-size: 15px; line-height: 1;
+}
+
+@media (min-width: 720px) {
+  #s1.s1-alt { max-width: 680px; }
+  .t6-bullets li { font-size: 18px; }
+  .age-grid .age-row.age-quad { min-height: 72px; font-size: 18px; }
+}

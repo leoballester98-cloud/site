@@ -56,7 +56,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"/>
-  <link rel="stylesheet" href="quiz-warm.css?v=207"/>
+  <link rel="stylesheet" href="quiz-warm.css?v=210"/>
 
   <!-- Anti-flicker do teste A/B.
        O script que troca a headline mora no fim do <body>, então num aparelho
@@ -131,6 +131,65 @@
         <span class="age-foto__bar"><span>Idade: 46+</span><span class="age-foto__chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></span></span>
       </button>
     </div>
+    <!-- ═══ Telas 6, 7 e 8: moldes novos de primeira tela ══════════════════
+         Cada bloco copia o LAYOUT de uma referência de mercado. A headline, as
+         imagens e os textos moram no objeto TELAS lá embaixo, num lugar só,
+         porque entram um a um depois — o que está aqui é rascunho.
+
+         Os três dividem a MESMA grade de idade (#ageGrid), com as mesmas
+         faixas das outras variantes: mudar as faixas quebraria a comparação
+         entre telas, que é o que o teste mede.
+
+         Nas telas 7 e 8 o botão único não troca de tela — ele revela a grade
+         aqui mesmo. É o que a referência faz visualmente, e evita inventar um
+         passo a mais no funil, que desalinharia a contagem com o resto. -->
+
+    <!-- Molde A: foto grande, três objeções eliminadas, grade de idade -->
+    <div class="t-alt" id="tela6" hidden>
+      <div class="t6-hero"><img id="t6Img" src="Images/idade-26-35.webp" alt="" decoding="async" loading="eager"/></div>
+      <ul class="t6-bullets" id="t6Bullets"></ul>
+      <p class="t-sub" id="t6Sub"></p>
+    </div>
+
+    <!-- Molde B: par de prova com legenda, promessa em miúdos, botão único -->
+    <div class="t-alt" id="tela7" hidden>
+      <div class="t7-prova">
+        <div class="t7-par">
+          <img id="t7ImgA" src="Images/idade-26-35.webp" alt="" decoding="async" loading="eager"/>
+          <img id="t7ImgB" src="Images/idade-18-25.webp" alt="" decoding="async" loading="eager"/>
+        </div>
+        <div class="t7-legenda" id="t7Legenda"></div>
+      </div>
+      <p class="t-sub" id="t7Sub"></p>
+      <button class="t-cta" id="t7Cta" type="button"></button>
+    </div>
+
+    <!-- Molde C: selo de urgência, dois pares de prova, botão único -->
+    <div class="t-alt" id="tela8" hidden>
+      <div class="t8-prova">
+        <div class="t8-par">
+          <img id="t8ImgA" src="Images/idade-18-25.webp" alt="" decoding="async" loading="eager"/>
+          <img id="t8ImgB" src="Images/idade-46-mais.webp" alt="" decoding="async" loading="eager"/>
+        </div>
+        <div class="t8-par">
+          <img id="t8ImgC" src="Images/essa1.webp" alt="" decoding="async" loading="lazy"/>
+          <img id="t8ImgD" src="Images/essa2.webp" alt="" decoding="async" loading="lazy"/>
+        </div>
+      </div>
+      <p class="t-micro" id="t8Micro"></p>
+      <button class="t-cta t-cta--verde" id="t8Cta" type="button"></button>
+    </div>
+
+    <!-- A grade 2x2 compartilhada pelas três. age-row de propósito: o handler
+         de clique já escuta por essa classe, então data-val e data-next
+         funcionam sem religar nada. -->
+    <div class="age-grid" id="ageGrid" hidden>
+      <button class="age-row age-quad" data-val="18-25" data-next="s2"><span class="age-quad__ico">›</span>18 - 25 anos</button>
+      <button class="age-row age-quad" data-val="26-35" data-next="s2"><span class="age-quad__ico">›</span>26 - 35 anos</button>
+      <button class="age-row age-quad" data-val="36-45" data-next="s2"><span class="age-quad__ico">›</span>36 - 45 anos</button>
+      <button class="age-row age-quad" data-val="46+" data-next="s2"><span class="age-quad__ico">›</span>+ 46 anos</button>
+    </div>
+
     <hr class="s1-sep" hidden/>
     <p class="terms">Ao continuar você confirma e garante que leu, entendeu e está de acordo com nossos <a href="termos.html" target="_blank"><b>Termos de Uso</b></a>, <a href="privacidade.html" target="_blank"><b>Política de Privacidade</b></a> e <a href="reembolso.html" target="_blank"><b>Política de Reembolso</b></a>.</p>
   </section>
@@ -1169,6 +1228,16 @@ const EXPERIMENTOS = {
     a: { preco: '38', marca: 'preco-38' },
     b: { preco: '68', marca: 'preco-68' },
   },
+  /* Os tres moldes novos de primeira tela, um terco do trafego pra cada.
+     Sem braco de controle de proposito: o que este teste responde e qual dos
+     tres moldes ganha. Comparar o vencedor com a campea de hoje e outro teste,
+     depois, e misturar os dois aqui gastaria trafego pra responder metade de
+     cada pergunta. */
+  t3: {
+    a: { tela: '6', marca: 'ab-t6' },
+    b: { tela: '7', marca: 'ab-t7' },
+    c: { tela: '8', marca: 'ab-t8' },
+  },
 };
 
 const AB = (function () {
@@ -1180,11 +1249,16 @@ const AB = (function () {
   /* localStorage falha em aba anonima e em webview com storage bloqueado.
      Ali o sorteio vale so pra esta visita — o funil conta por sessao de
      qualquer jeito, e travar a pagina por causa disso seria pior. */
+  /* Os lados saem das chaves do proprio experimento, entao dois bracos e tres
+     usam o mesmo sorteio. Com o 0.5 fixo que estava aqui, um terceiro braco
+     nunca seria sorteado — e o erro seria silencioso, so apareceria no
+     dashboard semanas depois, com uma tela sem nenhuma sessao. */
+  const lados = Object.keys(exp);
   const slot = 'ab_' + chave;
   let lado = null;
   try { lado = localStorage.getItem(slot); } catch (e) {}
-  if (lado !== 'a' && lado !== 'b') {
-    lado = Math.random() < 0.5 ? 'a' : 'b';
+  if (lados.indexOf(lado) === -1) {
+    lado = lados[Math.floor(Math.random() * lados.length)];
     try { localStorage.setItem(slot, lado); } catch (e) {}
   }
   return Object.assign({ chave: chave, lado: lado }, exp[lado]);
@@ -1233,6 +1307,42 @@ const CARTOES = {
   '5': { longa: true, titulo: 'Conquiste o <u>seu positivo</u> com um plano personalizado para destravar seus <b>bloqueios férteis</b> mesmo se os seus exames deram normais' }
 };
 
+/* ── Telas 6, 7 e 8 ────────────────────────────────────────────────────────
+   Três moldes de primeira tela, cada um copiando o layout de uma referência.
+   Todo o texto delas mora aqui — headline, subtítulo, bullets, legenda e o
+   rótulo do botão — porque vai ser revisado um a um, e caçar frase espalhada
+   pelo HTML é onde a troca erra. O que está escrito hoje é rascunho.
+
+   `grade: 'direta'` mostra os quatro cartões de idade de cara. `'botao'`
+   esconde atrás do CTA, como a referência faz. */
+const TELAS = {
+  '6': {
+    grade: 'direta',
+    /* Nas telas 6 e 7 o subtitulo vive DEPOIS da prova, como na referencia, e
+       por isso mora num <p> proprio; na 8 ele fica logo abaixo do titulo, que
+       e onde o #subVar ja esta. */
+    subAbaixo: true,
+    titulo: 'PLANO PERSONALIZADO PARA DESTRAVAR SEUS <b>BLOQUEIOS FÉRTEIS</b> E CHEGAR NO <mark>POSITIVO EM 1 CICLO!</mark>',
+    bullets: ['SEM TRATAMENTO CARO', 'SEM PRECISAR SAIR DE CASA', 'USANDO O QUE VOCÊ JÁ TEM EM CASA'],
+    sub: 'Responda ao quiz e receba seu plano criado por mim.<br>Escolha sua idade para começar 👇'
+  },
+  '7': {
+    grade: 'botao',
+    subAbaixo: true,
+    titulo: 'CONQUISTE O <u>SEU POSITIVO</u> COM UM <b>PLANO DE FERTILIDADE PERSONALIZADO</b> PRA SUA ROTINA E PRO SEU BOLSO!',
+    legenda: 'grávida no 2º ciclo',
+    sub: 'um <u>protocolo simples</u> pra destravar os <b>4 bloqueios que travam a sua ovulação em 30 dias</b>, usando <b>o que já tem na sua casa</b>, <b>sem precisar de tratamento caro!</b>',
+    cta: 'COMEÇAR MEU PLANO'
+  },
+  '8': {
+    grade: 'botao',
+    titulo: '<span class="t8-selo">URGENTE:</span> <mark>MÉTODO CASEIRO</mark> ESTÁ FAZENDO MULHERES ENGRAVIDAREM SEM FILA DE FIV E SEM HORMÔNIO <mark>EM 1 CICLO</mark>.',
+    sub: 'Responda este teste gratuito e receba o protocolo personalizado para o seu tipo de bloqueio fértil, pra destravar a sua ovulação e chegar no positivo.',
+    micro: '👉 Clique no botão e complete o teste em 54 segundos —',
+    cta: 'FAZER TESTE GRÁTIS AGORA!'
+  }
+};
+
 (function () {
   const h = document.getElementById('h1Var');
   const s = document.getElementById('subVar');
@@ -1245,6 +1355,69 @@ const CARTOES = {
     if (TELA === '1') {
       if (h) h.textContent = 'O que separa você do seu filho são Bloqueios Férteis.';
       if (s) s.innerHTML = 'Descubra o seu em 2 minutos.<br>Pra começar, qual a sua idade?';
+      return;
+    }
+
+    /* Os moldes novos vêm antes dos cartões: eles trocam a tela inteira, não
+       só a headline, e por isso saem por aqui sem tocar no caminho do h=2. */
+    const molde = TELAS[TELA];
+    if (molde) {
+      if (h) h.innerHTML = molde.titulo;
+
+      const bloco = document.getElementById('tela' + TELA);
+      if (bloco) bloco.hidden = false;
+      const listaIdade = document.querySelector('#s1 .age-intro');
+      if (listaIdade) listaIdade.hidden = true;
+
+      /* 'marca-solta' troca passo por marca no cabeçalho SEM travar a altura
+         em 100svh. A marca-na-tela-1 faz as duas coisas juntas, e o travamento
+         existe pro h=2, que cabe exato na tela; estes três moldes são mais
+         altos e precisam rolar. */
+      document.body.classList.add('marca-solta');
+      const s1 = document.getElementById('s1');
+      s1.classList.add('s1-alt', 's1-t' + TELA);
+
+      /* Na tela 6 o subtítulo vive DEPOIS dos bullets, então é outro elemento
+         e o #subVar sai de cena. Nas 7 e 8 ele fica logo abaixo do título,
+         que é onde o #subVar já está. */
+      if (molde.subAbaixo) {
+        if (s) s.hidden = true;
+        const alvo = document.getElementById('t' + TELA + 'Sub');
+        if (alvo) alvo.innerHTML = molde.sub;
+      } else if (s) {
+        s.innerHTML = molde.sub;
+      }
+      if (molde.bullets) {
+        const ul = document.getElementById('t6Bullets');
+        if (ul) ul.innerHTML = molde.bullets.map(function (t) { return '<li>' + t + '</li>'; }).join('');
+      }
+
+      if (molde.legenda) {
+        const leg = document.getElementById('t7Legenda');
+        if (leg) leg.textContent = molde.legenda;
+      }
+      if (molde.micro) {
+        const mic = document.getElementById('t8Micro');
+        if (mic) mic.innerHTML = molde.micro;
+      }
+
+      const grade = document.getElementById('ageGrid');
+      if (molde.grade === 'direta') {
+        if (grade) grade.hidden = false;
+      } else {
+        const btn = document.getElementById('t' + TELA + 'Cta');
+        if (btn) {
+          btn.textContent = molde.cta;
+          btn.addEventListener('click', function () {
+            btn.hidden = true;
+            if (!grade) return;
+            grade.hidden = false;
+            /* 'nearest' e não 'center': a grade nasce logo onde o botão estava,
+               então centralizar daria um pulo pra trás na página. */
+            grade.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+          });
+        }
+      }
       return;
     }
 

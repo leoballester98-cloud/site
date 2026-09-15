@@ -1490,6 +1490,15 @@ let VARIANTES = [], marcadas = {};
 const NOMES_VAR = {
   'v0':        'Original (sem parâmetro)',
   'voriginal': 'h=original (com parâmetro)',
+  /* Os braços de experimento A/B chegam como 'ab-<marca>' e caíam no fallback,
+     virando 'h=ab-t6' na legenda — o nome do parâmetro em vez do nome da tela.
+     Batizados aqui porque é a legenda do gráfico de comparação, que é onde a
+     decisão é tomada. */
+  'vab-h3':    'Tela 3 · teste h3',
+  'vab-orig':  'Original · teste h3',
+  'vab-t6':    'Tela 6 · UGC',
+  'vab-t7':    'Tela 7 · Antes e depois',
+  'vab-t8':    'Tela 8 · Urgência',
 };
 const rotuloVariante = v => !v ? 'Todas as URLs' : (NOMES_VAR[v] || String(v).replace(/^v/, 'h='));
 /* 'ativo' por padrão: o que interessa no dia a dia é o que está no ar. O robô
@@ -3004,6 +3013,12 @@ const PROCESSOS = [
   { id: 'vsl-modelagem', cat: 'vsl',
     titulo: 'Modelagem VSL (Hannah Franklin)',
     resumo: 'A VSL de controle inteira, fatiada em 44 blocos rotulados, mais o processo pra remontar com o seu produto dentro.' },
+  { id: 'vsl-briefing', cat: 'vsl',
+    titulo: 'Briefing de edição de mini VSL',
+    resumo: 'O que se manda pra quem grava e pra quem edita: os dois ambientes, os três tamanhos de tipografia, o que a fala exige em tela e o que nunca se dirige.' },
+  { id: 'vsl-sistema-cf', cat: 'vsl',
+    titulo: 'Sistema de VSL · Ciclo Fértil',
+    resumo: 'Os três vídeos do funil de quiz: roteiro fechado, decupagem linha a linha e briefing de gravação de cada um. O método das outras fichas com o produto dentro.' },
 ];
 
 let procAberto = null;
@@ -5475,6 +5490,93 @@ A VSL inteira emendada, com o tempo total e a marcação de onde estourou. Confi
 também a proporção: mecanismo tem que continuar em 28%.
 → roteiro fechado
 
+## Lapidação, depois que todos os blocos estão escritos
+
+Cinco passadas, nesta ordem. Cada uma tem um critério só, e nenhuma pode mexer
+em bloco ou em estrutura — se uma passada quiser cortar um bloco, ela virou
+outra coisa e o roteiro volta pro passo anterior.
+
+**Entregue a lista de cada passada e pare.** A pessoa aprova item a item. Uma
+passada aplicada inteira sem aprovação desfaz decisões que custaram horas.
+
+### 1 · Repetição
+
+Conte todas as palavras do roteiro. Separe as **repetidas de propósito** das
+**repetidas por descuido**, porque as duas parecem iguais na contagem e são
+opostas no efeito.
+
+De propósito, e ficam: nome de mecanismo, palavra batizada, motivo plantado,
+estrutura de lista, e qualquer coisa que a pessoa vá reencontrar depois no
+produto. Numa VSL de quiz, o nome do mecanismo repetido cinco vezes é o trabalho
+dele, não um defeito.
+
+Por descuido, e saem: a mesma palavra duas vezes na mesma frase, e a mesma
+construção abrindo duas frases seguidas.
+
+O sinal mais confiável é a **distância**. Duas ocorrências separadas por trinta
+segundos lêem como retomada; separadas por uma linha, lêem como tique.
+
+### 2 · Construção escrita
+
+Marque toda frase que ninguém falaria numa conversa:
+
+- Oração relativa encaixada dentro de outra — "é essa causa que o teste que você acabou de fazer mede"
+- Conector de texto no lugar de conector de fala — "tanto... quanto", "ou seja" no início
+- Advérbio de escrita — "provavelmente", "justamente", "simplesmente"
+- Frase sem artigo, que soa telegráfica — "o que falta é caminho claro"
+- Substantivo de laudo — "o seu bloqueio identificado"
+
+O teste é ler em voz alta. Onde a boca tropeça, a construção é escrita.
+
+### 3 · Palavra que não paga aluguel
+
+Advérbio, hedge, adjetivo que não muda o sentido da frase. É onde o tempo cai
+sem custo nenhum.
+
+Cuidado com uma armadilha: em roteiro já trabalhado, **essa passada rende quase
+nada**, e a tentação é inventar corte pra justificar a passada. Se sobrarem três
+palavras, o resultado é três palavras — e dizer isso vale mais que uma lista de
+cortes marginais.
+
+### 4 · Leitura corrida
+
+Leia do início ao fim, seguido, e marque só onde **tropeça**: a emenda em que
+uma frase não puxa a seguinte.
+
+### 5 · Teste de corrente
+
+Mais rigoroso que a leitura corrida, e o único que acha o que passa liso.
+
+Pergunte, transição por transição: **esta frase OBRIGA a seguinte, ou só está
+encostada nela?** Frase encostada é a que dá pra remover ou reordenar sem
+ninguém notar.
+
+O que a experiência mostra: os elos frouxos quase nunca estão **dentro** de um
+raciocínio. Eles se concentram em três lugares — junção de bloco, entrada de
+recurso (analogia, autoridade, prova) e o CTA.
+
+E quando um elo frouxo resiste a dez tentativas de ponte, o problema não é a
+frase: **é que as duas partes não se conectam logicamente.** Aí a pergunta muda
+de "qual frase" para "onde a ideia que liga as duas deveria morar". Três
+posições possíveis, e vale testar as três:
+
+- Dentro da última linha do bloco anterior
+- Numa linha própria entre os dois
+- Dentro da primeira linha do bloco seguinte
+
+A primeira costuma ganhar, porque conserta sem acrescentar frase.
+
+**Um padrão que se repete:** analogia colocada antes do nome que ela explica é
+sempre elo frouxo. O nome vem primeiro, a analogia responde "por que esse nome?".
+
+### O que a lapidação NÃO faz
+
+Não corta bloco. Não muda ordem de bloco. Não mexe em mecanismo nem em nome.
+
+Se depois das cinco passadas o roteiro ainda estourar o tempo, o caminho não é
+palavra — é decidir que um bloco inteiro não precisa existir. E essa decisão é
+de estrutura, não de lapidação.
+
 ## Bloco a bloco, com o original da Hannah
 
 ### Bloco 1 · Hook
@@ -5961,6 +6063,12 @@ Porque você tá a um único formato criativo de mudar sua história na internet
 **O que transfere:** o caminho 1 não é "você perde uma oferta". É uma cena
 futura em que a pessoa se lembra deste vídeo. A perda é enquadrada como
 arrependimento, não como desconto expirado.
+
+## Onde ver isso aplicado
+
+A ficha **Sistema de VSL · Ciclo Fértil** traz os três vídeos escritos com esta
+estrutura, cada um com o roteiro, a decupagem linha a linha e o briefing de
+gravação. É o mesmo método desta ficha, com um produto dentro.
 
 ## Sobre esta ficha
 
@@ -7901,5 +8009,1006 @@ português delas foi ajustado sem mexer no sentido.
 O exemplo trabalhado é da VSL controle da Hannah Franklin. A ficha **Modelagem
 VSL (Hannah Franklin)** traz a transcrição completa dela, fatiada em 44 blocos.
 </script>
+
+<script type="text/plain" id="proc-vsl-sistema-cf">
+# Sistema de VSL · Ciclo Fértil
+
+Os três vídeos do funil de quiz, escritos com o método da ficha **Estrutura de
+mini VSL para quiz**. Aqui está o produto dentro do método: roteiro fechado,
+decupagem linha a linha e briefing de gravação de cada um.
+
+Escrito entre 31/08 e 03/09/2026.
+
+## Onde cada vídeo entra
+
+O quiz tinha 34 telas e passa a ter 36. Os vídeos **agregam**, não substituem.
+
+| pos | tela | |
+|---|---|---|
+| 14 | **VÍDEO 1** | tela nova |
+| 31 | `s25` | Seu Índice de Qualidade da Ovulação |
+| 32 | **VÍDEO 2** | tela nova |
+| 33 | `s26` | Quando começou sua última menstruação? |
+| 34 | `s27` | "já identificamos onde está o bloqueio" |
+| 35 | `s28` | plano pronto + preço |
+| 36 | `s30` | o que você recebe — **VÍDEO 3 no topo** |
+
+**Por que o 1 está na 14 e não na 2.** O funil perde 40 a 60% entre a tela 1 e a
+2, e quase nada depois. Como o alcance na 2 e na 14 é quase igual, a escolha
+passou a ser por qualidade: na 14 ela já respondeu 13 telas, e o vídeo pode
+devolver o que ela marcou.
+
+**Por que o 2 está na 32.** A tela 31 mostra o IQO com o diagnóstico dela. O
+vídeo 2 entra logo depois porque aí ela **acabou de ver na tela** o que o vídeo
+vai explicar. É por isso que ele abre com "você acabou de ver o seu resultado" e
+não com gancho.
+
+## Os dois mecanismos
+
+- **Bloqueio Fértil** — mecanismo do PROBLEMA, batizado no vídeo 1
+- **Efeito Sintonia** — mecanismo da SOLUÇÃO, batizado no vídeo 2
+
+Os três passos do Efeito Sintonia: **identificar · aplicar · repetir.** O quiz é
+o passo 1, já executado quando ela assiste o vídeo 2 — é isso que transforma o
+quiz de formulário em método.
+
+## As quatro frentes
+
+**Ciclo · Emocional · Organismo · Propósito**, nesta ordem. São os quatro focos
+do produto e os quatro fatores do quiz, e os dois vídeos usam exatamente essas
+palavras, na mesma ordem em que a tela 31 mostra.
+
+## Os dados que sustentam a prova
+
+Extraídos do Supabase em 03/09/2026, da tabela `eventos`, tipo `respostas`.
+
+**1.862 mulheres** completaram o quiz desde 25/07/2026. Distribuição do fator
+mais fraco:
+
+| frente | mulheres | |
+|---|---|---|
+| Emocional | 860 | 46,2% |
+| Ciclo | 618 | 33,2% |
+| Organismo | 252 | 13,5% |
+| Propósito | 132 | 7,1% |
+
+**Um defeito de cálculo que precisa ser corrigido.** O `factorScore` divide por
+`ids.length * 3`, e o fator 1 tem 8 perguntas — mas o `s22` não tem
+`data-score`, então nunca pontua. Máximo real do f1: **87,5%**, contra 100% dos
+outros três. Isso infla a frequência do ciclo como frente mais fraca.
+
+Por isso o vídeo 2 diz **"quase metade"** e não "46,2%": quando o s22 for
+corrigido, os números mudam, e a frase sobrevive.
+
+## A autoridade emprestada
+
+**Infertilidade Sem Causa Aparente** — diagnóstico dado quando todos os exames
+vêm normais e a gravidez não vem. Dez a quinze por cento dos casos de
+infertilidade.
+
+O que as próprias clínicas escrevem: *"apesar do nome, não significa que não há
+causa — existem fatores que nem sempre são detectados pelos exames
+convencionais."*
+
+Isso é a instituição que mais teria motivo pra dizer "a gente acha tudo"
+admitindo que não acha. É verificável em qualquer site de clínica de
+fertilidade, e não é citação científica gasta como Harvard ou Stanford.
+
+O golpe é ler o nome deles em voz alta: **aparente**. Existe, só não aparece.
+
+---
+
+# VÍDEO 1 · Mecanismo
+
+**564 palavras · 3:38 a 155 palavras por minuto.** Entra na etapa 14.
+
+**563 palavras, 3:38 a 155 palavras por minuto.** O orçamento previsto era 2:15.
+
+| bloco | previsto | escrito | |
+|---|---|---|---|
+| 1 · Hook | 10s | — | não existe |
+| 2 · Callout | 15s | 0:19 | 49 palavras |
+| 3 · Agitação | 30s | 0:24 | 61 palavras |
+| 4a · Mecanismo do PROBLEMA | 57s | **2:42** | 418 palavras |
+| 5 · Absolvição | 13s | 0:09 | 22 palavras, dentro do 4a |
+| 22 · CTA de etapa | 10s | 0:05 | 13 palavras |
+
+Três coisas que o exemplo expõe e a estrutura não previa.
+
+**O bloco 1 não existe.** A ficha já diz que o quiz dispensa hook, mas aqui dá
+pra ver o que fica no lugar: uma linha que só justifica por que o vídeo
+apareceu no meio das perguntas.
+
+**A absolvição não é um bloco separado.** Ela mora dentro do mecanismo, logo
+depois da cena que a torna necessária. Tirada dali e posta depois, vira consolo
+solto. Dentro, é a conclusão de uma demonstração.
+
+**O mecanismo estourou quase três vezes o orçamento.** 418 palavras contra 147.
+A causa é o número de analogias: duas, uma para cada peça do mecanismo, no mesmo
+padrão da Hannah, que usa dirigir e escovar os dentes. Duas analogias não cabem
+em 57 segundos. Ou o orçamento do 4a sobe, ou uma delas vai pra VSL 2.
+
+### Bloco 2 · Callout
+
+Não nomeia o resultado do quiz porque nesta posição, a etapa 14, o quiz ainda
+não devolveu nada. Abre com a promessa do que vem no fim, e a promessa é o
+assunto exato do bloco seguinte — é isso que emenda os dois. Depois abre a porta
+pra quem já tentou muito e pra quem começou ontem.
+
+A primeira versão abria com uma negação, "a gente não está te perguntando isso à
+toa", e negação na primeira linha é defesa: responde a uma acusação que ninguém
+fez. A controle da Hannah faz o oposto — dá a boa notícia nos primeiros quinze
+segundos e só depois agita, com a promessa já no bolso.
+
+```
+Você tá a poucas perguntas de entender por que todo mês termina igual.
+
+Isso vale pra quem começou a tentar engravidar esse ano e pra quem já perdeu as contas de quantos meses tá tentando. E vale principalmente pra quem já se cansou de ouvir que é só relaxar.
+```
+
+### Bloco 3 · Agitação
+
+Uma cena só, repetida: o mês inteiro em sete linhas. Termina montando a pergunta
+que o mecanismo vai responder, e a montagem é o que emenda os dois blocos.
+
+```
+Todo mês é a mesma coisa.
+
+Qualquer sintoma, e na sua cabeça você já tá grávida. Um enjoo, um seio doendo, uma fome de leão, a barriga inchadinha.
+
+Aí desce.
+
+E fica aquele vazio por dentro, e no dia seguinte segue como se nada tivesse acontecido.
+
+No mês que vem começa tudo de novo. Igualzinho.
+
+E nada disso é escolha sua.
+```
+
+### Bloco 4a · Mecanismo do PROBLEMA, primeira parte
+
+Fato emprestado, duas analogias, e só então a vida dela. O fato não é inventado:
+"o corpo age no automático" é coisa que ela já ouviu, e por isso não precisa ser
+provado. As duas analogias carregam uma peça cada — o tropeço mostra que a parte
+automática existe e é mais rápida que a decisão; a bicicleta mostra que ela corta
+justamente o que a pessoa precisava.
+
+```
+Deixa eu te mostrar por quê.
+
+Você já ouviu falar que o corpo age no automático?
+
+Tem a parte que decide. É ela que escolhe a roupa, que pensa antes de responder.
+E tem a parte automática. É ela que tira a sua mão do fogo antes de você pensar.
+
+É a parte automática que sente o perigo e liga o famoso modo de sobrevivência.
+
+Um bom exemplo pra você entender.
+
+Já tropeçou andando na rua? Um pé escorrega, o outro se joga na frente pra te salvar — e a mão já sobe pra proteger o rosto.
+
+Primeiro o corpo salva, depois você entende, depois você olha pra trás pra ver no que foi que tropeçou. Nessa ordem.
+
+Você não decidiu nada disso.
+
+Agora lembra do dia que tiraram a rodinha da sua bicicleta.
+
+Seu pai segurando atrás: "pode ir, eu tô aqui."
+
+E você com o corpo todo duro, a mão branca de apertar o guidão, olhando pro chão em vez de olhar pra frente.
+
+Isso era o modo de sobrevivência ligado. E olha o que ele fez: ele te deixou dura pra você não se machucar. Só que corpo duro não equilibra.
+
+Ele tirou justamente o que você precisava.
+
+Com o modo de sobrevivência ligado, você age no automático pra se proteger.
+
+É por isso que você deita cedo e fica até as três da manhã assistindo relato de quem conseguiu engravidar.
+
+Você não decidiu ficar acordada. O automático decidiu por você.
+
+Cada relato parecia uma dose de esperança, e parecia fazer sentido.
+
+Só que a única coisa que ia te ajudar naquela noite era dormir.
+```
+
+### Bloco 5 · Absolvição
+
+Vinte e duas palavras, e só funcionam nesta posição: vêm logo depois da cena das
+três da manhã, que é onde a pessoa se julga. Absolver antes da cena não absolve
+nada, porque não há do que absolver ainda.
+
+```
+Isso não é falta de força de vontade.
+Não é preguiça. Não é descuido.
+
+Isso é o seu corpo tentando te proteger.
+```
+
+### Bloco 4a · Mecanismo do PROBLEMA, continuação
+
+Aqui o mecanismo encosta no objetivo. A pergunta é feita em voz alta porque é a
+que a pessoa já está fazendo, e a resposta de uma palavra compra o tempo das
+quatro cenas seguintes. Cada cena é uma frente, e as quatro juntas montam o
+motivo do quiz existir: se em cada pessoa a frente é outra, não dá pra saber sem
+medir.
+
+```
+Mas o que isso tem a ver com engravidar?
+
+Tudo.
+
+O automático estraga o sono, a comida e o humor — e a ovulação vive disso. Estraga devagar, sem você notar.
+
+Um mês você apaga o aplicativo, porque contar os dias virou martírio.
+No outro a ansiedade te consome, e acorda de madrugada com o coração apertado.
+No outro dorme menos e come pior, e só percebe quando a roupa aperta.
+No outro chega no ponto de desistir, e nem se abala mais quando desce a menstruação.
+
+Ciclo, emocional, organismo, propósito. Os quatro se desgastando ao mesmo tempo.
+
+Mas um sempre tá pior.
+
+Ou seja: não é sorte. Não é genética. E você não é incapaz.
+
+Seu corpo não parou de funcionar. Ele tem um Bloqueio Fértil — e é isso que tá impedindo você de engravidar.
+
+Só que em cada mulher ele tá num lugar diferente. E você nunca soube o seu.
+```
+
+### Bloco 22 · CTA de etapa
+
+Treze palavras, e nenhuma pede clique. A linha anterior já disse que só medindo
+dá pra saber, então o CTA não precisa convencer — só instruir.
+
+```
+Responde tudo. Quanto mais honesta você for, mais preciso vai ser o resultado.
+```
+
+### Decupagem e edição
+
+Aplicando o **Briefing de edição de mini VSL** neste roteiro, o corte de
+ambiente cai em 0:43, exatamente onde a VSL para de falar da vida dela e começa
+a ensinar.
+
+**Cena 1 · mesa, 0:00 → 0:43** — plano fechado, sentada, parada. **Nenhuma
+tipografia grande e nenhum apoio.** Só legenda corrida. A tela crua aqui é o que
+faz o corte seguinte funcionar.
+
+**Cena 2 · cantinho, 0:43 → 3:38** — em pé, se movimentando. É aqui que entra
+tudo.
+
+| fala | tratamento |
+|---|---|
+| Deixa eu te mostrar por quê. | corte de cenário, ela já em pé |
+| ...o corpo age no **automático** | AUTOMÁTICO grande, entra enquanto ela diz |
+| Tem a parte que **decide** ... a parte **automática** | duas palavras em lados opostos do quadro, uma de cada vez, ficam juntas 2s |
+| ...liga o famoso **modo de sobrevivência** | MODO DE SOBREVIVÊNCIA, palavra por palavra |
+| Já tropeçou andando na rua? | nada na tela. A analogia se sustenta sozinha |
+| **Nessa ordem.** | destaque na legenda |
+| Você não decidiu nada disso. | tela limpa, ela para de andar |
+| ...rodinha da sua bicicleta | nada. Ilustrar bicicleta transforma memória dela em desenho |
+| Só que **corpo duro não equilibra**. | destaque na legenda |
+| ...até as três da manhã | nada. A fala já disse a hora |
+| **"pode ir, eu tô aqui"** | **preto e branco**, cor volta na linha seguinte |
+| Isso não é falta de força de vontade... | **tela limpa total**, close, parada, olho na lente. Trilha própria, nenhum efeito |
+| **Mas o que isso tem a ver com engravidar?** | **preto e branco** |
+| **Tudo.** | **a cor volta aqui**, a palavra ocupa a tela sozinha, hit forte |
+| ...o **sono**, a **comida** e o **humor** | três palavras entrando uma por vez |
+| Um mês você apaga o aplicativo... | CICLO entra e fica |
+| No outro a ansiedade te consome... | EMOCIONAL entra e fica |
+| No outro dorme menos e come pior... | ORGANISMO entra e fica |
+| No outro chega no ponto de desistir... | PROPÓSITO entra e fica |
+| Os quatro se desgastando ao mesmo tempo. | os quatro na tela, e aí escurecem juntos |
+| **Mas um sempre tá pior.** | três apagam, um continua aceso. E não se diz qual |
+| não é sorte, não é genética, você não é incapaz | tela limpa |
+| Ele tem um **Bloqueio Fértil** | o maior tratamento do vídeo. É o nome que a VSL inteira estava montando |
+| Responde tudo... | tela limpa, ela na lente |
+
+**A animação que mais trabalha** é a de *"Mas um sempre tá pior"*: os quatro
+palavras acesas, três apagando, uma ficando — sem dizer qual. É a premissa
+inteira do quiz em dois segundos de animação, e chega antes de o CTA pedir
+qualquer coisa.
+
+**Apoio nesta VSL: nenhuma prova.** Print, número e captura de tela são trabalho
+da VSL 2. O que entra aqui é ícone, e só junto com a palavra grande: chama na mão
+do fogo, escudo no modo de sobrevivência, relógio nas três da manhã, app sendo
+removido, cadeado no Bloqueio Fértil, e um pra cada uma das quatro frentes.
+
+Os quatro das frentes são os que mais valem, e por um motivo que os outros não
+têm: eles voltam na tela de resultado do quiz. A pessoa vê o ícone no vídeo e
+reencontra o mesmo no diagnóstico.
+
+### As quatro marcações de fala
+
+O roteiro inteiro ela fala do jeito dela. Só quatro momentos têm direção:
+
+| momento | como ela fala |
+|---|---|
+| ...ouvir que **é só relaxar** | imitando quem fala isso, leve, meio dando de ombros |
+| **"pode ir, eu tô aqui"** | a voz do pai, mais grave e mais calma |
+| **Mas o que isso tem a ver com engravidar?** | incrédula, de quem parou no meio e duvidou |
+| **Tudo.** | a resposta da dúvida. Certeza inteira numa palavra só |
+
+As três primeiras são troca de voz. A quarta não é: é o peso, e ela só funciona
+porque vem logo depois da dúvida.
+
+O resto o roteiro entrega sozinho. "Aí desce", "Você não decidiu nada disso",
+"Mas um sempre tá pior" — a pontuação já dá essas, e marcar cada uma faz ela
+ler em vez de falar.
+
+### Preto e branco
+
+| trecho | |
+|---|---|
+| **Mas o que isso tem a ver com engravidar?** → **Tudo.** | P&B na pergunta, a cor volta em "Tudo." É a mais forte do vídeo |
+| **"pode ir, eu tô aqui"** | P&B só na fala do pai, cor volta na linha seguinte |
+| ...ouvir que **é só relaxar** | sem P&B. É meia frase dentro de outra, cortar a cor ali gagueja a edição |
+
+### Os seis pontos de som
+
+O resto é escolha do editor. Estes seis se direcionam:
+
+| momento | som |
+|---|---|
+| **Aí desce.** | hit grave e curto. É a virada mais dura do vídeo |
+| **Deixa eu te mostrar por quê.** | transição rápida no corte de cenário, e entra a trilha nova |
+| **Absolvição** | troca de trilha, muito baixa e tranquila. Nada mais |
+| **Tudo.** | hit forte. Entra a trilha nova e a cor volta junto |
+| **Mas um sempre tá pior.** | três sons curtos de apagar, e depois nada |
+| **Bloqueio Fértil** | clique de cadeado |
+
+### Os oito destaques de legenda
+
+Um a cada 27 segundos: **Aí desce** · **Igualzinho** · **antes de você pensar** ·
+**Nessa ordem** · **corpo duro não equilibra** · **O automático decidiu por você**
+· **Mas um sempre tá pior** · **E você nunca soube o seu**.
+
+Nenhum na absolvição, porque ali a tela fica limpa.
+
+### O que este exemplo ensina sobre a estrutura
+
+O mecanismo nomeado é a última coisa a aparecer, não a primeira. Tudo antes dele
+existe pra que o nome chegue como conclusão em vez de rótulo. Quando o nome
+aparece na linha 40, a pessoa já viu o mecanismo funcionar duas vezes em
+situações que ela viveu, e uma vez na própria vida dela.
+
+E a última linha não fecha: abre. Ela diz que a resposta existe e que a pessoa
+não tem como saber sozinha. É isso que empurra pra próxima etapa, não o CTA.
+
+---
+
+# VÍDEO 2 · Prova
+
+**555 palavras · 3:35 a 155 palavras por minuto.** Entra na etapa 32.
+
+## Roteiro
+
+```
+Você acabou de ver o seu resultado.
+
+E aí você pensou: tá, mas e agora, [NOME]?
+
+Relaxa que vem.
+
+Você já ouviu isso mil vezes, e dá vontade de dar um soco em quem falou.
+
+Só que tem um pedaço de verdade aí: corpo sobrecarregado não funciona direito.
+
+Ah, mas isso todo mundo já sabe.
+
+Agora, o que aplicar pra resolver? Por onde começar? Como saber quanto já melhorou?
+
+Você já procurou tudo isso. E cada lugar diz uma coisa diferente.
+
+O que falta é um caminho claro, com método, que não te largue no meio.
+
+Deixa eu te mostrar por onde ele começa.
+
+Lembra do modo de sobrevivência? Ele não fica ligado pra sempre.
+
+Só que não tem botãozinho mágico pra desligar. Ele desliga sozinho, quando o corpo lê que dá pra baixar a guarda.
+
+Foi isso que aconteceu quando tiraram a rodinha da sua bicicleta.
+
+Seu pai podia explicar equilíbrio o dia inteiro, que não era isso que ia fazer você soltar a mão do guidão.
+
+Foi tentativa atrás de tentativa, até o corpo parar de esperar a queda.
+
+E quando ele parou, o equilíbrio apareceu.
+
+Com você é a mesma coisa. Não falta nada. Tá tudo aí, esperando ele baixar a guarda.
+
+E pra isso acontecer, é só seguir três passos.
+
+Identificar qual dos quatro fatores tá travando você. Esse a gente já fez.
+Aplicar o plano feito pra você. Tá quase pronto, falta uma pergunta.
+Repetir, até o corpo sair do modo de sobrevivência. Esse vai levar menos de 15 minutos por dia.
+
+Identificar, aplicar, repetir.
+
+Esse é o Efeito Sintonia.
+
+Sintonia porque é igual achar estação no rádio: você procura, ajusta até parar o chiado, e deixa ali.
+
+Esse efeito reprograma os hábitos que impedem você de engravidar, e melhora a qualidade dos seus óvulos.
+
+Lembra que eu falei? Em cada mulher o bloqueio tá num lugar diferente.
+
+Agora você sabe onde tá o seu.
+
+Aquelas perguntas não eram à toa. Elas eram o primeiro passo.
+
+Cada uma mede um fator. E o que apareceu na última tela é o seu bloqueio.
+
+Antes de seguir, deixa eu te contar de onde saíram os quatro fatores.
+
+A primeira coisa que a gente fez pra montar o Ciclo Fértil foi escutar centenas de relatos de mulher tentante. E aí apareceu uma coisa curiosa: nenhuma contava a mesma história.
+
+"Já apaguei o aplicativo, parei de ver vídeo."
+"A ansiedade consome a gente."
+"Engordei 25 quilos nesse período."
+"Estou no ponto da desistência."
+
+Só que todas caíam nos mesmos quatro lugares: ciclo, emocional, organismo, propósito.
+
+E aí o trabalho virou um só: descobrir qual é o bloqueio de cada uma.
+
+Até hoje, mais de mil e oitocentas mulheres fizeram esse teste.
+
+Todas responderam as mesmas perguntas e saíram com resultados totalmente diferentes.
+
+Quase metade trava no emocional. As outras se dividem entre ciclo, organismo e propósito.
+
+E cada uma dessas quatro destrava de um jeito diferente.
+
+Tá, mas quem disse isso?
+
+O bloqueio fértil não é teoria nossa. A medicina tem nome pra ele.
+
+Chama infertilidade sem causa aparente. É o que uma em cada sete mulheres ouve quando todos os exames dela vêm normais e a gravidez não vem.
+
+Aparente. Ou seja: existe, só não aparece.
+
+Falta uma pergunta só. É com ela que o seu plano ganha data de começo e fim.
+```
+
+## Os blocos
+
+| # | bloco | palavras | tempo |
+|---|---|---|---|
+| 8 | Mecanismo da SOLUÇÃO | 291 | 1:53 |
+| 9 | O quiz como etapa do método | 63 | 0:24 |
+| 6 | Escutamos | 80 | 0:31 |
+| 10 | Prova | 46 | 0:18 |
+| 11 | Autoridade emprestada | 54 | 0:21 |
+| 22 | CTA de etapa | 17 | 0:07 |
+
+**O bloco 4b foi cortado.** Ele existia pra completar o mecanismo do problema,
+que a gente tinha previsto partido em dois vídeos. Só que o mecanismo do vídeo 1
+estourou pra 2:43 e engoliu tudo — não sobrou trabalho pro 4b. Os 40 segundos
+dele foram pra prova e pro bloco 9.
+
+## As marcações
+
+| momento | como fica |
+|---|---|
+| ⟨tá, mas e agora, [NOME]?⟩ | ela, pensamento. O nome é opcional |
+| ⟨**Relaxa que vem.**⟩ | **VOZ DE FORA** — a única do sistema inteiro |
+| **soco em quem falou** | a única expressão dirigida |
+| ⟨Ah, mas isso todo mundo já sabe.⟩ | ela, com troca leve de voz |
+| ⟨Tá, mas quem disse isso?⟩ | ela, com troca leve de voz |
+
+**A voz de fora.** Não é ela imitando alguém: é outra voz, gravada à parte,
+entrando sem imagem. Mais devagar que o resto do vídeo, mais distante, meio
+suspirada — tem que soar como frase que ela **ouve**, não que ela diz. A trilha
+abaixa junto, e a tela fica em cor, porque ela precisa aparecer reagindo.
+
+Uma vez faz disso um momento. Cinco vezes faz virar recurso.
+
+**A expressão dirigida.** Em todo o resto do vídeo, gesto e cara são dela. Só em
+"soco em quem falou" tem direção — e ela não faz cara de raiva, ela responde a
+uma coisa que acabou de ouvir. Antes do take, pensa em quem falou isso pra ela
+de verdade: a sogra, a amiga, a colega. Aí olha pra lente e responde pra essa
+pessoa. É revirar de olhos, não é raiva.
+
+## A dose é a coisa mais fácil de errar
+
+Quem grava isso pela primeira vez sempre exagera. A encenação sai grande demais,
+a variação de plano sai frenética, a expressão sai de novela. É o erro mais caro
+porque não aparece na hora — aparece na edição, quando já não dá pra voltar.
+
+**Se bateu a dúvida se está demais, está demais. Refaz menor.**
+
+O motivo é técnico: **pequeno demais a edição conserta, grande demais não.** Um
+take contido ganha energia com música, corte e tipografia. Um take exagerado não
+tem como ser diminuído.
+
+## Repetições no lugar
+
+Cinco falas o editor vai querer em mais de uma versão. Elas **não** se gravam
+depois, à parte — se ela mudar de posição, de luz ou de enquadramento, o corte
+não fecha e vira erro visível.
+
+Ela chega na fala, faz. Aí **para, sem sair do lugar**, e refaz a mesma fala mais
+duas vezes com doses diferentes. Só então segue o roteiro.
+
+A única exceção é a voz de fora: ⟨Relaxa que vem⟩ não tem imagem, então não tem
+continuidade pra quebrar.
+
+## Os dois cenários
+
+**Cena 1 · mesa, 0:00 → 0:31.** Sentada, plano fechado, olho na lente, parada.
+Ela já começa falando, sem respiro — a pessoa acabou de ver o resultado dela na
+tela anterior.
+
+**Cena 2 · cantinho, 0:31 → 3:35.** Em pé, alternando entre seis posições:
+aberto, médio, fechado perto da câmera, sentada no braço da poltrona, ao fundo
+encostada no móvel, e chegando em direção à câmera durante uma frase.
+
+**A regra que impede a forçação: segure mais tempo em cada take.** Variedade não
+vem de cortar mais, vem de ter mais material e cortar menos. Cinco takes
+segurados oito segundos cada dão mais respiro que quinze cortes de três.
+
+E o assunto pede isso: o vídeo da Hannah é sobre algoritmo e comporta ritmo
+alto. O nosso é sobre o corpo de uma mulher cansada — comporta variedade, mas
+não pressa.
+
+## Preto e branco
+
+| trecho | |
+|---|---|
+| ⟨Ah, mas isso todo mundo já sabe⟩ | P&B na fala, cor volta na linha seguinte |
+| ⟨Tá, mas quem disse isso?⟩ | P&B na pergunta, a cor volta em "O bloqueio fértil não é teoria nossa" |
+
+⟨Relaxa que vem⟩ **não leva P&B** — a voz vem de fora, o áudio já marca.
+
+## Os cinco pontos de som
+
+| momento | som |
+|---|---|
+| ⟨Relaxa que vem⟩ | voz tratada, mais distante e mais devagar. A trilha abaixa junto |
+| Deixa eu te mostrar por onde ele começa. | transição rápida no corte de cenário, entra a trilha nova |
+| Identificar, aplicar, repetir. | três tiques curtos, um por palavra |
+| Esse é o Efeito Sintonia. | hit. É o batismo do mecanismo da solução |
+| ⟨Tá, mas quem disse isso?⟩ | a trilha corta seca, e volta na resposta |
+
+## Os oito destaques de legenda
+
+**soco em quem falou** · **cada lugar diz uma coisa diferente** · **não tem
+botãozinho mágico pra desligar** · **Não falta nada** · **Identificar, aplicar,
+repetir** · **Esse é o Efeito Sintonia** · **saíram com resultados totalmente
+diferentes** · **existe, só não aparece**
+
+## Apoio visual
+
+| momento | apoio |
+|---|---|
+| botãozinho mágico | um botão, e ele não funciona |
+| a bicicleta | nada na tela — a memória é dela |
+| os três passos | 1 · 2 · 3 entrando um por vez, o primeiro já marcado como feito |
+| sintonizar um rádio | dial girando até parar o chiado |
+| **as quatro citações** | **os quatro comentários na tela, como print de rede social** |
+| ciclo, emocional, organismo, propósito | os mesmos quatro ícones do vídeo 1, na mesma ordem |
+| mais de mil e oitocentas | o número subindo até 1.800 |
+| infertilidade sem causa aparente | o termo escrito, como aparece em site de clínica |
+
+**As quatro citações são o apoio mais importante do vídeo.** Entram como
+comentário de verdade, fundo de rede social, não caixa de texto bonita. É o
+único momento em que outra mulher aparece na tela.
+
+---
+
+# VÍDEO 3 · Venda
+
+**A escrever.** 6:00, doze blocos, no topo da tela 36. É o único dos três que
+vende, e o único com fechamento.
+
+| # | bloco | tempo | palavras |
+|---|-------|-------|----------|
+| 23 | Reancoragem + absolvição | 25s | ~65 |
+| 12 | **Produto e o que tem dentro** | 95s | ~245 |
+| 13 | Quebra de objeções | 38s | ~98 |
+| 14 | Future pacing | 30s | ~78 |
+| 10b | Prova curta | 32s | ~83 |
+| 15 | Ancoragem | 32s | ~83 |
+| 16 | Oferta e preço | 26s | ~67 |
+| 17 | Bônus, resumido | 20s | ~52 |
+| 18 | Garantia, breve | 15s | ~39 |
+| 19 | Escassez | 15s | ~39 |
+| 20 | Recapitulação, breve | 15s | ~39 |
+| 21 | Fechamento e CTA | 17s | ~44 |
+
+## Prompt para escrever o vídeo 3
+
+Copie daqui pra baixo e cole numa IA. Ela tem tudo que precisa e começa
+perguntando o que falta.
+
+```
+Você vai me ajudar a escrever o terceiro e último vídeo de um funil de quiz que
+já tem dois vídeos escritos e fechados. Leia tudo antes de responder.
+
+## O produto
+
+Ciclo Fértil, produto digital de fertilidade para mulheres brasileiras que estão
+tentando engravidar. Quatro focos: Sinais do Ciclo, Emocional, Organismo,
+Propósito. Três planos derivados de um master de 48 PDFs. O plano de cada mulher
+é escolhido pelo fator mais fraco dela no quiz.
+
+Cada semana do plano tem no máximo quatro ações, com a frequência escrita em
+cada uma. Nenhuma atividade se repete em doze semanas. A mais longa leva vinte
+minutos; a maioria, menos de cinco. O app tira uma foto do ponto de partida e
+mede a melhora toda semana.
+
+## Onde este vídeo entra
+
+O quiz tem 36 telas. O vídeo 1 está na 14, o vídeo 2 na 32, e a tela 31 mostra o
+IQO com o diagnóstico dela. Este vídeo 3 fica no topo da tela 36, que é a tela de
+oferta com o checkout.
+
+Quando ela chega aqui, ela já respondeu o quiz inteiro, já viu o número dela, já
+sabe qual das quatro frentes está travada, e já viu o preço na tela 35.
+
+## O que os dois primeiros vídeos já estabeleceram
+
+**Vídeo 1, mecanismo do problema.** O corpo age no automático. A parte automática
+sente perigo e liga o modo de sobrevivência, que corta justamente o que ela
+precisava — provado com duas analogias: o tropeço na rua e a bicicleta sem
+rodinha. O automático estraga o sono, a comida e o humor, e a ovulação vive
+disso. Quatro frentes se desgastam ao mesmo tempo, mas uma sempre está pior.
+Nome do problema: **Bloqueio Fértil**. Fecha dizendo que em cada mulher ele está
+num lugar diferente.
+
+**Vídeo 2, mecanismo da solução.** O modo de sobrevivência não fica ligado pra
+sempre, e não tem botão pra desligar: ele desliga sozinho quando o corpo lê que
+dá pra baixar a guarda. Isso é demonstrado pela bicicleta de novo, agora com o
+final. Três passos: **identificar, aplicar, repetir**. Nome da solução: **Efeito
+Sintonia**, ancorado em sintonizar um rádio. Prova: 1.862 mulheres fizeram o
+teste e saíram com resultados diferentes, quase metade travando no emocional.
+Autoridade: a medicina já tem nome pro problema, chama infertilidade sem causa
+aparente.
+
+## O que este vídeo faz
+
+Faz ela comprar. Recoloca ela no ponto, mostra em detalhe o que recebe, derruba
+as objeções que sobraram, ancora o valor, dá o preço, tira o risco e recapitula
+antes do fechamento.
+
+Doze blocos, 6:00, nesta ordem:
+
+23 Reancoragem + absolvição · 25s
+12 Produto e o que tem dentro · 95s, o maior do sistema
+13 Quebra de objeções · 38s
+14 Future pacing · 30s
+10b Prova curta · 32s
+15 Ancoragem · 32s
+16 Oferta e preço · 26s
+17 Bônus, resumido · 20s
+18 Garantia, breve · 15s
+19 Escassez · 15s
+20 Recapitulação, breve · 15s
+21 Fechamento e CTA · 17s
+
+Conte a 155 palavras por minuto.
+
+## O vocabulário fechado
+
+Use exatamente estas palavras, sempre:
+
+- **Bloqueio Fértil** — o problema
+- **Efeito Sintonia** — a solução
+- **modo de sobrevivência** e **automático** — o mecanismo
+- **Ciclo, Emocional, Organismo, Propósito** — as quatro frentes, sempre nesta ordem
+- **identificar, aplicar, repetir** — os três passos
+- **tá**, nunca **está**
+- **a gente**, nunca **nós**
+
+## Como escrever
+
+Estas regras saíram de escrever os dois primeiros vídeos. Todas foram aprendidas
+errando.
+
+**Linguagem familiar.** Familiar não é o que é simples: é o que já está na memória
+dela. Toda frase que exigir tradução mental vira frase concreta. Prefira a coisa
+que ela viveu à categoria que a descreve.
+
+**Nada de fórmula de anúncio.** Estas foram todas recusadas: "o que ninguém nunca
+te disse foi", "até agora", "esse caminho existe", "isso ninguém nunca disse".
+Se a frase pode aparecer em qualquer anúncio, ela sai.
+
+**Não abra com negação.** "A gente não está te perguntando isso à toa" foi
+cortado por isso: negação na abertura é defesa, responde a uma acusação que
+ninguém fez.
+
+**Não invente drama.** Ela já viu cem vídeos sobre fertilidade. Dizer que ninguém
+fala sobre isso é mentira verificável, e ela confere na hora.
+
+**Toda promessa tem que ser cobrável.** Se a copy diz um número, ele tem que estar
+no produto. Um plano que promete dez minutos por dia e entrega uma caminhada de
+trinta vira reembolso no primeiro dia.
+
+**Pronome precisa de dono.** "Isso", "ele", "a sua" — se a última coisa dita não
+for o antecedente, troque pelo substantivo.
+
+**Analogia vem DEPOIS do nome que ela explica**, nunca antes. O nome primeiro, a
+analogia responde "por que esse nome?".
+
+**Empreste fatos, não invente mecanismos.** Se precisar de autoridade, procure a
+instituição que teria motivo pra negar e está admitindo. Harvard e Stanford estão
+gastos em direct response e cheiram a anúncio.
+
+**Absolvição sempre.** A culpa nunca fica nela. Ela já se culpa o suficiente.
+
+## Como trabalhar comigo
+
+**Um bloco por vez.** Escreva um, pare, espere eu aprovar. Nunca escreva dois.
+
+**Proponha antes de aplicar.** Mostre a alteração e espere o sim. Nunca aplique
+sozinho.
+
+**Quando eu recusar três opções seguidas, pare de gerar frase.** Isso quer dizer
+que você está resolvendo o problema errado. Diagnostique em voz alta e me
+pergunte qual trabalho a linha tem que fazer.
+
+**Mostre sempre o bloco inteiro**, não a frase isolada — sem o contexto eu não
+consigo julgar a emenda.
+
+**Conte as palavras e o tempo** a cada versão.
+
+**Respostas curtas.** Duas a quatro linhas fora o roteiro.
+
+## Comece assim
+
+Antes de escrever qualquer coisa, me pergunte o que falta:
+
+- Preço, forma de pagamento e o que exatamente entra em cada plano
+- Bônus, se tiver
+- Garantia: quantos dias, e se é incondicional
+- Se existe escassez real, ou se ela precisa ser construída
+- Depoimento ou print de compradora, se já tiver
+
+Não invente nada disso.
+```
+
+---
+
+## Pendências
+
+- O `[NOME]` da creator no vídeo 2
+- O `s22` sem `data-score` no quiz, que infla o fator ciclo
+- O vídeo 3 inteiro
+- O vídeo 1 está 1:23 acima do orçamento de 2:15. O 2 fechou 10 segundos abaixo
+
+## Sobre esta ficha
+
+O método está na ficha **Estrutura de mini VSL para quiz**, e o processo de
+edição na **Briefing de edição de mini VSL**. Esta aqui é só o produto dentro do
+método — foi separada pra que as outras duas continuem genéricas e copiáveis
+como prompt.
+</script>
+
+
+<script type="text/plain" id="proc-vsl-briefing">
+# Briefing de edição de mini VSL
+
+O roteiro fechado não é o entregável final. Entre ele e o vídeo tem duas
+decisões que ninguém consegue tomar sozinho depois: **onde cada trecho é
+gravado** e **o que aparece na tela enquanto ela fala**. Esta ficha é o que se
+manda pra quem grava e pra quem edita.
+
+Derivada da controle da Hannah Franklin, que resolve as duas do mesmo jeito:
+dois ambientes, tipografia flutuando no espaço, e apoio entrando como objeto
+pendurado dentro da sala em vez de corte pra tela cheia.
+
+## 1 · Os dois ambientes
+
+**O ambiente é decidido pela FUNÇÃO do trecho, não pelo número da VSL.** Cada
+VSL usa os dois, e o corte cai onde o vídeo muda de trabalho.
+
+| trecho | ambiente | corpo |
+|---|---|---|
+| fala da vida da pessoa — callout, agitação, absolvição | **mesa**, plano fechado | sentada, parada, olho na lente |
+| ensina — mecanismo, prova, oferta | **cantinho decorado**, plano aberto | em pé, alternando pelo espaço |
+
+O motivo é tom, não variedade. Andar por uma sala bonita enquanto descreve a
+decepção mensal de alguém é energia contra conteúdo, e não tem ajuste de edição
+que salve. Explicar como o corpo funciona, em pé, andando, é o que se espera de
+quem está ensinando.
+
+Em pé não quer dizer andando o tempo todo. Ela alterna: mais ao fundo perto do
+sofá, sentada no braço dele, levantando enquanto fala, chegando perto da câmera
+pra dizer uma frase e voltando, mais à esquerda, mais à direita, mexendo no
+cabelo. Nada disso é marcado frase a frase — combina antes que ela vai usar o
+espaço e deixa acontecer.
+
+Ganho de brinde: o corte vira **subida de energia**. O trecho íntimo é baixo e
+parado, a explicação abre em movimento. Se a VSL começa pelo íntimo, a curva
+sobe em vez de cair — e início que cai é o que mata uma VSL de quiz.
+
+## 2 · Figurino, microfone e tom
+
+**Uma base de roupa só pra sequência inteira.** As mini VSLs são uma experiência
+contínua: a pessoa vê a primeira no meio do quiz e a última no fim, na mesma
+sessão. Troca de roupa entre elas lê como troca de dia, e a sequência deixa de
+parecer uma conversa e passa a parecer três anúncios. Entre os dois ambientes do
+mesmo vídeo dá pra mudar só a camada de cima — um casaco, uma camisa por cima.
+
+**A roupa não pode competir com a tipografia.** Estampa carregada, listra fina,
+xadrez e cor forte brigam com a palavra que entra na tela. Cor lisa e clara é o
+que deixa a tipografia ser lida.
+
+**Acessório o suficiente pra parecer cuidada, não o suficiente pra parecer
+produzida.** O tom é o de alguém explicando uma coisa que sabe, não o de uma
+apresentadora.
+
+**O que puxa o olho na pele se resolve no figurino, não na direção.** Tatuagem,
+marca, logo: no plano fechado o corpo ocupa metade do quadro e o que está na
+pele vira parte da composição sem ninguém decidir isso. A saída é manga, gola ou
+enquadramento combinado antes de gravar — nunca pedir pra pessoa se posicionar
+de um jeito que esconda, porque isso engessa o corpo e aparece no vídeo.
+
+**Microfone na mão.** Lapela de botãozinho, segurado, mas só no trecho em pé. É
+o que faz o vídeo parecer conteúdo em vez de anúncio. Sentada, não faz sentido.
+
+**Tom.** Animada, pra frente, dinâmica, do começo ao fim. Não é leitura e não é
+propaganda. O roteiro já carrega informação e peso de sobra, então é a fala que
+impede o vídeo de ficar pesado: ritmo puxado, sem arrastar frase e sem baixar o
+tom nos trechos difíceis. **Mas leve, nunca forçado** — nada de empolgação
+fabricada nem entonação de apresentadora. Animada é o jeito de quem está
+gostando de explicar, não de quem faz esforço pra parecer animada.
+
+## 3 · As vozes que não são dela
+
+Em alguns momentos o roteiro coloca na boca dela uma fala que **não é dela**: a
+pergunta que quem assiste está fazendo, o que os outros dizem, a fala de alguém
+da história. Nesses momentos ela **troca de voz** — muda o tom, muda o ritmo, o
+corpo solta. É rápido, dois ou três segundos. Não é imitação e não é caricatura:
+é só o suficiente pra quem assiste ouvir que mudou de boca.
+
+O registro mais útil é o **incrédulo**: quando o roteiro diz uma coisa que a
+pessoa duvidaria, ela fala como quem parou no meio e duvidou junto.
+
+**Isso é pontual e tem que continuar pontual.** Marque três ou quatro momentos
+no vídeo inteiro, nunca mais. Marcar tudo faz a pessoa ler em vez de falar, e é
+exatamente o que se está tentando evitar. Fora das marcações, ela fala do jeito
+dela — a pontuação do roteiro já entrega o resto.
+
+**Na edição, a outra voz fica em preto e branco** pelo tempo exato da fala, e a
+cor volta na resposta. Nada mais muda: mesmo plano, mesmo enquadramento, mesmo
+áudio. Só a cor saindo e voltando — e **a volta da cor é a resposta**, então ela
+precisa cair na palavra certa, não um quadro antes nem um depois.
+
+Duas passagens em preto e branco por vídeo. Mais que isso e o recurso vira papel
+de parede. Fala de meia frase dentro de outra não leva P&B: cortar a cor ali
+gagueja a edição.
+
+## 4 · Tipografia
+
+Três tamanhos, cada um com um significado. Misturar os significados transforma
+os três em enfeite.
+
+**Palavra grande, flutuando no espaço**
+
+Só para palavra que o roteiro **batiza ou repete**: nome de mecanismo, nome de
+frente, número. Entra **enquanto** ela diz, nunca antes. Fica dois ou três
+segundos e sai. Nunca acumula, a não ser quando o roteiro estiver montando uma
+lista de propósito.
+
+Nunca em cima do rosto nem do corpo.
+
+**Legenda corrida**
+
+Pequena, colorida, acompanhando a fala, posicionada perto do corpo e não no
+rodapé. É o que segura quem assiste sem som.
+
+**Destaque dentro da legenda**
+
+Uma palavra da legenda muda de cor ou ganha fundo. Serve pra frase que é
+conclusão, a que precisa ser levada mesmo por quem está lendo em diagonal. No
+máximo uma a cada trinta segundos.
+
+## 5 · Sincronia com o movimento
+
+A única coisa que se dirige na gravação é **onde ela deixa espaço**.
+
+Se a palavra entra no alto à esquerda, ela fica à direita do quadro. E a palavra
+entra no canto de onde ela está **saindo**, nunca pra onde ela está indo. Na
+controle isso é constante: ela nunca está debaixo do próprio texto.
+
+Isso é marcação de chão, combinada antes de gravar. Não é direção de gesto.
+
+## 6 · Imagens de apoio
+
+**Só o que a FALA exige.** Se a frase aponta pra alguma coisa — "esse teste",
+"esse perfil", "esse print" — o objeto precisa aparecer, senão a palavra fica
+sem referente. Fora isso, não entra nada.
+
+Ilustração genérica não é apoio, é ruído. Um relógio marcando três da manhã
+porque a fala disse "três da manhã" não acrescenta nada: a fala já disse.
+
+**Como entram:** flutuando dentro da sala, na altura dos olhos, como objeto
+pendurado no espaço. A câmera continua nela. Não é corte pra tela cheia.
+
+**Uma consequência que vale saber antes de orçar:** a VSL de mecanismo quase não
+tem apoio, porque ela ainda não tem nada a provar. O motor visual dela é
+tipografia e movimento. Print, número e captura de tela são da VSL de prova.
+
+## 7 · O que não se dirige
+
+**Gesto.** Nada de "aqui ela abre as mãos", "aqui ela balança a cabeça". Gesto
+marcado é exatamente o que denuncia que o vídeo é anúncio. Ela gesticula
+sozinha, do jeito dela.
+
+**Expressão.** Mesma coisa.
+
+Se ela apontar pra um apoio naturalmente, mantém. Se não apontar, o apoio se
+vira sozinho.
+
+## 8 · Som
+
+**Mais de uma música. Não é uma trilha só subindo e descendo.** A música troca
+junto com o take e tem que bater com a energia da fala naquele trecho: take
+animado pede música animada, trecho parado pede música parada. Quatro ou cinco
+trocas num vídeo de três a quatro minutos.
+
+**A escolha das faixas é do editor** — ele ouve o take e escolhe. Três coisas se
+direcionam:
+
+- **Prefira música familiar.** A pessoa reconhecer a faixa baixa a guarda antes de ela entender o assunto. Vale internacional
+- **Eletrônica, bem baixa, ritmo agradável** — nem forte, nem lento, nunca disputando com a voz
+- **O trecho íntimo é quase inaudível**, e o momento de tela limpa tem trilha própria, muito baixa e tranquila
+
+**Onde entram os efeitos também é escolha do editor** — clique, digitação,
+transições rápidas e limpas nos cortes de take. Duas regras: **baixos**, e
+sempre acompanhando **uma virada de tom da fala**, nunca a entrada de um
+elemento por si só. Efeito amarrado em elemento vira decoração; amarrado em
+virada de fala, ele marca a mesma coisa que a voz está marcando.
+
+**O que se direciona são os pontos principais**, meia dúzia por vídeo: a virada
+mais dura da agitação, o corte de cenário, a tela limpa, a resposta que devolve
+a energia, e o nome do mecanismo. O resto é dele.
+
+## 9 · O que gravar
+
+Sempre mais do que o corte precisa. Plano sobrando é liberdade de edição, plano
+faltando é regravação.
+
+- Cada trecho íntimo em plano fechado, mais um take um pouco mais aberto
+- Cada trecho de ensino inteiro em plano aberto
+- **O mesmo trecho de ensino inteiro de novo, em plano médio** — é isso que
+  permite alternar dentro de um bloco longo sem trocar de cenário
+- **Olhares:** num take ela olha reto na lente, noutro olha pro lado e a câmera
+  acompanha. Dá movimento sem exigir corte de cenário
+- Close isolado dos trechos que a edição vai querer limpar de tipografia
+- Um take a mais de cada troca de voz
+
+**A pessoa decide a dose, não se usa ou não.** O vídeo precisa dessas mudanças
+de plano, posição e olhar. O que ela avalia na hora é o quanto: se estiver
+virando troca demais, segura mais tempo num plano antes de mudar. Se uma mudança
+sair forçada, faz de novo mais solta — não corta a mudança.
+
+## O momento de tela limpa
+
+Toda VSL tem um trecho em que ela para de ensinar e fala com quem assiste. Na
+estrutura de quiz é a **absolvição**.
+
+Ali se faz o contrário de tudo:
+
+- Ela para de andar
+- A câmera empurra pro close
+- Sai toda a tipografia, saem as legendas, saem os apoios
+- Olho na lente, sem desviar
+- A trilha troca por uma própria, muito baixa e tranquila, e nenhum efeito toca
+
+Depois de um minuto e meio de palavra voando, o silêncio visual é o que dá peso.
+A tela precisa dizer que mudou **antes** da frase dizer.
+
+## Sobre esta ficha
+
+Escrita em 02/09/2026, a partir da decupagem visual da controle da Hannah
+Franklin. O mapa linha a linha de uma VSL real está na ficha **Estrutura de mini
+VSL para quiz**, na seção Exemplo.
+</script>
+
 </body>
 </html>

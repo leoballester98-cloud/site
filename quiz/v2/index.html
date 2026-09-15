@@ -56,7 +56,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"/>
-  <link rel="stylesheet" href="quiz-warm.css?v=225"/>
+  <link rel="stylesheet" href="quiz-warm.css?v=226"/>
 
   <!-- Anti-flicker do teste A/B.
        O script que troca a headline mora no fim do <body>, então num aparelho
@@ -1329,7 +1329,9 @@ const TELAS = {
   '7': {
     grade: 'botao',
     subAbaixo: true,
-    titulo: 'CONQUISTE O <u>SEU POSITIVO</u> COM UM <b>PLANO DE FERTILIDADE PERSONALIZADO</b> PRA SUA ROTINA E PRO SEU BOLSO!',
+    /* <u> no desejo, <mark> no mecanismo. O <b> que estava aqui nao aparecia:
+       a headline inteira era peso 800 e nao sobrava contraste pro negrito. */
+    titulo: 'CONQUISTE O <u>SEU POSITIVO</u> COM UM <mark>PLANO DE FERTILIDADE PERSONALIZADO</mark> PRA SUA ROTINA E PRO SEU BOLSO!',
     legenda: 'grávida no 2º ciclo',
     sub: 'um <u>protocolo simples</u> pra destravar os <b>4 bloqueios que travam a sua ovulação em 30 dias</b>, usando <b>o que já tem na sua casa</b>, <b>sem precisar de tratamento caro!</b>',
     cta: 'COMEÇAR MEU PLANO'

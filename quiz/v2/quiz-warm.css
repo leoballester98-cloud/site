@@ -3969,10 +3969,13 @@ body.marca-solta:has(#s1.screen.active) .header__inner::after {
    padding na .wrap, porque so estas telas precisam dele. */
 #s1.s1-alt h1#h1Var {
   font-family: 'DM Sans', system-ui, sans-serif;
-  font-weight: 700;
+  /* 600 e nao 700: o DM Sans trava o eixo em 800, entao nao da pra subir o
+     destaque — quem tem que descer e o texto ao redor. Com 600 contra 800 a
+     diferenca fica visivel de longe; com 700 contra 800 quase nao aparecia. */
+  font-weight: 600;
   text-transform: uppercase;
   letter-spacing: -.01em;
-  font-size: clamp(20px, 5.4vw, 30px);
+  font-size: clamp(22px, 5.9vw, 32px);
   line-height: 1.18;
   max-width: 24ch !important;
   margin: 20px auto 10px;
@@ -3990,7 +3993,24 @@ body.marca-solta:has(#s1.screen.active) .header__inner::after {
   color: var(--blue-d);
   font-weight: 800;
 }
-#s1.s1-alt h1#h1Var b { font-weight: 800; }   /* enfase: so peso */
+/* O -webkit-text-stroke engorda a letra alem do que a fonte entrega: e o unico
+   jeito de passar do 800 sem trocar de familia. 0.4px e o limite antes de
+   comecar a fechar o buraco do 'e' e do 'o'. */
+#s1.s1-alt h1#h1Var b {
+  font-weight: 800;
+  -webkit-text-stroke: 0.4px currentColor;
+}
+/* Grifo solido: o quarto destaque, pro numero que precisa virar carimbo. Mesmo
+   recurso do selo URGENTE da tela 8, na cor da marca em vez do vermelho de
+   alarme. Um por headline — dois selos na mesma linha e nenhum e selo. */
+#s1.s1-alt h1#h1Var .selo {
+  background: var(--blue-d);
+  color: #fff;
+  font-weight: 800;
+  padding: 0 8px 2px;
+  border-radius: 6px;
+  display: inline-block;
+}
 #s1.s1-alt h1#h1Var u {                        /* desejo: sublinhado */
   text-decoration-thickness: 2px;
   text-underline-offset: 3px;
@@ -4200,7 +4220,7 @@ body.marca-solta:has(#s1.screen.active) .header__inner::after {
      600px da coluna de propósito: o alvo e a headline caber em TRES linhas, e
      na largura da coluna ela quebrava em cinco — uma torre de texto que
      empurrava a foto e a grade pra fora da dobra. */
-  #s1.s1-alt > h1#h1Var { font-size: 38px; margin-top: 24px; margin-bottom: 12px; }
+  #s1.s1-alt > h1#h1Var { font-size: 39px; margin-top: 20px; margin-bottom: 10px; }
   #s1.s1-alt > p#subVar { font-size: 17px; max-width: 46ch; margin-bottom: 14px; }
 
   .t-alt { gap: 12px; }

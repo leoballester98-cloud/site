@@ -56,7 +56,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"/>
-  <link rel="stylesheet" href="quiz-warm.css?v=217"/>
+  <link rel="stylesheet" href="quiz-warm.css?v=220"/>
 
   <!-- Anti-flicker do teste A/B.
        O script que troca a headline mora no fim do <body>, então num aparelho
@@ -151,12 +151,14 @@
       <p class="t-sub" id="t6Sub"></p>
     </div>
 
-    <!-- Molde B: par de prova com legenda, promessa em miúdos, botão único -->
+    <!-- Molde B: bloco de prova com legenda, promessa em miúdos, botão único.
+         Uma imagem por bloco, não duas: a comparação já vem montada dentro do
+         arquivo, com a divisão desenhada. Duas <img> lado a lado deixavam a
+         costura na mão do CSS, e ela nunca cai onde o corte da foto pede. -->
     <div class="t-alt" id="tela7" hidden>
       <div class="t7-prova">
         <div class="t7-par">
-          <img id="t7ImgA" src="Images/idade-26-35.webp" alt="" decoding="async" loading="eager"/>
-          <img id="t7ImgB" src="Images/idade-18-25.webp" alt="" decoding="async" loading="eager"/>
+          <img id="t7Img" src="Images/idade-26-35.webp" alt="" decoding="async" loading="eager"/>
         </div>
         <div class="t7-legenda" id="t7Legenda"></div>
       </div>
@@ -164,16 +166,15 @@
       <button class="t-cta" id="t7Cta" type="button"></button>
     </div>
 
-    <!-- Molde C: selo de urgência, dois pares de prova, botão único -->
+    <!-- Molde C: selo de urgência, dois blocos de prova, botão único. Mesma
+         regra da tela 7: uma imagem por bloco, com a divisão já dentro dela. -->
     <div class="t-alt" id="tela8" hidden>
       <div class="t8-prova">
         <div class="t8-par">
           <img id="t8ImgA" src="Images/idade-18-25.webp" alt="" decoding="async" loading="eager"/>
-          <img id="t8ImgB" src="Images/idade-46-mais.webp" alt="" decoding="async" loading="eager"/>
         </div>
         <div class="t8-par">
-          <img id="t8ImgC" src="Images/essa1.webp" alt="" decoding="async" loading="lazy"/>
-          <img id="t8ImgD" src="Images/essa2.webp" alt="" decoding="async" loading="lazy"/>
+          <img id="t8ImgB" src="Images/essa1.webp" alt="" decoding="async" loading="lazy"/>
         </div>
       </div>
       <p class="t-micro" id="t8Micro"></p>

@@ -3959,6 +3959,9 @@ body.marca-solta:has(#s1.screen.active) .header__inner::after {
 
 /* Título: DM Sans de largura normal, como nas referências. A display
    condensada do quiz some com o ar entre as letras em caixa alta. */
+/* A headline encostava na faixa de cima: a .wrap reserva exatamente a altura da
+   barra e nao sobra nada entre as duas. O respiro vem daqui, e nao de mais
+   padding na .wrap, porque so estas telas precisam dele. */
 #s1.s1-alt h1#h1Var {
   font-family: 'DM Sans', system-ui, sans-serif;
   font-weight: 800;
@@ -3967,7 +3970,7 @@ body.marca-solta:has(#s1.screen.active) .header__inner::after {
   font-size: clamp(20px, 5.4vw, 30px);
   line-height: 1.18;
   max-width: 24ch !important;
-  margin: 0 auto 10px;
+  margin: 16px auto 10px;
   text-align: center;
   text-wrap: balance;
   color: var(--ink);
@@ -4047,8 +4050,11 @@ body.marca-solta:has(#s1.screen.active) .header__inner::after {
   box-shadow: var(--shadow-card);
   overflow: hidden;
 }
-.t7-par { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; background: var(--hair); }
-.t7-par img { width: 100%; aspect-ratio: 3 / 4; object-fit: cover; object-position: center 20%; display: block; background: var(--card-active); }
+/* Uma imagem por bloco: a comparacao ja vem montada dentro do arquivo, com a
+   divisao desenhada. Com duas <img> a costura ficava por conta do CSS, e ela
+   nunca cai onde o corte da foto pede. */
+.t7-par { display: block; }
+.t7-par img { width: 100%; aspect-ratio: 4 / 1; object-fit: cover; display: block; background: var(--card-active); }
 .t7-legenda {
   padding: 12px 10px;
   text-align: center;
@@ -4066,13 +4072,13 @@ body.marca-solta:has(#s1.screen.active) .header__inner::after {
 }
 .t8-prova { display: flex; flex-direction: column; gap: 12px; }
 .t8-par {
-  display: grid; grid-template-columns: 1fr 1fr; gap: 3px;
+  display: block;
   border: 3px solid var(--green-d);
   border-radius: 8px;
   overflow: hidden;
   background: var(--green-d);
 }
-.t8-par img { width: 100%; aspect-ratio: 1 / 1; object-fit: cover; object-position: center 20%; display: block; background: var(--card-active); }
+.t8-par img { width: 100%; aspect-ratio: 4 / 1; object-fit: cover; display: block; background: var(--card-active); }
 .t-micro {
   text-align: center;
   font-size: clamp(13px, 3.4vw, 15px);
@@ -4153,20 +4159,24 @@ body.marca-solta:has(#s1.screen.active) .header__inner::after {
 
    900px e o mesmo corte que a tela original usa pra virar desktop. */
 @media (min-width: 900px) {
-  #s1.s1-alt { max-width: 600px; }
+  /* A secao e mais larga que o conteudo de proposito: quem usa os 840px e so o
+     titulo, pra caber em tres linhas. Todo o resto — imagem, bullets, grade e
+     botao — continua travado em 600px e centralizado, que e a coluna que o
+     empilhamento pede. */
+  #s1.s1-alt { max-width: 840px; }
+  #s1.s1-alt > .t-alt,
+  #s1.s1-alt > .age-grid,
+  #s1.s1-alt > .terms { max-width: 600px; margin-left: auto; margin-right: auto; }
 
-  /* 38px e o tamanho do titulo na tela original, medido nela. A caixa vai a
-     620px porque a headline dos moldes e mais longa: na largura da coluna ela
-     quebrava em cinco linhas, uma torre de texto que empurrava tudo pra baixo. */
-  #s1.s1-alt > h1#h1Var { font-size: 38px; max-width: 620px !important; margin-bottom: 10px; }
+  /* 38px e o tamanho do titulo na tela original, medido nela. A caixa passa dos
+     600px da coluna de propósito: o alvo e a headline caber em TRES linhas, e
+     na largura da coluna ela quebrava em cinco — uma torre de texto que
+     empurrava a foto e a grade pra fora da dobra. */
+  #s1.s1-alt > h1#h1Var { font-size: 38px; max-width: 840px !important; margin-top: 24px; margin-bottom: 12px; }
   #s1.s1-alt > p#subVar { font-size: 17px; max-width: 46ch; margin-bottom: 14px; }
 
   .t-alt { gap: 16px; }
   #s1.s1-alt .t6-hero { max-height: 200px; }
-  #s1.s1-alt .t7-par img { aspect-ratio: 16 / 10; }
-  /* Dois pares empilhados cobram o dobro de altura de qualquer outra prova.
-     O 2/1 e o que faz a tela 8 caber na dobra com os dois. */
-  #s1.s1-alt .t8-par img { aspect-ratio: 2 / 1; }
   /* A barra do desktop reserva 70px no topo da .wrap por causa do passo e da
      barra de progresso. Nestas telas ela mostra so o nome, entao 62px ja deixa
      folga sobre uma barra de 57px — e os pixels devolvidos sao o que falta pra

@@ -1228,12 +1228,21 @@ const EXPERIMENTOS = {
     a: { preco: '38', marca: 'preco-38' },
     b: { preco: '68', marca: 'preco-68' },
   },
-  /* Os tres moldes novos de primeira tela, um terco do trafego pra cada.
+  /* Os moldes novos de primeira tela, o trafego dividido por igual entre eles.
      Sem braco de controle de proposito: o que este teste responde e qual dos
-     tres moldes ganha. Comparar o vencedor com a campea de hoje e outro teste,
+     moldes ganha. Comparar o vencedor com a campea de hoje e outro teste,
      depois, e misturar os dois aqui gastaria trafego pra responder metade de
-     cada pergunta. */
-  t3: {
+     cada pergunta.
+
+     A chave e 'tela' e nao 't3' porque o numero de bracos vai mudar: somar uma
+     tela 9 aqui e uma linha, e a URL que ja estiver rodando na campanha
+     continua valendo. Uma chave com o numero dentro envelheceria no dia
+     seguinte.
+
+     Somar um braco DEPOIS de ligar o trafego distorce a comparacao: a tela
+     nova comeca do zero enquanto as outras ja acumularam sessoes. Se for pra
+     criar mais telas, criar antes de ligar. */
+  tela: {
     a: { tela: '6', marca: 'ab-t6' },
     b: { tela: '7', marca: 'ab-t7' },
     c: { tela: '8', marca: 'ab-t8' },

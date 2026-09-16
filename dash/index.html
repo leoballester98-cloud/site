@@ -360,7 +360,12 @@ body{background:var(--bg);color:var(--ink);}
   .lin{display:flex;align-items:center;gap:12px;padding:11px 8px;border-bottom:1px solid var(--linha);font-size:14px;}
   .lin.alerta{background:#fdf0ee;border-radius:8px;}
   .lin.pitch{opacity:.6;}
-  .lin .n{width:26px;color:var(--ink-3);font-size:12.5px;text-align:right;}
+  /* A VSL nao e pergunta: e um video enfiado no meio do funil. Marca em azul
+     pra nao ser lida como "mais uma tela" quando voce bate o olho na lista. */
+  .lin.vsl{background:#eef4fc;border-radius:8px;}
+  .lin.vsl .nome{font-weight:600;color:#1f5fae;}
+  .lin.vsl .n{color:#2a78d6;font-weight:600;width:34px;}
+  .lin .n{width:34px;color:var(--ink-3);font-size:12.5px;text-align:right;}
   .lin .nome{flex:1;}
   .lin .barra{width:32%;height:8px;background:var(--linha);border-radius:5px;overflow:hidden;}
   .lin .barra i{display:block;height:100%;}
@@ -956,26 +961,15 @@ const SUPABASE_URL = 'https://lfmjvgkbvkkexwytkfeg.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_YMHtH3C0VuB5X8BFXADwBw_E7FcBFgE';
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-const TOTAL_TELAS = 34, BODY_INI = 3, BODY_FIM = 29, PITCH = 30, THRESH = 5;
+const BODY_INI = 3, BODY_FIM = 29, PITCH = 30, THRESH = 5;
 const META_CRIATIVOS = 25, MIN_SESSOES = 200, MAX_LINHAS = 6;
 
-const NOMES = ['(abertura/idade)','(prova social)','Seu ciclo menstrual é…',
-'Qual é o seu maior desejo nesse momento?','Em qual área você sente algo travado?',
-'Há quanto tempo está tentando engravidar?','Você nota mudanças no muco ao longo do mês?',
-'Você já notou muco tipo clara de ovo?','Usa sabonete íntimo/ducha/lenços com frequência?',
-'Já mediu a temperatura ao acordar?','Você sabe quando está ovulando?',
-'Sente dor de um lado do ventre no meio do ciclo?','Como você identifica seu período fértil?',
-'Como descreveria seu estresse hoje?','Tem um momento do dia só pra você?',
-'Fica ansiosa quando a menstruação vai chegar?','Intensidade da pressão de engravidar?',
-'Seu humor muda bastante no dia?','Como descreveria seu sono?','Frequência de atividade física?',
-'Como descreveria sua alimentação?','Sente inchaço/cansaço/dores sem causa?',
-'Ainda acredita que vai conseguir engravidar?','Tem prática de meditação/oração/respiração?',
-'Consegue ter momentos de alegria e leveza?','Você se culpa quando o ciclo não vem?',
-'Quantos dias dura seu ciclo?','Quantos dias dura sua menstruação?',
-'Em quantos dias seu desejo sexual aumenta?','(RESULTADO diagnóstico — início do pitch)',
-'Quando começou sua última menstruação?','(loading)','gráfico fascinations','Página de vendas'];
+/* Os nomes das telas saiam daqui — uma lista posicional de 34 itens. Agora
+   moram na tabela `etapas` do Supabase e chegam junto com os números, no
+   mesmo jsonb. Foi o que permitiu encaixar a VSL entre a 13 e a 14 sem
+   editar dois arquivos em sincronia. Ver supabase/13-etapas.sql. */
 
-const PRECO_VENDA = 37.90, PRECO_BUMP = 17.00;
+const PRECO_VENDA = 47.90, PRECO_BUMP = 17.00;
 
 /* Dia da primeira venda registrada. Serve pra uma coisa só: no filtro "todos"
    o período não tem início, e sem início não dá pra pesar quanto dele caiu em
@@ -993,6 +987,12 @@ const PRIMEIRA_VENDA = '2026-06-01';
    bumps lá embaixo dá zero sozinha. Ele repete o valor antigo só pra não virar
    NaN. Quando o bump voltar, ponha aqui o líquido REAL da Kiwify. */
 const TAXAS = [
+  /* 15/09/2026: o preco do produto subiu de 37,90 pra 47,90 dentro da propria
+     Kiwify — mesmos links de checkout. O liquido aqui esta DERIVADO, nao
+     conferido: a faixa de baixo entrega 37,90 -> 32,00, o que da taxa de
+     8,99% + R$2,49. Aplicada em 47,90 da 41,10. Confira na primeira venda
+     real e corrija se vier diferente. */
+  { de: '2026-09-15',    liqVenda: 41.10, liqBump: 15.47 },
   { de: '2026-08-25',    liqVenda: 32.00, liqBump: 15.47 },
   { de: PRIMEIRA_VENDA,  liqVenda: 33.50, liqBump: 14.48 },
 ];
@@ -1222,7 +1222,7 @@ const DICAS = {
 
   'visitantes':            'Sessões que abriram a tela 1. É a base das porcentagens da linha.',
   'tela 1 → tela 2':       'Quem passou da primeira tela.',
-  'chegou ao fim':         'Sessões que alcançaram a tela 34, a última do quiz.',
+  'chegou ao fim':         'Sessões que alcançaram a última tela do quiz.',
   'clicou no checkout':    'Sessões que clicaram em comprar na última tela.',
   'receita':               'Receita do braço, já descontados os reembolsos.',
   'r$/visitante':          'Receita ÷ visitantes. É ela que decide um teste de preço.',
@@ -3854,22 +3854,56 @@ const linhaInfo = (rot, val) =>
   '<span style="font-weight:600;white-space:nowrap;">' + esc(val) + '</span></div>';
 
 // ══════════════════════ FUNIL ══════════════════════
-function calcFunil(d) {
-  const base = (d.etapas.find(e => e.n === 1) || {}).sessoes || 0;
-  const ret = n => base ? Math.round(((d.etapas.find(e => e.n === n) || {}).sessoes / base) * 1000) / 10 : 0;
-  let maiorQueda = { tela: 0, drop: 0 }; const alertas = [];
-  const linhas = d.etapas.map(e => {
-    const r = ret(e.n), rAnt = e.n > 1 ? ret(e.n - 1) : 100;
-    const drop = e.n > 1 ? Math.round((rAnt - r) * 10) / 10 : 0;
-    const corpo = e.n >= BODY_INI && e.n <= BODY_FIM, alerta = corpo && drop > THRESH;
+/* Nome, ordem e tipo de cada etapa saem da tabela `etapas` do Supabase, não
+   mais de uma lista dentro deste arquivo. Era uma lista posicional de 34
+   nomes: encaixar uma VSL no meio do funil exigia mexer aqui E na função SQL,
+   e o primeiro desencontro entre as duas passava despercebido. */
+function calcFunil(d, p) {
+  const ets  = d.etapas || [];
+  const base = (ets.find(e => e.n === 1) || {}).sessoes || 0;
+  const pct  = e => base ? Math.round((e.sessoes / base) * 1000) / 10 : 0;
+
+  /* Etapa que nasceu DEPOIS do começo do período não tem número honesto: o
+     tráfego antigo passou por ali sem que a tela existisse, e ela apareceria
+     quase zerada — como se as pessoas tivessem desistido. Mostra "—". */
+  const cedoDemais = e => !!(e.desde && p && p.de && e.desde > p.de);
+
+  let maiorQueda = { tela: 0, drop: 0 };
+  const alertas = [], linhas = [], vsls = [];
+
+  ets.forEach((e, i) => {
+    const vazio = cedoDemais(e);
+    const r = vazio ? null : pct(e);
+
+    /* A queda compara com a LINHA ANTERIOR da lista, não com `etapa - 1`.
+       É o que deixa a VSL morar entre a 13 e a 14 sem quebrar a conta — e já
+       estava errado antes, só não aparecia porque as etapas eram todas
+       inteiras e seguidas. Linha sem número não serve de referência: nesse
+       caso pula pra última que tinha. */
+    let ref = null;
+    for (let k = i - 1; k >= 0; k--) if (linhas[k].ret !== null) { ref = linhas[k].ret; break; }
+    if (i === 0) ref = 100;
+    const drop = (r === null || ref === null) ? 0 : Math.round((ref - r) * 10) / 10;
+
+    const tela   = e.tipo === 'tela';
+    const corpo  = tela && e.n >= BODY_INI && e.n <= BODY_FIM;
+    const alerta = corpo && drop > THRESH;
     if (corpo && drop > maiorQueda.drop) maiorQueda = { tela: e.n, drop };
     if (alerta) alertas.push(e.n);
-    return { n: e.n, nome: NOMES[e.n - 1] || ('Tela ' + e.n), ret: r, drop, alerta, pitch: e.n >= PITCH };
+
+    const linha = { n: e.n, nome: e.nome || ('Tela ' + e.n), tipo: e.tipo || 'tela',
+                    ret: r, drop, alerta, vazio, pitch: tela && e.n >= PITCH };
+    if (e.tipo === 'vsl' && !vazio) vsls.push(linha);
+    linhas.push(linha);
   });
-  return { linhas, maiorQueda, alertas,
+
+  return { linhas, maiorQueda, alertas, vsls, telas: d.telas || linhas.length,
     pctFim: d.visitantes ? Math.round((d.fim / d.visitantes) * 1000) / 10 : 0,
     pctCompra: d.visitantes ? Math.round((d.compraram / d.visitantes) * 1000) / 10 : 0 };
 }
+
+/* 13 vira "13", 13.5 vira "13.5" — sem 13.0 e sem 13.50. */
+const rotEtapa = n => (Math.round(n) === n ? String(n) : String(n));
 
 async function verFunil() {
   const p = periodo();
@@ -3893,26 +3927,33 @@ async function verFunil() {
     sb.rpc('fn_funil', { p_de:p.de, p_ate:p.ate, p_variantes: v ? [v] : null, p_funil:fu, p_fonte:fo })));
   const errado = res.find(r => r.error); if (errado) throw errado.error;
 
-  const series = res.map((r, i) => ({ nome: alvos[i], dados: r.data, calc: calcFunil(r.data) }));
+  const series = res.map((r, i) => ({ nome: alvos[i], dados: r.data, calc: calcFunil(r.data, p) }));
   const A = series[0].calc, dA = series[0].dados;
   const comparando = series.length > 1;
 
   document.getElementById('conteudo').innerHTML =
     '<div class="kpis">' + kpi('Visitantes', dA.visitantes) + kpi('Chegaram ao fim', A.pctFim + '%') +
       kpi('Conversão do quiz', A.pctCompra + '%') +
-      kpi('Maior queda no corpo', A.maiorQueda.tela ? ('Tela ' + A.maiorQueda.tela) : '—') + '</div>' +
+      kpi('Maior queda no corpo', A.maiorQueda.tela ? ('Tela ' + A.maiorQueda.tela) : '—') +
+      /* Enquanto houver VSL no funil, o numero que importa e o preco dela:
+         quanto do funil ela custa. Sem isso voce leria a queda na lista e
+         compararia de cabeca com o que era antes. */
+      A.vsls.map(v => kpi('Custo da ' + v.nome.replace(/^\u25b6\s*/, '').split(' \u00b7 ')[0], v.drop + ' pts')).join('') +
+      '</div>' +
     (A.alertas.length ? '<div class="alerta-box">⚠ ' + A.alertas.length + ' tela(s) do corpo com queda acima de ' +
         THRESH + ' pts: <b>tela ' + A.alertas.join(', ') + '</b>. Vale revisar a pergunta.</div>' : '') +
-    '<div class="curva"><div class="cab"><span>Retenção do funil</span><span style="color:#5f8a72;">' + TOTAL_TELAS + ' telas</span></div>' +
+    '<div class="curva"><div class="cab"><span>Retenção do funil</span><span style="color:#5f8a72;">' + A.telas + ' telas</span></div>' +
       '<div class="cvFunil"><canvas id="cv"></canvas></div></div>' +
     (comparando ? cardComparacao(series, rotulo) : '') +
     '<div class="card"><div class="sec">Etapas do Quiz</div>' + A.linhas.map(l =>
-      '<div class="lin' + (l.alerta ? ' alerta' : '') + (l.pitch ? ' pitch' : '') + '">' +
-        '<span class="n">' + l.n + '</span><span class="nome">' + esc(l.nome) + '</span>' +
-        '<span class="barra"><i style="width:' + l.ret + '%;background:' + (l.alerta ? '#d84a3a' : l.pitch ? '#9a9a9a' : '#6b9e7e') + ';"></i></span>' +
-        '<span class="pct">' + l.ret + '%</span>' +
-        '<span class="queda' + (l.alerta ? ' on' : '') + '">' + (l.n > 1 && l.drop > 0 ? (l.alerta ? '▼ ' : '-') + l.drop + ' pts' : '') + '</span>' +
+      '<div class="lin' + (l.alerta ? ' alerta' : '') + (l.pitch ? ' pitch' : '') + (l.tipo === 'vsl' ? ' vsl' : '') + '">' +
+        '<span class="n">' + rotEtapa(l.n) + '</span><span class="nome">' + esc(l.nome) + '</span>' +
+        '<span class="barra">' + (l.vazio ? '' : '<i style="width:' + l.ret + '%;background:' +
+          (l.alerta ? '#d84a3a' : l.tipo === 'vsl' ? '#2a78d6' : l.pitch ? '#9a9a9a' : '#6b9e7e') + ';"></i>') + '</span>' +
+        '<span class="pct">' + (l.vazio ? '—' : l.ret + '%') + '</span>' +
+        '<span class="queda' + (l.alerta ? ' on' : '') + '">' + (!l.vazio && l.n > 1 && l.drop > 0 ? (l.alerta ? '▼ ' : '-') + l.drop + ' pts' : '') + '</span>' +
       '</div>').join('') +
+      (A.linhas.some(l => l.vazio) ? '<div class="nota">As linhas com “—” são etapas que ainda não existiam no começo do período escolhido. Filtre a partir da data em que a etapa entrou no ar pra ver o número dela.</div>' : '') +
       (comparando ? '<div class="nota">Esta lista e os KPIs mostram só ' + esc(rotulo(series[0].nome)) + '. A comparação está no gráfico e no quadro acima.</div>' : '') +
     '</div>';
 
@@ -3924,12 +3965,12 @@ async function verFunil() {
     /* Sombra sob cada linha também na comparação. Com cinco áreas empilhadas o
        alpha tem que ser baixo, senão vira lama e some justamente a leitura que
        a sombra existe pra dar: o quanto de funil sobrou embaixo de cada uma. */
-    ? series.map((s, i) => ({ label: rotulo(s.nome), data: s.calc.linhas.map(l => l.ret),
+    ? series.map((s, i) => ({ label: rotulo(s.nome), data: s.calc.linhas.map(l => l.ret), spanGaps: true,
         borderColor: CORES_L[i % CORES_L.length],
         backgroundColor: CORES_L[i % CORES_L.length] + '1f',
         borderWidth:2, fill:true, tension:.4, pointRadius:0, pointHoverRadius:5 }))
-    : [{ data: A.linhas.map(l => l.ret), borderColor:'#35d07f', borderWidth:2, backgroundColor:g, fill:true, tension:.4, pointRadius:0, pointHoverRadius:5 }];
-  graficos.push(new Chart(ctx, { type:'line', data:{ labels:A.linhas.map(l => l.n), datasets },
+    : [{ data: A.linhas.map(l => l.ret), spanGaps: true, borderColor:'#35d07f', borderWidth:2, backgroundColor:g, fill:true, tension:.4, pointRadius:0, pointHoverRadius:5 }];
+  graficos.push(new Chart(ctx, { type:'line', data:{ labels:A.linhas.map(l => rotEtapa(l.n)), datasets },
     /* Sem isto o hover não pegava nunca: o padrão do Chart.js exige acertar o
        PONTO, e pointRadius é 0, então não havia ponto pra acertar. Com index e
        intersect false, passar o mouse em qualquer altura da coluna abre todas
@@ -3937,7 +3978,7 @@ async function verFunil() {
     options:{ responsive:true, maintainAspectRatio:false,
       interaction:{ mode:'index', intersect:false },
       plugins:{ legend:{ display:comparando, labels:{ color:'#cfe5d8', boxWidth:12, boxHeight:2 } },
-        tooltip:{ callbacks:{ title:t => 'Tela ' + A.linhas[t[0].dataIndex].n + ' — ' + A.linhas[t[0].dataIndex].nome,
+        tooltip:{ callbacks:{ title:t => (A.linhas[t[0].dataIndex].tipo === 'vsl' ? '' : 'Tela ' + rotEtapa(A.linhas[t[0].dataIndex].n) + ' — ') + A.linhas[t[0].dataIndex].nome,
           label:c => (comparando ? c.dataset.label + ': ' : '') + c.parsed.y + '% ainda no funil' } } },
       scales:{ y:{ min:0, max:100, ticks:{ color:'#6b8f7b', callback:v => v + '%' }, grid:{ color:tok('--curva-grade') } },
                x:{ ticks:{ color:'#6b8f7b', maxTicksLimit:10 }, grid:{ display:false } } } } }));

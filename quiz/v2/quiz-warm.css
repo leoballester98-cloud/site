@@ -4480,3 +4480,30 @@ body.marca-solta:has(#s1.screen.active) .header__inner::after {
   #s1.s1-alt.active .terms { font-size: 9px; }
   .t-alt { gap: 8px; }
 }
+
+/* ═══ VSL 1 · tela 14 ════════════════════════════════════════════════════
+   A caixa reserva o espaço do player ANTES de ele carregar. Sem isso a tela
+   nasce curta, o VTurb injeta o iframe e tudo pula pra baixo — a pessoa está
+   lendo o título quando o chão se move.
+   9/16 porque a VSL 1 é vertical (480×848). Se um dia a VSL for horizontal,
+   troque o aspect-ratio aqui e mais nada. */
+#svsl1{ --vsl-fora:234px; }  /* sem CTA fixo: so header + titulo */
+#svsl1 .vsl-box{
+  /* A largura sai da altura disponivel, nao o contrario. Se eu fixasse
+     width:100% + max-height, em tela curta o 9/16 quebrava e o player
+     entrava letterboxado dentro de uma caixa quase quadrada. */
+  width:min(100%, 420px, calc((100svh - var(--vsl-fora)) * 9 / 16));
+  aspect-ratio:9/16; margin:0 auto;
+  border-radius:14px; overflow:hidden; background:#0d1b14;
+  box-shadow:0 6px 24px rgba(0,0,0,.18);
+}
+#svsl1 .vsl-box > *{ width:100%; height:100%; display:block; }
+#svsl1 .vsl-box iframe{ border:0; }
+/* O clamp anterior tinha 5.2vw e num celular de 390px dava 20px — MENOR que
+   os 24px de todo titulo do quiz. Agora 24px e o piso, nao o teto. */
+#svsl1 .q-title{ font-size:clamp(24px,7.4vw,32px); margin:10px auto 16px; }
+@media (max-height:640px){ #svsl1 .q-title{ font-size:24px; margin-bottom:10px; } }
+#svsl1 .vsl-vazio{
+  display:flex; align-items:center; justify-content:center; text-align:center;
+  color:#7fae97; font-size:13px; padding:20px;
+}

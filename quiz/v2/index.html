@@ -56,7 +56,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"/>
-  <link rel="stylesheet" href="quiz-warm.css?v=279"/>
+  <link rel="stylesheet" href="quiz-warm.css?v=283"/>
 
   <!-- Anti-flicker do teste A/B.
        O script que troca a headline mora no fim do <body>, então num aparelho
@@ -400,6 +400,32 @@
         </div>
         <div class="imgbox imgbox--row"><img loading="lazy" src="Images/essa1.webp" alt="App de fertilidade"></div>
       </button>
+    </div>
+  </section>
+
+  <!-- ⚠ DESLIGADA ate o video chegar. A tela existe e funciona, mas nenhum
+       botao aponta pra ela: a s18 volta a mandar direto pra s19. Pra ligar,
+       trocar os data-next="s19" da s18 por data-next="svsl1" e colar o embed
+       do VTurb la dentro. Ficou no ar desligada porque a correcao de preco
+       (37,90 -> 47,90) nao podia esperar o video. -->
+  <!-- ═══════ 14. VSL 1 · O MECANISMO ═══════
+       Entra aqui, e nao na tela 2, por um motivo medido: o funil perde 40 a 60%
+       entre a primeira e a segunda tela e quase nada depois disso. O alcance na
+       2 e na 14 e quase o mesmo, entao a escolha passou a ser por qualidade —
+       aqui ela ja respondeu treze telas e o video pode devolver o que ela
+       marcou.
+
+       O player e o VTurb: autoplay, som e o momento de mostrar o botao sao
+       configurados no painel dele, nao aqui. Por isso a tela leva
+       data-cta="hidden" — o CONTINUAR do rodape nao aparece, quem libera a
+       passagem e o botao do VTurb. Ele precisa apontar pra goToScreen('s19').
+       Este arquivo so reserva o espaco e mantem a proporcao, pra pagina nao
+       pular quando o player carrega. -->
+  <section class="screen" id="svsl1" data-step="13" data-etapa="36" data-section="SINAIS DO CICLO" data-icon="cycle" data-cta="hidden">
+    <h2 class="q-title" style="margin-bottom:14px;">Antes de continuar, assista</h2>
+    <div class="vsl-box">
+      <!-- COLE AQUI O EMBED DO VTURB -->
+      <div class="vsl-vazio">O player do VTurb entra aqui</div>
     </div>
   </section>
 
@@ -864,7 +890,7 @@
         </div>
         <div class="plan-card__pill">
           <span class="plan-card__pill-old">R$188</span>
-          <span class="plan-card__pill-num">37<sup style="font-size:0.55em;">,90</sup></span>
+          <span class="plan-card__pill-num">47<sup style="font-size:0.55em;">,90</sup></span>
           <span class="plan-card__pill-label">único</span>
         </div>
         <span class="plan-card__badge">Acesso imediato e vitalício</span>
@@ -1301,7 +1327,11 @@ const LINKS = {
                 f3:'https://pay.kiwify.com.br/YtF2ys3', f4:'https://pay.kiwify.com.br/eC4iXQ7' },
   },
 };
-const PRECOS = { '38': ['37', ',90'], '68': ['67', ',90'] };
+/* A chave '38' continua '38' de proposito: ela e o nome do braco no
+   localStorage e a marca que vai pro dash. Trocar pra '48' reembaralharia
+   quem ja esta no teste e partiria a serie historica no painel. O que mudou
+   foi so o preco dentro do produto da Kiwify — o link e o mesmo. */
+const PRECOS = { '38': ['47', ',90'], '68': ['67', ',90'] };
 
 /* As variantes de cartao com foto dividem o MESMO layout de propósito: a
    headline é a única coisa que muda entre elas, e é ela que o teste mede.
@@ -1777,7 +1807,15 @@ function showScreen(id) {
   if (history[history.length-1] !== id) history.push(id);
   updateChrome(id);
   showFooter(id);
-  trackEtapa(el.dataset.step, id);
+  /* Duas coisas diferentes que antes eram a mesma: o passo que a pessoa VE
+     (data-step, que move a barra de progresso) e o numero que vai pro BANCO
+     (data-etapa). A VSL mostra "Passo 13" pra barra nao andar pra tras, mas
+     grava 36 — um numero novo, fora da faixa 1..34 das telas e longe do 35,
+     que e o clique em comprar. Assim nenhuma etapa antiga muda de significado
+     e o funil de antes e depois da VSL continua comparavel.
+     Onde ela aparece no painel quem decide e a tabela `etapas` do Supabase,
+     que poe o 36 na posicao 13.5 — entre a 13 e a 14. */
+  trackEtapa(el.dataset.etapa || el.dataset.step, id);
 
   if (id === 's25') showIQO();
   if (id === 's27') startLoading();

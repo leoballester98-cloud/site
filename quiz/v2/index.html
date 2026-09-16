@@ -56,7 +56,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"/>
-  <link rel="stylesheet" href="quiz-warm.css?v=265"/>
+  <link rel="stylesheet" href="quiz-warm.css?v=272"/>
 
   <!-- Anti-flicker do teste A/B.
        O script que troca a headline mora no fim do <body>, então num aparelho
@@ -174,11 +174,7 @@
          ocupam juntos. As quatro cenas da referência vêm montadas dentro do
          arquivo, com as divisões desenhadas. -->
     <div class="t-alt" id="tela8" hidden>
-      <div class="t8-prova">
-        <div class="t8-par">
-          <img id="t8Img" src="Images/idade-18-25.webp" alt="" decoding="async" loading="eager"/>
-        </div>
-      </div>
+      <div class="t8-prova" id="t8Prova"></div>
       <p class="t-micro" id="t8Micro"></p>
       <button class="t-cta t-cta--verde" id="t8Cta" type="button"></button>
     </div>
@@ -1370,8 +1366,12 @@ const TELAS = {
   },
   '8': {
     grade: 'botao',
-    titulo: '<span class="t8-selo">URGENTE:</span> <mark>MÉTODO CASEIRO</mark> ESTÁ FAZENDO MULHERES ENGRAVIDAREM SEM FILA DE FIV E SEM HORMÔNIO <mark>EM 1 CICLO</mark>.',
+    titulo: '<span class="t8-selo">URGENTE:</span> <mark>RITUAL DE 10 MINUTOS</mark> ESTÁ RELIGANDO A OVULAÇÃO E FAZENDO MULHERES ENGRAVIDAREM NA PRÓXIMA TENTATIVA',
     sub: 'Responda este teste gratuito e receba o protocolo personalizado para o seu tipo de bloqueio fértil, pra destravar a sua ovulação e chegar no positivo.',
+    /* Dois blocos empilhados, como na referencia: cada um e UMA imagem, com a
+       divisao ja desenhada dentro do arquivo. As imagens moram aqui porque sao
+       o que mais vai ser trocado. */
+    provas: ['Images/t8-prova-1.webp', 'Images/t8-prova-2.webp'],
     micro: '👉 Clique no botão e complete o teste em 54 segundos —',
     cta: 'FAZER TESTE GRÁTIS AGORA!'
   }
@@ -1496,6 +1496,13 @@ function montarCarrossel(slides) {
       }
 
       if (molde.slides) montarCarrossel(molde.slides);
+      if (molde.provas) {
+        const box = document.getElementById('t8Prova');
+        if (box) box.innerHTML = molde.provas.map(function (src, k) {
+          return '<div class="t8-par"><img src="' + src + '" alt="" decoding="async" loading="' +
+                 (k ? 'lazy' : 'eager') + '"/></div>';
+        }).join('');
+      }
       if (molde.micro) {
         const mic = document.getElementById('t8Micro');
         if (mic) mic.innerHTML = molde.micro;

@@ -4164,10 +4164,15 @@ body.marca-solta:has(#s1.screen.active) .header__inner::after {
   border-radius: 4px;
   display: inline-block;
 }
-.t8-prova { display: flex; flex-direction: column; gap: 12px; }
+.t8-prova { display: flex; flex-direction: column; gap: 10px; }
 .t8-par {
   display: block;
-  aspect-ratio: var(--prova-ar);
+  /* 3:1 e nao os 2:1 das outras telas: aqui sao DOIS blocos empilhados, e a
+     2:1 cada um eles somam a largura inteira em altura. Nao cabe, a trava
+     espreme os dois, e a imagem chegava a render em 4,25:1 num aparelho baixo
+     — decapitando quem estivesse na foto. Com 3:1 o conjunto pede um terco a
+     menos de altura e o corte quase some. */
+  aspect-ratio: 3 / 1;
   border: 3px solid var(--green-d);
   border-radius: 8px;
   overflow: hidden;

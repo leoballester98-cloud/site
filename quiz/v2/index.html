@@ -56,7 +56,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"/>
-  <link rel="stylesheet" href="quiz-warm.css?v=273"/>
+  <link rel="stylesheet" href="quiz-warm.css?v=279"/>
 
   <!-- Anti-flicker do teste A/B.
        O script que troca a headline mora no fim do <body>, então num aparelho
@@ -1339,7 +1339,7 @@ const TELAS = {
     sub: 'Responda ao questionário e receba seu plano personalizado.<br><b>Escolha sua idade para começar 👇</b>'
   },
   '7': {
-    grade: 'botao',
+    grade: 'pular',
     subAbaixo: true,
     /* <u> no desejo, <mark> no mecanismo. O <b> que estava aqui nao aparecia:
        a headline inteira era peso 800 e nao sobrava contraste pro negrito. */
@@ -1353,7 +1353,7 @@ const TELAS = {
        aqui, num lugar so, porque e o que vai ser trocado com mais frequencia. */
     slides: [
       { img: 'Images/antes-depois.webp' },
-      { img: 'Images/gancho-bebe.webp' }
+      { img: 'Images/gancho-bebe-v2.webp' }
     ],
     /* O sub afia a headline em vez de competir com ela: o titulo manda desligar
        o modo sobrevivencia, e aqui ela ve onde ele esta e como desliga. O sub
@@ -1365,7 +1365,11 @@ const TELAS = {
     cta: 'FAZER O TESTE GRÁTIS'
   },
   '8': {
-    grade: 'botao',
+    /* 'pular' e nao 'botao': aqui o botao vai direto pra tela 2, sem revelar a
+       grade de idade. A resposta de idade nao alimenta nada no plano — ela so
+       e gravada — entao pular nao quebra o funil, e a contagem de etapas
+       continua a mesma das outras variantes. */
+    grade: 'pular',
     titulo: '<span class="t8-selo">URGENTE:</span> <mark>RITUAL DE 10 MINUTOS</mark> ESTÁ RELIGANDO A OVULAÇÃO E FAZENDO MULHERES ENGRAVIDAREM NA PRÓXIMA TENTATIVA',
     sub: 'Responda este teste gratuito e receba o protocolo personalizado para o seu tipo de bloqueio fértil, pra destravar a sua ovulação e chegar no positivo.',
     /* Dois blocos empilhados, como na referencia: cada um e UMA imagem, com a
@@ -1511,6 +1515,12 @@ function montarCarrossel(slides) {
       const grade = document.getElementById('ageGrid');
       if (molde.grade === 'direta') {
         if (grade) grade.hidden = false;
+      } else if (molde.grade === 'pular') {
+        const btn = document.getElementById('t' + TELA + 'Cta');
+        if (btn) {
+          btn.textContent = molde.cta;
+          btn.addEventListener('click', function () { goToScreen('s2'); });
+        }
       } else {
         const btn = document.getElementById('t' + TELA + 'Cta');
         if (btn) {

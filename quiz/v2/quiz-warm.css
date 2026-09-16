@@ -4271,9 +4271,20 @@ body.marca-solta:has(#s1.screen.active) .header__inner::after {
      botao — continua travado em 600px e centralizado, que e a coluna que o
      empilhamento pede. */
   #s1.s1-alt { max-width: 840px; }
+  /* O 'width: 100%' e obrigatorio junto das margens automaticas: num flex, a
+     margem auto no eixo transversal faz o item encolher pro tamanho do
+     conteudo em vez de esticar. Num paragrafo isso nao aparece — o texto quebra
+     no max-width e parece certo. Numa grade de '1fr 1fr' as colunas encolhem
+     junto, e a grade da tela 6 ficava com 357px enquanto todo o resto tinha
+     600. */
   #s1.s1-alt > .t-alt,
   #s1.s1-alt > .age-grid,
-  #s1.s1-alt > .terms { max-width: 600px; margin-left: auto; margin-right: auto; }
+  #s1.s1-alt > .terms {
+    width: 100%;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
 
   /* 38px e o tamanho do titulo na tela original, medido nela. A caixa passa dos
      600px da coluna de propósito: o alvo e a headline caber em TRES linhas, e
@@ -4407,7 +4418,11 @@ body.marca-solta:has(#s1.screen.active) .header__inner::after {
      conteudo e entram na conta. */
   #s1.s1-alt.active .terms {
     position: static;
-    margin: 0;
+    /* 'margin: 0' zerava as margens automaticas e o bloco encostava na esquerda
+       da secao, enquanto imagem, subtitulo e botao seguiam centrados nos 600px.
+       No desktop, onde a secao e mais larga que a coluna, a diferenca apareceu
+       como um texto torto embaixo do botao. */
+    margin: 0 auto;
     padding: 6px 0 0;
     background: none;
     border-top: 0;

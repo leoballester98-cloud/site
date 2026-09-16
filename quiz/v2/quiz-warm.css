@@ -4413,7 +4413,16 @@ body.marca-solta:has(#s1.screen.active) .header__inner::after {
   #s1.s1-alt.active .t8-par { flex: 0 1 auto; min-height: 0; }
   /* A sobra que a imagem nao come mais vira respiro entre os blocos, em vez de
      empilhar tudo no topo e deixar um buraco embaixo. */
-  #s1.s1-alt.active { justify-content: center; gap: 2px; }
+  /* 'safe center' e nao 'center': centralizado puro, quando o conteudo passa da
+     altura, vaza pelos DOIS lados — e o topo entra embaixo do cabecalho fixo.
+     O 'safe' centraliza enquanto cabe e vira flex-start na hora que nao cabe,
+     entao a primeira linha do titulo nunca some. O flex-start antes dele e o
+     que segura navegador que ainda nao entende 'safe'. */
+  #s1.s1-alt.active {
+    justify-content: flex-start;
+    justify-content: safe center;
+    gap: 2px;
+  }
   #s1.s1-alt.active .t8-prova { display: flex; flex-direction: column; }
 
   /* O texto de termos vira barra FIXA no rodape abaixo de 480px — regra antiga,

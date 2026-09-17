@@ -4044,7 +4044,11 @@ body.marca-solta:has(#s1.screen.active) .header__inner::after {
 }
 /* 'center 22%' e nao o centro: o corte 4:3 numa foto retrato come a cabeca se
    ancorar no meio. Puxar pra cima mantem o rosto sempre no quadro. */
-.t6-hero img { width: 100%; height: 100%; object-fit: cover; object-position: center 22%; display: block; }
+/* Foto do teste Clearblue. Recortada em 2:1 com o sorriso e o teste inteiros.
+   Em tela curta a moldura estica (ate ~3:1) e o cover corta em cima e embaixo:
+   o 85% empurra o corte pra cima, porque o que nao pode sumir e o visor
+   "Gravida" do teste — o rosto aguenta perder os olhos, o gancho nao. */
+.t6-hero img { width: 100%; height: 100%; object-fit: cover; object-position: center 85%; display: block; }
 
 .t6-bullets { list-style: none; display: flex; flex-direction: column; gap: 10px; margin: 2px 0; }
 .t6-bullets li {

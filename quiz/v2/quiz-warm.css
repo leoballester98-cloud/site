@@ -4511,3 +4511,42 @@ body.marca-solta:has(#s1.screen.active) .header__inner::after {
   display:flex; align-items:center; justify-content:center; text-align:center;
   color:#7fae97; font-size:13px; padding:20px;
 }
+
+/* ═══ Escada de tres planos na tela final ══════════════════════════════════
+   O card unico virou tres. A coluna da direita mostra o valor por dia, que e
+   o que faz a comparacao acontecer: o plano mais caro no total e o mais
+   barato por dia, e e esse numero que justifica subir na escada. */
+.plans--tri { gap: 12px; }
+.plans--tri .plan-card { grid-template-columns: 22px 1fr auto; padding: 13px 14px; }
+.plan-card__preco { display: flex; align-items: baseline; gap: 7px; margin-top: 2px; }
+.plan-card__old2 { font-size: 12.5px; color: var(--ink-mute); text-decoration: line-through; }
+.plan-card__now  { font-size: 17px; font-weight: 800; color: var(--ink); }
+.plan-card__acesso { font-size: 11px; color: var(--ink-mute); margin-top: 3px; }
+.plan-card__day { text-align: right; line-height: 1.12; white-space: nowrap; }
+.plan-card__day b { display: block; font-size: 19px; font-weight: 800; color: var(--blue-d); }
+.plan-card__day span { font-size: 10.5px; color: var(--ink-mute); }
+
+/* A faixa fica ACIMA do card, colada nele. A margem no card abre o espaco
+   dela, senao a faixa sobe por cima do card anterior. */
+.plan-card--pop { margin-top: 26px; }
+.plan-card__ribbon {
+  position: absolute; left: -1.5px; right: -1.5px; top: -23px; height: 23px;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--blue-d); color: #fff;
+  font-size: 10.5px; font-weight: 800; letter-spacing: .07em;
+  border-radius: 10px 10px 0 0;
+}
+.plan-card--pop.selected { border-color: var(--blue-d); }
+
+@media (max-width: 360px) {
+  .plans--tri .plan-card { padding: 12px 11px; gap: 9px; }
+  .plan-card__now { font-size: 16px; }
+  .plan-card__day b { font-size: 17px; }
+}
+
+/* A frase do foco, logo acima da escada de planos. */
+.plans-foco {
+  font-size: 13.5px; line-height: 1.45; color: var(--ink-soft);
+  text-align: center; margin: 0 0 12px;
+}
+.plans-foco b { color: var(--ink); font-weight: 800; }

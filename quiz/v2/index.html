@@ -56,7 +56,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"/>
-  <link rel="stylesheet" href="quiz-warm.css?v=284"/>
+  <link rel="stylesheet" href="quiz-warm.css?v=286"/>
 
   <!-- Anti-flicker do teste A/B.
        O script que troca a headline mora no fim do <body>, então num aparelho
@@ -881,19 +881,45 @@
 
     <div class="price-meta" style="display:none;"></div>
 
-    <div class="plans">
-      <div class="plan-card selected" data-plan="full">
+    <!-- A escada de tres planos. Cada card carrega em data-* o que o resto da
+         tela precisa: quantas semanas, qual tier (que escolhe o link) e o
+         texto de acesso. Quem marca o card e ela, entao nome do plano,
+         entrega e data projetada passam a seguir a escolha, nao o calculo
+         do quiz. O do meio nasce marcado. -->
+    <!-- O foco nao e escolha dela, a duracao e. Separar as duas numa frase
+         evita que os tres cards pareçam tres produtos diferentes: eles sao o
+         mesmo plano, em tres tamanhos. -->
+    <p class="plans-foco">Seu plano tem foco em <b id="planoFoco">Sinais do Ciclo</b>. Escolha a duração:</p>
+    <div class="plans plans--tri">
+      <div class="plan-card" data-tier="essencial" data-semanas="4">
         <div class="plan-card__radio"></div>
         <div class="plan-card__body">
-          <div class="plan-card__name" id="planCardName">PROTOCOLO COMPLETO</div>
-          <div class="plan-card__discount" id="planCardDesc"></div>
+          <div class="plan-card__name">Plano de 4 Semanas</div>
+          <div class="plan-card__preco"><span class="plan-card__old2">R$99,00</span> <span class="plan-card__now">R$49,90</span></div>
+          <div class="plan-card__acesso">acesso ao app pelas 4 semanas</div>
         </div>
-        <div class="plan-card__pill">
-          <span class="plan-card__pill-old">R$188</span>
-          <span class="plan-card__pill-num">47<sup style="font-size:0.55em;">,90</sup></span>
-          <span class="plan-card__pill-label">único</span>
+        <div class="plan-card__day"><b>R$1,78</b><span>por dia</span></div>
+      </div>
+
+      <div class="plan-card plan-card--pop selected" data-tier="avancado" data-semanas="8">
+        <div class="plan-card__ribbon">MAIS POPULAR</div>
+        <div class="plan-card__radio"></div>
+        <div class="plan-card__body">
+          <div class="plan-card__name">Plano de 8 Semanas</div>
+          <div class="plan-card__preco"><span class="plan-card__old2">R$139,00</span> <span class="plan-card__now">R$69,90</span></div>
+          <div class="plan-card__acesso">acesso ao app pelas 8 semanas</div>
         </div>
-        <span class="plan-card__badge">Acesso imediato e vitalício</span>
+        <div class="plan-card__day"><b>R$1,25</b><span>por dia</span></div>
+      </div>
+
+      <div class="plan-card" data-tier="imersao" data-semanas="12">
+        <div class="plan-card__radio"></div>
+        <div class="plan-card__body">
+          <div class="plan-card__name">Plano de 12 Semanas</div>
+          <div class="plan-card__preco"><span class="plan-card__old2">R$199,00</span> <span class="plan-card__now">R$99,00</span></div>
+          <div class="plan-card__acesso">acesso ao app pelas 12 semanas</div>
+        </div>
+        <div class="plan-card__day"><b>R$1,18</b><span>por dia</span></div>
       </div>
     </div>
 
@@ -1249,10 +1275,6 @@ const EXPERIMENTOS = {
     a: { tela: '3',        marca: 'ab-h3'   },
     b: { tela: 'original', marca: 'ab-orig' },
   },
-  preco: {
-    a: { preco: '38', marca: 'preco-38' },
-    b: { preco: '68', marca: 'preco-68' },
-  },
   /* Os moldes novos de primeira tela, o trafego dividido por igual entre eles.
      Sem braco de controle de proposito: o que este teste responde e qual dos
      moldes ganha. Comparar o vencedor com a campea de hoje e outro teste,
@@ -1303,35 +1325,24 @@ const AB = (function () {
    `AB.tela &&` em vez de `AB &&`, senao o teste de preco zeraria a tela. */
 const TELA = (AB && AB.tela) ? AB.tela
   : ((new URLSearchParams(location.search).get('h') || '0').replace(/[^a-zA-Z0-9_-]/g, '').slice(0, 20)) || '0';
-const PRECO = (AB && AB.preco) ? AB.preco : '38';
 const VARIANTE = AB ? AB.marca : TELA;
 
 /* Os dois conjuntos de link. A pilula de preco na tela do plano troca junto,
    la embaixo: se ela ficasse em 37,90 e o checkout abrisse em 67,90, o teste
    mediria o susto, nao o preco. */
+/* Um conjunto so. Antes eram dois, '38' e '68', porque rodava um teste de
+   preco; agora o preco e a duracao que ela escolhe no card, entao o unico
+   eixo que sobra e o foco (o pilar mais fraco dela), que escolhe qual link
+   dentro do plano de 8 ou 12 semanas.
+   f1 = Sinais do Ciclo, f2 = Emocional, f3 = Organismo, f4 = Proposito. */
 const LINKS = {
-  '38': {
-    essencial: 'https://pay.kiwify.com.br/dALiRrx',
-    avancado: { f1:'https://pay.kiwify.com.br/seFcrbR', f2:'https://pay.kiwify.com.br/3GoRfIR',
-                f3:'https://pay.kiwify.com.br/fPNitik', f4:'https://kiwify.app/J9qP1Qt' },
-    imersao:  { f1:'https://pay.kiwify.com.br/Se1kK9E', f2:'https://pay.kiwify.com.br/t3YYv6L',
-                f3:'https://pay.kiwify.com.br/8zYV8Qn', f4:'https://pay.kiwify.com.br/8ACzRLE' },
-  },
-  /* f1 = Sinais do Ciclo, f2 = Emocional, f3 = Organismo, f4 = Proposito —
-     a mesma ordem que o cartao do plano mostra pra pessoa. */
-  '68': {
-    essencial: 'https://pay.kiwify.com.br/UpC3zms',
-    avancado: { f1:'https://pay.kiwify.com.br/5DitVFD', f2:'https://pay.kiwify.com.br/l5H4n3S',
-                f3:'https://pay.kiwify.com.br/i2HZnFo', f4:'https://pay.kiwify.com.br/1gGJTyF' },
-    imersao:  { f1:'https://pay.kiwify.com.br/u5C55hA', f2:'https://pay.kiwify.com.br/HGaIecZ',
-                f3:'https://pay.kiwify.com.br/YtF2ys3', f4:'https://pay.kiwify.com.br/eC4iXQ7' },
-  },
+  essencial: 'https://pay.kiwify.com.br/dALiRrx',
+  avancado: { f1:'https://pay.kiwify.com.br/seFcrbR', f2:'https://pay.kiwify.com.br/3GoRfIR',
+              f3:'https://pay.kiwify.com.br/fPNitik', f4:'https://pay.kiwify.com.br/YAzMnBe' },
+  imersao:  { f1:'https://pay.kiwify.com.br/Se1kK9E', f2:'https://pay.kiwify.com.br/t3YYv6L',
+              f3:'https://pay.kiwify.com.br/8zYV8Qn', f4:'https://pay.kiwify.com.br/8ACzRLE' },
 };
-/* A chave '38' continua '38' de proposito: ela e o nome do braco no
-   localStorage e a marca que vai pro dash. Trocar pra '48' reembaralharia
-   quem ja esta no teste e partiria a serie historica no painel. O que mudou
-   foi so o preco dentro do produto da Kiwify — o link e o mesmo. */
-const PRECOS = { '38': ['47', ',90'], '68': ['67', ',90'] };
+
 
 /* As variantes de cartao com foto dividem o MESMO layout de propósito: a
    headline é a única coisa que muda entre elas, e é ela que o teste mede.
@@ -1404,7 +1415,11 @@ const TELAS = {
        continua a mesma das outras variantes. */
     grade: 'pular',
     titulo: '<span class="t8-selo">URGENTE:</span> <mark>RITUAL DE 10 MINUTOS</mark> ESTÁ RELIGANDO A OVULAÇÃO E FAZENDO MULHERES ENGRAVIDAREM NA PRÓXIMA TENTATIVA',
-    sub: 'Responda este teste gratuito e receba o protocolo personalizado para o seu tipo de bloqueio fértil, pra destravar a sua ovulação e chegar no positivo.',
+    /* O sub antigo trazia bloqueio fertil e protocolo, dois conceitos que o
+       titulo nao tinha: eram quatro ideias (ritual, ovulacao, bloqueio,
+       protocolo) em menos de 40 palavras. Agora ele repete as duas do titulo
+       e promete so a resposta do teste, que e o degrau. */
+    sub: 'Faça o teste gratuito e veja qual ritual de 10 minutos religa a sua ovulação.',
     /* Dois blocos empilhados, como na referencia: cada um e UMA imagem, com a
        divisao ja desenhada dentro do arquivo. As imagens moram aqui porque sao
        o que mais vai ser trocado. */
@@ -1604,15 +1619,6 @@ function montarCarrossel(slides) {
   }
 })();
 
-/* A pílula de preço na tela do plano. Roda aqui, no carregamento, e não junto
-   com a troca dos links: a tela do plano só é montada lá no fim do quiz, mas o
-   elemento já existe no HTML desde o início — e trocar cedo evita depender da
-   ordem em que as telas são preparadas. */
-(function () {
-  const p = PRECOS[PRECO];
-  const pill = document.querySelector('.plan-card__pill-num');
-  if (p && pill) pill.innerHTML = p[0] + '<sup style="font-size:0.55em;">' + p[1] + '</sup>';
-})();
 
 // Envia o ping de rastreamento por dois caminhos independentes pra maximizar
 // a entrega em navegadores internos de app (Instagram/Facebook/iOS), onde o
@@ -1840,75 +1846,66 @@ function showScreen(id) {
       const cicloEl = document.getElementById('cicloTipo');
       if (cicloEl) cicloEl.textContent = cicloMap[answers.s2] || 'Regular';
     })();
-    // Calcula duração do programa: dias de hoje até a 1ª janela fértil após o plano
-    (function() {
-      const { fertileStart, fertileEnd } = calcFertileWindow();
-      const today = new Date();
-      today.setHours(0,0,0,0);
-      const dias = Math.round((fertileStart - today) / (1000 * 60 * 60 * 24));
-      const el = document.getElementById('programaDias');
-      if (el) el.textContent = dias > 0 ? dias : getProtocolWeeks() * 7;
-
-      // Exibe a janela fértil calculada
-      const MONTHS_PT = ['janeiro','fevereiro','março','abril','maio','junho',
-                         'julho','agosto','setembro','outubro','novembro','dezembro'];
-      const insightEl     = document.getElementById('fertileInsight');
-      const insightDateEl = document.getElementById('fertileInsightDate');
-      if (insightEl && insightDateEl) {
-        const fsStr = `${fertileStart.getDate()} de ${MONTHS_PT[fertileStart.getMonth()]}`;
-        const feStr = `${fertileEnd.getDate()} de ${MONTHS_PT[fertileEnd.getMonth()]} de ${fertileEnd.getFullYear()}`;
-        insightDateEl.textContent = `${fsStr} a ${feStr}`;
-        insightEl.style.display = 'flex';
-      }
-    })();
-    // Atualiza todos os links de checkout e nome do plano dinamicamente
-    (function() {
-      const code = getCheckoutLink();
-      const url = code;
-      document.querySelectorAll('a[href*="kiwify"]').forEach(el => {
-        el.href = url;
-      });
-
-      const cycles = getProtocolCycles();
-      const f = window.__iqoFactors || { f1: 50, f2: 50, f3: 50, f4: 50 };
-      const fatores = [
-        { key: 'f1', val: f.f1, nome: 'Sinais do Ciclo' },
-        { key: 'f2', val: f.f2, nome: 'Emocional' },
-        { key: 'f3', val: f.f3, nome: 'Organismo' },
-        { key: 'f4', val: f.f4, nome: 'Propósito' },
-      ];
-      const weakest = fatores.reduce((a, b) => b.val < a.val ? b : a);
-
-      let planName;
-      if (cycles === 1) {
-        planName = 'Essencial';
-      } else if (cycles === 2) {
-        planName = 'Avançado com Foco em ' + weakest.nome;
-      } else {
-        planName = 'Imersão com Foco em ' + weakest.nome;
-      }
-
-      const nameEl = document.getElementById('planCardName');
-      const descEl = document.getElementById('planCardDesc');
-      if (nameEl) nameEl.textContent = planName;
-      if (descEl) descEl.textContent = '';
-
-      // Atualiza variáveis da seção "O que você passa a ter"
-      const planVars = cycles === 1
-        ? { n: 4,  pdfs: '4 PDFs semanais',  atividades: 16 }
-        : cycles === 2
-        ? { n: 8,  pdfs: '8 PDFs semanais',  atividades: 32 }
-        : { n: 12, pdfs: '12 PDFs semanais', atividades: 48 };
-      const elW = document.getElementById('whatYouGetWeeks');
-      const elP = document.getElementById('whatYouGetPdfs');
-      const elA = document.getElementById('whatYouGetAtividades');
-      if (elW) elW.textContent = planVars.n;
-      if (elP) elP.textContent = planVars.pdfs;
-      if (elA) elA.textContent = planVars.atividades;
-    })();
+    /* Antes os dois blocos abaixo rodavam soltos aqui, uma vez so, porque o
+       plano era decidido pelo quiz. Agora ela escolhe no card, entao viraram
+       funcoes que rodam de novo a cada troca. */
+    aplicarPlano(document.querySelector('.plans--tri .plan-card.selected'));
     if (typeof fbq !== 'undefined') fbq('track','Lead');
   }
 }
+
+/* Tudo que depende do plano escolhido, num lugar so: o link de todos os
+   botoes, o nome do plano, a entrega e a data projetada. Roda no fim do quiz
+   e de novo a cada clique num card. */
+function aplicarPlano(card) {
+  if (!card) return;
+  document.querySelectorAll('.plans--tri .plan-card').forEach(c => c.classList.toggle('selected', c === card));
+
+  PLANO_SEMANAS = Number(card.dataset.semanas) || 8;
+  const tier = card.dataset.tier || 'avancado';
+
+  const url = linkDoPlano(tier);
+  document.querySelectorAll('a[href*="kiwify"]').forEach(el => { el.href = url; });
+
+  const nomes = { f1: 'Sinais do Ciclo', f2: 'Emocional', f3: 'Organismo', f4: 'Propósito' };
+  const focoEl = document.getElementById('planoFoco');
+  if (focoEl) focoEl.textContent = nomes[focoDela()];
+
+  const elW = document.getElementById('whatYouGetWeeks');
+  const elA = document.getElementById('whatYouGetAtividades');
+  if (elW) elW.textContent = PLANO_SEMANAS;
+  if (elA) elA.textContent = PLANO_SEMANAS * 4;
+
+  atualizarJanelaFertil();
+  updateProjection();
+}
+
+/* Quantos dias faltam pra primeira janela fertil depois do plano, e a data
+   dela escrita por extenso. Muda junto com o card porque plano mais curto
+   termina antes — e isso e verdade, nao truque. */
+function atualizarJanelaFertil() {
+  const { fertileStart, fertileEnd } = calcFertileWindow();
+  const today = new Date(); today.setHours(0, 0, 0, 0);
+  const dias = Math.round((fertileStart - today) / (1000 * 60 * 60 * 24));
+  const el = document.getElementById('programaDias');
+  if (el) el.textContent = dias > 0 ? dias : getProtocolWeeks() * 7;
+
+  const MONTHS_PT = ['janeiro','fevereiro','março','abril','maio','junho',
+                     'julho','agosto','setembro','outubro','novembro','dezembro'];
+  const insightEl     = document.getElementById('fertileInsight');
+  const insightDateEl = document.getElementById('fertileInsightDate');
+  if (insightEl && insightDateEl) {
+    const fsStr = fertileStart.getDate() + ' de ' + MONTHS_PT[fertileStart.getMonth()];
+    const feStr = fertileEnd.getDate() + ' de ' + MONTHS_PT[fertileEnd.getMonth()] + ' de ' + fertileEnd.getFullYear();
+    insightDateEl.textContent = fsStr + ' a ' + feStr;
+    insightEl.style.display = 'flex';
+  }
+}
+
+document.addEventListener('click', function (e) {
+  const card = e.target.closest && e.target.closest('.plans--tri .plan-card');
+  if (card) aplicarPlano(card);
+});
 
 function goNext() {
   const cur = document.querySelector('.screen.active');
@@ -2097,22 +2094,31 @@ function comMarca(url) {
   return url + (url.indexOf('?') === -1 ? '?' : '&') + 'sck=' + encodeURIComponent(AB.marca);
 }
 
-// ── Link de checkout baseado no perfil IQO ───────────────────────────────────
-/* Dois eixos escolhem o link: o PERFIL (quantos ciclos, qual fator mais fraco)
-   e o PREÇO sorteado. O conjunto vem primeiro, o perfil escolhe dentro dele —
-   assim o teste de preço não toca na lógica de perfil, que já estava certa. */
-function getCheckoutLink() {
-  const set = LINKS[PRECO] || LINKS['38'];
-  const cycles = getProtocolCycles();
+/* Quantas semanas ela ESCOLHEU no card. Comeca na recomendacao do quiz e
+   muda quando ela marca outro. Tudo que dependia de getProtocolCycles() na
+   tela final le isto: o link, o nome do plano, a entrega e a data projetada. */
+let PLANO_SEMANAS = 0;
 
-  // 1 ciclo → Plano Essencial (todos fatores equilibrados)
-  if (cycles === 1) return comMarca(set.essencial);
+/* O pilar mais fraco dela, decidido UMA vez e guardado. O calculo do IQO roda
+   de novo sempre que a tela de resultado e remontada, e o foco nao pode
+   depender disso: ele escolhe o link do checkout, entao tem que ser o mesmo
+   do primeiro clique ao ultimo. Com todos os fatores zerados (quiz ainda sem
+   resposta) devolve f1 sem guardar, pra tentar de novo quando houver dado. */
+let PLANO_FOCO = null;
+function focoDela() {
+  if (PLANO_FOCO) return PLANO_FOCO;
+  const f = window.__iqoFactors;
+  if (!f || (!f.f1 && !f.f2 && !f.f3 && !f.f4)) return 'f1';
+  PLANO_FOCO = ['f1', 'f2', 'f3', 'f4'].reduce((a, b) => f[b] < f[a] ? b : a);
+  return PLANO_FOCO;
+}
 
-  // Fator mais fraco (menor valor). Empate fica com o primeiro, como antes.
-  const f = window.__iqoFactors || { f1: 50, f2: 50, f3: 50, f4: 50 };
-  const weakest = ['f1', 'f2', 'f3', 'f4'].reduce((a, b) => f[b] < f[a] ? b : a);
-
-  return comMarca((cycles === 2 ? set.avancado : set.imersao)[weakest] || set.essencial);
+/* O tier escolhe o conjunto de links; o foco escolhe qual deles. O essencial
+   tem link unico porque o plano de 4 semanas e o mesmo pra todo perfil. */
+function linkDoPlano(tier) {
+  if (tier === 'essencial') return comMarca(LINKS.essencial);
+  const set = tier === 'imersao' ? LINKS.imersao : LINKS.avancado;
+  return comMarca(set[focoDela()] || LINKS.essencial);
 }
 
 // ── Ciclos necessários baseados no perfil IQO ────────────────────────────────
@@ -2155,7 +2161,7 @@ function calcFertileWindow() {
   }
 
   const cycleLen = (answers.cycleDays && answers.cycleDays > 0) ? answers.cycleDays : 28;
-  const cycles   = getProtocolCycles();
+  const cycles   = PLANO_SEMANAS ? PLANO_SEMANAS / 4 : getProtocolCycles();
 
   // Fim do protocolo = última menstruação + (ciclos × duração do ciclo)
   const protocolEndDate = new Date(lastPeriodStart);

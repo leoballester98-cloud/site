@@ -4491,7 +4491,7 @@ body.marca-solta:has(#s1.screen.active) .header__inner::after {
    lendo o título quando o chão se move.
    9/16 porque a VSL 1 é vertical (480×848). Se um dia a VSL for horizontal,
    troque o aspect-ratio aqui e mais nada. */
-#svsl1{ --vsl-fora:234px; }  /* sem CTA fixo: so header + titulo */
+#svsl1{ --vsl-fora:298px; }  /* sem CTA fixo: so header + titulo */
 #svsl1 .vsl-box{
   /* A largura sai da altura disponivel, nao o contrario. Se eu fixasse
      width:100% + max-height, em tela curta o 9/16 quebrava e o player
@@ -4550,3 +4550,30 @@ body.marca-solta:has(#s1.screen.active) .header__inner::after {
   text-align: center; margin: 0 0 12px;
 }
 .plans-foco b { color: var(--ink); font-weight: 800; }
+
+
+/* ═══ VSL 1 · player provisorio do YouTube ════════════════════════════════
+   O iframe preenche a caixa 9:16. O botao de som fica por cima, no rodape
+   do video, longe dos controles do YouTube pra ninguem errar o alvo. */
+#svsl1 .vsl-box{ position:relative; background:#000; }
+#svsl1 .vsl-box iframe{ width:100%; height:100%; border:0; display:block; }
+#svsl1 .vsl-som{
+  position:absolute; left:50%; bottom:14%; transform:translateX(-50%);
+  display:inline-flex; align-items:center; gap:7px;
+  background:rgba(0,0,0,.72); color:#fff; border:1px solid rgba(255,255,255,.35);
+  border-radius:999px; padding:9px 18px; font-size:13px; font-weight:700;
+  font-family:inherit; cursor:pointer; white-space:nowrap;
+  backdrop-filter:blur(3px);
+}
+#svsl1 .vsl-som::before{ content:"🔊"; font-size:14px; }
+#svsl1 .vsl-som.off{ display:none; }
+
+/* O rodape ocupa a altura do botao desde o inicio, mesmo com ele invisivel.
+   Se aparecesse do nada, o video pularia pra cima no meio da fala. */
+#svsl1 .vsl-rodape{ min-height:52px; display:flex; align-items:center; justify-content:center; margin-top:10px; }
+#svsl1 .vsl-continuar{
+  width:100%; max-width:420px; opacity:0; pointer-events:none;
+  transition:opacity .4s ease;
+}
+#svsl1 .vsl-continuar.on{ opacity:1; pointer-events:auto; }
+@media (prefers-reduced-motion:reduce){ #svsl1 .vsl-continuar{ transition:none; } }

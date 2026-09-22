@@ -56,7 +56,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"/>
-  <link rel="stylesheet" href="quiz-warm.css?v=286"/>
+  <link rel="stylesheet" href="quiz-warm.css?v=287"/>
 
   <!-- Anti-flicker do teste A/B.
        O script que troca a headline mora no fim do <body>, então num aparelho
@@ -372,28 +372,28 @@
   <section class="screen" id="s18" data-step="13" data-section="SINAIS DO CICLO" data-icon="cycle">
     <h2 class="q-title">Como você identifica seu período fértil?</h2>
     <div class="row-cards">
-      <button class="row-card" data-val="chuto" data-score="0" data-next="s19">
+      <button class="row-card" data-val="chuto" data-score="0" data-next="svsl1">
         <div class="row-card__body">
           <div class="row-card__title">Chuto pelo ciclo</div>
           <div class="row-card__sub">Tento calcular, mas nunca sei se tô certa</div>
         </div>
         <div class="imgbox imgbox--row"><img loading="lazy" src="Images/essa3.webp" alt="Chuto pelo ciclo"></div>
       </button>
-      <button class="row-card" data-val="calendario" data-score="1" data-next="s19">
+      <button class="row-card" data-val="calendario" data-score="1" data-next="svsl1">
         <div class="row-card__body">
           <div class="row-card__title">Pelo calendário</div>
           <div class="row-card__sub">Conto os dias e espero o dia 14</div>
         </div>
         <div class="imgbox imgbox--row"><img loading="lazy" src="Images/essa1.webp" alt="Pelo calendário"></div>
       </button>
-      <button class="row-card" data-val="misto" data-score="2" data-next="s19">
+      <button class="row-card" data-val="misto" data-score="2" data-next="svsl1">
         <div class="row-card__body">
           <div class="row-card__title">Calendário + alguns sinais</div>
           <div class="row-card__sub">Conto os dias mas observo o corpo</div>
         </div>
         <div class="imgbox imgbox--row"><img loading="lazy" src="Images/essa2.webp" alt="Calendário + sinais"></div>
       </button>
-      <button class="row-card" data-val="app" data-score="2" data-next="s19">
+      <button class="row-card" data-val="app" data-score="2" data-next="svsl1">
         <div class="row-card__body">
           <div class="row-card__title">Por app de fertilidade</div>
           <div class="row-card__sub">Uso Flo, Glow ou similar</div>
@@ -403,11 +403,6 @@
     </div>
   </section>
 
-  <!-- ⚠ DESLIGADA ate o video chegar. A tela existe e funciona, mas nenhum
-       botao aponta pra ela: a s18 volta a mandar direto pra s19. Pra ligar,
-       trocar os data-next="s19" da s18 por data-next="svsl1" e colar o embed
-       do VTurb la dentro. Ficou no ar desligada porque a correcao de preco
-       (37,90 -> 47,90) nao podia esperar o video. -->
   <!-- ═══════ 14. VSL 1 · O MECANISMO ═══════
        Entra aqui, e nao na tela 2, por um motivo medido: o funil perde 40 a 60%
        entre a primeira e a segunda tela e quase nada depois disso. O alcance na
@@ -424,8 +419,13 @@
   <section class="screen" id="svsl1" data-step="13" data-etapa="36" data-section="SINAIS DO CICLO" data-icon="cycle" data-cta="hidden">
     <h2 class="q-title" style="margin-bottom:14px;">Antes de continuar, assista</h2>
     <div class="vsl-box">
-      <!-- COLE AQUI O EMBED DO VTURB -->
-      <div class="vsl-vazio">O player do VTurb entra aqui</div>
+      <!-- Provisorio ate o VTurb: player do YouTube, video nao listado.
+           Trocar depois e trocar so este bloco e a funcao iniciarVSL(). -->
+      <div id="vslPlayer"></div>
+      <button type="button" class="vsl-som" id="vslSom">Toque para ouvir</button>
+    </div>
+    <div class="vsl-rodape">
+      <button type="button" class="t-cta vsl-continuar" id="vslContinuar">CONTINUAR</button>
     </div>
   </section>
 
@@ -1809,6 +1809,7 @@ function goToScreen(next) {
 function showScreen(id) {
   const el = document.getElementById(id);
   if (!el) return;
+  if (id === 'svsl1') iniciarVSL();
   el.classList.add('active','entering');
   setTimeout(() => el.classList.remove('entering'), 420);
   ajustarTitulo(el);
@@ -1905,6 +1906,62 @@ function atualizarJanelaFertil() {
 document.addEventListener('click', function (e) {
   const card = e.target.closest && e.target.closest('.plans--tri .plan-card');
   if (card) aplicarPlano(card);
+});
+
+/* ═══ VSL 1 · player provisorio ════════════════════════════════════════
+   O VTurb ainda nao entrou, entao quem toca e o YouTube, com o video nao
+   listado. Duas coisas que o VTurb faria no painel dele estao aqui:
+
+   1. Autoplay. Navegador nenhum deixa comecar com som, entao comeca MUDO e
+      o botao "toque para ouvir" liga o audio — o toque dela e o gesto que o
+      navegador exige.
+   2. O botao de continuar so aparece quando o video ACABA. Antes disso nao
+      existe caminho pra frente — so o botao de voltar do cabecalho.
+
+   Pra trocar pelo VTurb: troca o conteudo de .vsl-box pelo embed dele e
+   apaga daqui pra baixo. */
+const VSL_ID = 'IEKWQEPDyJ0';
+let vslPlayer = null, vslRelogio = null;
+
+function iniciarVSL() {
+  if (vslPlayer) { try { vslPlayer.playVideo(); } catch (e) {} return; }
+  if (!window.YT || !window.YT.Player) { setTimeout(iniciarVSL, 250); return; }
+  vslPlayer = new window.YT.Player('vslPlayer', {
+    videoId: VSL_ID,
+    host: 'https://www.youtube-nocookie.com',
+    playerVars: { autoplay: 1, mute: 1, playsinline: 1, rel: 0, modestbranding: 1, controls: 1 },
+    events: {
+      onReady: function (e) {
+        e.target.mute();
+        e.target.playVideo();
+        /* Duas portas pro mesmo botao: o evento de fim, e um relogio que
+           libera a dois segundos do final. O evento as vezes nao dispara
+           quando ela arrasta a barra ate o fim, e ai ficaria presa. */
+        vslRelogio = setInterval(function () {
+          let t = 0, d = 0;
+          try { t = vslPlayer.getCurrentTime() || 0; d = vslPlayer.getDuration() || 0; } catch (e) {}
+          if (d > 0 && t >= d - 2) liberarVSL();
+        }, 500);
+      },
+      onStateChange: function (ev) { if (ev.data === 0) liberarVSL(); }
+    }
+  });
+}
+
+function liberarVSL() {
+  document.getElementById('vslContinuar').classList.add('on');
+  if (vslRelogio) { clearInterval(vslRelogio); vslRelogio = null; }
+}
+
+document.addEventListener('click', function (e) {
+  if (e.target.closest && e.target.closest('#vslSom')) {
+    try { vslPlayer.unMute(); vslPlayer.setVolume(100); vslPlayer.playVideo(); } catch (err) {}
+    document.getElementById('vslSom').classList.add('off');
+  }
+  if (e.target.closest && e.target.closest('#vslContinuar')) {
+    try { vslPlayer.pauseVideo(); } catch (err) {}
+    goToScreen('s19');
+  }
 });
 
 function goNext() {
@@ -2637,5 +2694,6 @@ document.addEventListener('click', (e) => {
   }, {passive:true});
 })();
 </script>
+<script src="https://www.youtube.com/iframe_api"></script>
 </body>
 </html>

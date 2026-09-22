@@ -4422,10 +4422,23 @@ body.marca-solta:has(#s1.screen.active) .header__inner::after {
      O 'safe' centraliza enquanto cabe e vira flex-start na hora que nao cabe,
      entao a primeira linha do titulo nunca some. O flex-start antes dele e o
      que segura navegador que ainda nao entende 'safe'. */
+  /* 'space-evenly' e nao 'safe center': centralizado, toda a sobra ia parar
+     nas pontas — 112px acima do titulo e 134px abaixo do botao numa tela de
+     750. Distribuida entre os blocos, ela vira respiro e a tela fica cheia.
+     E quando o conteudo passa da altura nao ha sobra pra distribuir, entao
+     ele se comporta como flex-start e nada vaza por cima. */
   #s1.s1-alt.active {
     justify-content: flex-start;
-    justify-content: safe center;
+    justify-content: space-evenly;
     gap: 2px;
+  }
+
+  /* A imagem sai da margem lateral e encosta nas bordas da tela: e o unico
+     jeito de ela crescer sem mexer na proporcao dos arquivos, que sao 2:1. */
+  #s1.s1-alt.active .t6-hero,
+  #s1.s1-alt.active .t7-janela,
+  #s1.s1-alt.active .t8-par {
+    width: calc(100% + 32px); margin-inline: -16px; border-radius: 0;
   }
   #s1.s1-alt.active .t8-prova { display: flex; flex-direction: column; }
 
@@ -4491,7 +4504,7 @@ body.marca-solta:has(#s1.screen.active) .header__inner::after {
    lendo o título quando o chão se move.
    9/16 porque a VSL 1 é vertical (480×848). Se um dia a VSL for horizontal,
    troque o aspect-ratio aqui e mais nada. */
-#svsl1{ --vsl-fora:298px; }  /* sem CTA fixo: so header + titulo */
+#svsl1{ --vsl-fora:236px; }  /* sem CTA fixo: so header + titulo */
 #svsl1 .vsl-box{
   /* A largura sai da altura disponivel, nao o contrario. Se eu fixasse
      width:100% + max-height, em tela curta o 9/16 quebrava e o player
@@ -4570,10 +4583,9 @@ body.marca-solta:has(#s1.screen.active) .header__inner::after {
 
 /* O rodape ocupa a altura do botao desde o inicio, mesmo com ele invisivel.
    Se aparecesse do nada, o video pularia pra cima no meio da fala. */
-#svsl1 .vsl-rodape{ min-height:52px; display:flex; align-items:center; justify-content:center; margin-top:10px; }
 #svsl1 .vsl-continuar{
-  width:100%; max-width:420px; opacity:0; pointer-events:none;
-  transition:opacity .4s ease;
+  position:absolute; left:12px; right:12px; bottom:12px; width:auto; max-width:none;
+  opacity:0; pointer-events:none; transition:opacity .4s ease;
 }
 #svsl1 .vsl-continuar.on{ opacity:1; pointer-events:auto; }
 @media (prefers-reduced-motion:reduce){ #svsl1 .vsl-continuar{ transition:none; } }

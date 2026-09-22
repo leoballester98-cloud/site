@@ -56,7 +56,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"/>
-  <link rel="stylesheet" href="quiz-warm.css?v=287"/>
+  <link rel="stylesheet" href="quiz-warm.css?v=288"/>
 
   <!-- Anti-flicker do teste A/B.
        O script que troca a headline mora no fim do <body>, então num aparelho
@@ -423,8 +423,9 @@
            Trocar depois e trocar so este bloco e a funcao iniciarVSL(). -->
       <div id="vslPlayer"></div>
       <button type="button" class="vsl-som" id="vslSom">Toque para ouvir</button>
-    </div>
-    <div class="vsl-rodape">
+      <!-- O continuar mora DENTRO da caixa, sobreposto. Fora dela ele teria que
+           reservar altura desde o inicio (senao o video pula quando ele
+           aparece), e essa altura reservada saia toda do tamanho do video. -->
       <button type="button" class="t-cta vsl-continuar" id="vslContinuar">CONTINUAR</button>
     </div>
   </section>

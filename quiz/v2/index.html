@@ -425,7 +425,7 @@
       <!-- O continuar mora DENTRO da caixa, sobreposto. Fora dela ele teria que
            reservar altura desde o inicio (senao o video pula quando ele
            aparece), e essa altura reservada saia toda do tamanho do video. -->
-      <button type="button" class="t-cta vsl-continuar" id="vslContinuar">CONTINUAR</button>
+      <button type="button" class="t-cta vsl-continuar on" id="vslContinuar">CONTINUAR</button>
     </div>
   </section>
 
@@ -1915,13 +1915,14 @@ document.addEventListener('click', function (e) {
    1. Autoplay. Navegador nenhum deixa comecar com som, entao comeca MUDO e
       o botao "toque para ouvir" liga o audio — o toque dela e o gesto que o
       navegador exige.
-   2. O botao de continuar so aparece quando o video ACABA. Antes disso nao
-      existe caminho pra frente — so o botao de voltar do cabecalho.
+   2. O botao de continuar fica visivel desde o primeiro segundo. Prender ela
+      ate o fim dos 3:34 custava caro: quem nao assistisse tudo ficava sem
+      caminho pra frente no meio do quiz.
 
    Pra trocar pelo VTurb: troca o conteudo de .vsl-box pelo embed dele e
    apaga daqui pra baixo. */
 const VSL_ID = 'IEKWQEPDyJ0';
-let vslPlayer = null, vslRelogio = null;
+let vslPlayer = null;
 
 function iniciarVSL() {
   if (vslPlayer) { try { vslPlayer.playVideo(); } catch (e) {} return; }
@@ -1934,23 +1935,9 @@ function iniciarVSL() {
       onReady: function (e) {
         e.target.mute();
         e.target.playVideo();
-        /* Duas portas pro mesmo botao: o evento de fim, e um relogio que
-           libera a dois segundos do final. O evento as vezes nao dispara
-           quando ela arrasta a barra ate o fim, e ai ficaria presa. */
-        vslRelogio = setInterval(function () {
-          let t = 0, d = 0;
-          try { t = vslPlayer.getCurrentTime() || 0; d = vslPlayer.getDuration() || 0; } catch (e) {}
-          if (d > 0 && t >= d - 2) liberarVSL();
-        }, 500);
-      },
-      onStateChange: function (ev) { if (ev.data === 0) liberarVSL(); }
+      }
     }
   });
-}
-
-function liberarVSL() {
-  document.getElementById('vslContinuar').classList.add('on');
-  if (vslRelogio) { clearInterval(vslRelogio); vslRelogio = null; }
 }
 
 document.addEventListener('click', function (e) {

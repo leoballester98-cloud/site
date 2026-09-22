@@ -4504,11 +4504,14 @@ body.marca-solta:has(#s1.screen.active) .header__inner::after {
    lendo o título quando o chão se move.
    9/16 porque a VSL 1 é vertical (480×848). Se um dia a VSL for horizontal,
    troque o aspect-ratio aqui e mais nada. */
-#svsl1{ --vsl-fora:202px; }  /* sem CTA fixo: so header + titulo */
-/* A .wrap reserva 92px no topo pra uma barra de 57. Nas outras telas essa
-   folga e respiro; aqui ela sai direto do tamanho do video, entao esta tela
-   sobe 28px e o titulo continua abaixo da barra. */
-#svsl1{ margin-top:-28px; }
+#svsl1{ --vsl-fora:138px; }  /* sem CTA fixo: so header + titulo */
+/* Sem titulo, a tela nao pode mais subir: o video encostaria por baixo da
+   barra fixa. O ganho de espaco agora vem do proprio titulo, que ocupava 92px.
+
+   A secao inteira sai da margem lateral da .wrap. Antes eu alargava so a
+   caixa, e ela vazava 16px pra fora da tela — a pagina ganhava rolagem
+   lateral, que e pior que caixa pequena. */
+#svsl1{ margin-inline:-16px; }
 #svsl1 .vsl-box{
   /* A largura sai da altura disponivel, nao o contrario. Se eu fixasse
      width:100% + max-height, em tela curta o 9/16 quebrava e o player
@@ -4572,7 +4575,16 @@ body.marca-solta:has(#s1.screen.active) .header__inner::after {
 /* ═══ VSL 1 · player provisorio do YouTube ════════════════════════════════
    O iframe preenche a caixa 9:16. O botao de som fica por cima, no rodape
    do video, longe dos controles do YouTube pra ninguem errar o alvo. */
-#svsl1 .vsl-box{ position:relative; background:#000; }
+/* Sai da margem lateral e encosta nas bordas, como as imagens das telas 6, 7
+   e 8. Sem isso a largura para em 358 num aparelho de 390. */
+#svsl1 .vsl-box{
+  position:relative; background:#000; border-radius:0;
+  /* As duas travas na MESMA conta: a largura das bordas da tela (100% + as
+     margens laterais da .wrap) e a largura que a altura disponivel permite.
+     Vence a menor. Separadas, a de baixo era ignorada e a pagina rolava. */
+  width:min(100%, calc((100svh - var(--vsl-fora)) * 9 / 16));
+  margin-inline:auto;
+}
 #svsl1 .vsl-box iframe{ width:100%; height:100%; border:0; display:block; }
 #svsl1 .vsl-som{
   position:absolute; left:50%; bottom:14%; transform:translateX(-50%);

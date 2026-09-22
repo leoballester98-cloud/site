@@ -4504,7 +4504,11 @@ body.marca-solta:has(#s1.screen.active) .header__inner::after {
    lendo o título quando o chão se move.
    9/16 porque a VSL 1 é vertical (480×848). Se um dia a VSL for horizontal,
    troque o aspect-ratio aqui e mais nada. */
-#svsl1{ --vsl-fora:236px; }  /* sem CTA fixo: so header + titulo */
+#svsl1{ --vsl-fora:202px; }  /* sem CTA fixo: so header + titulo */
+/* A .wrap reserva 92px no topo pra uma barra de 57. Nas outras telas essa
+   folga e respiro; aqui ela sai direto do tamanho do video, entao esta tela
+   sobe 28px e o titulo continua abaixo da barra. */
+#svsl1{ margin-top:-28px; }
 #svsl1 .vsl-box{
   /* A largura sai da altura disponivel, nao o contrario. Se eu fixasse
      width:100% + max-height, em tela curta o 9/16 quebrava e o player

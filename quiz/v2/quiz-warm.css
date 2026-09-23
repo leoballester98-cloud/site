@@ -4681,17 +4681,23 @@ body.marca-solta:has(#s1.screen.active) .header__inner::after {
   border-radius: 11px 11px 0 0;
 }
 .plan-card__preco { display: flex; align-items: baseline; gap: 7px; margin-top: 2px; }
-.plan-card__old2 { font-size: 13px; color: var(--ink-mute); text-decoration: line-through; }
-.plan-card__now  { font-size: 19px; font-weight: 800; color: var(--ink); }
-.plan-card__acesso { font-size: 11px; color: var(--ink-mute); margin-top: 3px; }
-.plan-card__day { text-align: right; line-height: 1.12; white-space: nowrap; }
+.plan-card__now  { font-size: 17px; font-weight: 800; color: var(--ink); }
+.plan-card__day { text-align: center; line-height: 1.12; white-space: nowrap; }
 /* O R$/dia e o numero que compara os tres planos — e o maior do card. */
 .plan-card__day b { display: block; font-size: 23px; font-weight: 800; color: var(--blue-d); }
 .plan-card__day span { font-size: 12px; color: var(--ink-mute); }
 /* Os cards saem 8px pra fora do padding da secao de cada lado. Sao 16px a
    mais de linha, que e o que paga o texto maior sem apertar. */
 .plans--tri { margin-inline: -8px; }
-.plans--tri .plan-card__name { font-size: 16px; }
+/* Caixa alta so na faixa MAIS POPULAR. No nome do plano ela tirava a
+   diferenca entre "Teste" e "Plano", que e justamente o que separa a primeira
+   opcao das outras duas — e obrigava um corpo menor pra caber. */
+.plans--tri .plan-card__name {
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: 0;
+  text-transform: none;
+}
 
 /* A faixa fica ACIMA do card, colada nele. A margem no card abre o espaco
    dela, senao a faixa sobe por cima do card anterior. */
@@ -4712,8 +4718,8 @@ body.marca-solta:has(#s1.screen.active) .header__inner::after {
   .plans--tri .plan-card.selected { padding: 9px 8px; }
   .plans--tri .plan-card--pop,
   .plans--tri .plan-card--pop.selected { padding: 33px 8px 9px; }
-  .plans--tri .plan-card__name { font-size: 14px; }
-  .plan-card__now { font-size: 17px; }
+  .plans--tri .plan-card__name { font-size: 15px; }
+  .plan-card__now { font-size: 16px; }
   .plan-card__day b { font-size: 20px; }
   .plan-card__day span { font-size: 11px; }
 }

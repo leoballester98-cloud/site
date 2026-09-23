@@ -2632,8 +2632,16 @@ button:focus-visible, .row-card:focus-visible, .simple-opt:focus-visible,
   min-height: 160px;
 }
 
-/* App phones carousel */
-.phones-carousel { margin: 14px 0 24px; }
+/* App phones carousel.
+   Sai do padding da secao e esconde o que passa da tela: na referencia as
+   duas telas das pontas sao cortadas pela borda do celular, e e esse corte
+   que faz a do meio parecer grande. Sem o overflow aqui, o mesmo desenho
+   viraria barra de rolagem horizontal. */
+.phones-carousel {
+  margin: 16px -16px 24px;
+  overflow: hidden;
+  padding: 6px 0;
+}
 #s30 .imgbox--phone { border: none; background: none; }
 #s30 .imgbox--phone-placeholder { background: linear-gradient(135deg, #E8D8C8, #DDD0C0); border: 1.5px dashed rgba(74,46,26,0.20); }
 .phones-row {
@@ -2653,16 +2661,48 @@ button:focus-visible, .row-card:focus-visible, .simple-opt:focus-visible,
   text-align: center;
   padding: 10px 6px;
 }
-#s30 .imgbox--phone { padding: 0; overflow: visible; }
+/* 47% da largura da tela, medido na referencia. Os tres somam 141%, entao a
+   fileira e maior que a tela de proposito e o carrossel corta as pontas.
+   O padding e a moldura do aparelho: um tom do proprio marrom, porque um
+   cinza neutro aqui destoaria do resto da pagina. */
+#s30 .imgbox--phone {
+  width: 47%;
+  flex-shrink: 0;
+  padding: 5px;
+  overflow: hidden;
+  border: none;
+  border-radius: 26px;
+  background: rgba(43,26,16,0.16);
+  box-shadow: 0 3px 14px rgba(43,26,16,0.12);
+}
+/* A captura do app e 920x2000 (0,46) e a moldura e 9/19 (0,474): cover corta
+   uns 3px no topo e no pe, que e barra de status e nada mais.
+   O raio e o de fora menos a moldura, senao sobra canto quadrado. */
+#s30 .imgbox--phone img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 21px;
+  display: block;
+}
+/* As das pontas encolhem no lugar. Nao ha translate: e justamente o que a
+   escala deixa de sobra em volta delas que vira a folga entre as telas. */
 .phone--side {
-  transform: scale(0.82);
+  transform: scale(0.87);
   z-index: 1;
 }
-.phone--side:first-child { transform: scale(0.82) translateX(22%); }
-.phone--side:last-child  { transform: scale(0.82) translateX(-22%); }
 .phone--center { z-index: 2; }
-.phone--center + .phone--center { margin-left: -4px; }
-.phones-row { gap: 0 !important; overflow: visible; }
+.phones-row {
+  gap: 0;
+  overflow: visible;
+  /* A passagem: a fileira entra pelo lado e assenta. A curva desacelera no
+     fim, que e o que faz parar e nao frear. O clarear e mais curto que o
+     deslizar de proposito — a tela ja esta legivel antes de chegar. */
+  transition: transform 0.44s cubic-bezier(0.25, 0.9, 0.3, 1), opacity 0.3s ease;
+}
+@media (prefers-reduced-motion: reduce) {
+  .phones-row { transition: none; }
+}
 .bonus-desc-list {
   display: flex;
   flex-direction: column;
@@ -2709,11 +2749,449 @@ button:focus-visible, .row-card:focus-visible, .simple-opt:focus-visible,
   box-shadow: 0 1px 4px rgba(0,0,0,0.2);
   opacity: 0.9;
 }
+/* O marcador do plano escolhido e um circulo cheio com um ✓, nao com um
+   ponto: o ponto so diz "este", o ✓ diz "feito". O risco e desenhado com duas
+   bordas giradas 45°, que fica nitido em qualquer densidade de tela — um
+   glifo de fonte variaria de desenho conforme o aparelho. */
+.plans--tri .plan-card.selected .plan-card__radio {
+  border-color: var(--cta);
+  background: var(--cta);
+}
+.plans--tri .plan-card.selected .plan-card__radio::after {
+  content: '';
+  position: absolute;
+  inset: auto;
+  left: 50%;
+  top: 47%;
+  width: 9px;
+  height: 5px;
+  margin: -4px 0 0 -5px;
+  border: none;
+  border-left: 2px solid #fff;
+  border-bottom: 2px solid #fff;
+  border-radius: 1px;
+  background: none;
+  transform: rotate(-45deg);
+}
+
+/* ── Garantia (s30) ────────────────────────────────────────────────────
+   Cartao centrado, escudo no topo, titulo em duas linhas e o texto embaixo.
+   O verde do escudo e o unico da tela de proposito: e a cor que significa
+   "sem risco" sem precisar dizer. */
+.garantia {
+  background: var(--card-active);
+  border-radius: 18px;
+  padding: 24px 20px 22px;
+  margin: 28px 0 22px;
+  text-align: center;
+}
+.garantia__icone {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  color: #4C8C5A;
+  margin-bottom: 12px;
+}
+.garantia__icone svg { width: 100%; height: 100%; display: block; }
+.garantia__titulo {
+  font-family: 'DM Sans', system-ui, -apple-system, sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.22;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  margin: 0 0 12px;
+  text-wrap: balance;
+}
+.garantia__txt {
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--ink-soft);
+  margin: 0 0 10px;
+}
+.garantia__txt:last-child { margin-bottom: 0; }
+.garantia__txt a {
+  color: var(--cta);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* ── Bloco de credibilidade (s30) ──────────────────────────────────────
+   Mesmo desenho da referencia — dois numeros grandes lado a lado e uma faixa
+   embaixo — mas com o que existe hoje. Nota de loja e contagem de avaliacao
+   entram aqui quando o app estiver publicado e houver avaliacao real. */
+.prova {
+  background: var(--card-active);
+  border-radius: 18px;
+  padding: 24px 16px 22px;
+  margin: 8px 0 18px;
+  text-align: center;
+}
+/* Fileira das lojas */
+.prova__lojas {
+  display: flex;
+  justify-content: center;
+  gap: 42px;
+  margin-bottom: 18px;
+}
+.prova__loja { color: var(--ink); }
+.prova__loja svg { width: 30px; height: 30px; display: block; margin: 0 auto 6px; }
+.prova__loja span {
+  display: block;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--ink-soft);
+}
+/* Estrelas. O laranja e o unico da pagina: e a convencao de nota, e trocar
+   por marrom faria o bloco perder o que ele esta imitando. */
+.prova__estrelas {
+  font-size: 19px;
+  letter-spacing: 3px;
+  color: #E59844;
+  line-height: 1;
+  margin-bottom: 16px;
+}
+.prova__estrelas .meia {
+  background: linear-gradient(90deg, #E59844 50%, rgba(43,26,16,0.18) 50%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+/* Os dois numeros */
+.prova__numeros {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 26px;
+}
+.prova__num { max-width: 47%; }
+.prova__num b {
+  display: block;
+  font-size: 30px;
+  font-weight: 800;
+  line-height: 1;
+  color: var(--ink);
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+}
+.prova__num span {
+  display: block;
+  font-size: 12.5px;
+  color: var(--ink-soft);
+  margin-top: 6px;
+  line-height: 1.3;
+}
+/* Faixa do premio, entre os louros */
+.prova__premio {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 22px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(43,26,16,0.10);
+}
+.prova__louro {
+  width: 34px;
+  height: 76px;
+  flex-shrink: 0;
+  color: rgba(43,26,16,0.12);
+}
+.prova__louro--dir { transform: scaleX(-1); }
+.prova__premio-txt { color: var(--ink); }
+.prova__premio-txt svg { width: 26px; height: 26px; display: block; margin: 0 auto 6px; }
+.prova__premio-txt b {
+  display: block;
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+}
+.prova__premio-txt span {
+  display: block;
+  font-size: 12px;
+  color: var(--ink-soft);
+  margin-top: 6px;
+}
+
+/* ── Resultados (s30) ──────────────────────────────────────────────────
+   Trilha com encaixe de rolagem, sem JS: o arrastar e o do proprio sistema,
+   e um cartao de 86% deixa o proximo assomando pela borda — e essa borda que
+   diz que ha mais, sem precisar de seta. */
+.resultados { margin: 4px 0 8px; }
+.resultados__trilha {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  /* Sai do padding da secao pra o cartao poder encostar na borda da tela. */
+  margin-inline: -16px;
+  padding: 2px 16px 6px;
+}
+.resultados__trilha::-webkit-scrollbar { display: none; }
+.resultado {
+  flex: 0 0 86%;
+  scroll-snap-align: center;
+  background: var(--card-active);
+  border-radius: 16px;
+  overflow: hidden;
+}
+/* Um resultado sozinho nao e carrossel: ocupa a largura toda. */
+.resultado:only-child { flex-basis: 100%; }
+.resultado__foto { aspect-ratio: 4 / 3; overflow: hidden; }
+.resultado__foto img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.resultado__corpo { padding: 14px 15px 16px; }
+.resultado__nome {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 0 0 6px;
+}
+.resultado__txt {
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--ink-soft);
+  margin: 0;
+}
+
+/* ── Grade de progresso (s30) ──────────────────────────────────────────
+   Cartao no bege do painel, com os ladrilhos dos dias um tom mais claro por
+   dentro — a mesma inversao do comparativo. O degrade apaga as ultimas
+   linhas contra a cor do cartao: e o corte que diz "tem mais" sem precisar
+   escrever. */
+.progresso {
+  position: relative;
+  margin: 8px 0 18px;
+  padding: 14px 14px 16px;
+  background: var(--card-active);
+  border-radius: 18px;
+  overflow: hidden;
+}
+.progresso__topo {
+  position: relative;
+  z-index: 3;
+  margin-bottom: 12px;
+}
+.progresso__rot {
+  display: block;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ink-soft);
+  margin-bottom: 9px;
+}
+.progresso__barra {
+  height: 7px;
+  border-radius: 99px;
+  background: rgba(43,26,16,0.10);
+  overflow: hidden;
+}
+.progresso__barra span {
+  display: block;
+  height: 100%;
+  /* Os mesmos 2 dias marcados com ✓ na grade, em 21. A barra tem que contar
+     a mesma coisa que os ladrilhos, senao ela vira enfeite. */
+  width: 10%;
+  border-radius: 99px;
+  background: var(--cta);
+}
+.progresso__grade {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  /* A folga horizontal e maior que a vertical, como na referencia: as
+     colunas precisam se separar mais que as linhas porque o ladrilho ja tem
+     a faixa do dia marcando o topo. */
+  column-gap: 10px;
+  row-gap: 7px;
+  position: relative;
+}
+/* Cada ladrilho tem duas faixas: a de cima, mais escura, leva o numero do
+   dia; a de baixo, mais clara, leva o valor. Sao os dois tons do proprio
+   marrom sobre o cartao — 9% e 5% —, a mesma relacao medida na referencia.
+   Faixa unica achatava o ladrilho: o dia e o valor liam como uma coisa so. */
+/* Proporcao em vez de altura fixa: na referencia o ladrilho e 55x59, um
+   pouco mais alto que largo. Com altura fixa ele achatava conforme a tela
+   alargava, e era isso que deixava a grade diferente. */
+.dia {
+  display: flex;
+  flex-direction: column;
+  aspect-ratio: 55 / 59;
+  border-radius: 14px;
+  overflow: hidden;
+  background: rgba(43,26,16,0.05);
+  text-align: center;
+}
+/* O texto e claro de proposito. Na referencia o rotulo e o valor tem quase o
+   mesmo tom — 158 e 145 sobre fundos de 217 e 230 — e quem separa os dois e
+   o corpo, nao o contraste. Preto e peso 700 faziam a grade brigar com o
+   preco logo acima, que e onde a atencao tem que estar. */
+.dia__n {
+  background: rgba(43,26,16,0.09);
+  font-size: 12px;
+  color: rgba(43,26,16,0.34);
+  line-height: 1.2;
+  padding: 4px 2px;
+}
+.dia__b {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px 4px;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: rgba(43,26,16,0.52);
+  line-height: 1.18;
+}
+.dia--pausa .dia__b { font-size: 10px; letter-spacing: 0.04em; color: rgba(43,26,16,0.34); }
+.dia--pico  .dia__b { font-size: 10.5px; letter-spacing: 0.03em; color: rgba(108,57,29,0.72); }
+/* Os dias ja cumpridos trocam o valor por um ✓, como na referencia. Mesmo
+   risco desenhado do seletor de plano: duas bordas giradas 45°. */
+.dia__ok {
+  position: relative;
+  display: block;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: rgba(43,26,16,0.45);
+}
+.dia__ok::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 47%;
+  width: 8px;
+  height: 4px;
+  margin: -3px 0 0 -4px;
+  border-left: 2px solid #fff;
+  border-bottom: 2px solid #fff;
+  border-radius: 1px;
+  transform: rotate(-45deg);
+}
+/* Apaga de cima pra baixo, ate a cor do cartao. */
+.progresso__grade::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  background: linear-gradient(
+    to bottom,
+    rgba(237,232,224,0) 0%,
+    rgba(237,232,224,0) 34%,
+    rgba(237,232,224,0.55) 62%,
+    rgba(237,232,224,0.88) 82%,
+    var(--card-active) 100%
+  );
+}
+/* A foto entra pela direita, como na referencia, e para no pe do cartao. */
+.progresso__foto {
+  position: absolute;
+  right: -4%;
+  bottom: 0;
+  width: 56%;
+  height: 74%;
+  z-index: 2;
+  pointer-events: none;
+}
+.progresso__foto img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: bottom center;
+  display: block;
+}
+
+/* ── Beneficios em linhas (s30) ────────────────────────────────────────
+   Ladrilho de icone, titulo e subtitulo, separados por regua fina. O
+   ladrilho da ao icone um corpo do tamanho das duas linhas de texto; solto,
+   um icone de 20px ao lado de duas linhas some. */
+.beneficios {
+  list-style: none;
+  margin: 26px 0 24px;
+  padding: 0;
+}
+.beneficio {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 13px 0;
+}
+.beneficio + .beneficio {
+  border-top: 1px solid rgba(43,26,16,0.09);
+}
+.beneficio__icone {
+  flex-shrink: 0;
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: var(--card-active);
+  color: var(--ink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.beneficio__icone svg { width: 20px; height: 20px; display: block; }
+.beneficio__txt {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  /* Alinha a primeira linha do texto com o centro do ladrilho. */
+  padding-top: 2px;
+}
+.beneficio__txt b {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+}
+.beneficio__txt span {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.4;
+}
+
+/* Os titulos de secao da tela de preco saem da condensada e vao pra fonte do
+   resto da tela — a mesma do timer, dos cards e dos botoes. A Barlow
+   Condensed ficava estreita demais ao lado deles, como se fosse de outra
+   pagina. Vale so na s30; o resto do quiz continua com ela. */
+#s30 .section-heading {
+  font-family: 'DM Sans', system-ui, -apple-system, sans-serif;
+  letter-spacing: -0.02em;
+}
+
 .phones-dots {
   display: flex;
   justify-content: center;
   gap: 6px;
-  margin-top: 16px;
+  margin-top: 22px;
+  position: relative;
+}
+/* A sombra de apoio do conjunto, entre os telefones e os pontinhos. E uma so
+   pro grupo inteiro: as sombras individuais de cada aparelho nao somam esse
+   apoio largo, que e o que tira os telefones de cima do nada. */
+.phones-dots::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: -18px;
+  transform: translateX(-50%);
+  width: 62%;
+  height: 26px;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at center, rgba(43,26,16,0.11) 0%, rgba(43,26,16,0) 72%);
+  pointer-events: none;
 }
 .phones-dot {
   width: 8px; height: 8px;

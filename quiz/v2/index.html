@@ -56,7 +56,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"/>
-  <link rel="stylesheet" href="quiz-warm.css?v=312"/>
+  <link rel="stylesheet" href="quiz-warm.css?v=332"/>
 
   <!-- Anti-flicker do teste A/B.
        O script que troca a headline mora no fim do <body>, então num aparelho
@@ -966,96 +966,143 @@
       <div class="imgbox imgbox--pay"><img loading="lazy" src="Images/hipercard.webp" alt="Hipercard"></div>
     </div>
 
-    <!-- ═══ WHAT YOU GET ═══ -->
-    <h3 class="section-heading section-heading--center" style="margin-top:36px;">O que você passa a ter</h3>
-    <p style="font-size:14px; line-height:1.55; color:var(--ink-soft); margin-bottom:14px;"><span id="whatYouGetWeeks">12</span> semanas de atividades práticas para você conhecer o seu ciclo de um jeito que muda a sua relação com o seu corpo para sempre.</p>
-    <ul class="checklist">
-      <li class="checklist__item"><span class="checklist__icon">○</span>Você aprende a ler os sinais do seu ciclo: muco, temperatura, energia, com clareza, sem depender de aplicativo ou de adivinhar.</li>
-      <li class="checklist__item"><span class="checklist__icon">○</span>Você regula o sistema nervoso que trava a ovulação, porque estresse crônico eleva cortisol e compromete a qualidade dos óvulos. O plano trabalha diretamente nisso.</li>
-      <li class="checklist__item"><span class="checklist__icon">○</span>Você prepara o ambiente interno do seu corpo: qualidade do óvulo, circulação pélvica, equilíbrio hormonal, com atividades simples feitas em casa.</li>
-      <li class="checklist__item"><span class="checklist__icon">○</span>Você sai sabendo exatamente o que fazer e por quê isso vai funcionar para você.</li>
-    </ul>
-
-    <!-- Week progression illustration -->
-    <div class="weeks-progress">
-      <div class="weeks-row">
-        <div class="weeks-row__label">SEM <span>1</span></div>
-        <div class="weeks-row__days">
-          <div class="day-cell"><div class="day-cell__label">Dia 1</div><div class="day-cell__val">Muco<br/>seco</div></div>
-          <div class="day-cell"><div class="day-cell__label">Dia 2</div><div class="day-cell__val">Muco<br/>seco</div></div>
-          <div class="day-cell"><div class="day-cell__label">Dia 3</div><div class="day-cell__val">Pastoso</div></div>
-          <div class="day-cell day-cell--rest"><div class="day-cell__label">Dia 4</div><div class="day-cell__val">DESCANSO</div></div>
-          <div class="day-cell"><div class="day-cell__label">Dia 5</div><div class="day-cell__val">Cremoso</div></div>
-          <div class="day-cell"><div class="day-cell__label">Dia 6</div><div class="day-cell__val">Elástico</div></div>
-          <div class="day-cell day-cell--peak"><div class="day-cell__label">Dia 7</div><div class="day-cell__val">CLARA<br/>DE OVO</div></div>
-        </div>
-      </div>
-      <div class="weeks-row">
-        <div class="weeks-row__label">SEM <span>2</span></div>
-        <div class="weeks-row__days">
-          <div class="day-cell"><div class="day-cell__label">Dia 1</div><div class="day-cell__val">36.2°C</div></div>
-          <div class="day-cell"><div class="day-cell__label">Dia 2</div><div class="day-cell__val">36.3°C</div></div>
-          <div class="day-cell"><div class="day-cell__label">Dia 3</div><div class="day-cell__val">36.5°C</div></div>
-          <div class="day-cell"><div class="day-cell__label">Dia 4</div><div class="day-cell__val">36.7°C</div></div>
-          <div class="day-cell day-cell--rest"><div class="day-cell__label">Dia 5</div><div class="day-cell__val">DESCANSO</div></div>
-          <div class="day-cell"><div class="day-cell__label">Dia 6</div><div class="day-cell__val">36.8°C</div></div>
-          <div class="day-cell"><div class="day-cell__label">Dia 7</div><div class="day-cell__val">37.0°C</div></div>
-        </div>
-      </div>
-      <div class="weeks-row">
-        <div class="weeks-row__label">SEM <span>3</span></div>
-        <div class="weeks-row__days">
-          <div class="day-cell"><div class="day-cell__label">Dia 1</div><div class="day-cell__val">Dor leve<br/>lateral</div></div>
-          <div class="day-cell"><div class="day-cell__label">Dia 2</div><div class="day-cell__val">Libido<br/>alta</div></div>
-          <div class="day-cell"><div class="day-cell__label">Dia 3</div><div class="day-cell__val">Energia</div></div>
-          <div class="day-cell"><div class="day-cell__label">Dia 4</div><div class="day-cell__val">Mama<br/>sensível</div></div>
-          <div class="day-cell"><div class="day-cell__label">Dia 5</div><div class="day-cell__val">Lútea</div></div>
-          <div class="day-cell"><div class="day-cell__label">Dia 6</div><div class="day-cell__val">Lútea</div></div>
-          <div class="day-cell"><div class="day-cell__label">Dia 7</div><div class="day-cell__val">Lútea</div></div>
-        </div>
-      </div>
-      <div class="weeks-overlay"><div class="imgbox imgbox--woman"><img loading="lazy" src="Images/essa9_sem_fundo.webp" alt="Mulher grávida sorrindo"/></div></div>
-    </div>
-
-    <h3 class="section-heading section-heading--center">Bônus inclusos no seu plano</h3>
+    <!-- As telas do app, logo depois do preco. Ate aqui a pagina prometeu um
+         plano; e a primeira vez que ela ve o que vai abrir no celular. O
+         carrossel mostra tres de uma vez, com os do meio inteiros e os
+         vizinhos recuados: da pra sentir que tem mais sem precisar arrastar. -->
+    <h3 class="section-heading section-heading--center" style="margin-top:32px;">O que está incluído no seu plano</h3>
     <div class="phones-carousel">
       <div class="phones-row">
-        <div class="imgbox imgbox--phone phone--side" style="position:relative;"><img loading="lazy" src="Images/capa-bonus1-v2.webp?v=4" alt="O Cardápio da Gravidez" style="width:100%;height:100%;object-fit:cover;border-radius:24px;"/><span class="bonus-gift-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="13" rx="1"/><path d="M12 8v13"/><path d="M3 12h18"/><path d="M12 8C12 8 9 3 6 5s1 3 6 3z"/><path d="M12 8C12 8 15 3 18 5s-1 3-6 3z"/></svg></span></div>
-        <div class="imgbox imgbox--phone phone--center" style="position:relative;"><img loading="lazy" src="Images/capa-bonus2-v2.webp?v=4" alt="Homem Fértil" style="width:100%;height:100%;object-fit:cover;border-radius:24px;"/><span class="bonus-gift-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="13" rx="1"/><path d="M12 8v13"/><path d="M3 12h18"/><path d="M12 8C12 8 9 3 6 5s1 3 6 3z"/><path d="M12 8C12 8 15 3 18 5s-1 3-6 3z"/></svg></span></div>
-        <div class="imgbox imgbox--phone phone--center" style="position:relative;"><img loading="lazy" src="Images/capa-bonus3-v2.webp?v=4" alt="Suplementar para Engravidar" style="width:100%;height:100%;object-fit:cover;border-radius:24px;"/><span class="bonus-gift-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="13" rx="1"/><path d="M12 8v13"/><path d="M3 12h18"/><path d="M12 8C12 8 9 3 6 5s1 3 6 3z"/><path d="M12 8C12 8 15 3 18 5s-1 3-6 3z"/></svg></span></div>
-        <div class="imgbox imgbox--phone phone--side" style="position:relative;"><img loading="lazy" src="Images/capa-bonus4-v2.webp?v=4" alt="Os Pontos que Ativam a Ovulação" style="width:100%;height:100%;object-fit:cover;border-radius:24px;"/><span class="bonus-gift-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="13" rx="1"/><path d="M12 8v13"/><path d="M3 12h18"/><path d="M12 8C12 8 9 3 6 5s1 3 6 3z"/><path d="M12 8C12 8 15 3 18 5s-1 3-6 3z"/></svg></span></div>
+        <div class="imgbox imgbox--phone phone--side"><img loading="lazy" src="Images/app-tela1-biblioteca.webp" alt="Base de aprendizado do app"/></div>
+        <div class="imgbox imgbox--phone phone--center"><img loading="lazy" src="Images/app-tela2-jornada.webp" alt="As semanas do seu plano"/></div>
+        <div class="imgbox imgbox--phone phone--center"><img loading="lazy" src="Images/app-tela3-semana.webp" alt="As atividades do dia"/></div>
+        <div class="imgbox imgbox--phone phone--side"><img loading="lazy" src="Images/app-tela4-atividade.webp" alt="Uma atividade por dentro"/></div>
+        <div class="imgbox imgbox--phone phone--side"><img loading="lazy" src="Images/app-tela5-progresso.webp" alt="Qualidade da ovulação ao longo do plano"/></div>
       </div>
-      <div class="phones-dots"><span class="phones-dot active"></span><span class="phones-dot"></span><span class="phones-dot"></span><span class="phones-dot"></span></div>
+      <div class="phones-dots"><span class="phones-dot active"></span><span class="phones-dot"></span><span class="phones-dot"></span><span class="phones-dot"></span><span class="phones-dot"></span></div>
     </div>
 
-    <div class="bonus-desc-list">
-      <div class="bonus-desc-item">
-        <svg class="bonus-check-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="10.5" stroke="#C49A6C" stroke-width="1.5"/><path d="M8 12.5l2.5 2.5 5.5-5.5" stroke="#C49A6C" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        <div class="bonus-desc-content"><span class="bonus-desc-title">O Cardápio da Gravidez</span><span class="bonus-desc-text">O que comer nos 90 dias antes da concepção para preparar o óvulo que vai gerar seu filho.</span></div>
+    <!-- ═══ WHAT YOU GET ═══
+         Cada linha e um par: o titulo diz o que e, o subtitulo completa a
+         frase dizendo pra que. Quatro paragrafos corridos, que era o que
+         havia aqui, ninguem le depois de ver o preco. -->
+    <ul class="beneficios">
+      <li class="beneficio">
+        <span class="beneficio__icone"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="8"/><path d="M12 9.5V13l2.5 1.5"/><path d="M9 2h6"/></svg></span>
+        <span class="beneficio__txt"><b>Atividades de 5 a 15 minutos</b><span>para caber num dia que já está cheio</span></span>
+      </li>
+      <li class="beneficio">
+        <span class="beneficio__icone"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6.5l2 2 3.5-3.5"/><path d="M3 17.5l2 2 3.5-3.5"/><path d="M12 6.5h9"/><path d="M12 12h9"/><path d="M12 17.5h9"/></svg></span>
+        <span class="beneficio__txt"><b>As 4 de hoje, escolhidas pra você</b><span>o app mostra só as do dia, não uma lista de 98</span></span>
+      </li>
+      <li class="beneficio">
+        <span class="beneficio__icone"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3s6 6.4 6 10.2A6 6 0 0 1 6 13.2C6 9.4 12 3 12 3z"/></svg></span>
+        <span class="beneficio__txt"><b>Leitura dos sinais do seu ciclo</b><span>muco, temperatura e dor, pra parar de adivinhar a janela fértil</span></span>
+      </li>
+      <li class="beneficio">
+        <span class="beneficio__icone"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 10.5L12 4l8.5 6.5"/><path d="M5.5 9.8V20h13V9.8"/><path d="M9.8 20v-5.4h4.4V20"/></svg></span>
+        <span class="beneficio__txt"><b>Tudo feito em casa</b><span>sem clínica, sem consulta, sem exame novo</span></span>
+      </li>
+      <li class="beneficio">
+        <span class="beneficio__icone"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17"/><path d="M8 3v4M16 3v4"/></svg></span>
+        <span class="beneficio__txt"><b>Semana a semana, na ordem</b><span>a próxima abre quando você fecha a de agora</span></span>
+      </li>
+      <li class="beneficio">
+        <span class="beneficio__icone"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19V5"/><path d="M4 19h16"/><path d="M7.5 15.5l4-4.5 3 2.5 5-6"/><path d="M16 6.5h3.5V10"/></svg></span>
+        <span class="beneficio__txt"><b>Seu índice de ovulação à vista</b><span>o número sobe conforme você faz</span></span>
+      </li>
+    </ul>
+
+    <!-- Grade de progresso. Antes eram tres fileiras de sete com o rotulo da
+         semana na lateral; virou grade de quatro colunas com os dias
+         numerados de ponta a ponta, que e o desenho da referencia. Os
+         valores sao os mesmos, so a contagem deixou de reiniciar a cada
+         semana. A foto entra por cima, e o degrade apaga as ultimas linhas:
+         a promessa e "tem muito mais", nao "leia os 21". -->
+    <div class="progresso">
+      <div class="progresso__topo">
+        <span class="progresso__rot">Seu progresso</span>
+        <div class="progresso__barra"><span></span></div>
       </div>
-      <div class="bonus-desc-item">
-        <svg class="bonus-check-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="10.5" stroke="#C49A6C" stroke-width="1.5"/><path d="M8 12.5l2.5 2.5 5.5-5.5" stroke="#C49A6C" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        <div class="bonus-desc-content"><span class="bonus-desc-title">Homem Fértil</span><span class="bonus-desc-text">Como melhorar a qualidade do esperma dele em 60 dias sem ele precisar virar uma pessoa diferente.</span></div>
+      <div class="progresso__grade">
+          <div class="dia"><span class="dia__n">Dia 1</span><span class="dia__b"><i class="dia__ok"></i></span></div>
+          <div class="dia"><span class="dia__n">Dia 2</span><span class="dia__b"><i class="dia__ok"></i></span></div>
+          <div class="dia"><span class="dia__n">Dia 3</span><span class="dia__b">Pastoso</span></div>
+          <div class="dia dia--pausa"><span class="dia__n">Dia 4</span><span class="dia__b">DESCANSO</span></div>
+          <div class="dia"><span class="dia__n">Dia 5</span><span class="dia__b">Cremoso</span></div>
+          <div class="dia"><span class="dia__n">Dia 6</span><span class="dia__b">Elástico</span></div>
+          <div class="dia dia--pico"><span class="dia__n">Dia 7</span><span class="dia__b">CLARA<br/>DE OVO</span></div>
+          <div class="dia"><span class="dia__n">Dia 8</span><span class="dia__b">36.2°C</span></div>
+          <div class="dia"><span class="dia__n">Dia 9</span><span class="dia__b">36.3°C</span></div>
+          <div class="dia"><span class="dia__n">Dia 10</span><span class="dia__b">36.5°C</span></div>
+          <div class="dia"><span class="dia__n">Dia 11</span><span class="dia__b">36.7°C</span></div>
+          <div class="dia dia--pausa"><span class="dia__n">Dia 12</span><span class="dia__b">DESCANSO</span></div>
+          <div class="dia"><span class="dia__n">Dia 13</span><span class="dia__b">36.8°C</span></div>
+          <div class="dia"><span class="dia__n">Dia 14</span><span class="dia__b">37.0°C</span></div>
+          <div class="dia"><span class="dia__n">Dia 15</span><span class="dia__b">Dor leve<br/>lateral</span></div>
+          <div class="dia"><span class="dia__n">Dia 16</span><span class="dia__b">Libido<br/>alta</span></div>
       </div>
-      <div class="bonus-desc-item">
-        <svg class="bonus-check-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="10.5" stroke="#C49A6C" stroke-width="1.5"/><path d="M8 12.5l2.5 2.5 5.5-5.5" stroke="#C49A6C" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        <div class="bonus-desc-content"><span class="bonus-desc-title">Suplementar para Engravidar</span><span class="bonus-desc-text">O que realmente funciona e o que é só marketing caro disfarçado de esperança.</span></div>
+      <div class="progresso__foto"><img loading="lazy" src="Images/essa9_sem_fundo.webp" alt="Mulher grávida sorrindo"/></div>
+    </div>
+
+    <!-- ═══ BLOCO DA LOJA ═══
+         VALORES DE PREENCHIMENTO. Trocar os quatro pontos marcados com
+         DADO: quando os numeros reais existirem. Ate la a secao afirma
+         coisas que nao aconteceram — nota, contagem de avaliacao, premio e
+         presenca nas lojas. Publicar assim e propaganda enganosa. -->
+    <div class="prova">
+      <div class="prova__lojas">
+        <div class="prova__loja">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.4 12.7c0-2.1 1.7-3.1 1.8-3.2-1-1.4-2.5-1.6-3-1.7-1.3-.1-2.5.8-3.2.8-.7 0-1.6-.8-2.7-.7-1.4 0-2.7.8-3.4 2-1.4 2.5-.4 6.2 1 8.3.7 1 1.5 2.1 2.5 2.1 1 0 1.4-.7 2.6-.7 1.2 0 1.5.7 2.6.6 1.1 0 1.8-1 2.4-2 .8-1.2 1.1-2.3 1.1-2.3s-2.1-.8-2.1-3.2zM14.3 5.6c.5-.7.9-1.6.8-2.6-.8 0-1.9.6-2.4 1.3-.5.6-1 1.6-.9 2.5.9.1 1.9-.5 2.5-1.2z"/></svg>
+          <span>APP STORE</span>
+        </div>
+        <div class="prova__loja">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.3 2.6c-.2.2-.3.6-.3 1v16.8c0 .4.1.7.3 1l.1.1 9.4-9.4v-.2L4.4 2.5l-.1.1zM17.5 15.2l-3.1-3.1v-.2l3.1-3.1.1.1 3.7 2.1c1.1.6 1.1 1.6 0 2.2l-3.7 2.1-.1-.1zM17.4 15.3L14.2 12l-9.4 9.4c.4.4.9.4 1.6.1l11-6.2M17.4 8.7L6.4 2.5c-.7-.4-1.3-.3-1.6.1L14.2 12l3.2-3.3z"/></svg>
+          <span>GOOGLE PLAY</span>
+        </div>
       </div>
-      <div class="bonus-desc-item">
-        <svg class="bonus-check-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="10.5" stroke="#C49A6C" stroke-width="1.5"/><path d="M8 12.5l2.5 2.5 5.5-5.5" stroke="#C49A6C" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        <div class="bonus-desc-content"><span class="bonus-desc-title">Os Pontos que Ativam a Ovulação</span><span class="bonus-desc-text">Pontos no corpo que você pressiona para acordar o ciclo que está dormindo.</span></div>
+
+      <div class="prova__estrelas" aria-hidden="true">
+        <!-- DADO: a nota media, quando existir -->
+        <span>★</span><span>★</span><span>★</span><span>★</span><span class="meia">★</span>
+      </div>
+
+      <div class="prova__numeros">
+        <div class="prova__num">
+          <b>—</b><!-- DADO: total de avaliacoes -->
+          <span>avaliações</span>
+        </div>
+        <div class="prova__num">
+          <b>—</b><!-- DADO: avaliacoes de 5 estrelas -->
+          <span>Avaliações de 5 estrelas</span>
+        </div>
+      </div>
+
+      <div class="prova__premio">
+        <svg class="prova__louro" viewBox="0 0 40 90" fill="currentColor" aria-hidden="true"><path d="M33 88c-9-7-15-16-18-26C12 52 12 42 15 33c3-9 8-17 15-24-9 5-16 13-20 23-4 10-4 21-1 31 3 10 10 19 20 25h4z"/><ellipse cx="14" cy="24" rx="6" ry="3.4" transform="rotate(-35 14 24)"/><ellipse cx="9" cy="38" rx="6" ry="3.4" transform="rotate(-18 9 38)"/><ellipse cx="8" cy="53" rx="6" ry="3.4" transform="rotate(5 8 53)"/><ellipse cx="12" cy="68" rx="6" ry="3.4" transform="rotate(28 12 68)"/><ellipse cx="21" cy="80" rx="6" ry="3.4" transform="rotate(48 21 80)"/></svg>
+        <div class="prova__premio-txt">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.4 12.7c0-2.1 1.7-3.1 1.8-3.2-1-1.4-2.5-1.6-3-1.7-1.3-.1-2.5.8-3.2.8-.7 0-1.6-.8-2.7-.7-1.4 0-2.7.8-3.4 2-1.4 2.5-.4 6.2 1 8.3.7 1 1.5 2.1 2.5 2.1 1 0 1.4-.7 2.6-.7 1.2 0 1.5.7 2.6.6 1.1 0 1.8-1 2.4-2 .8-1.2 1.1-2.3 1.1-2.3s-2.1-.8-2.1-3.2zM14.3 5.6c.5-.7.9-1.6.8-2.6-.8 0-1.9.6-2.4 1.3-.5.6-1 1.6-.9 2.5.9.1 1.9-.5 2.5-1.2z"/></svg>
+          <b>APP DO DIA</b>
+          <!-- DADO: alcance e data do premio -->
+          <span>em — países · —</span>
+        </div>
+        <svg class="prova__louro prova__louro--dir" viewBox="0 0 40 90" fill="currentColor" aria-hidden="true"><path d="M33 88c-9-7-15-16-18-26C12 52 12 42 15 33c3-9 8-17 15-24-9 5-16 13-20 23-4 10-4 21-1 31 3 10 10 19 20 25h4z"/><ellipse cx="14" cy="24" rx="6" ry="3.4" transform="rotate(-35 14 24)"/><ellipse cx="9" cy="38" rx="6" ry="3.4" transform="rotate(-18 9 38)"/><ellipse cx="8" cy="53" rx="6" ry="3.4" transform="rotate(5 8 53)"/><ellipse cx="12" cy="68" rx="6" ry="3.4" transform="rotate(28 12 68)"/><ellipse cx="21" cy="80" rx="6" ry="3.4" transform="rotate(48 21 80)"/></svg>
       </div>
     </div>
 
-    <a href="https://pay.kiwify.com.br/dALiRrx" target="_blank" class="btn-primary" style="text-decoration:none;display:block;text-align:center;" onclick="trackCheckout();">RECEBER O MEU PLANO</a>
-
-    <div class="guarantee-block">
-      <div class="guarantee-block__seal">
-        <img loading="lazy" src="Images/logogarantia.webp" alt="Garantia 7 dias" class="guarantee-seal-img">
-      </div>
-      <div class="guarantee-block__body">
-        <div class="guarantee-block__title">Garantia de 7 dias</div>
-        <p class="guarantee-block__text">Se em 7 dias você não sentir nenhuma diferença, devolvemos 100% do investimento. Sem burocracia, sem formulário.</p>
+    <!-- Resultados. Trilha com encaixe de rolagem em vez de JS: o arrastar e
+         o do proprio sistema, e o cartao seguinte aparece pela borda sozinho.
+         Por ora ha um resultado; para somar outro, repetir o cartao abaixo. -->
+    <h3 class="section-heading section-heading--center" style="margin-top:34px;">Resultados que nos deixam orgulhosos</h3>
+    <div class="resultados">
+      <div class="resultados__trilha">
+        <article class="resultado">
+          <div class="resultado__foto"><img loading="lazy" src="Images/pregnancy_test_split_4_3.webp" alt="Antes e depois — teste negativo e positivo"/></div>
+          <div class="resultado__corpo">
+            <p class="resultado__nome">Marina Silveira, São Paulo</p>
+            <p class="resultado__txt">Tentei por quase 2 anos. Em 6 semanas com o plano, entendi meu ciclo pela primeira vez. No mês seguinte, engravidei.</p>
+          </div>
+        </article>
       </div>
     </div>
 
@@ -1106,7 +1153,6 @@
         <p class="review__text">O plano me devolveu a esperança. Pela primeira vez eu sabia exatamente o que estava errado — e o que fazer a respeito.</p>
       </div>
     </div>
-
 
     <!-- ═══ #1 PROTOCOLO BADGE ═══ -->
     <div class="number-one">
@@ -1170,13 +1216,6 @@
     </div>
 
     <!-- ═══ BEFORE/AFTER ═══ -->
-    <h3 class="section-heading section-heading--center" style="margin-top:36px;">Nossas clientes alcançam o objetivo</h3>
-    <div class="before-after">
-      <img loading="lazy" src="Images/pregnancy_test_split_4_3.webp" alt="Antes e depois — teste negativo e positivo" style="width:100%;border-radius:12px;display:block;"/>
-      <p class="ba-name">Marina Silveira, São Paulo.</p>
-      <p class="ba-disclaimer">Tentei por quase 2 anos. Em 6 semanas com o plano, entendi meu ciclo pela primeira vez. No mês seguinte, engravidei.</p>
-    </div>
-
     <h3 class="section-heading section-heading--center" style="margin-top:36px;">Perguntas frequentes</h3>
     <div class="faq">
       <details class="faq__item">
@@ -1206,10 +1245,16 @@
     <p class="plan-disclaimer">Acesso imediato ao Plano Ciclo Fértil.</p>
 
     <!-- ═══ MONEY-BACK GUARANTEE BIG ═══ -->
-    <div class="guarantee-big">
-      <img loading="lazy" src="Images/logogarantia.webp" alt="Garantia 7 dias" class="guarantee-seal-img guarantee-seal-img--big">
-      <h3 class="section-heading section-heading--center" style="margin:18px 0 12px;">Garantia de reembolso</h3>
-      <p class="guarantee-big__text">Se em 7 dias você não sentir nenhuma diferença, devolvemos 100% do investimento, sem perguntas. Consulte nossa <a href="reembolso.html" target="_blank"><b>Política de Reembolso</b></a> para entender as condições.</p>
+    <!-- Garantia. O selo de medalha saiu: um escudo com ✓ e o mesmo tracado
+         dos outros icones da pagina, e nao concorre com o preco por atencao.
+         O prazo continua sendo 7 dias — e o que a Kiwify honra. -->
+    <div class="garantia">
+      <span class="garantia__icone">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.8l7.4 2.9v5.6c0 4.5-3.1 8.6-7.4 9.9-4.3-1.3-7.4-5.4-7.4-9.9V5.7L12 2.8z"/><path d="M8.6 12.1l2.3 2.3 4.5-4.9"/></svg>
+      </span>
+      <h3 class="garantia__titulo">Garantia de reembolso<br/>de 7 dias</h3>
+      <p class="garantia__txt">Se em 7 dias você não sentir nenhuma diferença, devolvemos 100% do investimento. Sem burocracia, sem formulário, sem precisar explicar o motivo.</p>
+      <p class="garantia__txt">Veja as condições na nossa <a href="reembolso.html" target="_blank">política de reembolso</a>.</p>
     </div>
 
     <!-- ═══ FOOTER LINKS + PAYMENTS ═══ -->
@@ -1379,7 +1424,6 @@ const LINKS = {
   imersao:  { f1:'https://pay.kiwify.com.br/Se1kK9E', f2:'https://pay.kiwify.com.br/t3YYv6L',
               f3:'https://pay.kiwify.com.br/8zYV8Qn', f4:'https://pay.kiwify.com.br/8ACzRLE' },
 };
-
 
 /* As variantes de cartao com foto dividem o MESMO layout de propósito: a
    headline é a única coisa que muda entre elas, e é ela que o teste mede.
@@ -1655,7 +1699,6 @@ function montarCarrossel(slides) {
     document.documentElement.classList.remove('ab-espera');
   }
 })();
-
 
 // Envia o ping de rastreamento por dois caminhos independentes pra maximizar
 // a entrega em navegadores internos de app (Instagram/Facebook/iOS), onde o
@@ -2314,7 +2357,6 @@ function updateProjection() {
   }
 }
 
-
 // IQO calculation — 4 fatores com peso igual
 function calculateIQO() {
   function factorScore(ids, maxPer) {
@@ -2704,6 +2746,10 @@ document.addEventListener('click', (e) => {
 }, true);
 </script>
 <script>
+/* Carrossel das telas do app. Nao rola a fila: reordena os cards por
+   `order` e reposiciona cada um conforme a distancia ate o selecionado.
+   Assim funciona com qualquer quantidade de telas e o card que sai por um
+   lado reaparece pelo outro, sem fim de curso. */
 (function() {
   var carousel = document.querySelector('#s30 .phones-carousel');
   if (!carousel) return;
@@ -2717,32 +2763,85 @@ document.addEventListener('click', (e) => {
     cards.forEach(function(card, i) {
       var pos = ((i - index) % n + n) % n;
       card.style.order = pos;
+      // Tres de cada vez: uma inteira no centro e uma recuada de cada lado.
+      // As demais saem do fluxo em vez de empurrar a fileira pra fora da
+      // tela — e sao elas que deixam a do meio grande.
+      card.hidden = pos > 2;
+      // Quem posiciona e o CSS: aqui so diz qual e a do meio.
       card.classList.remove('phone--center', 'phone--side');
-      if (pos === 1 || pos === 2) {
-        card.classList.add('phone--center');
-        card.style.transform = '';
-        card.style.marginLeft = pos === 2 ? '3px' : '';
-      } else {
-        card.classList.add('phone--side');
-        card.style.marginLeft = '';
-        card.style.transform = pos === 0 ? 'scale(0.82) translateX(22%)' : 'scale(0.82) translateX(-22%)';
-      }
+      card.classList.add(pos === 1 ? 'phone--center' : 'phone--side');
     });
     current = index;
   }
 
+  // A troca de `order` e instantanea — nao ha como interpolar posicao de
+  // grade. Entao a animacao e um esmaecer da fileira: apaga, troca no escuro
+  // e volta. Some com o pulo e e barato.
+  var row = carousel.querySelector('.phones-row');
+  var semMovimento = window.matchMedia('(prefers-reduced-motion: reduce)');
+  function irPara(index) {
+    if (index === current) return;
+    if (semMovimento.matches) { applySlide(index); return; }
+    // De qual lado a fileira entra: indo pra frente ela vem da direita, e o
+    // caminho mais curto no circulo decide quando "pra frente" e pra tras.
+    var n = cards.length;
+    var frente = ((index - current) % n + n) % n;
+    var dir = (frente <= n / 2) ? 1 : -1;
+    // Uma fase so: reordena ja deslocado e traz pra zero no mesmo quadro.
+    // Duas fases com setTimeout no meio deixavam a fileira travada fora do
+    // lugar quando uma troca comecava em cima da outra — e aba em segundo
+    // plano estrangula o timer.
+    applySlide(index);
+    var meio = row.querySelector('.phone--center');
+    var larg = (meio ? meio.offsetWidth : row.offsetWidth * 0.47);
+    row.style.transition = 'none';
+    row.style.transform = 'translateX(' + (dir * larg * 0.62) + 'px)';
+    row.style.opacity = '0.35';
+    void row.offsetWidth;
+    row.style.transition = '';
+    row.style.transform = 'translateX(0)';
+    row.style.opacity = '1';
+  }
+
+  var INTERVALO = 4000;
+  var timer = null;
+  function girar() {
+    clearInterval(timer);
+    // Quem pediu pra reduzir movimento nao recebe carrossel andando sozinho.
+    if (semMovimento.matches) return;
+    timer = setInterval(function() {
+      irPara((current + 1) % cards.length);
+    }, INTERVALO);
+  }
+  // Toda troca manual reinicia a contagem, senao a proxima automatica cai em
+  // cima da escolha dela.
+  function manual(index) { irPara(index); girar(); }
+
   dots.forEach(function(dot, i) {
     dot.style.cursor = 'pointer';
-    dot.addEventListener('click', function() { applySlide(i); });
+    dot.addEventListener('click', function() { manual(i); });
   });
+  // O HTML nasce com a primeira tela ativa; roda uma vez pra aplicar o
+  // recorte de tres antes do primeiro toque.
+  applySlide(0);
 
   // swipe support
   var startX = 0;
   carousel.addEventListener('touchstart', function(e) { startX = e.touches[0].clientX; }, {passive:true});
   carousel.addEventListener('touchend', function(e) {
     var dx = e.changedTouches[0].clientX - startX;
-    if (Math.abs(dx) > 40) applySlide((current + (dx < 0 ? 1 : -1) + dots.length) % dots.length);
+    if (Math.abs(dx) > 40) manual((current + (dx < 0 ? 1 : -1) + cards.length) % cards.length);
   }, {passive:true});
+
+  // So gira enquanto esta na tela: girar fora de vista gasta bateria e faz a
+  // pessoa voltar pra uma tela que ela nunca viu comecar.
+  if (window.IntersectionObserver) {
+    new window.IntersectionObserver(function(entradas) {
+      entradas[0].isIntersecting ? girar() : clearInterval(timer);
+    }, { threshold: 0.35 }).observe(carousel);
+  } else {
+    girar();
+  }
 })();
 </script>
 <script src="https://www.youtube.com/iframe_api"></script>

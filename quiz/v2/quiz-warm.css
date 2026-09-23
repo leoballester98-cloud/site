@@ -1101,14 +1101,18 @@ body {
   grid-template-columns: 1fr 1fr;
   position: relative;
 }
+/* As fotos sao 3:4 exatos. Numa caixa 3:4 elas cabem inteiras, mas ficam do
+   tamanho da coluna — estreita. Esticando a caixa pra 2:3 e trocando contain
+   por cover, a mulher passa a ser dimensionada pela altura e cresce ~12%; o
+   que sai e faixa lateral vazia, nao ela. */
 .compare__foto {
-  aspect-ratio: 3 / 4;
+  aspect-ratio: 2 / 3;
   overflow: hidden;
 }
 .compare__foto img {
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  object-fit: cover;
   object-position: bottom center;
   display: block;
 }
@@ -1367,8 +1371,10 @@ body {
   border-radius: 2px;
   background: rgba(43,26,16,0.12);
 }
-.compare-stat__segs--low  { --seg: var(--red); }
-.compare-stat__segs--full { --seg: #22c55e; }
+/* Os dois lados no mesmo marrom da paleta, como na referencia. Quem diz a
+   diferenca e quantos segmentos acendem — 1 contra 3 —, nao a cor. */
+.compare-stat__segs--low  { --seg: var(--cta); }
+.compare-stat__segs--full { --seg: var(--cta); }
 .compare-stat__segs[data-nivel="1"] i:nth-child(-n+1),
 .compare-stat__segs[data-nivel="2"] i:nth-child(-n+2),
 .compare-stat__segs[data-nivel="3"] i:nth-child(-n+3) {
@@ -3059,6 +3065,28 @@ button:focus-visible, .row-card:focus-visible, .simple-opt:focus-visible,
 .payment-methods .imgbox--pay:nth-child(3) { padding: 3px; }   /* PayPal – muito horizontal, pouco padding */
 .payment-methods .imgbox--pay:nth-child(4) { padding: 4px; }   /* Elo */
 .payment-methods .imgbox--pay:nth-child(5) { padding: 4px; }   /* Hipercard */
+
+/* Versao abaixo do botao. Duas diferencas em relacao a do rodape:
+   1. Sem caixa. A bandeira ja e uma forma fechada com cor propria; por cima
+      de um retangulo branco com borda ela vira um cartaozinho dentro de
+      outro. Solta, le como selo.
+   2. Largura elastica com teto, entao a fileira encolhe junto com a tela em
+      vez de transbordar como a do rodape, que tem 64px fixos.
+   Vem depois dos ajustes por bandeira de proposito: precisa zerar o padding
+   deles, que so fazia sentido dentro da caixa. */
+.payment-methods--inline {
+  margin: 14px 0 0;
+  gap: 6px;
+}
+.payment-methods.payment-methods--inline .imgbox--pay {
+  width: 100%;
+  max-width: 62px;
+  height: 34px;
+  background: none;
+  border: none;
+  border-radius: 0;
+  padding: 0;
+}
 /* ── s30 button color override ── */
 #s30 .btn-primary,
 #s30 .sticky-discount-bar {
@@ -4650,14 +4678,14 @@ body.marca-solta:has(#s1.screen.active) .header__inner::after {
    border-box), entao o conteudo nao pula ao trocar de plano. */
 .plans--tri .plan-card.selected {
   background: var(--bg);
-  border: 3px solid var(--ink);
+  border: 3px solid var(--cta);
   padding: 10px 11px;
 }
 /* O card recomendado carrega a moldura sempre: e ela que segura a faixa.
    Quem diz o que esta escolhido e o radio e o fundo claro, nao a moldura. */
 .plans--tri .plan-card--pop,
 .plans--tri .plan-card--pop.selected {
-  border: 3px solid var(--ink);
+  border: 3px solid var(--cta);
   margin-top: 0;
   /* 24px de faixa + os 10px de respiro de sempre. */
   padding: 34px 11px 10px;
@@ -4673,7 +4701,7 @@ body.marca-solta:has(#s1.screen.active) .header__inner::after {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--ink);
+  background: var(--cta);
   color: #fff;
   font-size: 11px;
   font-weight: 800;

@@ -56,7 +56,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"/>
-  <link rel="stylesheet" href="quiz-warm.css?v=309"/>
+  <link rel="stylesheet" href="quiz-warm.css?v=312"/>
 
   <!-- Anti-flicker do teste A/B.
        O script que troca a headline mora no fim do <body>, então num aparelho
@@ -955,6 +955,17 @@
     <a href="https://pay.kiwify.com.br/dALiRrx" target="_blank" class="price-cta" onclick="trackCheckout();">RECEBER MEU PLANO</a>
     <p style="text-align:center; font-size:13px; color:var(--ink-soft); margin:6px 0 0;"><span style="border-bottom: 1.5px solid var(--ink-soft); padding-bottom:2px;">Garantia de reembolso em 7 dias</span></p>
 
+    <!-- As bandeiras logo abaixo do botao, e nao so no rodape: a duvida de
+         "da pra pagar como?" nasce no momento do clique, nao no fim da
+         pagina. -->
+    <div class="payment-methods payment-methods--inline">
+      <div class="imgbox imgbox--pay"><img loading="lazy" src="Images/visa.webp?v=2" alt="Visa"></div>
+      <div class="imgbox imgbox--pay"><img loading="lazy" src="Images/bandeiras-de-cartao-de-credito-o-que-sao-e-quais-as-principais-1-1024x795.webp?v=2" alt="Mastercard"></div>
+      <div class="imgbox imgbox--pay"><img loading="lazy" src="Images/paypal.webp?v=2" alt="PayPal"></div>
+      <div class="imgbox imgbox--pay"><img loading="lazy" src="Images/cartao-elo.webp" alt="Elo"></div>
+      <div class="imgbox imgbox--pay"><img loading="lazy" src="Images/hipercard.webp" alt="Hipercard"></div>
+    </div>
+
     <!-- ═══ WHAT YOU GET ═══ -->
     <h3 class="section-heading section-heading--center" style="margin-top:36px;">O que você passa a ter</h3>
     <p style="font-size:14px; line-height:1.55; color:var(--ink-soft); margin-bottom:14px;"><span id="whatYouGetWeeks">12</span> semanas de atividades práticas para você conhecer o seu ciclo de um jeito que muda a sua relação com o seu corpo para sempre.</p>
@@ -1210,9 +1221,9 @@
       Checkout seguro
     </p>
     <div class="payment-methods">
-      <div class="imgbox imgbox--pay"><img loading="lazy" src="Images/visa.webp" alt="Visa"></div>
-      <div class="imgbox imgbox--pay"><img loading="lazy" src="Images/bandeiras-de-cartao-de-credito-o-que-sao-e-quais-as-principais-1-1024x795.webp" alt="Mastercard"></div>
-      <div class="imgbox imgbox--pay"><img loading="lazy" src="Images/paypal.webp" alt="PayPal"></div>
+      <div class="imgbox imgbox--pay"><img loading="lazy" src="Images/visa.webp?v=2" alt="Visa"></div>
+      <div class="imgbox imgbox--pay"><img loading="lazy" src="Images/bandeiras-de-cartao-de-credito-o-que-sao-e-quais-as-principais-1-1024x795.webp?v=2" alt="Mastercard"></div>
+      <div class="imgbox imgbox--pay"><img loading="lazy" src="Images/paypal.webp?v=2" alt="PayPal"></div>
       <div class="imgbox imgbox--pay"><img loading="lazy" src="Images/cartao-elo.webp" alt="Elo"></div>
       <div class="imgbox imgbox--pay"><img loading="lazy" src="Images/hipercard.webp" alt="Hipercard"></div>
     </div>

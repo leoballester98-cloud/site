@@ -56,7 +56,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"/>
-  <link rel="stylesheet" href="quiz-warm.css?v=289"/>
+  <link rel="stylesheet" href="quiz-warm.css?v=305"/>
 
   <!-- Anti-flicker do teste A/B.
        O script que troca a headline mora no fim do <body>, então num aparelho
@@ -835,46 +835,75 @@
 
     <!-- Sticky discount bar -->
     <div class="sticky-discount-bar">
-      <div class="sticky-discount-bar__left">
-        <span class="sticky-discount-bar__label">Desconto reservado por:</span>
-        <span class="sticky-discount-bar__timer" id="stickyCountdown">09:47</span>
+      <div class="sticky-discount-bar__timer" id="stickyCountdown">
+        <span class="sticky-timer__unit">
+          <span class="sticky-timer__num" id="stickyMin">09</span>
+          <span class="sticky-timer__cap">minutos</span>
+        </span>
+        <span class="sticky-timer__sep">:</span>
+        <span class="sticky-timer__unit">
+          <span class="sticky-timer__num" id="stickySeg">47</span>
+          <span class="sticky-timer__cap">segundos</span>
+        </span>
       </div>
       <a href="https://pay.kiwify.com.br/dALiRrx" target="_blank" class="sticky-discount-bar__btn" onclick="trackCheckout();">RECEBER MEU PLANO</a>
     </div>
 
-    <h2 class="q-title-lg" style="margin-bottom:8px;">O seu plano personalizado está pronto!</h2>
-
-    <div class="compare-grid">
-      <div class="compare-col">
-        <div class="compare-col__head">Agora</div>
-        <div class="imgbox imgbox--compare-col">
-          <img loading="lazy" src="Images/essa11.webp" alt="Antes do plano"/>
+    <!-- O comparativo nao e um cartao. So o cabecalho e as avatares ficam num
+         painel levemente mais escuro que a pagina — e ele que diz "aqui e a
+         comparacao". As metricas ficam no fundo da pagina, separadas por
+         reguas finas. Por isso a estrutura e em faixas horizontais, e nao
+         duas colunas empilhadas: o painel precisa atravessar as duas. -->
+    <div class="compare">
+      <div class="compare__painel">
+        <div class="compare__head">
+          <span>Agora</span>
+          <span>Objetivo</span>
         </div>
-        <div class="compare-stat">
-          <div class="compare-stat__label">Índice IQO</div>
-          <div class="compare-stat__value" id="priceIqoNow">35/100</div>
-          <div class="compare-stat__bar"><div class="compare-stat__bar-fill compare-stat__bar-fill--low" id="priceIqoBar" style="width:35%;"></div></div>
-        </div>
-        <div class="compare-stat">
-          <div class="compare-stat__label">Qualidade da ovulação</div>
-          <div class="compare-stat__value" id="priceQualidadeNow">Baixa</div>
-          <div class="compare-stat__bar"><div class="compare-stat__bar-fill compare-stat__bar-fill--low" id="priceQualidadeBar" style="width:20%;"></div></div>
+        <div class="compare__fotos">
+          <div class="compare__foto">
+            <img loading="lazy" src="Images/essa11.webp" alt="Antes do plano"/>
+          </div>
+          <div class="compare__foto">
+            <img loading="lazy" src="Images/essa12.webp" alt="Depois do plano"/>
+          </div>
+          <!-- Dois chevrons desenhados, nao o glifo »: o traco arredondado e a
+               espessura so existem em SVG. Eles acendem em sequencia, da
+               esquerda pra direita — e a sequencia que diz a direcao. -->
+          <span class="compare__seta" aria-hidden="true">
+            <svg viewBox="0 0 12 22" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M2 2.5 L9.5 11 L2 19.5"/></svg>
+            <svg viewBox="0 0 12 22" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M2 2.5 L9.5 11 L2 19.5"/></svg>
+          </span>
         </div>
       </div>
-      <div class="compare-col">
-        <div class="compare-col__head">Objetivo</div>
-        <div class="imgbox imgbox--compare-col">
-          <img loading="lazy" src="Images/essa12.webp" alt="Depois do plano"/>
+
+      <div class="compare__stats">
+        <div class="compare__linha">
+          <!-- O IQO nao leva barra: o proprio numero ja e a escala (18/100).
+               Barra aqui era o mesmo dado duas vezes. -->
+          <div class="compare-stat">
+            <div class="compare-stat__label">Índice IQO</div>
+            <div class="compare-stat__value" id="priceIqoNow">35/100</div>
+          </div>
+          <div class="compare-stat">
+            <div class="compare-stat__label">Índice IQO</div>
+            <div class="compare-stat__value">88/100</div>
+          </div>
         </div>
-        <div class="compare-stat">
-          <div class="compare-stat__label">Índice IQO</div>
-          <div class="compare-stat__value">88/100</div>
-          <div class="compare-stat__bar"><div class="compare-stat__bar-fill compare-stat__bar-fill--full" style="width:88%;"></div></div>
-        </div>
-        <div class="compare-stat">
-          <div class="compare-stat__label">Qualidade da ovulação</div>
-          <div class="compare-stat__value">Otimizada</div>
-          <div class="compare-stat__bar"><div class="compare-stat__bar-fill compare-stat__bar-fill--full" style="width:100%;"></div></div>
+        <div class="compare__linha">
+          <!-- Aqui sim: "Muito baixa" e "Otimizada" nao tem escala propria,
+               entao os tres segmentos dizem o nivel. Tres, grossos, como no
+               original — a barra pontilhada fina nao se lia de relance. -->
+          <div class="compare-stat">
+            <div class="compare-stat__label">Qualidade da ovulação</div>
+            <div class="compare-stat__value" id="priceQualidadeNow">Baixa</div>
+            <div class="compare-stat__segs compare-stat__segs--low" id="priceQualidadeBar" data-nivel="1"><i></i><i></i><i></i></div>
+          </div>
+          <div class="compare-stat">
+            <div class="compare-stat__label">Qualidade da ovulação</div>
+            <div class="compare-stat__value">Otimizada</div>
+            <div class="compare-stat__segs compare-stat__segs--full" data-nivel="3"><i></i><i></i><i></i></div>
+          </div>
         </div>
       </div>
     </div>
@@ -923,10 +952,10 @@
       </div>
     </div>
 
-    <a href="https://pay.kiwify.com.br/dALiRrx" target="_blank" class="price-banner" style="text-decoration:none;" onclick="trackCheckout();">
-      <span class="price-banner__icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="8" cy="9" r="6" stroke="currentColor" stroke-width="1.5"/><path d="M8 6v3.5l2 1.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 1.5h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M8 1.5V3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
-      <span id="priceCountdown">A oferta expira em 09:47 min</span>
-    </a>
+    <!-- Mesmo botao da barra do topo, so que na largura da secao. Antes aqui
+         havia o aviso vermelho de expiracao: contar o tempo ja e trabalho do
+         timer la em cima, e no fim da pagina o que falta e o pedido. -->
+    <a href="https://pay.kiwify.com.br/dALiRrx" target="_blank" class="price-cta" onclick="trackCheckout();">RECEBER MEU PLANO</a>
     <p style="text-align:center; font-size:13px; color:var(--ink-soft); margin:6px 0 0;"><span style="border-bottom: 1.5px solid var(--ink-soft); padding-bottom:2px;">Garantia de reembolso em 7 dias</span></p>
 
     <!-- ═══ WHAT YOU GET ═══ -->
@@ -1838,6 +1867,8 @@ function showScreen(id) {
   if (wrap) wrap.style.paddingTop = (id === 's30') ? '0' : '';
 
   if (id === 's30') {
+    reservarTopoS30();
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(reservarTopoS30);
     startCountdown();
     syncPriceCompare();
     updateProjection();
@@ -2430,16 +2461,16 @@ function showIQO() {
 function syncPriceCompare() {
   const nlc = getDisplayIQO();
   document.getElementById('priceIqoNow').textContent = nlc + '/100';
-  document.getElementById('priceIqoBar').style.width = nlc + '%';
-  // Qualidade da ovulação: alinhada com faixas do IQO
+  // Qualidade da ovulação: alinhada com faixas do IQO. A barra agora tem tres
+  // segmentos, entao o que muda e quantos acendem, nao a largura.
   const qualEl  = document.getElementById('priceQualidadeNow');
   const qualBar = document.getElementById('priceQualidadeBar');
-  let qualLabel, qualPct;
-  if (nlc < 33)      { qualLabel = 'Muito baixa'; qualPct = 15; }
-  else if (nlc < 55) { qualLabel = 'Baixa';       qualPct = 30; }
-  else               { qualLabel = 'Moderada';    qualPct = 50; }
-  if (qualEl)  qualEl.textContent      = qualLabel;
-  if (qualBar) qualBar.style.width     = qualPct + '%';
+  let qualLabel, qualNivel;
+  if (nlc < 33)      { qualLabel = 'Muito baixa'; qualNivel = 1; }
+  else if (nlc < 55) { qualLabel = 'Baixa';       qualNivel = 1; }
+  else               { qualLabel = 'Moderada';    qualNivel = 2; }
+  if (qualEl)  qualEl.textContent = qualLabel;
+  if (qualBar) qualBar.dataset.nivel = qualNivel;
 }
 
 function startLoading() {
@@ -2587,26 +2618,51 @@ function drawCurve() {
   ctx.textBaseline = 'alphabetic';
 }
 
+/* A barra de desconto e `fixed` no topo, entao ela nao empurra nada: quem
+   reserva o espaco e o padding da s30. Esse valor nao pode ser fixo no CSS
+   porque a altura da barra muda com a fonte carregada e com o tamanho do
+   timer. Mede a barra e corrige o padding ate o comparativo comecar abaixo
+   dela. Usa altura + scrollY em vez de rect.bottom pra funcionar com a
+   pagina ja rolada. */
+let obsTopoS30 = null;
+function reservarTopoS30() {
+  const bar = document.querySelector('.sticky-discount-bar');
+  const sec = document.getElementById('s30');
+  const alvo = document.querySelector('#s30 .compare');
+  if (!bar || !sec || !alvo) return;
+  // Observa a propria barra: e a altura dela que muda (fonte que carrega
+  // depois, rotacao, texto que quebra), e e exatamente essa mudanca que
+  // invalida a reserva. Ajustar o padding da secao nao mexe no tamanho da
+  // barra, entao nao vira laco.
+  if (!obsTopoS30 && window.ResizeObserver) {
+    obsTopoS30 = new window.ResizeObserver(() => reservarTopoS30());
+    obsTopoS30.observe(bar);
+  }
+  // Mede com a reserva zerada: assim o ponto de partida e sempre o mesmo e
+  // chamar de novo (fonte carregada, rotacao de tela) da o mesmo resultado,
+  // em vez de somar em cima do valor que ja estava la.
+  sec.style.paddingTop = '0px';
+  const topoNu = alvo.getBoundingClientRect().top + window.scrollY;
+  sec.style.paddingTop = Math.max(10, bar.offsetHeight + 12 - topoNu) + 'px';
+}
+window.addEventListener('resize', reservarTopoS30);
+
 function startCountdown() {
   const target = Date.now() + 9 * 60000 + 47000;
-  const el = document.getElementById('priceCountdown');
-  const sticky = document.getElementById('stickyCountdown');
-  const fmt = (ms) => {
-    if (ms <= 0) return 'A oferta expirou';
-    const m = Math.floor(ms / 60000);
-    const s = Math.floor((ms % 60000) / 1000);
-    return 'A oferta expira em ' + String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0') + ' min';
-  };
-  const fmtShort = (ms) => {
-    if (ms <= 0) return '00:00';
-    const m = Math.floor(ms / 60000);
-    const s = Math.floor((ms % 60000) / 1000);
-    return String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
+  const stickyMin = document.getElementById('stickyMin');
+  const stickySeg = document.getElementById('stickySeg');
+  // O timer da barra tem um bloco por unidade, entao escreve minuto e segundo
+  // separados em vez de uma string MM:SS.
+  const escreveSticky = (ms) => {
+    const v = Math.max(0, ms);
+    const m = Math.floor(v / 60000);
+    const s = Math.floor((v % 60000) / 1000);
+    if (stickyMin) stickyMin.textContent = String(m).padStart(2,'0');
+    if (stickySeg) stickySeg.textContent = String(s).padStart(2,'0');
   };
   const it = setInterval(() => {
     const left = target - Date.now();
-    el.textContent = fmt(left);
-    if (sticky) sticky.textContent = fmtShort(left);
+    escreveSticky(left);
     if (left <= 0) clearInterval(it);
   }, 1000);
 }

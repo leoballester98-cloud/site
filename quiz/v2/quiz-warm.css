@@ -1062,84 +1062,125 @@ body {
    COMPARISON (now/goal)
    ════════════════════════════════════════════════════ */
 /* ── Compare grid (2 colunas lado a lado) ── */
-.compare-grid {
+/* ── Comparativo (s30) ──────────────────────────────────────────────────
+   Nao ha cartao por tras da secao inteira: ele achatava a hierarquia, porque
+   cabecalho, avatares e metricas ficavam todos no mesmo plano. Aqui so o
+   cabecalho e as avatares ficam num painel ~3% mais escuro que a pagina, e
+   as metricas caem direto no fundo, separadas por reguas finas.
+   A regua e mais fraca que --hair (0.12) de proposito: nessa densidade, a
+   linha so precisa sugerir a separacao. */
+.compare {
+  margin-bottom: 22px;
+  --compare-regua: rgba(43,26,16,0.09);
+}
+.compare__painel {
+  background: var(--card-active);
+  border-radius: 16px;
+  padding: 8px 8px 0;
+  overflow: hidden;
+}
+.compare__head {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 0;
-  margin-bottom: 22px;
-  background: var(--card);
-  border-radius: 16px;
+  background: var(--bg);
+  border-radius: 10px;
   overflow: hidden;
-  position: relative;
-  border: 1px solid rgba(74,46,26,0.07);
-  box-shadow: 0 2px 16px -6px rgba(74,46,26,0.08);
 }
-/* Seta geométrica — sutil mas visível */
-.compare-grid::before {
-  content: '';
-  position: absolute;
-  top: 44px;
-  left: 0; right: 0; bottom: 0;
-  background: rgba(74,46,26,0.06);
-  clip-path: polygon(20% 0%, 60% 0%, 80% 50%, 60% 100%, 20% 100%, 40% 50%);
-  z-index: 0;
-  pointer-events: none;
-}
-.compare-grid::after {
-  content: '';
-  position: absolute;
-  top: 44px;
-  left: 0; right: 0; bottom: 0;
-  background: rgba(74,46,26,0.11);
-  clip-path: polygon(42% 0%, 72% 0%, 92% 50%, 72% 100%, 42% 100%, 62% 50%);
-  z-index: 0;
-  pointer-events: none;
-}
-.compare-col {
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-  position: relative;
-  z-index: 1;
-  background: transparent;
-}
-.compare-col + .compare-col {
-  border-left: 1px solid rgba(74,46,26,0.12);
-}
-.compare-col__head {
+.compare__head span {
   font-size: 14px;
   font-weight: 700;
   color: var(--ink);
   text-align: center;
-  padding: 8px 10px 6px;
-  background: none;
-  border-bottom: 1px solid rgba(74,46,26,0.06);
+  padding: 11px 10px;
 }
-.imgbox--compare-col {
-  width: 100%;
-  aspect-ratio: 3 / 4;
-  border-radius: 0;
-  overflow: hidden;
-  padding: 0 !important;
-  border: none !important;
-  background: transparent !important;
+.compare__head span + span {
+  box-shadow: inset 1px 0 0 var(--compare-regua);
+}
+.compare__fotos {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   position: relative;
-  z-index: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 4px;
-  color: rgba(255,255,255,0.4);
-  font-size: 12px;
 }
-.imgbox--compare-col img {
+.compare__foto {
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+}
+.compare__foto img {
   width: 100%;
   height: 100%;
   object-fit: contain;
   object-position: bottom center;
   display: block;
 }
+/* A seta fica por cima, no vao entre as duas fotos — dois chevrons pequenos,
+   e nao a marca d'agua que antes atravessava a secao inteira. */
+.compare__seta {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  color: var(--ink);
+  pointer-events: none;
+}
+.compare__seta svg {
+  display: block;
+  width: 12px;
+  height: 22px;
+  animation: compare-seta 1.8s ease-in-out infinite;
+}
+/* Encaixados, como no print: o segundo entra por cima da ponta do primeiro. */
+.compare__seta svg + svg {
+  margin-left: -4px;
+  animation-delay: 0.22s;
+}
+/* Fica quase apagado a maior parte do tempo e acende rapido. O atraso do
+   segundo e o que faz a luz andar pra direita. */
+@keyframes compare-seta {
+  0%, 55%, 100% { opacity: 0.16; }
+  18%           { opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .compare__seta svg { animation: none; opacity: 0.5; }
+}
+.compare__stats {
+  position: relative;
+}
+/* O divisor nao encosta nas pontas: comeca na altura do primeiro rotulo e
+   para no fim do ultimo conteudo. Linha que toca as bordas vira moldura de
+   tabela; assim ela so separa as duas colunas. */
+.compare__stats::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 14px;
+  bottom: 16px;
+  width: 1px;
+  transform: translateX(-50%);
+  background: var(--compare-regua);
+  pointer-events: none;
+}
+.compare__linha {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+/* A regua tambem nao atravessa: sao duas, uma por coluna, cada uma medindo a
+   largura do conteudo dela. Uma regua unica cruzando o divisor faz um "+" no
+   meio, que le como celula de planilha. */
+.compare__linha + .compare__linha .compare-stat {
+  position: relative;
+}
+.compare__linha + .compare__linha .compare-stat::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 14px;
+  right: 14px;
+  height: 1px;
+  background: var(--compare-regua);
+}
+.compare__linha + .compare__linha .compare-stat:first-child::before { right: 18px; }
+.compare__linha + .compare__linha .compare-stat:last-child::before  { left: 18px; }
 
 .compare-tabs {
   display: grid;
@@ -1203,39 +1244,84 @@ body {
   justify-content: space-between;
   background: var(--bg);
   border-bottom: 1px solid rgba(74,46,26,0.10);
-  padding: 10px 16px;
+  padding: 14px 18px;
   margin: 0 -16px 20px;
   gap: 10px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.08);
 }
-.sticky-discount-bar__left {
+/* Timer em dois blocos, como na referencia: o numero grande carrega a urgencia
+   e a legenda embaixo diz a unidade, entao ninguem precisa decodificar o
+   MM:SS. Alinhamento por baseline — a primeira baseline de cada coluna e a do
+   numero, entao os dois pontos caem na altura certa sozinhos. */
+.sticky-discount-bar__timer {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+}
+.sticky-timer__unit {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  align-items: center;
 }
-.sticky-discount-bar__label {
-  font-size: 11px;
-  color: var(--ink-fade);
-  font-weight: 500;
-}
-.sticky-discount-bar__timer {
-  font-size: 22px;
+.sticky-timer__num {
+  font-size: 38px;
+  line-height: 1;
   font-weight: 800;
   color: var(--ink);
-  letter-spacing: -0.02em;
+  letter-spacing: -0.03em;
   font-variant-numeric: tabular-nums;
+}
+.sticky-timer__cap {
+  font-size: 12px;
+  line-height: 1.2;
+  font-weight: 500;
+  color: var(--ink-fade);
+  margin-top: 3px;
+}
+.sticky-timer__sep {
+  font-size: 34px;
+  line-height: 1;
+  font-weight: 800;
+  color: var(--ink-fade);
 }
 .sticky-discount-bar__btn {
   flex-shrink: 0;
   background: var(--blue);
   color: #fff;
   font-size: 13px;
-  font-weight: 800;
+  font-weight: 600;
   padding: 12px 18px;
-  border-radius: 10px;
+  /* Pilula, e nao caixa de canto arredondado: o anel so fecha bem em volta de
+     uma forma totalmente redonda. */
+  border-radius: 999px;
   text-decoration: none;
   letter-spacing: 0.02em;
   white-space: nowrap;
+  /* O halo. A primeira sombra nao borra: e um anel solido de 5px, na mesma
+     proporcao da referencia. O anel e mais ESCURO que a barra, nao mais claro
+     — em cima do creme um anel branco some. E sombra, nao recorte. A segunda
+     sombra e a de verdade, que apoia o anel. */
+  box-shadow: 0 0 0 5px rgba(43,26,16,.09), 0 5px 14px rgba(43,26,16,.18);
+  animation: sticky-btn-onda 1s ease-out infinite;
+}
+/* A onda. Uma terceira sombra, so dela, que nasce colada no anel parado e se
+   abre ate 11px sumindo. Anel e apoio vao junto em todo quadro porque
+   box-shadow nao interpola por camada: se uma some do keyframe, some da tela. */
+@keyframes sticky-btn-onda {
+  0% {
+    box-shadow: 0 0 0 5px rgba(43,26,16,.09),
+                0 0 0 5px rgba(108,57,29,.17),
+                0 5px 14px rgba(43,26,16,.18);
+  }
+  75%, 100% {
+    box-shadow: 0 0 0 5px rgba(43,26,16,.09),
+                0 0 0 11px rgba(108,57,29,0),
+                0 5px 14px rgba(43,26,16,.18);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .sticky-discount-bar__btn,
+  .price-cta { animation: none; }
 }
 
 .compare-arrow {
@@ -1252,8 +1338,7 @@ body {
 .compare-stat {
   background: none;
   border-radius: 0;
-  padding: 12px 14px;
-  border-top: 1px solid rgba(74,46,26,0.08);
+  padding: 14px 14px 16px;
 }
 .compare-stat__label {
   font-size: 13px;
@@ -1270,25 +1355,24 @@ body {
   line-height: 1.3;
   margin-bottom: 8px;
 }
-.compare-stat__bar {
+/* Nivel em tres segmentos grossos. Substituiu a barra pontilhada fina: com
+   ~11 tracinhos de 5px ninguem contava nada de relance, so via textura. */
+.compare-stat__segs {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 4px;
+}
+.compare-stat__segs i {
   height: 6px;
-  position: relative;
-  background-image: repeating-linear-gradient(90deg, rgba(74,46,26,0.18) 0px, rgba(74,46,26,0.18) 5px, transparent 5px, transparent 14px);
-  background-repeat: repeat-x;
+  border-radius: 2px;
+  background: rgba(43,26,16,0.12);
 }
-.compare-stat__bar-fill {
-  position: absolute;
-  left: 0; top: 0;
-  height: 6px;
-}
-.compare-stat__bar-fill--low {
-  background-image: repeating-linear-gradient(90deg, var(--red) 0px, var(--red) 5px, transparent 5px, transparent 14px);
-  background-repeat: repeat-x;
-}
-.compare-stat__bar-fill--full {
-  background-image: repeating-linear-gradient(90deg, #22c55e 0px, #22c55e 5px, transparent 5px, transparent 14px) !important;
-  background-repeat: repeat-x !important;
-  width: 90% !important;
+.compare-stat__segs--low  { --seg: var(--red); }
+.compare-stat__segs--full { --seg: #22c55e; }
+.compare-stat__segs[data-nivel="1"] i:nth-child(-n+1),
+.compare-stat__segs[data-nivel="2"] i:nth-child(-n+2),
+.compare-stat__segs[data-nivel="3"] i:nth-child(-n+3) {
+  background: var(--seg);
 }
 
 /* ════════════════════════════════════════════════════
@@ -1590,22 +1674,30 @@ body {
   letter-spacing: 0;
 }
 
-.price-banner {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  padding: 12px 14px;
-  background: #E8341A;
-  border-radius: 8px;
-  font-size: 12.5px;
-  font-weight: 700;
-  color: white;
-  margin: 0 0 0;
-  letter-spacing: -0.005em;
+/* O mesmo botao da barra do topo, so que na largura da secao: mesma pilula,
+   mesmo anel, mesma onda. E o mesmo pedido, entao e o mesmo botao — um
+   segundo desenho aqui so faria parecer outra coisa.
+   A altura sai igual a do aviso que estava aqui antes (40px) porque o padding
+   e o corpo de texto sao os mesmos do botao de cima. */
+.price-cta {
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  padding: 12px 18px;
+  text-align: center;
+  text-decoration: none;
+  background: var(--cta);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  border-radius: 999px;
+  /* Margem maior que o anel de 5px, senao a linha da garantia encosta nele. */
+  margin: 0 0 14px;
+  box-shadow: 0 0 0 5px rgba(43,26,16,.09), 0 5px 14px rgba(43,26,16,.18);
+  animation: sticky-btn-onda 1s ease-out infinite;
 }
-.price-banner__icon { display: flex; align-items: center; }
-.price-banner__icon svg { width: 16px; height: 16px; flex-shrink: 0; }
+.price-cta:hover { background: #7e4422; }
 .programa-subtitle {
   display: flex;
   align-items: center;
@@ -2378,7 +2470,6 @@ canvas#curveChart { width: 100%; }
   .plan-card__pill { padding: 6px 10px; }
   .plan-card__pill-num { font-size: 15px; }
   .plan-card__name { font-size: 12px; }
-  .price-banner { font-size: 12px; padding: 10px 12px; }
   .q-title { font-size: 32px; }
   .q-title-lg { font-size: 32px; }
   .loading-bigtitle { font-size: 18px; }
@@ -3666,7 +3757,6 @@ button:focus-visible, .row-card:focus-visible, .simple-opt:focus-visible,
   #s30 p[style*="font-size:14px"] { font-size: 16px !important; }
   #s30 .compare-stat__label { font-size: 13px; }
   #s30 .compare-stat__value { font-size: 16px; }
-  #s30 .price-banner { font-size: 15px; }
 }
 
 /* O atributo hidden é uma regra fraca do navegador: qualquer classe que defina
@@ -4538,13 +4628,70 @@ body.marca-solta:has(#s1.screen.active) .header__inner::after {
    barato por dia, e e esse numero que justifica subir na escada. */
 .plans--tri { gap: 12px; }
 .plans--tri .plan-card { grid-template-columns: 22px 1fr auto; padding: 13px 14px; }
+
+/* ── Escada de planos ──────────────────────────────────────────────────
+   Os cards nao escolhidos sao bege — o mesmo bege do painel do comparativo.
+   Brancos, os tres competiam: cada um virava um cartao por si e o do meio
+   perdia a vez. Aqui so o escolhido sobe pro tom claro da pagina, dentro de
+   uma borda escura grossa. */
+/* Fundo e borda saem os dois do mesmo marrom, so que em opacidades
+   diferentes — e o que o print faz: a borda e o proprio fundo, um degrau
+   mais fundo. Cor solida aqui exigiria inventar dois tons novos.
+   O padding desconta a borda (11.5 + 1.5 = 13) pra o card nao ficar mais
+   alto que o escolhido, que tem borda de 3px e padding de 10. */
+.plans--tri .plan-card {
+  background: rgba(43,26,16,0.06);
+  border: 1.5px solid rgba(43,26,16,0.13);
+  padding: 11.5px 12.5px;
+  box-shadow: none;
+}
+.plans--tri .plan-card:hover { background: rgba(43,26,16,0.06); }
+/* A borda de 3px come o padding em vez de esticar o card (box-sizing:
+   border-box), entao o conteudo nao pula ao trocar de plano. */
+.plans--tri .plan-card.selected {
+  background: var(--bg);
+  border: 3px solid var(--ink);
+  padding: 10px 11px;
+}
+/* O card recomendado carrega a moldura sempre: e ela que segura a faixa.
+   Quem diz o que esta escolhido e o radio e o fundo claro, nao a moldura. */
+.plans--tri .plan-card--pop,
+.plans--tri .plan-card--pop.selected {
+  border: 3px solid var(--ink);
+  margin-top: 0;
+  /* 24px de faixa + os 10px de respiro de sempre. */
+  padding: 34px 11px 10px;
+}
+/* A faixa e o topo do proprio card, nao uma barra flutuando acima dele: fica
+   dentro da borda, com o raio interno (14 - 3 = 11px) casando com ela. */
+.plans--tri .plan-card__ribbon {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--ink);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.07em;
+  border-radius: 11px 11px 0 0;
+}
 .plan-card__preco { display: flex; align-items: baseline; gap: 7px; margin-top: 2px; }
-.plan-card__old2 { font-size: 12.5px; color: var(--ink-mute); text-decoration: line-through; }
-.plan-card__now  { font-size: 17px; font-weight: 800; color: var(--ink); }
+.plan-card__old2 { font-size: 13px; color: var(--ink-mute); text-decoration: line-through; }
+.plan-card__now  { font-size: 19px; font-weight: 800; color: var(--ink); }
 .plan-card__acesso { font-size: 11px; color: var(--ink-mute); margin-top: 3px; }
 .plan-card__day { text-align: right; line-height: 1.12; white-space: nowrap; }
-.plan-card__day b { display: block; font-size: 19px; font-weight: 800; color: var(--blue-d); }
-.plan-card__day span { font-size: 10.5px; color: var(--ink-mute); }
+/* O R$/dia e o numero que compara os tres planos — e o maior do card. */
+.plan-card__day b { display: block; font-size: 23px; font-weight: 800; color: var(--blue-d); }
+.plan-card__day span { font-size: 12px; color: var(--ink-mute); }
+/* Os cards saem 8px pra fora do padding da secao de cada lado. Sao 16px a
+   mais de linha, que e o que paga o texto maior sem apertar. */
+.plans--tri { margin-inline: -8px; }
+.plans--tri .plan-card__name { font-size: 16px; }
 
 /* A faixa fica ACIMA do card, colada nele. A margem no card abre o espaco
    dela, senao a faixa sobe por cima do card anterior. */
@@ -4559,9 +4706,16 @@ body.marca-solta:has(#s1.screen.active) .header__inner::after {
 .plan-card--pop.selected { border-color: var(--blue-d); }
 
 @media (max-width: 360px) {
-  .plans--tri .plan-card { padding: 12px 11px; gap: 9px; }
-  .plan-card__now { font-size: 16px; }
-  .plan-card__day b { font-size: 17px; }
+  .plans--tri .plan-card { padding: 10.5px 9.5px; gap: 9px; }
+  /* Acompanha o padding menor: a borda de 3px continua comendo por dentro,
+     senao o card escolhido fica 3px mais alto que os outros dois. */
+  .plans--tri .plan-card.selected { padding: 9px 8px; }
+  .plans--tri .plan-card--pop,
+  .plans--tri .plan-card--pop.selected { padding: 33px 8px 9px; }
+  .plans--tri .plan-card__name { font-size: 14px; }
+  .plan-card__now { font-size: 17px; }
+  .plan-card__day b { font-size: 20px; }
+  .plan-card__day span { font-size: 11px; }
 }
 
 /* A frase do foco, logo acima da escada de planos. */

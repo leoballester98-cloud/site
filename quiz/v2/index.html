@@ -56,7 +56,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"/>
-  <link rel="stylesheet" href="quiz-warm.css?v=341"/>
+  <link rel="stylesheet" href="quiz-warm.css?v=345"/>
 
   <!-- Anti-flicker do teste A/B.
        O script que troca a headline mora no fim do <body>, então num aparelho
@@ -1296,117 +1296,81 @@
     </div>
 
     <h3 class="section-heading section-heading--center">Histórias reais de quem aplicou o plano</h3>
+    <!-- Cada cartao abre com a nota, depois o resumo do depoimento a esquerda
+         e o nome a direita. O avatar saiu: foto de banco ao lado de um
+         depoimento sugere que aquela e a pessoa, e nao e. -->
     <div class="reviews">
       <div class="review">
-        <div class="review__header">
-          <div class="imgbox imgbox--avatar"><img loading="lazy" src="Images/avatar2.webp" alt="Ana Paula"/></div>
-          <div class="review__meta">
-            <div class="review__name">Ana Paula R.</div>
-            <div class="review__sub">36 anos · Curitiba</div>
-          </div>
-          <div class="review__stars">★★★★★</div>
+        <span class="review__nota" aria-label="5 de 5 estrelas"><i></i><i></i><i></i><i></i><i></i></span>
+        <div class="review__topo">
+          <span class="review__tit">Engravidei no ciclo seguinte</span>
+          <span class="review__nome">Ana Paula R.</span>
         </div>
         <p class="review__text">Tentei por 14 meses. Aprendi a ler o muco em 3 semanas e engravidei no ciclo seguinte.</p>
       </div>
       <div class="review">
-        <div class="review__header">
-          <div class="imgbox imgbox--avatar"><img loading="lazy" src="Images/avatar7.webp" alt="Camila"/></div>
-          <div class="review__meta">
-            <div class="review__name">Camila T.</div>
-            <div class="review__sub">31 anos · Belo Horizonte</div>
-          </div>
-          <div class="review__stars">★★★★★</div>
+        <span class="review__nota" aria-label="5 de 5 estrelas"><i></i><i></i><i></i><i></i><i></i></span>
+        <div class="review__topo">
+          <span class="review__tit">Era o sabonete íntimo</span>
+          <span class="review__nome">Camila T.</span>
         </div>
         <p class="review__text">Não sabia que o sabonete íntimo estava sabotando tudo. Mudei a higiene e foi.</p>
       </div>
       <div class="review">
-        <div class="review__header">
-          <div class="imgbox imgbox--avatar"><img loading="lazy" src="Images/avatar3.webp" alt="Fernanda"/></div>
-          <div class="review__meta">
-            <div class="review__name">Fernanda M.</div>
-            <div class="review__sub">34 anos · São Paulo</div>
-          </div>
-          <div class="review__stars">★★★★★</div>
+        <span class="review__nota" aria-label="5 de 5 estrelas"><i></i><i></i><i></i><i></i><i></i></span>
+        <div class="review__topo">
+          <span class="review__tit">Seis semanas pra ler os sinais</span>
+          <span class="review__nome">Fernanda M.</span>
         </div>
         <p class="review__text">Em 6 semanas comecei a reconhecer todos os sinais. Engravidei no mês seguinte.</p>
       </div>
       <div class="review">
-        <div class="review__header">
-          <div class="imgbox imgbox--avatar"><img loading="lazy" src="Images/avatar6.webp" alt="Juliana"/></div>
-          <div class="review__meta">
-            <div class="review__name">Juliana B.</div>
-            <div class="review__sub">29 anos · Recife</div>
-          </div>
-          <div class="review__stars">★★★★★</div>
+        <span class="review__nota" aria-label="5 de 5 estrelas"><i></i><i></i><i></i><i></i><i></i></span>
+        <div class="review__topo">
+          <span class="review__tit">Pela primeira vez eu sabia o que fazer</span>
+          <span class="review__nome">Juliana B.</span>
         </div>
         <p class="review__text">O plano me devolveu a esperança. Pela primeira vez eu sabia exatamente o que estava errado — e o que fazer a respeito.</p>
       </div>
     </div>
 
-    <!-- ═══ #1 PROTOCOLO BADGE ═══ -->
-    <div class="number-one">
-      <div class="number-one__top">
-        <div class="number-one__laurel number-one__laurel--left">
-          <svg class="laurel-svg" viewBox="0 0 70 116" xmlns="http://www.w3.org/2000/svg">
-            <path d="M38 113 C30 85 26 58 28 34 C30 18 36 8 40 3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" fill="none"/>
-            <!-- 9 folhas externas (esquerda) -->
-            <path d="M35 105 Q25 98 15 108 Q25 112 35 105Z" fill="currentColor"/>
-            <path d="M31  93 Q20 86 10  91 Q20 100 31  93Z" fill="currentColor"/>
-            <path d="M28  81 Q17 74  7  79 Q17  88 28  81Z" fill="currentColor"/>
-            <path d="M27  69 Q16 62  5  67 Q16  76 27  69Z" fill="currentColor"/>
-            <path d="M27  57 Q16 50  5  55 Q16  64 27  57Z" fill="currentColor"/>
-            <path d="M28  45 Q17 38  7  43 Q17  52 28  45Z" fill="currentColor"/>
-            <path d="M30  33 Q19 26  9  30 Q19  39 30  33Z" fill="currentColor"/>
-            <path d="M33  22 Q23 14 13  18 Q23  26 33  22Z" fill="currentColor"/>
-            <path d="M37  12 Q28  5 19   8 Q28  15 37  12Z" fill="currentColor"/>
-            <!-- 8 folhas internas (direita) -->
-            <path d="M36  99 Q46 91 54  95 Q46 103 36  99Z" fill="currentColor"/>
-            <path d="M30  87 Q40 79 48  83 Q40  91 30  87Z" fill="currentColor"/>
-            <path d="M27  75 Q36 67 44  71 Q36  79 27  75Z" fill="currentColor"/>
-            <path d="M27  63 Q35 55 43  59 Q35  67 27  63Z" fill="currentColor"/>
-            <path d="M27  51 Q35 43 43  47 Q35  55 27  51Z" fill="currentColor"/>
-            <path d="M28  39 Q36 31 44  35 Q36  43 28  39Z" fill="currentColor"/>
-            <path d="M30  27 Q38 19 45  22 Q38  30 30  27Z" fill="currentColor"/>
-            <path d="M34  16 Q41  9 48  12 Q41  19 34  16Z" fill="currentColor"/>
-          </svg>
+    <!-- A escada de novo, depois da prova. Quem rolou ate aqui leu os
+         depoimentos e o preco ja saiu da tela — repetir a oferta evita que
+         ela tenha que subir a pagina pra decidir. As duas escadas marcam o
+         mesmo plano: aplicarPlano casa por data-tier, nao por elemento. -->
+    <h3 class="section-heading section-heading--center" style="margin-top:34px;">Em 4 semanas você já reconhece os seus sinais</h3>
+    <div class="plans plans--tri">
+      <div class="plan-card" data-tier="essencial" data-semanas="4">
+        <div class="plan-card__radio"></div>
+        <div class="plan-card__body">
+          <div class="plan-card__name">Teste 4 Semanas</div>
+          <div class="plan-card__preco"><span class="plan-card__now">R$49,90</span></div>
         </div>
-        <div class="number-one__center">
-          <div class="number-one__num"><span class="number-one__hash">#</span>1</div>
-          <div class="number-one__sub">plano de fertilidade*</div>
-        </div>
-        <div class="number-one__laurel number-one__laurel--right">
-          <svg class="laurel-svg laurel-svg--flip" viewBox="0 0 70 116" xmlns="http://www.w3.org/2000/svg">
-            <path d="M38 113 C30 85 26 58 28 34 C30 18 36 8 40 3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" fill="none"/>
-            <!-- 9 folhas externas (esquerda) -->
-            <path d="M35 105 Q25 98 15 108 Q25 112 35 105Z" fill="currentColor"/>
-            <path d="M31  93 Q20 86 10  91 Q20 100 31  93Z" fill="currentColor"/>
-            <path d="M28  81 Q17 74  7  79 Q17  88 28  81Z" fill="currentColor"/>
-            <path d="M27  69 Q16 62  5  67 Q16  76 27  69Z" fill="currentColor"/>
-            <path d="M27  57 Q16 50  5  55 Q16  64 27  57Z" fill="currentColor"/>
-            <path d="M28  45 Q17 38  7  43 Q17  52 28  45Z" fill="currentColor"/>
-            <path d="M30  33 Q19 26  9  30 Q19  39 30  33Z" fill="currentColor"/>
-            <path d="M33  22 Q23 14 13  18 Q23  26 33  22Z" fill="currentColor"/>
-            <path d="M37  12 Q28  5 19   8 Q28  15 37  12Z" fill="currentColor"/>
-            <!-- 8 folhas internas (direita) -->
-            <path d="M36  99 Q46 91 54  95 Q46 103 36  99Z" fill="currentColor"/>
-            <path d="M30  87 Q40 79 48  83 Q40  91 30  87Z" fill="currentColor"/>
-            <path d="M27  75 Q36 67 44  71 Q36  79 27  75Z" fill="currentColor"/>
-            <path d="M27  63 Q35 55 43  59 Q35  67 27  63Z" fill="currentColor"/>
-            <path d="M27  51 Q35 43 43  47 Q35  55 27  51Z" fill="currentColor"/>
-            <path d="M28  39 Q36 31 44  35 Q36  43 28  39Z" fill="currentColor"/>
-            <path d="M30  27 Q38 19 45  22 Q38  30 30  27Z" fill="currentColor"/>
-            <path d="M34  16 Q41  9 48  12 Q41  19 34  16Z" fill="currentColor"/>
-          </svg>
-        </div>
+        <div class="plan-card__day"><b>R$1,78</b><span>por dia</span></div>
       </div>
-      <div class="number-one__claim">Aprender a ler seu ciclo</div>
-      <div class="number-one__note">*Baseado em mulheres que aplicaram o plano completo</div>
-      <a href="https://pay.kiwify.com.br/dALiRrx" target="_blank" class="btn-primary" style="text-decoration:none;display:block;text-align:center;margin-top:16px;" onclick="trackCheckout();">RECEBER MEU PLANO</a>
+
+      <div class="plan-card plan-card--pop selected" data-tier="avancado" data-semanas="8">
+        <div class="plan-card__ribbon">MAIS POPULAR</div>
+        <div class="plan-card__radio"></div>
+        <div class="plan-card__body">
+          <div class="plan-card__name">Plano de 8 Semanas</div>
+          <div class="plan-card__preco"><span class="plan-card__now">R$69,90</span></div>
+        </div>
+        <div class="plan-card__day"><b>R$1,25</b><span>por dia</span></div>
+      </div>
+
+      <div class="plan-card" data-tier="imersao" data-semanas="12">
+        <div class="plan-card__radio"></div>
+        <div class="plan-card__body">
+          <div class="plan-card__name">Plano de 12 Semanas</div>
+          <div class="plan-card__preco"><span class="plan-card__now">R$99,00</span></div>
+        </div>
+        <div class="plan-card__day"><b>R$1,18</b><span>por dia</span></div>
+      </div>
     </div>
+    <a href="https://pay.kiwify.com.br/dALiRrx" target="_blank" class="price-cta" onclick="trackCheckout();">RECEBER MEU PLANO</a>
 
     <!-- ═══ BEFORE/AFTER ═══ -->
-
-    <a href="https://pay.kiwify.com.br/dALiRrx" target="_blank" class="btn-primary" style="text-decoration:none;display:block;text-align:center;margin-top:8px;" onclick="trackCheckout();">RECEBER O MEU PLANO</a>
 
     <p class="plan-disclaimer">Acesso imediato ao Plano Ciclo Fértil.</p>
 
@@ -2108,7 +2072,10 @@ function showScreen(id) {
    e de novo a cada clique num card. */
 function aplicarPlano(card) {
   if (!card) return;
-  document.querySelectorAll('.plans--tri .plan-card').forEach(c => c.classList.toggle('selected', c === card));
+  // Casa por tier, nao por elemento: a escada aparece duas vezes na pagina e
+  // as duas tem que marcar o mesmo plano, clique ela onde clicar.
+  const tierSel = card.dataset.tier;
+  document.querySelectorAll('.plans--tri .plan-card').forEach(c => c.classList.toggle('selected', c.dataset.tier === tierSel));
 
   PLANO_SEMANAS = Number(card.dataset.semanas) || 8;
   const tier = card.dataset.tier || 'avancado';

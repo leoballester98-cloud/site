@@ -2318,34 +2318,43 @@ body {
   border-bottom: 1px solid var(--hair);
 }
 .faq__item:first-of-type { border-top: 1px solid var(--hair); }
+/* Pergunta em peso medio e corpo maior, com a seta na direita — o "+" de
+   antes lia como acrescentar, nao como abrir. A seta gira ao abrir, que e o
+   que diz que aquilo e uma gaveta. */
 .faq__q {
-  font-size: 14.5px;
-  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  font-size: 16.5px;
+  font-weight: 600;
   color: var(--ink);
-  padding: 16px 32px 16px 0;
+  padding: 19px 0;
   cursor: pointer;
   list-style: none;
-  position: relative;
-  line-height: 1.3;
-  letter-spacing: -0.005em;
+  line-height: 1.32;
+  letter-spacing: -0.01em;
 }
 .faq__q::-webkit-details-marker { display: none; }
-.faq__q::after {
-  content: '+';
-  position: absolute;
-  right: 0; top: 50%;
-  transform: translateY(-50%);
-  font-size: 22px;
-  font-weight: 400;
-  color: var(--blue);
-  transition: transform 0.25s;
+.faq__seta {
+  flex-shrink: 0;
+  width: 11px;
+  height: 11px;
+  border-right: 2px solid var(--ink-soft);
+  border-bottom: 2px solid var(--ink-soft);
+  border-radius: 1px;
+  transform: rotate(45deg) translate(-2px, -2px);
+  transition: transform 0.25s ease;
 }
-.faq__item[open] .faq__q::after { transform: translateY(-50%) rotate(45deg); }
+.faq__item[open] .faq__seta { transform: rotate(-135deg) translate(-3px, -3px); }
 .faq__a {
-  font-size: 13.5px;
-  line-height: 1.6;
+  font-size: 15px;
+  line-height: 1.62;
   color: var(--ink-soft);
-  padding: 0 0 16px;
+  /* Recuo a direita alinhado com a seta, pra a resposta nao correr por baixo
+     dela e o bloco fechar num retangulo so. */
+  padding: 0 27px 20px 0;
+  margin: 0;
 }
 button, .row-card, .simple-opt, .multi-opt, .age-row, .chip, .plan-card { -webkit-tap-highlight-color: transparent; }
 @media (hover: none) {
@@ -2894,11 +2903,13 @@ button:focus-visible, .row-card:focus-visible, .simple-opt:focus-visible,
   padding-top: 18px;
   border-top: 1px solid rgba(43,26,16,0.10);
 }
+/* Altura livre: o viewBox do ramo ja tem a proporcao certa (2,0), e forcar
+   uma altura fixa esticava o desenho pra 2,53. */
 .prova__louro {
-  width: 34px;
-  height: 76px;
+  width: 36px;
+  height: auto;
   flex-shrink: 0;
-  color: rgba(43,26,16,0.12);
+  color: rgba(43,26,16,0.16);
 }
 .prova__louro--dir { transform: scaleX(-1); }
 .prova__premio-txt { color: var(--ink); }
@@ -3034,12 +3045,15 @@ button:focus-visible, .row-card:focus-visible, .simple-opt:focus-visible,
    mesmo tom — 158 e 145 sobre fundos de 217 e 230 — e quem separa os dois e
    o corpo, nao o contraste. Preto e peso 700 faziam a grade brigar com o
    preco logo acima, que e onde a atencao tem que estar. */
+/* Os corpos saem da proporcao medida na referencia, nao de um valor
+   escolhido a olho: la o rotulo ocupa 22% da largura do ladrilho e o valor
+   18%. Num ladrilho de 71px isso da 15 e 17. */
 .dia__n {
   background: rgba(43,26,16,0.09);
-  font-size: 12px;
+  font-size: 15px;
   color: rgba(43,26,16,0.34);
   line-height: 1.2;
-  padding: 4px 2px;
+  padding: 5px 2px;
 }
 .dia__b {
   flex: 1;
@@ -3047,33 +3061,37 @@ button:focus-visible, .row-card:focus-visible, .simple-opt:focus-visible,
   align-items: center;
   justify-content: center;
   padding: 2px 4px;
-  font-size: 13.5px;
+  font-size: 17px;
   font-weight: 600;
-  color: rgba(43,26,16,0.52);
+  color: rgba(43,26,16,0.46);
   line-height: 1.18;
 }
-.dia--pausa .dia__b { font-size: 10px; letter-spacing: 0.04em; color: rgba(43,26,16,0.34); }
-.dia--pico  .dia__b { font-size: 10.5px; letter-spacing: 0.03em; color: rgba(108,57,29,0.72); }
+/* Os poucos valores que nao cabem em uma linha no corpo cheio. */
+.dia--longo .dia__b { font-size: 12px; }
+.dia--pausa .dia__b { font-size: 11px; letter-spacing: 0.04em; color: rgba(43,26,16,0.32); }
+.dia--pico  .dia__b { font-size: 11.5px; letter-spacing: 0.03em; color: rgba(108,57,29,0.68); }
 /* Os dias ja cumpridos trocam o valor por um ✓, como na referencia. Mesmo
    risco desenhado do seletor de plano: duas bordas giradas 45°. */
+/* 35% da largura do ladrilho, como na referencia, e num marrom quente —
+   o cinza de antes ficava frio no meio de uma grade toda bege. */
 .dia__ok {
   position: relative;
   display: block;
-  width: 20px;
-  height: 20px;
+  width: 25px;
+  height: 25px;
   border-radius: 50%;
-  background: rgba(43,26,16,0.45);
+  background: #84715F;
 }
 .dia__ok::after {
   content: '';
   position: absolute;
   left: 50%;
   top: 47%;
-  width: 8px;
-  height: 4px;
-  margin: -3px 0 0 -4px;
-  border-left: 2px solid #fff;
-  border-bottom: 2px solid #fff;
+  width: 10px;
+  height: 5px;
+  margin: -4px 0 0 -5px;
+  border-left: 2.2px solid #fff;
+  border-bottom: 2.2px solid #fff;
   border-radius: 1px;
   transform: rotate(-45deg);
 }

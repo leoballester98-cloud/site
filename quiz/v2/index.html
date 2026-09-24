@@ -56,7 +56,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"/>
-  <link rel="stylesheet" href="quiz-warm.css?v=393"/>
+  <link rel="stylesheet" href="quiz-warm.css?v=403"/>
 
   <!-- Anti-flicker do teste A/B.
        O script que troca a headline mora no fim do <body>, então num aparelho
@@ -760,72 +760,58 @@
 
   <!-- ═══════ 25. DIAGNÓSTICO IQO ═══════ -->
   <section class="screen" id="s25" data-step="30" data-section="Detalhes Pessoais" data-icon="person">
-    <h2 class="q-title-lg">Seu Índice de Qualidade da Ovulação</h2>
-    <div class="imc-card">
-      <div class="imc-card__head">
-        <span class="imc-card__label">IQO  0 a 100</span>
-        <span class="imc-card__value" id="imcStatus">normal acima de <b id="imcStatusVal">68</b></span>
-      </div>
-      <div class="imc-gauge">
-        <div class="imc-gauge__tooltip" id="imcTooltip" style="opacity:0"></div>
-        <div class="imc-gauge__marker" id="imcMarker"></div>
-      </div>
-      <div class="imc-gauge__scale">
-        <span>Baixo</span>
-        <span>Parcial</span>
-        <span>Consciente</span>
-      </div>
-      <div class="alert-box" style="margin-top:14px;">
-        <span class="alert-box__icon">☝️</span>
-        <div class="alert-box__body">
-          <p class="alert-box__title" id="iqoDiagTitle">Janela Fértil Desconhecida</p>
-          <p class="alert-box__text" id="iqoDiagText">Seu corpo está enviando todos os sinais certos. Você ainda não aprendeu a linguagem deles. Isso não é culpa sua. Ninguém ensinou. O Protocolo Ciclo Fértil resolve isso nos primeiros 14 dias.</p>
+    <h2 class="q-title-lg">Aqui está o seu perfil fértil</h2>
+    <!-- Desenho da referencia: UM cartao com o medidor, o alerta e as quatro
+         dimensoes ao lado da foto. O showIQO() so mexe em left/texto da pilula
+         (#imcTooltip) e do marcador (#imcMarker), no alerta (#iqoDiag*) e nas
+         quatro linhas (#resume*). As zonas sao as mesmas de sempre: Baixo ate
+         45, Parcial ate 68, Consciente acima — 68 e o "normal" que a tela ja
+         prometia. -->
+    <div class="perfil">
+      <h3 class="perfil__titulo">Índice de Qualidade da Ovulação (IQO)</h3>
+      <div class="medidor">
+        <div class="medidor__pilula" id="imcTooltip" style="opacity:0">Você · 0</div>
+        <!-- Cinco numeros em cima e quatro zonas embaixo, como na referencia.
+             25 e a faixa critica; 45 e 68 sao os cortes que as notas das
+             dimensoes ja usam (vermelho abaixo de 45, "normal" acima de 68). -->
+        <div class="medidor__numeros"><span style="left:0%">0</span><span style="left:25%">25</span><span style="left:45%">45</span><span style="left:68%">68</span><span style="left:100%">100</span></div>
+        <div class="medidor__barra">
+          <i class="medidor__risco" style="left:25%"></i><i class="medidor__risco" style="left:45%"></i><i class="medidor__risco" style="left:68%"></i>
+          <div class="medidor__marcador" id="imcMarker"></div>
+        </div>
+        <div class="medidor__zonas">
+          <span style="left:0%;width:25%" data-de="0" data-ate="25">Crítico</span>
+          <span style="left:25%;width:20%" data-de="25" data-ate="45">Baixo</span>
+          <span style="left:45%;width:23%" data-de="45" data-ate="68">Parcial</span>
+          <span style="left:68%;width:32%" data-de="68" data-ate="101">Consciente</span>
         </div>
       </div>
-    </div>
-
-    <h3 class="section-heading">O que está acontecendo agora</h3>
-    <div class="stat-rows-wrap">
-      <div class="stat-rows">
-        <div class="stat-row">
-          <span class="stat-row__icon">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 4a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm-2 16v-7H5l3.5-7h7L19 13h-5v7h-4z"/></svg>
-          </span>
-          <div class="stat-row__body">
-            <div class="stat-row__label">Ciclo</div>
-            <div class="stat-row__value" id="resumeLifestyle">Desconhecida</div>
+      <!-- Como na referencia: icone e titulo na MESMA linha, e o texto embaixo
+           ocupando a largura toda (nao recuado sob o titulo). -->
+      <div class="perfil__alerta">
+        <p class="perfil__alerta-titulo"><span class="perfil__alerta-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 7v6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><circle cx="12" cy="16.6" r="1.3" fill="currentColor"/></svg></span><span id="iqoDiagTitle"></span></p>
+        <p class="perfil__alerta-texto" id="iqoDiagText"></p>
+      </div>
+      <div class="perfil__grade">
+        <div class="perfil__linhas">
+          <div class="perfil__linha">
+            <span class="perfil__ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12a8 8 0 0 1-14.3 4.9"/><path d="M4 12a8 8 0 0 1 14.3-4.9"/><path d="M18.3 3.5v3.6h-3.6"/><path d="M5.7 20.5v-3.6h3.6"/></svg></span>
+            <div><div class="perfil__rotulo">Ciclo</div><div class="perfil__valor" id="resumeLifestyle"></div></div>
+          </div>
+          <div class="perfil__linha">
+            <span class="perfil__ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M9 14.6c.8 1 1.8 1.5 3 1.5s2.2-.5 3-1.5"/><circle cx="9.3" cy="10" r=".7" fill="currentColor" stroke="none"/><circle cx="14.7" cy="10" r=".7" fill="currentColor" stroke="none"/></svg></span>
+            <div><div class="perfil__rotulo">Emocional</div><div class="perfil__valor" id="resumeCare"></div></div>
+          </div>
+          <div class="perfil__linha">
+            <span class="perfil__ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5c1.3 2.6 4 4.4 4.9 7.3A5.9 5.9 0 0 1 12 20a5.9 5.9 0 0 1-5.7-7.4c.4 1 1.1 1.8 2 2.3-.4-3.9 2.2-7.4 5.7-11.4z"/></svg></span>
+            <div><div class="perfil__rotulo">Organismo</div><div class="perfil__valor" id="resumeActivity"></div></div>
+          </div>
+          <div class="perfil__linha">
+            <span class="perfil__ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20s-7-4.4-7-9.5A3.8 3.8 0 0 1 12 8a3.8 3.8 0 0 1 7 2.5C19 15.6 12 20 12 20z"/></svg></span>
+            <div><div class="perfil__rotulo">Propósito</div><div class="perfil__valor" id="resumeFaith"></div></div>
           </div>
         </div>
-        <div class="stat-row">
-          <span class="stat-row__icon">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M14 14.76V3.5a2.5 2.5 0 0 0-5 0v11.26a4.5 4.5 0 1 0 5 0zM11 5a.5.5 0 0 1 1 0v9.55a3 3 0 1 1-2 0V8h1V5z"/></svg>
-          </span>
-          <div class="stat-row__body">
-            <div class="stat-row__label">Emocional</div>
-            <div class="stat-row__value" id="resumeCare">Sobrecarregado</div>
-          </div>
-        </div>
-        <div class="stat-row">
-          <span class="stat-row__icon">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8 5 6 9 6 13a6 6 0 0 0 12 0c0-4-2-8-6-11zm0 17a4 4 0 0 1-4-4c0-2 1-4 2-5 1 1 1 2 1 3a2 2 0 0 0 4 0c0-1 0-2 1-3 1 1 2 3 2 5a4 4 0 0 1-4 4z"/></svg>
-          </span>
-          <div class="stat-row__body">
-            <div class="stat-row__label">Organismo</div>
-            <div class="stat-row__value" id="resumeActivity">Sobrecarregado</div>
-          </div>
-        </div>
-        <div class="stat-row">
-          <span class="stat-row__icon">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-          </span>
-          <div class="stat-row__body">
-            <div class="stat-row__label">Propósito</div>
-            <div class="stat-row__value" id="resumeFaith">Esgotada</div>
-          </div>
-        </div>
-      </div>
-      <div class="imgbox imgbox--resume">
-        <img loading="lazy" src="Images/essa8.webp" alt="Silhueta mulher ciclo fértil">
+        <div class="perfil__foto"><img src="Images/perfil-mulher.webp" alt="" decoding="async" loading="lazy"/></div>
       </div>
     </div>
   </section>
@@ -2518,27 +2504,27 @@ function showIQO() {
   const nlc = getDisplayIQO();  // converte para o range do plano
   const tooltip = document.getElementById('imcTooltip');
   const marker = document.getElementById('imcMarker');
-  const valEl = document.getElementById('imcStatusVal');
-  const statusEl = document.getElementById('imcStatus');
   const diagTitle = document.getElementById('iqoDiagTitle');
   const diagText = document.getElementById('iqoDiagText');
 
   let cur = 0;
   const it = setInterval(() => {
     cur += 1;
-    valEl.textContent = cur;
-    const left = Math.max(2, Math.min(98, cur));
-    marker.style.left = left + '%';
-    tooltip.style.left = left + '%';
+    marker.style.left = cur + '%';
+    /* A pilula para entre 12% e 88% pra nao sair do cartao. */
+    const pilLeft = Math.max(12, Math.min(88, cur));
+    tooltip.style.left = pilLeft + '%';
+    /* A setinha anda sozinha ate o marcador (var --desl, em px), entao mesmo
+       com a pilula travada na ponta ela aponta pro lugar certo. */
+    const largura = marker.parentElement ? marker.parentElement.clientWidth : 0;
+    tooltip.style.setProperty('--desl', ((cur - pilLeft) / 100 * largura) + 'px');
     tooltip.style.opacity = '1';
-    tooltip.textContent = 'Você  ' + cur;
-    // Evita overflow: alinha à esquerda quando próximo do início, direita quando no fim
-    if (left < 15) tooltip.style.transform = 'translateX(0%)';
-    else if (left > 85) tooltip.style.transform = 'translateX(-100%)';
-    else tooltip.style.transform = 'translateX(-50%)';
+    tooltip.textContent = 'Você · ' + cur;
     if (cur >= nlc) {
       clearInterval(it);
-      valEl.textContent = nlc;
+      document.querySelectorAll('#s25 .medidor__zonas span').forEach(function (z) {
+        z.classList.toggle('atual', nlc >= +z.dataset.de && nlc < +z.dataset.ate);
+      });
     }
   }, 24);
 
@@ -2596,18 +2582,22 @@ function showIQO() {
       + ' — e é isso que está segurando o seu resultado. O plano fortalece esse ponto nos primeiros 14 dias.';
   }
 
-  statusEl.innerHTML = 'normal acima de <b id="imcStatusVal">68</b>';
   diagTitle.textContent = dtitle;
   diagText.textContent = dtext;
 
   // Personalize stat rows — baseadas nos 4 fatores IQO (fators já declarado acima)
   // Nota + palavra por dimensão. Cores: verde >=75, âmbar 45-74, vermelho <45.
-  function statRowHTML(score, word) {
+  /* A palavra fica sozinha como valor (negrito) e a nota vai pro rotulo,
+     "Ciclo · 18/100": na coluna estreita ao lado da foto, nota e palavra na
+     mesma linha quebravam no meio ("0/100 ·" / "Desconhecida").
+     Três faixas, como as palavras: verde >= 75, âmbar 45-74, vermelho < 45. */
+  function statRow(el, score, word) {
+    if (!el) return;
     const n = Math.round(score);
-    /* Três faixas, como as palavras. Faltava o âmbar: 45 a 74 saía verde, e aí
-       "71/100 · Em desequilíbrio" aparecia com a cor de tudo certo. */
     const cor = n >= 75 ? '#4a7c59' : n >= 45 ? '#b8860b' : '#c0392b';
-    return '<b style="color:' + cor + ';">' + n + '/100</b> · ' + word;
+    el.textContent = word;
+    const rotulo = el.previousElementSibling;
+    if (rotulo) rotulo.innerHTML = rotulo.textContent.split(' ·')[0] + ' · <b style="color:' + cor + ';">' + n + '/100</b>';
   }
 
   /* As quatro linhas são as quatro dimensões, na ordem dos fatores. O título do
@@ -2619,19 +2609,19 @@ function showIQO() {
 
   // Row 1: Ciclo (f1)
   const r1 = document.getElementById('resumeLifestyle');
-  if (r1) r1.innerHTML = statRowHTML(fators.f1, fators.f1 >= 75 ? 'Identificada' : fators.f1 >= 45 ? 'Incerta' : 'Desconhecida');
+  statRow(r1, fators.f1, fators.f1 >= 75 ? 'Identificada' : fators.f1 >= 45 ? 'Incerta' : 'Desconhecida');
 
   // Row 2: Emocional (f2 — estresse, ansiedade, pressão, humor)
   const r2 = document.getElementById('resumeCare');
-  if (r2) r2.innerHTML = statRowHTML(fators.f2, fators.f2 >= 75 ? 'Equilibrado' : fators.f2 >= 45 ? 'Abalado' : 'Sobrecarregado');
+  statRow(r2, fators.f2, fators.f2 >= 75 ? 'Equilibrado' : fators.f2 >= 45 ? 'Abalado' : 'Sobrecarregado');
 
   // Row 3: Organismo (f3 — sono, atividade, alimentação, dores)
   const r3 = document.getElementById('resumeActivity');
-  if (r3) r3.innerHTML = statRowHTML(fators.f3, fators.f3 >= 75 ? 'Saudável' : fators.f3 >= 45 ? 'Em desequilíbrio' : 'Sobrecarregado');
+  statRow(r3, fators.f3, fators.f3 >= 75 ? 'Saudável' : fators.f3 >= 45 ? 'Em desequilíbrio' : 'Sobrecarregado');
 
   // Row 4: Propósito (f4 — fé, alegria, autocobrança)
   const r4 = document.getElementById('resumeFaith');
-  if (r4) r4.innerHTML = statRowHTML(fators.f4, fators.f4 >= 75 ? 'Firme' : fators.f4 >= 45 ? 'Enfraquecida' : 'Esgotada');
+  statRow(r4, fators.f4, fators.f4 >= 75 ? 'Firme' : fators.f4 >= 45 ? 'Enfraquecida' : 'Esgotada');
   // window.__iqo já foi salvo com o valor raw no início da função
 }
 

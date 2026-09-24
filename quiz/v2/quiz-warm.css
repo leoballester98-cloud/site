@@ -996,139 +996,6 @@ body {
   color: var(--ink-soft);
 }
 
-/* ════════════════════════════════════════════════════
-   IMC GAUGE
-   ════════════════════════════════════════════════════ */
-.imc-card {
-  background: var(--card);
-  border-radius: 14px;
-  padding: 18px 18px 14px;
-  margin-bottom: 18px;
-  position: relative;
-}
-.imc-card__head {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  margin-bottom: 14px;
-}
-.imc-card__label {
-  font-size: 13px;
-  font-weight: 700;
-  color: var(--ink);
-}
-.imc-card__value {
-  font-size: 13px;
-  color: var(--ink-soft);
-  font-weight: 500;
-}
-.imc-card__value b { color: var(--green); font-weight: 700; }
-.imc-gauge {
-  position: relative;
-  height: 10px;
-  background: linear-gradient(90deg, var(--green) 0%, var(--yellow) 50%, var(--red) 100%);
-  border-radius: 5px;
-  margin: 40px 0 12px;
-}
-.imc-gauge__marker {
-  position: absolute;
-  top: 50%;
-  left: 0%;
-  width: 18px; height: 18px;
-  border-radius: 50%;
-  background: white;
-  border: 3px solid var(--bg);
-  transform: translate(-50%, -50%);
-  box-shadow: 0 0 0 1px rgba(255,255,255,0.4);
-  transition: left 1.6s cubic-bezier(0.22,1,0.36,1);
-}
-.imc-gauge__tooltip {
-  position: absolute;
-  top: -44px;
-  left: 0%;
-  transform: translateX(-50%);
-  background: var(--card);
-  border: 1px solid var(--hair-strong);
-  font-size: 11px;
-  font-weight: 700;
-  padding: 4px 10px;
-  border-radius: 6px;
-  white-space: nowrap;
-  transition: left 1.6s cubic-bezier(0.22,1,0.36,1);
-}
-.imc-gauge__scale {
-  display: flex;
-  justify-content: space-between;
-  font-size: 10px;
-  font-weight: 700;
-  color: var(--ink-fade);
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-}
-
-/* ════════════════════════════════════════════════════
-   STAT ROWS
-   ════════════════════════════════════════════════════ */
-.stat-rows-wrap {
-  display: grid;
-  grid-template-columns: 1fr 160px;
-  gap: 14px;
-  align-items: stretch;
-  margin-bottom: 18px;
-}
-.imgbox--resume {
-  width: 100%;
-  aspect-ratio: 1 / 1;
-  height: auto;
-  border-radius: 12px;
-  overflow: hidden;
-  padding: 0 !important;
-  background: #F5EFE6 !important;
-  border: none !important;
-  align-self: start;
-}
-.imgbox--resume img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center 20%;
-  display: block;
-  border-radius: 0;
-}
-.stat-row__icon {
-  width: 32px;
-  height: 32px;
-  color: var(--ink);
-  flex-shrink: 0;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-}
-.stat-row__icon svg { width: 100%; height: 100%; }
-.stat-rows {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-}
-.stat-row {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-.stat-row__icon { font-size: 18px; color: var(--ink-soft); }
-.stat-row__body { flex: 1; }
-.stat-row__label {
-  font-size: 11.5px;
-  color: var(--ink-fade);
-  font-weight: 500;
-  letter-spacing: 0.02em;
-}
-.stat-row__value {
-  font-size: 15px;
-  font-weight: 700;
-  color: var(--ink);
-  letter-spacing: -0.01em;
-}
 
 /* ════════════════════════════════════════════════════
    COMPARISON (now/goal)
@@ -2345,10 +2212,6 @@ body {
 /* Curve chart legend backgrounds */
 .curve-block { background: var(--card); }
 
-/* IMC gauge palette in warm */
-.imc-gauge {
-  background: linear-gradient(90deg, var(--green) 0%, var(--yellow) 50%, var(--red) 100%);
-}
 
 /* Footer fade tone to bg */
 /* footer-cta background defined in main rule above */
@@ -2383,9 +2246,6 @@ canvas#curveChart { width: 100%; }
   .row-card__body { padding: 16px 14px 16px 0; }
   .row-card__title { font-size: 15px; }
   .row-card__sub { font-size: 12.5px; }
-  .stat-rows-wrap { grid-template-columns: 1fr 143px; }
-  .imgbox--resume { width: 100%; height: auto; min-height: 160px; }
-  .imc-gauge__tooltip { font-size: 10px; padding: 3px 8px; }
   .compare-stat__label { font-size: 11px; }
   .compare-stat__value { font-size: 13px; }
   .plan-card { grid-template-columns: 20px 1fr auto; padding: 12px 14px; gap: 10px; }
@@ -3737,114 +3597,6 @@ button:focus-visible, .row-card:focus-visible, .simple-opt:focus-visible,
   margin-top: 0;
   margin-bottom: 20px;
 }
-#s25 .stat-rows { gap: 10px; }
-#s25 .section-heading { margin-top: 30px; margin-bottom: 14px; font-size: 20px; }
-#s25 .stat-rows-wrap { margin-bottom: 24px; }
-#s25 .imc-card { margin-bottom: 4px; }
-
-@media (min-width: 900px) {
-  /* a faixa de 580px deixava a tela estreita num monitor */
-  body:has(#s25.active) .wrap { max-width: 720px; }
-  /* a coluna da imagem era 160px, pensada pro celular; no monitor a foto
-     ficava perdida ao lado do texto */
-  #s25 .stat-rows-wrap { grid-template-columns: 1fr 250px; gap: 20px; }
-  /* o box era quadrado e centralizado, o que travava a altura em ~122px;
-     aqui ele acompanha a coluna de texto */
-  #s25 .imgbox--resume {
-    align-self: stretch;
-    aspect-ratio: auto;
-    height: auto;
-    min-height: 250px;
-  }
-  #s25 .imgbox--resume img { width: 100%; height: 100%; object-fit: cover; }
-}
-
-@media (max-width: 700px) {
-  /* volta a versão compacta, que é a que cabe sem rolagem */
-  #s25 .q-title-lg { font-size: 22px; line-height: 1.15; margin-bottom: 6px; }
-  #s25 .stat-rows { gap: 5px; }
-  #s25 .section-heading { margin-top: 0; margin-bottom: 4px; font-size: 17px; }
-  #s25 .stat-rows-wrap { margin-bottom: 8px; }
-  #s25 .imc-card { margin-bottom: 0; }
-}
-@media (max-width: 480px) {
-  /* sem a imagem lateral: linhas em largura cheia, tudo acima da dobra */
-  #s25 .imgbox--resume { display: none; }
-  #s25 .stat-rows-wrap { grid-template-columns: 1fr; margin-bottom: 8px; }
-}
-#s25 .imc-card {
-  padding-top: 10px;
-  padding-bottom: 8px;
-  margin-bottom: 6px;
-}
-#s25 .imc-card__head {
-  margin-bottom: 8px;
-}
-#s25 .imc-gauge {
-  margin-top: 24px;
-  margin-bottom: 8px;
-}
-#s25 .alert-box {
-  margin-top: 8px;
-  padding-top: 12px;
-  padding-bottom: 12px;
-}
-#s25 .alert-box__text {
-  font-size: 12.5px;
-  line-height: 1.42;
-}
-#s25 .alert-box__title {
-  font-size: 14.5px;
-}
-#s25 .stat-row__value {
-  font-size: 13px;
-}
-#s25 .stat-row__label {
-  font-size: 11px;
-}
-/* Ícones no estilo da página de vendas: círculo colorido + glifo claro */
-#s25 .stat-row__icon {
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  color: #fdf6ee;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.18);
-}
-#s25 .stat-row__icon svg { width: 55%; height: 55%; }
-#s25 .stat-row:nth-child(1) .stat-row__icon { background: #b0764a; }
-#s25 .stat-row:nth-child(2) .stat-row__icon { background: #5d7a52; }
-#s25 .stat-row:nth-child(3) .stat-row__icon { background: #c9a97a; }
-#s25 .stat-row:nth-child(4) .stat-row__icon { background: #c05b4d; }
-#s25 .imgbox--resume {
-  height: 122px;
-  align-self: center;
-}
-#s25 .imc-gauge {
-  margin-top: 26px; /* folga para o tooltip "Você N" não cobrir o cabeçalho */
-  margin-bottom: 0;
-}
-#s25 .imc-card {
-  padding-top: 4px;
-  padding-bottom: 2px;
-  margin-bottom: 0;
-}
-#s25 .imc-card__head {
-  margin-bottom: 4px;
-}
-#s25 .alert-box {
-  margin-top: 2px;
-  padding-top: 7px;
-  padding-bottom: 7px;
-}
-#s25 .alert-box__title {
-  margin-bottom: 2px;
-}
-#s25 .imc-gauge__tooltip {
-  top: -24px;
-  font-size: 10px;
-  padding: 3px 8px;
-}
-
 /* ── Date Journey (s28) ─────────────────────────────────────────────────── */
 .date-journey {
   background: var(--card);
@@ -5254,3 +5006,141 @@ body.marca-solta:has(#s1.screen.active) .header__inner::after {
 .louro-selo__excelente { font-size: 17px; font-weight: 700; color: var(--ink); }
 .louro-selo .review__nota { margin: 0; gap: 3px; }
 .louro-selo .review__nota i { width: 20px; height: 20px; }
+
+/* ═══ Tela 25 · perfil fertil ═══════════════════════════════════════════
+   Desenho da referencia: um cartao branco com o medidor do IQO (pilula
+   "Voce · N" que anda com o marcador, limites das zonas em cima, nomes das
+   zonas embaixo), o alerta e as quatro dimensoes ao lado da foto. */
+@media (min-width: 900px) { body:has(#s25.active) .wrap { max-width: 720px; } }
+/* Nao e branco: um veu claro sobre o bege da pagina, com fio em volta — na
+   referencia o cartao e so um tom mais claro que o fundo. Sem margem e com
+   pouco padding porque a tela precisa caber inteira sem rolar. */
+.perfil {
+  background: rgba(255,255,255,0.55);
+  border: 1px solid rgba(43,26,16,0.10);
+  border-radius: 16px;
+  padding: 14px 16px 0;
+  margin: 0;
+  overflow: hidden;
+}
+.perfil__titulo {
+  font-family: 'Manrope', 'DM Sans', system-ui, sans-serif;
+  font-size: 16.5px; font-weight: 800; letter-spacing: -0.01em;
+  color: var(--ink); margin: 0 0 4px; white-space: nowrap;
+}
+/* O medidor reserva 50px em cima pra pilula, que e absoluta. */
+.medidor { position: relative; padding: 40px 6px 0; }
+.medidor__pilula {
+  position: absolute; top: 4px; left: 12%;
+  transform: translateX(-50%);
+  background: var(--ink); color: #fff;
+  font-size: 13px; font-weight: 700; padding: 6px 11px; border-radius: 9px;
+  white-space: nowrap;
+  transition: left 1.6s cubic-bezier(0.22,1,0.36,1), opacity .3s;
+}
+.medidor__pilula::after {
+  content: ''; position: absolute; left: calc(50% + var(--desl, 0px)); bottom: -6px; transform: translateX(-50%);
+  border: 6px solid transparent; border-bottom: 0; border-top-color: var(--ink);
+}
+.medidor__numeros { position: relative; height: 16px; font-size: 12px; font-weight: 600; color: var(--ink-fade); }
+.medidor__numeros span { position: absolute; top: 0; transform: translateX(-50%); }
+.medidor__numeros span:first-child { transform: none; }
+.medidor__numeros span:last-child { transform: translateX(-100%); }
+/* Vermelho a esquerda, verde a direita: IQO alto e bom. O medidor antigo
+   tinha a paleta do IMC (verde a esquerda) e o "Baixo" caia no verde. */
+.medidor__barra {
+  position: relative; height: 8px; border-radius: 99px; margin: 4px 0 6px;
+  background: linear-gradient(90deg, #D65A4A 0%, #E8A03A 42%, #E2C24A 60%, #79B06A 80%, #3E7B3A 100%);
+}
+.medidor__risco { position: absolute; top: -7px; bottom: -7px; width: 1px; background: rgba(43,26,16,0.18); }
+.medidor__marcador {
+  position: absolute; top: 50%; left: 0;
+  width: 18px; height: 18px; border-radius: 50%;
+  background: #fff; border: 2px solid rgba(43,26,16,0.12);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.20);
+  transform: translate(-50%, -50%);
+  transition: left 1.6s cubic-bezier(0.22,1,0.36,1);
+}
+.medidor__zonas { position: relative; height: 18px; font-size: 12px; font-weight: 600; color: var(--ink-fade); }
+.medidor__zonas span { position: absolute; top: 0; text-align: center; white-space: nowrap; }
+.medidor__zonas span.atual { color: var(--ink); font-weight: 700; }
+
+.perfil__alerta {
+  display: block;
+  margin: 12px 0 12px; padding: 11px 12px;
+  background: #FBEDEA; border: 1px solid #E8B4AC; border-radius: 14px;
+}
+.perfil__alerta-ico { width: 20px; height: 20px; flex: 0 0 auto; color: #B3261E; }
+.perfil__alerta-ico svg { width: 100%; height: 100%; display: block; }
+.perfil__alerta-titulo { display: flex; align-items: flex-start; gap: 8px; font-size: 14px; font-weight: 700; color: var(--ink); margin: 0 0 4px; line-height: 1.3; }
+.perfil__alerta-titulo .perfil__alerta-ico { margin-top: 0; }
+.perfil__alerta-texto { font-size: 12.5px; line-height: 1.4; color: var(--ink-soft); margin: 0; }
+
+/* Linhas a esquerda, foto a direita encostada na borda e no pe do cartao. */
+.perfil__grade { display: grid; grid-template-columns: 1.15fr 1fr; gap: 8px; align-items: stretch; margin-right: -16px; }
+.perfil__linhas { display: flex; flex-direction: column; gap: 10px; padding-bottom: 12px; }
+.perfil__linha { display: flex; align-items: center; gap: 12px; }
+.perfil__ico {
+  width: 40px; height: 40px; border-radius: 50%; flex: 0 0 auto;
+  background: rgba(43,26,16,0.06); color: var(--ink);
+  display: inline-flex; align-items: center; justify-content: center;
+}
+.perfil__ico svg { width: 21px; height: 21px; display: block; }
+.perfil__rotulo { font-size: 12px; font-weight: 500; color: var(--ink-fade); }
+.perfil__rotulo b { font-weight: 700; }
+.perfil__valor { font-size: 15px; font-weight: 700; color: var(--ink); line-height: 1.2; }
+.perfil__foto { position: relative; min-height: 0; }
+.perfil__foto img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 0; display: block; }
+/* Titulo em uma linha e sem sobra: o que decide se a tela cabe sem rolar. */
+#s25 .q-title-lg { font-size: 22px; line-height: 1.15; margin: 0 0 12px; }
+/* O botao CONTINUAR e sticky, entra na conta da altura: o que sobra de
+   padding embaixo do cartao vira rolagem em tela curta. O respiro visual
+   entre cartao e botao ja vem do padding do proprio rodape. */
+#s25.screen.active { padding-bottom: 0; }
+body:has(#s25.active) .wrap { padding-bottom: 12px; }
+@media (max-height: 700px) { body:has(#s25.active) .wrap { padding-bottom: 0; } }
+/* Aparelho baixo: um degrau a menos em tudo pra continuar cabendo. */
+@media (max-height: 700px) {
+  #s25 .q-title-lg { font-size: 20px; margin-bottom: 8px; }
+  .perfil__alerta-texto { font-size: 12px; line-height: 1.35; }
+  .perfil__linhas { gap: 7px; }
+  .perfil__ico { width: 36px; height: 36px; }
+  .medidor { padding-top: 36px; }
+}
+/* Aparelho muito baixo (SE, iPhone 8 com barra do Safari): mais um degrau,
+   senao sobravam ~60px de rolagem em 640px de altura. */
+@media (max-height: 660px) {
+  #s25 .q-title-lg { font-size: 19px; margin-bottom: 6px; }
+  #s25.screen.active { padding-bottom: 0; }
+  .perfil { padding-top: 10px; }
+  .perfil__titulo { font-size: 15px; margin-bottom: 2px; }
+  .medidor { padding-top: 32px; }
+  .perfil__alerta { margin: 8px 0; padding: 9px 10px; }
+  .perfil__alerta-titulo { font-size: 13px; }
+  .perfil__alerta-texto { font-size: 11.5px; line-height: 1.3; }
+  .perfil__linhas { gap: 5px; padding-bottom: 8px; }
+  .perfil__ico { width: 32px; height: 32px; }
+  .perfil__ico svg { width: 16px; height: 16px; }
+  .perfil__rotulo { font-size: 11px; }
+  .perfil__valor { font-size: 14px; }
+}
+
+/* Setinha e hamburguer centrados na LINHA DO TITULO, nao na barra inteira
+   (titulo + progresso): com top:50% eles caiam 5px abaixo do texto. Na tela 1
+   com a marca (sem progresso) a barra e so a linha da marca, entao la o 50%
+   continua certo. */
+.header__back, .header__menu { top: 20px; }
+body.marca-solta:has(#s1.screen.active) .header__back,
+body.marca-solta:has(#s1.screen.active) .header__menu,
+body.marca-na-tela-1:has(#s1.screen.active) .header__back,
+body.marca-na-tela-1:has(#s1.screen.active) .header__menu { top: 50%; }
+
+/* Titulo da tela 25 centrado, com o mesmo respiro em cima e embaixo. */
+/* 12/20 e nao 12/12: medido, o titulo tem meia-entrelinha em cima e o cartao
+   comeca seco embaixo — assim o respiro sai 22px dos dois lados. */
+#s25 .q-title-lg { text-align: center; margin: 12px auto 20px; }
+/* Em 640px de altura ainda sobravam 15px de rolagem: vinham do padding de
+   baixo da .wrap (escondido atras do botao fixo) e das margens do titulo. */
+@media (max-height: 660px) {
+  #s25 .q-title-lg { margin: 8px auto 14px; }
+}

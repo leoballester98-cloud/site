@@ -4422,7 +4422,10 @@ body.marca-na-tela-1:has(#s1.screen.active) .wrap {
    voltariam a quebrar em 4. Vale só no mobile — no desktop a linha é larga e
    já cabem 3. */
 @media (max-width: 719px) {
-  #s1.s1-hlonga.s1-v3 h1#h1Var {
+  /* Vale pras tres variantes longas (h=3, 4 e 5), nao so pro h=3: o gancho
+     por tela existia pra um ajuste que so o h=3 queria, mas o corpo menor as
+     tres querem. */
+  #s1.s1-hlonga h1#h1Var {
     font-size: clamp(14px, 4.7vw, 17.5px);
     max-width: 100% !important;
   }
@@ -4496,10 +4499,14 @@ body.marca-solta:has(#s1.screen.active) .header__inner::after {
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: -.01em;
-  font-size: clamp(22px, 5.9vw, 32px);
+  font-size: clamp(19px, 5.0vw, 27px);
   line-height: 1.18;
   max-width: 24ch !important;
-  margin: 20px auto 10px;
+  /* margem igual em cima e embaixo. Era 20/10 e o desequilibrio aparecia na
+     tela: a tela 1 distribui o resto com space-evenly, entao os 10px de
+     diferenca das margens sao exatamente o que o olho le como titulo colado
+     no topo. */
+  margin: 14px auto;
   text-align: center;
   text-wrap: balance;
   color: var(--ink);
@@ -4563,19 +4570,22 @@ body.marca-solta:has(#s1.screen.active) .header__inner::after {
      entao a foto tem o mesmo tamanho em qualquer molde. */
   aspect-ratio: var(--prova-ar);
 }
-/* 'center 22%' e nao o centro: o corte 4:3 numa foto retrato come a cabeca se
-   ancorar no meio. Puxar pra cima mantem o rosto sempre no quadro. */
-/* Foto do teste Clearblue. Recortada em 2:1 com o sorriso e o teste inteiros.
-   Em tela curta a moldura estica (ate ~3:1) e o cover corta em cima e embaixo:
-   o 85% empurra o corte pra cima, porque o que nao pode sumir e o visor
-   "Gravida" do teste — o rosto aguenta perder os olhos, o gancho nao. */
-.t6-hero img { width: 100%; height: 100%; object-fit: cover; object-position: center 85%; display: block; }
+/* O arquivo ja vem recortado com o visor "Gravida" exatamente no centro dos
+   dois eixos (518x754, visor em 50%/50%), entao 'center' e o que mantem ele
+   no meio em qualquer proporcao — inclusive quando o flex encolhe a moldura no
+   iPhone SE e o cover corta em cima e embaixo por igual. O preco e o casal:
+   o visor esta a 63% da largura da foto original, e centralizar na horizontal
+   so cabe cortando os rostos. */
+.t6-hero img { width: 100%; height: 100%; object-fit: cover; object-position: center; display: block; }
 
 .t6-bullets { list-style: none; display: flex; flex-direction: column; gap: 10px; margin: 2px 0; }
 .t6-bullets li {
-  display: flex; align-items: center; justify-content: center; gap: 8px;
+  display: flex; align-items: center; justify-content: center; gap: 7px;
   font-weight: 700;
-  font-size: clamp(14px, 3.8vw, 17px);
+  /* Um degrau abaixo do que era (3.8vw / 17px): a headline desceu 15% e os
+     bullets ficaram competindo com ela. Eles apoiam a promessa, nao a
+     repetem — o check verde ja chama o olho sozinho. */
+  font-size: clamp(12px, 3.25vw, 14.5px);
   text-transform: uppercase;
   letter-spacing: -.01em;
   color: var(--ink);
@@ -4586,12 +4596,12 @@ body.marca-solta:has(#s1.screen.active) .header__inner::after {
 .t6-bullets li::before {
   content: '✓';
   flex: 0 0 auto;
-  width: 21px; height: 21px;
+  width: 18px; height: 18px;
   display: grid; place-items: center;
-  border-radius: 6px;
+  border-radius: 5px;
   background: var(--green-d);
   color: #fff;
-  font-size: 13px; font-weight: 700; line-height: 1;
+  font-size: 11px; font-weight: 700; line-height: 1;
 }
 
 /* Destaque leve no subtitulo: um degrau de cor e meio de peso, so o suficiente
@@ -4774,12 +4784,16 @@ body.marca-solta:has(#s1.screen.active) .header__inner::after {
   /* 24px de respiro aqui tambem, e nao so acima de 900: quem navega com a
      janela pela metade caia no valor do celular e via a headline encostada na
      faixa do nome. */
-  #s1.s1-alt > h1#h1Var { max-width: none !important; margin-top: 24px; }
+  /* Margem desigual aqui de proposito, pra o respiro sair igual na tela: a
+     .wrap reserva a barra + 8px, e esses 8px so existem em cima. Somados ao
+     que o space-evenly sobra, davam ~18px a mais acima da headline. A conta
+     e sempre a mesma nos tres cortes de desktop — muda so quanto sobra. */
+  #s1.s1-alt > h1#h1Var { max-width: none !important; margin: 9px auto 27px; }
 }
 
 @media (min-width: 720px) {
   #s1.s1-alt { max-width: 680px; }
-  .t6-bullets li { font-size: 18px; }
+  .t6-bullets li { font-size: 15.5px; }
   .age-grid .age-row.age-quad { min-height: 72px; font-size: 18px; }
 }
 
@@ -4820,7 +4834,7 @@ body.marca-solta:has(#s1.screen.active) .header__inner::after {
      600px da coluna de propósito: o alvo e a headline caber em TRES linhas, e
      na largura da coluna ela quebrava em cinco — uma torre de texto que
      empurrava a foto e a grade pra fora da dobra. */
-  #s1.s1-alt > h1#h1Var { font-size: 39px; margin-top: 20px; margin-bottom: 10px; }
+  #s1.s1-alt > h1#h1Var { font-size: 33px; margin: 10px auto 22px; }
   #s1.s1-alt > p#subVar { font-size: 17px; max-width: 46ch; margin-bottom: 14px; }
 
   .t-alt { gap: 12px; }
@@ -4836,8 +4850,8 @@ body.marca-solta:has(#s1.screen.active) .header__inner::after {
      dele — e ali que a promessa acaba e a instrucao comeca. A grade fica
      colada no subtitulo, porque e ele que manda escolher a idade. */
   #s1.s1-alt .t6-bullets { gap: 10px; }
-  #s1.s1-alt .t6-bullets li { font-size: 18px; gap: 10px; }
-  #s1.s1-alt .t6-bullets li::before { width: 23px; height: 23px; font-size: 14px; }
+  #s1.s1-alt .t6-bullets li { font-size: 15.5px; gap: 9px; }
+  #s1.s1-alt .t6-bullets li::before { width: 20px; height: 20px; font-size: 12px; }
   #s1.s1-alt .t-sub, #s1.s1-alt .t-micro { font-size: 15px; margin-top: 8px; }
   #s1.s1-alt > .age-grid { margin-top: 8px; gap: 12px; }
   #s1.s1-alt .age-row.age-quad { min-height: 68px; font-size: 18px; }
@@ -4858,7 +4872,10 @@ body.marca-solta:has(#s1.screen.active) .header__inner::after {
 @media (max-width: 899px) {
     body.marca-solta:has(#s1.screen.active) .header__section,
   body.marca-solta:has(#s1.screen.active) .progress { display: none; }
-  body.marca-solta:has(#s1.screen.active) .header__inner { padding: 7px 14px; gap: 0; }
+  /* justify-content e nao align-items: a barra e flex em COLUNA, entao o eixo
+     principal e o vertical. Com 'normal' a marca empilhava no topo dos 52px e
+     ficava 9px acima do hamburguer, que e absoluto e ja nasce no centro. */
+  body.marca-solta:has(#s1.screen.active) .header__inner { padding: 7px 14px; gap: 0; justify-content: center; }
   body.marca-solta:has(#s1.screen.active) .header__inner::after {
     position: static;
     inset: auto;
@@ -4953,13 +4970,10 @@ body.marca-solta:has(#s1.screen.active) .header__inner::after {
     gap: 2px;
   }
 
-  /* A imagem sai da margem lateral e encosta nas bordas da tela: e o unico
-     jeito de ela crescer sem mexer na proporcao dos arquivos, que sao 2:1. */
-  #s1.s1-alt.active .t6-hero,
-  #s1.s1-alt.active .t7-janela,
-  #s1.s1-alt.active .t8-par {
-    width: calc(100% + 32px); margin-inline: -16px; border-radius: 0;
-  }
+  /* A imagem fica dentro da margem, com a moldura de 18px da regra base.
+     Antes ela sangrava pros lados (width: 100%+32px, margin-inline: -16px)
+     pra crescer sem mexer na proporcao 2:1 dos arquivos — mas encostada nas
+     bordas ela lia como recorte, nao como foto dentro do cartao. */
   #s1.s1-alt.active .t8-prova { display: flex; flex-direction: column; }
 
   /* O texto de termos vira barra FIXA no rodape abaixo de 480px — regra antiga,
@@ -4980,6 +4994,27 @@ body.marca-solta:has(#s1.screen.active) .header__inner::after {
     font-size: 10px;
     line-height: 1.35;
   }
+
+  /* Molde 7: o conteudo e curto (foto, uma frase, botao) e o space-evenly
+     virava vazio de 80px acima E abaixo do titulo. Aqui a pilha comeca no topo
+     com respiro fixo de ~30px, os termos ficam colados no botao, e a sobra vai
+     toda pro pe da tela, onde nao separa nada que precise ser lido junto. No
+     aparelho real ela e bem menor que na janela de teste: o 100svh desconta a
+     barra do Safari.
+     As margens do titulo sao proprias porque as dos cortes de desktop (9/27,
+     6/18) compensam o space-evenly — sem ele, elas e que desequilibrariam. */
+  #s1.s1-t7.active { justify-content: flex-start; }
+  /* Coluna flex como a .t8-prova: sem isso a janela (aspect-ratio) nao encolhe
+     quando falta altura e os pontinhos somem cortados pelo overflow. Com a
+     foto em 4:3 isso passou a acontecer no iPhone SE. */
+  #s1.s1-t7.active .t7-prova { display: flex; flex-direction: column; }
+  /* 24/10 e nao 14/14: a .wrap ja poe 54px acima (barra + 1px) e o titulo
+     tem meia-entrelinha; medido, 24 em cima e 10 no bloco dao 27px de respiro
+     iguais dos dois lados do titulo. Acima de 600px os valores sao outros
+     (regra no fim do arquivo) porque a .wrap reserva mais. */
+  #s1.s1-t7.active > h1#h1Var { margin: 24px auto 14px; }
+  #s1.s1-t7.active > .t-alt { margin-top: 10px; }
+  #s1.s1-t7.active > .terms { margin-top: 14px; }
 }
 
 /* ── Desktop de tela baixa (notebook) ────────────────────────────────────
@@ -4988,11 +5023,11 @@ body.marca-solta:has(#s1.screen.active) .header__inner::after {
    Aqui a escala inteira desce um degrau — o titulo continua sendo o maior, o
    subtitulo o menor, a hierarquia nao muda — e a imagem volta a ter altura. */
 @media (min-width: 900px) and (max-height: 800px) {
-  #s1.s1-alt > h1#h1Var { font-size: 32px; margin-top: 14px; margin-bottom: 8px; }
+  #s1.s1-alt > h1#h1Var { font-size: 27px; margin: 6px auto 18px; }
   #s1.s1-alt > p#subVar { font-size: 15px; margin-bottom: 10px; }
   #s1.s1-alt .t6-bullets { gap: 7px; }
-  #s1.s1-alt .t6-bullets li { font-size: 15px; }
-  #s1.s1-alt .t6-bullets li::before { width: 20px; height: 20px; font-size: 12px; }
+  #s1.s1-alt .t6-bullets li { font-size: 13px; }
+  #s1.s1-alt .t6-bullets li::before { width: 17px; height: 17px; font-size: 11px; }
   #s1.s1-alt .t-sub, #s1.s1-alt .t-micro { font-size: 14px; margin-top: 6px; }
   #s1.s1-alt > .age-grid { margin-top: 8px; gap: 10px; }
   #s1.s1-alt .age-row.age-quad { min-height: 56px; font-size: 16px; }
@@ -5005,11 +5040,11 @@ body.marca-solta:has(#s1.screen.active) .header__inner::after {
    longo dos tres moldes, e num aparelho desse a diferenca de uma linha decide.
    Desce tudo junto pra hierarquia continuar de pe. */
 @media (max-height: 600px) {
-  #s1.s1-alt h1#h1Var { font-size: 19px; margin: 10px auto 6px; }
+  #s1.s1-alt h1#h1Var { font-size: 17px; margin: 8px auto; }
   #s1.s1-alt p#subVar { font-size: 12.5px; margin-bottom: 8px; }
   #s1.s1-alt .t6-bullets { gap: 6px; }
-  #s1.s1-alt .t6-bullets li { font-size: 14px; }
-  #s1.s1-alt .t6-bullets li::before { width: 18px; height: 18px; font-size: 11px; }
+  #s1.s1-alt .t6-bullets li { font-size: 12px; }
+  #s1.s1-alt .t6-bullets li::before { width: 16px; height: 16px; font-size: 10px; }
   #s1.s1-alt .t-sub, #s1.s1-alt .t-micro { font-size: 12.5px; }
   #s1.s1-alt > .age-grid { margin-top: 6px; gap: 8px; }
   #s1.s1-alt .age-row.age-quad { min-height: 48px; font-size: 14px; }
@@ -5195,3 +5230,23 @@ body.marca-solta:has(#s1.screen.active) .header__inner::after {
 }
 #svsl1 .vsl-continuar.on{ opacity:1; pointer-events:auto; }
 @media (prefers-reduced-motion:reduce){ #svsl1 .vsl-continuar{ transition:none; } }
+
+/* Molde 7 acima de 600px: a .wrap reserva 66px em vez de 54 e o titulo e maior,
+   entao o par 24/10 do celular deixava 8px a mais em cima. Fica no fim do
+   arquivo de proposito — mesma especificidade da regra do celular, e quem
+   vem depois ganha. Medido: 31px acima e abaixo do titulo em 1280x900 e
+   1024x700. */
+@media (min-width: 600px) {
+  #s1.s1-t7.active > h1#h1Var { margin: 14px auto; }
+  #s1.s1-t7.active > .t-alt { margin-top: 12px; }
+}
+
+/* Molde 7 — foto maior. 4:3 em vez do 2:1 dos arquivos: +50% de altura, e o
+   cover corta 1/6 de cada lado (no slide 1 o "Clearblue" perde o comeco; foi
+   escolha, os originais nao existem pra remontar). No celular o cartao ainda
+   avanca 10px sobre cada margem da .wrap: 359px de largura, mas continua
+   dentro do quadro — sangrar ate a borda foi vetado na tela 6. */
+#s1.s1-t7 .t7-janela { aspect-ratio: 4 / 3; }
+@media (max-width: 599px) {
+  #s1.s1-t7 .t7-prova { margin-inline: -10px; }
+}

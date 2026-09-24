@@ -272,7 +272,12 @@ body {
   margin: 12px auto 20px;
   text-align: center;
   text-wrap: balance;
-  max-width: 22ch;
+  /* Largura toda, nao 22ch: o 'ch' encolhe junto com a fonte, entao quando o
+     ajustarTitulo reduzia um titulo longo pra caber em 3 linhas a caixa
+     encolhia tambem — e o titulo virava uma coluna estreita de texto miudo.
+     Com a largura toda, ele quebra em menos linhas e quase nao precisa
+     encolher; o text-wrap: balance continua deixando as linhas parelhas. */
+  max-width: 100%;
 }
 .q-title-lg {
   font-family: 'Manrope', 'DM Sans', system-ui, sans-serif;
@@ -284,7 +289,7 @@ body {
   margin: 12px auto 16px;
   text-align: center;
   text-wrap: balance;
-  max-width: 22ch;
+  max-width: 100%;
 }
 .q-sub {
   font-size: 14px;
@@ -3432,7 +3437,7 @@ button:focus-visible, .row-card:focus-visible, .simple-opt:focus-visible,
     margin-left: auto;
     margin-right: auto;
   }
-  .q-title { max-width: 340px; font-size: 28px; text-wrap: wrap; }
+  .q-title { max-width: 560px; font-size: 28px; text-wrap: balance; }
 
   /* Step 1: foto+cards lado a lado */
   .age-intro {
@@ -5192,7 +5197,8 @@ body:has(#s1.screen.active) .progress { display: none; }
 .simple-opt--radio:hover { background: rgba(255,255,255,0.35); }
 .simple-opt--radio::after {
   content: ''; width: 24px; height: 24px; border-radius: 50%; flex: 0 0 auto;
-  border: 1.5px solid rgba(43,26,16,0.28); background: #fff;
+  /* So o aro: o miolo fica na cor do fundo da pagina, sem branco. */
+  border: 1.5px solid rgba(43,26,16,0.28); background: transparent;
   transition: background .2s, border-color .2s;
 }
 .simple-opt--radio.selected { background: var(--card-active); border-color: var(--card-active); }

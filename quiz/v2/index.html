@@ -56,7 +56,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"/>
-  <link rel="stylesheet" href="quiz-warm.css?v=411"/>
+  <link rel="stylesheet" href="quiz-warm.css?v=416"/>
 
   <!-- Anti-flicker do teste A/B.
        O script que troca a headline mora no fim do <body>, então num aparelho
@@ -336,7 +336,7 @@
        Sem data-section: nao entram na conta da barra de progresso — so uma
        das duas e vista — e o cabecalho mantem "Seu Perfil Fertil".
        COPY E FOTO SAO PROVISORIAS: entram depois. data-etapa 38 e 39. -->
-  <section class="screen" id="s3n" data-step="3" data-etapa="38" data-section="" data-icon="target" data-next="s4">
+  <section class="screen" id="s3n" data-step="3" data-etapa="38" data-section="" data-icon="target" data-next="s3o">
     <div class="info">
       <h2 class="q-title info__titulo">Ainda dá tempo de preparar o terreno.</h2>
       <p class="info__texto">Quem entende o próprio ciclo antes de começar a tentar chega na primeira tentativa sabendo em que dias o corpo está pronto.</p>
@@ -344,12 +344,43 @@
       <div class="info__foto"><img src="Images/idade-26-35.webp" alt="" decoding="async" loading="lazy"/></div>
     </div>
   </section>
-  <section class="screen" id="s3s" data-step="3" data-etapa="39" data-section="" data-icon="target" data-next="s4">
+  <section class="screen" id="s3s" data-step="3" data-etapa="39" data-section="" data-icon="target" data-next="s3o">
     <div class="info">
       <h2 class="q-title info__titulo">Você está no caminho certo!</h2>
       <p class="info__texto">Quando a tentativa já começou, o que mais atrasa é não saber em qual dia o corpo está fértil de verdade.</p>
       <p class="info__texto">Vamos te ajudar a <b>encontrar a sua janela fértil</b> nas próximas tentativas.</p>
       <div class="info__foto"><img src="Images/etapa3-engravidar.webp" alt="" decoding="async" loading="lazy"/></div>
+    </div>
+  </section>
+
+  <!-- ═══════ 3o. PRINCIPAL OBJETIVO ═══════
+       Depois de qualquer um dos dois ramos. Cartoes de largura inteira com o
+       marcador redondo a direita (mesmo desenho da tela 3, sem a foto).
+       As opcoes sao provisorias. data-etapa 40. -->
+  <section class="screen" id="s3o" data-step="3" data-etapa="40" data-section="Seu Perfil Fértil" data-icon="target">
+    <h2 class="q-title">Qual é o seu principal objetivo?</h2>
+    <div class="simple-list simple-list--radio">
+      <button class="simple-opt simple-opt--radio" data-val="engravidar-logo" data-next="s3p">Engravidar o quanto antes</button>
+      <button class="simple-opt simple-opt--radio" data-val="entender-ciclo" data-next="s3p">Entender melhor o meu ciclo</button>
+      <button class="simple-opt simple-opt--radio" data-val="preparar-corpo" data-next="s3p">Preparar o corpo antes de tentar</button>
+    </div>
+  </section>
+
+  <!-- ═══════ 3p. "NÓS SABEMOS COMO FAZER ISSO ACONTECER" ═══════
+       Tela de leitura depois do objetivo, no desenho da referencia: titulo a
+       esquerda, dois paragrafos com destaque, e o cartao com tres telas do
+       app (as capturas do carrossel da tela 30, com moldura de celular feita
+       em CSS). Copy provisoria. data-etapa 41; sem data-section. -->
+  <section class="screen" id="s3p" data-step="3" data-etapa="41" data-section="" data-icon="target" data-next="s4">
+    <div class="info">
+      <h2 class="q-title info__titulo">Nós sabemos como fazer isso acontecer!</h2>
+      <p class="info__texto">Vamos criar <b>um plano personalizado</b> a partir do seu ciclo, dos seus sinais e do seu objetivo.</p>
+      <p class="info__texto">Assim, você pode <b>destravar a sua fertilidade</b> no seu próprio ritmo, sem adivinhação.</p>
+      <div class="info__foto info__foto--telas" aria-hidden="true">
+        <img class="info__tela info__tela--esq" src="Images/app-tela3-semana.webp" alt="" decoding="async" loading="lazy"/>
+        <img class="info__tela info__tela--meio" src="Images/app-tela2-jornada.webp" alt="" decoding="async" loading="lazy"/>
+        <img class="info__tela info__tela--dir" src="Images/app-tela5-progresso.webp" alt="" decoding="async" loading="lazy"/>
+      </div>
     </div>
   </section>
 

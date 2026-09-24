@@ -5220,3 +5220,33 @@ body:has(#s1.screen.active) .progress { display: none; }
 .info__foto img { width: 100%; height: 100%; object-fit: cover; object-position: center 30%; display: block; }
 @media (max-height: 700px) { .info__foto { aspect-ratio: 16 / 10; } .info__texto { font-size: 15px; } }
 @media (max-height: 640px) { .info__foto { aspect-ratio: 2 / 1; } }
+
+/* Lista de cartoes com marcador, largura inteira (tela 3o): um pouco mais
+   altos e com mais ar entre eles que os da tela 3, que dividem espaco com a
+   foto. */
+.simple-list--radio { gap: 12px; margin-top: 10px; }
+.simple-list--radio .simple-opt--radio { min-height: 74px; padding: 20px 18px 20px 20px; font-size: 16px; }
+
+/* Cartao com tres telas do app (tela 3p): as capturas de 300x652 ganham
+   moldura de celular em CSS; a do meio fica na frente e um pouco maior, as
+   dos lados atras. Cortadas embaixo pelo overflow do cartao, como na
+   referencia. */
+.info__foto--telas { position: relative; background: #EFE7DA; }
+/* Ancoradas pelo TOPO, nao pelo pe: com bottom negativo a do meio, mais alta,
+   passava do topo do cartao e saia cortada em cima. Assim todas nascem dentro
+   do cartao e so o pe some pelo overflow, como na referencia. Moldura
+   branca com fio, como os mockups de la — nao a moldura escura. */
+.info__foto--telas .info__tela {
+  position: absolute; top: 16%;
+  width: 36%; height: auto;
+  /* #151515: a cor do bezel nos mockups da referencia, medida no print —
+     preto neutro e fino, nao o marrom da paleta nem branco. */
+  border: 3px solid #151515; border-radius: 20px;
+  box-shadow: 0 10px 26px rgba(43,26,16,0.18);
+  background: #fff;
+  object-fit: cover;
+}
+/* Com o mesmo prefixo da regra geral, senao ela ganha e as tres ficam iguais. */
+.info__foto--telas .info__tela--esq  { left: 4%;  z-index: 1; }
+.info__foto--telas .info__tela--dir  { right: 4%; z-index: 1; }
+.info__foto--telas .info__tela--meio { left: 50%; transform: translateX(-50%); width: 42%; top: 6%; z-index: 2; }

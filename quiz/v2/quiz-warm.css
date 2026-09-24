@@ -5168,3 +5168,55 @@ body:has(#s1.screen.active) .progress { display: none; }
   text-underline-offset: 2px;
 }
 .terms a b { font-size: 1em; }
+
+/* ═══ Tela 3 · ja tenta engravidar? ═══════════════════════════════════════
+   Desenho da referencia: cartoes sim/nao com marcador redondo a direita (vira
+   check cheio ao marcar) e a foto da mulher tomando a direita e o pe da tela.
+   A secao ocupa a altura que sobra da dobra — header, os 8px da .wrap, os
+   24px de baixo dela e os 20px da propria secao — pra foto encostar embaixo
+   sem criar rolagem. A foto e absoluta e fica DENTRO da secao por isso. */
+#s3 { position: relative; box-sizing: border-box; min-height: calc(100svh - var(--h-cabecalho, 62px) - 52px); }
+/* 68% e nao os 58% da referencia: em 375px os cartoes ficavam com 199px e
+   pareciam espremidos. A foto desce um pouco (56svh) pra cabeca da mulher
+   nao entrar atras do segundo cartao. */
+#s3 .simple-list { width: 68%; max-width: 250px; position: relative; z-index: 1; margin-top: 8px; }
+.simple-opt--radio {
+  flex-direction: row; align-items: center; justify-content: space-between; gap: 12px;
+  min-height: 64px; padding: 18px 16px 18px 18px;
+  border-radius: 16px;
+  /* Sem fundo branco: o cartao e a cor da pagina com um fio leve em volta,
+     como na referencia. So o marcado ganha o bege. */
+  background: transparent;
+  border: 1px solid rgba(43,26,16,0.16);
+}
+.simple-opt--radio:hover { background: rgba(255,255,255,0.35); }
+.simple-opt--radio::after {
+  content: ''; width: 24px; height: 24px; border-radius: 50%; flex: 0 0 auto;
+  border: 1.5px solid rgba(43,26,16,0.28); background: #fff;
+  transition: background .2s, border-color .2s;
+}
+.simple-opt--radio.selected { background: var(--card-active); border-color: var(--card-active); }
+.simple-opt--radio.selected::after {
+  border-color: var(--ink);
+  background: var(--ink) url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'><path d='M6 12.5l4 4 8-8'/></svg>") center / 14px no-repeat;
+}
+.s3-foto {
+  position: absolute; right: -16px; bottom: 0;
+  height: min(56svh, 500px); width: auto; max-width: 70%;
+  object-fit: contain; object-position: right bottom;
+  pointer-events: none; user-select: none;
+}
+@media (max-height: 660px) { .s3-foto { height: 54svh; } }
+
+/* ═══ Telas de informacao (3n / 3s) ══════════════════════════════════════
+   Desenho da referencia: titulo a esquerda, dois paragrafos, foto grande em
+   cartao arredondado; o CONTINUAR e o do rodape. Cabe sem rolar: em tela
+   baixa a foto fica menos alta. */
+.info { display: flex; flex-direction: column; gap: 12px; }
+.info__titulo { text-align: left; margin: 6px 0 2px; }
+.info__texto { font-size: 16px; line-height: 1.45; color: var(--ink-soft); margin: 0; }
+.info__texto b { color: var(--ink); font-weight: 700; }
+.info__foto { border-radius: 20px; overflow: hidden; background: var(--card-active); aspect-ratio: 4 / 3; margin-top: 6px; }
+.info__foto img { width: 100%; height: 100%; object-fit: cover; object-position: center 30%; display: block; }
+@media (max-height: 700px) { .info__foto { aspect-ratio: 16 / 10; } .info__texto { font-size: 15px; } }
+@media (max-height: 640px) { .info__foto { aspect-ratio: 2 / 1; } }

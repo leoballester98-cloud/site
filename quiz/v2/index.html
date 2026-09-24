@@ -56,7 +56,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"/>
-  <link rel="stylesheet" href="quiz-warm.css?v=407"/>
+  <link rel="stylesheet" href="quiz-warm.css?v=411"/>
 
   <!-- Anti-flicker do teste A/B.
        O script que troca a headline mora no fim do <body>, então num aparelho
@@ -311,6 +311,46 @@
     <h1 class="q-title-lg" style="margin-top:24px;">Mais de</h1>
     <p class="q-sub" style="margin-top:-14px;"><span style="display:block;font-family:'Manrope','DM Sans',system-ui,sans-serif;font-size:2.8rem;font-weight:800;color:#3d2b1f;line-height:1.1;margin-bottom:6px;">1.800 mulheres</span>já fizeram o plano para destravar a gravidez.</p>
     <img loading="lazy" src="Images/ilustra_rembg.webp" alt="3 mulheres grávidas sorrindo" style="max-width:360px;width:100%;margin:18px auto 0;display:block;"/>
+  </section>
+
+  <!-- ═══════ 3. JÁ TENTA ENGRAVIDAR? ═══════
+       Volta a existir como s3: o goToScreen ja pulava a s11 ("ha quanto tempo
+       tenta") quando answers.s3 === 'ainda-nao', mas a tela tinha saido e a
+       resposta nunca era dada. Desenho da referencia: cartao sim/nao com o
+       marcador redondo a direita e a foto tomando a direita e o pe da tela.
+       data-etapa 37: numero novo pro funil, fora da faixa 1..36 — a tabela
+       `etapas` do Supabase precisa de uma linha pra ele. -->
+  <section class="screen" id="s3" data-step="3" data-etapa="37" data-section="Seu Perfil Fértil" data-icon="target">
+    <h2 class="q-title">Você já começou a tentar engravidar?</h2>
+    <div class="simple-list">
+      <button class="simple-opt simple-opt--radio" data-val="sim" data-next="s3s">Sim</button>
+      <button class="simple-opt simple-opt--radio" data-val="ainda-nao" data-next="s3n">Ainda não</button>
+    </div>
+    <img class="s3-foto" src="Images/perfil-mulher.webp" alt="" decoding="async" loading="lazy"/>
+  </section>
+
+  <!-- ═══════ 3n / 3s. INFORMAÇÃO APÓS A RAMIFICAÇÃO ═══════
+       Duas telas de leitura (titulo a esquerda, dois paragrafos, foto grande,
+       CONTINUAR no rodape), no desenho da referencia. "Ainda nao" cai na 3n,
+       "Sim" cai na 3s; as duas seguem pra s4 via data-next (o goNext le).
+       Sem data-section: nao entram na conta da barra de progresso — so uma
+       das duas e vista — e o cabecalho mantem "Seu Perfil Fertil".
+       COPY E FOTO SAO PROVISORIAS: entram depois. data-etapa 38 e 39. -->
+  <section class="screen" id="s3n" data-step="3" data-etapa="38" data-section="" data-icon="target" data-next="s4">
+    <div class="info">
+      <h2 class="q-title info__titulo">Ainda dá tempo de preparar o terreno.</h2>
+      <p class="info__texto">Quem entende o próprio ciclo antes de começar a tentar chega na primeira tentativa sabendo em que dias o corpo está pronto.</p>
+      <p class="info__texto">Vamos te mostrar <b>como ler os sinais do seu ciclo</b> antes mesmo de começar.</p>
+      <div class="info__foto"><img src="Images/idade-26-35.webp" alt="" decoding="async" loading="lazy"/></div>
+    </div>
+  </section>
+  <section class="screen" id="s3s" data-step="3" data-etapa="39" data-section="" data-icon="target" data-next="s4">
+    <div class="info">
+      <h2 class="q-title info__titulo">Você está no caminho certo!</h2>
+      <p class="info__texto">Quando a tentativa já começou, o que mais atrasa é não saber em qual dia o corpo está fértil de verdade.</p>
+      <p class="info__texto">Vamos te ajudar a <b>encontrar a sua janela fértil</b> nas próximas tentativas.</p>
+      <div class="info__foto"><img src="Images/etapa3-engravidar.webp" alt="" decoding="async" loading="lazy"/></div>
+    </div>
   </section>
 
   <!-- ═══════ 4. CICLO ATUAL ═══════ -->
@@ -2220,6 +2260,9 @@ document.addEventListener('click', function (e) {
 
 function goNext() {
   const cur = document.querySelector('.screen.active');
+  /* Tela com data-next proprio (as de informacao depois de uma ramificacao)
+     nao vai pra "proxima do documento", que seria a outra ponta do ramo. */
+  if (cur && cur.dataset.next) { goToScreen(cur.dataset.next); return; }
   let idx = SCREENS.indexOf(cur.id);
   let next = SCREENS[idx + 1];
   while (next && !document.getElementById(next)) next = SCREENS[SCREENS.indexOf(next) + 1];

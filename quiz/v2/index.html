@@ -56,7 +56,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"/>
-  <link rel="stylesheet" href="quiz-warm.css?v=443"/>
+  <link rel="stylesheet" href="quiz-warm.css?v=444"/>
 
   <!-- Anti-flicker do teste A/B.
        O script que troca a headline mora no fim do <body>, então num aparelho
@@ -1084,6 +1084,7 @@
                espessura so existem em SVG. Eles acendem em sequencia, da
                esquerda pra direita — e a sequencia que diz a direcao. -->
           <span class="compare__seta" aria-hidden="true">
+            <svg viewBox="0 0 12 22" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M2 2.5 L9.5 11 L2 19.5"/></svg>
             <svg viewBox="0 0 12 22" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M2 2.5 L9.5 11 L2 19.5"/></svg>
             <svg viewBox="0 0 12 22" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M2 2.5 L9.5 11 L2 19.5"/></svg>
           </span>
@@ -2232,6 +2233,7 @@ function showScreen(id) {
   if (id === 's29') setTimeout(iniciarRaspadinha, 0); else pararRaspadinha();
   if (id === 's26b') setTimeout(iniciarCarregaFinal, 0); else pararCarregaFinal();
   if (id === 's30') enviarRespostas();
+  if (id === 's30' && window.__posicionarCarrossel) setTimeout(window.__posicionarCarrossel, 0);
   document.body.classList.toggle('screen--sales', id === 's30');
 
   // Ajusta padding do wrap para s30 (sticky bar substitui o header fixo)
@@ -3374,49 +3376,34 @@ document.addEventListener('click', (e) => {
   var current = 0;
 
   function applySlide(index) {
-    var n = cards.length;
     dots.forEach(function(d, i) { d.classList.toggle('active', i === index); });
     cards.forEach(function(card, i) {
-      var pos = ((i - index) % n + n) % n;
-      card.style.order = pos;
-      // Tres de cada vez: uma inteira no centro e uma recuada de cada lado.
-      // As demais saem do fluxo em vez de empurrar a fileira pra fora da
-      // tela — e sao elas que deixam a do meio grande.
-      card.hidden = pos > 2;
-      // Quem posiciona e o CSS: aqui so diz qual e a do meio.
+      card.hidden = false;
+      card.style.order = '';
       card.classList.remove('phone--center', 'phone--side');
-      card.classList.add(pos === 1 ? 'phone--center' : 'phone--side');
+      card.classList.add(i === index ? 'phone--center' : 'phone--side');
     });
     current = index;
+    posicionar();
   }
 
-  // A troca de `order` e instantanea — nao ha como interpolar posicao de
-  // grade. Entao a animacao e um esmaecer da fileira: apaga, troca no escuro
-  // e volta. Some com o pulo e e barato.
+  /* Como na referencia (coverflow do Splide): a fileira inteira fica no
+     fluxo e desliza pra centralizar a tela ativa — 0,6s na curva deles —
+     enquanto as vizinhas encolhem pra 0,9. */
   var row = carousel.querySelector('.phones-row');
   var semMovimento = window.matchMedia('(prefers-reduced-motion: reduce)');
+  function posicionar() {
+    var card = cards[current];
+    if (!card) return;
+    var alvo = carousel.clientWidth / 2 - card.offsetWidth / 2 - card.offsetLeft;
+    row.style.transform = 'translateX(' + Math.round(alvo) + 'px)';
+  }
+  window.addEventListener('resize', posicionar);
+  /* A s30 nasce escondida (largura 0): quem abre a tela chama isto de novo. */
+  window.__posicionarCarrossel = posicionar;
   function irPara(index) {
     if (index === current) return;
-    if (semMovimento.matches) { applySlide(index); return; }
-    // De qual lado a fileira entra: indo pra frente ela vem da direita, e o
-    // caminho mais curto no circulo decide quando "pra frente" e pra tras.
-    var n = cards.length;
-    var frente = ((index - current) % n + n) % n;
-    var dir = (frente <= n / 2) ? 1 : -1;
-    // Uma fase so: reordena ja deslocado e traz pra zero no mesmo quadro.
-    // Duas fases com setTimeout no meio deixavam a fileira travada fora do
-    // lugar quando uma troca comecava em cima da outra — e aba em segundo
-    // plano estrangula o timer.
     applySlide(index);
-    var meio = row.querySelector('.phone--center');
-    var larg = (meio ? meio.offsetWidth : row.offsetWidth * 0.47);
-    row.style.transition = 'none';
-    row.style.transform = 'translateX(' + (dir * larg * 0.62) + 'px)';
-    row.style.opacity = '0.35';
-    void row.offsetWidth;
-    row.style.transition = '';
-    row.style.transform = 'translateX(0)';
-    row.style.opacity = '1';
   }
 
   var INTERVALO = 4000;

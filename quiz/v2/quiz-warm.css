@@ -1082,19 +1082,18 @@ body {
   display: block;
   width: 12px;
   height: 22px;
-  animation: compare-seta 1.8s ease-in-out infinite;
+  opacity: 0;
+  animation: compare-seta-1 1.5s ease-in-out 1s infinite;
 }
-/* Encaixados, como no print: o segundo entra por cima da ponta do primeiro. */
-.compare__seta svg + svg {
-  margin-left: -4px;
-  animation-delay: 0.22s;
-}
-/* Fica quase apagado a maior parte do tempo e acende rapido. O atraso do
-   segundo e o que faz a luz andar pra direita. */
-@keyframes compare-seta {
-  0%, 55%, 100% { opacity: 0.16; }
-  18%           { opacity: 1; }
-}
+/* Encaixados: cada um entra por cima da ponta do anterior. */
+.compare__seta svg + svg { margin-left: -4px; }
+/* A onda da referencia (animation-arrows): o da esquerda acende na metade,
+   o do meio a 3/4, o da direita no fim, e recomeca. */
+.compare__seta svg:nth-child(2) { animation-name: compare-seta-2; }
+.compare__seta svg:nth-child(3) { animation-name: compare-seta-3; }
+@keyframes compare-seta-1 { 0%, 25% { opacity: 0; } 50% { opacity: 1; } 100% { opacity: 0; } }
+@keyframes compare-seta-2 { 0%, 50% { opacity: 0; } 75% { opacity: 1; } 100% { opacity: 0; } }
+@keyframes compare-seta-3 { 0%, 75% { opacity: 0; } 100% { opacity: 1; } }
 @media (prefers-reduced-motion: reduce) {
   .compare__seta svg { animation: none; opacity: 0.5; }
 }
@@ -1257,20 +1256,22 @@ body {
      — em cima do creme um anel branco some. E sombra, nao recorte. A segunda
      sombra e a de verdade, que apoia o anel. */
   box-shadow: 0 0 0 5px rgba(43,26,16,.09), 0 5px 14px rgba(43,26,16,.18);
-  animation: sticky-btn-onda 1s ease-out infinite;
+  animation: sticky-btn-onda 1.25s cubic-bezier(.66,0,0,1) infinite;
 }
 /* A onda. Uma terceira sombra, so dela, que nasce colada no anel parado e se
    abre ate 11px sumindo. Anel e apoio vao junto em todo quadro porque
    box-shadow nao interpola por camada: se uma some do keyframe, some da tela. */
+/* Pulso da referencia (choose-plan-button_pulse): um anel na cor do botao
+   nasce colado nele e some a 8px, 1,25s na curva cubic-bezier(.66,0,0,1). */
 @keyframes sticky-btn-onda {
   0% {
     box-shadow: 0 0 0 5px rgba(43,26,16,.09),
-                0 0 0 5px rgba(108,57,29,.17),
+                0 0 0 5px rgba(108,57,29,.45),
                 0 5px 14px rgba(43,26,16,.18);
   }
-  75%, 100% {
+  100% {
     box-shadow: 0 0 0 5px rgba(43,26,16,.09),
-                0 0 0 11px rgba(108,57,29,0),
+                0 0 0 13px rgba(108,57,29,0),
                 0 5px 14px rgba(43,26,16,.18);
   }
 }
@@ -1544,7 +1545,7 @@ body {
   /* Margem maior que o anel de 5px, senao a linha da garantia encosta nele. */
   margin: 0 0 14px;
   box-shadow: 0 0 0 5px rgba(43,26,16,.09), 0 5px 14px rgba(43,26,16,.18);
-  animation: sticky-btn-onda 1s ease-out infinite;
+  animation: sticky-btn-onda 1.25s cubic-bezier(.66,0,0,1) infinite;
 }
 .price-cta:hover { background: #7e4422; }
 .programa-subtitle {
@@ -2474,17 +2475,19 @@ button:focus-visible, .row-card:focus-visible, .simple-opt:focus-visible,
 /* As das pontas encolhem no lugar. Nao ha translate: e justamente o que a
    escala deixa de sobra em volta delas que vira a folga entre as telas. */
 .phone--side {
-  transform: scale(0.87);
+  transform: scale(0.9);
   z-index: 1;
 }
-.phone--center { z-index: 2; }
+.phone--center { z-index: 2; transform: scale(1); }
+.phone--side, .phone--center { transition: transform 0.3s ease-out; }
 .phones-row {
   gap: 0;
   overflow: visible;
-  /* A passagem: a fileira entra pelo lado e assenta. A curva desacelera no
-     fim, que e o que faz parar e nao frear. O clarear e mais curto que o
-     deslizar de proposito — a tela ja esta legivel antes de chegar. */
-  transition: transform 0.44s cubic-bezier(0.25, 0.9, 0.3, 1), opacity 0.3s ease;
+  position: relative;
+  justify-content: flex-start;
+  /* Desliza como o coverflow da referencia: 0,6s, curva medida no site. */
+  transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+  will-change: transform;
 }
 @media (prefers-reduced-motion: reduce) {
   .phones-row { transition: none; }

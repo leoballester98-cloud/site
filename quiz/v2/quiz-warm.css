@@ -5317,3 +5317,128 @@ body:has(#s1.screen.active) .progress { display: none; }
   .info__laptop { width: 62%; top: 7%; }
   .info__foto--laptop .info__tela--fone { width: 30%; top: 12%; }
 }
+
+/* ── Raspadinha (s29): cartão de desconto no molde da BetterMe ─────────────
+   Cupom marrom com moldura, picote com dois furos (feitos por mask, pra
+   mostrar o que estiver atrás), caixa creme do código; por cima, o canvas
+   cinza que o dedo raspa (JS iniciarRaspadinha). Depois de revelar: véu
+   embaçado (fixed, acima do cabeçalho) e o relógio de 6s. */
+.raspa__titulo { margin-top: 12px; }
+.raspa__sub { margin: 8px auto 22px; }
+.raspa-veu {
+  position: fixed; inset: 0; z-index: 200;
+  background: rgba(23,23,23,0.6);
+  -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+  opacity: 0; transform: scale(.95); pointer-events: none;
+}
+.raspa-veu.ativo { animation: raspaVeu 1s ease forwards; pointer-events: auto; }
+@keyframes raspaVeu { to { opacity: 1; transform: scale(1); } }
+.raspa { position: relative; z-index: 201; width: 100%; max-width: 330px; height: 330px; margin: 0 auto; border-radius: 22px; }
+.cupom {
+  position: relative; height: 100%; display: flex; flex-direction: column;
+  background: #5B4A42; border-radius: 22px; color: #fff;
+  -webkit-mask-image: radial-gradient(circle at 0 236px, transparent 12px, #000 13px), radial-gradient(circle at 100% 236px, transparent 12px, #000 13px);
+  -webkit-mask-composite: source-in;
+  mask-image: radial-gradient(circle at 0 236px, transparent 12px, #000 13px), radial-gradient(circle at 100% 236px, transparent 12px, #000 13px);
+  mask-composite: intersect;
+}
+.cupom__topo { height: 224px; padding: 8px 8px 0; }
+.cupom__moldura {
+  height: 100%; border: 1px solid rgba(255,255,255,0.14); border-radius: 16px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  text-align: center; padding: 10px 16px;
+}
+.cupom__pct { font-family: 'Manrope', 'DM Sans', sans-serif; font-size: 84px; font-weight: 700; line-height: 1; letter-spacing: -0.03em; }
+.cupom__sinal { font-size: 44px; vertical-align: top; position: relative; top: 10px; margin-left: 2px; }
+.cupom__de { font-size: 36px; font-weight: 700; line-height: 1.1; margin-top: 2px; }
+.cupom__plano { font-size: 20px; line-height: 1.3; margin-top: 10px; }
+.cupom__corte { height: 24px; display: flex; align-items: center; padding: 0 30px; }
+.cupom__tracejado {
+  display: block; width: 100%; height: 3px; border-radius: 2px;
+  background: repeating-linear-gradient(90deg, rgba(255,255,255,0.42) 0 10px, transparent 10px 20px);
+}
+.cupom__base { flex: 1; padding: 4px 12px 12px; }
+.cupom__codigo {
+  height: 100%; background: #FBF6EC; border-radius: 14px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;
+}
+.cupom__codigo-rotulo { font-size: 16px; font-weight: 700; color: #6B5B52; }
+.cupom__codigo-valor { display: inline-flex; align-items: center; gap: 6px; font-size: 24px; font-weight: 600; color: #1a1a1a; }
+.cupom__check { width: 20px; height: 20px; fill: none; stroke: #6CB33F; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+.raspa__capa { position: absolute; inset: 0; z-index: 5; width: 100%; height: 100%; border-radius: 22px; touch-action: none; cursor: pointer; display: block; }
+/* Depois de revelar, a capa some de vez (o JS tambem esconde; isto e o cinto). */
+.raspa.revelada .raspa__capa { display: none; }
+/* Depois de revelar, a capa some de vez (o JS tambem esconde, isto e o cinto). */
+.raspa.revelada .raspa__capa { display: none; }
+.raspa__dica {
+  position: absolute; inset: 0; z-index: 6; pointer-events: none;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 22px;
+  text-align: center; transition: opacity .3s;
+}
+.raspa__dica.some { opacity: 0; }
+.raspa__dica-texto { font-size: 22px; font-weight: 700; color: #3d2b1f; line-height: 1.25; }
+.raspa__mao { font-size: 40px; line-height: 1; animation: raspaMao 3s linear infinite; }
+@keyframes raspaMao {
+  0%   { transform: translate(-10px, -85px) rotate(0deg); }
+  10%  { transform: translate(-45px, -55px) rotate(10deg); }
+  23%  { transform: translate(50px, -75px) rotate(-10deg); }
+  44%  { transform: translate(-70px, -10px) rotate(10deg); }
+  72%  { transform: translate(110px, -45px) rotate(20deg); }
+  90%, 100% { transform: translate(0, 0) rotate(0deg); }
+}
+/* "Aplicado..." + relógio ficam presos no pé da tela, fora do fluxo (na
+   BetterMe o timerSection também é posicionado embaixo): assim a tela não
+   rola em aparelho baixo e o texto aparece sobre o véu. */
+.raspa__depois {
+  position: fixed; left: 0; right: 0; bottom: max(40px, calc(env(safe-area-inset-bottom, 0px) + 28px)); z-index: 201;
+  display: flex; flex-direction: column; align-items: center; gap: 18px; padding: 0 24px;
+  opacity: 0; pointer-events: none; transition: opacity .5s;
+}
+.raspa__depois.ativo { opacity: 1; }
+.raspa__aplicado { font-size: 20px; line-height: 1.3; color: #fff; text-align: center; margin: 0; }
+.raspa-timer { position: relative; width: 48px; height: 48px; }
+.raspa-timer svg { width: 48px; height: 48px; transform: rotate(-90deg); display: block; }
+.raspa-timer__trilho { fill: rgba(255,255,255,0.25); stroke: none; }
+.raspa-timer__anel { fill: none; stroke: #fff; stroke-width: 3; stroke-linecap: round; transition: stroke-dashoffset 1s linear; }
+.raspa-timer__num { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: 700; color: #fff; }
+@media (prefers-reduced-motion: reduce) { .raspa__mao { animation: none; } .raspa-veu.ativo { animation: none; opacity: 1; transform: none; } }
+@media (max-height: 700px) {
+  .raspa { height: 300px; }
+  .cupom__topo { height: 200px; }
+  .cupom { -webkit-mask-image: radial-gradient(circle at 0 212px, transparent 12px, #000 13px), radial-gradient(circle at 100% 212px, transparent 12px, #000 13px);
+           mask-image: radial-gradient(circle at 0 212px, transparent 12px, #000 13px), radial-gradient(circle at 100% 212px, transparent 12px, #000 13px); }
+  .cupom__pct { font-size: 72px; }
+  .cupom__de { font-size: 32px; }
+}
+
+/* ── Cadastro (s28a e-mail, s28b nome), molde BetterMe ──────────────────
+   E-mail: título à esquerda com o nome do plano em marrom, caixa arredondada,
+   nota de privacidade com cadeado. Nome: título centrado e campo grande com
+   sublinhado, como os campos de número. */
+.cadastro__titulo { text-align: left; margin: 10px 0 22px; }
+.cadastro__titulo--centro { text-align: center; margin: 12px auto 18px; }
+.cadastro__destaque { color: #8A6E5A; }
+.cadastro__caixa { display: block; }
+.cadastro__email {
+  width: 100%; box-sizing: border-box; padding: 18px 20px; margin: 0;
+  font: inherit; font-size: 20px; line-height: 1.3; color: var(--ink);
+  background: transparent; border: 1.5px solid rgba(43,26,16,0.22); border-radius: 14px; outline: none;
+  -webkit-appearance: none; appearance: none;
+}
+.cadastro__email::placeholder { color: var(--ink-mute); }
+.cadastro__email:focus { border-color: var(--blue-d); }
+.cadastro__email.invalido { border-color: #C0392B; }
+.cadastro__privacidade {
+  display: flex; gap: 10px; align-items: flex-start; margin: 14px 0 0;
+  font-size: 14px; line-height: 1.45; color: var(--ink-soft); text-align: left;
+}
+.cadastro__privacidade a { color: #1D5BD6; font-weight: 600; text-decoration: underline; }
+.cadastro__cadeado { flex: 0 0 auto; width: 18px; height: 18px; margin-top: 2px; color: var(--ink-soft); }
+.cadastro__nome-caixa { border-bottom: 2px solid var(--ink); padding-bottom: 6px; margin: 8px 0 0; }
+.cadastro__nome-caixa:focus-within { border-bottom-color: var(--blue-d); }
+.cadastro__nome {
+  width: 100%; box-sizing: border-box; margin: 0; padding: 0; border: 0; background: transparent; outline: none;
+  text-align: center; font: inherit; font-size: 40px; font-weight: 700; line-height: 1.15;
+  color: var(--ink); letter-spacing: -0.02em; -webkit-appearance: none; appearance: none;
+}
+.cadastro__nome::placeholder { color: var(--ink-mute); font-weight: 600; font-size: 36px; }

@@ -56,7 +56,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"/>
-  <link rel="stylesheet" href="quiz-warm.css?v=431"/>
+  <link rel="stylesheet" href="quiz-warm.css?v=435"/>
 
   <!-- Anti-flicker do teste A/B.
        O script que troca a headline mora no fim do <body>, então num aparelho
@@ -933,6 +933,70 @@
   </section>
 
   <!-- ═══════ 30. PRICING ═══════ -->
+  <!-- Telas 28a/28b: e-mail e nome, molde BetterMe. Entram em `answers`
+       (email, nome) e vao junto com o resto em enviarRespostas(). -->
+  <section class="screen" id="s28a" data-step="47" data-section="" data-icon="" data-campo="email">
+    <h2 class="q-title-lg cadastro__titulo">Digite seu e-mail para receber seu <span class="cadastro__destaque">Plano Ciclo Fértil</span> personalizado e engravidar</h2>
+    <div class="cadastro__caixa">
+      <input class="cadastro__email" id="campoEmail" type="email" inputmode="email" autocomplete="email" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="O seu Email" aria-label="O seu e-mail"/>
+    </div>
+    <p class="cadastro__privacidade">
+      <svg class="cadastro__cadeado" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" fill="currentColor"/><path d="M7 11V7a5 5 0 0 1 10 0v4" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>
+      <span>Respeitamos sua privacidade e estamos comprometidos em proteger seus dados pessoais. Seus dados serão processados de acordo com nossa <a href="privacidade.html" target="_blank" rel="noopener">Política de Privacidade</a>.</span>
+    </p>
+  </section>
+
+  <section class="screen" id="s28b" data-step="48" data-section="" data-icon="" data-campo="nome">
+    <h2 class="q-title-lg cadastro__titulo cadastro__titulo--centro">Qual é o seu nome?</h2>
+    <div class="cadastro__nome-caixa">
+      <input class="cadastro__nome" id="campoNome" type="text" autocomplete="given-name" autocapitalize="words" placeholder="Nome" aria-label="Seu nome" maxlength="40"/>
+    </div>
+  </section>
+
+  <!-- Tela 29: cartao de desconto raspavel, no molde da BetterMe. O cupom fica
+       embaixo de um canvas cinza; o dedo apaga o canvas. Regras e tempos vieram
+       do codigo deles (ver iniciarRaspadinha): revela ao raspar um pouco, a capa
+       expande e some, 1,5s depois um veu embaca a pagina, e um relogio de 6s
+       leva sozinho pra pagina de vendas; sem raspar, revela em 8s. -->
+  <section class="screen" id="s29" data-step="46" data-section="" data-icon="" data-cta="hidden">
+    <h2 class="q-title-lg raspa__titulo">Pegue este cartão de desconto especial</h2>
+    <p class="q-sub raspa__sub">Raspe o cartão para revelar o seu desconto.</p>
+
+    <div class="raspa-veu" id="raspaVeu" aria-hidden="true"></div>
+
+    <div class="raspa" id="raspadinha">
+      <div class="cupom" aria-live="polite">
+        <div class="cupom__topo">
+          <div class="cupom__moldura">
+            <div class="cupom__pct">50<span class="cupom__sinal">%</span></div>
+            <div class="cupom__de">de desconto</div>
+            <div class="cupom__plano">no seu Plano Ciclo Fértil</div>
+          </div>
+        </div>
+        <div class="cupom__corte"><span class="cupom__tracejado"></span></div>
+        <div class="cupom__base">
+          <div class="cupom__codigo">
+            <span class="cupom__codigo-rotulo">Código promocional</span>
+            <span class="cupom__codigo-valor"><svg class="cupom__check" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>ciclo_set26</span>
+          </div>
+        </div>
+      </div>
+      <canvas class="raspa__capa" id="raspaCapa" aria-label="Raspe para revelar o desconto"></canvas>
+      <div class="raspa__dica" id="raspaDica" aria-hidden="true">
+        <span class="raspa__dica-texto">Raspe aqui para revelar<br>o seu desconto</span>
+        <span class="raspa__mao">☝️</span>
+      </div>
+    </div>
+
+    <div class="raspa__depois" id="raspaDepois" aria-hidden="true">
+      <p class="raspa__aplicado">Aplicado automaticamente no checkout</p>
+      <div class="raspa-timer">
+        <svg viewBox="0 0 48 48" aria-hidden="true"><circle class="raspa-timer__trilho" cx="24" cy="24" r="24"/><circle class="raspa-timer__anel" cx="24" cy="24" r="22.5"/></svg>
+        <span class="raspa-timer__num" id="raspaTimerNum">6</span>
+      </div>
+    </div>
+  </section>
+
   <section class="screen" id="s30" data-step="34" data-section="" data-icon="" data-cta="hidden">
 
     <!-- Sticky discount bar -->
@@ -1432,6 +1496,8 @@ function restaurarSelecoes() {
     el.dataset.empty = 'false';
     el.classList.remove('vazio');
   });
+  const ce = document.getElementById('campoEmail'); if (ce && answers.email) ce.value = answers.email;
+  const cn = document.getElementById('campoNome'); if (cn && answers.nome) cn.value = answers.nome;
   if (answers.lastPeriodDate) {
     const m = String(answers.lastPeriodDate).match(/^(\d{4})-(\d{2})-(\d{2})/);
     if (m) {
@@ -1991,6 +2057,12 @@ function showFooter(screenId) {
   } else if (screenId === 's26') {
     const dateVal = document.getElementById('occasionDate')?.value;
     primaryBtn.disabled = !dateVal;
+  } else if (el.dataset.campo === 'email') {
+    const inp = document.getElementById('campoEmail');
+    primaryBtn.disabled = !(inp && emailValido(inp.value));
+  } else if (el.dataset.campo === 'nome') {
+    const inp = document.getElementById('campoNome');
+    primaryBtn.disabled = !(inp && inp.value.trim().length >= 2);
   } else {
     primaryBtn.disabled = false;
   }
@@ -2106,6 +2178,8 @@ function showScreen(id) {
   if (id === 's25') showIQO();
   if (id === 's27') startLoading();
   if (id === 's28') { updateProjection(); animarProjecao(); }
+  /* setTimeout, nao requestAnimationFrame: com a aba escondida o rAF nao roda e a capa ficava sem desenhar. */
+  if (id === 's29') setTimeout(iniciarRaspadinha, 0); else pararRaspadinha();
   if (id === 's30') enviarRespostas();
   document.body.classList.toggle('screen--sales', id === 's30');
 
@@ -2246,7 +2320,12 @@ function goNext() {
 backBtn.addEventListener('click', () => {
   if (history.length <= 1) return;
   history.pop();
-  const prev = history.pop();
+  let prev = history.pop();
+  /* A tela de analise (s27) roda sozinha e avanca: voltar pra ela devolvia a
+     pessoa pra frente de novo, e ela nunca conseguia sair da s28 pra tras.
+     Pula a s27 e cai na tela anterior a ela. */
+  while (prev === 's27' && history.length) prev = history.pop();
+  if (!prev || prev === 's27') prev = 's26';
   goToScreen(prev);
 });
 skipLink.addEventListener('click', () => goNext());
@@ -2382,6 +2461,31 @@ function setupBigNumber(id, ansKey, allowZero = false) {
     if (screen) showFooter(screen.id);
   });
 }
+/* ── Cadastro (s28a e-mail, s28b nome): entra em `answers` a cada tecla (o
+   gravador generico de progresso salva logo depois) e libera o CONTINUAR so
+   com e-mail valido / nome com 2+ letras. Enter avanca. ── */
+function emailValido(v) { return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(String(v || '').trim()); }
+(function setupCadastro() {
+  const email = document.getElementById('campoEmail'), nome = document.getElementById('campoNome');
+  if (email) {
+    email.addEventListener('input', () => {
+      const v = email.value.trim();
+      if (emailValido(v)) answers.email = v; else delete answers.email;
+      email.classList.remove('invalido');
+      showFooter('s28a');
+    });
+    email.addEventListener('blur', () => { email.classList.toggle('invalido', email.value.trim() !== '' && !emailValido(email.value)); });
+    email.addEventListener('keydown', e => { if (e.key === 'Enter' && emailValido(email.value)) { e.preventDefault(); email.blur(); goNext(); } });
+  }
+  if (nome) {
+    nome.addEventListener('input', () => {
+      const v = nome.value.trim();
+      if (v.length >= 2) answers.nome = v; else delete answers.nome;
+      showFooter('s28b');
+    });
+    nome.addEventListener('keydown', e => { if (e.key === 'Enter' && nome.value.trim().length >= 2) { e.preventDefault(); nome.blur(); goNext(); } });
+  }
+})();
 setupBigNumber('heightValue', 'cycleDays');
 setupBigNumber('weightValue', 'periodDays');
 setupBigNumber('targetValue', 'libidoDays', true); // 0 digitado é válido: "se não percebe, digite 0"
@@ -2545,6 +2649,117 @@ function animarProjecao() {
   g.classList.remove('animado');
   void g.offsetWidth;
   g.classList.add('animado');
+}
+
+/* ── Raspadinha (s29) ─────────────────────────────────────────────────────
+   Capa de canvas sobre o cupom; o dedo apaga (destination-out). Regras e
+   tempos copiados do codigo da BetterMe: limiar de raspagem baixo (la 1%,
+   aqui 8% pra ter um gesto de verdade), a capa expande a partir do ultimo
+   ponto e some em 0,6s, o veu embacado entra 1,5s depois, o relogio de 6s
+   aparece aos 2s e vai sozinho pra pagina de vendas; sem raspar nada, revela
+   em 8s. Tudo para se a pessoa sair da tela. */
+let raspaEstado = null;
+function pararRaspadinha() {
+  if (!raspaEstado) return;
+  raspaEstado.ativo = false;
+  raspaEstado.timers.forEach(t => { clearTimeout(t); clearInterval(t); });
+  raspaEstado = null;
+}
+function iniciarRaspadinha() {
+  const bloco = document.getElementById('raspadinha');
+  const canvas = document.getElementById('raspaCapa');
+  const tela = document.getElementById('s29');
+  if (!bloco || !canvas || !tela || !tela.classList.contains('active')) return;
+  pararRaspadinha();
+  const veu = document.getElementById('raspaVeu'), dica = document.getElementById('raspaDica');
+  const depois = document.getElementById('raspaDepois'), num = document.getElementById('raspaTimerNum');
+  const anel = tela.querySelector('.raspa-timer__anel');
+  bloco.classList.remove('revelada'); veu.classList.remove('ativo'); depois.classList.remove('ativo'); dica.classList.remove('some');
+  canvas.style.display = '';
+  const dpr = Math.min(2, window.devicePixelRatio || 1);
+  const r = bloco.getBoundingClientRect();
+  const W = r.width, H = r.height;
+  canvas.width = Math.round(W * dpr); canvas.height = Math.round(H * dpr);
+  const ctx = canvas.getContext('2d');
+  ctx.scale(dpr, dpr);
+  // Capa: cinza metalico com listras suaves.
+  const grad = ctx.createLinearGradient(0, 0, W, H);
+  grad.addColorStop(0, '#DDD8D0'); grad.addColorStop(0.5, '#C8C2B9'); grad.addColorStop(1, '#DAD4CC');
+  ctx.fillStyle = grad; ctx.fillRect(0, 0, W, H);
+  ctx.globalAlpha = 0.18; ctx.strokeStyle = '#FFFFFF'; ctx.lineWidth = 6;
+  for (let x = -H; x < W + H; x += 26) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x + H, H); ctx.stroke(); }
+  ctx.globalAlpha = 1;
+  const est = raspaEstado = { ativo: true, timers: [], raspando: false, ult: null, moves: 0, revelado: false };
+  const RAIO = 25, LIMIAR = 0.08;
+  const apagar = (x, y, x0, y0) => {
+    ctx.globalCompositeOperation = 'destination-out';
+    ctx.lineCap = 'round'; ctx.lineJoin = 'round'; ctx.lineWidth = RAIO * 2;
+    ctx.beginPath(); ctx.moveTo(x0 === undefined ? x : x0, y0 === undefined ? y : y0); ctx.lineTo(x, y); ctx.stroke();
+    ctx.beginPath(); ctx.arc(x, y, RAIO, 0, Math.PI * 2); ctx.fill();
+    ctx.globalCompositeOperation = 'source-over';
+  };
+  const fracaoRaspada = () => {
+    const d = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
+    let vazio = 0, total = 0;
+    for (let i = 3; i < d.length; i += 4 * 7) { total++; if (d[i] < 40) vazio++; }
+    return total ? vazio / total : 0;
+  };
+  const revelar = () => {
+    if (est.revelado) return;
+    est.revelado = true;
+    dica.classList.add('some');
+    const c = est.ult || { x: W / 2, y: H / 2 };
+    const rMax = Math.hypot(Math.max(c.x, W - c.x), Math.max(c.y, H - c.y)) + 10;
+    const t0 = window.performance.now();
+    (function passo(agora) {
+      if (!est.ativo) return;
+      const p = Math.min(1, (agora - t0) / 600), e = 1 - Math.pow(1 - p, 3);
+      ctx.globalCompositeOperation = 'destination-out';
+      ctx.beginPath(); ctx.arc(c.x, c.y, RAIO + (rMax - RAIO) * e, 0, Math.PI * 2); ctx.fill();
+      ctx.globalCompositeOperation = 'source-over';
+      if (p < 1) { window.requestAnimationFrame(passo); return; }
+      canvas.style.display = 'none';
+      bloco.classList.add('revelada');
+    })(t0);
+    est.timers.push(setTimeout(() => { if (est.ativo) veu.classList.add('ativo'); }, 1500));
+    est.timers.push(setTimeout(() => {
+      if (!est.ativo) return;
+      depois.classList.add('ativo');
+      const C = 2 * Math.PI * 22.5;
+      let s = 6;
+      num.textContent = s;
+      anel.style.strokeDasharray = C; anel.style.strokeDashoffset = C;
+      const iv = setInterval(() => {
+        s--;
+        if (s < 0) { clearInterval(iv); if (est.ativo) { pararRaspadinha(); goToScreen('s30'); } return; }
+        num.textContent = s;
+        anel.style.strokeDashoffset = C * (s / 6);
+      }, 1000);
+      est.timers.push(iv);
+    }, 2000));
+  };
+  const pos = ev => { const b = canvas.getBoundingClientRect(); return { x: ev.clientX - b.left, y: ev.clientY - b.top }; };
+  canvas.onpointerdown = ev => {
+    if (est.revelado) return;
+    est.raspando = true;
+    if (canvas.setPointerCapture) { try { canvas.setPointerCapture(ev.pointerId); } catch (e) {} }
+    dica.classList.add('some');
+    const q = pos(ev); apagar(q.x, q.y); est.ult = q; est.moves++;
+    ev.preventDefault();
+  };
+  canvas.onpointermove = ev => {
+    if (!est.raspando || est.revelado) return;
+    const q = pos(ev);
+    apagar(q.x, q.y, est.ult && est.ult.x, est.ult && est.ult.y);
+    est.ult = q;
+    if (++est.moves % 6 === 0 && fracaoRaspada() >= LIMIAR) revelar();
+    ev.preventDefault();
+  };
+  canvas.onpointerup = canvas.onpointercancel = () => {
+    est.raspando = false;
+    if (!est.revelado && est.moves > 0 && fracaoRaspada() >= LIMIAR) revelar();
+  };
+  est.timers.push(setTimeout(revelar, 8000));
 }
 
 function updateProjection() {

@@ -56,7 +56,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"/>
-  <link rel="stylesheet" href="quiz-warm.css?v=348"/>
+  <link rel="stylesheet" href="quiz-warm.css?v=368"/>
 
   <!-- Anti-flicker do teste A/B.
        O script que troca a headline mora no fim do <body>, então num aparelho
@@ -84,17 +84,31 @@
 <!-- HEADER -->
 <header class="header">
   <div class="header__inner">
-    <button class="header__back" id="backBtn" aria-label="Voltar" disabled>←</button>
-    <span class="header__step" id="headerStep">Passo 1/30</span>
-    <span class="header__section" id="headerSection"><span class="header__icon">◎</span> METAS</span>
+    <button class="header__back" id="backBtn" aria-label="Voltar" disabled><svg viewBox="0 0 19 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 8H2"/><path d="M8.5 1.5L2 8l6.5 6.5"/></svg></button>
+    <span class="header__section" id="headerSection">METAS</span>
+    <button class="header__menu" id="menuBtn" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="menuQuiz">
+      <span></span><span></span><span></span>
+    </button>
   </div>
-  <div class="progress"><div class="progress__fill" id="progressFill"></div></div>
+  <!-- Um segmento por secao do quiz, montado no load a partir da ordem em que
+       as secoes aparecem no documento. Trinta e quatro pontinhos nao se leem;
+       sete secoes dizem "faltam duas etapas", que e informacao. -->
+  <div class="progress" id="progress" role="progressbar" aria-label="Progresso do quiz" aria-valuemin="0" aria-valuemax="7" aria-valuenow="1"></div>
 </header>
+
+<!-- Menu do cabecalho. Abre de verdade: leva as tres paginas legais e ao
+     suporte. Hamburguer que nao abre nada e botao morto. -->
+<nav class="menu" id="menuQuiz" hidden>
+  <a href="termos.html" target="_blank">Termos de Uso</a>
+  <a href="privacidade.html" target="_blank">Política de Privacidade</a>
+  <a href="reembolso.html" target="_blank">Política de Reembolso</a>
+  <a href="mailto:contato@metodociclofertil.com.br">Falar com o suporte</a>
+</nav>
 
 <div class="wrap">
 
   <!-- ═══════ 1. IDADE (intro) ═══════ -->
-  <section class="screen active" id="s1" data-step="1" data-section="DIAGNÓSTICO IQO" data-icon="target" data-cta="hidden">
+  <section class="screen active" id="s1" data-step="1" data-section="Diagnóstico IQO" data-icon="target" data-cta="hidden">
     <h1 class="q-title-lg" id="h1Var" style="max-width:28ch;">Descubra o que impede você de ter um filho.</h1>
     <p class="q-sub" id="subVar">Um diagnóstico que mede a qualidade da sua ovulação de 0 a 100 e monta o seu plano.<br>Pra começar, qual a sua idade?</p>
     <div class="age-intro">
@@ -189,19 +203,18 @@
       <button class="age-row age-quad" data-val="46+" data-next="s2"><span class="age-quad__ico">›</span>+ 46 anos</button>
     </div>
 
-    <hr class="s1-sep" hidden/>
     <p class="terms">Ao continuar você confirma e garante que leu, entendeu e está de acordo com nossos <a href="termos.html" target="_blank"><b>Termos de Uso</b></a>, <a href="privacidade.html" target="_blank"><b>Política de Privacidade</b></a> e <a href="reembolso.html" target="_blank"><b>Política de Reembolso</b></a>.</p>
   </section>
 
   <!-- ═══════ 2. PROVA SOCIAL ═══════ -->
-  <section class="screen" id="s2" data-step="2" data-section="SEU PERFIL FÉRTIL" data-icon="target">
+  <section class="screen" id="s2" data-step="2" data-section="Seu Perfil Fértil" data-icon="target">
     <h1 class="q-title-lg" style="margin-top:24px;">Não é só com você</h1>
     <p class="q-sub" style="margin-top:-4px;"><span style="display:block;font-size:2.8rem;font-weight:800;color:#3d2b1f;line-height:1.1;margin-bottom:6px;">800 mulheres</span>já descobriram o que estava travando a gravidez delas.</p>
     <img loading="lazy" src="Images/ilustra_rembg.webp" alt="3 mulheres grávidas sorrindo" style="max-width:360px;width:100%;margin:18px auto 0;display:block;"/>
   </section>
 
   <!-- ═══════ 4. CICLO ATUAL ═══════ -->
-  <section class="screen" id="s4" data-step="3" data-section="SEU PERFIL FÉRTIL" data-icon="target">
+  <section class="screen" id="s4" data-step="3" data-section="Seu Perfil Fértil" data-icon="target">
     <h2 class="q-title">Seu ciclo menstrual é...</h2>
     <div class="row-cards">
       <button class="row-card" data-val="regular" data-next="s6">
@@ -220,7 +233,7 @@
   </section>
 
   <!-- ═══════ 6. MOTIVAÇÃO MULTI ═══════ -->
-  <section class="screen" id="s6" data-step="4" data-section="SEU PERFIL FÉRTIL" data-icon="target" data-type="multi">
+  <section class="screen" id="s6" data-step="4" data-section="Seu Perfil Fértil" data-icon="target" data-type="multi">
     <h2 class="q-title">Qual é o seu maior desejo nesse momento?</h2>
     <div class="multi-list">
       <button class="multi-opt" data-val="engravidar-logo">
@@ -262,7 +275,7 @@
   </section>
 
   <!-- ═══════ 7. 4 FATORES IQO (body map) ═══════ -->
-  <section class="screen" id="s7" data-step="5" data-section="SEU PERFIL FÉRTIL" data-icon="target" data-type="multi">
+  <section class="screen" id="s7" data-step="5" data-section="Seu Perfil Fértil" data-icon="target" data-type="multi">
     <h2 class="q-title">Em qual dessas áreas você sente que algo pode estar travado?</h2>
     <p class="q-sub">Toque e selecione as áreas abaixo</p>
     <div class="bodymap">
@@ -281,7 +294,7 @@
   </section>
 
   <!-- ═══════ 11. TEMPO TENTANDO ═══════ -->
-  <section class="screen" id="s11" data-step="6" data-section="SEU PERFIL FÉRTIL" data-icon="target">
+  <section class="screen" id="s11" data-step="6" data-section="Seu Perfil Fértil" data-icon="target">
     <h2 class="q-title">Há quanto tempo está tentando engravidar?</h2>
     <div class="simple-list">
       <button class="simple-opt" data-val="menos-3" data-next="s12">Menos de 3 meses</button>
@@ -293,7 +306,7 @@
   </section>
 
   <!-- ═══════ 12. MUCO observa mudanças ═══════ -->
-  <section class="screen" id="s12" data-step="7" data-section="SINAIS DO CICLO" data-icon="cycle">
+  <section class="screen" id="s12" data-step="7" data-section="Sinais do Ciclo" data-icon="cycle">
     <h2 class="q-title">Você nota mudanças no muco vaginal ao longo do mês?</h2>
     <div class="simple-list">
       <button class="simple-opt" data-val="as-vezes" data-score="1" data-next="s13">Às vezes percebo</button>
@@ -303,7 +316,7 @@
   </section>
 
   <!-- ═══════ 13. MUCO clara de ovo ═══════ -->
-  <section class="screen" id="s13" data-step="8" data-section="SINAIS DO CICLO" data-icon="cycle">
+  <section class="screen" id="s13" data-step="8" data-section="Sinais do Ciclo" data-icon="cycle">
     <h2 class="q-title">Você já notou um muco vaginal tipo clara de ovo?</h2>
     <p class="q-sub">Transparente, muito elástico, que estica entre os dedos sem quebrar.</p>
     <div class="simple-list">
@@ -315,7 +328,7 @@
   </section>
 
   <!-- ═══════ 14. HIGIENE íntima ═══════ -->
-  <section class="screen" id="s14" data-step="9" data-section="SINAIS DO CICLO" data-icon="cycle">
+  <section class="screen" id="s14" data-step="9" data-section="Sinais do Ciclo" data-icon="cycle">
     <h2 class="q-title">Você usa sabonete íntimo, ducha ou lenços umedecidos com frequência?</h2>
     <p class="q-sub">A resposta pode explicar por que o ciclo não progride como deveria.</p>
     <div class="simple-list">
@@ -326,7 +339,7 @@
   </section>
 
   <!-- ═══════ 15. TEMPERATURA já mediu ═══════ -->
-  <section class="screen" id="s15" data-step="10" data-section="SINAIS DO CICLO" data-icon="cycle">
+  <section class="screen" id="s15" data-step="10" data-section="Sinais do Ciclo" data-icon="cycle">
     <h2 class="q-title">Você já mediu a temperatura ao acordar para confirmar a ovulação?</h2>
     <div class="simple-list">
       <button class="simple-opt" data-val="nunca" data-score="0" data-next="s5">Nunca fiz isso</button>
@@ -336,7 +349,7 @@
   </section>
 
   <!-- ═══════ 16. OVULAÇÃO — F1 scored ═══════ -->
-  <section class="screen" id="s5" data-step="11" data-section="SINAIS DO CICLO" data-icon="cycle">
+  <section class="screen" id="s5" data-step="11" data-section="Sinais do Ciclo" data-icon="cycle">
     <h2 class="q-title">Você sabe quando está ovulando?</h2>
     <div class="row-cards">
       <button class="row-card" data-val="nao" data-score="0" data-next="s17">
@@ -355,7 +368,7 @@
   </section>
 
   <!-- ═══════ 17. DOR DE OVULAÇÃO ═══════ -->
-  <section class="screen" id="s17" data-step="12" data-section="SINAIS DO CICLO" data-icon="cycle">
+  <section class="screen" id="s17" data-step="12" data-section="Sinais do Ciclo" data-icon="cycle">
     <h2 class="q-title">Sente uma dor leve de um lado do baixo ventre no meio do ciclo?</h2>
     <p class="q-sub">Dura algumas horas a um dia. Pode ser sinal da ovulação.</p>
     <div class="simple-list">
@@ -369,7 +382,7 @@
   </section>
 
   <!-- ═══════ 18. APP/LUBRIFICANTE (erros invisíveis) ═══════ -->
-  <section class="screen" id="s18" data-step="13" data-section="SINAIS DO CICLO" data-icon="cycle">
+  <section class="screen" id="s18" data-step="13" data-section="Sinais do Ciclo" data-icon="cycle">
     <h2 class="q-title">Como você identifica seu período fértil?</h2>
     <div class="row-cards">
       <button class="row-card" data-val="chuto" data-score="0" data-next="svsl1">
@@ -416,7 +429,7 @@
        passagem e o botao do VTurb. Ele precisa apontar pra goToScreen('s19').
        Este arquivo so reserva o espaco e mantem a proporcao, pra pagina nao
        pular quando o player carrega. -->
-  <section class="screen" id="svsl1" data-step="13" data-etapa="36" data-section="SINAIS DO CICLO" data-icon="cycle" data-cta="hidden">
+  <section class="screen" id="svsl1" data-step="13" data-etapa="36" data-section="Sinais do Ciclo" data-icon="cycle" data-cta="hidden">
     <div class="vsl-box">
       <!-- Provisorio ate o VTurb: player do YouTube, video nao listado.
            Trocar depois e trocar so este bloco e a funcao iniciarVSL(). -->
@@ -430,7 +443,7 @@
   </section>
 
   <!-- ═══════ F2-Q0. ESTRESSE ═══════ -->
-  <section class="screen" id="s19" data-step="14" data-section="FATOR EMOCIONAL" data-icon="alert">
+  <section class="screen" id="s19" data-step="14" data-section="Fator Emocional" data-icon="alert">
     <h2 class="q-title">Como você descreveria seu estresse hoje?</h2>
     <div class="simple-list">
       <button class="simple-opt" data-val="intensa" data-score="0" data-next="s31">
@@ -453,7 +466,7 @@
   </section>
 
   <!-- ═══════ F2-Q1. MOMENTO PARA SI ═══════ -->
-  <section class="screen" id="s31" data-step="15" data-section="FATOR EMOCIONAL" data-icon="alert">
+  <section class="screen" id="s31" data-step="15" data-section="Fator Emocional" data-icon="alert">
     <h2 class="q-title">Você tem algum momento do dia só para você, sem trabalho ou preocupações?</h2>
     <div class="simple-list">
       <button class="simple-opt" data-val="nao" data-score="0" data-next="s32">Não, meu dia não tem esse espaço</button>
@@ -464,7 +477,7 @@
   </section>
 
   <!-- ═══════ F2-Q2. ANSIEDADE PRÉ-MENSTRUAÇÃO ═══════ -->
-  <section class="screen" id="s32" data-step="16" data-section="FATOR EMOCIONAL" data-icon="alert">
+  <section class="screen" id="s32" data-step="16" data-section="Fator Emocional" data-icon="alert">
     <h2 class="q-title">Você fica ansiosa quando a menstruação está para chegar?</h2>
     <div class="simple-list">
       <button class="simple-opt" data-val="bastante" data-score="1" data-next="s34">Bastante</button>
@@ -475,7 +488,7 @@
   </section>
 
   <!-- ═══════ F2-Q3. PRESSÃO INTERNA ═══════ -->
-  <section class="screen" id="s34" data-step="17" data-section="FATOR EMOCIONAL" data-icon="alert">
+  <section class="screen" id="s34" data-step="17" data-section="Fator Emocional" data-icon="alert">
     <h2 class="q-title">Com que intensidade você sente a pressão de engravidar?</h2>
     <div class="simple-list">
       <button class="simple-opt" data-val="sempre" data-score="0" data-next="s33">O tempo todo, é constante</button>
@@ -486,7 +499,7 @@
   </section>
 
   <!-- ═══════ F2-Q3. HUMOR ═══════ -->
-  <section class="screen" id="s33" data-step="18" data-section="ESTADO DO ORGANISMO" data-icon="cycle">
+  <section class="screen" id="s33" data-step="18" data-section="Estado do Organismo" data-icon="cycle">
     <h2 class="q-title">Seu humor muda bastante ao longo do dia?</h2>
     <div class="simple-list">
       <button class="simple-opt" data-val="sempre" data-score="0" data-next="s35">Sim, muda muito</button>
@@ -497,7 +510,7 @@
   </section>
 
   <!-- ═══════ F3-Q1. SONO ═══════ -->
-  <section class="screen" id="s35" data-step="19" data-section="ESTADO DO ORGANISMO" data-icon="cycle">
+  <section class="screen" id="s35" data-step="19" data-section="Estado do Organismo" data-icon="cycle">
     <h2 class="q-title">Como você descreveria seu sono nos últimos meses?</h2>
     <div class="simple-list">
       <button class="simple-opt" data-val="mal" data-score="0" data-next="s36">Durmo mal com frequência</button>
@@ -508,7 +521,7 @@
   </section>
 
   <!-- ═══════ F3-Q2. ATIVIDADE FÍSICA ═══════ -->
-  <section class="screen" id="s36" data-step="20" data-section="ESTADO DO ORGANISMO" data-icon="cycle">
+  <section class="screen" id="s36" data-step="20" data-section="Estado do Organismo" data-icon="cycle">
     <h2 class="q-title">Com que frequência você pratica alguma atividade física?</h2>
     <div class="simple-list">
       <button class="simple-opt" data-val="nao" data-score="0" data-next="s37">Não pratico</button>
@@ -520,7 +533,7 @@
   </section>
 
   <!-- ═══════ F3-Q3. ALIMENTAÇÃO ═══════ -->
-  <section class="screen" id="s37" data-step="21" data-section="ESTADO DO ORGANISMO" data-icon="cycle">
+  <section class="screen" id="s37" data-step="21" data-section="Estado do Organismo" data-icon="cycle">
     <h2 class="q-title">Como você descreveria sua alimentação no dia a dia?</h2>
     <div class="simple-list">
       <button class="simple-opt" data-val="irregular" data-score="1" data-next="s38">Bastante irregular</button>
@@ -531,7 +544,7 @@
   </section>
 
   <!-- ═══════ F3-Q4. INFLAMAÇÃO ═══════ -->
-  <section class="screen" id="s38" data-step="22" data-section="ESTADO DO ORGANISMO" data-icon="cycle">
+  <section class="screen" id="s38" data-step="22" data-section="Estado do Organismo" data-icon="cycle">
     <h2 class="q-title">Você sente inchaço, cansaço ou dores frequentes sem causa aparente?</h2>
     <div class="simple-list">
       <button class="simple-opt" data-val="frequente" data-score="1" data-next="s39">Um ou dois com frequência</button>
@@ -542,7 +555,7 @@
   </section>
 
   <!-- ═══════ F4 — CONEXÃO E PROPÓSITO ═══════ -->
-  <section class="screen" id="s39" data-step="23" data-section="CONEXÃO E PROPÓSITO" data-icon="heart">
+  <section class="screen" id="s39" data-step="23" data-section="Conexão e Propósito" data-icon="heart">
     <h2 class="q-title">Você ainda acredita que vai conseguir engravidar?</h2>
     <div class="simple-list">
       <button class="simple-opt" data-val="quase" data-score="2" data-next="s40">Sim, mas às vezes duvido</button>
@@ -552,7 +565,7 @@
     </div>
   </section>
 
-  <section class="screen" id="s40" data-step="24" data-section="CONEXÃO E PROPÓSITO" data-icon="heart">
+  <section class="screen" id="s40" data-step="24" data-section="Conexão e Propósito" data-icon="heart">
     <h2 class="q-title">Você tem alguma prática de meditação, oração ou respiração que te apoia nessa jornada?</h2>
     <div class="simple-list">
       <button class="simple-opt" data-val="raramente" data-score="1" data-next="s41">Raramente</button>
@@ -562,7 +575,7 @@
     </div>
   </section>
 
-  <section class="screen" id="s41" data-step="25" data-section="CONEXÃO E PROPÓSITO" data-icon="heart">
+  <section class="screen" id="s41" data-step="25" data-section="Conexão e Propósito" data-icon="heart">
     <h2 class="q-title">Você consegue ter momentos de alegria e leveza mesmo no meio dessa jornada?</h2>
     <div class="simple-list">
       <button class="simple-opt" data-val="nao" data-score="0" data-next="s42">Não, está difícil</button>
@@ -572,7 +585,7 @@
     </div>
   </section>
 
-  <section class="screen" id="s42" data-step="26" data-section="CONEXÃO E PROPÓSITO" data-icon="heart">
+  <section class="screen" id="s42" data-step="26" data-section="Conexão e Propósito" data-icon="heart">
     <h2 class="q-title">Você costuma se culpar quando o ciclo não vem como esperado?</h2>
     <div class="simple-list">
       <button class="simple-opt" data-val="nao" data-score="0" data-next="s20">Sim, muito, me sinto traidora de mim mesma</button>
@@ -583,12 +596,9 @@
   </section>
 
   <!-- ═══════ 20. DURAÇÃO MÉDIA DO CICLO (substitui Altura) ═══════ -->
-  <section class="screen" id="s20" data-step="27" data-section="DETALHES PESSOAIS" data-icon="person">
+  <section class="screen" id="s20" data-step="27" data-section="Detalhes Pessoais" data-icon="person">
     <h2 class="q-title">Quantos dias dura seu ciclo em média?</h2>
     <p class="q-hint">Do 1º dia de uma menstruação até o 1º dia da próxima.</p>
-    <div class="unit-toggle">
-      <button class="unit-toggle__btn active" data-unit="dias">dias</button>
-    </div>
     <div class="big-number">
       <span class="big-number__value" id="heightValue" contenteditable="true" inputmode="numeric" data-empty="true">0</span>
       <span class="big-number__unit" id="heightUnitLabel">dias</span>
@@ -602,12 +612,9 @@
   </section>
 
   <!-- ═══════ 21. DIAS DE MENSTRUAÇÃO (substitui Peso) ═══════ -->
-  <section class="screen" id="s21" data-step="28" data-section="DETALHES PESSOAIS" data-icon="person">
+  <section class="screen" id="s21" data-step="28" data-section="Detalhes Pessoais" data-icon="person">
     <h2 class="q-title">Quantos dias dura sua menstruação?</h2>
     <p class="q-hint">Quantos dias o sangramento em si dura, do início até parar.</p>
-    <div class="unit-toggle">
-      <button class="unit-toggle__btn active" data-unit="dias">dias</button>
-    </div>
     <div class="big-number">
       <span class="big-number__value" id="weightValue" contenteditable="true" inputmode="numeric" data-empty="true">0</span>
       <span class="big-number__unit" id="weightUnitLabel">dias</span>
@@ -628,12 +635,9 @@
   </section>
 
   <!-- ═══════ 22. CONHECE FASE LÚTEA? (substitui Meta peso) ═══════ -->
-  <section class="screen" id="s22" data-step="29" data-section="SINAIS DO CICLO" data-icon="cycle">
+  <section class="screen" id="s22" data-step="29" data-section="Sinais do Ciclo" data-icon="cycle">
     <h2 class="q-title">Em quantos dias seu desejo sexual aumenta no mês?</h2>
     <p class="q-sub">Se você não percebe, deixe 0. Esse é um dos sinais secundários da ovulação.</p>
-    <div class="unit-toggle">
-      <button class="unit-toggle__btn active" data-unit="dias">dias</button>
-    </div>
     <div class="big-number">
       <span class="big-number__value" id="targetValue" contenteditable="true" inputmode="numeric" data-empty="true">0</span>
       <span class="big-number__unit">dias</span>
@@ -648,7 +652,7 @@
   </section>
 
   <!-- ═══════ 25. DIAGNÓSTICO IQO ═══════ -->
-  <section class="screen" id="s25" data-step="30" data-section="DETALHES PESSOAIS" data-icon="person">
+  <section class="screen" id="s25" data-step="30" data-section="Detalhes Pessoais" data-icon="person">
     <h2 class="q-title-lg">Seu Índice de Qualidade da Ovulação</h2>
     <div class="imc-card">
       <div class="imc-card__head">
@@ -720,7 +724,7 @@
   </section>
 
   <!-- ═══════ 26. DATA OCASIÃO ═══════ -->
-  <section class="screen" id="s26" data-step="31" data-section="DETALHES PESSOAIS" data-icon="person">
+  <section class="screen" id="s26" data-step="31" data-section="Detalhes Pessoais" data-icon="person">
     <h2 class="q-title">Quando começou sua última menstruação?</h2>
     <p class="q-sub">Com essa data calculamos sua próxima janela fértil.</p>
     <div class="date-block">
@@ -766,7 +770,7 @@
   </section>
 
   <!-- ═══════ 28. PROJEÇÃO ═══════ -->
-  <section class="screen" id="s28" data-step="33" data-section="DETALHES PESSOAIS" data-icon="person">
+  <section class="screen" id="s28" data-step="33" data-section="Detalhes Pessoais" data-icon="person">
     <h2 class="q-title-lg">Seu plano personalizado está pronto!</h2>
     <p class="q-sub">Veja sua janela fértil projetada com base no seu ciclo real.</p>
 
@@ -1799,8 +1803,6 @@ function montarCarrossel(slides) {
        ainda não investiu nada nele. Da tela 2 em diante o passo volta, aí já
        vale como progresso. */
     document.body.classList.add('marca-na-tela-1');
-    const sep = document.querySelector('#s1 .s1-sep');
-    if (sep) sep.hidden = false;
     /* Troca a lista de idade pelos cartoes com foto. Os dois blocos ja existem
        no HTML: assim o handler de clique, que roda no load, encontra os dois
        e nao precisa ser religado. */
@@ -1884,17 +1886,24 @@ function enviarRespostas() {
   pingSupa_({ sessao: SESSAO_ID, tipo: 'respostas', variante: 'v' + VARIANTE, pagina: PAGINA, dados: answers });
 }
 
-const ICONS = {
-  target: '<svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><circle cx="7" cy="7" r="7"/><circle cx="7" cy="7" r="4" fill="white"/><circle cx="7" cy="7" r="2"/></svg>',
-  cycle:  '<svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><circle cx="7" cy="7" r="7" opacity="0.25"/><path d="M7 0A7 7 0 1 0 7 14Z"/></svg>',
-  alert:  '<svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M7 0.5L0 13.5h14L7 0.5z"/><rect x="6.25" y="5.5" width="1.5" height="3.8" rx="0.75" fill="white"/><circle cx="7" cy="11.4" r="0.9" fill="white"/></svg>',
-  person: '<svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><circle cx="7" cy="4.5" r="3"/><path d="M0.5 14c0-3.6 2.9-6.5 6.5-6.5s6.5 2.9 6.5 6.5H0.5z"/></svg>',
-  heart:  '<svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M7 12.5S1 8.5 1 4.5A3 3 0 0 1 7 3a3 3 0 0 1 6 1.5C13 8.5 7 12.5 7 12.5z"/></svg>'
-};
 
-const headerStep = document.getElementById('headerStep');
 const headerSection = document.getElementById('headerSection');
-const progressFill = document.getElementById('progressFill');
+const progresso = document.getElementById('progress');
+/* A ordem das secoes sai do proprio documento: assim inserir ou remover uma
+   tela nao exige mexer numa lista paralela aqui. */
+const SECOES = [...new Set([...document.querySelectorAll('.screen[data-section]')]
+  .map(s => s.dataset.section).filter(Boolean))];
+/* Quais telas compoem cada secao, na ordem do documento. E com isso que o
+   segmento da secao atual enche aos poucos, uma fracao por resposta, em vez
+   de saltar de vazio pra cheio so na virada da secao. */
+const TELAS_DA_SECAO = {};
+document.querySelectorAll('.screen[data-section]').forEach(sec => {
+  const k = sec.dataset.section;
+  if (!k) return;
+  (TELAS_DA_SECAO[k] = TELAS_DA_SECAO[k] || []).push(sec.id);
+});
+SECOES.forEach(() => progresso.appendChild(document.createElement('i')));
+progresso.setAttribute('aria-valuemax', SECOES.length);
 const backBtn = document.getElementById('backBtn');
 const footerCTA = document.getElementById('footerCTA');
 const primaryBtn = document.getElementById('primaryBtn');
@@ -1908,21 +1917,28 @@ function updateChrome(screenId) {
   const icon = el.dataset.icon || '';
 
   if (section) {
-    headerStep.textContent = 'Passo ' + step + '/' + TOTAL_STEPS;
-    headerStep.style.display = '';
-    headerSection.innerHTML = '<span class="header__icon">' + (ICONS[icon] || icon) + '</span> ' + section;
+    headerSection.textContent = section;   // sem icone, como na referencia
     headerSection.style.display = '';
   } else {
-    headerStep.style.display = 'none';
     headerSection.style.display = 'none';
   }
 
-  const progressBar = progressFill.parentElement;
   if (screenId === 's30') {
-    progressBar.style.display = 'none';
+    progresso.style.display = 'none';
   } else {
-    progressBar.style.display = '';
-    progressFill.style.width = Math.max(3, (step / TOTAL_STEPS) * 100) + '%';
+    progresso.style.display = '';
+    const i = SECOES.indexOf(section);
+    // Secao sem nome (as telas de transicao) mantem o ultimo estado.
+    if (i >= 0) {
+      const lista = TELAS_DA_SECAO[section] || [];
+      const pos = lista.indexOf(screenId);
+      const parte = lista.length ? Math.round(((pos + 1) / lista.length) * 100) : 100;
+      [...progresso.children].forEach((seg, k) => {
+        seg.style.setProperty('--p', k < i ? '100%' : k === i ? parte + '%' : '0%');
+        seg.classList.toggle('on', k <= i);
+      });
+      progresso.setAttribute('aria-valuenow', i + 1);
+    }
   }
   backBtn.disabled = history.length <= 1 || screenId === 's27' || screenId === 's30';
 }
@@ -1989,6 +2005,19 @@ function ajustarTitulo(sec) {
     t.style.fontSize = f + 'px';
   }
 }
+
+/* Mede o cabecalho e publica a altura como variavel CSS. A .wrap reserva a
+   partir dela, entao mudar o cabecalho deixa de exigir acerto manual em cada
+   breakpoint. Roda no load, depois das fontes e em toda mudanca de tamanho. */
+function reservarCabecalho() {
+  const hd = document.querySelector('header');
+  if (!hd) return;
+  document.documentElement.style.setProperty('--h-cabecalho', hd.offsetHeight + 'px');
+}
+reservarCabecalho();
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(reservarCabecalho);
+window.addEventListener('resize', reservarCabecalho);
+if (window.ResizeObserver) new window.ResizeObserver(reservarCabecalho).observe(document.querySelector('header'));
 
 let _reajuste;
 window.addEventListener('resize', () => {
@@ -2964,6 +2993,27 @@ document.addEventListener('click', (e) => {
   } else {
     girar();
   }
+})();
+</script>
+<script>
+/* Menu do cabecalho. Fecha ao clicar fora, no Esc e ao escolher um item —
+   os tres jeitos que a pessoa espera. O `hidden` e a fonte da verdade; o
+   aria-expanded so acompanha. */
+(function(){
+  var btn = document.getElementById('menuBtn');
+  var menu = document.getElementById('menuQuiz');
+  if (!btn || !menu) return;
+  function abrir(sim){
+    menu.hidden = !sim;
+    btn.setAttribute('aria-expanded', sim ? 'true' : 'false');
+    btn.classList.toggle('aberto', sim);
+  }
+  btn.addEventListener('click', function(e){ e.stopPropagation(); abrir(menu.hidden); });
+  menu.addEventListener('click', function(e){ if (e.target.tagName === 'A') abrir(false); });
+  document.addEventListener('click', function(e){
+    if (!menu.hidden && !menu.contains(e.target) && e.target !== btn) abrir(false);
+  });
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape') abrir(false); });
 })();
 </script>
 <script src="https://www.youtube.com/iframe_api"></script>

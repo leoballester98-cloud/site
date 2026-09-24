@@ -5092,7 +5092,7 @@ body.marca-solta:has(#s1.screen.active) .header__inner::after {
   background: rgba(43,26,16,0.06); color: var(--ink);
   display: inline-flex; align-items: center; justify-content: center;
 }
-.perfil__ico svg { width: 21px; height: 21px; display: block; }
+.perfil__ico svg { width: 24px; height: 24px; fill: none; stroke: currentColor; display: block; }
 .perfil__rotulo { font-size: 12px; font-weight: 500; color: var(--ink-fade); }
 .perfil__rotulo b { font-weight: 700; }
 .perfil__valor { font-size: 15px; font-weight: 700; color: var(--ink); line-height: 1.2; }
@@ -5250,3 +5250,30 @@ body:has(#s1.screen.active) .progress { display: none; }
 .info__foto--telas .info__tela--esq  { left: 4%;  z-index: 1; }
 .info__foto--telas .info__tela--dir  { right: 4%; z-index: 1; }
 .info__foto--telas .info__tela--meio { left: 50%; transform: translateX(-50%); width: 42%; top: 6%; z-index: 2; }
+
+/* Cartao com icone a esquerda (tela 3o): icone num circulo claro, texto no
+   meio, marcador a direita. Em tela baixa os cinco cartoes encolhem um pouco
+   pra caber sem rolar. */
+.simple-opt--icone { gap: 12px; }
+.simple-opt--icone .simple-opt__ico {
+  width: 44px; height: 44px; border-radius: 50%; flex: 0 0 auto;
+  background: rgba(43,26,16,0.06); color: var(--ink);
+  display: inline-flex; align-items: center; justify-content: center;
+}
+/* Icones de linha (Lucide/Tabler): sem preenchimento, traco na cor do texto. */
+/* 24px, e nao 22: e o tamanho da grade em que os icones foram desenhados. Com
+   o traco de 2 centrado em coordenadas inteiras, cada linha reta cai em
+   exatamente 2 pixels — em 22px tudo caia em meio pixel e borrava. */
+.simple-opt--icone .simple-opt__ico svg { width: 24px; height: 24px; fill: none; stroke: currentColor; display: block; }
+.simple-opt--icone .simple-opt__txt { flex: 1 1 auto; min-width: 0; }
+@media (max-height: 700px) {
+  .simple-list--radio { gap: 9px; }
+  .simple-list--radio .simple-opt--radio { min-height: 62px; padding: 14px 16px 14px 14px; font-size: 15px; }
+}
+/* Entrelinha inteira no titulo da tela 3o: com 1.18 x 27px cada linha media
+   31,86px e os cartoes (e os icones) caiam em y fracionario — os tracos
+   horizontais dos icones ficavam espalhados em 3 pixels. */
+#s3o .q-title { line-height: 25px; }
+@media (max-width: 480px) { #s3o .q-title { line-height: 32px; } }
+@media (max-width: 380px) { #s3o .q-title { line-height: 30px; } }
+@media (min-width: 900px) { #s3o .q-title { line-height: 34px; } }

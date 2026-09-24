@@ -56,7 +56,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"/>
-  <link rel="stylesheet" href="quiz-warm.css?v=430"/>
+  <link rel="stylesheet" href="quiz-warm.css?v=431"/>
 
   <!-- Anti-flicker do teste A/B.
        O script que troca a headline mora no fim do <body>, então num aparelho
@@ -875,67 +875,61 @@
 
   <!-- ═══════ 28. PROJEÇÃO ═══════ -->
   <section class="screen" id="s28" data-step="33" data-section="Detalhes Pessoais" data-icon="person">
-    <h2 class="q-title-lg">Seu plano personalizado está pronto!</h2>
-    <p class="q-sub">Veja sua janela fértil projetada com base no seu ciclo real.</p>
+    <h2 class="q-title-lg proj__titulo">O plano que finalmente vai ajudar você a engravidar</h2>
+    <p class="q-sub proj__sub">Estimamos que você poderá ter <b>alta chance de positivo</b> até <b><span id="projTargetLongo">—</span></b><sup class="proj__ast">*</sup></p>
 
-    <!-- Gráfico de tendência SVG com 4 pontos -->
-    <div class="curve-chart">
-      <div class="curve-chart__wrap">
-        <svg class="curve-chart__svg" viewBox="0 0 320 200" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <linearGradient id="curveGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%"   stop-color="#c9a97a" stop-opacity="0.20"/>
-              <stop offset="53%"  stop-color="#c9a97a" stop-opacity="0.15"/>
-              <stop offset="73%"  stop-color="#8faad4" stop-opacity="0.20"/>
-              <stop offset="100%" stop-color="#88a570" stop-opacity="0.25"/>
-            </linearGradient>
-            <linearGradient id="curveStroke" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%"   stop-color="#c9a97a"/>
-              <stop offset="73%"  stop-color="#8faad4"/>
-              <stop offset="100%" stop-color="#88a570"/>
-            </linearGradient>
-          </defs>
-          <!-- Eixo X em y=190, viewBox 320×200 -->
-          <!-- P1(28,175) P2(170,130) P3(235,80) P4(292,35) — espaçamento 84:14:6 dias -->
-          <line x1="22" y1="190" x2="298" y2="190" stroke="#ccc" stroke-width="1" opacity="0.4"/>
-          <path d="M 28 175 C 75 160, 136 146, 170 130 C 205 114, 215 96, 235 80 C 255 64, 273 50, 292 35 L 292 190 L 28 190 Z"
-                fill="url(#curveGrad)"/>
-          <path d="M 28 175 C 75 160, 136 146, 170 130 C 205 114, 215 96, 235 80 C 255 64, 273 50, 292 35"
-                fill="none" stroke="url(#curveStroke)" stroke-width="2.5" stroke-linecap="round"/>
-          <line x1="170" y1="130" x2="170" y2="190" stroke="#c9a97a" stroke-width="1" stroke-dasharray="3,3" opacity="0.35"/>
-          <!-- Janela fértil: dois tracejados em x=229 e x=242 (±6.5px = 5 dias) -->
-          <line x1="229" y1="83"  x2="229" y2="190" stroke="#8faad4" stroke-width="1" stroke-dasharray="3,3" opacity="0.5"/>
-          <line x1="242" y1="77"  x2="242" y2="190" stroke="#8faad4" stroke-width="1" stroke-dasharray="3,3" opacity="0.5"/>
-          <line x1="292" y1="35"  x2="292" y2="190" stroke="#88a570" stroke-width="1" stroke-dasharray="3,3" opacity="0.35"/>
-        </svg>
-
-        <!-- Dots — viewBox 320×200: P1(8.75%,87.5%) P2(53.1%,65%) P3(73.4%,40%) P4(91.25%,17.5%) -->
-        <div class="cc-dot cc-dot--gold"             style="left:8.75%;  top:87.5%"></div>
-        <div class="cc-dot cc-dot--gold"             style="left:53.1%;  top:65%"></div>
-        <div class="cc-dot cc-dot--blue"             style="left:73.4%;  top:40%"></div>
-        <div class="cc-dot cc-dot--green cc-dot--lg" style="left:91.25%; top:17.5%"></div>
-
-        <!-- Todos os labels com mesmo offset vertical acima do ponto -->
-        <div class="cc-label cc-label--hoje">
-          <span class="cc-date" id="projHojeDate">—</span>
-          <span class="cc-tag">Hoje</span>
+    <!-- Grafico de projecao no molde da BetterMe: curva fixa (ilustracao
+         generica, como a deles), gradiente vermelho > amarelo > verde-agua na
+         linha, sombra embaixo, eixo Y a esquerda, datas embaixo e a bola da
+         meta com o balao. Geometria e cores vieram do codigo deles (viewBox
+         303x171); a animacao esta no CSS (.proj-grafico.animado). -->
+    <div class="proj-grafico" id="projGrafico" aria-hidden="true">
+      <div class="proj-grafico__miolo">
+        <div class="proj-grafico__eixo-y">
+          <span class="proj-grafico__rotulo">100</span>
+          <span class="proj-grafico__rotulo">75</span>
+          <span class="proj-grafico__rotulo">50</span>
+          <span class="proj-grafico__rotulo">25</span>
         </div>
-        <div class="cc-label cc-label--proto">
-          <span class="cc-date" id="projProtoDate">—</span>
-          <span class="cc-tag cc-tag--small">Fim do seu protocolo</span>
+        <div class="proj-grafico__campo">
+          <div class="proj-grafico__linhas"><i></i><i></i><i></i><i></i></div>
+          <svg class="proj-grafico__svg" viewBox="0 0 303 171" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="projSombra" x1="133.5" y1="0" x2="133.5" y2="168" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#171717"/>
+                <stop offset="1" stop-color="#171717" stop-opacity="0"/>
+              </linearGradient>
+              <linearGradient id="projLinha" x1="1.23" y1="2.81" x2="224.88" y2="43.43" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#FF0000"/>
+                <stop offset="0.427" stop-color="#FFE600"/>
+                <stop offset="1" stop-color="#30E3B7"/>
+              </linearGradient>
+            </defs>
+            <!-- A opacidade animada fica no <g>; a do path (0.2) e a cor final da sombra, como na BetterMe. -->
+            <g class="proj-grafico__sombra"><path d="M301 0.994171C188 1 216.666 57.411 135.5 83.5C51.5 110.5 24.5 159.5 2 167L0 167V169H303V0.994171H301Z" fill="url(#projSombra)" opacity="0.2"/></g>
+            <path class="proj-grafico__curva" d="M2 169C24.5 161.5 51.5 112.5 135.5 85.5C216.666 59.411 188 3 301 2.99417" fill="none" stroke="url(#projLinha)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <div class="proj-grafico__meta">
+            <span class="proj-grafico__bola"></span>
+            <div class="proj-grafico__balao">Alta chance<br><b id="projBalaoData">—</b></div>
+          </div>
         </div>
-        <div class="cc-label cc-label--ovul">
-          <span class="cc-date" id="projOvulDate">—</span>
-          <span class="cc-tag cc-tag--blue cc-tag--small">Ovulação otimizada</span>
-        </div>
-        <div class="cc-label cc-label--pos">
-          <span class="cc-date cc-date--green" id="projTarget">—</span>
-          <span class="cc-tag cc-tag--green cc-tag--small">Alta chance de positivo 💚</span>
-        </div>
-
+      </div>
+      <div class="proj-grafico__eixo-x">
+        <span class="proj-grafico__data" id="projHojeDate">—</span>
+        <span class="proj-grafico__data" id="projTarget">—</span>
       </div>
     </div>
 
+    <p class="proj-nota">*Com base nos dados de mulheres que registram seu progresso no app. Seguir o plano tem um grande impacto nos resultados. O gráfico é uma ilustração genérica, e os resultados podem variar. Consulte seu médico antes de começar.</p>
+
+    <blockquote class="proj-citacao">
+      <span class="proj-citacao__aspas">“</span>
+      <div class="proj-citacao__texto">
+        <p>Nosso Plano Ciclo Fértil ajudará você a alcançar resultados a longo prazo.</p>
+        <p>Ele combina a leitura dos sinais do seu ciclo com nutrição e rotina para garantir seu progresso.</p>
+      </div>
+    </blockquote>
   </section>
 
   <!-- ═══════ 30. PRICING ═══════ -->
@@ -2000,7 +1994,7 @@ function showFooter(screenId) {
   } else {
     primaryBtn.disabled = false;
   }
-  primaryBtn.textContent = (screenId === 's28') ? 'Ver meu plano' : 'CONTINUAR';
+  primaryBtn.textContent = 'CONTINUAR';
   primaryBtn.onclick = () => goNext();
 }
 
@@ -2111,7 +2105,7 @@ function showScreen(id) {
 
   if (id === 's25') showIQO();
   if (id === 's27') startLoading();
-  if (id === 's28') updateProjection();
+  if (id === 's28') { updateProjection(); animarProjecao(); }
   if (id === 's30') enviarRespostas();
   document.body.classList.toggle('screen--sales', id === 's30');
 
@@ -2540,6 +2534,19 @@ function calcFertileWindow() {
   return { fertileStart: ovulDate, positiveDate, protocolEndDate, protocolWeeks: cycles * 4, cycleLen, cycles };
 }
 
+/* Recomeca a animacao do grafico toda vez que a tela abre. O comprimento
+   real da curva vai numa variavel CSS, pra o traco durar a animacao inteira
+   (a BetterMe usa 500px fixos, que e maior que a curva). */
+function animarProjecao() {
+  const g = document.getElementById('projGrafico');
+  if (!g) return;
+  const curva = g.querySelector('.proj-grafico__curva');
+  if (curva && curva.getTotalLength) g.style.setProperty('--proj-comprimento', Math.ceil(curva.getTotalLength()) + 'px');
+  g.classList.remove('animado');
+  void g.offsetWidth;
+  g.classList.add('animado');
+}
+
 function updateProjection() {
   const projTargetEl  = document.getElementById('projTarget');
   const projOvulEl    = document.getElementById('projOvulDate');
@@ -2560,12 +2567,17 @@ function updateProjection() {
   const hoje = new Date();
   const totalDias = (cycles * cycleLen) + 14 + 6;
 
-  if (projHojeEl)   projHojeEl.textContent   = fmtShort(hoje);
+  const fmtRef = d => `${d.getDate()} de ${MONTHS_SHORT[d.getMonth()].toLowerCase()}.`;
+  const projLongoEl = document.getElementById('projTargetLongo');
+  const projBalaoEl = document.getElementById('projBalaoData');
+  if (projLongoEl)  projLongoEl.textContent  = `${fmtDate(positiveDate)} de ${positiveDate.getFullYear()}`;
+  if (projBalaoEl)  projBalaoEl.textContent  = `${positiveDate.getDate()} ${MONTHS_SHORT[positiveDate.getMonth()].toLowerCase()}`;
+  if (projHojeEl)   projHojeEl.textContent   = fmtRef(hoje);
   if (projProtoEl)  projProtoEl.textContent  = fmtShort(protocolEndDate);
   const ovulStart = new Date(ovulDate);
   ovulStart.setDate(ovulStart.getDate() - 4); // janela fértil: 5 dias até a ovulação
   if (projOvulEl)   projOvulEl.textContent   = `${ovulStart.getDate()}–${fmtShort(ovulDate)}`;
-  if (projTargetEl) projTargetEl.textContent = fmtShort(positiveDate);
+  if (projTargetEl) projTargetEl.textContent = fmtRef(positiveDate);
   if (projTotalEl)  projTotalEl.textContent  = totalDias + ' dias';
   if (projMonthEl)  projMonthEl.textContent  = MONTHS_SHORT[positiveDate.getMonth()];
 

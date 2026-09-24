@@ -3667,123 +3667,100 @@ button:focus-visible, .row-card:focus-visible, .simple-opt:focus-visible,
 }
 .date-journey__label--positive { color: var(--green); font-size: 18px; }
 
-/* ── Curve Chart (s28) ── */
-.curve-chart {
-  margin: 16px 0 24px;
-  padding: 0;
+/* ── Projeção (s28), no molde do gráfico da BetterMe ──────────────────
+   Curva fixa (ilustração genérica, como a deles), linha com gradiente
+   vermelho → amarelo → verde-água, sombra embaixo, eixo Y à esquerda, datas
+   embaixo e a bola da meta com o balão. Tempos copiados do CSS deles
+   (personalized-weight-graph-animations): linha 4.6s a partir de 0.5s por
+   stroke-dashoffset, sombra some→aparece nos mesmos 4.6s, rótulos e datas em
+   0.5s com cascata de 50ms, bola + balão em 0.5s a partir de 2s. */
+.proj__titulo { margin-top: 12px; }
+.proj__sub { margin: 10px auto 16px; }
+.proj__sub b { color: var(--ink); font-weight: 700; }
+.proj__ast { font-size: 0.8em; line-height: 0; }
+.proj-grafico { background: var(--bg-lift); border-radius: 20px; padding: 22px 44px 14px 12px; }
+.proj-grafico__miolo { display: flex; align-items: stretch; gap: 10px; }
+.proj-grafico__eixo-y { position: relative; width: 26px; flex: 0 0 auto; }
+.proj-grafico__rotulo {
+  position: absolute; right: 0; transform: translateY(-50%);
+  font-size: 13px; font-weight: 600; color: var(--ink-soft); line-height: 1; opacity: 0;
 }
-.curve-chart__wrap {
-  position: relative;
-  width: 100%;
-  overflow: visible;
+.proj-grafico__rotulo:nth-child(1) { top: 0; }
+.proj-grafico__rotulo:nth-child(2) { top: 33.333%; }
+.proj-grafico__rotulo:nth-child(3) { top: 66.667%; }
+.proj-grafico__rotulo:nth-child(4) { top: 100%; }
+.proj-grafico__campo { position: relative; flex: 1; min-width: 0; height: 210px; }
+.proj-grafico__linhas { position: absolute; inset: 0; opacity: 0; }
+.proj-grafico__linhas i { position: absolute; left: 0; right: 0; height: 1px; background: rgba(43,26,16,0.12); }
+.proj-grafico__linhas i:nth-child(1) { top: 0; }
+.proj-grafico__linhas i:nth-child(2) { top: 33.333%; }
+.proj-grafico__linhas i:nth-child(3) { top: 66.667%; }
+.proj-grafico__linhas i:nth-child(4) { top: 100%; }
+.proj-grafico__svg { position: absolute; inset: 0; width: 100%; height: 100%; display: block; overflow: visible; }
+.proj-grafico__sombra { opacity: 0; }
+.proj-grafico__curva {
+  opacity: 0;
+  stroke-dasharray: var(--proj-comprimento, 500px);
+  stroke-dashoffset: var(--proj-comprimento, 500px);
 }
-.curve-chart__svg {
-  display: block;
-  width: 100%;
-  height: 200px;
-  overflow: visible;
+/* A meta fica no fim da curva (301/303 em x, 3/171 em y do viewBox). */
+.proj-grafico__meta { position: absolute; left: 99.3%; top: 1.75%; width: 0; height: 0; opacity: 0; }
+.proj-grafico__bola {
+  position: absolute; left: -8px; top: -8px; width: 16px; height: 16px; border-radius: 50%;
+  background: #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.28);
 }
-
-/* Labels posicionados sobre os pontos do gráfico */
-/* viewBox 320×200 — todos os labels ACIMA dos pontos, gap=12px */
-/* P1(28,175)=8.75%,87.5%  P2(170,130)=53.1%,65%  P3(235,80)=73.4%,40%  P4(292,35)=91.25%,17.5% */
-.cc-label {
-  position: absolute;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2px;
-  pointer-events: none;
+.proj-grafico__balao {
+  position: absolute; right: -16px; top: 18px;
+  background: #2B1A10; color: #fff; border-radius: 12px; padding: 10px 14px;
+  font-size: 15px; line-height: 1.3; text-align: center; white-space: nowrap;
+  box-shadow: 0 6px 18px rgba(43,26,16,0.22);
 }
-/* P1 Hoje — ancora esquerda */
-.cc-label--hoje {
-  left: 8.75%;
-  top: 87.5%;
-  transform: translate(0, calc(-100% - 12px));
-  align-items: flex-start;
-  text-align: left;
+.proj-grafico__balao b { font-weight: 700; }
+.proj-grafico__balao::before {
+  content: ""; position: absolute; top: -7px; right: 16px;
+  border: 7px solid transparent; border-top: 0; border-bottom-color: #2B1A10;
 }
-/* P2 Fim protocolo — centralizado, acima */
-.cc-label--proto {
-  left: 53.1%;
-  top: 65%;
-  transform: translate(-50%, calc(-100% - 12px));
-  align-items: center;
-  text-align: center;
+.proj-grafico__eixo-x { display: flex; justify-content: space-between; margin: 12px 0 0 36px; }
+.proj-grafico__data { font-size: 13px; color: var(--ink-soft); opacity: 0; }
+/* Animação (só com a classe .animado, que o JS recoloca a cada abertura). */
+.proj-grafico.animado .proj-grafico__curva { animation: projTraco 4.6s forwards; animation-delay: .5s; }
+.proj-grafico.animado .proj-grafico__sombra { animation: projAparece 4.6s forwards; animation-delay: .5s; }
+.proj-grafico.animado .proj-grafico__linhas { animation: projAparece .5s forwards; }
+.proj-grafico.animado .proj-grafico__rotulo,
+.proj-grafico.animado .proj-grafico__data { animation: projAparece .5s forwards; }
+.proj-grafico.animado .proj-grafico__rotulo:nth-child(2),
+.proj-grafico.animado .proj-grafico__data:nth-child(2) { animation-delay: 50ms; }
+.proj-grafico.animado .proj-grafico__rotulo:nth-child(3) { animation-delay: .1s; }
+.proj-grafico.animado .proj-grafico__rotulo:nth-child(4) { animation-delay: .15s; }
+.proj-grafico.animado .proj-grafico__meta { animation: projAparece .5s forwards; animation-delay: 2s; }
+@keyframes projTraco {
+  0%   { opacity: 0; stroke-dashoffset: var(--proj-comprimento, 500px); }
+  50%  { opacity: 1; }
+  100% { opacity: 1; stroke-dashoffset: 0; }
 }
-/* P3 Ovulação — ancora direita */
-.cc-label--ovul {
-  left: 73.4%;
-  top: 40%;
-  transform: translate(-100%, calc(-100% - 12px));
-  align-items: flex-end;
-  text-align: right;
+@keyframes projAparece { from { opacity: 0; } to { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) {
+  .proj-grafico .proj-grafico__curva, .proj-grafico .proj-grafico__sombra, .proj-grafico .proj-grafico__linhas,
+  .proj-grafico .proj-grafico__rotulo, .proj-grafico .proj-grafico__data, .proj-grafico .proj-grafico__meta {
+    animation: none; opacity: 1;
+  }
+  .proj-grafico .proj-grafico__curva { stroke-dashoffset: 0; }
 }
-/* P4 Positivo — ancora direita da tela */
-.cc-label--pos {
-  right: 1%;
-  left: auto;
-  top: 17.5%;
-  transform: translate(0, calc(-100% - 12px));
-  align-items: flex-end;
-  text-align: right;
+.proj-nota { font-size: 13px; line-height: 1.45; color: var(--ink-soft); margin: 14px 0 0; text-align: left; }
+.proj-citacao {
+  display: flex; gap: 14px; align-items: flex-start;
+  background: var(--bg-lift); border-radius: 20px; padding: 22px 18px; margin: 18px 0 8px;
 }
-/* Dots HTML — circulares perfeitos */
-.cc-dot {
-  position: absolute;
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  border: 2px solid white;
-  transform: translate(-50%, -50%);
-  pointer-events: none;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+.proj-citacao__aspas {
+  font-family: Georgia, 'Times New Roman', serif; font-size: 56px; line-height: 0.6;
+  color: var(--ink); margin-top: 12px; flex: 0 0 auto;
 }
-.cc-dot--lg    { width: 14px; height: 14px; }
-.cc-dot--gold  { background: #c9a97a; }
-.cc-dot--blue  { background: #8faad4; }
-.cc-dot--green { background: #88a570; }
-.cc-tag {
-  font-size: 10px;
-  font-weight: 600;
-  color: var(--muted);
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  white-space: nowrap;
+.proj-citacao__texto p {
+  font-family: Georgia, 'Times New Roman', serif; font-style: italic; font-size: 17px; line-height: 1.5;
+  color: var(--ink); margin: 0 0 12px;
 }
-.cc-tag--small {
-  font-size: 9px;
-  letter-spacing: 0.04em;
-  white-space: nowrap;
-}
-.cc-tag--blue  { color: #8faad4; }
-.cc-tag--green { color: var(--green); }
-.cc-date {
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--ink);
-  white-space: nowrap;
-  line-height: 1.3;
-}
-.cc-date--green { color: var(--ink); }
-/* Total dias — canto inferior direito */
-.cc-total {
-  position: absolute;
-  bottom: -22px;
-  right: 0;
-  display: flex;
-  align-items: baseline;
-  gap: 4px;
-}
-.cc-total__val {
-  font-size: 13px;
-  font-weight: 700;
-  color: #88a570;
-}
-.cc-total__lbl {
-  font-size: 11px;
-  color: var(--ink-soft);
-}
+.proj-citacao__texto p:last-child { margin-bottom: 0; }
+@media (max-height: 700px) { .proj-grafico__campo { height: 180px; } }
 
 /* ── IQO Compare card (s28) ── */
 .iqo-compare {

@@ -3674,8 +3674,8 @@ button:focus-visible, .row-card:focus-visible, .simple-opt:focus-visible,
    (personalized-weight-graph-animations): linha 4.6s a partir de 0.5s por
    stroke-dashoffset, sombra some→aparece nos mesmos 4.6s, rótulos e datas em
    0.5s com cascata de 50ms, bola + balão em 0.5s a partir de 2s. */
-.proj__titulo { margin-top: 12px; }
-.proj__sub { margin: 10px auto 16px; }
+.proj__titulo { margin-top: 12px; font-weight: 600; letter-spacing: -0.01em; }
+.proj__sub { margin: 10px auto 16px; font-size: 18px; line-height: 1.4; }
 .proj__sub b { color: var(--ink); font-weight: 700; }
 .proj__ast { font-size: 0.8em; line-height: 0; }
 .proj-grafico { background: var(--bg-lift); border-radius: 20px; padding: 22px 44px 14px 12px; }
@@ -3683,7 +3683,7 @@ button:focus-visible, .row-card:focus-visible, .simple-opt:focus-visible,
 .proj-grafico__eixo-y { position: relative; width: 26px; flex: 0 0 auto; }
 .proj-grafico__rotulo {
   position: absolute; right: 0; transform: translateY(-50%);
-  font-size: 13px; font-weight: 600; color: var(--ink-soft); line-height: 1; opacity: 0;
+  font-size: 15px; font-weight: 500; color: #8A8580; line-height: 1; opacity: 0;
 }
 .proj-grafico__rotulo:nth-child(1) { top: 0; }
 .proj-grafico__rotulo:nth-child(2) { top: 33.333%; }
@@ -3711,17 +3711,17 @@ button:focus-visible, .row-card:focus-visible, .simple-opt:focus-visible,
 }
 .proj-grafico__balao {
   position: absolute; right: -16px; top: 18px;
-  background: #2B1A10; color: #fff; border-radius: 12px; padding: 10px 14px;
-  font-size: 15px; line-height: 1.3; text-align: center; white-space: nowrap;
+  background: #2B211D; color: #fff; border-radius: 14px; padding: 12px 16px;
+  font-size: 17px; line-height: 1.3; text-align: center; white-space: nowrap;
   box-shadow: 0 6px 18px rgba(43,26,16,0.22);
 }
 .proj-grafico__balao b { font-weight: 700; }
 .proj-grafico__balao::before {
   content: ""; position: absolute; top: -7px; right: 16px;
-  border: 7px solid transparent; border-top: 0; border-bottom-color: #2B1A10;
+  border: 7px solid transparent; border-top: 0; border-bottom-color: #2B211D;
 }
 .proj-grafico__eixo-x { display: flex; justify-content: space-between; margin: 12px 0 0 36px; }
-.proj-grafico__data { font-size: 13px; color: var(--ink-soft); opacity: 0; }
+.proj-grafico__data { font-size: 15px; color: #8A8580; opacity: 0; }
 /* Animação (só com a classe .animado, que o JS recoloca a cada abertura). */
 .proj-grafico.animado .proj-grafico__curva { animation: projTraco 4.6s forwards; animation-delay: .5s; }
 .proj-grafico.animado .proj-grafico__sombra { animation: projAparece 4.6s forwards; animation-delay: .5s; }
@@ -3746,7 +3746,7 @@ button:focus-visible, .row-card:focus-visible, .simple-opt:focus-visible,
   }
   .proj-grafico .proj-grafico__curva { stroke-dashoffset: 0; }
 }
-.proj-nota { font-size: 13px; line-height: 1.45; color: var(--ink-soft); margin: 14px 0 0; text-align: left; }
+.proj-nota { font-size: 15px; line-height: 1.45; color: #7C7670; margin: 16px 0 0; text-align: left; }
 .proj-citacao {
   display: flex; gap: 14px; align-items: flex-start;
   background: var(--bg-lift); border-radius: 20px; padding: 22px 18px; margin: 18px 0 8px;
@@ -3756,7 +3756,7 @@ button:focus-visible, .row-card:focus-visible, .simple-opt:focus-visible,
   color: var(--ink); margin-top: 12px; flex: 0 0 auto;
 }
 .proj-citacao__texto p {
-  font-family: Georgia, 'Times New Roman', serif; font-style: italic; font-size: 17px; line-height: 1.5;
+  font-family: Georgia, 'Times New Roman', serif; font-style: italic; font-size: 19px; line-height: 1.5;
   color: var(--ink); margin: 0 0 12px;
 }
 .proj-citacao__texto p:last-child { margin-bottom: 0; }
@@ -5164,7 +5164,14 @@ body:has(#s1.screen.active) .progress { display: none; }
    A secao ocupa a altura que sobra da dobra — header, os 8px da .wrap, os
    24px de baixo dela e os 20px da propria secao — pra foto encostar embaixo
    sem criar rolagem. A foto e absoluta e fica DENTRO da secao por isso. */
-#s3 { position: relative; box-sizing: border-box; min-height: calc(100svh - var(--h-cabecalho, 62px) - 52px); }
+/* A secao vai ate o pe da pagina (sem o padding de 20px da tela nem os 24px do
+   .wrap) pra foto, que e absolute com bottom:0, encostar as pernas no fim da
+   tela em vez de ficar "voando" 44px acima. */
+#s3 { position: relative; box-sizing: border-box; min-height: calc(100svh - var(--h-cabecalho, 62px) - 8px); }
+#s3.screen.active { padding-bottom: 0; }
+body:has(#s3.screen.active) .wrap { padding-bottom: 0; }
+/* A foto sangra 56px pela direita: sem isto a pagina ganha rolagem lateral. */
+html:has(#s3.screen.active), body:has(#s3.screen.active) { overflow-x: hidden; }
 /* 68% e nao os 58% da referencia: em 375px os cartoes ficavam com 199px e
    pareciam espremidos. A foto desce um pouco (56svh) pra cabeca da mulher
    nao entrar atras do segundo cartao. */
@@ -5191,12 +5198,20 @@ body:has(#s1.screen.active) .progress { display: none; }
   background: var(--ink) url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'><path d='M6 12.5l4 4 8-8'/></svg>") center / 14px no-repeat;
 }
 .s3-foto {
-  position: absolute; right: -16px; bottom: 0;
-  height: min(56svh, 500px); width: auto; max-width: 70%;
+  /* Maior e mais pra direita: o cabelo sangra pela borda e o rosto fica a
+     direita dos cartoes (que param em 68%), sem cobrir nada. */
+  position: absolute; right: -56px; bottom: 0;
+  height: min(66svh, 600px); width: auto; max-width: none;
   object-fit: contain; object-position: right bottom;
   pointer-events: none; user-select: none;
 }
-@media (max-height: 660px) { .s3-foto { height: 54svh; } }
+@media (max-height: 660px) { .s3-foto { height: 62svh; } }
+/* Entrada da mulher como a imagem grande das telas informativas da BetterMe
+   (medido no site: sobe 200px em 0,3s e aparece em 0,5s, comecando 0,5s
+   depois do texto). Preso ao .active, nao ao .entering, porque o .entering
+   some em 0,52s e mataria uma animacao que so comeca em 0,5s. */
+#s3.screen.active .s3-foto { animation: telaSobe .3s linear .5s both, telaMostra .5s linear .5s both; }
+@media (prefers-reduced-motion: reduce) { #s3.screen.active .s3-foto { animation: none; } }
 
 /* ═══ Telas de informacao (3n / 3s) ══════════════════════════════════════
    Desenho da referencia: titulo a esquerda, dois paragrafos, foto grande em
@@ -5333,7 +5348,7 @@ body:has(#s1.screen.active) .progress { display: none; }
 }
 .raspa-veu.ativo { animation: raspaVeu 1s ease forwards; pointer-events: auto; }
 @keyframes raspaVeu { to { opacity: 1; transform: scale(1); } }
-.raspa { position: relative; z-index: 201; width: 100%; max-width: 330px; height: 330px; margin: 0 auto; border-radius: 22px; }
+.raspa { position: relative; z-index: 201; width: 100%; max-width: 300px; height: 330px; margin: 0 auto; border-radius: 22px; }
 .cupom {
   position: relative; height: 100%; display: flex; flex-direction: column;
   background: #5B4A42; border-radius: 22px; color: #fff;
@@ -5368,21 +5383,31 @@ body:has(#s1.screen.active) .progress { display: none; }
 .raspa__capa { position: absolute; inset: 0; z-index: 5; width: 100%; height: 100%; border-radius: 22px; touch-action: none; cursor: pointer; display: block; }
 /* Depois de revelar, a capa some de vez (o JS tambem esconde; isto e o cinto). */
 .raspa.revelada .raspa__capa { display: none; }
+/* Capa (preview da BetterMe): titulo claro no alto e a dica animada — o
+   rastro branco a 20% se desenha (dashoffset 700 → 0) enquanto a mao segue o
+   mesmo zigue-zague; os dois em 3s, repetindo ate o primeiro toque. */
 .raspa__dica {
   position: absolute; inset: 0; z-index: 6; pointer-events: none;
-  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 22px;
-  text-align: center; transition: opacity .3s;
+  display: flex; flex-direction: column; align-items: center; justify-content: flex-start; gap: 18px;
+  padding: 36px 20px 0; text-align: center; transition: opacity .3s;
 }
 .raspa__dica.some { opacity: 0; }
-.raspa__dica-texto { font-size: 22px; font-weight: 700; color: #3d2b1f; line-height: 1.25; }
-.raspa__mao { font-size: 40px; line-height: 1; animation: raspaMao 3s linear infinite; }
+.raspa__dica-texto { font-size: 22px; font-weight: 700; color: #fff; line-height: 1.25; }
+.raspa__dica-svg { width: 210px; height: auto; margin-bottom: -50px; overflow: visible; }
+.raspa__trilha {
+  stroke: rgba(255,255,255,0.2); stroke-width: 20; fill: none;
+  stroke-dasharray: 700; stroke-dashoffset: 700;
+  animation: raspaTrilha 3s linear infinite;
+}
+.raspa__mao { transform-origin: center; filter: drop-shadow(0 4px 4px rgba(3,6,13,0.28)); animation: raspaMao 3s linear infinite; }
+@keyframes raspaTrilha { 0% { stroke-dashoffset: 700; } 90%, 100% { stroke-dashoffset: 0; } }
 @keyframes raspaMao {
-  0%   { transform: translate(-10px, -85px) rotate(0deg); }
-  10%  { transform: translate(-45px, -55px) rotate(10deg); }
-  23%  { transform: translate(50px, -75px) rotate(-10deg); }
-  44%  { transform: translate(-70px, -10px) rotate(10deg); }
-  72%  { transform: translate(110px, -45px) rotate(20deg); }
-  90%, 100% { transform: translate(0, 0) rotate(0deg); }
+  0%   { transform: translate3d(-10px, -85px, 0) rotate(0deg); }
+  10%  { transform: translate3d(-45px, -55px, 0) rotate(10deg); }
+  23%  { transform: translate3d(50px, -75px, 0) rotate(-10deg); }
+  44%  { transform: translate3d(-70px, -10px, 0) rotate(10deg); }
+  72%  { transform: translate3d(110px, -45px, 0) rotate(20deg); }
+  90%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
 }
 /* "Aplicado..." + relógio ficam presos no pé da tela, fora do fluxo (na
    BetterMe o timerSection também é posicionado embaixo): assim a tela não
@@ -5399,7 +5424,7 @@ body:has(#s1.screen.active) .progress { display: none; }
 .raspa-timer__trilho { fill: rgba(255,255,255,0.25); stroke: none; }
 .raspa-timer__anel { fill: none; stroke: #fff; stroke-width: 3; stroke-linecap: round; transition: stroke-dashoffset 1s linear; }
 .raspa-timer__num { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: 700; color: #fff; }
-@media (prefers-reduced-motion: reduce) { .raspa__mao { animation: none; } .raspa-veu.ativo { animation: none; opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .raspa__mao, .raspa__trilha { animation: none; } .raspa__trilha { stroke-dashoffset: 0; } .raspa-veu.ativo { animation: none; opacity: 1; transform: none; } }
 @media (max-height: 700px) {
   .raspa { height: 300px; }
   .cupom__topo { height: 200px; }

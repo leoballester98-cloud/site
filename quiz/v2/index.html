@@ -56,7 +56,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"/>
-  <link rel="stylesheet" href="quiz-warm.css?v=435"/>
+  <link rel="stylesheet" href="quiz-warm.css?v=441"/>
 
   <!-- Anti-flicker do teste A/B.
        O script que troca a headline mora no fim do <body>, então num aparelho
@@ -326,7 +326,7 @@
       <button class="simple-opt simple-opt--radio" data-val="sim" data-next="s3s">Sim</button>
       <button class="simple-opt simple-opt--radio" data-val="ainda-nao" data-next="s3n">Ainda não</button>
     </div>
-    <img class="s3-foto" src="Images/perfil-mulher.webp" alt="" decoding="async" loading="lazy"/>
+    <img class="s3-foto" src="Images/s3-gravida.webp" alt="" decoding="async" loading="lazy"/>
   </section>
 
   <!-- ═══════ 3n / 3s. INFORMAÇÃO APÓS A RAMIFICAÇÃO ═══════
@@ -848,6 +848,27 @@
   </section>
 
   <!-- ═══════ 27. PROJEÇÃO ═══════ -->
+  <!-- ═══════ 28. PROJEÇÃO ═══════ -->
+  <!-- Telas 28a/28b: e-mail e nome, molde BetterMe. Entram em `answers`
+       (email, nome) e vao junto com o resto em enviarRespostas(). -->
+  <section class="screen" id="s28a" data-step="47" data-section="" data-icon="" data-campo="email">
+    <h2 class="q-title-lg cadastro__titulo">Digite seu e-mail para receber seu <span class="cadastro__destaque">Plano Ciclo Fértil</span> personalizado e engravidar</h2>
+    <div class="cadastro__caixa">
+      <input class="cadastro__email" id="campoEmail" type="email" inputmode="email" autocomplete="email" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="O seu Email" aria-label="O seu e-mail"/>
+    </div>
+    <p class="cadastro__privacidade">
+      <svg class="cadastro__cadeado" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" fill="currentColor"/><path d="M7 11V7a5 5 0 0 1 10 0v4" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>
+      <span>Respeitamos sua privacidade e estamos comprometidos em proteger seus dados pessoais. Seus dados serão processados de acordo com nossa <a href="privacidade.html" target="_blank" rel="noopener">Política de Privacidade</a>.</span>
+    </p>
+  </section>
+
+  <section class="screen" id="s28b" data-step="48" data-section="" data-icon="" data-campo="nome">
+    <h2 class="q-title-lg cadastro__titulo cadastro__titulo--centro">Qual é o seu nome?</h2>
+    <div class="cadastro__nome-caixa">
+      <input class="cadastro__nome" id="campoNome" type="text" autocomplete="given-name" autocapitalize="words" placeholder="Nome" aria-label="Seu nome" maxlength="40"/>
+    </div>
+  </section>
+
   <section class="screen" id="s27" data-step="32" data-section="" data-icon="" data-cta="hidden">
     <h1 class="q-title-lg analise__titulo">Analisando suas respostas</h1>
     <!-- Cinco barras, uma por bloco do quiz, que enchem uma de cada vez
@@ -873,7 +894,6 @@
     </div>
   </section>
 
-  <!-- ═══════ 28. PROJEÇÃO ═══════ -->
   <section class="screen" id="s28" data-step="33" data-section="Detalhes Pessoais" data-icon="person">
     <h2 class="q-title-lg proj__titulo">O plano que finalmente vai ajudar você a engravidar</h2>
     <p class="q-sub proj__sub">Estimamos que você poderá ter <b>alta chance de positivo</b> até <b><span id="projTargetLongo">—</span></b><sup class="proj__ast">*</sup></p>
@@ -907,7 +927,7 @@
             </defs>
             <!-- A opacidade animada fica no <g>; a do path (0.2) e a cor final da sombra, como na BetterMe. -->
             <g class="proj-grafico__sombra"><path d="M301 0.994171C188 1 216.666 57.411 135.5 83.5C51.5 110.5 24.5 159.5 2 167L0 167V169H303V0.994171H301Z" fill="url(#projSombra)" opacity="0.2"/></g>
-            <path class="proj-grafico__curva" d="M2 169C24.5 161.5 51.5 112.5 135.5 85.5C216.666 59.411 188 3 301 2.99417" fill="none" stroke="url(#projLinha)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+            <path class="proj-grafico__curva" d="M2 169C24.5 161.5 51.5 112.5 135.5 85.5C216.666 59.411 188 3 301 2.99417" fill="none" stroke="url(#projLinha)" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
           <div class="proj-grafico__meta">
             <span class="proj-grafico__bola"></span>
@@ -933,26 +953,6 @@
   </section>
 
   <!-- ═══════ 30. PRICING ═══════ -->
-  <!-- Telas 28a/28b: e-mail e nome, molde BetterMe. Entram em `answers`
-       (email, nome) e vao junto com o resto em enviarRespostas(). -->
-  <section class="screen" id="s28a" data-step="47" data-section="" data-icon="" data-campo="email">
-    <h2 class="q-title-lg cadastro__titulo">Digite seu e-mail para receber seu <span class="cadastro__destaque">Plano Ciclo Fértil</span> personalizado e engravidar</h2>
-    <div class="cadastro__caixa">
-      <input class="cadastro__email" id="campoEmail" type="email" inputmode="email" autocomplete="email" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="O seu Email" aria-label="O seu e-mail"/>
-    </div>
-    <p class="cadastro__privacidade">
-      <svg class="cadastro__cadeado" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" fill="currentColor"/><path d="M7 11V7a5 5 0 0 1 10 0v4" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>
-      <span>Respeitamos sua privacidade e estamos comprometidos em proteger seus dados pessoais. Seus dados serão processados de acordo com nossa <a href="privacidade.html" target="_blank" rel="noopener">Política de Privacidade</a>.</span>
-    </p>
-  </section>
-
-  <section class="screen" id="s28b" data-step="48" data-section="" data-icon="" data-campo="nome">
-    <h2 class="q-title-lg cadastro__titulo cadastro__titulo--centro">Qual é o seu nome?</h2>
-    <div class="cadastro__nome-caixa">
-      <input class="cadastro__nome" id="campoNome" type="text" autocomplete="given-name" autocapitalize="words" placeholder="Nome" aria-label="Seu nome" maxlength="40"/>
-    </div>
-  </section>
-
   <!-- Tela 29: cartao de desconto raspavel, no molde da BetterMe. O cupom fica
        embaixo de um canvas cinza; o dedo apaga o canvas. Regras e tempos vieram
        do codigo deles (ver iniciarRaspadinha): revela ao raspar um pouco, a capa
@@ -982,9 +982,14 @@
         </div>
       </div>
       <canvas class="raspa__capa" id="raspaCapa" aria-label="Raspe para revelar o desconto"></canvas>
+      <!-- Capa: titulo claro e a dica animada da BetterMe (rastro de raspagem
+           + mao), desenho e trajeto copiados do SVG deles (211x183). -->
       <div class="raspa__dica" id="raspaDica" aria-hidden="true">
-        <span class="raspa__dica-texto">Raspe aqui para revelar<br>o seu desconto</span>
-        <span class="raspa__mao">☝️</span>
+        <span class="raspa__dica-texto">Raspe para revelar<br>o seu desconto</span>
+        <svg class="raspa__dica-svg" viewBox="0 0 211 183" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path class="raspa__trilha" stroke-linecap="round" d="M 80 10 L 42.98 37.97 Q 35 44, 44.77 41.87 L 135.23 22.13 Q 145 20, 136.13 24.63 L 15.87 87.37 Q 7 92, 16.78 89.92 L 195.22 52.08 Q 205 50, 195.74 53.78 L 80 101"/>
+          <g class="raspa__mao"><path fill="#fff" d="M130.659 130.448C129.971 127.065 128.93 123.726 127.923 120.496C127.483 119.085 127.029 117.627 126.612 116.191C126.534 115.92 126.459 115.64 126.385 115.357C125.911 113.56 125.322 111.322 123.079 110.483C120.768 109.62 118.229 110.803 117.174 113.235C117.158 113.273 117.136 113.324 117.012 113.333C116.822 113.35 116.617 113.241 116.548 113.132C115.571 111.578 113.818 110.708 111.977 110.866C110.136 111.022 108.555 112.176 107.851 113.876C107.774 114.061 107.612 114.212 107.455 114.243C107.388 114.256 107.305 114.254 107.193 114.14C106.183 113.107 104.799 112.613 103.291 112.754C101.645 112.906 100.127 113.795 99.2293 115.135C99.1089 115.314 98.9134 115.353 98.7823 115.332C98.5727 115.299 98.5276 115.134 98.5115 115.078C97.4681 111.373 96.4204 107.601 95.4071 103.952L94.9139 102.177C94.8376 101.901 94.7678 101.62 94.6968 101.339C94.2993 99.7428 93.848 97.9347 92.1491 96.8707C90.3374 95.7367 88.0142 95.7098 86.2315 96.8007C84.7411 97.7096 83.3378 99.5694 83.5624 101.679C83.7042 102.994 84.1738 104.311 84.6272 105.585C84.8185 106.121 84.999 106.629 85.1506 107.121C86.4142 111.239 87.6876 115.355 88.962 119.47C89.2252 120.319 89.4917 121.169 89.7582 122.018C90.9123 125.695 92.1061 129.499 92.9883 133.308C93.0227 133.455 92.9486 133.659 92.8196 133.773C92.7186 133.862 92.6488 133.846 92.5897 133.825L91.3486 133.366C89.9355 132.843 88.5236 132.32 87.1116 131.799C86.7463 131.663 86.3508 131.49 85.9328 131.306C84.7788 130.799 83.47 130.222 82.217 130.222C80.6579 130.222 79.1277 131.23 78.411 132.728C77.5277 134.565 78.0865 136.466 79.9433 137.945C81.4949 139.18 83.1207 140.376 84.6928 141.531C85.5739 142.178 86.4841 142.848 87.3673 143.514C89.7475 145.308 92.3307 147.201 95.0848 148.895C100.597 152.284 105.44 153.893 110.188 153.893C110.689 153.893 111.191 153.875 111.692 153.839C117.472 153.425 123.069 150.595 126.664 146.269C130.269 141.931 131.726 136.168 130.66 130.448H130.659Z"/></g>
+        </svg>
       </div>
     </div>
 
@@ -1049,11 +1054,11 @@
                Barra aqui era o mesmo dado duas vezes. -->
           <div class="compare-stat">
             <div class="compare-stat__label">Índice IQO</div>
-            <div class="compare-stat__value" id="priceIqoNow">35/100</div>
+            <div class="compare-stat__value" id="priceIqoNow">Baixo</div>
           </div>
           <div class="compare-stat">
             <div class="compare-stat__label">Índice IQO</div>
-            <div class="compare-stat__value">88/100</div>
+            <div class="compare-stat__value">Excelente</div>
           </div>
         </div>
         <div class="compare__linha">
@@ -1238,8 +1243,7 @@
         <div class="prova__premio-txt">
           <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.4 12.7c0-2.1 1.7-3.1 1.8-3.2-1-1.4-2.5-1.6-3-1.7-1.3-.1-2.5.8-3.2.8-.7 0-1.6-.8-2.7-.7-1.4 0-2.7.8-3.4 2-1.4 2.5-.4 6.2 1 8.3.7 1 1.5 2.1 2.5 2.1 1 0 1.4-.7 2.6-.7 1.2 0 1.5.7 2.6.6 1.1 0 1.8-1 2.4-2 .8-1.2 1.1-2.3 1.1-2.3s-2.1-.8-2.1-3.2zM14.3 5.6c.5-.7.9-1.6.8-2.6-.8 0-1.9.6-2.4 1.3-.5.6-1 1.6-.9 2.5.9.1 1.9-.5 2.5-1.2z"/></svg>
           <b>APP DO DIA</b>
-          <!-- DADO: alcance e data do premio -->
-          <span>em — países · —</span>
+          <span>em mais de 20 países</span>
         </div>
         <svg class="prova__louro prova__louro--dir" viewBox="0 0 328 664" fill="currentColor" aria-hidden="true"><use href="#louroSimbolo"/></svg>
       </div>
@@ -2703,13 +2707,13 @@ function iniciarRaspadinha() {
   canvas.width = Math.round(W * dpr); canvas.height = Math.round(H * dpr);
   const ctx = canvas.getContext('2d');
   ctx.scale(dpr, dpr);
-  // Capa: cinza metalico com listras suaves.
-  const grad = ctx.createLinearGradient(0, 0, W, H);
-  grad.addColorStop(0, '#DDD8D0'); grad.addColorStop(0.5, '#C8C2B9'); grad.addColorStop(1, '#DAD4CC');
-  ctx.fillStyle = grad; ctx.fillRect(0, 0, W, H);
-  ctx.globalAlpha = 0.18; ctx.strokeStyle = '#FFFFFF'; ctx.lineWidth = 6;
-  for (let x = -H; x < W + H; x += 26) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x + H, H); ctx.stroke(); }
-  ctx.globalAlpha = 1;
+  // Capa: o mesmo marrom do cupom com a moldura interna, como o "preview"
+  // da BetterMe; raspando, o texto e a caixa do codigo aparecem por baixo.
+  ctx.fillStyle = '#5B4A42'; ctx.fillRect(0, 0, W, H);
+  ctx.strokeStyle = 'rgba(255,255,255,0.16)'; ctx.lineWidth = 1;
+  ctx.beginPath();
+  if (ctx.roundRect) ctx.roundRect(8.5, 8.5, W - 17, H - 17, 16); else ctx.rect(8.5, 8.5, W - 17, H - 17);
+  ctx.stroke();
   const est = raspaEstado = { ativo: true, timers: [], raspando: false, ult: null, moves: 0, revelado: false };
   const RAIO = 25, LIMIAR = 0.08;
   const apagar = (x, y, x0, y0) => {
@@ -2996,9 +3000,13 @@ function showIQO() {
   // window.__iqo já foi salvo com o valor raw no início da função
 }
 
+function palavraIQO(n) {
+  return n < 25 ? 'Muito baixo' : n < 45 ? 'Baixo' : n < 68 ? 'Médio' : n < 85 ? 'Bom' : 'Excelente';
+}
 function syncPriceCompare() {
   const nlc = getDisplayIQO();
-  document.getElementById('priceIqoNow').textContent = nlc + '/100';
+  /* Como na referencia: palavra em vez de numero ("Muito baixo" -> "Excelente"). */
+  document.getElementById('priceIqoNow').textContent = palavraIQO(nlc);
   // Qualidade da ovulação: alinhada com faixas do IQO. A barra agora tem tres
   // segmentos, entao o que muda e quantos acendem, nao a largura.
   const qualEl  = document.getElementById('priceQualidadeNow');

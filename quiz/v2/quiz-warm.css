@@ -6,7 +6,7 @@
    navegador engordando o 600 na marra, que borra a letra. Carregar o 700 real
    limpa isso em todo lugar que já pedia 700. O 800 entra pro título das
    variantes longas; o eixo do DM Sans trava aí, 900 desenha igual ao 800. */
-@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;900&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap');
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -155,7 +155,9 @@ body {
 .wrap {
   max-width: 560px;
   margin: 0 auto;
-  padding: 100px 18px 0;
+  /* 75 = 22px de respiro + 67 do cabecalho - 14 (margem do titulo + meia
+     entrelinha). O vao acima do titulo tem que bater com o de baixo. */
+  padding: 75px 18px 0;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -184,11 +186,11 @@ body {
    TYPOGRAPHY
    ════════════════════════════════════════════════════ */
 .q-title {
-  font-family: 'Barlow Condensed', sans-serif;
+  font-family: 'DM Sans', system-ui, -apple-system, sans-serif;
   font-size: 24px;
   font-weight: 800;
   line-height: 1.18;
-  letter-spacing: 0;
+  letter-spacing: -0.02em;
   color: var(--ink);
   margin: 12px auto 20px;
   text-align: center;
@@ -196,11 +198,11 @@ body {
   max-width: 22ch;
 }
 .q-title-lg {
-  font-family: 'Barlow Condensed', sans-serif;
+  font-family: 'DM Sans', system-ui, -apple-system, sans-serif;
   font-size: 28px;
   font-weight: 800;
   line-height: 1.12;
-  letter-spacing: 0;
+  letter-spacing: -0.025em;
   color: var(--ink);
   margin: 12px auto 16px;
   text-align: center;
@@ -1481,12 +1483,12 @@ body {
   line-height: 1.5;
 }
 .loading-bigtitle {
-  font-family: 'Barlow Condensed', sans-serif;
+  font-family: 'DM Sans', system-ui, -apple-system, sans-serif;
   font-size: 20px;
   font-weight: 700;
   color: var(--ink);
   text-align: center;
-  letter-spacing: 0;
+  letter-spacing: -0.02em;
   line-height: 1.2;
   margin-bottom: 8px;
   opacity: 0;
@@ -2124,10 +2126,10 @@ body {
 
 /* Section heading */
 .section-heading {
-  font-family: 'Barlow Condensed', sans-serif;
+  font-family: 'DM Sans', system-ui, -apple-system, sans-serif;
   font-size: 22px;
   font-weight: 800;
-  letter-spacing: 0;
+  letter-spacing: -0.02em;
   color: var(--ink);
   margin: 32px 0 14px;
   text-align: left;
@@ -2423,7 +2425,8 @@ canvas#curveChart { width: 100%; }
 }
 
 @media (max-width: 480px) {
-  .wrap { padding: 92px 16px 24px; }
+  /* cabecalho de 57px aqui, nao 67: 22 + 57 - 14 = 65 */
+  .wrap { padding: 65px 16px 24px; }
   .header__inner { padding: 10px 14px; height: 52px; }
   .header__back { width: 36px; height: 36px; left: 8px; }
   .header__step { font-size: 11px; }
@@ -2826,30 +2829,6 @@ button:focus-visible, .row-card:focus-visible, .simple-opt:focus-visible,
   background-clip: text;
   color: transparent;
 }
-/* Os dois numeros */
-.prova__numeros {
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
-  gap: 26px;
-}
-.prova__num { max-width: 47%; }
-.prova__num b {
-  display: block;
-  font-size: 30px;
-  font-weight: 800;
-  line-height: 1;
-  color: var(--ink);
-  letter-spacing: -0.03em;
-  font-variant-numeric: tabular-nums;
-}
-.prova__num span {
-  display: block;
-  font-size: 12.5px;
-  color: var(--ink-soft);
-  margin-top: 6px;
-  line-height: 1.3;
-}
 /* Faixa do premio, entre os louros */
 .prova__premio {
   display: flex;
@@ -3137,14 +3116,6 @@ button:focus-visible, .row-card:focus-visible, .simple-opt:focus-visible,
   line-height: 1.4;
 }
 
-/* Os titulos de secao da tela de preco saem da condensada e vao pra fonte do
-   resto da tela — a mesma do timer, dos cards e dos botoes. A Barlow
-   Condensed ficava estreita demais ao lado deles, como se fosse de outra
-   pagina. Vale so na s30; o resto do quiz continua com ela. */
-#s30 .section-heading {
-  font-family: 'DM Sans', system-ui, -apple-system, sans-serif;
-  letter-spacing: -0.02em;
-}
 
 .phones-dots {
   display: flex;
@@ -3585,7 +3556,7 @@ button:focus-visible, .row-card:focus-visible, .simple-opt:focus-visible,
   /* Quiz fica centrado como coluna de app (estilo phone) */
   .wrap {
     max-width: 560px;
-    padding: 80px 24px 24px;
+    padding: 75px 24px 24px;
     margin: 0 auto;
   }
 
@@ -3730,7 +3701,7 @@ button:focus-visible, .row-card:focus-visible, .simple-opt:focus-visible,
 }
 
 @media (min-width: 1280px) {
-  .wrap { max-width: 580px; padding-top: 70px; }
+  .wrap { max-width: 580px; padding-top: 75px; }
   body.screen--sales .wrap { max-width: 760px; }
   body:has(#s1.active) .wrap { max-width: 860px; }
   .header__inner { max-width: 580px; }
@@ -4392,15 +4363,15 @@ body.marca-na-tela-1:has(#s1.screen.active) .wrap {
   -webkit-box-decoration-break: clone;
   box-decoration-break: clone;
 }
-/* O destaque troca de FAMÍLIA, não de peso. O eixo de peso do DM Sans é curto:
-   ele trava em 800, e 700 → 800 muda a largura do texto em 1% — invisível num
-   título. A Barlow Condensed 900 é a display que o quiz já usa (e já baixa),
-   então o contraste vem de graça e continua dentro da identidade.
-   O 1.12em compensa a óptica: condensada desenha menor no mesmo corpo. */
+/* O destaque trocava de FAMÍLIA — ia pra Barlow Condensed 900. Com todos os
+   títulos em DM Sans isso deixou de contrastar com coisa nenhuma. O eixo de
+   peso da DM Sans trava em 800, então o reforço vem do -webkit-text-stroke,
+   o mesmo recurso ja usado no <b> da s1-alt: engorda a letra alem do que a
+   fonte entrega. O <u> ja tem o sublinhado marrom e o <mark> a tarja, entao
+   aqui o sinal precisa ser so peso. */
 #s1.s1-hlonga h1#h1Var b {
-  font-family: 'Barlow Condensed', 'DM Sans', system-ui, sans-serif;
-  font-weight: 900;
-  font-size: 1.12em;
+  font-weight: 800;
+  -webkit-text-stroke: 0.45px currentColor;
   letter-spacing: .005em;
   color: var(--cta);
 }

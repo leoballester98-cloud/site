@@ -56,7 +56,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"/>
-  <link rel="stylesheet" href="quiz-warm.css?v=383"/>
+  <link rel="stylesheet" href="quiz-warm.css?v=384"/>
 
   <!-- Anti-flicker do teste A/B.
        O script que troca a headline mora no fim do <body>, então num aparelho
@@ -69,10 +69,14 @@
        tráfego normal não paga nada por isso. O timeout é rede de segurança —
        se o script lá embaixo quebrar, o título volta em 1s em vez de ficar
        invisível para sempre. -->
-  <style>html.ab-espera #h1Var, html.ab-espera #subVar { visibility: hidden; }</style>
+  <style>html.ab-espera #h1Var, html.ab-espera #subVar, html.ab-espera #s1 .age-intro { visibility: hidden; }</style>
   <script>
   (function () {
-    if (!/[?&]ab=[^&]/.test(location.search)) return;
+    /* Vale pro ?h= tambem, nao so pro ?ab=: as telas 6, 7 e 8 trocam o titulo,
+       a foto e a lista de idade, e entre a primeira pintura e o script la
+       embaixo a tela 1 original piscava inteira (mulher gravida, faixas
+       brancas) antes de virar o molde. O finally do script remove a classe. */
+    if (!/[?&](ab|h)=[^&]/.test(location.search)) return;
     var raiz = document.documentElement;
     raiz.className += ' ab-espera';
     setTimeout(function () { raiz.classList.remove('ab-espera'); }, 1000);
@@ -1410,7 +1414,12 @@
 </div>
 
 <!-- STICKY FOOTER CTA -->
-<div class="footer-cta" id="footerCTA">
+<!-- Nasce escondido: a tela 1 nao tem botao CONTINUAR (data-cta="hidden"), e o
+     updateChrome so roda depois do script la embaixo. Sem isso, entre a
+     primeira pintura e o script a barra marrom aparecia no pe da pagina e
+     sumia — um botao fantasma a cada atualizacao. O JS sempre grava
+     style.display por cima, entao o valor inicial so vale ate ele rodar. -->
+<div class="footer-cta" id="footerCTA" style="display:none">
   <div class="footer-cta__inner">
     <button class="btn-primary" id="primaryBtn">CONTINUAR</button>
     <button class="skip-link" id="skipLink" style="display:none;">PULAR ESTA PERGUNTA</button>

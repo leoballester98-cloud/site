@@ -5250,3 +5250,34 @@ body.marca-solta:has(#s1.screen.active) .header__inner::after {
 @media (max-width: 599px) {
   #s1.s1-t7 .t7-prova { margin-inline: -10px; }
 }
+
+/* Molde 8 — titulo menor e sem caixa alta. E o mais longo dos tres (cinco
+   linhas no celular), e em maiusculas de 19px virava um bloco. 17px e caixa
+   normal; o selo URGENTE continua em maiusculas porque esta assim no texto.
+   Mesma especificidade das regras do molde (#s1.s1-alt h1#h1Var), entao os
+   cortes de altura e de desktop precisam ser repetidos aqui, no fim, senao
+   os deles ganhariam por ordem. */
+#s1.s1-t8 h1#h1Var { text-transform: none; font-size: clamp(17px, 4.5vw, 24px); }
+@media (min-width: 900px) { #s1.s1-t8 h1#h1Var { font-size: 30px; } }
+@media (min-width: 900px) and (max-height: 800px) { #s1.s1-t8 h1#h1Var { font-size: 24px; } }
+@media (max-height: 600px) { #s1.s1-t8 h1#h1Var { font-size: 15px; } }
+
+/* Molde 8 — mesma pilha da 7: comeca no topo com respiro fixo, termos colados
+   no botao e a sobra no pe da tela, em vez do space-evenly espalhar ~50px em
+   volta do titulo. A diferenca e o subtitulo entre o titulo e a prova: ele e
+   que da o respiro de baixo, entao o titulo fecha em 10px e o sub em 12. */
+#s1.s1-t8.active { justify-content: flex-start; }
+#s1.s1-t8.active > h1#h1Var { margin: 24px auto 10px; }
+#s1.s1-t8.active > p#subVar { margin-bottom: 12px; }
+#s1.s1-t8.active > .t-alt { margin-top: 0; }
+#s1.s1-t8.active > .terms { margin-top: 14px; }
+@media (min-width: 600px) {
+  #s1.s1-t8.active > h1#h1Var { margin: 14px auto 10px; }
+}
+
+/* Molde 8 — o selo sai da primeira linha e vira uma linha propria em cima do
+   titulo. Dentro da linha ele empurrava o texto e a caixa de 24ch fazia o
+   resto: 191/199/233/282px, uma piramide invertida. Solto (caixa livre e o
+   carimbo em cima) o titulo fecha em tres linhas parelhas: 283/247/282. */
+#s1.s1-t8 h1#h1Var { max-width: none !important; }
+#s1.s1-t8 h1#h1Var .t8-selo { display: block; width: max-content; margin: 0 auto 6px; }

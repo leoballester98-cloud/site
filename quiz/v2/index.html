@@ -56,7 +56,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"/>
-  <link rel="stylesheet" href="quiz-warm.css?v=379"/>
+  <link rel="stylesheet" href="quiz-warm.css?v=382"/>
 
   <!-- Anti-flicker do teste A/B.
        O script que troca a headline mora no fim do <body>, então num aparelho
@@ -1618,7 +1618,10 @@ const TELAS = {
        e gravada — entao pular nao quebra o funil, e a contagem de etapas
        continua a mesma das outras variantes. */
     grade: 'pular',
-    titulo: '<span class="t8-selo">URGENTE:</span> <mark>RITUAL DE 10 MINUTOS</mark> ESTÁ RELIGANDO A OVULAÇÃO E FAZENDO MULHERES ENGRAVIDAREM NA PRÓXIMA TENTATIVA',
+    /* Caixa alta so no selo: o resto vinha em maiusculas no proprio texto
+       (o CSS do molde tambem forcava), e em cinco linhas isso vira um bloco
+       que grita. O selo continua carimbo. */
+    titulo: '<span class="t8-selo">URGENTE:</span> <mark>Ritual de 10 minutos</mark> está religando a ovulação e fazendo mulheres engravidarem na próxima tentativa',
     /* O sub antigo trazia bloqueio fertil e protocolo, dois conceitos que o
        titulo nao tinha: eram quatro ideias (ritual, ovulacao, bloqueio,
        protocolo) em menos de 40 palavras. Agora ele repete as duas do titulo
@@ -1628,7 +1631,7 @@ const TELAS = {
        divisao ja desenhada dentro do arquivo. As imagens moram aqui porque sao
        o que mais vai ser trocado. */
     provas: ['Images/t8-prova-1.webp', 'Images/t8-prova-2.webp'],
-    micro: '👉 Clique no botão e complete o teste em 54 segundos —',
+    micro: '👉 Clique no botão e complete o teste',
     cta: 'FAZER TESTE GRÁTIS AGORA!'
   }
 };

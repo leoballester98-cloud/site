@@ -244,12 +244,19 @@ body {
   max-width: 42svh !important; /* imagem é quadrada — limita width via altura */
   object-fit: contain;
 }
+/* Transicao de tela no ritmo do BetterMe (medido no quiz deles): a tela que
+   sai clareia em 300ms; a que entra sobe 200px em 300ms enquanto aparece em
+   500ms, as duas com ease-in. O JS tira .entering aos 520ms. O translate nao
+   mexe no layout, entao os 200px nao criam rolagem. */
+.screen.saindo { opacity: 0; transition: opacity 0.3s ease-out; pointer-events: none; }
 .screen.entering {
-  animation: enterIn 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: telaSobe 0.3s ease-in both, telaMostra 0.5s ease-in both;
 }
-@keyframes enterIn {
-  0%   { opacity: 0; transform: translateY(12px); }
-  100% { opacity: 1; transform: translateY(0); }
+@keyframes telaSobe   { from { transform: translateY(200px); } to { transform: translateY(0); } }
+@keyframes telaMostra { from { opacity: 0; } to { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) {
+  .screen.entering { animation: none; }
+  .screen.saindo { transition: none; }
 }
 
 /* ════════════════════════════════════════════════════
@@ -5125,15 +5132,13 @@ body:has(#s25.active) .wrap { padding-bottom: 12px; }
   .perfil__valor { font-size: 14px; }
 }
 
-/* Setinha e hamburguer centrados na LINHA DO TITULO, nao na barra inteira
-   (titulo + progresso): com top:50% eles caiam 5px abaixo do texto. Na tela 1
-   com a marca (sem progresso) a barra e so a linha da marca, entao la o 50%
-   continua certo. */
-.header__back, .header__menu { top: 20px; }
-body.marca-solta:has(#s1.screen.active) .header__back,
-body.marca-solta:has(#s1.screen.active) .header__menu,
-body.marca-na-tela-1:has(#s1.screen.active) .header__back,
-body.marca-na-tela-1:has(#s1.screen.active) .header__menu { top: 50%; }
+/* Setinha e hamburguer no meio da BARRA INTEIRA (titulo + progresso), nao
+   da .header__inner, que e so a linha do titulo. A altura real da barra ja e
+   publicada em --h-cabecalho pelo JS (inclui o progresso e a borda), entao
+   a metade dela e o centro — e na tela 1 com a marca, sem progresso, a conta
+   da o mesmo 26px de sempre. Desconta o safe-area do iPhone em PWA, que
+   entra no offsetHeight mas fica acima da .header__inner. */
+.header__back, .header__menu { top: calc((var(--h-cabecalho, 52px) - env(safe-area-inset-top, 0px)) / 2); }
 
 /* Titulo da tela 25 centrado, com o mesmo respiro em cima e embaixo. */
 /* 12/20 e nao 12/12: medido, o titulo tem meia-entrelinha em cima e o cartao
@@ -5144,3 +5149,22 @@ body.marca-na-tela-1:has(#s1.screen.active) .header__menu { top: 50%; }
 @media (max-height: 660px) {
   #s25 .q-title-lg { margin: 8px auto 14px; }
 }
+
+/* Sem barra de progresso na tela 1, em qualquer versao dela (as variantes ja
+   escondiam; a original mostrava sete tracos vazios antes da primeira
+   resposta). A barra entra a partir da tela 2. A altura da barra muda com
+   isso, e a .wrap e os icones acompanham pelo --h-cabecalho. */
+body:has(#s1.screen.active) .progress { display: none; }
+
+/* Links dos termos: azul, sublinhados e um ponto maiores que o texto em
+   volta, como na referencia — o texto miudo e cinza; o link tem que parecer
+   link. Vale pra todas as versoes da tela 1 e pro rodape das outras. */
+.terms a, .terms a b {
+  color: #1D5BD6;
+  font-size: 1.1em;
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+}
+.terms a b { font-size: 1em; }

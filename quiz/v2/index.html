@@ -56,7 +56,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"/>
-  <link rel="stylesheet" href="quiz-warm.css?v=403"/>
+  <link rel="stylesheet" href="quiz-warm.css?v=407"/>
 
   <!-- Anti-flicker do teste A/B.
        O script que troca a headline mora no fim do <body>, então num aparelho
@@ -107,6 +107,7 @@
   <a href="privacidade.html" target="_blank">Política de Privacidade</a>
   <a href="reembolso.html" target="_blank">Política de Reembolso</a>
   <a href="mailto:contato@metodociclofertil.com.br">Falar com o suporte</a>
+  <a href="#" id="menuRecomecar">Recomeçar o quiz</a>
 </nav>
 
 <div class="wrap">
@@ -1349,6 +1350,87 @@ const scores = {};
 answers.libidoDays = 0; // s22 aceita 0 como resposta válida ("se não percebe, deixe 0")
 const history = ['s1'];
 
+/* ── Retomar de onde parou ───────────────────────────────────────────────
+   Toda troca de tela grava no localStorage a tela, o historico (pro voltar) e
+   as respostas. Ao abrir de novo — atualizar a pagina, fechar e voltar, ate em
+   outra aba — o quiz reabre na mesma tela, com as escolhas marcadas. Vale por
+   7 dias; depois recomeca do zero. "Recomecar o quiz", no menu, apaga.
+   Nao grava na tela 1 (nao ha o que retomar), e o pulo de retomada nao
+   dispara o ping de etapa: a pessoa nao "chegou" de novo nessa tela, so
+   voltou pra ela — contar de novo inflaria o funil. */
+const PROGRESSO_CHAVE = 'cf_progresso';
+const PROGRESSO_VALIDADE = 7 * 24 * 60 * 60 * 1000;
+let retomando = false;
+/* Depois de apagar, nada grava ate a pagina recarregar: o proprio clique em
+   "Recomecar" passava pelo gravador generico (setTimeout 0) e regravava o
+   progresso logo depois de apagado — a pagina voltava pra mesma tela. */
+let progressoApagado = false;
+function salvarProgresso(tela) {
+  if (tela === 's1' || progressoApagado) return;
+  try {
+    localStorage.setItem(PROGRESSO_CHAVE, JSON.stringify({
+      v: 1, tela: tela, history: history.slice(-40), answers: answers, scores: scores, t: Date.now()
+    }));
+  } catch (e) {}
+}
+function lerProgresso() {
+  try {
+    const raw = localStorage.getItem(PROGRESSO_CHAVE);
+    if (!raw) return null;
+    const p = JSON.parse(raw);
+    if (!p || p.v !== 1 || !p.tela || !document.getElementById(p.tela)) return null;
+    if (Date.now() - (p.t || 0) > PROGRESSO_VALIDADE) { localStorage.removeItem(PROGRESSO_CHAVE); return null; }
+    return p;
+  } catch (e) { return null; }
+}
+function apagarProgresso() { progressoApagado = true; try { localStorage.removeItem(PROGRESSO_CHAVE); } catch (e) {} }
+/* Grava tambem a cada resposta dada NA tela atual (clique, digitacao, data):
+   so gravar na troca de tela perdia o que a pessoa tinha acabado de digitar
+   se ela atualizasse antes de avancar. O setTimeout(0) deixa os handlers da
+   tela atualizarem `answers` antes de gravar. */
+['click', 'input', 'change'].forEach(function (ev) {
+  document.addEventListener(ev, function () {
+    setTimeout(function () {
+      const ativa = document.querySelector('.screen.active');
+      if (ativa) salvarProgresso(ativa.id);
+    }, 0);
+  }, true);
+});
+/* Remarca no DOM o que as respostas dizem: opcoes escolhidas, campos de digitar
+   e a data. Sem isso, voltar pra uma tela ja respondida mostrava tudo em branco
+   e o CONTINUAR das telas de multipla escolha ficava travado. */
+function restaurarSelecoes() {
+  Object.keys(answers).forEach(function (k) {
+    const sec = document.getElementById(k);
+    if (!sec) return;
+    const vals = Array.isArray(answers[k]) ? answers[k] : [answers[k]];
+    vals.forEach(function (v) {
+      sec.querySelectorAll('[data-val="' + String(v).replace(/"/g, '\\"') + '"]').forEach(function (el) {
+        const mapa = el.classList.contains('bodymap__pin') || el.classList.contains('bodymap__label');
+        el.classList.add(mapa ? 'active' : 'selected');
+      });
+    });
+  });
+  [['heightValue', 'cycleDays'], ['weightValue', 'periodDays'], ['targetValue', 'libidoDays']].forEach(function (par) {
+    const el = document.getElementById(par[0]);
+    if (!el || answers[par[1]] === undefined) return;
+    el.textContent = String(answers[par[1]]);
+    el.dataset.empty = 'false';
+    el.classList.remove('vazio');
+  });
+  if (answers.lastPeriodDate) {
+    const m = String(answers.lastPeriodDate).match(/^(\d{4})-(\d{2})-(\d{2})/);
+    if (m) {
+      const d = document.getElementById('dateDay'), mo = document.getElementById('dateMonth');
+      const y = document.getElementById('dateYear'), oc = document.getElementById('occasionDate');
+      if (d) d.value = m[3];
+      if (mo) mo.value = m[2];
+      if (y) y.value = m[1];
+      if (oc) oc.value = answers.lastPeriodDate;
+    }
+  }
+}
+
 /* Sessao guardada no sessionStorage: recarregar a pagina ou voltar pelo historico
    mantem o mesmo ID, igual o Clarity conta. Antes era gerado a cada carregamento,
    o que inflava o numero de visitantes no dashboard.
@@ -1957,13 +2039,32 @@ window.addEventListener('resize', () => {
   _reajuste = setTimeout(() => ajustarTitulo(document.querySelector('.screen.active')), 120);
 });
 
+/* Transicao de tela no ritmo do BetterMe, medido no quiz deles com
+   getAnimations(): a tela atual faz fade-out de 300ms (ease-out) e a nova
+   entra subindo 200px em 300ms com fade-in de 500ms (ease-in). A espera de
+   700ms entre o toque na opcao e o fade-out fica nos handlers de clique, pra
+   a pessoa ver a opcao marcada antes da tela ir embora. Com reduced-motion
+   nao ha fade, entao nao ha o que esperar. */
+const SAIDA_MS = (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) ? 0 : 300;
+let trocandoTela = false;
 function goToScreen(next) {
   // Se ainda não está tentando, s11 não faz sentido — pula para s12
   if (next === 's11' && answers.s3 === 'ainda-nao') next = 's12';
   const cur = document.querySelector('.screen.active');
   if (cur && cur.id === next) return;
-  document.querySelectorAll('.screen.active').forEach(s => s.classList.remove('active'));
-  showScreen(next);
+  if (trocandoTela) return;                     // toque duplo no meio da saida
+  if (!cur || SAIDA_MS === 0) {
+    document.querySelectorAll('.screen.active').forEach(s => s.classList.remove('active', 'saindo'));
+    showScreen(next);
+    return;
+  }
+  trocandoTela = true;
+  cur.classList.add('saindo');
+  setTimeout(() => {
+    document.querySelectorAll('.screen.active').forEach(s => s.classList.remove('active', 'saindo'));
+    trocandoTela = false;
+    showScreen(next);
+  }, SAIDA_MS);
 }
 
 function showScreen(id) {
@@ -1971,10 +2072,11 @@ function showScreen(id) {
   if (!el) return;
   if (id === 'svsl1') iniciarVSL();
   el.classList.add('active','entering');
-  setTimeout(() => el.classList.remove('entering'), 420);
+  setTimeout(() => el.classList.remove('entering'), 520);   // 500ms do fade-in
   ajustarTitulo(el);
   window.scrollTo({ top: 0, behavior: 'smooth' });
   if (history[history.length-1] !== id) history.push(id);
+  salvarProgresso(id);
   updateChrome(id);
   showFooter(id);
   /* Duas coisas diferentes que antes eram a mesma: o passo que a pessoa VE
@@ -1985,7 +2087,7 @@ function showScreen(id) {
      e o funil de antes e depois da VSL continua comparavel.
      Onde ela aparece no painel quem decide e a tabela `etapas` do Supabase,
      que poe o 36 na posicao 13.5 — entre a 13 e a 14. */
-  trackEtapa(el.dataset.etapa || el.dataset.step, id);
+  if (!retomando) trackEtapa(el.dataset.etapa || el.dataset.step, id);
 
   if (id === 's25') showIQO();
   if (id === 's27') startLoading();
@@ -2140,7 +2242,7 @@ document.querySelectorAll('.age-row, .row-card, .simple-opt').forEach(btn => {
     answers[section.id] = btn.dataset.val;
     if (btn.dataset.score !== undefined) scores[section.id] = parseInt(btn.dataset.score);
     const next = btn.dataset.next;
-    setTimeout(() => { if (next) goToScreen(next); else goNext(); }, 380);
+    setTimeout(() => { if (next) goToScreen(next); else goNext(); }, 700);   // ve a opcao marcada antes da tela sair
   });
 });
 
@@ -2159,7 +2261,7 @@ document.querySelectorAll('.multi-opt').forEach(btn => {
       answers[section.id] = btn.dataset.val;
       if (btn.dataset.score !== undefined) scores[section.id] = parseInt(btn.dataset.score);
       const next = btn.dataset.next;
-      setTimeout(() => { if (next) goToScreen(next); else goNext(); }, 380);
+      setTimeout(() => { if (next) goToScreen(next); else goNext(); }, 700);   // ve a opcao marcada antes da tela sair
     }
   });
 });
@@ -2858,11 +2960,26 @@ function startCountdown() {
 document.addEventListener('DOMContentLoaded', () => {
   // Atalho de preview: ?tela=s30 pula direto para a tela final
   const telaParam = new URLSearchParams(window.location.search).get('tela');
-  if (telaParam && document.getElementById(telaParam)) {
+  /* Progresso salvo: reabre onde parou, com respostas e historico de volta.
+     O ?tela= de preview ganha dele. */
+  const salvo = (telaParam && document.getElementById(telaParam)) ? null : lerProgresso();
+  const alvo = (telaParam && document.getElementById(telaParam)) ? telaParam
+             : (salvo && salvo.tela !== 's1') ? salvo.tela : null;
+  if (alvo) {
+    if (salvo) {
+      Object.assign(answers, salvo.answers || {});
+      Object.assign(scores, salvo.scores || {});
+      const h = Array.isArray(salvo.history) && salvo.history.length ? salvo.history : ['s1', salvo.tela];
+      history.length = 0;
+      h.forEach(function (x) { history.push(x); });
+      restaurarSelecoes();
+    }
     setTimeout(() => {
       document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-      document.getElementById(telaParam).classList.add('active');
-      if (typeof showScreen === 'function') showScreen(telaParam);
+      document.getElementById(alvo).classList.add('active');
+      retomando = !!salvo;
+      if (typeof showScreen === 'function') showScreen(alvo);
+      retomando = false;
     }, 100);
   } else {
     updateChrome('s1');
@@ -2989,6 +3106,9 @@ document.addEventListener('click', (e) => {
 (function(){
   var btn = document.getElementById('menuBtn');
   var menu = document.getElementById('menuQuiz');
+  /* Apaga o progresso salvo e recarrega: volta pra tela 1 limpa. */
+  var recomecar = document.getElementById('menuRecomecar');
+  if (recomecar) recomecar.addEventListener('click', function (e) { e.preventDefault(); apagarProgresso(); location.reload(); });
   if (!btn || !menu) return;
   function abrir(sim){
     menu.hidden = !sim;

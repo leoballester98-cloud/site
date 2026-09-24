@@ -1440,7 +1440,7 @@ function salvarProgresso(tela) {
   if (tela === 's1' || progressoApagado) return;
   try {
     localStorage.setItem(PROGRESSO_CHAVE, JSON.stringify({
-      v: 1, tela: tela, history: history.slice(-40), answers: answers, scores: scores, t: Date.now()
+      v: 1, tela: tela, history: history.slice(-150), answers: answers, scores: scores, t: Date.now()
     }));
   } catch (e) {}
 }
@@ -2034,7 +2034,10 @@ function updateChrome(screenId) {
       progresso.setAttribute('aria-valuenow', i + 1);
     }
   }
-  backBtn.disabled = history.length <= 1 || screenId === 's27' || screenId === 's30';
+  /* Nao depende do tamanho do historico: ele pode ter sido cortado ao salvar
+     (ou a pessoa entrou por ?tela=), e sem entrada anterior o voltar usa a
+     ordem das telas (telaAnterior). */
+  backBtn.disabled = screenId === 's1' || screenId === 's27' || screenId === 's30';
 }
 
 function showFooter(screenId) {
@@ -2317,15 +2320,33 @@ function goNext() {
   if (next) goToScreen(next);
 }
 
+/* Tela anterior pela ordem do documento, pulando o que o fluxo pula: a
+   analise (s27, roda sozinha), "ha quanto tempo tenta" (s11) pra quem ainda
+   nao tenta, e a tela informativa do outro ramo da s3. */
+function telaAnterior(id) {
+  let i = SCREENS.indexOf(id) - 1;
+  while (i >= 0) {
+    const c = SCREENS[i];
+    const pula = c === 's27'
+      || (c === 's11' && answers.s3 === 'ainda-nao')
+      || (c === 's3s' && answers.s3 !== 'sim')
+      || (c === 's3n' && answers.s3 !== 'ainda-nao');
+    if (!pula) return c;
+    i--;
+  }
+  return 's1';
+}
 backBtn.addEventListener('click', () => {
-  if (history.length <= 1) return;
+  const atual = history[history.length - 1] || (document.querySelector('.screen.active') || {}).id;
+  if (!atual || atual === 's1') return;
   history.pop();
   let prev = history.pop();
   /* A tela de analise (s27) roda sozinha e avanca: voltar pra ela devolvia a
-     pessoa pra frente de novo, e ela nunca conseguia sair da s28 pra tras.
-     Pula a s27 e cai na tela anterior a ela. */
+     pessoa pra frente de novo. Pula ela. */
   while (prev === 's27' && history.length) prev = history.pop();
-  if (!prev || prev === 's27') prev = 's26';
+  /* Sem entrada anterior (historico cortado ao salvar, ou entrada por ?tela=):
+     volta pela ordem das telas em vez de travar. */
+  if (!prev || prev === 's27') prev = telaAnterior(atual);
   goToScreen(prev);
 });
 skipLink.addEventListener('click', () => goNext());

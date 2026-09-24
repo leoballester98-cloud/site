@@ -5006,6 +5006,12 @@ body.marca-solta:has(#s1.screen.active) .header__inner::after {
 /* Mais escuro e maior que o louro da tela 30 (36px, 16%): la ele e moldura
    de um numero; aqui ele E o selo. */
 .louro-selo__folha { width: 46px; color: rgba(43,26,16,0.55); }
+/* Com a quinta barra (Conexao e proposito) a lista passava 21px em 640 de
+   altura: menos ar entre as barras e o selo sobe um pouco, so nessa altura. */
+@media (max-height: 640px) {
+  .analise { gap: 16px; margin-top: 20px; }
+  .louro-selo { margin-top: 28px; }
+}
 .louro-selo__miolo { display: flex; align-items: center; gap: 16px; }
 .louro-selo__lado { display: flex; flex-direction: column; align-items: center; gap: 4px; }
 .louro-selo__lado + .louro-selo__lado { padding-left: 16px; border-left: 1px solid rgba(43,26,16,0.14); }

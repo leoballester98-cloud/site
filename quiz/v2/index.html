@@ -56,7 +56,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"/>
-  <link rel="stylesheet" href="quiz-warm.css?v=429"/>
+  <link rel="stylesheet" href="quiz-warm.css?v=430"/>
 
   <!-- Anti-flicker do teste A/B.
        O script que troca a headline mora no fim do <body>, então num aparelho
@@ -850,7 +850,7 @@
   <!-- ═══════ 27. PROJEÇÃO ═══════ -->
   <section class="screen" id="s27" data-step="32" data-section="" data-icon="" data-cta="hidden">
     <h1 class="q-title-lg analise__titulo">Analisando suas respostas</h1>
-    <!-- Quatro barras, uma por bloco do quiz, que enchem uma de cada vez
+    <!-- Cinco barras, uma por bloco do quiz, que enchem uma de cada vez
          (startLoading). A porcentagem fica a direita enquanto enche; ao
          terminar vira o check. Os nomes sao os das secoes do quiz. -->
     <ul class="analise" id="analise" aria-live="polite">
@@ -858,6 +858,7 @@
       <li class="analise__item"><div class="analise__topo"><span class="analise__rotulo">Sinais do ciclo</span><span class="analise__status"></span></div><div class="analise__trilho"><div class="analise__barra"></div></div></li>
       <li class="analise__item"><div class="analise__topo"><span class="analise__rotulo">Fator emocional</span><span class="analise__status"></span></div><div class="analise__trilho"><div class="analise__barra"></div></div></li>
       <li class="analise__item"><div class="analise__topo"><span class="analise__rotulo">Estado do organismo</span><span class="analise__status"></span></div><div class="analise__trilho"><div class="analise__barra"></div></div></li>
+      <li class="analise__item"><div class="analise__topo"><span class="analise__rotulo">Conexão e propósito</span><span class="analise__status"></span></div><div class="analise__trilho"><div class="analise__barra"></div></div></li>
     </ul>
     <!-- Selo com louros no pe, onde a referencia poe o Trustpilot. Nao temos
          conta la, entao o miolo repete o numero que a tela 2 ja afirma e as
@@ -2768,10 +2769,10 @@ function startLoading() {
   if (!tela || !itens.length) return;
   const CHECK = '<svg viewBox="0 0 28 28" aria-hidden="true"><circle cx="14" cy="14" r="14" fill="currentColor"/>' +
                 '<path d="M8.5 14.5l3.6 3.6 7.4-7.6" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
-  /* 1,3s por barra: as quatro dao ~5,5s, o tempo que o anel antigo levava.
-     Recomeca do zero toda vez que a tela abre (voltar e avancar de novo), e
-     para de mexer se a pessoa sair da tela no meio. */
-  const DUR = 1300;
+  /* ~1,05s por barra: as cinco dao ~5,8s, perto do tempo que o anel antigo
+     levava. Recomeca do zero toda vez que a tela abre (voltar e avancar de
+     novo), e para de mexer se a pessoa sair da tela no meio. */
+  const DUR = 1050;
   itens.forEach(it => {
     it.querySelector('.analise__barra').style.width = '0%';
     const st = it.querySelector('.analise__status');

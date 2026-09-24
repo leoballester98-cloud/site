@@ -56,7 +56,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"/>
-  <link rel="stylesheet" href="quiz-warm.css?v=384"/>
+  <link rel="stylesheet" href="quiz-warm.css?v=388"/>
 
   <!-- Anti-flicker do teste A/B.
        O script que troca a headline mora no fim do <body>, então num aparelho
@@ -212,8 +212,12 @@
 
   <!-- ═══════ 2. PROVA SOCIAL ═══════ -->
   <section class="screen" id="s2" data-step="2" data-section="Seu Perfil Fértil" data-icon="target">
-    <h1 class="q-title-lg" style="margin-top:24px;">Não é só com você</h1>
-    <p class="q-sub" style="margin-top:-4px;"><span style="display:block;font-size:2.8rem;font-weight:800;color:#3d2b1f;line-height:1.1;margin-bottom:6px;">800 mulheres</span>já descobriram o que estava travando a gravidez delas.</p>
+    <!-- Mesmo desenho de antes: linha curta de titulo, o numero enorme como
+         destaque e o resto da frase no tom do subtitulo. O numero vai em
+         Manrope, a mesma familia do titulo, senao ele sai em DM Sans e o par
+         "Mais de / 1.800 mulheres" fica em duas fontes. -->
+    <h1 class="q-title-lg" style="margin-top:24px;">Mais de</h1>
+    <p class="q-sub" style="margin-top:-14px;"><span style="display:block;font-family:'Manrope','DM Sans',system-ui,sans-serif;font-size:2.8rem;font-weight:800;color:#3d2b1f;line-height:1.1;margin-bottom:6px;">1.800 mulheres</span>já fizeram o plano para destravar a gravidez.</p>
     <img loading="lazy" src="Images/ilustra_rembg.webp" alt="3 mulheres grávidas sorrindo" style="max-width:360px;width:100%;margin:18px auto 0;display:block;"/>
   </section>
 
@@ -439,11 +443,14 @@
            Trocar depois e trocar so este bloco e a funcao iniciarVSL(). -->
       <div id="vslPlayer"></div>
       <button type="button" class="vsl-som" id="vslSom">Toque para ouvir</button>
-      <!-- O continuar mora DENTRO da caixa, sobreposto. Fora dela ele teria que
-           reservar altura desde o inicio (senao o video pula quando ele
-           aparece), e essa altura reservada saia toda do tamanho do video. -->
-      <button type="button" class="t-cta vsl-continuar on" id="vslContinuar">CONTINUAR</button>
     </div>
+    <!-- O continuar fica ABAIXO do video, no fluxo, e reserva a altura desde o
+         inicio (opacity 0, nao display none): se aparecesse do nada, o video
+         pularia pra cima no meio da fala. O custo e que essa altura entra na
+         conta do --vsl-fora e o video fica um pouco menor em tela curta.
+         Dentro da caixa, sobreposto, ele herdava height:100% da regra dos
+         filhos da caixa e virava uma parede marrom por cima do video. -->
+    <button type="button" class="t-cta vsl-continuar on" id="vslContinuar">CONTINUAR</button>
   </section>
 
   <!-- ═══════ F2-Q0. ESTRESSE ═══════ -->

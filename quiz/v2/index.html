@@ -56,7 +56,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"/>
-  <link rel="stylesheet" href="quiz-warm.css?v=441"/>
+  <link rel="stylesheet" href="quiz-warm.css?v=443"/>
 
   <!-- Anti-flicker do teste A/B.
        O script que troca a headline mora no fim do <body>, então num aparelho
@@ -849,6 +849,48 @@
 
   <!-- ═══════ 27. PROJEÇÃO ═══════ -->
   <!-- ═══════ 28. PROJEÇÃO ═══════ -->
+  <!-- Tela 26b: carregamento final, no molde do "loader-referral" da BetterMe
+       (medido ao vivo em 24/09/2026): anel de progresso 0 -> 100% em 12s (5% a
+       cada 0,6s), duas mensagens que se revezam, "Mais de X", carrossel de 3
+       avaliacoes (troca a cada 4s) e nota de rodape; aos 14s segue sozinha pra
+       tela de e-mail. Sem seta, sem barra de progresso, marca no cabecalho. -->
+  <section class="screen" id="s26b" data-step="49" data-section="" data-icon="" data-cta="hidden">
+    <div class="carrega" id="carrega">
+      <div class="carrega__anel" aria-hidden="true">
+        <svg viewBox="0 0 225 225" fill="none" xmlns="http://www.w3.org/2000/svg"><circle class="carrega__trilho-anel" cx="112" cy="112" r="103"/></svg>
+        <svg class="carrega__svg-progresso" viewBox="0 0 225 225" fill="none" xmlns="http://www.w3.org/2000/svg"><circle class="carrega__progresso" id="carregaArco" cx="112" cy="112" r="103"/></svg>
+        <div class="carrega__num"><span id="carregaNum">0</span><span class="carrega__pct">%</span></div>
+      </div>
+      <div class="carrega__msgs" aria-live="polite">
+        <h2 class="carrega__msg">Criando seu Plano Ciclo Fértil...</h2>
+        <h2 class="carrega__msg">Seu Plano Ciclo Fértil personalizado está pronto!</h2>
+      </div>
+    </div>
+    <div class="carrega__divisor"></div>
+    <p class="carrega__titulo">Mais de 1.800 mulheres</p>
+    <p class="carrega__sub">já escolheram o Ciclo Fértil</p>
+    <div class="carrega__reviews">
+      <div class="carrega__trilho" id="carregaTrilho">
+        <div class="review carrega__card">
+          <span class="review__nota" aria-label="5 de 5 estrelas"><i></i><i></i><i></i><i></i><i></i></span>
+          <div class="review__topo"><span class="review__tit">Engravidei no ciclo seguinte</span><span class="review__nome">Ana Paula R.</span></div>
+          <p class="review__text">Tentei por 14 meses. Aprendi a ler o muco em 3 semanas e engravidei no ciclo seguinte.</p>
+        </div>
+        <div class="review carrega__card">
+          <span class="review__nota" aria-label="5 de 5 estrelas"><i></i><i></i><i></i><i></i><i></i></span>
+          <div class="review__topo"><span class="review__tit">Era o sabonete íntimo</span><span class="review__nome">Camila T.</span></div>
+          <p class="review__text">Não sabia que o sabonete íntimo estava sabotando tudo. Mudei a higiene e foi.</p>
+        </div>
+        <div class="review carrega__card">
+          <span class="review__nota" aria-label="5 de 5 estrelas"><i></i><i></i><i></i><i></i><i></i></span>
+          <div class="review__topo"><span class="review__tit">Reconheci todos os sinais</span><span class="review__nome">Fernanda M.</span></div>
+          <p class="review__text">Em 6 semanas comecei a reconhecer todos os sinais. Engravidei no mês seguinte.</p>
+        </div>
+      </div>
+    </div>
+    <p class="carrega__nota">*Atenção: seguir o plano é essencial para o resultado. Os resultados individuais podem variar.</p>
+  </section>
+
   <!-- Telas 28a/28b: e-mail e nome, molde BetterMe. Entram em `answers`
        (email, nome) e vao junto com o resto em enviarRespostas(). -->
   <section class="screen" id="s28a" data-step="47" data-section="" data-icon="" data-campo="email">
@@ -2016,7 +2058,8 @@ function updateChrome(screenId) {
     headerSection.style.display = 'none';
   }
 
-  if (screenId === 's30') {
+  if (screenId === 's26b') { headerSection.textContent = 'Ciclo Fértil'; headerSection.style.display = ''; }
+  if (screenId === 's30' || screenId === 's26b') {
     progresso.style.display = 'none';
   } else {
     progresso.style.display = '';
@@ -2041,7 +2084,7 @@ function updateChrome(screenId) {
   /* Nao depende do tamanho do historico: ele pode ter sido cortado ao salvar
      (ou a pessoa entrou por ?tela=), e sem entrada anterior o voltar usa a
      ordem das telas (telaAnterior). */
-  backBtn.disabled = screenId === 's1' || screenId === 's27' || screenId === 's30';
+  backBtn.disabled = screenId === 's1' || screenId === 's27' || screenId === 's26b' || screenId === 's30';
 }
 
 function showFooter(screenId) {
@@ -2187,6 +2230,7 @@ function showScreen(id) {
   if (id === 's28') { updateProjection(); animarProjecao(); }
   /* setTimeout, nao requestAnimationFrame: com a aba escondida o rAF nao roda e a capa ficava sem desenhar. */
   if (id === 's29') setTimeout(iniciarRaspadinha, 0); else pararRaspadinha();
+  if (id === 's26b') setTimeout(iniciarCarregaFinal, 0); else pararCarregaFinal();
   if (id === 's30') enviarRespostas();
   document.body.classList.toggle('screen--sales', id === 's30');
 
@@ -2331,7 +2375,7 @@ function telaAnterior(id) {
   let i = SCREENS.indexOf(id) - 1;
   while (i >= 0) {
     const c = SCREENS[i];
-    const pula = c === 's27'
+    const pula = c === 's27' || c === 's26b'
       || (c === 's11' && answers.s3 === 'ainda-nao')
       || (c === 's3s' && answers.s3 !== 'sim')
       || (c === 's3n' && answers.s3 !== 'ainda-nao');
@@ -2347,10 +2391,10 @@ backBtn.addEventListener('click', () => {
   let prev = history.pop();
   /* A tela de analise (s27) roda sozinha e avanca: voltar pra ela devolvia a
      pessoa pra frente de novo. Pula ela. */
-  while (prev === 's27' && history.length) prev = history.pop();
+  while ((prev === 's27' || prev === 's26b') && history.length) prev = history.pop();
   /* Sem entrada anterior (historico cortado ao salvar, ou entrada por ?tela=):
      volta pela ordem das telas em vez de travar. */
-  if (!prev || prev === 's27') prev = telaAnterior(atual);
+  if (!prev || prev === 's27' || prev === 's26b') prev = telaAnterior(atual);
   goToScreen(prev);
 });
 skipLink.addEventListener('click', () => goNext());
@@ -2674,6 +2718,46 @@ function animarProjecao() {
   g.classList.remove('animado');
   void g.offsetWidth;
   g.classList.add('animado');
+}
+
+/* ── Carregamento final (s26b) ──────────────────────────────────────────
+   Anel 0 -> 100% em 12s (5% a cada 600ms, como o deles), carrossel de
+   avaliacoes trocando a cada 4s, e aos 14s vai sozinho pra tela de e-mail.
+   As mensagens sao animacao CSS (reiniciada a cada abertura). Para tudo se
+   a pessoa sair da tela. */
+let carregaEstado = null;
+function pararCarregaFinal() {
+  if (!carregaEstado) return;
+  carregaEstado.timers.forEach(t => { clearInterval(t); clearTimeout(t); });
+  carregaEstado = null;
+}
+function iniciarCarregaFinal() {
+  const tela = document.getElementById('s26b');
+  const arco = document.getElementById('carregaArco');
+  const num = document.getElementById('carregaNum');
+  const trilho = document.getElementById('carregaTrilho');
+  if (!tela || !arco || !num || !trilho || !tela.classList.contains('active')) return;
+  pararCarregaFinal();
+  const C = 2 * Math.PI * 103;
+  arco.style.transition = 'none';
+  arco.style.strokeDasharray = C;
+  arco.style.strokeDashoffset = C;
+  num.textContent = '0';
+  trilho.style.transform = 'translateX(0)';
+  tela.querySelectorAll('.carrega__msg').forEach(msg => { msg.style.animation = 'none'; void msg.offsetWidth; msg.style.animation = ''; });
+  void arco.getBoundingClientRect();
+  arco.style.transition = '';
+  const est = carregaEstado = { timers: [], p: 0, slide: 0 };
+  const passo = setInterval(() => {
+    est.p = Math.min(100, est.p + 5);
+    num.textContent = est.p;
+    arco.style.strokeDashoffset = C * (1 - est.p / 100);
+    if (est.p >= 100) clearInterval(passo);
+  }, 600);
+  est.timers.push(passo);
+  // Para na ultima avaliacao em vez de dar a volta (aos 12s ela e a que fica).
+  est.timers.push(setInterval(() => { est.slide = Math.min(2, est.slide + 1); trilho.style.transform = 'translateX(-' + (est.slide * 100) + '%)'; }, 4000));
+  est.timers.push(setTimeout(() => { if (carregaEstado === est) { pararCarregaFinal(); goToScreen('s28a'); } }, 14000));
 }
 
 /* ── Raspadinha (s29) ─────────────────────────────────────────────────────

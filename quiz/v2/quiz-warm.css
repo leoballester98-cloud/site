@@ -5397,9 +5397,9 @@ html:has(#s3.screen.active), body:has(#s3.screen.active) { overflow-x: hidden; }
 .raspa__trilha {
   stroke: rgba(255,255,255,0.2); stroke-width: 20; fill: none;
   stroke-dasharray: 700; stroke-dashoffset: 700;
-  animation: raspaTrilha 3s linear infinite;
+  animation: raspaTrilha 2.5s linear infinite;
 }
-.raspa__mao { transform-origin: center; filter: drop-shadow(0 4px 4px rgba(3,6,13,0.28)); animation: raspaMao 3s linear infinite; }
+.raspa__mao { transform-origin: center; filter: drop-shadow(0 4px 4px rgba(3,6,13,0.28)); animation: raspaMao 2.5s linear infinite; }
 @keyframes raspaTrilha { 0% { stroke-dashoffset: 700; } 90%, 100% { stroke-dashoffset: 0; } }
 @keyframes raspaMao {
   0%   { transform: translate3d(-10px, -85px, 0) rotate(0deg); }
@@ -5415,9 +5415,12 @@ html:has(#s3.screen.active), body:has(#s3.screen.active) { overflow-x: hidden; }
 .raspa__depois {
   position: fixed; left: 0; right: 0; bottom: max(40px, calc(env(safe-area-inset-bottom, 0px) + 28px)); z-index: 201;
   display: flex; flex-direction: column; align-items: center; gap: 18px; padding: 0 24px;
-  opacity: 0; pointer-events: none; transition: opacity .5s;
+  opacity: 0; pointer-events: none; transition: opacity 1.5s ease-in;
 }
 .raspa__depois.ativo { opacity: 1; }
+/* A caixa do codigo entra em fade depois de revelar (0,6s, 0,3s de atraso), como la. */
+.raspa.revelada .cupom__codigo { animation: raspaCodigo .6s ease-out .3s both; }
+@keyframes raspaCodigo { from { opacity: 0; } to { opacity: 1; } }
 .raspa__aplicado { font-size: 20px; line-height: 1.3; color: #fff; text-align: center; margin: 0; }
 .raspa-timer { position: relative; width: 48px; height: 48px; }
 .raspa-timer svg { width: 48px; height: 48px; transform: rotate(-90deg); display: block; }
@@ -5465,3 +5468,60 @@ html:has(#s3.screen.active), body:has(#s3.screen.active) { overflow-x: hidden; }
   color: var(--ink); letter-spacing: -0.02em; -webkit-appearance: none; appearance: none;
 }
 .cadastro__nome::placeholder { color: var(--ink-mute); font-weight: 600; font-size: 36px; }
+
+/* ── Carregamento final (s26b), molde "loader-referral" da BetterMe ────────
+   Anel de 225 de viewBox (r 103, traco 17, ponta redonda) com o numero no
+   meio, mensagem embaixo, divisor, "Mais de X", carrossel de avaliacoes e a
+   nota. Tempos medidos ao vivo: 5% a cada 0,6s, mensagem 1 por 10,8s,
+   carrossel a cada 4s. */
+.carrega { display: flex; flex-direction: column; align-items: center; gap: 16px; padding-top: 14px; }
+.carrega__anel { position: relative; width: 170px; height: 170px; }
+.carrega__anel svg { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.carrega__trilho-anel { stroke: rgba(43,26,16,0.08); stroke-width: 17; fill: none; }
+.carrega__svg-progresso { transform: rotate(-90deg); }
+.carrega__progresso {
+  stroke: var(--ink); stroke-width: 17; fill: none; stroke-linecap: round;
+  stroke-dasharray: 647.17; stroke-dashoffset: 647.17;
+  transition: stroke-dashoffset .55s linear;
+}
+.carrega__num {
+  position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+  font-family: 'Manrope', 'DM Sans', sans-serif; font-size: 40px; font-weight: 800; color: var(--ink); letter-spacing: -0.02em;
+}
+.carrega__pct { font-size: 20px; font-weight: 700; margin-left: 2px; }
+.carrega__msgs { position: relative; width: 100%; min-height: 48px; }
+.carrega__msg {
+  position: absolute; left: 0; right: 0; top: 0; margin: 0;
+  text-align: center; font-family: 'DM Sans', sans-serif; font-size: 16px; font-weight: 500; line-height: 1.4; color: var(--ink);
+  opacity: 0;
+}
+.carrega__msg:nth-child(1) { animation: carregaMsg1 10.8s linear both; }
+.carrega__msg:nth-child(2) { animation: carregaMsg2 2.5s linear 10.8s both; }
+@keyframes carregaMsg1 {
+  0%  { opacity: 0; transform: translateX(-5%); }
+  3%  { opacity: .3; transform: translateX(-1%); }
+  8%, 88% { opacity: 1; transform: none; }
+  95% { opacity: .5; }
+  100% { opacity: 0; }
+}
+@keyframes carregaMsg2 {
+  0%   { opacity: 0; transform: translateX(-5%); }
+  30%  { opacity: .3; transform: translateX(-1%); }
+  100% { opacity: 1; transform: none; }
+}
+.carrega__divisor { height: 1px; background: rgba(43,26,16,0.12); margin: 22px 0 18px; }
+.carrega__titulo {
+  font-family: 'Manrope', 'DM Sans', sans-serif; font-size: 28px; font-weight: 700; line-height: 1.14; letter-spacing: -0.02em;
+  color: var(--ink); text-align: center; margin: 0;
+}
+.carrega__sub { font-size: 16px; color: var(--ink-soft); text-align: center; margin: 6px 0 16px; }
+.carrega__reviews { overflow: hidden; }
+.carrega__trilho { display: flex; width: 100%; transition: transform .5s cubic-bezier(.645,.045,.355,1); will-change: transform; }
+.carrega__card { flex: 0 0 100%; box-sizing: border-box; margin: 0; }
+.carrega__nota { font-size: 12px; line-height: 1.4; color: var(--ink-mute); margin: 16px 0 0; text-align: left; }
+@media (max-height: 700px) { .carrega__anel { width: 150px; height: 150px; } .carrega__num { font-size: 36px; } }
+@media (prefers-reduced-motion: reduce) {
+  .carrega__msg:nth-child(1) { animation: none; opacity: 1; }
+  .carrega__msg:nth-child(2) { display: none; }
+  .carrega__progresso { transition: none; }
+}

@@ -5028,7 +5028,8 @@ body.marca-solta:has(#s1.screen.active) .header__inner::after {
    referencia o cartao e so um tom mais claro que o fundo. Sem margem e com
    pouco padding porque a tela precisa caber inteira sem rolar. */
 .perfil {
-  background: rgba(255,255,255,0.55);
+  /* Um tom abaixo do fundo da pagina (--bg-lift), nao um veu branco. */
+  background: var(--bg-lift);
   border: 1px solid rgba(43,26,16,0.10);
   border-radius: 16px;
   padding: 14px 16px 0;
@@ -5242,7 +5243,7 @@ body:has(#s1.screen.active) .progress { display: none; }
    passava do topo do cartao e saia cortada em cima. Assim todas nascem dentro
    do cartao e so o pe some pelo overflow, como na referencia. Moldura
    branca com fio, como os mockups de la — nao a moldura escura. */
-.info__foto--telas .info__tela {
+.info__foto--telas .info__tela, .info__foto--laptop .info__tela {
   position: absolute; top: 16%;
   width: 36%; height: auto;
   /* #151515: a cor do bezel nos mockups da referencia, medida no print —
@@ -5283,3 +5284,53 @@ body:has(#s1.screen.active) .progress { display: none; }
 @media (max-width: 480px) { #s3o .q-title { line-height: 32px; } }
 @media (max-width: 380px) { #s3o .q-title { line-height: 30px; } }
 @media (min-width: 900px) { #s3o .q-title { line-height: 34px; } }
+
+/* ── s18 (como identifica o fértil): 4 cartões com foto. A foto no fluxo
+   ditava a altura do cartão pela proporção dela (quadrada = 111px, retrato =
+   164px), estourando 16px em 700 e 76px em 640. Tirada do fluxo, o cartão
+   volta a ser o min-height e a foto só preenche. ────────────────────── */
+#s18 .row-card .imgbox--row { position: relative; }
+#s18 .row-card .imgbox--row img { position: absolute; inset: 0; }
+@media (max-height: 700px) {
+  #s18 .row-card { min-height: 84px; }
+}
+
+/* ── Cartão notebook + celular (tela 5i), como na referência: o notebook
+   atrás, à esquerda, com uma aula em vídeo; o celular na frente, à direita,
+   com o pé quase no fim do cartão. Cartão 7:6 (o da referência), mais alto
+   que o 4:3 das fotos, pra caber o celular inteiro; em tela baixa segue os
+   mesmos degraus dos outros cartões. ───────────────────────────────────── */
+.info__foto--laptop { position: relative; background: #EFE7DA; aspect-ratio: 7 / 6; }
+@media (max-height: 700px) { .info__foto--laptop { aspect-ratio: 16 / 10; } }
+@media (max-height: 640px) { .info__foto--laptop { aspect-ratio: 2 / 1; } }
+.info__laptop { position: absolute; left: 4%; top: 9%; width: 76%; }
+.info__laptop-tela {
+  position: relative; aspect-ratio: 16 / 10;
+  border: 6px solid #151515; border-radius: 12px 12px 4px 4px;
+  background: #151515; overflow: hidden;
+  box-shadow: 0 10px 26px rgba(43,26,16,0.18);
+}
+.info__laptop-tela img { width: 100%; height: 100%; object-fit: cover; object-position: center 20%; display: block; }
+/* A base do notebook: barra fina, um pouco mais larga que a tela. */
+.info__laptop::after {
+  content: ""; display: block; height: 9px; margin: 0 -4%;
+  background: linear-gradient(#3a3a3a, #1c1c1c); border-radius: 0 0 10px 10px;
+  box-shadow: 0 8px 18px rgba(43,26,16,0.18);
+}
+.info__play {
+  position: absolute; left: 50%; top: 50%; width: 44px; height: 44px; margin: -22px 0 0 -22px;
+  border-radius: 50%; background: rgba(255,255,255,0.88);
+  box-shadow: 0 4px 14px rgba(0,0,0,0.18);
+}
+.info__play::after {
+  content: ""; position: absolute; left: 17px; top: 13px;
+  border-style: solid; border-width: 9px 0 9px 15px;
+  border-color: transparent transparent transparent #151515;
+}
+.info__foto--laptop .info__tela--fone { left: auto; right: 5%; top: 18%; width: 33%; z-index: 2; }
+/* Em tela baixa o cartão vira 2:1 e o notebook passava do pé: encolhe pra
+   base ficar dentro; o celular só perde o pé, como nos outros cartões. */
+@media (max-height: 640px) {
+  .info__laptop { width: 62%; top: 7%; }
+  .info__foto--laptop .info__tela--fone { width: 30%; top: 12%; }
+}

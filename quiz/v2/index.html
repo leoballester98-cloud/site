@@ -56,7 +56,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"/>
-  <link rel="stylesheet" href="quiz-warm.css?v=424"/>
+  <link rel="stylesheet" href="quiz-warm.css?v=429"/>
 
   <!-- Anti-flicker do teste A/B.
        O script que troca a headline mora no fim do <body>, então num aparelho
@@ -431,122 +431,102 @@
   <section class="screen" id="s11" data-step="6" data-section="Seu Perfil Fértil" data-icon="target">
     <h2 class="q-title">Há quanto tempo está tentando engravidar?</h2>
     <div class="simple-list">
-      <button class="simple-opt" data-val="menos-3" data-next="s12">Menos de 3 meses</button>
-      <button class="simple-opt" data-val="3-6" data-next="s12">Entre 3 e 6 meses</button>
-      <button class="simple-opt" data-val="6-12" data-next="s12">Entre 6 meses e 1 ano</button>
-      <button class="simple-opt" data-val="1-2" data-next="s12">Entre 1 e 2 anos</button>
-      <button class="simple-opt" data-val="2+" data-next="s12">Mais de 2 anos</button>
+      <button class="simple-opt" data-val="menos-3" data-next="s5i">Menos de 3 meses</button>
+      <button class="simple-opt" data-val="3-6" data-next="s5i">Entre 3 e 6 meses</button>
+      <button class="simple-opt" data-val="6-12" data-next="s5i">Entre 6 meses e 1 ano</button>
+      <button class="simple-opt" data-val="1-2" data-next="s5i">Entre 1 e 2 anos</button>
+      <button class="simple-opt" data-val="2+" data-next="s5i">Mais de 2 anos</button>
     </div>
   </section>
 
   <!-- ═══════ 12. MUCO observa mudanças ═══════ -->
-  <section class="screen" id="s12" data-step="7" data-section="Sinais do Ciclo" data-icon="cycle">
-    <h2 class="q-title">Você nota mudanças no muco vaginal ao longo do mês?</h2>
-    <div class="simple-list">
-      <button class="simple-opt" data-val="as-vezes" data-score="1" data-next="s13">Às vezes percebo</button>
-      <button class="simple-opt" data-val="sim" data-score="3" data-next="s13">Sim, percebo mudanças claras</button>
-      <button class="simple-opt" data-val="nao" data-score="0" data-next="s13">Nunca prestei atenção no meu corpo</button>
+  <section class="screen" id="s5i" data-step="6" data-etapa="43" data-section="" data-icon="cycle" data-next="s5">
+    <div class="info">
+      <h2 class="q-title info__titulo">Seu corpo avisa quando está fértil.</h2>
+      <p class="info__texto">Só que quase ninguém ensina a ler esses avisos. Por isso tanta mulher tenta no dia errado, mês após mês, achando que o problema é ela.</p>
+      <p class="info__texto">As próximas 4 perguntas mostram <b>se você já reconhece esses sinais</b> e se algo no seu dia a dia está atrapalhando sua fertilidade.</p>
+      <div class="info__foto info__foto--laptop" aria-hidden="true">
+        <div class="info__laptop">
+          <div class="info__laptop-tela">
+            <img src="Images/essa2.webp" alt="" decoding="async" loading="lazy"/>
+            <span class="info__play"></span>
+          </div>
+        </div>
+        <img class="info__tela info__tela--fone" src="Images/app-tela1-biblioteca.webp" alt="" decoding="async" loading="lazy"/>
+      </div>
     </div>
   </section>
 
-  <!-- ═══════ 13. MUCO clara de ovo ═══════ -->
-  <section class="screen" id="s13" data-step="8" data-section="Sinais do Ciclo" data-icon="cycle">
-    <h2 class="q-title">Você já notou um muco vaginal tipo clara de ovo?</h2>
-    <p class="q-sub">Transparente, muito elástico, que estica entre os dedos sem quebrar.</p>
-    <div class="simple-list">
-      <button class="simple-opt" data-val="acho" data-score="1" data-next="s14">Já vi algo parecido, mas não tenho certeza</button>
-      <button class="simple-opt" data-val="sim" data-score="3" data-next="s14">Sim, já notei isso</button>
-      <button class="simple-opt" data-val="nunca" data-score="0" data-next="s14">Nunca percebi isso</button>
-      <button class="simple-opt" data-val="nao-sei" data-score="0" data-next="s14">Não sei o que é isso</button>
-    </div>
-  </section>
-
-  <!-- ═══════ 14. HIGIENE íntima ═══════ -->
-  <section class="screen" id="s14" data-step="9" data-section="Sinais do Ciclo" data-icon="cycle">
-    <h2 class="q-title">Você usa sabonete íntimo, ducha ou lenços umedecidos com frequência?</h2>
-    <p class="q-sub">A resposta pode explicar por que o ciclo não progride como deveria.</p>
-    <div class="simple-list">
-      <button class="simple-opt" data-val="sim" data-score="0" data-next="s15">Sim, uso regularmente</button>
-      <button class="simple-opt" data-val="as-vezes" data-score="1" data-next="s15">Às vezes</button>
-      <button class="simple-opt" data-val="nunca" data-score="3" data-next="s15">Nunca</button>
-    </div>
-  </section>
-
-  <!-- ═══════ 15. TEMPERATURA já mediu ═══════ -->
-  <section class="screen" id="s15" data-step="10" data-section="Sinais do Ciclo" data-icon="cycle">
-    <h2 class="q-title">Você já mediu a temperatura ao acordar para confirmar a ovulação?</h2>
-    <div class="simple-list">
-      <button class="simple-opt" data-val="nunca" data-score="0" data-next="s5">Nunca fiz isso</button>
-      <button class="simple-opt" data-val="tentei" data-score="2" data-next="s5">Já tentei, mas não consegui manter</button>
-      <button class="simple-opt" data-val="sim" data-score="3" data-next="s5">Sim, faço isso regularmente</button>
-    </div>
-  </section>
-
-  <!-- ═══════ 16. OVULAÇÃO — F1 scored ═══════ -->
   <section class="screen" id="s5" data-step="11" data-section="Sinais do Ciclo" data-icon="cycle">
     <h2 class="q-title">Você sabe quando está ovulando?</h2>
     <div class="row-cards">
-      <button class="row-card" data-val="nao" data-score="0" data-next="s17">
+      <button class="row-card" data-val="nao" data-score="0" data-next="s18">
         <div class="row-card__body"><div class="row-card__title">Não faço ideia</div></div>
         <div class="imgbox imgbox--row"><img loading="lazy" src="Images/etapa5-ovulacao.webp" alt="Não faço ideia"/></div>
       </button>
-      <button class="row-card" data-val="as-vezes" data-score="2" data-next="s17">
+      <button class="row-card" data-val="as-vezes" data-score="2" data-next="s18">
         <div class="row-card__body"><div class="row-card__title">Às vezes percebo alguns sinais</div></div>
         <div class="imgbox imgbox--row"><img loading="lazy" src="Images/etapa5-sem-sintomas.webp" alt="Às vezes percebo alguns sinais"/></div>
       </button>
-      <button class="row-card" data-val="sim" data-score="3" data-next="s17">
+      <button class="row-card" data-val="sim" data-score="3" data-next="s18">
         <div class="row-card__body"><div class="row-card__title">Sim, conheço bem meu ciclo</div></div>
         <div class="imgbox imgbox--row"><img loading="lazy" src="Images/etapa5-previsivel.webp" alt="Sim, conheço bem meu ciclo"/></div>
       </button>
     </div>
   </section>
 
-  <!-- ═══════ 17. DOR DE OVULAÇÃO ═══════ -->
-  <section class="screen" id="s17" data-step="12" data-section="Sinais do Ciclo" data-icon="cycle">
-    <h2 class="q-title">Sente uma dor leve de um lado do baixo ventre no meio do ciclo?</h2>
-    <p class="q-sub">Dura algumas horas a um dia. Pode ser sinal da ovulação.</p>
-    <div class="simple-list">
-      <button class="simple-opt" data-val="sim" data-score="3" data-next="s18">
-        <span class="simple-opt__badge" style="background:var(--blue-d);color:#fff;font-size:11px;font-weight:800;padding:5px 12px;border-radius:6px;border:none;box-shadow:0 2px 6px rgba(0,0,0,0.18);">SINAL FORTE</span>
-        Sim, quase todo mês
-      </button>
-      <button class="simple-opt" data-val="as-vezes" data-score="2" data-next="s18">Já senti algumas vezes</button>
-      <button class="simple-opt" data-val="nao" data-score="0" data-next="s18">Nunca percebi isso</button>
-    </div>
-  </section>
-
-  <!-- ═══════ 18. APP/LUBRIFICANTE (erros invisíveis) ═══════ -->
   <section class="screen" id="s18" data-step="13" data-section="Sinais do Ciclo" data-icon="cycle">
     <h2 class="q-title">Como você identifica seu período fértil?</h2>
     <div class="row-cards">
-      <button class="row-card" data-val="chuto" data-score="0" data-next="svsl1">
+      <button class="row-card" data-val="muco" data-score="3" data-next="s14">
         <div class="row-card__body">
-          <div class="row-card__title">Chuto pelo ciclo</div>
-          <div class="row-card__sub">Tento calcular, mas nunca sei se tô certa</div>
+          <div class="row-card__title">Pela leitura do muco</div>
+          <div class="row-card__sub">Observo a textura mudar ao longo do mês</div>
         </div>
-        <div class="imgbox imgbox--row"><img loading="lazy" src="Images/essa3.webp" alt="Chuto pelo ciclo"></div>
+        <div class="imgbox imgbox--row"><img loading="lazy" src="Images/essa5.webp" alt="Leitura do muco"></div>
       </button>
-      <button class="row-card" data-val="calendario" data-score="1" data-next="svsl1">
+      <button class="row-card" data-val="temperatura" data-score="3" data-next="s14">
         <div class="row-card__body">
-          <div class="row-card__title">Pelo calendário</div>
-          <div class="row-card__sub">Conto os dias e espero o dia 14</div>
+          <div class="row-card__title">Pela temperatura basal</div>
+          <div class="row-card__sub">Meço ao acordar e anoto</div>
         </div>
-        <div class="imgbox imgbox--row"><img loading="lazy" src="Images/essa1.webp" alt="Pelo calendário"></div>
+        <div class="imgbox imgbox--row"><img loading="lazy" src="Images/essa2.webp" alt="Temperatura basal"></div>
       </button>
-      <button class="row-card" data-val="misto" data-score="2" data-next="svsl1">
+      <button class="row-card" data-val="sinais" data-score="2" data-next="s14">
         <div class="row-card__body">
-          <div class="row-card__title">Calendário + alguns sinais</div>
-          <div class="row-card__sub">Conto os dias mas observo o corpo</div>
+          <div class="row-card__title">Pelos sinais do corpo</div>
+          <div class="row-card__sub">Dor, libido, seios mais sensíveis</div>
         </div>
-        <div class="imgbox imgbox--row"><img loading="lazy" src="Images/essa2.webp" alt="Calendário + sinais"></div>
+        <div class="imgbox imgbox--row"><img loading="lazy" src="Images/essa7.webp" alt="Sinais do corpo"></div>
       </button>
-      <button class="row-card" data-val="app" data-score="2" data-next="svsl1">
+      <button class="row-card" data-val="nao-sei" data-score="0" data-next="s14">
         <div class="row-card__body">
-          <div class="row-card__title">Por app de fertilidade</div>
-          <div class="row-card__sub">Uso Flo, Glow ou similar</div>
+          <div class="row-card__title">Não sei, só conto os dias</div>
+          <div class="row-card__sub">Calendário ou app, e torço pra acertar</div>
         </div>
-        <div class="imgbox imgbox--row"><img loading="lazy" src="Images/essa1.webp" alt="App de fertilidade"></div>
+        <div class="imgbox imgbox--row"><img loading="lazy" src="Images/essa3.webp" alt="Só conto os dias"></div>
       </button>
+    </div>
+  </section>
+
+  <section class="screen" id="s14" data-step="9" data-section="Sinais do Ciclo" data-icon="cycle">
+    <h2 class="q-title">Você usa sabonete íntimo, ducha ou lenços umedecidos com frequência?</h2>
+    <p class="q-sub">A resposta pode explicar por que o ciclo não progride como deveria.</p>
+    <div class="simple-list">
+      <button class="simple-opt" data-val="sim" data-score="0" data-next="s16">Sim, uso regularmente</button>
+      <button class="simple-opt" data-val="as-vezes" data-score="1" data-next="s16">Às vezes</button>
+      <button class="simple-opt" data-val="nunca" data-score="3" data-next="s16">Nunca</button>
+    </div>
+  </section>
+
+  <section class="screen" id="s16" data-step="42" data-section="Sinais do Ciclo" data-icon="cycle">
+    <h2 class="q-title">Você esquenta comida em pote de plástico ou usa cosméticos com parabenos?</h2>
+    <p class="q-sub">Os dois soltam substâncias que imitam hormônios e atrapalham a ovulação.</p>
+    <div class="simple-list">
+      <button class="simple-opt" data-val="sim" data-score="0" data-next="svsl1">Sim, com frequência</button>
+      <button class="simple-opt" data-val="as-vezes" data-score="1" data-next="svsl1">Às vezes</button>
+      <button class="simple-opt" data-val="evito" data-score="3" data-next="svsl1">Evito as duas coisas</button>
+      <button class="simple-opt" data-val="nao-sei" data-score="0" data-next="svsl1">Nunca reparei nisso</button>
     </div>
   </section>
 
@@ -684,41 +664,41 @@
   <section class="screen" id="s38" data-step="22" data-section="Estado do Organismo" data-icon="cycle">
     <h2 class="q-title">Você sente inchaço, cansaço ou dores frequentes sem causa aparente?</h2>
     <div class="simple-list">
-      <button class="simple-opt" data-val="frequente" data-score="1" data-next="s39">Um ou dois com frequência</button>
-      <button class="simple-opt" data-val="varios" data-score="0" data-next="s39">Sim, vários desses com frequência</button>
-      <button class="simple-opt" data-val="raramente" data-score="2" data-next="s39">Um desses raramente</button>
-      <button class="simple-opt" data-val="nao" data-score="3" data-next="s39">Não, nada disso</button>
+      <button class="simple-opt" data-val="frequente" data-score="1" data-next="s39a">Um ou dois com frequência</button>
+      <button class="simple-opt" data-val="varios" data-score="0" data-next="s39a">Sim, vários desses com frequência</button>
+      <button class="simple-opt" data-val="raramente" data-score="2" data-next="s39a">Um desses raramente</button>
+      <button class="simple-opt" data-val="nao" data-score="3" data-next="s39a">Não, nada disso</button>
     </div>
   </section>
 
   <!-- ═══════ F4 — CONEXÃO E PROPÓSITO ═══════ -->
+  <section class="screen" id="s39a" data-step="44" data-section="Conexão e Propósito" data-icon="heart">
+    <h2 class="q-title">Como você se sente em relação ao seu corpo hoje?</h2>
+    <div class="simple-list">
+      <button class="simple-opt" data-val="brigada" data-score="0" data-next="s39b">Brigada com ele, sinto que ele me trai</button>
+      <button class="simple-opt" data-val="desconfiada" data-score="1" data-next="s39b">Desconfiada, não sei o que ele está fazendo</button>
+      <button class="simple-opt" data-val="entendendo" data-score="2" data-next="s39b">Tentando entender</button>
+      <button class="simple-opt" data-val="sintonia" data-score="3" data-next="s39b">Em sintonia, confio nele</button>
+    </div>
+  </section>
+
+  <section class="screen" id="s39b" data-step="45" data-section="Conexão e Propósito" data-icon="heart">
+    <h2 class="q-title">Você se sente acompanhada nessa jornada?</h2>
+    <div class="simple-list">
+      <button class="simple-opt" data-val="sozinha" data-score="0" data-next="s39">Não, carrego sozinha</button>
+      <button class="simple-opt" data-val="nao-entende" data-score="1" data-next="s39">Ele tenta, mas não entende</button>
+      <button class="simple-opt" data-val="as-vezes" data-score="2" data-next="s39">Tenho com quem contar</button>
+      <button class="simple-opt" data-val="juntos" data-score="3" data-next="s39">Sim, estamos juntos nisso</button>
+    </div>
+  </section>
+
   <section class="screen" id="s39" data-step="23" data-section="Conexão e Propósito" data-icon="heart">
     <h2 class="q-title">Você ainda acredita que vai conseguir engravidar?</h2>
     <div class="simple-list">
-      <button class="simple-opt" data-val="quase" data-score="2" data-next="s40">Sim, mas às vezes duvido</button>
-      <button class="simple-opt" data-val="pouco" data-score="1" data-next="s40">Está difícil acreditar</button>
-      <button class="simple-opt" data-val="nao" data-score="0" data-next="s40">Não acredito mais</button>
-      <button class="simple-opt" data-val="sim" data-score="3" data-next="s40">Sim, acredito com convicção</button>
-    </div>
-  </section>
-
-  <section class="screen" id="s40" data-step="24" data-section="Conexão e Propósito" data-icon="heart">
-    <h2 class="q-title">Você tem alguma prática de meditação, oração ou respiração que te apoia nessa jornada?</h2>
-    <div class="simple-list">
-      <button class="simple-opt" data-val="raramente" data-score="1" data-next="s41">Raramente</button>
-      <button class="simple-opt" data-val="as-vezes" data-score="2" data-next="s41">Às vezes recorro a isso</button>
-      <button class="simple-opt" data-val="nao" data-score="0" data-next="s41">Não tenho nenhuma prática assim</button>
-      <button class="simple-opt" data-val="sim" data-score="3" data-next="s41">Sim, faz parte do meu dia</button>
-    </div>
-  </section>
-
-  <section class="screen" id="s41" data-step="25" data-section="Conexão e Propósito" data-icon="heart">
-    <h2 class="q-title">Você consegue ter momentos de alegria e leveza mesmo no meio dessa jornada?</h2>
-    <div class="simple-list">
-      <button class="simple-opt" data-val="nao" data-score="0" data-next="s42">Não, está difícil</button>
-      <button class="simple-opt" data-val="raramente" data-score="1" data-next="s42">Raramente</button>
-      <button class="simple-opt" data-val="as-vezes" data-score="2" data-next="s42">Às vezes</button>
-      <button class="simple-opt" data-val="sim" data-score="3" data-next="s42">Sim, consigo</button>
+      <button class="simple-opt" data-val="nao" data-score="0" data-next="s42">Não acredito mais</button>
+      <button class="simple-opt" data-val="pouco" data-score="1" data-next="s42">Está difícil acreditar</button>
+      <button class="simple-opt" data-val="quase" data-score="2" data-next="s42">Sim, mas às vezes duvido</button>
+      <button class="simple-opt" data-val="sim" data-score="3" data-next="s42">Sim, acredito com convicção</button>
     </div>
   </section>
 
@@ -726,8 +706,8 @@
     <h2 class="q-title">Você costuma se culpar quando o ciclo não vem como esperado?</h2>
     <div class="simple-list">
       <button class="simple-opt" data-val="nao" data-score="0" data-next="s20">Sim, muito, me sinto traidora de mim mesma</button>
-      <button class="simple-opt" data-val="as-vezes" data-score="2" data-next="s20">Às vezes</button>
-      <button class="simple-opt" data-val="raramente" data-score="1" data-next="s20">Raramente</button>
+      <button class="simple-opt" data-val="as-vezes" data-score="1" data-next="s20">Às vezes</button>
+      <button class="simple-opt" data-val="raramente" data-score="2" data-next="s20">Raramente</button>
       <button class="simple-opt" data-val="sim" data-score="3" data-next="s20">Não, aceito com calma</button>
     </div>
   </section>
@@ -776,11 +756,10 @@
   <!-- ═══════ 22. CONHECE FASE LÚTEA? (substitui Meta peso) ═══════ -->
   <section class="screen" id="s22" data-step="29" data-section="Sinais do Ciclo" data-icon="cycle">
     <h2 class="q-title">Em quantos dias seu desejo sexual aumenta no mês?</h2>
-    <p class="q-sub">Se você não percebe, deixe 0. Esse é um dos sinais secundários da ovulação.</p>
+    <p class="q-sub">Se você não percebe, digite 0. Esse é um dos sinais secundários da ovulação.</p>
     <div class="big-number">
-      <!-- Nasce com 0 VALIDO (data-empty="false"): o texto diz "deixe 0", entao o
-           CONTINUAR nao pode ficar travado esperando um toque no campo. -->
-      <span class="big-number__value" id="targetValue" contenteditable="true" inputmode="numeric" data-empty="false" data-placeholder="0" data-min="0" data-max="31">0</span>
+      <!-- Nasce vazio, com o mesmo "Duracao" das outras telas; 0 digitado e valido. -->
+      <span class="big-number__value vazio" id="targetValue" contenteditable="true" inputmode="numeric" data-empty="true" data-placeholder="Duração" data-min="0" data-max="31">Duração</span>
       <span class="big-number__unit">dias</span>
     </div>
     <p class="campo-ajuda" id="targetAjuda">Digite um valor entre <b>0</b> e <b>31</b> dias</p>
@@ -1381,7 +1360,6 @@ const SCREENS = Array.from(document.querySelectorAll('.screen')).map(s => s.id);
 const TOTAL_STEPS = 34;
 const answers = {};
 const scores = {};
-answers.libidoDays = 0; // s22 aceita 0 como resposta válida ("se não percebe, deixe 0")
 const history = ['s1'];
 
 /* ── Retomar de onde parou ───────────────────────────────────────────────
@@ -1412,7 +1390,14 @@ function lerProgresso() {
     const raw = localStorage.getItem(PROGRESSO_CHAVE);
     if (!raw) return null;
     const p = JSON.parse(raw);
-    if (!p || p.v !== 1 || !p.tela || !document.getElementById(p.tela)) return null;
+    if (!p || p.v !== 1 || !p.tela) return null;
+    /* Telas que sairam do quiz: fica so o historico que ainda existe; se a tela
+       salva era uma delas, retoma na ultima que sobrou (em vez de zerar tudo). */
+    p.history = (Array.isArray(p.history) ? p.history : []).filter(function (x) { return !!document.getElementById(x); });
+    if (!document.getElementById(p.tela)) {
+      if (!p.history.length) return null;
+      p.tela = p.history[p.history.length - 1];
+    }
     if (Date.now() - (p.t || 0) > PROGRESSO_VALIDADE) { localStorage.removeItem(PROGRESSO_CHAVE); return null; }
     return p;
   } catch (e) { return null; }
@@ -2083,7 +2068,7 @@ const SAIDA_MS = (window.matchMedia && window.matchMedia('(prefers-reduced-motio
 let trocandoTela = false;
 function goToScreen(next) {
   // Se ainda não está tentando, s11 não faz sentido — pula para s12
-  if (next === 's11' && answers.s3 === 'ainda-nao') next = 's12';
+  if (next === 's11' && answers.s3 === 'ainda-nao') next = 's5i';
   const cur = document.querySelector('.screen.active');
   if (cur && cur.id === next) return;
   if (trocandoTela) return;                     // toque duplo no meio da saida
@@ -2360,7 +2345,6 @@ function setupBigNumber(id, ansKey, allowZero = false) {
   const min = el.dataset.min !== undefined ? parseInt(el.dataset.min) : -Infinity;
   const max = el.dataset.max !== undefined ? parseInt(el.dataset.max) : Infinity;
   const ajuda = document.getElementById(id.replace('Value', 'Ajuda'));
-  if (allowZero && el.dataset.empty === 'false' && answers[ansKey] === undefined) answers[ansKey] = 0;
   function avaliar(v, focado) {
     const isEmpty = v === '' || (!allowZero && v === '0');
     const n = parseInt(v || '0');
@@ -2398,15 +2382,14 @@ function setupBigNumber(id, ansKey, allowZero = false) {
     if (v) { avaliar(v, false); return; }
     el.textContent = vazio;
     if (ajuda) ajuda.classList.remove('fora');
-    if (allowZero) { el.dataset.empty = 'false'; answers[ansKey] = 0; }
-    else { el.dataset.empty = 'true'; el.classList.add('vazio'); }
+    el.dataset.empty = 'true'; el.classList.add('vazio');
     const screen = el.closest('section');
     if (screen) showFooter(screen.id);
   });
 }
 setupBigNumber('heightValue', 'cycleDays');
 setupBigNumber('weightValue', 'periodDays');
-setupBigNumber('targetValue', 'libidoDays', true); // 0 é válido: "se não percebe, deixe 0"
+setupBigNumber('targetValue', 'libidoDays', true); // 0 digitado é válido: "se não percebe, digite 0"
 setupBigNumber('ageValue', 'age');
 
 // Salva a data da última menstruação (s26) a partir dos três campos DD/MM/AAAA
@@ -2622,10 +2605,10 @@ function calculateIQO() {
   /* s33 (humor ao longo do dia) mora no EMOCIONAL, não no organismo: a pergunta
      é sobre estado de ânimo, e é isso que ela pontua. Estava no f3 e puxava a
      nota do organismo pra baixo por um motivo emocional. */
-  const f1 = factorScore(['s12','s13','s14','s15','s5','s17','s18','s22'], 3);
+  const f1 = factorScore(['s5','s18','s14','s16','s22'], 3);
   const f2 = factorScore(['s19','s31','s32','s34','s33'], 3);
   const f3 = factorScore(['s35','s36','s37','s38'], 3);
-  const f4 = factorScore(['s39','s40','s41','s42'], 3);
+  const f4 = factorScore(['s39a','s39b','s39','s42'], 3);
   window.__iqoFactors = { f1, f2, f3, f4 };
 
   /* Dentro do organismo cabem dois quadros diferentes, e o título do diagnóstico

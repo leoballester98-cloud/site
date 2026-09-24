@@ -56,7 +56,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"/>
-  <link rel="stylesheet" href="quiz-warm.css?v=388"/>
+  <link rel="stylesheet" href="quiz-warm.css?v=393"/>
 
   <!-- Anti-flicker do teste A/B.
        O script que troca a headline mora no fim do <body>, então num aparelho
@@ -110,6 +110,97 @@
 </nav>
 
 <div class="wrap">
+<!-- O louro (vetorizado da referencia) mora aqui UMA vez como <symbol>; as
+     telas 27 e 30 desenham com <use>. Antes o path de 5KB estava colado
+     duas vezes na tela 30, e a 27 seria a terceira. -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="louroSimbolo" viewBox="0 0 328 664"><g transform="translate(0,664) scale(1,-1)"><path d="M224 662 c0 -4 -3 -6 -9 -6 -5 0 -6 0 -7 -3 -2 -3 -2
+-3 -8 -4 -5 0 -6 -1 -8 -4 -1 -2 -4 -4 -5 -5 -2 -1 -3 -3
+-4 -4 0 -1 -2 -3 -4 -4 -2 -1 -4 -3 -4 -4 -1 -2 -3 -3 -4
+-4 -3 -1 -5 -4 -4 -9 1 -4 -2 -8 -5 -8 -2 0 -4 -5 -3 -8 0
+-3 0 -4 -1 -5 -7 -6 -7 -6 -7 -10 0 -3 1 -5 2 -6 5 -4 6 -6
+8 -8 2 -2 2 -3 7 -2 5 0 5 1 8 4 1 2 3 4 5 5 1 1 3 3 4
+4 1 3 2 3 6 3 6 0 8 1 10 5 1 2 3 3 4 4 3 1 5 4 4 8 -1
+4 0 6 4 8 2 1 4 3 4 4 1 2 3 3 4 4 3 1 5 4 4 9 -1 4 2
+8 5 8 2 0 4 5 3 12 -1 8 0 10 3 11 3 1 5 5 5 8 0 1 -2 2
+-8 2 -8 0 -8 0 -8 -2z"/><path d="M114 632 c-2 -1 -3 -4 -2 -9 1 -4 -2 -8 -5 -8 -2 0 -4
+-5 -3 -8 1 -4 -2 -8 -5 -8 -2 0 -4 -5 -3 -8 1 -4 -1 -6 -4
+-8 -4 -1 -5 -5 -4 -18 1 -10 0 -13 -4 -13 -1 0 -2 -1 -3 -2
+-2 -2 -2 -3 0 -5 1 -1 2 -2 3 -2 4 0 5 -3 4 -13 -1 -13 0
+-17 4 -18 2 -1 4 -2 4 -4 2 -4 4 -5 28 -5 25 0 26 0 28 5
+1 3 2 3 6 3 6 0 8 1 10 5 1 3 2 3 7 3 4 0 5 0 8 3 3 3
+5 5 8 8 1 1 3 3 3 4 1 2 2 2 6 2 6 0 7 0 8 3 1 2 -2 7
+-4 7 -1 0 -3 2 -4 4 -3 4 -3 4 -22 4 -22 0 -24 0 -26 -4 -2
+-4 -2 -4 -12 -4 -6 0 -10 0 -11 1 0 1 -1 18 0 38 0 36 0 36
+-4 41 -2 2 -5 5 -6 6 -2 2 -2 2 -5 1z"/><path d="M50 536 c-2 -1 -3 -4 -2 -12 1 -7 0 -8 -1 -10 -1 -1 -3
+-2 -4 -2 -3 0 -3 -5 -3 -40 0 -35 0 -40 3 -40 3 0 6 -4 5 -8
+-1 -4 1 -8 4 -9 1 0 3 -2 4 -4 2 -4 4 -5 25 -5 20 0 20 0
+22 3 1 1 3 3 4 4 1 1 2 2 4 4 1 1 3 3 4 4 1 1 3 3 4 4
+3 3 5 5 8 8 1 1 3 3 4 4 1 1 3 3 4 4 1 1 3 3 4 4 1 1
+3 3 4 4 1 1 3 3 4 4 1 1 3 3 5 5 2 2 4 4 5 4 1 0 2 1
+3 2 2 2 2 3 0 5 -2 2 -2 2 -18 2 -18 0 -20 0 -22 -5 -1
+-3 -2 -3 -6 -3 -6 0 -8 -1 -10 -5 -1 -3 -2 -3 -6 -3 -5 0 -7
+-1 -10 -5 -1 -2 -2 -3 -4 -2 -3 0 -3 0 -2 17 0 17 0 22 -3 22
+-4 0 -6 4 -5 11 1 8 0 13 -3 13 -3 0 -6 4 -6 9 0 4 0 5 -4
+8 -2 2 -5 5 -6 6 -2 2 -2 2 -5 1z"/><path d="M0 420 c0 -4 0 -5 2 -5 1 0 3 0 4 -1 2 -1 2 -2 2
+-30 0 -32 0 -30 6 -33 1 -1 2 -2 2 -6 0 -5 1 -9 3 -9 3 0
+6 -4 5 -8 -1 -4 1 -8 4 -9 1 0 3 -2 4 -4 1 -2 3 -4 4 -4
+2 -1 3 -2 4 -4 1 -4 5 -5 11 -5 8 1 11 0 13 -4 3 -6 6 -6
+10 0 2 3 2 3 7 3 4 0 10 3 10 6 0 1 1 2 3 3 2 1 4 3 4 4 1
+2 3 3 4 4 3 1 5 4 4 9 -1 4 2 8 5 8 2 0 4 4 3 8 -1 4 0
+6 4 8 2 1 4 3 4 4 1 2 3 3 4 4 4 2 4 4 4 13 0 6 0 7
+1 8 7 6 7 6 7 11 0 6 -1 7 -5 7 -2 0 -3 -1 -5 -4 -2 -3
+-2 -4 -6 -4 -5 0 -8 -1 -10 -5 -1 -3 -2 -3 -7 -3 -5 0 -10 -3
+-10 -6 0 -1 -1 -2 -3 -3 -2 -1 -4 -3 -4 -4 -1 -2 -2 -3 -4 -4
+-1 0 -3 -2 -4 -4 -1 -2 -3 -4 -5 -5 -3 -2 -3 -2 -3 -8 -0
+-6 0 -6 -4 -6 -4 0 -4 0 -4 6 0 6 0 6 -4 8 -4 2 -5 4 -4
+8 1 3 -1 8 -3 8 -3 0 -6 4 -5 8 1 4 -1 8 -4 9 -1 0 -3 2
+-4 4 -1 2 -3 4 -4 4 -2 1 -3 3 -4 4 -1 2 -2 3 -4 4 -1 1
+-3 2 -4 4 -1 2 -3 4 -4 4 -2 1 -3 2 -3 3 0 3 -5 6 -11 6
+-6 0 -6 0 -6 -5z"/><path d="M122 302 c-1 -1 -2 -3 -2 -3 0 -1 -1 -2 -3 -3 -2 -1
+-4 -3 -4 -4 -1 -2 -3 -3 -4 -4 -1 -1 -3 -2 -4 -4 -1 -2 -3
+-3 -4 -4 -3 -1 -5 -5 -4 -8 1 -4 -1 -6 -4 -8 -4 -1 -5 -6 -4
+-13 0 -3 0 -6 0 -8 -1 -3 -1 -3 -7 -2 -6 0 -6 0 -7 5 0 8 -1
+9 -4 10 -2 0 -4 2 -4 4 -1 2 -3 4 -4 4 -2 1 -3 2 -3 3 0 3
+-5 6 -10 6 -5 0 -5 0 -7 3 -1 2 -3 4 -4 4 -2 1 -3 2 -3 3 0
+3 -5 6 -10 6 -5 0 -5 0 -7 3 -2 4 -4 5 -9 5 -8 0 -8 0 -8
+-14 0 -12 0 -12 3 -12 4 0 5 -2 5 -8 0 -5 0 -6 4 -7 4 -2 4
+-3 4 -9 0 -4 1 -7 3 -7 3 0 6 -4 5 -8 -1 -4 1 -8 4 -9 1
+-0 3 -2 4 -4 1 -2 3 -4 4 -4 2 -1 3 -2 3 -3 0 -3 5 -6 10
+-6 5 0 5 0 7 -3 1 -2 3 -4 4 -4 2 -1 3 -2 4 -4 1 -4 4 -5
+16 -5 13 0 14 0 16 5 1 3 2 3 7 3 8 0 9 2 9 8 0 5 2 9
+5 9 2 0 4 5 3 8 -1 4 2 8 5 8 3 0 4 5 3 21 0 14 0 16 2
+17 1 1 3 2 3 2 2 0 3 4 3 16 0 11 0 12 -2 14 -3 3 -10 3
+-13 -0z"/><path d="M154 224 c-2 -1 -3 -4 -2 -9 1 -4 -2 -8 -5 -8 -2 0 -4
+-5 -3 -8 1 -4 -1 -6 -4 -8 -4 -1 -5 -5 -4 -18 1 -10 0 -13 -4
+-13 -1 0 -2 -1 -3 -2 -2 -2 -2 -3 0 -5 1 -1 2 -2 3 -2 3 0 4
+-3 4 -12 0 -9 0 -9 -3 -10 -2 0 -3 0 -4 2 -1 2 -3 4 -5 6
+-2 2 -4 4 -4 5 -1 2 -2 2 -7 2 -6 0 -6 1 -8 3 -2 4 -4 5
+-10 5 -4 0 -5 0 -6 3 -2 4 -4 5 -14 5 -7 0 -8 0 -9 2 -4 6
+-4 6 -22 6 -17 0 -17 0 -19 -2 -1 -2 -1 -2 0 -5 1 -1 2 -2
+3 -2 1 0 3 -2 5 -4 2 -2 4 -5 6 -6 1 -1 3 -3 4 -4 1 -1 3
+-3 4 -4 1 -1 3 -3 4 -4 1 -1 3 -3 4 -4 1 -1 3 -3 4 -4 1
+-1 3 -3 4 -4 1 -1 3 -3 4 -4 1 -1 3 -3 4 -4 1 -1 3 -3 4
+-4 1 -1 3 -3 4 -4 1 -1 3 -3 4 -4 2 -2 3 -3 8 -3 5 0 5 -0
+7 -3 2 -4 4 -5 10 -5 4 0 5 0 6 -3 1 -2 2 -3 3 -4 3 -2
+43 -1 44 1 1 1 1 4 1 7 0 6 2 8 5 8 2 0 3 5 3 8 -1 4 2 8
+5 8 3 0 3 5 3 32 0 27 0 32 -3 32 -1 0 -2 1 -4 2 -2 2 -2
+3 -1 14 1 12 1 12 -4 16 -2 3 -5 6 -6 7 -2 2 -2 2 -5 1z"/><path d="M209 143 c-1 -1 -3 -3 -4 -4 -1 -1 -2 -3 -3 -3 -3 0
+-3 -5 -3 -28 0 -24 0 -28 3 -28 4 0 6 -4 5 -11 -1 -9 0 -10
+4 -13 6 -3 4 -8 -3 -8 -3 0 -4 1 -8 4 -4 4 -4 4 -45 4 -40
+0 -40 0 -44 -4 -3 -4 -4 -4 -9 -4 -4 0 -6 0 -7 -2 -2 -2 -2
+-3 0 -5 1 -2 2 -2 7 -2 5 0 5 0 9 -4 3 -4 4 -4 9 -4 5 0
+5 0 7 -3 2 -4 4 -5 10 -5 4 0 5 0 7 -4 2 -3 3 -4 8 -4 5
+-0 6 -1 8 -4 2 -4 2 -4 12 -4 10 0 12 -1 12 -6 0 -2 2 -2
+24 -2 22 0 24 0 24 2 0 4 3 6 8 6 5 0 5 0 12 8 7 7 7 8
+12 8 4 0 5 0 8 -4 3 -4 4 -4 8 -4 4 0 5 0 7 -3 2 -3 3
+-3 12 -4 10 -1 12 -2 12 -5 0 -2 1 -2 4 -2 4 0 4 0 6 3 1
+2 2 3 4 4 2 0 3 1 3 5 0 5 0 5 -10 5 -10 0 -10 0 -13 4 -3
+4 -3 4 -12 4 -9 0 -9 0 -12 4 -3 4 -3 4 -12 4 -12 0 -12 -0
+-12 21 0 23 0 25 -4 26 -4 1 -5 4 -4 8 1 4 -1 8 -3 8 -3 0
+-6 4 -5 8 1 4 -1 8 -3 8 -3 0 -6 4 -5 7 1 5 0 8 -4 9 -2
+1 -3 2 -3 2 0 1 -2 3 -4 6 -2 2 -5 5 -6 6 -2 2 -3 2 -6 0z"/></g></symbol>
+</svg>
 
   <!-- ═══════ 1. IDADE (intro) ═══════ -->
   <section class="screen active" id="s1" data-step="1" data-section="Ciclo Fértil" data-icon="target" data-cta="hidden">
@@ -611,9 +702,10 @@
     <h2 class="q-title">Quantos dias dura seu ciclo em média?</h2>
     <p class="q-hint">Do 1º dia de uma menstruação até o 1º dia da próxima.</p>
     <div class="big-number">
-      <span class="big-number__value" id="heightValue" contenteditable="true" inputmode="numeric" data-empty="true">0</span>
+      <span class="big-number__value vazio" id="heightValue" contenteditable="true" inputmode="numeric" data-empty="true" data-placeholder="Duração" data-min="15" data-max="90">Duração</span>
       <span class="big-number__unit" id="heightUnitLabel">dias</span>
     </div>
+    <p class="campo-ajuda" id="heightAjuda">Digite um valor entre <b>15</b> e <b>90</b> dias</p>
     <div class="info-box">
       <span class="info-box__icon">☝️</span>
       <div class="info-box__body">
@@ -627,9 +719,10 @@
     <h2 class="q-title">Quantos dias dura sua menstruação?</h2>
     <p class="q-hint">Quantos dias o sangramento em si dura, do início até parar.</p>
     <div class="big-number">
-      <span class="big-number__value" id="weightValue" contenteditable="true" inputmode="numeric" data-empty="true">0</span>
+      <span class="big-number__value vazio" id="weightValue" contenteditable="true" inputmode="numeric" data-empty="true" data-placeholder="Duração" data-min="1" data-max="15">Duração</span>
       <span class="big-number__unit" id="weightUnitLabel">dias</span>
     </div>
+    <p class="campo-ajuda" id="weightAjuda">Digite um valor entre <b>1</b> e <b>15</b> dias</p>
     <div class="alert-box" id="bmiAlert" style="display:none;">
       <span class="alert-box__icon">‼️</span>
       <div class="alert-box__body">
@@ -650,9 +743,12 @@
     <h2 class="q-title">Em quantos dias seu desejo sexual aumenta no mês?</h2>
     <p class="q-sub">Se você não percebe, deixe 0. Esse é um dos sinais secundários da ovulação.</p>
     <div class="big-number">
-      <span class="big-number__value" id="targetValue" contenteditable="true" inputmode="numeric" data-empty="true">0</span>
+      <!-- Nasce com 0 VALIDO (data-empty="false"): o texto diz "deixe 0", entao o
+           CONTINUAR nao pode ficar travado esperando um toque no campo. -->
+      <span class="big-number__value" id="targetValue" contenteditable="true" inputmode="numeric" data-empty="false" data-placeholder="0" data-min="0" data-max="31">0</span>
       <span class="big-number__unit">dias</span>
     </div>
+    <p class="campo-ajuda" id="targetAjuda">Digite um valor entre <b>0</b> e <b>31</b> dias</p>
     <div class="info-box" style="margin-top:20px;">
       <span class="info-box__icon">☝️</span>
       <div class="info-box__body">
@@ -739,7 +835,6 @@
     <h2 class="q-title">Quando começou sua última menstruação?</h2>
     <p class="q-sub">Com essa data calculamos sua próxima janela fértil.</p>
     <div class="date-block">
-      <div class="date-block__label">Data</div>
       <div class="date-fields">
         <input type="number" class="date-field" id="dateDay" placeholder="DD" min="1" max="31"/>
         <span class="date-sep">/</span>
@@ -747,36 +842,33 @@
         <span class="date-sep">/</span>
         <input type="number" class="date-field date-field--year" id="dateYear" placeholder="AAAA" min="2020" max="2099"/>
       </div>
+      <p class="campo-ajuda">Digite <b>dia</b>, <b>mês</b> e <b>ano</b> da sua última menstruação</p>
       <input type="hidden" id="occasionDate"/>
     </div>
   </section>
 
   <!-- ═══════ 27. PROJEÇÃO ═══════ -->
   <section class="screen" id="s27" data-step="32" data-section="" data-icon="" data-cta="hidden">
-    <div class="loading-screen">
-      <div class="loading-banner">
-        <div class="loading-banner__ring">
-          <svg viewBox="0 0 100 100">
-            <circle class="loading-banner__ring-track" cx="50" cy="50" r="42"/>
-            <circle class="loading-banner__ring-fill" id="loadingRing" cx="50" cy="50" r="42"/>
-          </svg>
-          <div class="loading-banner__pct" id="loadingPct">0%</div>
-        </div>
-        <span class="loading-banner__text">Veja até onde seu IQO pode chegar com o plano certo.</span>
+    <h1 class="q-title-lg analise__titulo">Analisando suas respostas</h1>
+    <!-- Quatro barras, uma por bloco do quiz, que enchem uma de cada vez
+         (startLoading). A porcentagem fica a direita enquanto enche; ao
+         terminar vira o check. Os nomes sao os das secoes do quiz. -->
+    <ul class="analise" id="analise" aria-live="polite">
+      <li class="analise__item"><div class="analise__topo"><span class="analise__rotulo">Seu perfil</span><span class="analise__status"></span></div><div class="analise__trilho"><div class="analise__barra"></div></div></li>
+      <li class="analise__item"><div class="analise__topo"><span class="analise__rotulo">Sinais do ciclo</span><span class="analise__status"></span></div><div class="analise__trilho"><div class="analise__barra"></div></div></li>
+      <li class="analise__item"><div class="analise__topo"><span class="analise__rotulo">Fator emocional</span><span class="analise__status"></span></div><div class="analise__trilho"><div class="analise__barra"></div></div></li>
+      <li class="analise__item"><div class="analise__topo"><span class="analise__rotulo">Estado do organismo</span><span class="analise__status"></span></div><div class="analise__trilho"><div class="analise__barra"></div></div></li>
+    </ul>
+    <!-- Selo com louros no pe, onde a referencia poe o Trustpilot. Nao temos
+         conta la, entao o miolo repete o numero que a tela 2 ja afirma e as
+         estrelas dos depoimentos da tela 30. -->
+    <div class="louro-selo">
+      <svg class="prova__louro louro-selo__folha" viewBox="0 0 328 664" fill="currentColor" aria-hidden="true"><use href="#louroSimbolo"/></svg>
+      <div class="louro-selo__miolo">
+        <div class="louro-selo__lado"><b class="louro-selo__num">+1.800</b><span class="louro-selo__leg">mulheres</span></div>
+        <div class="louro-selo__lado"><span class="louro-selo__excelente">Excelente</span><span class="review__nota" aria-label="5 de 5 estrelas"><i></i><i></i><i></i><i></i><i></i></span></div>
       </div>
-      <h1 class="loading-bigtitle">Com base nas suas respostas, já identificamos onde está o bloqueio.</h1>
-      <div class="avatar-cluster">
-        <!-- círculo: R=84px, pontas se tocando -->
-        <div class="imgbox imgbox--circle" style="top:3%;left:43%;width:64px;height:64px;z-index:1;"><img loading="lazy" src="Images/avatar1.webp" alt=""/></div>
-        <div class="imgbox imgbox--circle" style="top:13%;left:56%;width:64px;height:64px;z-index:1;"><img loading="lazy" src="Images/avatar2.webp" alt=""/></div>
-        <div class="imgbox imgbox--circle" style="top:38%;left:63%;width:64px;height:64px;z-index:2;"><img loading="lazy" src="Images/avatar3.webp" alt=""/></div>
-        <div class="imgbox imgbox--circle" style="top:62%;left:57%;width:64px;height:64px;z-index:3;"><img loading="lazy" src="Images/avatar4.webp" alt=""/></div>
-        <div class="imgbox imgbox--circle" style="top:73%;left:43%;width:64px;height:64px;z-index:4;"><img loading="lazy" src="Images/avatar6.webp" alt=""/></div>
-        <div class="imgbox imgbox--circle" style="top:62%;left:27%;width:64px;height:64px;z-index:3;"><img loading="lazy" src="Images/avatar8.webp" alt=""/></div>
-        <div class="imgbox imgbox--circle" style="top:38%;left:21%;width:64px;height:64px;z-index:2;"><img loading="lazy" src="Images/avatar9.webp" alt=""/></div>
-        <div class="imgbox imgbox--circle" style="top:13%;left:27%;width:64px;height:64px;z-index:1;"><img loading="lazy" src="Images/avatar11.webp" alt=""/></div>
-        <div class="imgbox imgbox--circle" style="top:35%;left:41%;width:68px;height:68px;z-index:5;"><img loading="lazy" src="Images/avatar7.webp" alt=""/></div>
-      </div>
+      <svg class="prova__louro prova__louro--dir louro-selo__folha" viewBox="0 0 328 664" fill="currentColor" aria-hidden="true"><use href="#louroSimbolo"/></svg>
     </div>
   </section>
 
@@ -1083,184 +1175,14 @@
       </div>
 
       <div class="prova__premio">
-        <svg class="prova__louro" viewBox="0 0 328 664" fill="currentColor" aria-hidden="true"><g transform="translate(0,664) scale(1,-1)"><path d="M224 662 c0 -4 -3 -6 -9 -6 -5 0 -6 0 -7 -3 -2 -3 -2
--3 -8 -4 -5 0 -6 -1 -8 -4 -1 -2 -4 -4 -5 -5 -2 -1 -3 -3
--4 -4 0 -1 -2 -3 -4 -4 -2 -1 -4 -3 -4 -4 -1 -2 -3 -3 -4
--4 -3 -1 -5 -4 -4 -9 1 -4 -2 -8 -5 -8 -2 0 -4 -5 -3 -8 0
--3 0 -4 -1 -5 -7 -6 -7 -6 -7 -10 0 -3 1 -5 2 -6 5 -4 6 -6
-8 -8 2 -2 2 -3 7 -2 5 0 5 1 8 4 1 2 3 4 5 5 1 1 3 3 4
-4 1 3 2 3 6 3 6 0 8 1 10 5 1 2 3 3 4 4 3 1 5 4 4 8 -1
-4 0 6 4 8 2 1 4 3 4 4 1 2 3 3 4 4 3 1 5 4 4 9 -1 4 2
-8 5 8 2 0 4 5 3 12 -1 8 0 10 3 11 3 1 5 5 5 8 0 1 -2 2
--8 2 -8 0 -8 0 -8 -2z"/><path d="M114 632 c-2 -1 -3 -4 -2 -9 1 -4 -2 -8 -5 -8 -2 0 -4
--5 -3 -8 1 -4 -2 -8 -5 -8 -2 0 -4 -5 -3 -8 1 -4 -1 -6 -4
--8 -4 -1 -5 -5 -4 -18 1 -10 0 -13 -4 -13 -1 0 -2 -1 -3 -2
--2 -2 -2 -3 0 -5 1 -1 2 -2 3 -2 4 0 5 -3 4 -13 -1 -13 0
--17 4 -18 2 -1 4 -2 4 -4 2 -4 4 -5 28 -5 25 0 26 0 28 5
-1 3 2 3 6 3 6 0 8 1 10 5 1 3 2 3 7 3 4 0 5 0 8 3 3 3
-5 5 8 8 1 1 3 3 3 4 1 2 2 2 6 2 6 0 7 0 8 3 1 2 -2 7
--4 7 -1 0 -3 2 -4 4 -3 4 -3 4 -22 4 -22 0 -24 0 -26 -4 -2
--4 -2 -4 -12 -4 -6 0 -10 0 -11 1 0 1 -1 18 0 38 0 36 0 36
--4 41 -2 2 -5 5 -6 6 -2 2 -2 2 -5 1z"/><path d="M50 536 c-2 -1 -3 -4 -2 -12 1 -7 0 -8 -1 -10 -1 -1 -3
--2 -4 -2 -3 0 -3 -5 -3 -40 0 -35 0 -40 3 -40 3 0 6 -4 5 -8
--1 -4 1 -8 4 -9 1 0 3 -2 4 -4 2 -4 4 -5 25 -5 20 0 20 0
-22 3 1 1 3 3 4 4 1 1 2 2 4 4 1 1 3 3 4 4 1 1 3 3 4 4
-3 3 5 5 8 8 1 1 3 3 4 4 1 1 3 3 4 4 1 1 3 3 4 4 1 1
-3 3 4 4 1 1 3 3 4 4 1 1 3 3 5 5 2 2 4 4 5 4 1 0 2 1
-3 2 2 2 2 3 0 5 -2 2 -2 2 -18 2 -18 0 -20 0 -22 -5 -1
--3 -2 -3 -6 -3 -6 0 -8 -1 -10 -5 -1 -3 -2 -3 -6 -3 -5 0 -7
--1 -10 -5 -1 -2 -2 -3 -4 -2 -3 0 -3 0 -2 17 0 17 0 22 -3 22
--4 0 -6 4 -5 11 1 8 0 13 -3 13 -3 0 -6 4 -6 9 0 4 0 5 -4
-8 -2 2 -5 5 -6 6 -2 2 -2 2 -5 1z"/><path d="M0 420 c0 -4 0 -5 2 -5 1 0 3 0 4 -1 2 -1 2 -2 2
--30 0 -32 0 -30 6 -33 1 -1 2 -2 2 -6 0 -5 1 -9 3 -9 3 0
-6 -4 5 -8 -1 -4 1 -8 4 -9 1 0 3 -2 4 -4 1 -2 3 -4 4 -4
-2 -1 3 -2 4 -4 1 -4 5 -5 11 -5 8 1 11 0 13 -4 3 -6 6 -6
-10 0 2 3 2 3 7 3 4 0 10 3 10 6 0 1 1 2 3 3 2 1 4 3 4 4 1
-2 3 3 4 4 3 1 5 4 4 9 -1 4 2 8 5 8 2 0 4 4 3 8 -1 4 0
-6 4 8 2 1 4 3 4 4 1 2 3 3 4 4 4 2 4 4 4 13 0 6 0 7
-1 8 7 6 7 6 7 11 0 6 -1 7 -5 7 -2 0 -3 -1 -5 -4 -2 -3
--2 -4 -6 -4 -5 0 -8 -1 -10 -5 -1 -3 -2 -3 -7 -3 -5 0 -10 -3
--10 -6 0 -1 -1 -2 -3 -3 -2 -1 -4 -3 -4 -4 -1 -2 -2 -3 -4 -4
--1 0 -3 -2 -4 -4 -1 -2 -3 -4 -5 -5 -3 -2 -3 -2 -3 -8 -0
--6 0 -6 -4 -6 -4 0 -4 0 -4 6 0 6 0 6 -4 8 -4 2 -5 4 -4
-8 1 3 -1 8 -3 8 -3 0 -6 4 -5 8 1 4 -1 8 -4 9 -1 0 -3 2
--4 4 -1 2 -3 4 -4 4 -2 1 -3 3 -4 4 -1 2 -2 3 -4 4 -1 1
--3 2 -4 4 -1 2 -3 4 -4 4 -2 1 -3 2 -3 3 0 3 -5 6 -11 6
--6 0 -6 0 -6 -5z"/><path d="M122 302 c-1 -1 -2 -3 -2 -3 0 -1 -1 -2 -3 -3 -2 -1
--4 -3 -4 -4 -1 -2 -3 -3 -4 -4 -1 -1 -3 -2 -4 -4 -1 -2 -3
--3 -4 -4 -3 -1 -5 -5 -4 -8 1 -4 -1 -6 -4 -8 -4 -1 -5 -6 -4
--13 0 -3 0 -6 0 -8 -1 -3 -1 -3 -7 -2 -6 0 -6 0 -7 5 0 8 -1
-9 -4 10 -2 0 -4 2 -4 4 -1 2 -3 4 -4 4 -2 1 -3 2 -3 3 0 3
--5 6 -10 6 -5 0 -5 0 -7 3 -1 2 -3 4 -4 4 -2 1 -3 2 -3 3 0
-3 -5 6 -10 6 -5 0 -5 0 -7 3 -2 4 -4 5 -9 5 -8 0 -8 0 -8
--14 0 -12 0 -12 3 -12 4 0 5 -2 5 -8 0 -5 0 -6 4 -7 4 -2 4
--3 4 -9 0 -4 1 -7 3 -7 3 0 6 -4 5 -8 -1 -4 1 -8 4 -9 1
--0 3 -2 4 -4 1 -2 3 -4 4 -4 2 -1 3 -2 3 -3 0 -3 5 -6 10
--6 5 0 5 0 7 -3 1 -2 3 -4 4 -4 2 -1 3 -2 4 -4 1 -4 4 -5
-16 -5 13 0 14 0 16 5 1 3 2 3 7 3 8 0 9 2 9 8 0 5 2 9
-5 9 2 0 4 5 3 8 -1 4 2 8 5 8 3 0 4 5 3 21 0 14 0 16 2
-17 1 1 3 2 3 2 2 0 3 4 3 16 0 11 0 12 -2 14 -3 3 -10 3
--13 -0z"/><path d="M154 224 c-2 -1 -3 -4 -2 -9 1 -4 -2 -8 -5 -8 -2 0 -4
--5 -3 -8 1 -4 -1 -6 -4 -8 -4 -1 -5 -5 -4 -18 1 -10 0 -13 -4
--13 -1 0 -2 -1 -3 -2 -2 -2 -2 -3 0 -5 1 -1 2 -2 3 -2 3 0 4
--3 4 -12 0 -9 0 -9 -3 -10 -2 0 -3 0 -4 2 -1 2 -3 4 -5 6
--2 2 -4 4 -4 5 -1 2 -2 2 -7 2 -6 0 -6 1 -8 3 -2 4 -4 5
--10 5 -4 0 -5 0 -6 3 -2 4 -4 5 -14 5 -7 0 -8 0 -9 2 -4 6
--4 6 -22 6 -17 0 -17 0 -19 -2 -1 -2 -1 -2 0 -5 1 -1 2 -2
-3 -2 1 0 3 -2 5 -4 2 -2 4 -5 6 -6 1 -1 3 -3 4 -4 1 -1 3
--3 4 -4 1 -1 3 -3 4 -4 1 -1 3 -3 4 -4 1 -1 3 -3 4 -4 1
--1 3 -3 4 -4 1 -1 3 -3 4 -4 1 -1 3 -3 4 -4 1 -1 3 -3 4
--4 1 -1 3 -3 4 -4 1 -1 3 -3 4 -4 2 -2 3 -3 8 -3 5 0 5 -0
-7 -3 2 -4 4 -5 10 -5 4 0 5 0 6 -3 1 -2 2 -3 3 -4 3 -2
-43 -1 44 1 1 1 1 4 1 7 0 6 2 8 5 8 2 0 3 5 3 8 -1 4 2 8
-5 8 3 0 3 5 3 32 0 27 0 32 -3 32 -1 0 -2 1 -4 2 -2 2 -2
-3 -1 14 1 12 1 12 -4 16 -2 3 -5 6 -6 7 -2 2 -2 2 -5 1z"/><path d="M209 143 c-1 -1 -3 -3 -4 -4 -1 -1 -2 -3 -3 -3 -3 0
--3 -5 -3 -28 0 -24 0 -28 3 -28 4 0 6 -4 5 -11 -1 -9 0 -10
-4 -13 6 -3 4 -8 -3 -8 -3 0 -4 1 -8 4 -4 4 -4 4 -45 4 -40
-0 -40 0 -44 -4 -3 -4 -4 -4 -9 -4 -4 0 -6 0 -7 -2 -2 -2 -2
--3 0 -5 1 -2 2 -2 7 -2 5 0 5 0 9 -4 3 -4 4 -4 9 -4 5 0
-5 0 7 -3 2 -4 4 -5 10 -5 4 0 5 0 7 -4 2 -3 3 -4 8 -4 5
--0 6 -1 8 -4 2 -4 2 -4 12 -4 10 0 12 -1 12 -6 0 -2 2 -2
-24 -2 22 0 24 0 24 2 0 4 3 6 8 6 5 0 5 0 12 8 7 7 7 8
-12 8 4 0 5 0 8 -4 3 -4 4 -4 8 -4 4 0 5 0 7 -3 2 -3 3
--3 12 -4 10 -1 12 -2 12 -5 0 -2 1 -2 4 -2 4 0 4 0 6 3 1
-2 2 3 4 4 2 0 3 1 3 5 0 5 0 5 -10 5 -10 0 -10 0 -13 4 -3
-4 -3 4 -12 4 -9 0 -9 0 -12 4 -3 4 -3 4 -12 4 -12 0 -12 -0
--12 21 0 23 0 25 -4 26 -4 1 -5 4 -4 8 1 4 -1 8 -3 8 -3 0
--6 4 -5 8 1 4 -1 8 -3 8 -3 0 -6 4 -5 7 1 5 0 8 -4 9 -2
-1 -3 2 -3 2 0 1 -2 3 -4 6 -2 2 -5 5 -6 6 -2 2 -3 2 -6 0z"/></g></svg>
+        <svg class="prova__louro" viewBox="0 0 328 664" fill="currentColor" aria-hidden="true"><use href="#louroSimbolo"/></svg>
         <div class="prova__premio-txt">
           <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.4 12.7c0-2.1 1.7-3.1 1.8-3.2-1-1.4-2.5-1.6-3-1.7-1.3-.1-2.5.8-3.2.8-.7 0-1.6-.8-2.7-.7-1.4 0-2.7.8-3.4 2-1.4 2.5-.4 6.2 1 8.3.7 1 1.5 2.1 2.5 2.1 1 0 1.4-.7 2.6-.7 1.2 0 1.5.7 2.6.6 1.1 0 1.8-1 2.4-2 .8-1.2 1.1-2.3 1.1-2.3s-2.1-.8-2.1-3.2zM14.3 5.6c.5-.7.9-1.6.8-2.6-.8 0-1.9.6-2.4 1.3-.5.6-1 1.6-.9 2.5.9.1 1.9-.5 2.5-1.2z"/></svg>
           <b>APP DO DIA</b>
           <!-- DADO: alcance e data do premio -->
           <span>em — países · —</span>
         </div>
-        <svg class="prova__louro prova__louro--dir" viewBox="0 0 328 664" fill="currentColor" aria-hidden="true"><g transform="translate(0,664) scale(1,-1)"><path d="M224 662 c0 -4 -3 -6 -9 -6 -5 0 -6 0 -7 -3 -2 -3 -2
--3 -8 -4 -5 0 -6 -1 -8 -4 -1 -2 -4 -4 -5 -5 -2 -1 -3 -3
--4 -4 0 -1 -2 -3 -4 -4 -2 -1 -4 -3 -4 -4 -1 -2 -3 -3 -4
--4 -3 -1 -5 -4 -4 -9 1 -4 -2 -8 -5 -8 -2 0 -4 -5 -3 -8 0
--3 0 -4 -1 -5 -7 -6 -7 -6 -7 -10 0 -3 1 -5 2 -6 5 -4 6 -6
-8 -8 2 -2 2 -3 7 -2 5 0 5 1 8 4 1 2 3 4 5 5 1 1 3 3 4
-4 1 3 2 3 6 3 6 0 8 1 10 5 1 2 3 3 4 4 3 1 5 4 4 8 -1
-4 0 6 4 8 2 1 4 3 4 4 1 2 3 3 4 4 3 1 5 4 4 9 -1 4 2
-8 5 8 2 0 4 5 3 12 -1 8 0 10 3 11 3 1 5 5 5 8 0 1 -2 2
--8 2 -8 0 -8 0 -8 -2z"/><path d="M114 632 c-2 -1 -3 -4 -2 -9 1 -4 -2 -8 -5 -8 -2 0 -4
--5 -3 -8 1 -4 -2 -8 -5 -8 -2 0 -4 -5 -3 -8 1 -4 -1 -6 -4
--8 -4 -1 -5 -5 -4 -18 1 -10 0 -13 -4 -13 -1 0 -2 -1 -3 -2
--2 -2 -2 -3 0 -5 1 -1 2 -2 3 -2 4 0 5 -3 4 -13 -1 -13 0
--17 4 -18 2 -1 4 -2 4 -4 2 -4 4 -5 28 -5 25 0 26 0 28 5
-1 3 2 3 6 3 6 0 8 1 10 5 1 3 2 3 7 3 4 0 5 0 8 3 3 3
-5 5 8 8 1 1 3 3 3 4 1 2 2 2 6 2 6 0 7 0 8 3 1 2 -2 7
--4 7 -1 0 -3 2 -4 4 -3 4 -3 4 -22 4 -22 0 -24 0 -26 -4 -2
--4 -2 -4 -12 -4 -6 0 -10 0 -11 1 0 1 -1 18 0 38 0 36 0 36
--4 41 -2 2 -5 5 -6 6 -2 2 -2 2 -5 1z"/><path d="M50 536 c-2 -1 -3 -4 -2 -12 1 -7 0 -8 -1 -10 -1 -1 -3
--2 -4 -2 -3 0 -3 -5 -3 -40 0 -35 0 -40 3 -40 3 0 6 -4 5 -8
--1 -4 1 -8 4 -9 1 0 3 -2 4 -4 2 -4 4 -5 25 -5 20 0 20 0
-22 3 1 1 3 3 4 4 1 1 2 2 4 4 1 1 3 3 4 4 1 1 3 3 4 4
-3 3 5 5 8 8 1 1 3 3 4 4 1 1 3 3 4 4 1 1 3 3 4 4 1 1
-3 3 4 4 1 1 3 3 4 4 1 1 3 3 5 5 2 2 4 4 5 4 1 0 2 1
-3 2 2 2 2 3 0 5 -2 2 -2 2 -18 2 -18 0 -20 0 -22 -5 -1
--3 -2 -3 -6 -3 -6 0 -8 -1 -10 -5 -1 -3 -2 -3 -6 -3 -5 0 -7
--1 -10 -5 -1 -2 -2 -3 -4 -2 -3 0 -3 0 -2 17 0 17 0 22 -3 22
--4 0 -6 4 -5 11 1 8 0 13 -3 13 -3 0 -6 4 -6 9 0 4 0 5 -4
-8 -2 2 -5 5 -6 6 -2 2 -2 2 -5 1z"/><path d="M0 420 c0 -4 0 -5 2 -5 1 0 3 0 4 -1 2 -1 2 -2 2
--30 0 -32 0 -30 6 -33 1 -1 2 -2 2 -6 0 -5 1 -9 3 -9 3 0
-6 -4 5 -8 -1 -4 1 -8 4 -9 1 0 3 -2 4 -4 1 -2 3 -4 4 -4
-2 -1 3 -2 4 -4 1 -4 5 -5 11 -5 8 1 11 0 13 -4 3 -6 6 -6
-10 0 2 3 2 3 7 3 4 0 10 3 10 6 0 1 1 2 3 3 2 1 4 3 4 4 1
-2 3 3 4 4 3 1 5 4 4 9 -1 4 2 8 5 8 2 0 4 4 3 8 -1 4 0
-6 4 8 2 1 4 3 4 4 1 2 3 3 4 4 4 2 4 4 4 13 0 6 0 7
-1 8 7 6 7 6 7 11 0 6 -1 7 -5 7 -2 0 -3 -1 -5 -4 -2 -3
--2 -4 -6 -4 -5 0 -8 -1 -10 -5 -1 -3 -2 -3 -7 -3 -5 0 -10 -3
--10 -6 0 -1 -1 -2 -3 -3 -2 -1 -4 -3 -4 -4 -1 -2 -2 -3 -4 -4
--1 0 -3 -2 -4 -4 -1 -2 -3 -4 -5 -5 -3 -2 -3 -2 -3 -8 -0
--6 0 -6 -4 -6 -4 0 -4 0 -4 6 0 6 0 6 -4 8 -4 2 -5 4 -4
-8 1 3 -1 8 -3 8 -3 0 -6 4 -5 8 1 4 -1 8 -4 9 -1 0 -3 2
--4 4 -1 2 -3 4 -4 4 -2 1 -3 3 -4 4 -1 2 -2 3 -4 4 -1 1
--3 2 -4 4 -1 2 -3 4 -4 4 -2 1 -3 2 -3 3 0 3 -5 6 -11 6
--6 0 -6 0 -6 -5z"/><path d="M122 302 c-1 -1 -2 -3 -2 -3 0 -1 -1 -2 -3 -3 -2 -1
--4 -3 -4 -4 -1 -2 -3 -3 -4 -4 -1 -1 -3 -2 -4 -4 -1 -2 -3
--3 -4 -4 -3 -1 -5 -5 -4 -8 1 -4 -1 -6 -4 -8 -4 -1 -5 -6 -4
--13 0 -3 0 -6 0 -8 -1 -3 -1 -3 -7 -2 -6 0 -6 0 -7 5 0 8 -1
-9 -4 10 -2 0 -4 2 -4 4 -1 2 -3 4 -4 4 -2 1 -3 2 -3 3 0 3
--5 6 -10 6 -5 0 -5 0 -7 3 -1 2 -3 4 -4 4 -2 1 -3 2 -3 3 0
-3 -5 6 -10 6 -5 0 -5 0 -7 3 -2 4 -4 5 -9 5 -8 0 -8 0 -8
--14 0 -12 0 -12 3 -12 4 0 5 -2 5 -8 0 -5 0 -6 4 -7 4 -2 4
--3 4 -9 0 -4 1 -7 3 -7 3 0 6 -4 5 -8 -1 -4 1 -8 4 -9 1
--0 3 -2 4 -4 1 -2 3 -4 4 -4 2 -1 3 -2 3 -3 0 -3 5 -6 10
--6 5 0 5 0 7 -3 1 -2 3 -4 4 -4 2 -1 3 -2 4 -4 1 -4 4 -5
-16 -5 13 0 14 0 16 5 1 3 2 3 7 3 8 0 9 2 9 8 0 5 2 9
-5 9 2 0 4 5 3 8 -1 4 2 8 5 8 3 0 4 5 3 21 0 14 0 16 2
-17 1 1 3 2 3 2 2 0 3 4 3 16 0 11 0 12 -2 14 -3 3 -10 3
--13 -0z"/><path d="M154 224 c-2 -1 -3 -4 -2 -9 1 -4 -2 -8 -5 -8 -2 0 -4
--5 -3 -8 1 -4 -1 -6 -4 -8 -4 -1 -5 -5 -4 -18 1 -10 0 -13 -4
--13 -1 0 -2 -1 -3 -2 -2 -2 -2 -3 0 -5 1 -1 2 -2 3 -2 3 0 4
--3 4 -12 0 -9 0 -9 -3 -10 -2 0 -3 0 -4 2 -1 2 -3 4 -5 6
--2 2 -4 4 -4 5 -1 2 -2 2 -7 2 -6 0 -6 1 -8 3 -2 4 -4 5
--10 5 -4 0 -5 0 -6 3 -2 4 -4 5 -14 5 -7 0 -8 0 -9 2 -4 6
--4 6 -22 6 -17 0 -17 0 -19 -2 -1 -2 -1 -2 0 -5 1 -1 2 -2
-3 -2 1 0 3 -2 5 -4 2 -2 4 -5 6 -6 1 -1 3 -3 4 -4 1 -1 3
--3 4 -4 1 -1 3 -3 4 -4 1 -1 3 -3 4 -4 1 -1 3 -3 4 -4 1
--1 3 -3 4 -4 1 -1 3 -3 4 -4 1 -1 3 -3 4 -4 1 -1 3 -3 4
--4 1 -1 3 -3 4 -4 1 -1 3 -3 4 -4 2 -2 3 -3 8 -3 5 0 5 -0
-7 -3 2 -4 4 -5 10 -5 4 0 5 0 6 -3 1 -2 2 -3 3 -4 3 -2
-43 -1 44 1 1 1 1 4 1 7 0 6 2 8 5 8 2 0 3 5 3 8 -1 4 2 8
-5 8 3 0 3 5 3 32 0 27 0 32 -3 32 -1 0 -2 1 -4 2 -2 2 -2
-3 -1 14 1 12 1 12 -4 16 -2 3 -5 6 -6 7 -2 2 -2 2 -5 1z"/><path d="M209 143 c-1 -1 -3 -3 -4 -4 -1 -1 -2 -3 -3 -3 -3 0
--3 -5 -3 -28 0 -24 0 -28 3 -28 4 0 6 -4 5 -11 -1 -9 0 -10
-4 -13 6 -3 4 -8 -3 -8 -3 0 -4 1 -8 4 -4 4 -4 4 -45 4 -40
-0 -40 0 -44 -4 -3 -4 -4 -4 -9 -4 -4 0 -6 0 -7 -2 -2 -2 -2
--3 0 -5 1 -2 2 -2 7 -2 5 0 5 0 9 -4 3 -4 4 -4 9 -4 5 0
-5 0 7 -3 2 -4 4 -5 10 -5 4 0 5 0 7 -4 2 -3 3 -4 8 -4 5
--0 6 -1 8 -4 2 -4 2 -4 12 -4 10 0 12 -1 12 -6 0 -2 2 -2
-24 -2 22 0 24 0 24 2 0 4 3 6 8 6 5 0 5 0 12 8 7 7 7 8
-12 8 4 0 5 0 8 -4 3 -4 4 -4 8 -4 4 0 5 0 7 -3 2 -3 3
--3 12 -4 10 -1 12 -2 12 -5 0 -2 1 -2 4 -2 4 0 4 0 6 3 1
-2 2 3 4 4 2 0 3 1 3 5 0 5 0 5 -10 5 -10 0 -10 0 -13 4 -3
-4 -3 4 -12 4 -9 0 -9 0 -12 4 -3 4 -3 4 -12 4 -12 0 -12 -0
--12 21 0 23 0 25 -4 26 -4 1 -5 4 -4 8 1 4 -1 8 -3 8 -3 0
--6 4 -5 8 1 4 -1 8 -3 8 -3 0 -6 4 -5 7 1 5 0 8 -4 9 -2
-1 -3 2 -3 2 0 1 -2 3 -4 6 -2 2 -5 5 -6 6 -2 2 -3 2 -6 0z"/></g></svg>
+        <svg class="prova__louro prova__louro--dir" viewBox="0 0 328 664" fill="currentColor" aria-hidden="true"><use href="#louroSimbolo"/></svg>
       </div>
     </div>
 
@@ -1951,10 +1873,15 @@ function updateChrome(screenId) {
     if (i >= 0) {
       const lista = TELAS_DA_SECAO[section] || [];
       const pos = lista.indexOf(screenId);
-      const parte = lista.length ? Math.round(((pos + 1) / lista.length) * 100) : 100;
+      /* pos, e nao pos+1: a barra conta telas CONCLUIDAS. Na primeira tela do
+         quiz ela nasce zerada e so comeca a andar depois da primeira resposta;
+         na primeira tela de cada secao o segmento anterior fecha e o novo
+         esta em zero. So a ultima tela da ultima secao mostra tudo cheio. */
+      const ultima = i === SECOES.length - 1 && pos === lista.length - 1;
+      const parte = !lista.length ? 0 : ultima ? 100 : Math.round((pos / lista.length) * 100);
       [...progresso.children].forEach((seg, k) => {
         seg.style.setProperty('--p', k < i ? '100%' : k === i ? parte + '%' : '0%');
-        seg.classList.toggle('on', k <= i);
+        seg.classList.toggle('on', k < i || (k === i && parte > 0));
       });
       progresso.setAttribute('aria-valuenow', i + 1);
     }
@@ -2298,28 +2225,58 @@ document.querySelectorAll('.bodymap__img').forEach(imgEl => {
 function setupBigNumber(id, ansKey, allowZero = false) {
   const el = document.getElementById(id);
   if (!el) return;
-  el.addEventListener('input', () => {
-    const v = el.textContent.replace(/[^0-9]/g, '').slice(0, 4);
-    el.textContent = v || '0';
+  /* Placeholder e faixa vem do HTML (data-placeholder, data-min, data-max).
+     Vazio mostra a palavra do campo em cinza, como no campo de referencia —
+     nao um "0" que parece valor. Fora da faixa o CONTINUAR fica travado
+     (dataset.empty, que e o que o updateChrome le) e a ajuda embaixo fica
+     vermelha, mas so depois que a pessoa sai do campo: em vermelho a cada
+     tecla, "2" a caminho de "28" ja acusava erro. */
+  const vazio = el.dataset.placeholder || '0';
+  const min = el.dataset.min !== undefined ? parseInt(el.dataset.min) : -Infinity;
+  const max = el.dataset.max !== undefined ? parseInt(el.dataset.max) : Infinity;
+  const ajuda = document.getElementById(id.replace('Value', 'Ajuda'));
+  if (allowZero && el.dataset.empty === 'false' && answers[ansKey] === undefined) answers[ansKey] = 0;
+  function avaliar(v, focado) {
     const isEmpty = v === '' || (!allowZero && v === '0');
-    el.dataset.empty = isEmpty ? 'true' : 'false';
-    if (!isEmpty) answers[ansKey] = parseInt(v || '0');
+    const n = parseInt(v || '0');
+    const fora = !isEmpty && (n < min || n > max);
+    el.dataset.empty = (isEmpty || fora) ? 'true' : 'false';
+    el.classList.remove('vazio');
+    if (!isEmpty && !fora) answers[ansKey] = n;
+    if (ajuda) ajuda.classList.toggle('fora', fora && !focado);
+    const screen = el.closest('section');
+    if (screen) showFooter(screen.id);
+  }
+  el.addEventListener('input', () => {
+    const v = el.textContent.replace(/[^0-9]/g, '').replace(/^0+(?=\d)/, '').slice(0, 4);
+    el.textContent = v;
+    avaliar(v, true);
     const range = document.createRange();
     range.selectNodeContents(el);
     range.collapse(false);
     const sel = window.getSelection();
     sel.removeAllRanges();
     sel.addRange(range);
+  });
+  el.addEventListener('focus', () => {
+    if (el.classList.contains('vazio')) { el.textContent = ''; return; }
+    /* Com valor (o "0" pre-preenchido ou um numero de antes), seleciona tudo:
+       o primeiro digito substitui. Sem isso o toque cai num lado do numero e
+       quem quer corrigir 5 pra 28 acaba com 528 ou 285. */
+    if (el.textContent.trim()) {
+      const r = document.createRange(); r.selectNodeContents(el);
+      const sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(r);
+    }
+  });
+  el.addEventListener('blur', () => {
+    const v = el.textContent.trim();
+    if (v) { avaliar(v, false); return; }
+    el.textContent = vazio;
+    if (ajuda) ajuda.classList.remove('fora');
+    if (allowZero) { el.dataset.empty = 'false'; answers[ansKey] = 0; }
+    else { el.dataset.empty = 'true'; el.classList.add('vazio'); }
     const screen = el.closest('section');
     if (screen) showFooter(screen.id);
-  });
-  el.addEventListener('focus', () => { if (el.dataset.empty === 'true') el.textContent = ''; });
-  el.addEventListener('blur', () => {
-    if (!el.textContent.trim()) {
-      el.textContent = '0';
-      el.dataset.empty = allowZero ? 'false' : 'true';
-      if (allowZero) answers[ansKey] = 0;
-    }
   });
 }
 setupBigNumber('heightValue', 'cycleDays');
@@ -2694,19 +2651,40 @@ function syncPriceCompare() {
 }
 
 function startLoading() {
-  const CIRC = 263.9;
-  const ring = document.getElementById('loadingRing');
-  const pct = document.getElementById('loadingPct');
-  let p = 0;
-  const it = setInterval(() => {
-    p += 1;
-    pct.textContent = p + '%';
-    ring.style.strokeDashoffset = CIRC * (1 - p/100);
-    if (p >= 100) {
-      clearInterval(it);
-      setTimeout(() => goToScreen('s28'), 500);
-    }
-  }, 55);
+  const tela = document.getElementById('s27');
+  const itens = [...document.querySelectorAll('#analise .analise__item')];
+  if (!tela || !itens.length) return;
+  const CHECK = '<svg viewBox="0 0 28 28" aria-hidden="true"><circle cx="14" cy="14" r="14" fill="currentColor"/>' +
+                '<path d="M8.5 14.5l3.6 3.6 7.4-7.6" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  /* 1,3s por barra: as quatro dao ~5,5s, o tempo que o anel antigo levava.
+     Recomeca do zero toda vez que a tela abre (voltar e avancar de novo), e
+     para de mexer se a pessoa sair da tela no meio. */
+  const DUR = 1300;
+  itens.forEach(it => {
+    it.querySelector('.analise__barra').style.width = '0%';
+    const st = it.querySelector('.analise__status');
+    st.textContent = ''; st.classList.remove('feito');
+  });
+  let i = 0;
+  function proximo() {
+    if (!tela.classList.contains('active')) return;
+    if (i >= itens.length) { setTimeout(() => goToScreen('s28'), 500); return; }
+    const barra = itens[i].querySelector('.analise__barra');
+    const status = itens[i].querySelector('.analise__status');
+    const t0 = window.performance.now();
+    (function tick(agora) {
+      if (!tela.classList.contains('active')) return;
+      const p = Math.min(1, (agora - t0) / DUR);
+      barra.style.width = (p * 100) + '%';
+      status.textContent = Math.round(p * 100) + '%';
+      if (p < 1) { requestAnimationFrame(tick); return; }
+      status.innerHTML = CHECK;
+      status.classList.add('feito');
+      i++;
+      setTimeout(proximo, 140);
+    })(t0);
+  }
+  proximo();
 }
 
 function drawCurve() {

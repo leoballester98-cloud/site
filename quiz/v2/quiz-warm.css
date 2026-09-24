@@ -852,36 +852,61 @@ body {
 /* ════════════════════════════════════════════════════
    NUMBER INPUT (Q20-Q23 height/weight/age)
    ════════════════════════════════════════════════════ */
+/* Campo de digitar, no desenho da referencia: valor grande centralizado,
+   unidade em negrito a direita, UMA linha embaixo e a ajuda com a faixa
+   valida. Vazio mostra a palavra do campo em cinza (classe .vazio, que o
+   JS tira na primeira tecla), nao um "0" que parece valor preenchido. */
 .big-number {
   display: flex;
   align-items: baseline;
-  justify-content: center;
-  gap: 6px;
-  margin: 12px 0 18px;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 34px 0 10px;
+  padding: 0 4px 8px;
+  border-bottom: 1.5px solid var(--ink);
 }
+.big-number:focus-within { border-bottom-color: var(--blue-d); }
 .big-number__value {
-  font-size: 96px;
-  font-weight: 800;
+  flex: 1 1 auto;
+  min-width: 0;
+  min-height: 1.15em;
+  font-size: 40px;
+  font-weight: 700;
   color: var(--ink);
-  letter-spacing: -0.04em;
-  line-height: 1;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
   font-feature-settings: "tnum";
+  text-align: center;
   cursor: text;
   outline: none;
-  min-width: 80px;
-  text-align: right;
 }
-.big-number__value:focus {
-  border-bottom: 2px solid var(--blue);
-}
-.big-number__value[data-empty="true"] {
-  color: var(--ink-mute);
-}
+/* A palavra do placeholder e menor que o numero (32 contra 44px), mas ocupa a
+   MESMA caixa de linha e cai na mesma baseline: line-height + padding-top
+   somam os 50,6px do numero, entao a linha de baixo e o "dias" nao pulam
+   quando a pessoa comeca a digitar. */
+.big-number__value.vazio { color: var(--ink-mute); font-weight: 600; font-size: 32px; line-height: 45.6px; padding-top: 5px; }
+/* A unidade se prende ao pe da linha, nao a baseline do valor: assim ela fica
+   parada entre o estado vazio e o preenchido. Os 2,5px poem a base dela na
+   baseline do numero de 44px. */
+.big-number__unit { align-self: flex-end; padding-bottom: 2.5px; }
 .big-number__unit {
-  font-size: 18px;
-  font-weight: 600;
+  flex: 0 0 auto;
+  font-size: 30px;
+  font-weight: 800;
+  color: var(--ink);
+  letter-spacing: -0.02em;
+}
+/* A ajuda embaixo da linha: a faixa valida em negrito. Fica vermelha (.fora)
+   quando a pessoa sai do campo com um numero fora da faixa. */
+.campo-ajuda {
+  margin: 0 0 20px;
+  text-align: center;
+  font-size: 13px;
+  line-height: 1.4;
   color: var(--ink-soft);
 }
+.campo-ajuda b { color: var(--ink); font-weight: 700; }
+.campo-ajuda.fora, .campo-ajuda.fora b { color: #C6301E; }
 .info-box {
   display: flex;
   gap: 12px;
@@ -1484,114 +1509,6 @@ body {
 }
 .skip-link:hover { color: var(--ink-soft); }
 
-/* ════════════════════════════════════════════════════
-   LOADING SCREEN
-   ════════════════════════════════════════════════════ */
-.loading-screen {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 0 4px;
-}
-.loading-banner {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 16px;
-  margin-bottom: 32px;
-}
-.loading-banner__ring {
-  width: 96px; height: 96px;
-  flex-shrink: 0;
-  position: relative;
-}
-.loading-banner__ring svg { width: 100%; height: 100%; transform: rotate(-90deg); }
-.loading-banner__ring-track { fill: none; stroke: var(--hair); stroke-width: 5; }
-.loading-banner__ring-fill { fill: none; stroke: var(--blue); stroke-width: 5; stroke-linecap: round; stroke-dasharray: 263.9; stroke-dashoffset: 263.9; }
-.loading-banner__pct {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 22px;
-  font-weight: 800;
-  color: var(--ink);
-}
-.loading-banner__text {
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--ink);
-  text-align: center;
-  max-width: 240px;
-  line-height: 1.5;
-}
-.loading-bigtitle {
-  font-family: 'Manrope', 'DM Sans', system-ui, sans-serif;
-  font-size: 20px;
-  font-weight: 800;
-  color: var(--ink);
-  text-align: center;
-  letter-spacing: -0.02em;
-  line-height: 1.2;
-  margin-bottom: 8px;
-  opacity: 0;
-  transform: translateY(10px);
-  animation: loadingFadeUp 0.7s ease forwards;
-  animation-delay: 0.8s;
-}
-.loading-subtitle {
-  font-size: 18px;
-  font-weight: 600;
-  color: var(--ink);
-  text-align: center;
-  margin-bottom: 32px;
-  opacity: 0;
-  transform: translateY(10px);
-  animation: loadingFadeUp 0.7s ease forwards;
-  animation-delay: 1.6s;
-}
-@keyframes loadingFadeUp {
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-@keyframes avatar-float {
-  0%, 100% { transform: translateY(0px); }
-  50%       { transform: translateY(-6px); }
-}
-@keyframes avatar-in {
-  from { opacity: 0; transform: scale(0.5); }
-  to   { opacity: 1; transform: scale(1); }
-}
-
-.avatar-cluster {
-  position: relative;
-  width: 100%;
-  max-width: 420px;
-  height: 240px;
-  opacity: 0;
-  animation: loadingFadeUp 0.8s ease forwards;
-  animation-delay: 1.6s;
-}
-.avatar-cluster .imgbox {
-  position: absolute;
-  border-radius: 50%;
-  border: 2px solid var(--bg);
-  opacity: 0;
-  animation: avatar-in 0.4s ease forwards, avatar-float 3s ease-in-out infinite;
-}
-.avatar-cluster .imgbox:nth-child(1) { animation-delay: 1.7s, 2.1s; }
-.avatar-cluster .imgbox:nth-child(2) { animation-delay: 1.9s, 2.3s; }
-.avatar-cluster .imgbox:nth-child(3) { animation-delay: 2.1s, 2.5s; }
-.avatar-cluster .imgbox:nth-child(4) { animation-delay: 2.3s, 2.7s; }
-.avatar-cluster .imgbox:nth-child(5) { animation-delay: 2.5s, 2.9s; }
-.avatar-cluster .imgbox:nth-child(6) { animation-delay: 2.3s, 2.7s; }
-.avatar-cluster .imgbox:nth-child(7) { animation-delay: 2.1s, 2.5s; }
-.avatar-cluster .imgbox:nth-child(8) { animation-delay: 1.9s, 2.3s; }
-.avatar-cluster .imgbox:nth-child(9) { animation-delay: 2.6s, 3.0s; }
 
 /* ════════════════════════════════════════════════════
    REVEAL CURVE
@@ -1966,19 +1883,9 @@ body {
 /* ════════════════════════════════════════════════════
    DATE INPUT
    ════════════════════════════════════════════════════ */
-.date-block {
-  background: var(--card);
-  border-radius: 14px;
-  padding: 18px;
-  margin-bottom: 22px;
-}
-.date-block__label {
-  font-size: 11px;
-  color: var(--ink-fade);
-  font-weight: 600;
-  letter-spacing: 0.02em;
-  margin-bottom: 6px;
-}
+/* Data da ultima menstruacao, no mesmo desenho do campo de digitar: sem
+   cartao, DD / MM / AAAA grandes sobre uma linha so, ajuda embaixo. */
+.date-block { margin: 34px 0 10px; }
 .date-block__input {
   width: 100%;
   background: none;
@@ -1993,41 +1900,39 @@ body {
 }
 .date-fields {
   display: flex;
-  align-items: center;
-  gap: 6px;
+  align-items: baseline;
+  justify-content: center;
+  gap: 10px;
+  padding: 0 4px 8px;
+  border-bottom: 1.5px solid var(--ink);
 }
+.date-fields:focus-within { border-bottom-color: var(--blue-d); }
 .date-field {
   background: none;
-  border: none;
-  border-bottom: 2px solid var(--accent);
-  font-family: 'DM Sans', sans-serif;
-  font-size: 20px;
+  border: 0;
+  outline: none;
+  padding: 0;
+  font-family: inherit;
+  font-size: 40px;
   font-weight: 700;
   color: var(--ink);
+  letter-spacing: -0.02em;
+  line-height: 1.15;
   text-align: center;
-  outline: none;
-  padding: 4px 2px;
-  width: 48px;
+  /* 2.9ch e nao 2.6: o MM e mais largo que o DD e ficava colado na barra,
+     enquanto o DD sobrava ar — as duas caixas iguais e com folga pro MM. */
+  width: 2.9ch;
   -moz-appearance: textfield;
+  appearance: textfield;
 }
-.date-field--year {
-  width: 72px;
-}
+.date-field--year { width: 5.2ch; }
 .date-field::-webkit-outer-spin-button,
 .date-field::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
-.date-field::placeholder {
-  color: var(--ink-fade);
-  font-weight: 400;
-  font-size: 14px;
-}
-.date-sep {
-  font-size: 20px;
-  font-weight: 700;
-  color: var(--ink-fade);
-}
+.date-field::placeholder { color: var(--ink-mute); font-weight: 600; }
+.date-sep { font-size: 32px; font-weight: 700; color: var(--ink-mute); }
 
 /* ════════════════════════════════════════════════════
    PROJECTION SLIDER
@@ -2377,7 +2282,6 @@ button, .row-card, .simple-opt, .multi-opt, .age-row, .chip, .plan-card { -webki
   .wrap { padding-left: 14px; padding-right: 14px; }
   .q-title { font-size: 25px; }
   .q-title-lg { font-size: 25px; }
-  .big-number__value { font-size: 76px; }
   .imgbox--hero { width: 110px; height: 190px; }
   .imgbox--row { width: 64px; height: 64px; }
 }
@@ -2473,8 +2377,8 @@ canvas#curveChart { width: 100%; }
   .header__inner { padding: 10px 14px; height: 52px; }
   .header__back { width: 36px; height: 36px; left: 8px; }
   .header__section { font-size: 16px; }
-  .big-number__value { font-size: 80px; }
-  .big-number__unit { font-size: 16px; }
+  .big-number__value { font-size: 44px; }
+  .big-number__unit { font-size: 32px; }
   .row-card .imgbox--row { width: 110px; }
   .row-card__body { padding: 16px 14px 16px 0; }
   .row-card__title { font-size: 15px; }
@@ -2490,7 +2394,6 @@ canvas#curveChart { width: 100%; }
   .plan-card__name { font-size: 12px; }
   .q-title { font-size: 27px; }
   .q-title-lg { font-size: 27px; }
-  .loading-bigtitle { font-size: 17px; }
   .section-heading { font-size: 18px; margin: 18px 0 10px; }
   .footer-cta { padding-top: 20px; }
   .btn-primary { padding: 16px 20px; font-size: 13.5px; }
@@ -5291,3 +5194,63 @@ body.marca-solta:has(#s1.screen.active) .header__inner::after {
    carimbo em cima) o titulo fecha em tres linhas parelhas: 283/247/282. */
 #s1.s1-t8 h1#h1Var { max-width: none !important; }
 #s1.s1-t8 h1#h1Var .t8-selo { display: block; width: max-content; margin: 0 auto 6px; }
+
+/* ═══ Tela 27 · analise das respostas ═══════════════════════════════════
+   Quatro barras que enchem em sequencia, no desenho da referencia: rotulo a
+   esquerda, porcentagem a direita enquanto enche, check quando termina. O
+   selo de louros no pe reusa o ramo da tela 30 (symbol #louroSimbolo). */
+.analise__titulo { margin-top: 24px; }
+.analise {
+  list-style: none;
+  margin: 26px 0 0;
+  padding: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+.analise__item { margin: 0; padding: 0; }
+.analise__topo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 28px;
+  margin-bottom: 10px;
+}
+.analise__rotulo { font-size: 17px; font-weight: 600; color: var(--ink); }
+.analise__status {
+  display: flex;
+  align-items: center;
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--ink-soft);
+  font-variant-numeric: tabular-nums;
+}
+.analise__status.feito { color: var(--ink); }
+.analise__status svg { width: 28px; height: 28px; display: block; }
+.analise__trilho { height: 8px; border-radius: 99px; background: rgba(43,26,16,0.08); overflow: hidden; }
+.analise__barra { height: 100%; width: 0; border-radius: 99px; background: var(--ink); }
+
+.louro-selo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin: 40px auto 0;
+}
+/* Mais escuro e maior que o louro da tela 30 (36px, 16%): la ele e moldura
+   de um numero; aqui ele E o selo. */
+.louro-selo__folha { width: 46px; color: rgba(43,26,16,0.55); }
+.louro-selo__miolo { display: flex; align-items: center; gap: 16px; }
+.louro-selo__lado { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.louro-selo__lado + .louro-selo__lado { padding-left: 16px; border-left: 1px solid rgba(43,26,16,0.14); }
+.louro-selo__num {
+  font-family: 'Manrope', 'DM Sans', system-ui, sans-serif;
+  font-size: 26px; font-weight: 800; line-height: 1;
+  color: var(--ink); letter-spacing: -0.02em;
+}
+.louro-selo__leg { font-size: 12px; font-weight: 600; color: var(--ink-soft); }
+.louro-selo__excelente { font-size: 17px; font-weight: 700; color: var(--ink); }
+.louro-selo .review__nota { margin: 0; gap: 3px; }
+.louro-selo .review__nota i { width: 20px; height: 20px; }

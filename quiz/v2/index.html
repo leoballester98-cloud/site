@@ -56,7 +56,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"/>
-  <link rel="stylesheet" href="quiz-warm.css?v=447"/>
+  <link rel="stylesheet" href="quiz-warm.css?v=450"/>
 
   <!-- Anti-flicker do teste A/B.
        O script que troca a headline mora no fim do <body>, então num aparelho
@@ -562,22 +562,25 @@
   <!-- ═══════ F2-Q0. ESTRESSE ═══════ -->
   <section class="screen" id="s19" data-step="14" data-section="Fator Emocional" data-icon="alert">
     <h2 class="q-title">Como você descreveria seu estresse hoje?</h2>
-    <div class="simple-list">
-      <button class="simple-opt" data-val="intensa" data-score="0" data-next="s31">
-        <div class="simple-opt__title">Vivo no limite</div>
-        <div class="simple-opt__sub">Trabalho intenso, raramente desligo</div>
+    <!-- Grade 2x2 no molde do "Como voce descreveria seu fisico?" da BetterMe:
+         foto grande em cima, rotulo embaixo a esquerda e a bolinha a direita.
+         Fotos provisorias ate o Leo gerar as quatro no estilo do funil. -->
+    <div class="opt-grid">
+      <button class="opt-grid__card" data-val="intensa" data-score="0" data-next="s31">
+        <span class="opt-grid__img"><img loading="lazy" src="Images/estresse-limite.webp" alt=""/></span>
+        <span class="opt-grid__rodape"><span class="opt-grid__rotulo">Vivo no limite</span><span class="opt-grid__radio" aria-hidden="true"></span></span>
       </button>
-      <button class="simple-opt" data-val="organizada" data-score="1" data-next="s31">
-        <div class="simple-opt__title">Oscilo bastante</div>
-        <div class="simple-opt__sub">Estresso, mas às vezes consigo respirar</div>
+      <button class="opt-grid__card" data-val="organizada" data-score="1" data-next="s31">
+        <span class="opt-grid__img"><img loading="lazy" src="Images/estresse-oscila.webp" alt=""/></span>
+        <span class="opt-grid__rodape"><span class="opt-grid__rotulo">Oscilo bastante</span><span class="opt-grid__radio" aria-hidden="true"></span></span>
       </button>
-      <button class="simple-opt" data-val="caseira" data-score="2" data-next="s31">
-        <div class="simple-opt__title">Tenho controle</div>
-        <div class="simple-opt__sub">Rotina equilibrada, sei pausar</div>
+      <button class="opt-grid__card" data-val="caseira" data-score="2" data-next="s31">
+        <span class="opt-grid__img"><img loading="lazy" src="Images/estresse-controle.webp" alt=""/></span>
+        <span class="opt-grid__rodape"><span class="opt-grid__rotulo">Tenho controle</span><span class="opt-grid__radio" aria-hidden="true"></span></span>
       </button>
-      <button class="simple-opt" data-val="leve" data-score="3" data-next="s31">
-        <div class="simple-opt__title">Estou tranquila</div>
-        <div class="simple-opt__sub">Descanso bem, pouca pressão</div>
+      <button class="opt-grid__card" data-val="leve" data-score="3" data-next="s31">
+        <span class="opt-grid__img"><img loading="lazy" src="Images/estresse-tranquila.webp" alt=""/></span>
+        <span class="opt-grid__rodape"><span class="opt-grid__rotulo">Estou tranquila</span><span class="opt-grid__radio" aria-hidden="true"></span></span>
       </button>
     </div>
   </section>
@@ -2095,7 +2098,7 @@ function showFooter(screenId) {
   const type = el?.dataset.type;
 
   if (ctaMode === 'hidden') { footerCTA.style.display = 'none'; return; }
-  const hasAutoAdvance = el.querySelector('.row-card[data-next], .simple-opt[data-next], .age-row[data-next], .multi-opt[data-next]');
+  const hasAutoAdvance = el.querySelector('.row-card[data-next], .simple-opt[data-next], .age-row[data-next], .multi-opt[data-next], .opt-grid__card[data-next]');
   if (hasAutoAdvance && type !== 'multi') { footerCTA.style.display = 'none'; return; }
   footerCTA.style.display = 'block';
   skipLink.style.display = 'none';
@@ -2402,10 +2405,10 @@ backBtn.addEventListener('click', () => {
 });
 skipLink.addEventListener('click', () => goNext());
 
-document.querySelectorAll('.age-row, .row-card, .simple-opt').forEach(btn => {
+document.querySelectorAll('.age-row, .row-card, .simple-opt, .opt-grid__card').forEach(btn => {
   btn.addEventListener('click', () => {
     const section = btn.closest('section');
-    section.querySelectorAll('.age-row, .row-card, .simple-opt').forEach(b => b.classList.remove('selected'));
+    section.querySelectorAll('.age-row, .row-card, .simple-opt, .opt-grid__card').forEach(b => b.classList.remove('selected'));
     btn.classList.add('selected');
     answers[section.id] = btn.dataset.val;
     if (btn.dataset.score !== undefined) scores[section.id] = parseInt(btn.dataset.score);

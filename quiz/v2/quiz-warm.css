@@ -5553,3 +5553,33 @@ html:has(#s3.screen.active), body:has(#s3.screen.active) { overflow-x: hidden; }
 .anel-ciclo__num { font-family: 'Manrope', 'DM Sans', sans-serif; font-size: 26px; font-weight: 800; fill: var(--ink); letter-spacing: -0.02em; }
 .anel-ciclo__leg { font-family: 'DM Sans', sans-serif; font-size: 10px; font-weight: 600; fill: #8A6E5A; }
 .anel-ciclo__rotulo { font-family: 'DM Sans', sans-serif; font-size: 11px; font-weight: 700; fill: #B0783F; letter-spacing: 0.06em; text-transform: uppercase; }
+
+/* ── Grade de opções com foto (s19), molde BetterMe "Como descreveria seu
+   físico?": 2 colunas, foto quadrada em cima, rótulo à esquerda e bolinha à
+   direita. Selecionada: fundo e borda como os outros cartões. ─────────── */
+.opt-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
+.opt-grid__card {
+  display: flex; flex-direction: column; padding: 0; margin: 0;
+  /* Sem fundo proprio: a foto e o rotulo ficam sobre o fundo da pagina, so com o fio, como na referencia. */
+  background: transparent; border: 1px solid var(--hair); border-radius: 12px; overflow: hidden;
+  cursor: pointer; text-align: left; font-family: 'DM Sans', sans-serif; color: var(--ink);
+  transition: background .22s, border-color .22s, transform .22s cubic-bezier(.22,1,.36,1);
+}
+.opt-grid__card:active { transform: scale(0.985); }
+.opt-grid__card.selected { background: var(--card-active); border-color: var(--blue); }
+/* Caixa mais larga que alta (medida na referencia: 166x135) e a figura
+   inteira dentro dela, menor, com ar em volta — nao a foto estourando. */
+.opt-grid__img { display: block; aspect-ratio: 11 / 9; background: transparent; overflow: hidden; padding: 8px 10px 0; box-sizing: border-box; }
+.opt-grid__img img { width: 100%; height: 100%; object-fit: contain; object-position: center bottom; display: block; }
+.opt-grid__rodape { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 14px 14px 16px; }
+.opt-grid__rotulo { font-size: 15px; font-weight: 600; line-height: 1.25; }
+.opt-grid__radio {
+  width: 20px; height: 20px; border-radius: 50%; flex: 0 0 auto;
+  border: 1.5px solid rgba(43,26,16,0.28); background: transparent; transition: background .2s, border-color .2s;
+}
+.opt-grid__card.selected .opt-grid__radio {
+  border-color: var(--ink);
+  background: var(--ink) url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'><path d='M6 12.5l4 4 8-8'/></svg>") center / 13px no-repeat;
+}
+@media (max-height: 700px) { .opt-grid { gap: 12px; } .opt-grid__img { aspect-ratio: 4 / 3; } .opt-grid__rodape { padding: 10px 12px 12px; } }
+@media (max-height: 640px) { .opt-grid__img { aspect-ratio: 3 / 2; } }

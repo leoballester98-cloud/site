@@ -5545,3 +5545,11 @@ html:has(#s3.screen.active), body:has(#s3.screen.active) { overflow-x: hidden; }
 @media (prefers-reduced-motion: reduce) {
   #s30.screen.active .compare__foto:first-child, #s30.screen.active .compare__foto:nth-child(2), #s30.screen.active .compare__seta { animation: none; }
 }
+
+/* ── Anel do ciclo no perfil (s25): SVG no lugar da foto ─────────────────
+   28 tracos em volta, terracota na menstruacao, dourado na janela fertil com
+   a ovulacao marcada, brilho no meio e o rotulo embaixo. */
+.perfil__foto--anel svg { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.anel-ciclo__num { font-family: 'Manrope', 'DM Sans', sans-serif; font-size: 26px; font-weight: 800; fill: var(--ink); letter-spacing: -0.02em; }
+.anel-ciclo__leg { font-family: 'DM Sans', sans-serif; font-size: 10px; font-weight: 600; fill: #8A6E5A; }
+.anel-ciclo__rotulo { font-family: 'DM Sans', sans-serif; font-size: 11px; font-weight: 700; fill: #B0783F; letter-spacing: 0.06em; text-transform: uppercase; }

@@ -5598,6 +5598,10 @@ html:has(#s3.screen.active), body:has(#s3.screen.active) { overflow-x: hidden; }
    arquivo), entao a foto "contida" nao mostra faixa nenhuma quando o cartao
    encolhe — e a sombra do prato fica inteira, sem recorte. */
 #s37 .q-foto { background: #F3EDE1; }
+/* Tela 38 (inchaco/dores): a mulher esta sentada e a cabeca fica no alto da
+   foto; quando o cartao encolhe (700/640) o corte favorece o alto pra nao
+   decapitar — perde o pe, nao o rosto. */
+#s38 .q-foto img { object-position: center 20%; }
 
 /* Tela 36 (atividade fisica), molde da referencia "regioes de foco": cartoes
    de linha inteira, rotulo a esquerda e a figura recortada encostada na borda

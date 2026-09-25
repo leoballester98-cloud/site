@@ -56,7 +56,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"/>
-  <link rel="stylesheet" href="quiz-warm.css?v=457"/>
+  <link rel="stylesheet" href="quiz-warm.css?v=458"/>
 
   <!-- Anti-flicker do teste A/B.
        O script que troca a headline mora no fim do <body>, então num aparelho
@@ -683,11 +683,12 @@
   <!-- ═══════ F3-Q4. INFLAMAÇÃO ═══════ -->
   <section class="screen" id="s38" data-step="22" data-section="Estado do Organismo" data-icon="cycle">
     <h2 class="q-title">Você sente inchaço, cansaço ou dores frequentes sem causa aparente?</h2>
-    <div class="simple-list">
-      <button class="simple-opt" data-val="frequente" data-score="1" data-next="s39a">Um ou dois com frequência</button>
-      <button class="simple-opt" data-val="varios" data-score="0" data-next="s39a">Sim, vários desses com frequência</button>
-      <button class="simple-opt" data-val="raramente" data-score="2" data-next="s39a">Um desses raramente</button>
-      <button class="simple-opt" data-val="nao" data-score="3" data-next="s39a">Não, nada disso</button>
+    <div class="q-foto q-foto--cheia" aria-hidden="true"><img src="Images/dores-cansaco.webp" alt="" decoding="async" loading="lazy"/></div>
+    <div class="opt-grid">
+      <button class="opt-grid__card opt-grid__card--texto" data-val="frequente" data-score="1" data-next="s39a"><span class="opt-grid__rotulo">Um ou dois com frequência</span><span class="opt-grid__radio" aria-hidden="true"></span></button>
+      <button class="opt-grid__card opt-grid__card--texto" data-val="varios" data-score="0" data-next="s39a"><span class="opt-grid__rotulo">Sim, vários desses com frequência</span><span class="opt-grid__radio" aria-hidden="true"></span></button>
+      <button class="opt-grid__card opt-grid__card--texto" data-val="raramente" data-score="2" data-next="s39a"><span class="opt-grid__rotulo">Um desses raramente</span><span class="opt-grid__radio" aria-hidden="true"></span></button>
+      <button class="opt-grid__card opt-grid__card--texto" data-val="nao" data-score="3" data-next="s39a"><span class="opt-grid__rotulo">Não, nada disso</span><span class="opt-grid__radio" aria-hidden="true"></span></button>
     </div>
   </section>
 

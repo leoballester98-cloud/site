@@ -56,7 +56,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"/>
-  <link rel="stylesheet" href="quiz-warm.css?v=444"/>
+  <link rel="stylesheet" href="quiz-warm.css?v=446"/>
 
   <!-- Anti-flicker do teste A/B.
        O script que troca a headline mora no fim do <body>, então num aparelho
@@ -3325,7 +3325,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const telaParam = new URLSearchParams(window.location.search).get('tela');
   /* Progresso salvo: reabre onde parou, com respostas e historico de volta.
      O ?tela= de preview ganha dele. */
-  const salvo = (telaParam && document.getElementById(telaParam)) ? null : lerProgresso();
+  let salvo = (telaParam && document.getElementById(telaParam)) ? null : lerProgresso();
+  /* Quem atualiza a pagina ja na tela de venda recomeca o quiz do zero: nao
+     ha o que retomar ali, e voltar pra venda com as respostas velhas so
+     confunde. */
+  if (salvo && salvo.tela === 's30') { apagarProgresso(); progressoApagado = false; salvo = null; }
   const alvo = (telaParam && document.getElementById(telaParam)) ? telaParam
              : (salvo && salvo.tela !== 's1') ? salvo.tela : null;
   if (alvo) {
@@ -3372,37 +3376,67 @@ document.addEventListener('click', (e) => {
   var carousel = document.querySelector('#s30 .phones-carousel');
   if (!carousel) return;
   var dots = carousel.querySelectorAll('.phones-dot');
-  var cards = carousel.querySelectorAll('.phones-row .imgbox--phone');
-  var current = 0;
-
-  function applySlide(index) {
-    dots.forEach(function(d, i) { d.classList.toggle('active', i === index); });
-    cards.forEach(function(card, i) {
-      card.hidden = false;
-      card.style.order = '';
-      card.classList.remove('phone--center', 'phone--side');
-      card.classList.add(i === index ? 'phone--center' : 'phone--side');
-    });
-    current = index;
-    posicionar();
-  }
-
-  /* Como na referencia (coverflow do Splide): a fileira inteira fica no
-     fluxo e desliza pra centralizar a tela ativa — 0,6s na curva deles —
-     enquanto as vizinhas encolhem pra 0,9. */
   var row = carousel.querySelector('.phones-row');
+  var reais = Array.prototype.slice.call(row.querySelectorAll('.imgbox--phone'));
+  var n = reais.length;
+  var current = 0;
   var semMovimento = window.matchMedia('(prefers-reduced-motion: reduce)');
-  function posicionar() {
-    var card = cards[current];
+
+  /* Fileira em anel, como o Splide da referencia: uma copia da ultima tela
+     antes da primeira e uma copia da primeira depois da ultima. Assim sempre
+     ha vizinha dos dois lados e a fileira anda sempre pra frente — ao chegar
+     na copia, pula sem animacao pra tela real equivalente. */
+  var cloneUlt = reais[n - 1].cloneNode(true); cloneUlt.classList.add('phone--clone'); cloneUlt.setAttribute('aria-hidden', 'true');
+  var clonePri = reais[0].cloneNode(true);     clonePri.classList.add('phone--clone'); clonePri.setAttribute('aria-hidden', 'true');
+  row.insertBefore(cloneUlt, reais[0]);
+  row.appendChild(clonePri);
+  var trilha = Array.prototype.slice.call(row.querySelectorAll('.imgbox--phone')); // n + 2
+  var pos = 1;            // posicao na trilha (1 = primeira tela real)
+  var pulo = null;
+
+  function marcar(p) {
+    trilha.forEach(function(card, i) {
+      card.hidden = false;
+      card.classList.remove('phone--center', 'phone--side');
+      card.classList.add(i === p ? 'phone--center' : 'phone--side');
+    });
+  }
+  function deslocar(p, anima) {
+    var card = trilha[p];
     if (!card) return;
     var alvo = carousel.clientWidth / 2 - card.offsetWidth / 2 - card.offsetLeft;
+    if (!anima || semMovimento.matches) row.style.transition = 'none';
     row.style.transform = 'translateX(' + Math.round(alvo) + 'px)';
+    if (!anima || semMovimento.matches) { void row.offsetWidth; row.style.transition = ''; }
   }
+  function marcarDots(index) { dots.forEach(function(d, i) { d.classList.toggle('active', i === index); }); }
+  function posicionar() { deslocar(pos, false); }
   window.addEventListener('resize', posicionar);
   /* A s30 nasce escondida (largura 0): quem abre a tela chama isto de novo. */
   window.__posicionarCarrossel = posicionar;
-  function irPara(index) {
+
+  function applySlide(index) {
+    clearTimeout(pulo);
+    current = index;
+    pos = index + 1;
+    marcarDots(index);
+    marcar(pos);
+    deslocar(pos, true);
+  }
+  /* dir = +1 indo pra frente, -1 pra tras; sem dir, vai direto (bolinhas). */
+  function irPara(index, dir) {
     if (index === current) return;
+    clearTimeout(pulo);
+    if (dir === 1 && current === n - 1 && index === 0) {
+      pos = n + 1; current = 0; marcarDots(0); marcar(pos); deslocar(pos, true);
+      pulo = setTimeout(function() { pos = 1; marcar(pos); deslocar(pos, false); }, 650);
+      return;
+    }
+    if (dir === -1 && current === 0 && index === n - 1) {
+      pos = 0; current = n - 1; marcarDots(n - 1); marcar(pos); deslocar(pos, true);
+      pulo = setTimeout(function() { pos = n; marcar(pos); deslocar(pos, false); }, 650);
+      return;
+    }
     applySlide(index);
   }
 
@@ -3413,12 +3447,12 @@ document.addEventListener('click', (e) => {
     // Quem pediu pra reduzir movimento nao recebe carrossel andando sozinho.
     if (semMovimento.matches) return;
     timer = setInterval(function() {
-      irPara((current + 1) % cards.length);
+      irPara((current + 1) % n, 1);
     }, INTERVALO);
   }
   // Toda troca manual reinicia a contagem, senao a proxima automatica cai em
   // cima da escolha dela.
-  function manual(index) { irPara(index); girar(); }
+  function manual(index, dir) { irPara(index, dir); girar(); }
 
   dots.forEach(function(dot, i) {
     dot.style.cursor = 'pointer';
@@ -3433,7 +3467,7 @@ document.addEventListener('click', (e) => {
   carousel.addEventListener('touchstart', function(e) { startX = e.touches[0].clientX; }, {passive:true});
   carousel.addEventListener('touchend', function(e) {
     var dx = e.changedTouches[0].clientX - startX;
-    if (Math.abs(dx) > 40) manual((current + (dx < 0 ? 1 : -1) + cards.length) % cards.length);
+    if (Math.abs(dx) > 40) manual((current + (dx < 0 ? 1 : -1) + n) % n, dx < 0 ? 1 : -1);
   }, {passive:true});
 
   // So gira enquanto esta na tela: girar fora de vista gasta bateria e faz a

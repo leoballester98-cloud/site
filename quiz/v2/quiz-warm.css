@@ -5583,3 +5583,31 @@ html:has(#s3.screen.active), body:has(#s3.screen.active) { overflow-x: hidden; }
 }
 @media (max-height: 700px) { .opt-grid { gap: 12px; } .opt-grid__img { aspect-ratio: 4 / 3; } .opt-grid__rodape { padding: 10px 12px 12px; } }
 @media (max-height: 640px) { .opt-grid__img { aspect-ratio: 3 / 2; } }
+
+/* Tela 37 (alimentacao), molde da referencia "Quando voce toma cafe da manha?":
+   uma foto grande num cartao claro (veu branco sobre o bege, sem fio, como
+   la) e embaixo a grade 2x2 de opcoes so com texto + bolinha. A foto encolhe
+   pela altura da tela pra nao criar rolagem. */
+.q-foto {
+  border-radius: 16px; background: rgba(255,255,255,0.55);
+  aspect-ratio: 10 / 7; max-height: 250px; margin: 0 0 24px;
+  display: flex; align-items: center; justify-content: center; overflow: hidden;
+}
+.q-foto img { width: 100%; height: 100%; object-fit: contain; display: block; }
+/* Tela 37: o cartao leva a cor exata do fundo da foto do prato (medida no
+   arquivo), entao a foto "contida" nao mostra faixa nenhuma quando o cartao
+   encolhe — e a sombra do prato fica inteira, sem recorte. */
+#s37 .q-foto { background: #F3EDE1; }
+/* Variante da tela do sono: a foto preenche o cartao inteiro, sem ar em volta
+   (na referencia a mulher dormindo vai de borda a borda). */
+.q-foto--cheia img { object-fit: cover; object-position: center; padding: 0; }
+.opt-grid__card--texto {
+  flex-direction: row; align-items: center; justify-content: space-between; gap: 8px;
+  padding: 14px 14px 14px 16px; min-height: 72px;
+  background: var(--card); border-radius: var(--radius-card);
+}
+@media (max-height: 700px) {
+  .q-foto { max-height: 196px; margin-bottom: 18px; }
+  .opt-grid__card--texto { min-height: 64px; padding: 12px 12px 12px 14px; }
+}
+@media (max-height: 640px) { .q-foto { max-height: 156px; margin-bottom: 14px; } }

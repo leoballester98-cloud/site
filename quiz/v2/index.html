@@ -56,7 +56,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"/>
-  <link rel="stylesheet" href="quiz-warm.css?v=450"/>
+  <link rel="stylesheet" href="quiz-warm.css?v=453"/>
 
   <!-- Anti-flicker do teste A/B.
        O script que troca a headline mora no fim do <body>, então num aparelho
@@ -632,11 +632,12 @@
   <!-- ═══════ F3-Q1. SONO ═══════ -->
   <section class="screen" id="s35" data-step="19" data-section="Estado do Organismo" data-icon="cycle">
     <h2 class="q-title">Como você descreveria seu sono nos últimos meses?</h2>
-    <div class="simple-list">
-      <button class="simple-opt" data-val="mal" data-score="0" data-next="s36">Durmo mal com frequência</button>
-      <button class="simple-opt" data-val="dificuldade" data-score="1" data-next="s36">Tenho dificuldade para dormir</button>
-      <button class="simple-opt" data-val="as-vezes" data-score="2" data-next="s36">Durmo mas acordo cansada às vezes</button>
-      <button class="simple-opt" data-val="bem" data-score="3" data-next="s36">Durmo bem e acordo descansada</button>
+    <div class="q-foto q-foto--cheia" aria-hidden="true"><img src="Images/sono-dormindo.webp" alt="" decoding="async" loading="lazy"/></div>
+    <div class="opt-grid">
+      <button class="opt-grid__card opt-grid__card--texto" data-val="mal" data-score="0" data-next="s36"><span class="opt-grid__rotulo">Durmo mal com frequência</span><span class="opt-grid__radio" aria-hidden="true"></span></button>
+      <button class="opt-grid__card opt-grid__card--texto" data-val="dificuldade" data-score="1" data-next="s36"><span class="opt-grid__rotulo">Tenho dificuldade para dormir</span><span class="opt-grid__radio" aria-hidden="true"></span></button>
+      <button class="opt-grid__card opt-grid__card--texto" data-val="as-vezes" data-score="2" data-next="s36"><span class="opt-grid__rotulo">Durmo mas acordo cansada às vezes</span><span class="opt-grid__radio" aria-hidden="true"></span></button>
+      <button class="opt-grid__card opt-grid__card--texto" data-val="bem" data-score="3" data-next="s36"><span class="opt-grid__rotulo">Durmo bem e acordo descansada</span><span class="opt-grid__radio" aria-hidden="true"></span></button>
     </div>
   </section>
 
@@ -655,11 +656,12 @@
   <!-- ═══════ F3-Q3. ALIMENTAÇÃO ═══════ -->
   <section class="screen" id="s37" data-step="21" data-section="Estado do Organismo" data-icon="cycle">
     <h2 class="q-title">Como você descreveria sua alimentação no dia a dia?</h2>
-    <div class="simple-list">
-      <button class="simple-opt" data-val="irregular" data-score="1" data-next="s38">Bastante irregular</button>
-      <button class="simple-opt" data-val="razoavel" data-score="2" data-next="s38">Razoável, poderia melhorar</button>
-      <button class="simple-opt" data-val="ruim" data-score="0" data-next="s38">Muito ruim, como mal</button>
-      <button class="simple-opt" data-val="equilibrada" data-score="3" data-next="s38">Equilibrada e variada</button>
+    <div class="q-foto" aria-hidden="true"><img src="Images/alimentacao-prato.webp" alt="" decoding="async" loading="lazy"/></div>
+    <div class="opt-grid">
+      <button class="opt-grid__card opt-grid__card--texto" data-val="irregular" data-score="1" data-next="s38"><span class="opt-grid__rotulo">Bastante irregular</span><span class="opt-grid__radio" aria-hidden="true"></span></button>
+      <button class="opt-grid__card opt-grid__card--texto" data-val="razoavel" data-score="2" data-next="s38"><span class="opt-grid__rotulo">Razoável, poderia melhorar</span><span class="opt-grid__radio" aria-hidden="true"></span></button>
+      <button class="opt-grid__card opt-grid__card--texto" data-val="ruim" data-score="0" data-next="s38"><span class="opt-grid__rotulo">Muito ruim, como mal</span><span class="opt-grid__radio" aria-hidden="true"></span></button>
+      <button class="opt-grid__card opt-grid__card--texto" data-val="equilibrada" data-score="3" data-next="s38"><span class="opt-grid__rotulo">Equilibrada e variada</span><span class="opt-grid__radio" aria-hidden="true"></span></button>
     </div>
   </section>
 

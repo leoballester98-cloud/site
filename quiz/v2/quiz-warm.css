@@ -5598,7 +5598,31 @@ html:has(#s3.screen.active), body:has(#s3.screen.active) { overflow-x: hidden; }
    arquivo), entao a foto "contida" nao mostra faixa nenhuma quando o cartao
    encolhe — e a sombra do prato fica inteira, sem recorte. */
 #s37 .q-foto { background: #F3EDE1; }
-/* Variante da tela do sono: a foto preenche o cartao inteiro, sem ar em volta
+
+/* Tela 36 (atividade fisica), molde da referencia "regioes de foco": cartoes
+   de linha inteira, rotulo a esquerda e a figura recortada encostada na borda
+   direita, cortada pelo pe do cartao. A figura fica fora do fluxo pra nao
+   ditar a altura do cartao; o rotulo reserva a largura dela. A mascara
+   esfuma a beirada esquerda da figura, como la. */
+.row-cards--sangra { gap: 12px; }
+.row-card--sangra { min-height: 80px; padding-left: 20px; }
+.row-card--sangra .row-card__body { padding: 14px 42% 14px 0; }
+.row-card--sangra .row-card__title { font-weight: 600; }
+.row-card--sangra .row-card__foto {
+  position: absolute; right: 0; top: -4px; height: 200%; width: 44%;
+  object-fit: contain; object-position: right top; pointer-events: none;
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 30%);
+  mask-image: linear-gradient(to right, transparent, #000 30%);
+}
+@media (max-height: 700px) {
+  .row-cards--sangra { gap: 10px; }
+  .row-card--sangra { min-height: 70px; }
+  .row-card--sangra .row-card__body { padding: 10px 42% 10px 0; }
+}
+@media (max-height: 640px) {
+  .row-cards--sangra { gap: 8px; }
+  .row-card--sangra { min-height: 62px; }
+}/* Variante da tela do sono: a foto preenche o cartao inteiro, sem ar em volta
    (na referencia a mulher dormindo vai de borda a borda). */
 .q-foto--cheia img { object-fit: cover; object-position: center; padding: 0; }
 .opt-grid__card--texto {
@@ -5611,3 +5635,10 @@ html:has(#s3.screen.active), body:has(#s3.screen.active) { overflow-x: hidden; }
   .opt-grid__card--texto { min-height: 64px; padding: 12px 12px 12px 14px; }
 }
 @media (max-height: 640px) { .q-foto { max-height: 156px; margin-bottom: 14px; } }
+
+/* Caixas de resposta na cor do fundo da pagina, nao brancas — pedido do Leo
+   em 25/09/2026, vale pra todas as telas: so o fio desenha a caixa; a
+   marcada continua no tom mais escuro (--card-active). Tem que ser a ULTIMA
+   regra do arquivo pra vencer os `background: var(--card)` de cada
+   componente (mesma especificidade, ganha quem vem depois). */
+.simple-opt, .row-card, .age-row, .opt-grid__card--texto { background: transparent; }

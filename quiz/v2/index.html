@@ -56,7 +56,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"/>
-  <link rel="stylesheet" href="quiz-warm.css?v=453"/>
+  <link rel="stylesheet" href="quiz-warm.css?v=457"/>
 
   <!-- Anti-flicker do teste A/B.
        O script que troca a headline mora no fim do <body>, então num aparelho
@@ -644,12 +644,27 @@
   <!-- ═══════ F3-Q2. ATIVIDADE FÍSICA ═══════ -->
   <section class="screen" id="s36" data-step="20" data-section="Estado do Organismo" data-icon="cycle">
     <h2 class="q-title">Com que frequência você pratica alguma atividade física?</h2>
-    <div class="simple-list">
-      <button class="simple-opt" data-val="nao" data-score="0" data-next="s37">Não pratico</button>
-      <button class="simple-opt" data-val="raramente" data-score="1" data-next="s37">Raramente</button>
-      <button class="simple-opt" data-val="frequente" data-score="3" data-next="s37">2 a 3 vezes por semana</button>
-      <button class="simple-opt" data-val="sempre" data-score="2" data-next="s37">Todos os dias ou quase</button>
-      <button class="simple-opt" data-val="intenso" data-score="0" data-next="s37">Treinos intensos todos os dias</button>
+    <div class="row-cards row-cards--sangra">
+      <button class="row-card row-card--sangra" data-val="nao" data-score="0" data-next="s37">
+        <div class="row-card__body"><div class="row-card__title">Não pratico</div></div>
+        <img class="row-card__foto" loading="lazy" src="Images/atividade-nao.webp" alt=""/>
+      </button>
+      <button class="row-card row-card--sangra" data-val="raramente" data-score="1" data-next="s37">
+        <div class="row-card__body"><div class="row-card__title">Raramente</div></div>
+        <img class="row-card__foto" loading="lazy" src="Images/atividade-raramente.webp" alt=""/>
+      </button>
+      <button class="row-card row-card--sangra" data-val="frequente" data-score="3" data-next="s37">
+        <div class="row-card__body"><div class="row-card__title">2 a 3 vezes por semana</div></div>
+        <img class="row-card__foto" loading="lazy" src="Images/atividade-2a3.webp" alt=""/>
+      </button>
+      <button class="row-card row-card--sangra" data-val="sempre" data-score="2" data-next="s37">
+        <div class="row-card__body"><div class="row-card__title">Todos os dias ou quase</div></div>
+        <img class="row-card__foto" loading="lazy" src="Images/atividade-todos.webp" alt=""/>
+      </button>
+      <button class="row-card row-card--sangra" data-val="intenso" data-score="0" data-next="s37">
+        <div class="row-card__body"><div class="row-card__title">Treinos intensos todos os dias</div></div>
+        <img class="row-card__foto" loading="lazy" src="Images/atividade-intenso.webp" alt=""/>
+      </button>
     </div>
   </section>
 

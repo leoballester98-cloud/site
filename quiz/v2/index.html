@@ -483,7 +483,7 @@
           <div class="row-card__title">Pela leitura do muco</div>
           <div class="row-card__sub">Observo a textura mudar ao longo do mês</div>
         </div>
-        <div class="imgbox imgbox--row"><img loading="lazy" src="Images/essa5.webp" alt="Leitura do muco"></div>
+        <div class="imgbox imgbox--row"><img loading="lazy" src="Images/muco-dedos.webp" alt="Leitura do muco"></div>
       </button>
       <button class="row-card" data-val="temperatura" data-score="3" data-next="s14">
         <div class="row-card__body">
@@ -504,7 +504,7 @@
           <div class="row-card__title">Não sei, só conto os dias</div>
           <div class="row-card__sub">Calendário ou app, e torço pra acertar</div>
         </div>
-        <div class="imgbox imgbox--row"><img loading="lazy" src="Images/essa3.webp" alt="Só conto os dias"></div>
+        <div class="imgbox imgbox--row"><img loading="lazy" src="Images/calendario-close.webp" alt="Só conto os dias"></div>
       </button>
     </div>
   </section>
@@ -2054,12 +2054,13 @@ function updateChrome(screenId) {
 
   if (section) {
     headerSection.textContent = section;   // sem icone, como na referencia
-    headerSection.style.display = '';
   } else {
-    headerSection.style.display = 'none';
+    /* Tela sem etapa (informativas, e-mail, nome, carregamentos, raspadinha)
+       mostra a marca no meio, como a referencia faz com o logo dela. */
+    headerSection.textContent = 'Ciclo Fértil';
   }
+  headerSection.style.display = '';
 
-  if (screenId === 's26b') { headerSection.textContent = 'Ciclo Fértil'; headerSection.style.display = ''; }
   if (screenId === 's30' || screenId === 's26b') {
     progresso.style.display = 'none';
   } else {

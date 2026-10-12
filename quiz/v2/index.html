@@ -56,7 +56,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"/>
-  <link rel="stylesheet" href="quiz-warm.css?v=481"/>
+  <link rel="stylesheet" href="quiz-warm.css?v=482"/>
 
   <!-- Anti-flicker do teste A/B.
        O script que troca a headline mora no fim do <body>, então num aparelho
@@ -862,11 +862,15 @@
 
   <section class="screen" id="s39b" data-step="45" data-section="Conexão e Propósito" data-icon="heart">
     <h2 class="q-title">Você se sente acompanhada nessa jornada?</h2>
-    <div class="simple-list">
-      <button class="simple-opt" data-val="sozinha" data-score="0" data-next="s39">Não, carrego sozinha</button>
-      <button class="simple-opt" data-val="nao-entende" data-score="1" data-next="s39">Ele tenta, mas não entende</button>
-      <button class="simple-opt" data-val="as-vezes" data-score="2" data-next="s39">Tenho com quem contar</button>
-      <button class="simple-opt" data-val="juntos" data-score="3" data-next="s39">Sim, estamos juntos nisso</button>
+    <!-- Molde das telas do sono e do inchaco: foto no cartao e grade 2x2. O
+         casal no mesmo sofa da tela 38: quem responde "carrego sozinha" sente
+         a falta do que ve. -->
+    <div class="q-foto q-foto--cheia" aria-hidden="true"><img src="Images/s39b-casal.webp" alt="" decoding="async" loading="lazy"/></div>
+    <div class="opt-grid">
+      <button class="opt-grid__card opt-grid__card--texto" data-val="sozinha" data-score="0" data-next="s39"><span class="opt-grid__rotulo">Não, carrego sozinha</span><span class="opt-grid__radio" aria-hidden="true"></span></button>
+      <button class="opt-grid__card opt-grid__card--texto" data-val="nao-entende" data-score="1" data-next="s39"><span class="opt-grid__rotulo">Ele tenta, mas não entende</span><span class="opt-grid__radio" aria-hidden="true"></span></button>
+      <button class="opt-grid__card opt-grid__card--texto" data-val="as-vezes" data-score="2" data-next="s39"><span class="opt-grid__rotulo">Tenho com quem contar</span><span class="opt-grid__radio" aria-hidden="true"></span></button>
+      <button class="opt-grid__card opt-grid__card--texto" data-val="juntos" data-score="3" data-next="s39"><span class="opt-grid__rotulo">Sim, estamos juntos nisso</span><span class="opt-grid__radio" aria-hidden="true"></span></button>
     </div>
   </section>
 
@@ -895,10 +899,13 @@
     <h2 class="q-title">Quantos dias dura seu ciclo em média?</h2>
     <p class="q-hint">Do 1º dia de uma menstruação até o 1º dia da próxima.</p>
     <div class="big-number">
-      <span class="big-number__value vazio" id="heightValue" contenteditable="true" inputmode="numeric" data-empty="true" data-placeholder="Duração" data-min="15" data-max="90">Duração</span>
+      <span class="big-number__value vazio" id="heightValue" contenteditable="true" inputmode="numeric" data-empty="true" data-placeholder="Duração" data-min="20" data-max="60">Duração</span>
       <span class="big-number__unit" id="heightUnitLabel">dias</span>
     </div>
-    <p class="campo-ajuda" id="heightAjuda">Digite um valor entre <b>15</b> e <b>90</b> dias</p>
+    <!-- 20 a 60: o normal vai de 24 a 38 (FIGO), mas ciclo longo de SOP chega
+         perto de 60 e e publico nosso; recusar o numero dela seria pior. 90
+         sem menstruar ja e amenorreia, nao ciclo. -->
+    <p class="campo-ajuda" id="heightAjuda">Digite um valor entre <b>20</b> e <b>60</b> dias.<br>Ciclo irregular? Coloque a média aproximada.</p>
     <div class="info-box">
       <span class="info-box__icon">☝️</span>
       <div class="info-box__body">

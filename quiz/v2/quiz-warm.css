@@ -5681,6 +5681,9 @@ html:has(.q-produto.screen.active), body:has(.q-produto.screen.active) { overflo
    foto; quando o cartao encolhe (700/640) o corte favorece o alto pra nao
    decapitar — perde o pe, nao o rosto. */
 #s38 .q-foto img { object-position: center 20%; }
+/* Tela 39b (acompanhada): os rostos ficam no alto da foto; em tela baixa o
+   cartao encolhe e o corte sai dos pes, nao dos rostos. */
+#s39b .q-foto img { object-position: center 18%; }
 
 /* Tela 36 (atividade fisica), molde da referencia "regioes de foco": cartoes
    de linha inteira, rotulo a esquerda e a figura recortada encostada na borda

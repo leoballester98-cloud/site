@@ -5863,3 +5863,14 @@ body.fmt-t11:has(#s1.screen.active) { background: #F0F2F5; }
   padding: 14px 0 max(14px, env(safe-area-inset-bottom, 14px));
 }
 body.com-rodape .wrap { padding-bottom: calc(var(--h-rodape, 84px) + 8px); }
+
+/* ═══ VSL 1 · o video toma a tela ═══════════════════════════════════════════
+   O --vsl-fora de 210px era chute e sobrava ~70px vazios embaixo do botao no
+   iPhone. Agora e a conta exata do que fica fora do video: o cabecalho
+   (medido em --h-cabecalho), os 8px da .wrap, o vao de 10px, o botao (58px) e
+   12px de folga no pe. O video fica com ~90% da altura e o botao com ~10%.
+   Sem os paddings de baixo da tela e da .wrap, que ja estao na folga. */
+#svsl1{ --vsl-fora: calc(var(--h-cabecalho, 62px) + 88px); }
+#svsl1.screen.active{ padding-bottom:0; }
+body:has(#svsl1.screen.active) .wrap{ padding-bottom:0; }
+#svsl1 .vsl-continuar{ margin-top:10px; min-height:58px; }

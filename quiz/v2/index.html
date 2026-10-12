@@ -56,7 +56,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"/>
-  <link rel="stylesheet" href="quiz-warm.css?v=469"/>
+  <link rel="stylesheet" href="quiz-warm.css?v=473"/>
 
   <!-- Anti-flicker do teste A/B.
        O script que troca a headline mora no fim do <body>, então num aparelho
@@ -629,25 +629,31 @@
     </div>
   </section>
 
-  <section class="screen" id="s14" data-step="9" data-section="Sinais do Ciclo" data-icon="cycle">
+  <!-- s14 e s16: o desenho da referencia (cartoes a esquerda, imagem
+       recortada a direita, encostando no pe da tela), mas com os PRODUTOS da
+       pergunta no lugar de uma pessoa: bater o olho no que ela usa em casa
+       reconhece mais que um avatar. Sem marca nem texto nas embalagens. -->
+  <section class="screen q-produto" id="s14" data-step="9" data-section="Sinais do Ciclo" data-icon="cycle">
     <h2 class="q-title">Você usa sabonete íntimo, ducha ou lenços umedecidos com frequência?</h2>
     <p class="q-sub">A resposta pode explicar por que o ciclo não progride como deveria.</p>
     <div class="simple-list">
-      <button class="simple-opt" data-val="sim" data-score="0" data-next="s16">Sim, uso regularmente</button>
-      <button class="simple-opt" data-val="as-vezes" data-score="1" data-next="s16">Às vezes</button>
-      <button class="simple-opt" data-val="nunca" data-score="3" data-next="s16">Nunca</button>
+      <button class="simple-opt simple-opt--radio" data-val="sim" data-score="0" data-next="s16">Sim, uso regularmente</button>
+      <button class="simple-opt simple-opt--radio" data-val="as-vezes" data-score="1" data-next="s16">Às vezes</button>
+      <button class="simple-opt simple-opt--radio" data-val="nunca" data-score="3" data-next="s16">Nunca</button>
     </div>
+    <img class="q-produto__foto" src="Images/s14-higiene.webp" alt="" decoding="async" loading="lazy"/>
   </section>
 
-  <section class="screen" id="s16" data-step="42" data-section="Sinais do Ciclo" data-icon="cycle">
+  <section class="screen q-produto" id="s16" data-step="42" data-section="Sinais do Ciclo" data-icon="cycle">
     <h2 class="q-title">Você esquenta comida em pote de plástico ou usa cosméticos com parabenos?</h2>
     <p class="q-sub">Os dois soltam substâncias que imitam hormônios e atrapalham a ovulação.</p>
     <div class="simple-list">
-      <button class="simple-opt" data-val="sim" data-score="0" data-next="svsl1">Sim, com frequência</button>
-      <button class="simple-opt" data-val="as-vezes" data-score="1" data-next="svsl1">Às vezes</button>
-      <button class="simple-opt" data-val="evito" data-score="3" data-next="svsl1">Evito as duas coisas</button>
-      <button class="simple-opt" data-val="nao-sei" data-score="0" data-next="svsl1">Nunca reparei nisso</button>
+      <button class="simple-opt simple-opt--radio" data-val="sim" data-score="0" data-next="svsl1">Sim, com frequência</button>
+      <button class="simple-opt simple-opt--radio" data-val="as-vezes" data-score="1" data-next="svsl1">Às vezes</button>
+      <button class="simple-opt simple-opt--radio" data-val="evito" data-score="3" data-next="svsl1">Evito as duas coisas</button>
+      <button class="simple-opt simple-opt--radio" data-val="nao-sei" data-score="0" data-next="svsl1">Nunca reparei nisso</button>
     </div>
+    <img class="q-produto__foto" src="Images/s16-plastico.webp" alt="" decoding="async" loading="lazy"/>
   </section>
 
   <!-- ═══════ 14. VSL 1 · O MECANISMO ═══════

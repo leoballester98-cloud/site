@@ -5253,6 +5253,32 @@ html:has(#s11.screen.active), body:has(#s11.screen.active) { overflow-x: hidden;
 #s11.screen.active .s11-foto { animation: telaSobe .3s linear .5s both, telaMostra .5s linear .5s both; }
 @media (prefers-reduced-motion: reduce) { #s11.screen.active .s11-foto { animation: none; } }
 
+/* ═══ Telas 14 e 16 · produtos ════════════════════════════════════════════
+   O desenho da tela 11 com os produtos da pergunta no lugar da pessoa. A
+   composicao e mais larga que uma pessoa, entao quem manda e a LARGURA: ela
+   ocupa a metade direita e sangra um pouco pela borda, como a referencia. */
+.q-produto { position: relative; box-sizing: border-box; min-height: calc(100svh - var(--h-cabecalho, 62px) - 8px); }
+.q-produto.screen.active { padding-bottom: 0; }
+body:has(.q-produto.screen.active) .wrap { padding-bottom: 0; }
+html:has(.q-produto.screen.active), body:has(.q-produto.screen.active) { overflow-x: hidden; }
+.q-produto .simple-list { width: 52%; max-width: 240px; position: relative; z-index: 1; margin-top: 8px; }
+#s14 { --qp-topo: 515px; --qp-prop: 0.67; }
+#s16 { --qp-topo: 615px; --qp-prop: 0.9; }
+.q-produto__foto {
+  position: absolute; right: -14px; bottom: 0;
+  /* Dois tamanhos, vale o maior: (1) a coluna a direita dos cartoes (52%
+     da largura util), que deixa a imagem subir ao lado deles sem encostar,
+     e salva o celular baixo; (2) toda a altura que sobra EMBAIXO dos
+     cartoes, que no celular alto deixa os produtos grandes como a pessoa da
+     referencia. --qp-topo e onde os cartoes terminam; --qp-prop, a proporcao
+     do recorte (largura/altura). */
+  width: max(calc(48vw - 8px), min(72vw, 320px, calc((100svh - var(--qp-topo)) * var(--qp-prop))));
+  height: auto; max-width: none;
+  pointer-events: none; user-select: none;
+}
+.q-produto.screen.active .q-produto__foto { animation: telaSobe .3s linear .5s both, telaMostra .5s linear .5s both; }
+@media (prefers-reduced-motion: reduce) { .q-produto.screen.active .q-produto__foto { animation: none; } }
+
 /* ═══ Telas de informacao (3n / 3s) ══════════════════════════════════════
    Desenho da referencia: titulo a esquerda, dois paragrafos, foto grande em
    cartao arredondado; o CONTINUAR e o do rodape. Cabe sem rolar: em tela

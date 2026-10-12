@@ -56,7 +56,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"/>
-  <link rel="stylesheet" href="quiz-warm.css?v=460"/>
+  <link rel="stylesheet" href="quiz-warm.css?v=467"/>
 
   <!-- Anti-flicker do teste A/B.
        O script que troca a headline mora no fim do <body>, então num aparelho
@@ -397,7 +397,22 @@
          "Mais de / 1.800 mulheres" fica em duas fontes. -->
     <h1 class="q-title-lg" style="margin-top:24px;">Mais de</h1>
     <p class="q-sub" style="margin-top:-14px;"><span style="display:block;font-family:'Manrope','DM Sans',system-ui,sans-serif;font-size:2.8rem;font-weight:800;color:#3d2b1f;line-height:1.1;margin-bottom:6px;">1.800 mulheres</span>já fizeram o plano para destravar a gravidez.</p>
-    <img loading="lazy" src="Images/ilustra_rembg.webp" alt="3 mulheres grávidas sorrindo" style="max-width:360px;width:100%;margin:18px auto 0;display:block;"/>
+    <img class="s2-ilustra" loading="lazy" src="Images/ilustra_rembg.webp" alt="3 mulheres grávidas sorrindo" style="max-width:360px;width:100%;margin:18px auto 0;display:block;"/>
+    <!-- Credibilidade emprestada, no lugar do "Como visto em" da referência.
+         "Baseado em pesquisas publicadas em" e não "como visto em": as revistas
+         não falaram de nós, os estudos é que sustentam os pilares do método:
+         sono (Willis, Fertil Steril 2019), estresse (Lynch, Hum Reprod 2014)
+         e alimentação/rotina (Chavarro, Obstet Gynecol 2007). Nome em texto,
+         não logo (logo é marca e sugere parceria). São estudos de associação:
+         nada no quiz pode dizer "comprovado". -->
+    <div class="ciencia">
+      <p class="ciencia__tit">Baseado em pesquisas publicadas em</p>
+      <div class="ciencia__revistas">
+        <span>Fertility and Sterility</span>
+        <span>Human Reproduction</span>
+        <span>Obstetrics &amp; Gynecology</span>
+      </div>
+    </div>
   </section>
 
   <!-- ═══════ 3. JÁ TENTA ENGRAVIDAR? ═══════

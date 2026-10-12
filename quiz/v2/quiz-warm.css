@@ -5781,3 +5781,28 @@ body.fmt-t11:has(#s1.screen.active) { background: #F0F2F5; }
 @media (max-height: 830px) { .f11-cartao__img { display: none; } }
 @media (max-height: 760px) { .f11-acoes { display: none; } }
 @media (max-height: 700px) { .f11-balao p span, .f11-fixado { display: none; } .f11-resposta { padding-top: 10px; } }
+
+/* ═══ Tela 2: "Baseado em pesquisas publicadas em" ═════════════════════════
+   O lugar do "Como visto em" da referência. Os nomes das revistas fazem o
+   papel dos logos: serifados, cinza, em três colunas com fio entre elas. */
+/* A ilustração cede a altura que o bloco das revistas ocupa: a tela 2 abre
+   inteira, com o botão à vista, em qualquer aparelho. */
+#s2 img.s2-ilustra {
+  max-height: min(42svh, max(150px, calc(100svh - 475px)));
+  max-width: min(42svh, max(150px, calc(100svh - 475px))) !important;
+}
+/* Tela estreita: o título quebra numa linha a mais e a imagem cede o espaço. */
+@media (max-width: 370px) {
+  #s2 img.s2-ilustra {
+    max-height: min(42svh, max(140px, calc(100svh - 505px)));
+    max-width: min(42svh, max(140px, calc(100svh - 505px))) !important;
+  }
+}
+.ciencia { margin: 14px auto 0; text-align: center; max-width: 380px; width: 100%; }
+.ciencia__tit { font-size: 16px; font-weight: 700; color: var(--ink); margin: 0; }
+.ciencia__revistas { display: grid; grid-template-columns: repeat(3, 1fr); margin-top: 10px; }
+.ciencia__revistas span {
+  font-family: Georgia, 'Times New Roman', serif; font-weight: 700; font-size: 13px; line-height: 1.12;
+  color: #8C7D72; padding: 2px 8px; display: flex; align-items: center; justify-content: center;
+}
+.ciencia__revistas span + span { border-left: 1px solid rgba(43,26,16,.15); }

@@ -557,17 +557,22 @@
   <!-- ═══════ 12. MUCO observa mudanças ═══════ -->
   <section class="screen" id="s5i" data-step="6" data-etapa="43" data-section="" data-icon="cycle" data-next="s5">
     <div class="info">
-      <h2 class="q-title info__titulo">Seu corpo avisa quando está fértil.</h2>
-      <p class="info__texto">Só que quase ninguém ensina a ler esses avisos. Por isso tanta mulher tenta no dia errado, mês após mês, achando que o problema é ela.</p>
-      <p class="info__texto">As próximas 4 perguntas mostram <b>se você já reconhece esses sinais</b> e se algo no seu dia a dia está atrapalhando sua fertilidade.</p>
+      <!-- Titulo e 1o paragrafo mudam com a resposta da s11 (ou com o "ainda
+           nao" da s3, que pula a s11): ver S5I_TEXTO. O que esta aqui e o
+           da faixa de 6 meses a 1 ano, que vale se a resposta faltar. Molde
+           da referencia: diagnostico no titulo, o lado dificil reconhecido,
+           e o que o programa tem em negrito. "Vao ajudar", nunca "garantir". -->
+      <h2 class="q-title info__titulo" id="s5iTitulo">Parece que o seu corpo entrou no modo sobrevivência.</h2>
+      <p class="info__texto" id="s5iTexto">Esse modo desliga quando o corpo volta a se sentir seguro, e é isso que o plano trabalha todos os dias.</p>
+      <p class="info__texto">Os nossos <b>exercícios guiados por vídeo e ajustes na alimentação</b> vão ajudar você a destravar a sua fertilidade no seu ritmo.</p>
       <div class="info__foto info__foto--laptop" aria-hidden="true">
         <div class="info__laptop">
           <div class="info__laptop-tela">
-            <img src="Images/essa2.webp" alt="" decoding="async" loading="lazy"/>
+            <img src="Images/s5i-video.webp?v=2" alt="" decoding="async" loading="lazy"/>
             <span class="info__play"></span>
           </div>
         </div>
-        <img class="info__tela info__tela--fone" src="Images/app-tela1-biblioteca.webp" alt="" decoding="async" loading="lazy"/>
+        <img class="info__tela info__tela--fone" src="Images/app-tela8-guiado.webp?v=3" alt="" decoding="async" loading="lazy"/>
       </div>
     </div>
   </section>
@@ -2380,9 +2385,33 @@ function goToScreen(next) {
   }, SAIDA_MS);
 }
 
+/* Tela 5i: responde ao tempo tentando (s11). Quem respondeu "ainda nao" na
+   s3 pula a s11 e cai no ultimo caso. */
+const S5I_TEXTO = {
+  'menos-6': ['Você está no começo, e isso é uma vantagem.',
+              'Dá para corrigir o que atrapalha agora, com estímulos férteis encaixados na sua rotina, antes que a espera fique longa.'],
+  /* De 6 meses pra frente a mensagem e a mesma: o nome do mecanismo que a
+     VSL 1 e a tela 7 ja usam. */
+  '6-12':    ['Parece que o seu corpo entrou no modo sobrevivência.',
+              'Esse modo desliga quando o corpo volta a se sentir seguro, e é isso que o plano trabalha todos os dias.'],
+  'ainda':   ['Você está começando do jeito certo.',
+              'Quem prepara o corpo antes chega na primeira tentativa com tudo a favor, e vive uma gestação mais tranquila.']
+};
+S5I_TEXTO['1-2'] = S5I_TEXTO['2+'] = S5I_TEXTO['6-12'];
+function montarS5i() {
+  const chave = answers.s3 === 'ainda-nao' ? 'ainda' : answers.s11;
+  const txt = S5I_TEXTO[chave];
+  if (!txt) return;
+  const t = document.getElementById('s5iTitulo');
+  const p = document.getElementById('s5iTexto');
+  if (t) t.textContent = txt[0];
+  if (p) p.textContent = txt[1];
+}
+
 function showScreen(id) {
   const el = document.getElementById(id);
   if (!el) return;
+  if (id === 's5i') montarS5i();
   if (id === 'svsl1') iniciarVSL();
   el.classList.add('active','entering');
   setTimeout(() => el.classList.remove('entering'), 520);   // 500ms do fade-in

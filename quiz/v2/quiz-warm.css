@@ -4684,6 +4684,21 @@ body.marca-solta:has(#s1.screen.active) .header__inner::after {
   .t-alt { gap: 10px; }
 }
 
+/* ── Termos da tela 1 no celular ─────────────────────────────────────────
+   Referencia: BetterMe. Em 10px e cinza a 50% o texto lia como rodape
+   escondido; la ele tem o tamanho de texto de verdade, escuro, e os links
+   azuis em negrito do mesmo tamanho. So no celular: no desktop fica como
+   estava. */
+@media (max-width: 719px) {
+  #s1.s1-alt.active .terms {
+    font-size: 14px;
+    line-height: 1.35;
+    color: var(--ink);
+  }
+  #s1.s1-alt.active .terms a,
+  #s1.s1-alt.active .terms a b { font-size: 1em; font-weight: 700; }
+}
+
 /* ── Aparelho muito baixo (SE antigo, 568px de altura) ───────────────────
    Ultimo degrau da escala. A tela 8 nao fechava aqui: ela tem o titulo mais
    longo dos tres moldes, e num aparelho desse a diferenca de uma linha decide.
@@ -4698,7 +4713,7 @@ body.marca-solta:has(#s1.screen.active) .header__inner::after {
   #s1.s1-alt > .age-grid { margin-top: 6px; gap: 8px; }
   #s1.s1-alt .age-row.age-quad { min-height: 48px; font-size: 14px; }
   #s1.s1-alt .t-cta { min-height: 48px; font-size: 15px; }
-  #s1.s1-alt.active .terms { font-size: 9px; }
+  #s1.s1-alt.active .terms { font-size: 12px; }
   .t-alt { gap: 8px; }
 }
 

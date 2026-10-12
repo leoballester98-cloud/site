@@ -56,7 +56,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"/>
-  <link rel="stylesheet" href="quiz-warm.css?v=476"/>
+  <link rel="stylesheet" href="quiz-warm.css?v=477"/>
 
   <!-- Anti-flicker do teste A/B.
        O script que troca a headline mora no fim do <body>, então num aparelho
@@ -738,10 +738,25 @@
   <section class="screen" id="s34" data-step="17" data-section="Fator Emocional" data-icon="alert">
     <h2 class="q-title">Com que intensidade você sente a pressão de engravidar?</h2>
     <div class="simple-list">
-      <button class="simple-opt" data-val="sempre" data-score="0" data-next="s33">O tempo todo, é constante</button>
-      <button class="simple-opt" data-val="frequente" data-score="1" data-next="s33">Com frequência</button>
-      <button class="simple-opt" data-val="as-vezes" data-score="2" data-next="s33">Às vezes</button>
-      <button class="simple-opt" data-val="nao" data-score="3" data-next="s33">Pouco, me aceito no meu tempo</button>
+      <button class="simple-opt" data-val="sempre" data-score="0" data-next="s34i">O tempo todo, é constante</button>
+      <button class="simple-opt" data-val="frequente" data-score="1" data-next="s34i">Com frequência</button>
+      <button class="simple-opt" data-val="as-vezes" data-score="2" data-next="s34i">Às vezes</button>
+      <button class="simple-opt" data-val="nao" data-score="3" data-next="s34i">Pouco, me aceito no meu tempo</button>
+    </div>
+  </section>
+
+  <!-- ═══════ 34i. FECHO DO FATOR EMOCIONAL ═══════
+       Tela de leitura no fim do bloco emocional, como a "Estamos com voce!"
+       da referencia: um selo de check, o titulo, o que o plano vai colocar na
+       rotina dela em negrito e o que isso muda. Sem data-section: nao entra na
+       barra de progresso. data-etapa 44 — a tabela `etapas` do Supabase
+       precisa de uma linha pra ele. -->
+  <section class="screen" id="s34i" data-step="17" data-etapa="44" data-section="" data-icon="alert" data-next="s33">
+    <div class="info">
+      <span class="info__selo" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12.5l4 4 8-8"/><path d="M10 16.5l8-8"/></svg></span>
+      <h2 class="q-title info__titulo">Estamos com você!</h2>
+      <p class="info__texto">Vamos adicionar exercícios leves de respiração e relaxamento que vão <b>acalmar o seu sistema nervoso</b>.</p>
+      <p class="info__texto">Isso significa menos ansiedade na espera, um sono melhor e o corpo saindo do modo sobrevivência!</p>
     </div>
   </section>
 

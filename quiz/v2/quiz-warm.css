@@ -5287,6 +5287,15 @@ html:has(.q-produto.screen.active), body:has(.q-produto.screen.active) { overflo
    baixa a foto fica menos alta. */
 .info { display: flex; flex-direction: column; gap: 12px; }
 .info__titulo { text-align: left; margin: 6px 0 2px; }
+/* O selo de check no topo de uma tela de leitura (tela 34i), como na
+   referencia: circulo bege com o duplo check fino. */
+.info__selo {
+  width: 44px; height: 44px; border-radius: 50%;
+  background: var(--card-active); color: var(--ink-soft);
+  display: inline-flex; align-items: center; justify-content: center;
+  margin-top: 6px;
+}
+.info__selo svg { width: 22px; height: 22px; }
 .info__texto { font-size: 16px; line-height: 1.45; color: var(--ink-soft); margin: 0; }
 .info__texto b { color: var(--ink); font-weight: 700; }
 .info__foto { border-radius: 20px; overflow: hidden; background: var(--card-active); aspect-ratio: 4 / 3; margin-top: 6px; }

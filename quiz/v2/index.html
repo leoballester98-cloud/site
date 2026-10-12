@@ -56,7 +56,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"/>
-  <link rel="stylesheet" href="quiz-warm.css?v=459"/>
+  <link rel="stylesheet" href="quiz-warm.css?v=460"/>
 
   <!-- Anti-flicker do teste A/B.
        O script que troca a headline mora no fim do <body>, então num aparelho
@@ -287,6 +287,93 @@
       <div class="t8-prova" id="t8Prova"></div>
       <p class="t-micro" id="t8Micro"></p>
       <button class="t-cta t-cta--verde" id="t8Cta" type="button"></button>
+    </div>
+
+    <!-- ═══ Telas 9, 10 e 11: formatos de conteúdo ═══════════════════════════
+         Schwartz, "Camuflagem" (Breakthrough Advertising, p. 273): a pessoa
+         confia no formato do conteúdo que ela já consome, e o anúncio que
+         chega nesse formato herda a confiança. Cada tela empresta um:
+         9 = matéria de portal, 10 = caixinha de perguntas do story,
+         11 = pergunta no grupo de tentantes.
+         Elas trocam a página inteira (sem o cabeçalho do quiz) e o botão vai
+         direto pra tela 2, como a 8. Os termos são os MESMOS da tela 1: o JS
+         move o <p class="terms"> pra dentro do bloco. Nenhum nome, logo ou
+         layout de veículo ou rede real: o portal, o perfil e o grupo são
+         nossos. -->
+
+    <!-- Tela 9: matéria de portal de saúde -->
+    <div class="fmt" id="tela9" hidden>
+      <header class="f9-mast">
+        <div class="f9-mast__top"><div class="f9-logo">Ciclo Fértil <span>Saúde</span></div><i class="f9-ham" aria-hidden="true"></i></div>
+        <nav class="f9-nav" aria-hidden="true"><b>Fertilidade</b><span>Ciclo</span><span>Gestação</span><span>Bem-estar</span><span>Nutrição</span></nav>
+      </header>
+      <div class="f9-corpo">
+        <div class="f9-chapeu">Fertilidade</div>
+        <h2 class="f9-h1">Ritual de 10 minutos religa a ovulação de mulheres que tentavam engravidar há meses</h2>
+        <p class="f9-fina">Método caseiro age no que os exames de rotina não mostram. Um teste gratuito indica qual ritual cada mulher deve seguir.</p>
+        <div class="f9-assina"><i></i><span>Por <b>Redação Ciclo Fértil</b> · <span class="fmt-data"></span> · 2 min de leitura</span></div>
+        <figure class="f9-foto">
+          <img src="Images/t8-prova-2.webp" alt="" decoding="async" loading="eager"/>
+          <figcaption>Leitoras compartilharam o resultado. Foto: arquivo pessoal</figcaption>
+        </figure>
+        <p class="f9-lide"><b>SÃO PAULO —</b> Mulheres que tentavam engravidar relatam o positivo depois de incluir um ritual de 10 minutos na rotina.</p>
+        <div class="f9-box">
+          <div class="f9-box__rot">TESTE GRATUITO</div>
+          <div class="f9-box__tit">Descubra qual ritual religa a sua ovulação</div>
+          <button class="f9-btn fmt-cta" type="button">Fazer o teste →</button>
+        </div>
+        <div class="fmt-termos"></div>
+      </div>
+    </div>
+
+    <!-- Tela 10: caixinha de perguntas do story -->
+    <div class="fmt" id="tela10" hidden>
+      <div class="f10-story">
+        <div class="f10-barras" aria-hidden="true"><i class="feita"></i><i class="feita"></i><i class="agora"></i><i></i><i></i></div>
+        <div class="f10-perfil"><i></i>ciclofertil <span>2 h</span><b aria-hidden="true">⋯</b></div>
+        <div class="f10-corpo">
+          <div class="f10-adesivo">
+            <div class="f10-adesivo__cab">Pergunte sobre fertilidade</div>
+            <div class="f10-adesivo__txt">Meus exames deram todos normais, mas não engravido. O que pode ser?</div>
+          </div>
+          <p class="f10-resp">Exame normal mostra que o corpo <mark>consegue</mark> ovular. Não mostra se ele <mark>está</mark> ovulando todo mês.</p>
+          <p class="f10-resp f10-resp--2">Sono, estresse e alimentação travam a ovulação sem aparecer no exame. Fiz um teste rápido que mostra qual deles pesa no seu ciclo 👇</p>
+          <div class="f10-acao">
+            <button class="f10-link fmt-cta" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M10 14a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"/><path d="M14 10a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/></svg>FAZER O TESTE</button>
+            <div class="f10-link-sub">Gratuito · 2 minutos</div>
+          </div>
+        </div>
+        <div class="fmt-termos"></div>
+      </div>
+    </div>
+
+    <!-- Tela 11: pergunta no grupo de tentantes, com a resposta da equipe.
+         A pergunta tem que ser REAL (das respostas do quiz ou dos comentários
+         dos anúncios) antes de mandar tráfego. Sem contagem de reações: número
+         inventado aqui seria prova social falsa. -->
+    <div class="fmt" id="tela11" hidden>
+      <div class="f11-grupo"><i></i><div><b>Tentantes · Comunidade Ciclo Fértil</b><span>Grupo privado</span></div></div>
+      <div class="f11-post">
+        <div class="f11-autor"><i>M</i><div><b>Membro anônimo</b><span>3 h · 🔒</span></div></div>
+        <p>Meninas, tô há 1 ano e 3 meses tentando. Fiz hormônios, ultrassom, tireoide, tudo normal. A médica disse que é só esperar. Alguém passou por isso? Não aguento mais ver negativo 😔</p>
+        <div class="f11-acoes" aria-hidden="true"><span>Curtir</span><span>Comentar</span><span>Enviar</span></div>
+      </div>
+      <div class="f11-resposta">
+        <div class="f11-fixado">📌 Comentário fixado</div>
+        <div class="f11-com">
+          <i></i>
+          <div class="f11-balao">
+            <b>Equipe Ciclo Fértil <em>Moderação</em></b>
+            <p>Exame normal mostra que o corpo consegue ovular, não que está ovulando todo mês. <span>Sono, estresse e alimentação travam a ovulação sem aparecer em exame.</span> Esse teste mostra qual pesa no seu ciclo:</p>
+            <div class="f11-cartao">
+              <div class="f11-cartao__img"></div>
+              <div class="f11-cartao__txt"><small>ciclofertil · teste gratuito</small><b>O que está travando a sua ovulação?</b></div>
+              <button class="f11-btn fmt-cta" type="button">Fazer o teste →</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="fmt-termos"></div>
     </div>
 
     <!-- A grade 2x2 compartilhada pelas três. age-row de propósito: o handler
@@ -1859,6 +1946,16 @@ function montarCarrossel(slides) {
   });
 }
 
+/* ── Telas 9, 10 e 11 ──────────────────────────────────────────────────────
+   Formatos de conteúdo (matéria, caixinha do story, post de grupo). O texto
+   mora no próprio bloco HTML de cada uma, porque o layout É o formato: não há
+   título ou sub pra trocar como nos moldes. */
+const FORMATOS = {
+  '9': { serifa: true },
+  '10': {},
+  '11': {}
+};
+
 (function () {
   const h = document.getElementById('h1Var');
   const s = document.getElementById('subVar');
@@ -1871,6 +1968,35 @@ function montarCarrossel(slides) {
     if (TELA === '1') {
       if (h) h.textContent = 'O que separa você do seu filho são Bloqueios Férteis.';
       if (s) s.innerHTML = 'Descubra o seu em 2 minutos.<br>Pra começar, qual a sua idade?';
+      return;
+    }
+
+    /* Telas 9, 10 e 11: formato de conteúdo, página inteira. Saem por aqui
+       antes dos moldes porque não usam nada deles (título, sub, grade). */
+    if (FORMATOS[TELA]) {
+      const bloco = document.getElementById('tela' + TELA);
+      const s1 = document.getElementById('s1');
+      if (!bloco || !s1) return;
+      bloco.hidden = false;
+      document.body.classList.add('fmt-proprio', 'fmt-t' + TELA);
+      s1.classList.add('s1-fmt');
+      /* Os termos são os mesmos da tela 1, só mudam de lugar. */
+      const termos = s1.querySelector(':scope > .terms');
+      const vaga = bloco.querySelector('.fmt-termos');
+      if (termos && vaga) vaga.appendChild(termos);
+      /* Matéria com data velha denuncia o anúncio: a data é a de hoje. */
+      bloco.querySelectorAll('.fmt-data').forEach(function (el) {
+        el.textContent = new Date().toLocaleDateString('pt-BR', { day: 'numeric', month: 'short', year: 'numeric' }).replace(/\./g, '').replace(/ de /g, ' ');
+      });
+      if (FORMATOS[TELA].serifa) {
+        const l = document.createElement('link');
+        l.rel = 'stylesheet';
+        l.href = 'https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,700&display=swap';
+        document.head.appendChild(l);
+      }
+      bloco.querySelectorAll('.fmt-cta').forEach(function (b) {
+        b.addEventListener('click', function () { goToScreen('s2'); });
+      });
       return;
     }
 

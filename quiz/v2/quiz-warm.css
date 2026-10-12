@@ -5661,3 +5661,123 @@ html:has(#s3.screen.active), body:has(#s3.screen.active) { overflow-x: hidden; }
    regra do arquivo pra vencer os `background: var(--card)` de cada
    componente (mesma especificidade, ganha quem vem depois). */
 .simple-opt, .row-card, .age-row, .opt-grid__card--texto { background: transparent; }
+
+/* ═══ Telas 9, 10 e 11: formatos de conteúdo ═══════════════════════════════
+   A página inteira vira o formato: sai o cabeçalho do quiz, sai a margem da
+   .wrap, e cada tela pinta o próprio fundo. Tudo escopado em #telaN e com
+   prefixo fN- porque nomes como .menu e .terms já existem no quiz.
+   Mesma promessa das outras primeiras telas: abre inteira, sem rolar. Quando
+   falta altura, saem blocos de apoio (lide, linha fina, foto), nunca título,
+   botão ou termos. */
+body.fmt-proprio:has(#s1.screen.active) .header,
+body.fmt-proprio:has(#s1.screen.active) .menu { display: none; }
+body.fmt-proprio:has(#s1.screen.active) .wrap { padding: 0; max-width: none; }
+body.fmt-proprio:has(#s1.screen.active) { min-height: 100svh; }
+#s1.s1-fmt > #h1Var, #s1.s1-fmt > #subVar, #s1.s1-fmt > .age-intro { display: none; }
+#s1.s1-fmt.active { padding: 0; min-height: 100svh; }
+.fmt:not([hidden]) { display: flex; flex-direction: column; flex: 1; min-height: 100svh; width: 100%; }
+/* Os termos herdados da tela 1 chegavam fixos no rodapé (regra antiga do
+   celular). Aqui eles são conteúdo, com o tamanho da referência. */
+#s1.s1-fmt .terms {
+  position: static; margin: 10px auto 0; padding: 0; background: none; border: 0;
+  font-size: 14px; line-height: 1.35; text-align: center; max-width: 60ch;
+}
+#s1.s1-fmt .terms a, #s1.s1-fmt .terms a b { font-size: 1em; font-weight: 700; }
+/* Ganchos do JS que também carregam estilo: a vaga dos termos ocupa a
+   largura, o botão é clicável e a data da matéria não quebra no meio. */
+.fmt-termos { width: 100%; }
+.fmt-cta { cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.fmt-data { white-space: nowrap; }
+
+/* ── Tela 9: matéria de portal ───────────────────────────────────────────── */
+body.fmt-t9:has(#s1.screen.active) { background: #fff; }
+#tela9 { --f9-ink: #1A1A1A; --f9-soft: #555; --f9-fade: #8A8A8A; --f9-hair: #E6E6E6; --f9-acc: #B3261E; background: #fff; color: var(--f9-ink); }
+#tela9 .terms { color: var(--f9-ink); }
+.f9-mast { border-bottom: 1px solid var(--f9-hair); padding: 10px 16px 0; }
+.f9-mast__top { display: flex; align-items: center; justify-content: space-between; }
+.f9-logo { font-family: 'Source Serif 4', Georgia, serif; font-weight: 700; font-size: 22px; letter-spacing: -0.3px; }
+.f9-logo span { color: var(--f9-acc); }
+.f9-ham { width: 20px; height: 14px; border-top: 2px solid var(--f9-ink); border-bottom: 2px solid var(--f9-ink); position: relative; }
+.f9-ham::after { content: ''; position: absolute; left: 0; right: 0; top: 4px; border-top: 2px solid var(--f9-ink); }
+.f9-nav { display: flex; gap: 16px; font-size: 12px; font-weight: 600; color: var(--f9-soft); padding: 8px 0 7px; overflow: hidden; white-space: nowrap; }
+.f9-nav b { color: var(--f9-acc); border-bottom: 2px solid var(--f9-acc); padding-bottom: 5px; }
+.f9-corpo { flex: 1; display: flex; flex-direction: column; padding: 14px 16px 12px; max-width: 600px; width: 100%; margin: 0 auto; }
+.f9-chapeu { font-size: 11px; font-weight: 700; letter-spacing: 1.2px; color: var(--f9-acc); text-transform: uppercase; }
+.f9-h1 { font-family: 'Source Serif 4', Georgia, serif; font-weight: 700; font-size: 25px; line-height: 1.16; letter-spacing: -0.3px; margin: 6px 0 0; color: var(--f9-ink); text-align: left; }
+.f9-fina { font-size: 15px; line-height: 1.38; color: var(--f9-soft); margin-top: 8px; }
+.f9-assina { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--f9-fade); margin-top: 10px; padding-bottom: 10px; border-bottom: 1px solid var(--f9-hair); }
+.f9-assina b { color: var(--f9-ink); font-weight: 600; }
+.f9-assina i { width: 26px; height: 26px; border-radius: 50%; background: #EEE url('favicon.png') center/16px no-repeat; flex: none; }
+.f9-foto { margin: 12px 0 0; }
+.f9-foto img { width: 100%; aspect-ratio: 2.3 / 1; object-fit: cover; display: block; border-radius: 2px; }
+.f9-foto figcaption { font-size: 11.5px; color: var(--f9-fade); margin-top: 5px; line-height: 1.35; }
+.f9-lide { font-family: 'Source Serif 4', Georgia, serif; font-size: 16.5px; line-height: 1.45; margin-top: 10px; }
+.f9-lide b { font-family: 'DM Sans', sans-serif; font-size: 12px; letter-spacing: 0.8px; font-weight: 700; }
+.f9-box { margin-top: 12px; border-top: 3px solid var(--f9-ink); background: #F6F4F1; padding: 12px 14px 14px; }
+.f9-box__rot { font-size: 11px; font-weight: 700; letter-spacing: 1.2px; color: var(--f9-acc); }
+.f9-box__tit { font-family: 'Source Serif 4', Georgia, serif; font-weight: 700; font-size: 17px; line-height: 1.25; margin-top: 4px; }
+.f9-btn { display: flex; align-items: center; justify-content: center; width: 100%; margin-top: 10px; min-height: 50px; border: 0; border-radius: 6px; background: #2F6B3A; color: #fff; font: 700 16px 'DM Sans', sans-serif; cursor: pointer; }
+@media (max-height: 830px) { .f9-lide { display: none; } }
+@media (max-width: 370px) { .f9-h1 { font-size: 22px; } .f9-fina { font-size: 14px; } }
+@media (max-height: 690px) { .f9-fina, .f9-foto figcaption { display: none; } .f9-foto img { aspect-ratio: 3 / 1; } }
+
+/* ── Tela 10: caixinha de perguntas do story ─────────────────────────────── */
+body.fmt-t10:has(#s1.screen.active) { background: #2E1712; }
+.f10-story { position: relative; flex: 1; min-height: 100svh; width: 100%; max-width: 480px; margin: 0 auto; display: flex; flex-direction: column; padding: 10px 14px 14px; color: #fff; overflow: hidden;
+  background: linear-gradient(165deg, #8E4A3B 0%, #5A2C24 55%, #2E1712 100%); }
+.f10-barras { display: flex; gap: 4px; }
+.f10-barras i { flex: 1; height: 2.5px; border-radius: 2px; background: rgba(255,255,255,.35); }
+.f10-barras i.feita { background: #fff; }
+.f10-barras i.agora { background: linear-gradient(90deg, #fff 45%, rgba(255,255,255,.35) 45%); }
+.f10-perfil { display: flex; align-items: center; gap: 8px; margin-top: 10px; font-size: 13.5px; font-weight: 600; }
+.f10-perfil i { width: 32px; height: 32px; border-radius: 50%; background: #F5EFE8 url('favicon.png') center/18px no-repeat; border: 2px solid #fff; }
+.f10-perfil span { opacity: .7; font-weight: 400; }
+.f10-perfil b { margin-left: auto; font-size: 20px; font-weight: 400; opacity: .9; }
+.f10-corpo { flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 18px; padding: 12px 4px; }
+.f10-adesivo { align-self: center; width: 88%; background: #fff; color: #222; border-radius: 16px; overflow: hidden; box-shadow: 0 6px 20px rgba(0,0,0,.25); transform: rotate(-1.5deg); }
+.f10-adesivo__cab { background: linear-gradient(90deg, #E4677A, #F2A65A); color: #fff; text-align: center; font-size: 12.5px; font-weight: 700; padding: 8px 10px; }
+.f10-adesivo__txt { padding: 14px 16px 16px; font-size: 18px; font-weight: 700; line-height: 1.3; text-align: center; }
+.f10-resp { font-size: 19px; line-height: 1.38; font-weight: 600; text-shadow: 0 1px 6px rgba(0,0,0,.25); color: #fff; }
+.f10-resp mark { background: #F5EFE8; color: #5A2C24; padding: 0 5px; border-radius: 4px; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
+.f10-resp--2 { font-size: 17px; font-weight: 500; }
+.f10-acao { text-align: center; }
+.f10-link { display: inline-flex; align-items: center; gap: 8px; background: #fff; color: #2F6B3A; font: 800 16px 'DM Sans', sans-serif; letter-spacing: .3px; padding: 14px 22px; border: 0; border-radius: 12px; box-shadow: 0 6px 18px rgba(0,0,0,.25); cursor: pointer; }
+.f10-link svg { width: 18px; height: 18px; }
+.f10-link-sub { font-size: 12.5px; opacity: .8; margin-top: 6px; }
+#tela10 .terms { color: rgba(255,255,255,.85); }
+#tela10 .terms a, #tela10 .terms a b { color: #fff; }
+@media (max-height: 740px) { .f10-resp--2 { display: none; } .f10-corpo { gap: 14px; } }
+@media (max-height: 640px) { .f10-adesivo__txt { font-size: 16px; padding: 10px 14px 12px; } .f10-resp { font-size: 17px; } }
+
+/* ── Tela 11: pergunta no grupo de tentantes ─────────────────────────────── */
+body.fmt-t11:has(#s1.screen.active) { background: #F0F2F5; }
+#tela11 { --f11-ink: #1C1E21; --f11-soft: #65676B; --f11-hair: #E4E6EB; --f11-fundo: #F0F2F5; background: var(--f11-fundo); color: var(--f11-ink); max-width: 520px; margin: 0 auto; }
+#s1 #tela11 .terms { color: var(--f11-ink); padding: 0 14px 12px; }
+.f11-grupo { background: #fff; padding: 10px 14px; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid var(--f11-hair); }
+.f11-grupo i { width: 36px; height: 36px; border-radius: 10px; background: #F5EFE8 url('favicon.png') center/20px no-repeat; flex: none; }
+.f11-grupo b { font-size: 15px; display: block; }
+.f11-grupo span { font-size: 12px; color: var(--f11-soft); }
+.f11-post { background: #fff; margin-top: 8px; padding: 12px 14px 8px; }
+.f11-autor { display: flex; align-items: center; gap: 9px; }
+.f11-autor i { width: 38px; height: 38px; border-radius: 50%; background: #D8C4B6; color: #fff; font-style: normal; font-weight: 700; display: grid; place-items: center; font-size: 15px; flex: none; }
+.f11-autor b { font-size: 14.5px; display: block; }
+.f11-autor span { font-size: 12px; color: var(--f11-soft); }
+.f11-post p { font-size: 15.5px; line-height: 1.42; margin-top: 10px; }
+.f11-acoes { display: flex; justify-content: space-around; font-size: 13.5px; font-weight: 600; color: var(--f11-soft); margin-top: 10px; padding-top: 8px; border-top: 1px solid var(--f11-hair); }
+.f11-resposta { background: #fff; padding: 4px 14px 14px; }
+.f11-fixado { font-size: 12px; color: var(--f11-soft); font-weight: 600; padding: 8px 0 6px; }
+.f11-com { display: flex; gap: 8px; }
+.f11-com > i { width: 32px; height: 32px; border-radius: 50%; background: #F5EFE8 url('favicon.png') center/18px no-repeat; flex: none; }
+.f11-balao { background: var(--f11-fundo); border-radius: 16px; padding: 8px 12px 10px; flex: 1; }
+.f11-balao b { font-size: 13.5px; }
+.f11-balao b em { font-style: normal; font-size: 11px; font-weight: 700; color: #2D6CDF; background: #E7F0FD; padding: 2px 6px; border-radius: 999px; margin-left: 4px; }
+.f11-balao p { font-size: 14.5px; line-height: 1.42; margin-top: 3px; }
+.f11-cartao { margin-top: 8px; border: 1px solid var(--f11-hair); border-radius: 12px; overflow: hidden; background: #fff; }
+.f11-cartao__img { height: 70px; background: url('Images/t8-prova-1.webp') center/cover; }
+.f11-cartao__txt { padding: 8px 12px 10px; }
+.f11-cartao__txt small { font-size: 11px; color: var(--f11-soft); text-transform: uppercase; letter-spacing: .4px; }
+.f11-cartao__txt b { display: block; font-size: 14.5px; margin-top: 2px; }
+.f11-btn { display: flex; align-items: center; justify-content: center; width: calc(100% - 24px); margin: 0 12px 12px; min-height: 48px; border: 0; border-radius: 8px; background: #2F6B3A; color: #fff; font: 700 16px 'DM Sans', sans-serif; cursor: pointer; }
+@media (max-height: 830px) { .f11-cartao__img { display: none; } }
+@media (max-height: 760px) { .f11-acoes { display: none; } }
+@media (max-height: 700px) { .f11-balao p span, .f11-fixado { display: none; } .f11-resposta { padding-top: 10px; } }

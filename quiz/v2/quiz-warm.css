@@ -5852,3 +5852,14 @@ body.fmt-t11:has(#s1.screen.active) { background: #F0F2F5; }
   color: #8C7D72; padding: 2px 8px; display: flex; align-items: center; justify-content: center;
 }
 .ciencia__revistas span + span { border-left: 1px solid rgba(43,26,16,.15); }
+
+/* ═══ Rodape com o CONTINUAR ════════════════════════════════════════════════
+   Preso no pe da tela, sempre na mesma posicao, com o fio fino em cima, como
+   na referencia. A .wrap reserva a altura dele (medida no JS em --h-rodape)
+   so nas telas em que ele aparece. */
+.footer-cta {
+  position: fixed; left: 0; right: 0; bottom: 0;
+  border-top: 1px solid rgba(43,26,16,0.10);
+  padding: 14px 0 max(14px, env(safe-area-inset-bottom, 14px));
+}
+body.com-rodape .wrap { padding-bottom: calc(var(--h-rodape, 84px) + 8px); }

@@ -56,7 +56,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"/>
-  <link rel="stylesheet" href="quiz-warm.css?v=473"/>
+  <link rel="stylesheet" href="quiz-warm.css?v=474"/>
 
   <!-- Anti-flicker do teste A/B.
        O script que troca a headline mora no fim do <body>, então num aparelho
@@ -2275,15 +2275,25 @@ function updateChrome(screenId) {
   backBtn.disabled = screenId === 's1' || screenId === 's27' || screenId === 's26b' || screenId === 's30';
 }
 
+/* O botao fica preso no pe da tela, sempre no mesmo lugar, como na
+   referencia (antes era sticky e vinha logo depois do conteudo, entao mudava
+   de altura de tela pra tela). A .wrap reserva a altura dele pra nada ficar
+   escondido por baixo. */
+function marcarRodape(visivel) {
+  document.body.classList.toggle('com-rodape', visivel);
+  if (visivel) document.documentElement.style.setProperty('--h-rodape', footerCTA.offsetHeight + 'px');
+}
+
 function showFooter(screenId) {
   const el = document.getElementById(screenId);
   const ctaMode = el?.dataset.cta;
   const type = el?.dataset.type;
 
-  if (ctaMode === 'hidden') { footerCTA.style.display = 'none'; return; }
+  if (ctaMode === 'hidden') { footerCTA.style.display = 'none'; marcarRodape(false); return; }
   const hasAutoAdvance = el.querySelector('.row-card[data-next], .simple-opt[data-next], .age-row[data-next], .multi-opt[data-next], .opt-grid__card[data-next]');
-  if (hasAutoAdvance && type !== 'multi') { footerCTA.style.display = 'none'; return; }
+  if (hasAutoAdvance && type !== 'multi') { footerCTA.style.display = 'none'; marcarRodape(false); return; }
   footerCTA.style.display = 'block';
+  marcarRodape(true);
   skipLink.style.display = 'none';
 
   if (type === 'multi') {

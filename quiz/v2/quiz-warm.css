@@ -5233,6 +5233,26 @@ html:has(#s3.screen.active), body:has(#s3.screen.active) { overflow-x: hidden; }
 #s3.screen.active .s3-foto { animation: telaSobe .3s linear .5s both, telaMostra .5s linear .5s both; }
 @media (prefers-reduced-motion: reduce) { #s3.screen.active .s3-foto { animation: none; } }
 
+/* ═══ Tela 11 · ha quanto tempo tenta ═══════════════════════════════════
+   O mesmo desenho da tela 3, nas medidas da referencia (BetterMe, medido no
+   print de 340x724): a mulher ocupa ~69% da altura da tela, com a cabeca a
+   ~29% do topo e os pes no fim, na metade direita (de 48% a 98% da largura);
+   os cartoes ficam na metade esquerda. O recorte e justo (sem margem
+   transparente), entao a foto nao precisa sangrar pela direita como a da s3. */
+#s11 { position: relative; box-sizing: border-box; min-height: calc(100svh - var(--h-cabecalho, 62px) - 8px); }
+#s11.screen.active { padding-bottom: 0; }
+body:has(#s11.screen.active) .wrap { padding-bottom: 0; }
+html:has(#s11.screen.active), body:has(#s11.screen.active) { overflow-x: hidden; }
+#s11 .simple-list { width: 50%; max-width: 230px; position: relative; z-index: 1; margin-top: 8px; }
+.s11-foto {
+  position: absolute; right: -12px; bottom: 0;
+  height: min(69svh, 660px); width: auto; max-width: none;
+  object-fit: contain; object-position: right bottom;
+  pointer-events: none; user-select: none;
+}
+#s11.screen.active .s11-foto { animation: telaSobe .3s linear .5s both, telaMostra .5s linear .5s both; }
+@media (prefers-reduced-motion: reduce) { #s11.screen.active .s11-foto { animation: none; } }
+
 /* ═══ Telas de informacao (3n / 3s) ══════════════════════════════════════
    Desenho da referencia: titulo a esquerda, dois paragrafos, foto grande em
    cartao arredondado; o CONTINUAR e o do rodape. Cabe sem rolar: em tela

@@ -56,7 +56,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"/>
-  <link rel="stylesheet" href="quiz-warm.css?v=467"/>
+  <link rel="stylesheet" href="quiz-warm.css?v=469"/>
 
   <!-- Anti-flicker do teste A/B.
        O script que troca a headline mora no fim do <body>, então num aparelho
@@ -460,19 +460,21 @@
 
   <!-- ═══════ 3o. PRINCIPAL OBJETIVO ═══════
        Depois de qualquer um dos dois ramos. Cartoes de largura inteira com
-       icone a esquerda e o marcador redondo a direita. As cinco opcoes (e os
-       icones) vieram da antiga tela 6, "Qual e o seu maior desejo", que era
-       a mesma pergunta em outras palavras e saiu; por isso grava a etapa 4,
-       que era a dela — o funil do dashboard continua comparavel. Escolha
-       unica: a antiga era multipla, mas "principal objetivo" e um so. -->
+       icone a esquerda e o marcador redondo a direita. Grava a etapa 4, que
+       era da antiga tela 6 ("Qual e o seu maior desejo", a mesma pergunta em
+       outras palavras) — o funil do dashboard continua comparavel. Escolha
+       unica: "principal objetivo" e um so.
+       Tres opcoes, uma por grande desejo: pressa (engravidar-logo), causa
+       (o-que-trava, cadeado aberto) e natural/sem tratamento (natural,
+       broto). Eram cinco: duas repetiam "entender" e uma ("melhor momento
+       pra tentar") puxava pro pilar dos sinais do ciclo. Os valores novos
+       nao reaproveitam os antigos pra nao misturar respostas no dashboard. -->
   <section class="screen" id="s3o" data-step="3" data-etapa="4" data-section="Seu Perfil Fértil" data-icon="target">
     <h2 class="q-title">Qual é o seu principal objetivo?</h2>
     <div class="simple-list simple-list--radio">
       <button class="simple-opt simple-opt--radio simple-opt--icone" data-val="engravidar-logo" data-next="s3p"><span class="simple-opt__ico" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M6 19a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"/><path d="M16 19a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"/><path d="M2 5h2.5l1.632 4.897a6 6 0 0 0 5.693 4.103h2.675a5.5 5.5 0 0 0 0 -11h-.5v6"/><path d="M6 9h14"/><path d="M9 17l1 -3"/><path d="M16 14l1 3"/></svg></span><span class="simple-opt__txt">Engravidar o quanto antes</span></button>
-      <button class="simple-opt simple-opt--radio simple-opt--icone" data-val="esperanca" data-next="s3p"><span class="simple-opt__ico" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M14 9.536V7a4 4 0 0 1 4-4h1.5a.5.5 0 0 1 .5.5V5a4 4 0 0 1-4 4 4 4 0 0 0-4 4c0 2 1 3 1 5a5 5 0 0 1-1 3"/><path d="M4 9a5 5 0 0 1 8 4 5 5 0 0 1-8-4"/><path d="M5 21h14"/></svg></span><span class="simple-opt__txt">Recuperar a esperança depois de tanto tentar</span></button>
-      <button class="simple-opt simple-opt--radio simple-opt--icone" data-val="sem-tratamento" data-next="s3p"><span class="simple-opt__ico" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg></span><span class="simple-opt__txt">Descobrir o que trava meu ciclo</span></button>
-      <button class="simple-opt simple-opt--radio simple-opt--icone" data-val="entender-corpo" data-next="s3p"><span class="simple-opt__ico" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M11 8a1 1 0 1 0 2 0a1 1 0 0 0 -2 0"/><path d="M10 17v-1a2 2 0 1 1 4 0v1"/><path d="M8 10q 1 1 2 1h4q 1 0 2 -1"/><path d="M12 11v3"/><path d="M3 7v-2a2 2 0 0 1 2 -2h2"/><path d="M3 17v2a2 2 0 0 0 2 2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M17 21h2a2 2 0 0 0 2 -2v-2"/></svg></span><span class="simple-opt__txt">Entender meu corpo para engravidar</span></button>
-      <button class="simple-opt simple-opt--radio simple-opt--icone" data-val="melhor-momento" data-next="s3p"><span class="simple-opt__ico" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M8 2v3"/><path d="M16 2v3"/><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="m9 15 2 2 4-4"/></svg></span><span class="simple-opt__txt">Saber qual é o melhor momento para tentar</span></button>
+      <button class="simple-opt simple-opt--radio simple-opt--icone" data-val="o-que-trava" data-next="s3p"><span class="simple-opt__ico" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg></span><span class="simple-opt__txt">Descobrir o que está travando a minha fertilidade</span></button>
+      <button class="simple-opt simple-opt--radio simple-opt--icone" data-val="natural" data-next="s3p"><span class="simple-opt__ico" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M14 9.536V7a4 4 0 0 1 4-4h1.5a.5.5 0 0 1 .5.5V5a4 4 0 0 1-4 4 4 4 0 0 0-4 4c0 2 1 3 1 5a5 5 0 0 1-1 3"/><path d="M4 9a5 5 0 0 1 8 4 5 5 0 0 1-8-4"/><path d="M5 21h14"/></svg></span><span class="simple-opt__txt">Engravidar de forma natural, sem tratamento caro</span></button>
     </div>
   </section>
 
@@ -487,9 +489,9 @@
       <p class="info__texto">Vamos criar <b>um plano personalizado</b> a partir do seu ciclo, dos seus sinais e do seu objetivo.</p>
       <p class="info__texto">Assim, você pode <b>destravar a sua fertilidade</b> no seu próprio ritmo, sem adivinhação.</p>
       <div class="info__foto info__foto--telas" aria-hidden="true">
-        <img class="info__tela info__tela--esq" src="Images/app-tela3-semana.webp" alt="" decoding="async" loading="lazy"/>
-        <img class="info__tela info__tela--meio" src="Images/app-tela2-jornada.webp" alt="" decoding="async" loading="lazy"/>
-        <img class="info__tela info__tela--dir" src="Images/app-tela5-progresso.webp" alt="" decoding="async" loading="lazy"/>
+        <img class="info__tela info__tela--esq" src="Images/app-tela7-feito.webp" alt="" decoding="async" loading="lazy"/>
+        <img class="info__tela info__tela--meio" src="Images/app-tela2-jornada.webp?v=2" alt="" decoding="async" loading="lazy"/>
+        <img class="info__tela info__tela--dir" src="Images/app-tela6-exercicio.webp?v=3" alt="" decoding="async" loading="lazy"/>
       </div>
     </div>
   </section>
@@ -532,16 +534,24 @@
     </div>
   </section>
 
-  <!-- ═══════ 11. TEMPO TENTANDO ═══════ -->
+  <!-- ═══════ 11. TEMPO TENTANDO ═══════
+       Quatro faixas. "Menos de 3" e "3 a 6 meses" viraram uma so: o marco que
+       importa e 1 ano tentando (6 meses acima dos 35), e abaixo de 6 meses a
+       diferenca nao muda nada pra ela. Valor novo (menos-6) pra nao misturar
+       com as respostas antigas no dashboard.
+       Desenho da referencia (BetterMe, "melhor fisico"): cartoes com marcador
+       na metade esquerda e a mulher de corpo inteiro, recortada, na direita,
+       com os pes no fim da tela. Mesma roupa dos outros avatares de corpo
+       inteiro (top cinza, legging salvia). -->
   <section class="screen" id="s11" data-step="6" data-section="Seu Perfil Fértil" data-icon="target">
     <h2 class="q-title">Há quanto tempo está tentando engravidar?</h2>
     <div class="simple-list">
-      <button class="simple-opt" data-val="menos-3" data-next="s5i">Menos de 3 meses</button>
-      <button class="simple-opt" data-val="3-6" data-next="s5i">Entre 3 e 6 meses</button>
-      <button class="simple-opt" data-val="6-12" data-next="s5i">Entre 6 meses e 1 ano</button>
-      <button class="simple-opt" data-val="1-2" data-next="s5i">Entre 1 e 2 anos</button>
-      <button class="simple-opt" data-val="2+" data-next="s5i">Mais de 2 anos</button>
+      <button class="simple-opt simple-opt--radio" data-val="menos-6" data-next="s5i">Menos de 6 meses</button>
+      <button class="simple-opt simple-opt--radio" data-val="6-12" data-next="s5i">Entre 6 meses e 1 ano</button>
+      <button class="simple-opt simple-opt--radio" data-val="1-2" data-next="s5i">Entre 1 e 2 anos</button>
+      <button class="simple-opt simple-opt--radio" data-val="2+" data-next="s5i">Mais de 2 anos</button>
     </div>
+    <img class="s11-foto" src="Images/s11-teste.webp?v=2" alt="" decoding="async" loading="lazy"/>
   </section>
 
   <!-- ═══════ 12. MUCO observa mudanças ═══════ -->
@@ -1314,10 +1324,10 @@
     <div class="phones-carousel">
       <div class="phones-row">
         <div class="imgbox imgbox--phone phone--side"><img loading="lazy" src="Images/app-tela1-biblioteca.webp" alt="Base de aprendizado do app"/></div>
-        <div class="imgbox imgbox--phone phone--center"><img loading="lazy" src="Images/app-tela2-jornada.webp" alt="As semanas do seu plano"/></div>
-        <div class="imgbox imgbox--phone phone--center"><img loading="lazy" src="Images/app-tela3-semana.webp" alt="As atividades do dia"/></div>
+        <div class="imgbox imgbox--phone phone--center"><img loading="lazy" src="Images/app-tela2-jornada.webp?v=2" alt="As semanas do seu plano"/></div>
+        <div class="imgbox imgbox--phone phone--center"><img loading="lazy" src="Images/app-tela3-semana.webp?v=2" alt="As atividades do dia"/></div>
         <div class="imgbox imgbox--phone phone--side"><img loading="lazy" src="Images/app-tela4-atividade.webp" alt="Uma atividade por dentro"/></div>
-        <div class="imgbox imgbox--phone phone--side"><img loading="lazy" src="Images/app-tela5-progresso.webp" alt="Qualidade da ovulação ao longo do plano"/></div>
+        <div class="imgbox imgbox--phone phone--side"><img loading="lazy" src="Images/app-tela5-progresso.webp?v=2" alt="Qualidade da ovulação ao longo do plano"/></div>
       </div>
       <div class="phones-dots"><span class="phones-dot active"></span><span class="phones-dot"></span><span class="phones-dot"></span><span class="phones-dot"></span><span class="phones-dot"></span></div>
     </div>

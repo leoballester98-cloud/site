@@ -5238,20 +5238,22 @@ html:has(#s3.screen.active), body:has(#s3.screen.active) { overflow-x: hidden; }
    print de 340x724): a mulher ocupa ~69% da altura da tela, com a cabeca a
    ~29% do topo e os pes no fim, na metade direita (de 48% a 98% da largura);
    os cartoes ficam na metade esquerda. O recorte e justo (sem margem
-   transparente), entao a foto nao precisa sangrar pela direita como a da s3. */
-#s11 { position: relative; box-sizing: border-box; min-height: calc(100svh - var(--h-cabecalho, 62px) - 8px); }
-#s11.screen.active { padding-bottom: 0; }
-body:has(#s11.screen.active) .wrap { padding-bottom: 0; }
-html:has(#s11.screen.active), body:has(#s11.screen.active) { overflow-x: hidden; }
-#s11 .simple-list { width: 50%; max-width: 230px; position: relative; z-index: 1; margin-top: 8px; }
+   transparente), entao a foto nao precisa sangrar pela direita como a da s3.
+   A tela 32 (ansiosa antes da menstruacao) usa o mesmo desenho e a mesma
+   mulher, com o celular na mao. */
+#s11, #s32 { position: relative; box-sizing: border-box; min-height: calc(100svh - var(--h-cabecalho, 62px) - 8px); }
+#s11.screen.active, #s32.screen.active { padding-bottom: 0; }
+body:has(#s11.screen.active) .wrap, body:has(#s32.screen.active) .wrap { padding-bottom: 0; }
+html:has(#s11.screen.active), body:has(#s11.screen.active), html:has(#s32.screen.active), body:has(#s32.screen.active) { overflow-x: hidden; }
+#s11 .simple-list, #s32 .simple-list { width: 50%; max-width: 230px; position: relative; z-index: 1; margin-top: 8px; }
 .s11-foto {
   position: absolute; right: -12px; bottom: 0;
   height: min(69svh, 660px); width: auto; max-width: none;
   object-fit: contain; object-position: right bottom;
   pointer-events: none; user-select: none;
 }
-#s11.screen.active .s11-foto { animation: telaSobe .3s linear .5s both, telaMostra .5s linear .5s both; }
-@media (prefers-reduced-motion: reduce) { #s11.screen.active .s11-foto { animation: none; } }
+#s11.screen.active .s11-foto, #s32.screen.active .s11-foto { animation: telaSobe .3s linear .5s both, telaMostra .5s linear .5s both; }
+@media (prefers-reduced-motion: reduce) { #s11.screen.active .s11-foto, #s32.screen.active .s11-foto { animation: none; } }
 
 /* ═══ Telas 14 e 16 · produtos ════════════════════════════════════════════
    O desenho da tela 11 com os produtos da pergunta no lugar da pessoa. A

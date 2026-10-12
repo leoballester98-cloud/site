@@ -56,7 +56,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"/>
-  <link rel="stylesheet" href="quiz-warm.css?v=477"/>
+  <link rel="stylesheet" href="quiz-warm.css?v=481"/>
 
   <!-- Anti-flicker do teste A/B.
        O script que troca a headline mora no fim do <body>, então num aparelho
@@ -827,10 +827,25 @@
     <h2 class="q-title">Você sente inchaço, cansaço ou dores frequentes sem causa aparente?</h2>
     <div class="q-foto q-foto--cheia" aria-hidden="true"><img src="Images/dores-cansaco.webp" alt="" decoding="async" loading="lazy"/></div>
     <div class="opt-grid">
-      <button class="opt-grid__card opt-grid__card--texto" data-val="frequente" data-score="1" data-next="s39a"><span class="opt-grid__rotulo">Um ou dois com frequência</span><span class="opt-grid__radio" aria-hidden="true"></span></button>
-      <button class="opt-grid__card opt-grid__card--texto" data-val="varios" data-score="0" data-next="s39a"><span class="opt-grid__rotulo">Sim, vários desses com frequência</span><span class="opt-grid__radio" aria-hidden="true"></span></button>
-      <button class="opt-grid__card opt-grid__card--texto" data-val="raramente" data-score="2" data-next="s39a"><span class="opt-grid__rotulo">Um desses raramente</span><span class="opt-grid__radio" aria-hidden="true"></span></button>
-      <button class="opt-grid__card opt-grid__card--texto" data-val="nao" data-score="3" data-next="s39a"><span class="opt-grid__rotulo">Não, nada disso</span><span class="opt-grid__radio" aria-hidden="true"></span></button>
+      <button class="opt-grid__card opt-grid__card--texto" data-val="frequente" data-score="1" data-next="s38i"><span class="opt-grid__rotulo">Um ou dois com frequência</span><span class="opt-grid__radio" aria-hidden="true"></span></button>
+      <button class="opt-grid__card opt-grid__card--texto" data-val="varios" data-score="0" data-next="s38i"><span class="opt-grid__rotulo">Sim, vários desses com frequência</span><span class="opt-grid__radio" aria-hidden="true"></span></button>
+      <button class="opt-grid__card opt-grid__card--texto" data-val="raramente" data-score="2" data-next="s38i"><span class="opt-grid__rotulo">Um desses raramente</span><span class="opt-grid__radio" aria-hidden="true"></span></button>
+      <button class="opt-grid__card opt-grid__card--texto" data-val="nao" data-score="3" data-next="s38i"><span class="opt-grid__rotulo">Não, nada disso</span><span class="opt-grid__radio" aria-hidden="true"></span></button>
+    </div>
+  </section>
+
+  <!-- ═══════ 38i. FECHO DO ORGANISMO ═══════
+       Tela de leitura no fim do bloco do organismo, como a "A Calistenia vai
+       te fazer se sentir mais energizado" da referencia: titulo, o que o plano
+       ajusta, o ganho em negrito e a mulher da cintura pra cima num cartao.
+       Sem data-section (fora da barra). data-etapa 45: precisa da linha na
+       tabela `etapas` (tipo vsl, ordem 22.5). -->
+  <section class="screen" id="s38i" data-step="22" data-etapa="45" data-section="" data-icon="cycle" data-next="s39a">
+    <div class="info">
+      <h2 class="q-title info__titulo">Nosso programa de fertilidade vai fazer você se sentir mais leve e com energia</h2>
+      <p class="info__texto">Os ajustes na alimentação, no sono e no movimento vão ajudar a baixar a inflamação que atrapalha a ovulação.</p>
+      <p class="info__texto">Você terá <b>mais disposição e menos inchaço</b> no dia a dia.</p>
+      <div class="info__foto info__foto--recorte" style="--recorte-alt:128%"><img src="Images/s38i-energia.webp" alt="" decoding="async" loading="lazy"/></div>
     </div>
   </section>
 

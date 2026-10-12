@@ -5296,6 +5296,13 @@ html:has(.q-produto.screen.active), body:has(.q-produto.screen.active) { overflo
   margin-top: 6px;
 }
 .info__selo svg { width: 22px; height: 22px; }
+/* Pessoa recortada (fundo transparente) dentro do cartao bege, da cintura
+   pra cima, como na referencia: a imagem fica maior que o cartao e o corte
+   embaixo e do proprio overflow. A margem de cima deixa ar sobre a cabeca. */
+.info__foto.info__foto--recorte { background: var(--card-active); display: flex; justify-content: center; }
+/* --recorte-alt: quanto a imagem passa da altura do cartao. Corpo inteiro
+   pede ~215% (o corte cai na cintura); foto ja da cintura pra cima, ~128%. */
+.info__foto.info__foto--recorte img { width: auto; height: var(--recorte-alt, 215%); margin-top: 4%; object-fit: contain; }
 .info__texto { font-size: 16px; line-height: 1.45; color: var(--ink-soft); margin: 0; }
 .info__texto b { color: var(--ink); font-weight: 700; }
 .info__foto { border-radius: 20px; overflow: hidden; background: var(--card-active); aspect-ratio: 4 / 3; margin-top: 6px; }

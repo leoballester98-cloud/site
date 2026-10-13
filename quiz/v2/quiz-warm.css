@@ -6141,3 +6141,89 @@ body:has(#svsl1.screen.active) .wrap{ padding-bottom:0; }
 @media (min-width: 900px) and (max-width: 1199px) {
   .s3-foto, .s11-foto, .q-produto__foto { display: none; }
 }
+
+/* ═══ Desktop · telas de informacao em duas colunas ═══════════════════════
+   Como as da referencia ("Parece que voce tem o biotipo...", "306.000
+   mulheres"): texto numa coluna de 552px a esquerda, imagem de ~500px a
+   direita, 48px entre elas, o texto centrado na altura da imagem. As linhas
+   1fr de cima e de baixo e que fazem essa centralizacao. */
+@media (min-width: 900px) {
+  .info__texto { font-size: 20px; line-height: 1.45; }
+
+  body:has(.screen.active .info > .info__foto) .wrap { max-width: 1148px; }
+  .info:has(> .info__foto) {
+    display: grid;
+    grid-template-columns: minmax(0, 552px) minmax(0, 500px);
+    grid-template-rows: 1fr auto auto auto 1fr;
+    grid-template-areas: ". foto" "titulo foto" "t1 foto" "t2 foto" ". foto";
+    column-gap: 48px;
+    row-gap: 16px;
+    justify-content: center;
+    margin-top: 64px;
+  }
+  .info:has(> .info__foto) > .info__titulo { grid-area: titulo; margin: 0; text-align: left; max-width: none; }
+  .info:has(> .info__foto) > .info__texto:nth-of-type(1) { grid-area: t1; }
+  .info:has(> .info__foto) > .info__texto:nth-of-type(2) { grid-area: t2; }
+  .info:has(> .info__foto) > .info__foto { grid-area: foto; margin: 0; align-self: center; }
+
+  /* Sem imagem (selo + texto, tela 34i): uma coluna so, alinhada a
+     esquerda, como o "We got you!" da referencia. */
+  .info:not(:has(> .info__foto)) { max-width: 552px; width: 100%; margin: 64px auto 0; }
+  .info:not(:has(> .info__foto)) > .info__titulo { margin: 8px 0 4px; text-align: left; }
+  #s34i .info__titulo { font-size: 40px; line-height: 1.08; }
+  #s34i .info__texto { font-size: 20px; }
+
+  /* Tela 2: o mesmo desenho. Numero e frase a esquerda, com as revistas
+     embaixo; a ilustracao a direita, maior que no celular. */
+  body:has(#s2.screen.active) .wrap { max-width: 1148px; }
+  #s2.screen.active {
+    display: grid;
+    grid-template-columns: minmax(0, 552px) minmax(0, 500px);
+    grid-template-rows: 1fr auto auto auto 1fr;
+    column-gap: 48px;
+    justify-content: center;
+    margin-top: 48px;
+  }
+  #s2 > .q-title-lg { grid-column: 1; grid-row: 2; text-align: left; margin: 0 0 4px !important; max-width: none; }
+  #s2 > .q-sub { grid-column: 1; grid-row: 3; text-align: left; margin: 0 !important; max-width: none; font-size: 20px; }
+  #s2 > .ciencia { grid-column: 1; grid-row: 4; margin: 28px 0 0; text-align: left; max-width: 420px; }
+  #s2 > img.s2-ilustra {
+    grid-column: 2; grid-row: 1 / 6; align-self: center;
+    margin: 0 auto !important;
+    max-height: min(480px, calc(100svh - 260px));
+    max-width: min(480px, calc(100svh - 260px)) !important;
+  }
+}
+
+/* ═══ Desktop · analise, perfil, grafico e raspadinha ═════════════════════
+   Titulos no mesmo corpo das perguntas (40px), como na referencia. O grafico
+   ganha a citacao ao lado, em vez de embaixo, pra caber sem rolar. */
+@media (min-width: 900px) {
+  .q-title-lg {
+    font-size: 40px;
+    line-height: 1.08;
+    letter-spacing: -0.03em;
+    max-width: 744px;
+  }
+  #s2 > .q-title-lg { font-size: 28px; }
+  .analise__titulo, .proj__titulo, .raspa__titulo { margin-top: 48px; }
+  #s25 .q-title-lg { margin: 48px auto 28px; }
+
+  body:has(#s28.screen.active) .wrap { max-width: 1200px; }
+  #s28.screen.active {
+    display: grid;
+    grid-template-columns: minmax(0, 552px) minmax(0, 500px);
+    column-gap: 48px;
+    justify-content: center;
+    align-content: start;
+  }
+  #s28 > * { grid-column: 1 / -1; }
+  #s28 > .proj__sub { margin-bottom: 32px; }
+  #s28 > .proj-grafico { grid-column: 1; grid-row: 3; }
+  #s28 > .proj-nota { grid-column: 1; grid-row: 4; }
+  #s28 > .proj-citacao { grid-column: 2; grid-row: 3 / 5; align-self: center; margin: 0; }
+
+  /* Mapa do corpo (s7): com o titulo de 40px em 3 linhas ele passava 43px
+     do rodape. O quadrado cede pela altura da janela. */
+  #s7 .bodymap { max-width: min(460px, calc(100svh - 500px)); }
+}

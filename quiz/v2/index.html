@@ -749,9 +749,9 @@
        Tela de leitura no fim do bloco emocional, como a "Estamos com voce!"
        da referencia: um selo de check, o titulo, o que o plano vai colocar na
        rotina dela em negrito e o que isso muda. Sem data-section: nao entra na
-       barra de progresso. data-etapa 44 — a tabela `etapas` do Supabase
-       precisa de uma linha pra ele. -->
-  <section class="screen" id="s34i" data-step="17" data-etapa="44" data-section="" data-icon="alert" data-next="s33">
+       barra de progresso. data-etapa 50 (44 ja era da s39a, que grava o
+       data-step) — linha na tabela `etapas` como vsl, ordem 17.5. -->
+  <section class="screen" id="s34i" data-step="17" data-etapa="50" data-section="" data-icon="alert" data-next="s33">
     <div class="info">
       <span class="info__selo" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12.5l4 4 8-8"/><path d="M10 16.5l8-8"/></svg></span>
       <h2 class="q-title info__titulo">Estamos com você!</h2>
@@ -838,9 +838,9 @@
        Tela de leitura no fim do bloco do organismo, como a "A Calistenia vai
        te fazer se sentir mais energizado" da referencia: titulo, o que o plano
        ajusta, o ganho em negrito e a mulher da cintura pra cima num cartao.
-       Sem data-section (fora da barra). data-etapa 45: precisa da linha na
-       tabela `etapas` (tipo vsl, ordem 22.5). -->
-  <section class="screen" id="s38i" data-step="22" data-etapa="45" data-section="" data-icon="cycle" data-next="s39a">
+       Sem data-section (fora da barra). data-etapa 51 (45 ja era da s39b):
+       linha na tabela `etapas` (tipo vsl, ordem 22.5). -->
+  <section class="screen" id="s38i" data-step="22" data-etapa="51" data-section="" data-icon="cycle" data-next="s39a">
     <div class="info">
       <h2 class="q-title info__titulo">Nosso programa de fertilidade vai fazer você se sentir mais leve e com energia</h2>
       <p class="info__texto">Os ajustes na alimentação, no sono e no movimento vão ajudar a baixar a inflamação que atrapalha a ovulação.</p>
@@ -899,9 +899,9 @@
        celular com a lista do dia, os cartoes maiores que a tela dele. Aqui a
        lista sao tres praticas reais do pilar (fotos e nomes do app). Mockup
        em HTML, nao print: o desenho dos cartoes e da referencia. Sem
-       data-section (fora da barra). data-etapa 46 — linha na `etapas` como
-       vsl, ordem 26.5. -->
-  <section class="screen" id="s42i" data-step="26" data-etapa="46" data-section="" data-icon="heart" data-next="s20">
+       data-section (fora da barra). data-etapa 52 (46 ja era da s29) — linha
+       na `etapas` como vsl, ordem 26.5. -->
+  <section class="screen" id="s42i" data-step="26" data-etapa="52" data-section="" data-icon="heart" data-next="s20">
     <div class="info">
       <h2 class="q-title info__titulo">Recupere a confiança no seu corpo</h2>
       <p class="info__texto">Confiar em si mesma é fundamental para <b>o corpo sair do modo sobrevivência</b>.</p>
@@ -1069,9 +1069,10 @@
        sustentam a tela 2 (Chavarro/Harvard 2007, LIFE/NIH 2014,
        PRESTO/Boston University 2019). Icone generico, sem logo: logo e marca
        e sugeriria parceria. "Baseado em", nunca "em parceria com". Sem
-       data-section (fora da barra); o CONTINUAR segue a ordem do documento.
-       data-etapa 47 — linha na `etapas` como vsl, ordem 31.5. -->
-  <section class="screen" id="s26e" data-step="31" data-etapa="47" data-section="" data-icon="person">
+       data-section (fora da barra). O CONTINUAR vai pra analise (s27), que
+       emenda no anel (s26b) e so depois pede e-mail e nome. data-etapa
+       53 (47 ja era da s28a) — linha na `etapas` como vsl, ordem 31.5. -->
+  <section class="screen" id="s26e" data-step="31" data-etapa="53" data-section="" data-icon="person" data-next="s27">
     <h2 class="q-title ref-titulo">Baseado em pesquisas de centros de referência</h2>
     <div class="ref-lista">
       <div class="ref-card"><span class="ref-card__ico"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M20 5L5 12.5h30z" fill="currentColor"/><path d="M7 15h26" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M10 17.5v11M16.7 17.5v11M23.3 17.5v11M30 17.5v11" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/><path d="M6 31.5h28M4 35h32" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span><div class="ref-card__txt"><b>Harvard T.H. Chan School of Public Health</b><span class="ref-card__selo"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2l2.4 2.1 3.1-.4 1 3 2.9 1.3-.7 3.1 1.6 2.7-2.4 2.1.2 3.2-3.1.6-1.7 2.7-2.9-1.3-2.9 1.3-1.7-2.7-3.1-.6.2-3.2L1.7 14.8l1.6-2.7-.7-3.1L5.5 7.7l1-3 3.1.4z"/><path d="M8 12.3l2.6 2.5L16 9.6" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Alimentação e ovulação · 17.544 mulheres</span></div></div>
@@ -3167,15 +3168,22 @@ function iniciarRaspadinha() {
     const c = est.ult || { x: W / 2, y: H / 2 };
     const rMax = Math.hypot(Math.max(c.x, W - c.x), Math.max(c.y, H - c.y)) + 10;
     const t0 = window.performance.now();
+    const fim = () => { canvas.style.display = 'none'; bloco.classList.add('revelada'); };
+    /* Bug do iPhone (12/10): o requestAnimationFrame entrega o horario do
+       INICIO do quadro, que pode vir antes do t0. O p ficava negativo, o
+       raio do arco tambem, e ctx.arc com raio negativo lanca erro: a capa
+       parava meio raspada, com o veu e o relogio ja correndo por cima. Agora
+       o p nao desce de zero, e um relogio garante o fim mesmo se o quadro
+       falhar. */
+    est.timers.push(setTimeout(() => { if (est.ativo) fim(); }, 900));
     (function passo(agora) {
-      if (!est.ativo) return;
-      const p = Math.min(1, (agora - t0) / 600), e = 1 - Math.pow(1 - p, 3);
+      if (!est.ativo || canvas.style.display === 'none') return;
+      const p = Math.max(0, Math.min(1, (agora - t0) / 600)), e = 1 - Math.pow(1 - p, 3);
       ctx.globalCompositeOperation = 'destination-out';
-      ctx.beginPath(); ctx.arc(c.x, c.y, RAIO + (rMax - RAIO) * e, 0, Math.PI * 2); ctx.fill();
+      ctx.beginPath(); ctx.arc(c.x, c.y, Math.max(1, RAIO + (rMax - RAIO) * e), 0, Math.PI * 2); ctx.fill();
       ctx.globalCompositeOperation = 'source-over';
       if (p < 1) { window.requestAnimationFrame(passo); return; }
-      canvas.style.display = 'none';
-      bloco.classList.add('revelada');
+      fim();
     })(t0);
     est.timers.push(setTimeout(() => { if (est.ativo) veu.classList.add('ativo'); }, 1500));
     est.timers.push(setTimeout(() => {
@@ -3187,7 +3195,7 @@ function iniciarRaspadinha() {
       anel.style.strokeDasharray = C; anel.style.strokeDashoffset = C;
       const iv = setInterval(() => {
         s--;
-        if (s < 0) { clearInterval(iv); if (est.ativo) { pararRaspadinha(); goToScreen('s27'); } return; }
+        if (s < 0) { clearInterval(iv); if (est.ativo) { pararRaspadinha(); goToScreen('s30'); } return; }
         num.textContent = s;
         anel.style.strokeDashoffset = C * (s / 6);
       }, 1000);
@@ -3456,10 +3464,15 @@ function startLoading() {
   if (!tela || !itens.length) return;
   const CHECK = '<svg viewBox="0 0 28 28" aria-hidden="true"><circle cx="14" cy="14" r="14" fill="currentColor"/>' +
                 '<path d="M8.5 14.5l3.6 3.6 7.4-7.6" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
-  /* ~1,05s por barra: as cinco dao ~5,8s, perto do tempo que o anel antigo
-     levava. Recomeca do zero toda vez que a tela abre (voltar e avancar de
-     novo), e para de mexer se a pessoa sair da tela no meio. */
-  const DUR = 1050;
+  /* ~1,7s por barra: as cinco dao ~9s. Eram 1,05s e a analise parecia
+     apressada demais pra ser de verdade. Recomeca do zero toda vez que a
+     tela abre (voltar e avancar de novo), e para de mexer se a pessoa sair
+     da tela no meio.
+     Ordem (12/10): os dois loadings em sequencia logo depois dos dados — a
+     ANALISE primeiro, o anel "Criando seu Plano... esta pronto" depois — e
+     so entao e-mail e nome: s26e -> s27 -> s26b -> s28a -> s28b -> s28 ->
+     s29 (raspadinha) -> s30. */
+  const DUR = 1700;
   itens.forEach(it => {
     it.querySelector('.analise__barra').style.width = '0%';
     const st = it.querySelector('.analise__status');
@@ -3468,7 +3481,7 @@ function startLoading() {
   let i = 0;
   function proximo() {
     if (!tela.classList.contains('active')) return;
-    if (i >= itens.length) { setTimeout(() => goToScreen('s30'), 500); return; }
+    if (i >= itens.length) { setTimeout(() => goToScreen('s26b'), 500); return; }
     const barra = itens[i].querySelector('.analise__barra');
     const status = itens[i].querySelector('.analise__status');
     const t0 = window.performance.now();

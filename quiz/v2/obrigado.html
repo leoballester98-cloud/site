@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="robots" content="noindex"/>
+  <meta name="theme-color" content="#F5EFE8"/>
+  <title>Compra confirmada · Ciclo Fértil</title>
+  <link rel="icon" type="image/png" href="favicon.png"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Manrope:wght@800&display=swap"/>
+
+  <!-- Pagina de chegada depois do pagamento na Stripe. Ela existe por tres
+       motivos: dizer que o acesso chega por e-mail, contar a venda nos pixels
+       (o link de pagamento da Stripe nao aceita pixel, a Kiwify aceitava) e,
+       depois, receber a VSL do app de R$67. O plano vem em ?plano= no
+       endereco de retorno de cada link; o id da sessao em ?session_id=. -->
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18379022446"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'AW-18379022446');
+    gtag('config', 'G-VBLL62GBHC');
+  </script>
+
+  <!-- TikTok Pixel -->
+  <script>
+  !function (w, d, t) {
+    w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];ttq.methods=["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie","holdConsent","revokeConsent","grantConsent"],ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}};for(var i=0;i<ttq.methods.length;i++)ttq.setAndDefer(ttq,ttq.methods[i]);ttq.instance=function(t){for(
+  var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n]);return e},ttq.load=function(e,n){var r="https://analytics.tiktok.com/i18n/pixel/events.js",o=n&&n.partner;ttq._i=ttq._i||{},ttq._i[e]=[],ttq._i[e]._u=r,ttq._t=ttq._t||{},ttq._t[e]=+new Date,ttq._o=ttq._o||{},ttq._o[e]=n||{};n=document.createElement("script")
+  ;n.type="text/javascript",n.async=!0,n.src=r+"?sdkid="+e+"&lib="+t;e=document.getElementsByTagName("script")[0];e.parentNode.insertBefore(n,e)};
+    ttq.load('DA3RVORC77UC1JSQM7OG');
+    ttq.page();
+  }(window, document, 'ttq');
+  </script>
+
+  <!-- Meta Pixel -->
+  <script>
+    !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '2312041769604428');
+    fbq('track', 'PageView');
+  </script>
+
+  <style>
+    :root { --bg: #F5EFE8; --ink: #2B1A10; --ink-soft: rgba(43,26,16,0.72); --hair: rgba(43,26,16,0.12); --card: #EDE8E0; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { background: var(--bg); color: var(--ink); font-family: 'DM Sans', system-ui, sans-serif; }
+    body { min-height: 100svh; display: flex; flex-direction: column; }
+    .topo { height: 56px; display: flex; align-items: center; justify-content: center; border-bottom: 1px solid var(--hair); font-weight: 700; font-size: 17px; letter-spacing: -0.01em; }
+    main { width: 100%; max-width: 552px; margin: 0 auto; padding: 40px 20px 32px; flex: 1; }
+    /* O mesmo selo de check da tela 34i do quiz. */
+    .selo { width: 56px; height: 56px; border-radius: 50%; background: #EBE3D8; color: #857B71; display: flex; align-items: center; justify-content: center; }
+    .selo svg { width: 34px; height: 34px; margin-top: 2px; }
+    h1 { font-family: 'Manrope', 'DM Sans', sans-serif; font-weight: 800; font-size: clamp(30px, 8vw, 40px); line-height: 1.08; letter-spacing: -0.03em; margin: 20px 0 12px; }
+    .texto { font-size: 18px; line-height: 1.5; color: var(--ink-soft); }
+    .texto b { color: var(--ink); }
+    .passos { list-style: none; margin: 22px 0 0; display: grid; grid-template-columns: repeat(3, 1fr); background: #EDE8E0; border-radius: 16px; padding: 14px 6px; counter-reset: passo; }
+    .passos li { display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center; font-size: 14px; line-height: 1.3; font-weight: 500; padding: 0 6px; counter-increment: passo; position: relative; }
+    .passos li + li::after { content: ''; position: absolute; left: 0; top: 4px; bottom: 4px; width: 1px; background: rgba(43,26,16,0.12); }
+    .passos li::before { content: counter(passo); width: 26px; height: 26px; border-radius: 50%; background: var(--ink); color: #fff; font-weight: 700; font-size: 13px; display: flex; align-items: center; justify-content: center; }
+    .vsl-lugar { margin: 28px auto 0; width: min(100%, calc((100svh - 140px) * 9 / 16)); aspect-ratio: 9 / 16; border-radius: 20px; background: repeating-linear-gradient(135deg, #E6DDD1 0 14px, #EDE5DA 14px 28px); border: 2px dashed rgba(43,26,16,0.22); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; color: rgba(43,26,16,0.55); }
+    .vsl-lugar svg { width: 64px; height: 64px; padding: 16px; border-radius: 50%; background: rgba(43,26,16,0.10); color: var(--ink); margin-bottom: 8px; }
+    .vsl-lugar b { font-size: 18px; color: var(--ink); }
+    .vsl-lugar span { font-size: 14px; }
+    .ajuda { margin-top: 10px; font-size: 13.5px; line-height: 1.45; color: var(--ink-soft); text-align: center; }
+    .ajuda a { color: #1D5BD6; font-weight: 700; }
+    @media (min-width: 900px) { .topo { height: 88px; } main { padding-top: 72px; } }
+  </style>
+</head>
+<body>
+  <header class="topo">Ciclo Fértil</header>
+  <main>
+    <span class="selo" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 12.6l4.9 4.9L17 7.6"/><path d="M12.2 16.4l1.1 1.1 9.3-9.9"/></svg></span>
+    <h1>Compra confirmada!</h1>
+    <p class="texto">Seu <b id="nomePlano">Plano Ciclo Fértil</b> já é seu. O acesso chega em poucos minutos no e-mail <b>"Seu acesso ao app Ciclo Fértil"</b>.</p>
+
+    <!-- Os tres passos numa faixa so, em cima da VSL: e o que ela precisa
+         saber agora, sem empurrar o video pra baixo da dobra. -->
+    <ol class="passos">
+      <li><span>Abra o e-mail de acesso</span></li>
+      <li><span>Copie o código</span></li>
+      <li><span>Use o código no app</span></li>
+    </ol>
+    <p class="ajuda">Não achou o e-mail? Veja em Promoções e Spam. Não chegou em 15 minutos? Escreva para <a href="mailto:contato@metodociclofertil.com.br">contato@metodociclofertil.com.br</a>.</p>
+
+    <!-- PROVISORIO: so mostra onde a VSL de upsell entra. Tirar antes de
+         publicar se a VSL ainda nao existir. Vertical 9:16, como a VSL 1. -->
+    <div class="vsl-lugar" aria-hidden="true">
+      <svg viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5z" fill="currentColor"/></svg>
+      <b>VSL do upsell</b>
+      <span>vídeo vertical · 2:18</span>
+    </div>
+
+
+    <!-- Lugar da VSL do app (R$67), quando ela existir. -->
+  </main>
+
+  <script>
+  (function () {
+    var PLANOS = {
+      essencial: { nome: 'Teste 4 Semanas',     valor: 49.90 },
+      avancado:  { nome: 'Plano de 8 Semanas',  valor: 69.90 },
+      imersao:   { nome: 'Plano de 12 Semanas', valor: 99.00 }
+    };
+    /* Conversao do Google Ads: o rotulo sai em Google Ads → Metas →
+       Conversoes → a acao de compra → "Usar a tag do Google". Vazio, so o
+       Analytics recebe a compra. */
+    var ADS_CONVERSAO = '';
+
+    var q = new URLSearchParams(location.search);
+    var plano = PLANOS[q.get('plano')];
+    var sessao = q.get('session_id') || '';
+    if (plano) document.getElementById('nomePlano').textContent = plano.nome;
+    if (!plano || !sessao) return;
+    /* Compra feita no modo teste da Stripe (cs_test_...) nao vai pros
+       pixels: senao cada teste vira venda nos relatorios dos anuncios. */
+    if (sessao.indexOf('cs_test_') === 0 || location.hostname === 'localhost') {
+      console.info('[obrigado] compra de teste, pixels nao disparados', { plano: q.get('plano'), sessao: sessao });
+      return;
+    }
+
+    /* Recarregar a pagina nao conta a venda de novo. O eventID com o id da
+       sessao deixa a Meta descartar duplicata mesmo se o localStorage falhar. */
+    var chave = 'cf_compra_' + sessao;
+    try { if (localStorage.getItem(chave)) return; localStorage.setItem(chave, '1'); } catch (e) {}
+
+    var produto = q.get('plano');
+    if (typeof fbq !== 'undefined') fbq('track', 'Purchase', { value: plano.valor, currency: 'BRL', content_ids: [produto], content_type: 'product' }, { eventID: sessao });
+    if (window.ttq) window.ttq.track('CompletePayment', { value: plano.valor, currency: 'BRL', content_id: produto, content_type: 'product' });
+    gtag('event', 'purchase', { transaction_id: sessao, value: plano.valor, currency: 'BRL', items: [{ item_id: produto, item_name: plano.nome, price: plano.valor, quantity: 1 }] });
+    if (ADS_CONVERSAO) gtag('event', 'conversion', { send_to: ADS_CONVERSAO, value: plano.valor, currency: 'BRL', transaction_id: sessao });
+  })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,5 @@
+{
+  "essencial": {"produto": "prod_VR3NS5Lx5V28iq", "preco": "price_1UQBGHJkQwZ9vEOTUYwchlsp", "link_id": "plink_1UQBGIJkQwZ9vEOTAYmkPafK", "url": "https://buy.stripe.com/test_fZudRa8Ho3RF7in6YxfEk00"},
+  "avancado": {"produto": "prod_VR3NmV5RvVXMXc", "preco": "price_1UQBGJJkQwZ9vEOT4hKzU527", "link_id": "plink_1UQBGKJkQwZ9vEOTDr3aicMh", "url": "https://buy.stripe.com/test_7sY9AUg9Qewjauz4QpfEk01"},
+  "imersao": {"produto": "prod_VR3Nc3azSgjCoE", "preco": "price_1UQBGLJkQwZ9vEOTxJCTIzxB", "link_id": "plink_1UQBGMJkQwZ9vEOTEDDoJcn4", "url": "https://buy.stripe.com/test_9B65kEbTAdsf0TZ6YxfEk02"}
+}

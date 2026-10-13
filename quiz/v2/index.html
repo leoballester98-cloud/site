@@ -1944,6 +1944,19 @@ const LINKS = {
               f3:'https://pay.kiwify.com.br/8zYV8Qn', f4:'https://pay.kiwify.com.br/8ACzRLE' },
 };
 
+/* Stripe: um link por plano. O foco nao escolhe link, vai junto no
+   client_reference_id ("f2", ou "f2__marca" no teste A/B), que o webhook le
+   pra liberar o conteudo certo; o e-mail da tela 28a vai preenchido. Liga com
+   ?pag=stripe enquanto so existem os links de TESTE — sem o parametro segue
+   a Kiwify. Na virada: trocar os tres links pelos reais e PAGAMENTO_STRIPE
+   pra true. */
+const LINKS_STRIPE = {
+  essencial: 'https://buy.stripe.com/test_fZudRa8Ho3RF7in6YxfEk00',
+  avancado:  'https://buy.stripe.com/test_7sY9AUg9Qewjauz4QpfEk01',
+  imersao:   'https://buy.stripe.com/test_9B65kEbTAdsf0TZ6YxfEk02',
+};
+const PAGAMENTO_STRIPE = new URLSearchParams(location.search).get('pag') === 'stripe';
+
 /* As variantes de cartao com foto dividem o MESMO layout de propósito: a
    headline é a única coisa que muda entre elas, e é ela que o teste mede.
    'longa' liga a regra de CSS que encolhe o título — as headlines de h=3 pra
@@ -2674,7 +2687,7 @@ function aplicarPlano(card) {
   const tier = card.dataset.tier || 'avancado';
 
   const url = linkDoPlano(tier);
-  document.querySelectorAll('a[href*="kiwify"]').forEach(el => { el.href = url; });
+  document.querySelectorAll('a[href*="kiwify"], a[href*="buy.stripe.com"]').forEach(el => { el.href = url; });
 
   const nomes = { f1: 'Sinais do Ciclo', f2: 'Emocional', f3: 'Organismo', f4: 'Propósito' };
   const focoEl = document.getElementById('planoFoco');
@@ -3061,9 +3074,18 @@ function focoDela() {
 /* O tier escolhe o conjunto de links; o foco escolhe qual deles. O essencial
    tem link unico porque o plano de 4 semanas e o mesmo pra todo perfil. */
 function linkDoPlano(tier) {
+  if (PAGAMENTO_STRIPE) return linkStripe(tier);
   if (tier === 'essencial') return comMarca(LINKS.essencial);
   const set = tier === 'imersao' ? LINKS.imersao : LINKS.avancado;
   return comMarca(set[focoDela()] || LINKS.essencial);
+}
+
+/* A Stripe so aceita letra, numero, - e _ no client_reference_id. */
+function linkStripe(tier) {
+  const marca = AB && AB.marca ? '__' + String(AB.marca).replace(/[^A-Za-z0-9_-]/g, '-') : '';
+  const q = new URLSearchParams({ client_reference_id: (focoDela() + marca).slice(0, 200) });
+  if (answers.email) q.set('prefilled_email', answers.email);
+  return (LINKS_STRIPE[tier] || LINKS_STRIPE.essencial) + '?' + q.toString();
 }
 
 // ── Ciclos necessários baseados no perfil IQO ────────────────────────────────
@@ -3800,7 +3822,7 @@ document.addEventListener('click', (e) => {
   const a = e.target.closest('a');
   if (!a) return;
   const href = a.getAttribute('href') || '';
-  const isPayment = href.includes('kiwify') || href.includes('pay.');
+  const isPayment = href.includes('kiwify') || href.includes('pay.') || href.includes('buy.stripe.com');
   const isLegal = href.endsWith('.html') || href.endsWith('privacidade') || href.endsWith('termos') || href.endsWith('reembolso');
   if (!isPayment && !isLegal && !href.startsWith('mailto:') && !href.startsWith('tel:')) {
     e.preventDefault();

@@ -56,7 +56,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"/>
-  <link rel="stylesheet" href="quiz-warm.css?v=491"/>
+  <link rel="stylesheet" href="quiz-warm.css?v=494"/>
 
   <!-- Anti-flicker do teste A/B.
        O script que troca a headline mora no fim do <body>, então num aparelho
@@ -753,7 +753,7 @@
        data-step) — linha na tabela `etapas` como vsl, ordem 17.5. -->
   <section class="screen" id="s34i" data-step="17" data-etapa="50" data-section="" data-icon="alert" data-next="s33">
     <div class="info">
-      <span class="info__selo" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12.5l4 4 8-8"/><path d="M10 16.5l8-8"/></svg></span>
+      <span class="info__selo" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 12.6l4.9 4.9L17 7.6"/><path d="M12.2 16.4l1.1 1.1 9.3-9.9"/></svg></span>
       <h2 class="q-title info__titulo">Estamos com você!</h2>
       <p class="info__texto">Vamos adicionar exercícios leves de respiração e relaxamento que vão <b>acalmar o seu sistema nervoso</b>.</p>
       <p class="info__texto">Isso significa menos ansiedade na espera, um sono melhor e o corpo saindo do modo sobrevivência!</p>
@@ -968,7 +968,7 @@
   </section>
 
   <!-- ═══════ 22. CONHECE FASE LÚTEA? (substitui Meta peso) ═══════ -->
-  <section class="screen" id="s22" data-step="29" data-section="Sinais do Ciclo" data-icon="cycle">
+  <section class="screen" id="s22" data-step="29" data-section="Sinais do Ciclo" data-icon="cycle" data-next="s27">
     <h2 class="q-title">Em quantos dias seu desejo sexual aumenta no mês?</h2>
     <p class="q-sub">Se você não percebe, digite 0. Esse é um dos sinais secundários da ovulação.</p>
     <div class="big-number">
@@ -1069,10 +1069,10 @@
        sustentam a tela 2 (Chavarro/Harvard 2007, LIFE/NIH 2014,
        PRESTO/Boston University 2019). Icone generico, sem logo: logo e marca
        e sugeriria parceria. "Baseado em", nunca "em parceria com". Sem
-       data-section (fora da barra). O CONTINUAR vai pra analise (s27), que
-       emenda no anel (s26b) e so depois pede e-mail e nome. data-etapa
+       data-section (fora da barra). O CONTINUAR vai pro anel (s26b), que
+       leva a e-mail e nome. A analise (s27) agora vem antes do perfil (s25). data-etapa
        53 (47 ja era da s28a) — linha na `etapas` como vsl, ordem 31.5. -->
-  <section class="screen" id="s26e" data-step="31" data-etapa="53" data-section="" data-icon="person" data-next="s27">
+  <section class="screen" id="s26e" data-step="31" data-etapa="53" data-section="" data-icon="person" data-next="s26b">
     <h2 class="q-title ref-titulo">Baseado em pesquisas de centros de referência</h2>
     <div class="ref-lista">
       <div class="ref-card"><span class="ref-card__ico"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M20 5L5 12.5h30z" fill="currentColor"/><path d="M7 15h26" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M10 17.5v11M16.7 17.5v11M23.3 17.5v11M30 17.5v11" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/><path d="M6 31.5h28M4 35h32" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span><div class="ref-card__txt"><b>Harvard T.H. Chan School of Public Health</b><span class="ref-card__selo"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2l2.4 2.1 3.1-.4 1 3 2.9 1.3-.7 3.1 1.6 2.7-2.4 2.1.2 3.2-3.1.6-1.7 2.7-2.9-1.3-2.9 1.3-1.7-2.7-3.1-.6.2-3.2L1.7 14.8l1.6-2.7-.7-3.1L5.5 7.7l1-3 3.1.4z"/><path d="M8 12.3l2.6 2.5L16 9.6" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Alimentação e ovulação · 17.544 mulheres</span></div></div>
@@ -2337,7 +2337,7 @@ function updateChrome(screenId) {
   }
   headerSection.style.display = '';
 
-  if (screenId === 's30' || screenId === 's26b') {
+  if (screenId === 's30' || screenId === 's26b' || screenId === 's27') {
     progresso.style.display = 'none';
   } else {
     progresso.style.display = '';
@@ -3468,10 +3468,9 @@ function startLoading() {
      apressada demais pra ser de verdade. Recomeca do zero toda vez que a
      tela abre (voltar e avancar de novo), e para de mexer se a pessoa sair
      da tela no meio.
-     Ordem (12/10): os dois loadings em sequencia logo depois dos dados — a
-     ANALISE primeiro, o anel "Criando seu Plano... esta pronto" depois — e
-     so entao e-mail e nome: s26e -> s27 -> s26b -> s28a -> s28b -> s28 ->
-     s29 (raspadinha) -> s30. */
+     Ordem (12/10): a ANALISE vem antes do perfil, e o anel "Criando seu
+     Plano... esta pronto" antes de e-mail e nome: s22 -> s27 -> s25 (perfil)
+     -> s26 (data) -> s26e -> s26b -> s28a -> s28b -> s28 -> s29 -> s30. */
   const DUR = 1700;
   itens.forEach(it => {
     it.querySelector('.analise__barra').style.width = '0%';
@@ -3481,7 +3480,7 @@ function startLoading() {
   let i = 0;
   function proximo() {
     if (!tela.classList.contains('active')) return;
-    if (i >= itens.length) { setTimeout(() => goToScreen('s26b'), 500); return; }
+    if (i >= itens.length) { setTimeout(() => goToScreen('s25'), 500); return; }
     const barra = itens[i].querySelector('.analise__barra');
     const status = itens[i].querySelector('.analise__status');
     const t0 = window.performance.now();

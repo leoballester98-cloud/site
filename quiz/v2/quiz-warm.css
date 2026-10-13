@@ -5287,15 +5287,23 @@ html:has(.q-produto.screen.active), body:has(.q-produto.screen.active) { overflo
    baixa a foto fica menos alta. */
 .info { display: flex; flex-direction: column; gap: 12px; }
 .info__titulo { text-align: left; margin: 6px 0 2px; }
-/* O selo de check no topo de uma tela de leitura (tela 34i), como na
-   referencia: circulo bege com o duplo check fino. */
+/* O selo de check no topo de uma tela de leitura (tela 34i), medido na
+   referencia (print de 331px): circulo de 36px, 11% da largura, num tom so
+   um pouco mais escuro que o fundo da pagina (la, F6EFE5 sobre FFFBF4), e o
+   duplo check fino em cinza-quente (857B71), ocupando ~55% do circulo, com
+   o segundo check deslocado pra direita como o "lido" do WhatsApp. Aqui o
+   circulo vai a 48px, a mesma proporcao num celular de 440. */
 .info__selo {
-  width: 44px; height: 44px; border-radius: 50%;
-  background: var(--card-active); color: var(--ink-soft);
+  width: 48px; height: 48px; border-radius: 50%;
+  background: #EBE3D8; color: #857B71;
   display: inline-flex; align-items: center; justify-content: center;
-  margin-top: 6px;
+  margin: 4px 0 6px;
 }
-.info__selo svg { width: 22px; height: 22px; }
+.info__selo svg { width: 30px; height: 30px; margin-top: 2px; }
+/* Tela 34i: titulo e texto maiores, como na referencia — a tela so tem o
+   selo e dois paragrafos, entao sobra altura pra letra crescer. */
+#s34i .info__titulo { font-size: 30px; line-height: 1.15; margin-top: 10px; }
+#s34i .info__texto { font-size: 18px; line-height: 1.45; }
 /* Pessoa recortada (fundo transparente) dentro do cartao bege, da cintura
    pra cima, como na referencia: a imagem fica maior que o cartao e o corte
    embaixo e do proprio overflow. A margem de cima deixa ar sobre a cabeca. */

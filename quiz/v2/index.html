@@ -3195,7 +3195,14 @@ function iniciarRaspadinha() {
       const C = 2 * Math.PI * 22.5;
       let s = 6;
       num.textContent = s;
+      /* Comeca VAZIO sem animar: com a transicao de 1s ligada, ir do cheio
+         (o padrao do circulo) pro vazio girava o anel ao contrario durante o
+         "6", e so depois ele enchia pro outro lado. Desliga, posiciona, forca
+         o navegador a aplicar, e religa. */
+      anel.style.transition = 'none';
       anel.style.strokeDasharray = C; anel.style.strokeDashoffset = C;
+      anel.getBoundingClientRect();
+      anel.style.transition = '';
       const iv = setInterval(() => {
         s--;
         if (s < 0) { clearInterval(iv); if (est.ativo) { pararRaspadinha(); goToScreen('s30'); } return; }

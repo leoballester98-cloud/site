@@ -968,7 +968,7 @@
   </section>
 
   <!-- ═══════ 22. CONHECE FASE LÚTEA? (substitui Meta peso) ═══════ -->
-  <section class="screen" id="s22" data-step="29" data-section="Sinais do Ciclo" data-icon="cycle" data-next="s27">
+  <section class="screen" id="s22" data-step="29" data-section="Detalhes Pessoais" data-icon="person" data-next="s27">
     <h2 class="q-title">Em quantos dias seu desejo sexual aumenta no mês?</h2>
     <p class="q-sub">Se você não percebe, digite 0. Esse é um dos sinais secundários da ovulação.</p>
     <div class="big-number">
@@ -2303,13 +2303,16 @@ const headerSection = document.getElementById('headerSection');
 const progresso = document.getElementById('progress');
 /* A ordem das secoes sai do proprio documento: assim inserir ou remover uma
    tela nao exige mexer numa lista paralela aqui. */
-const SECOES = [...new Set([...document.querySelectorAll('.screen[data-section]')]
+/* A tela 1 fica de fora: ela nao mostra a barra (so a marca), e contar o
+   "Ciclo Fertil" dela como secao fazia o primeiro segmento nascer cheio na
+   tela 2 sem representar pergunta nenhuma. */
+const SECOES = [...new Set([...document.querySelectorAll('.screen[data-section]:not(#s1)')]
   .map(s => s.dataset.section).filter(Boolean))];
 /* Quais telas compoem cada secao, na ordem do documento. E com isso que o
    segmento da secao atual enche aos poucos, uma fracao por resposta, em vez
    de saltar de vazio pra cheio so na virada da secao. */
 const TELAS_DA_SECAO = {};
-document.querySelectorAll('.screen[data-section]').forEach(sec => {
+document.querySelectorAll('.screen[data-section]:not(#s1)').forEach(sec => {
   const k = sec.dataset.section;
   if (!k) return;
   (TELAS_DA_SECAO[k] = TELAS_DA_SECAO[k] || []).push(sec.id);

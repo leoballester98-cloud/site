@@ -28,7 +28,7 @@ API=https://api.stripe.com/v1
 SAIDA="$(cd "$(dirname "$0")" && pwd)/stripe-links-teste.json"
 # Pra onde ela vai depois de pagar. Cada link soma &plano=<tier>, que a pagina
 # de obrigado usa pra contar a venda com o valor certo nos pixels.
-OBRIGADO='https://protocolociclofertil.com.br/quiz/v2/obrigado.html?session_id={CHECKOUT_SESSION_ID}'
+OBRIGADO='https://plano.ciclofertil.com.br/quiz/v2/obrigado.html?session_id={CHECKOUT_SESSION_ID}'
 
 stripe() { # stripe <caminho> <chave-de-idempotencia> [campos -d ...]
   local caminho=$1 idem=$2; shift 2

@@ -5,7 +5,7 @@
 set -euo pipefail
 
 LINKS="$(cd "$(dirname "$0")" && pwd)/stripe-links-teste.json"
-OBRIGADO='https://protocolociclofertil.com.br/quiz/v2/obrigado.html?session_id={CHECKOUT_SESSION_ID}'
+OBRIGADO='https://plano.ciclofertil.com.br/quiz/v2/obrigado.html?session_id={CHECKOUT_SESSION_ID}'
 
 STRIPE_KEY=$(pbpaste | tr -d '[:space:]')
 printf '' | pbcopy

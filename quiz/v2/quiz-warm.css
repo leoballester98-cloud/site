@@ -6030,3 +6030,114 @@ body:has(#svsl1.screen.active) .wrap{ padding-bottom:0; }
    botoes das telas 9-11 imitam outros formatos e ficam como estao. */
 .btn-primary,
 .t-cta { border-radius: var(--radius-button); }
+
+/* ═══ Desktop · cabecalho, progresso e rodape como a referencia ═══════════
+   Medido na BetterMe a 1440x900: cabecalho de 88px na largura toda, setinha
+   e menu a 60px das bordas, nome da secao no centro, barra de progresso em
+   segmentos colada embaixo dele de ponta a ponta, e o CONTINUAR com 335x50
+   no meio do rodape fixo. So a partir de 900px: no celular nada muda. */
+@media (min-width: 900px) {
+  .header__inner { max-width: none; height: 83px; padding: 0 60px; justify-content: center; }
+  .header__back { left: 60px; top: 50%; }
+  .header__menu { right: 60px; top: 50%; }
+  .header__section { font-weight: 700; }
+  .progress { gap: 4px; padding: 0; margin: 0; }
+  .progress i { flex: 1; width: auto; height: 4px; border-radius: 0; }
+  .progress i::after { border-radius: 0; }
+  .menu { top: 76px; right: 52px; }
+
+  .footer-cta { padding-top: 20px; padding-bottom: 20px; }
+  .footer-cta .btn-primary {
+    width: 335px;
+    min-height: 50px;
+    padding: 0 24px;
+    margin: 0 auto;
+  }
+}
+
+/* ═══ Desktop · telas de pergunta como a referencia ════════════════════════
+   BetterMe a 1440x900: coluna de 552px no centro, titulo de 40px comecando
+   ~64px abaixo do cabecalho, opcoes de 552x74 com 16px entre elas. A .wrap
+   de 600px menos os 24px de cada lado da os 552. */
+@media (min-width: 900px) {
+  .wrap { max-width: 600px; }
+  .q-title {
+    font-size: 40px;
+    line-height: 1.08;
+    letter-spacing: -0.03em;
+    max-width: 552px;
+    margin: 56px auto 32px;
+  }
+  .q-title + .q-sub, .q-title + .q-hint { margin-top: -16px; margin-bottom: 32px; font-size: 18px; max-width: 552px; }
+
+  .row-cards, .simple-list, .multi-list, .chips, .opts { max-width: 552px; gap: 16px; }
+  .simple-opt {
+    min-height: 74px;
+    padding: 0 24px;
+    font-size: 18px;
+    text-align: left;
+    align-items: flex-start;
+    border-radius: 16px;
+  }
+  .simple-opt__title, .simple-opt__txt { font-size: 18px; }
+  .simple-opt--radio { align-items: center; padding: 0 24px; min-height: 74px; }
+  .row-card { min-height: 96px; border-radius: 16px; }
+  .row-card__title { font-size: 18px; }
+  .row-card__sub { font-size: 15px; }
+  .opt-grid__card--texto { min-height: 74px; padding: 0 24px; border-radius: 16px; }
+  .opt-grid__rotulo { font-size: 18px; }
+
+  /* E-mail e nome: titulo no mesmo tamanho das perguntas e centrado, como
+     na referencia (la o e-mail tambem e centrado no desktop). */
+  .cadastro__titulo {
+    font-size: 40px;
+    line-height: 1.08;
+    letter-spacing: -0.03em;
+    text-align: center;
+    max-width: 552px;
+    margin: 56px auto 32px;
+  }
+
+  /* Pergunta com foto (sono, alimentacao, inchaco, acompanhada): como o
+     "Quanta agua voce bebe?" da referencia — opcoes numa coluna a esquerda,
+     a foto ao lado, as duas com 552px, e o titulo por cima das duas. */
+  body:has(.screen.active > .q-foto) .wrap { max-width: 1200px; }
+  .screen.active:has(> .q-foto) {
+    display: grid;
+    grid-template-columns: minmax(0, 552px) minmax(0, 552px);
+    column-gap: 48px;
+    justify-content: center;
+    align-items: start;
+  }
+  .screen:has(> .q-foto) > * { grid-column: 1 / -1; }
+  .screen:has(> .q-foto) > .opt-grid { grid-column: 1; grid-row: 2; grid-template-columns: 1fr; gap: 16px; margin: 0; }
+  .screen:has(> .q-foto) > .q-foto { grid-column: 2; grid-row: 2; max-height: none; aspect-ratio: 552 / 395; margin: 0; }
+
+  /* Grade com fotos (estresse): quatro cartoes lado a lado, como os de
+     idade e de biotipo da referencia — 264px cada, 24px entre eles. */
+  body:has(.screen.active .opt-grid__img) .wrap { max-width: 1176px; }
+  .opt-grid:has(.opt-grid__img) { grid-template-columns: repeat(4, 1fr); gap: 24px; }
+  .opt-grid:has(.opt-grid__img) .opt-grid__card { border-radius: 16px; }
+
+  /* Telas com a mulher recortada (3, 11 e 32): cartoes na coluna do meio e
+     ela encostada na borda direita da janela, do cabecalho ao pe — a foto
+     decorativa de 532x812 da referencia. Saindo da secao (que tem 552px)
+     ate a borda: right = (552 - largura da janela) / 2. */
+  #s3 .simple-list, #s11 .simple-list, #s32 .simple-list,
+  .q-produto .simple-list { width: 100%; max-width: 552px; margin-left: auto; margin-right: auto; }
+  .s3-foto, .s11-foto {
+    right: calc((552px - 100vw) / 2);
+    height: calc(100svh - var(--h-cabecalho, 88px) - 8px);
+    max-height: 812px;
+  }
+  /* Produtos (14 e 16): na faixa livre a direita da coluna, sem invadir. */
+  .q-produto__foto {
+    right: calc((552px - 100vw) / 2 + 32px);
+    width: min(calc((100vw - 552px) / 2 - 64px), 460px);
+  }
+}
+/* Entre 900 e 1199px a faixa ao lado da coluna e estreita demais: a foto
+   cairia por cima dos cartoes, que nao tem fundo. Ali ela sai. */
+@media (min-width: 900px) and (max-width: 1199px) {
+  .s3-foto, .s11-foto, .q-produto__foto { display: none; }
+}

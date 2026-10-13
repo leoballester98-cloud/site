@@ -919,10 +919,13 @@
     <h2 class="q-title">Quantos dias dura sua menstruação?</h2>
     <p class="q-hint">Quantos dias o sangramento em si dura, do início até parar.</p>
     <div class="big-number">
-      <span class="big-number__value vazio" id="weightValue" contenteditable="true" inputmode="numeric" data-empty="true" data-placeholder="Duração" data-min="1" data-max="15">Duração</span>
+      <span class="big-number__value vazio" id="weightValue" contenteditable="true" inputmode="numeric" data-empty="true" data-placeholder="Duração" data-min="1" data-max="10">Duração</span>
       <span class="big-number__unit" id="weightUnitLabel">dias</span>
     </div>
-    <p class="campo-ajuda" id="weightAjuda">Digite um valor entre <b>1</b> e <b>15</b> dias</p>
+    <!-- 1 a 10: normal vai ate 8 dias (FIGO); 10 deixa entrar quem sangra um
+         pouco alem sem travar o quiz. 15 dias e quadro clinico, nao ciclo
+         tipico. -->
+    <p class="campo-ajuda" id="weightAjuda">Digite um valor entre <b>1</b> e <b>10</b> dias</p>
     <div class="alert-box" id="bmiAlert" style="display:none;">
       <span class="alert-box__icon">‼️</span>
       <div class="alert-box__body">

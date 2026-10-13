@@ -6023,3 +6023,10 @@ body:has(#svsl1.screen.active) .wrap{ padding-bottom:0; }
 .ref-card__txt b { font-size: 16px; line-height: 1.25; color: var(--ink); }
 .ref-card__selo { display: flex; align-items: flex-start; gap: 6px; font-size: 13px; line-height: 1.3; color: var(--ink-soft); }
 .ref-card__selo svg { width: 14px; height: 14px; flex: none; margin-top: 1px; color: var(--ink); }
+
+/* ═══ Botoes de avancar em pilula ══════════════════════════════════════════
+   Como o CONTINUAR da referencia: pontas inteiras redondas. Vale pro rodape
+   (.btn-primary) e pro botao unico das telas 7, 8 e da VSL (.t-cta). Os
+   botoes das telas 9-11 imitam outros formatos e ficam como estao. */
+.btn-primary,
+.t-cta { border-radius: var(--radius-button); }

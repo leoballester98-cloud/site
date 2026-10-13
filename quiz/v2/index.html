@@ -52,11 +52,14 @@
 
   <link rel="icon" type="image/png" href="favicon.png"/>
   <link rel="apple-touch-icon" href="favicon.png"/>
-  <link rel="preload" as="image" href="Images/hero-s1.webp"/>
+  <link rel="preload" as="image" href="Images/hero-s1.webp" fetchpriority="high"/>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"/>
-  <link rel="stylesheet" href="quiz-warm.css?v=500"/>
+  <!-- As fontes pedidas aqui, em paralelo com a folha. O @import dentro da
+       folha so era descoberto depois de baixar os 220 KB dela; ele continua
+       la pras paginas tiktok e espanhol, e aqui cai no cache. -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=Manrope:wght@700;800&display=swap"/>
+  <link rel="stylesheet" href="quiz-warm.css?v=501"/>
 
   <!-- Anti-flicker do teste A/B.
        O script que troca a headline mora no fim do <body>, então num aparelho
@@ -209,7 +212,7 @@
     <p class="q-sub" id="subVar">Um diagnóstico que mede a qualidade da sua ovulação de 0 a 100 e monta o seu plano.<br>Pra começar, qual a sua idade?</p>
     <div class="age-intro">
       <div class="hero-photo">
-        <img src="Images/hero-s1.webp" alt="Mulher sorrindo"/>
+        <img src="Images/hero-s1.webp" alt="Mulher sorrindo" fetchpriority="high"/>
       </div>
       <div class="age-cards">
         <button class="age-row" data-val="18-25" data-next="s2">18-25 <span style="font-size:12px;opacity:.6;font-weight:400;">anos</span> <span class="age-row__chev">›</span></button>
@@ -225,19 +228,19 @@
          quebraria a comparação com as outras variantes. -->
     <div class="age-fotos" id="ageFotos" hidden>
       <button class="age-row age-foto" data-val="18-25" data-next="s2">
-        <img src="Images/idade-18-25.webp" alt="" width="640" height="853" decoding="async" loading="eager"/>
+        <img data-src="Images/idade-18-25.webp" alt="" width="640" height="853" decoding="async" loading="lazy"/>
         <span class="age-foto__bar"><span>Idade: 18-25</span><span class="age-foto__chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></span></span>
       </button>
       <button class="age-row age-foto" data-val="26-35" data-next="s2">
-        <img src="Images/idade-26-35.webp" alt="" width="640" height="853" decoding="async" loading="eager"/>
+        <img data-src="Images/idade-26-35.webp" alt="" width="640" height="853" decoding="async" loading="lazy"/>
         <span class="age-foto__bar"><span>Idade: 26-35</span><span class="age-foto__chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></span></span>
       </button>
       <button class="age-row age-foto" data-val="36-45" data-next="s2">
-        <img src="Images/idade-36-45.webp" alt="" width="640" height="853" decoding="async" loading="eager"/>
+        <img data-src="Images/idade-36-45.webp" alt="" width="640" height="853" decoding="async" loading="lazy"/>
         <span class="age-foto__bar"><span>Idade: 36-45</span><span class="age-foto__chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></span></span>
       </button>
       <button class="age-row age-foto" data-val="46+" data-next="s2">
-        <img src="Images/idade-46-mais.webp" alt="" width="640" height="853" decoding="async" loading="eager"/>
+        <img data-src="Images/idade-46-mais.webp" alt="" width="640" height="853" decoding="async" loading="lazy"/>
         <span class="age-foto__bar"><span>Idade: 46+</span><span class="age-foto__chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></span></span>
       </button>
     </div>
@@ -256,7 +259,7 @@
 
     <!-- Molde A: foto grande, três objeções eliminadas, grade de idade -->
     <div class="t-alt" id="tela6" hidden>
-      <div class="t6-hero"><img id="t6Img" src="Images/t6-clearblue.webp?v=3" alt="" decoding="async" loading="eager"/></div>
+      <div class="t6-hero"><img id="t6Img" data-src="Images/t6-clearblue.webp?v=3" alt="" decoding="async" loading="lazy"/></div>
       <ul class="t6-bullets" id="t6Bullets"></ul>
       <p class="t-sub" id="t6Sub"></p>
     </div>
@@ -313,7 +316,7 @@
         <p class="f9-fina">Método caseiro age no que os exames de rotina não mostram. Um teste gratuito indica qual ritual cada mulher deve seguir.</p>
         <div class="f9-assina"><i></i><span>Por <b>Redação Ciclo Fértil</b> · <span class="fmt-data"></span> · 2 min de leitura</span></div>
         <figure class="f9-foto">
-          <img src="Images/t8-prova-2.webp" alt="" decoding="async" loading="eager"/>
+          <img data-src="Images/t8-prova-2.webp" alt="" decoding="async" loading="lazy"/>
           <figcaption>Leitoras compartilharam o resultado. Foto: arquivo pessoal</figcaption>
         </figure>
         <p class="f9-lide"><b>SÃO PAULO —</b> Mulheres que tentavam engravidar relatam o positivo depois de incluir um ritual de 10 minutos na rotina.</p>
@@ -1961,6 +1964,17 @@ const CARTOES = {
 
    `grade: 'direta'` mostra os quatro cartões de idade de cara. `'botao'`
    esconde atrás do CTA, como a referência faz. */
+/* As fotos das variantes da tela 1 vem com data-src: o navegador baixava
+   todas (~350 KB) mesmo escondidas, disputando banda com a hero de quem nao
+   esta na variante. So a variante sorteada ganha o src. */
+function soltarImagens(bloco) {
+  bloco.querySelectorAll('img[data-src]').forEach(function (img) {
+    img.loading = 'eager';
+    img.src = img.dataset.src;
+    img.removeAttribute('data-src');
+  });
+}
+
 const TELAS = {
   '6': {
     grade: 'direta',
@@ -2130,6 +2144,7 @@ const FORMATOS = {
       const s1 = document.getElementById('s1');
       if (!bloco || !s1) return;
       bloco.hidden = false;
+      soltarImagens(bloco);
       document.body.classList.add('fmt-proprio', 'fmt-t' + TELA);
       s1.classList.add('s1-fmt');
       /* Os termos são os mesmos da tela 1, só mudam de lugar. */
@@ -2159,7 +2174,7 @@ const FORMATOS = {
       if (h) h.innerHTML = molde.titulo;
 
       const bloco = document.getElementById('tela' + TELA);
-      if (bloco) bloco.hidden = false;
+      if (bloco) { bloco.hidden = false; soltarImagens(bloco); }
       const listaIdade = document.querySelector('#s1 .age-intro');
       if (listaIdade) listaIdade.hidden = true;
 
@@ -2244,7 +2259,7 @@ const FORMATOS = {
     const lista = document.querySelector('#s1 .age-intro');
     const fotos = document.getElementById('ageFotos');
     if (lista) lista.hidden = true;
-    if (fotos) fotos.hidden = false;
+    if (fotos) { fotos.hidden = false; soltarImagens(fotos); }
     const s1 = document.getElementById('s1');
     s1.classList.add('s1-h2');
     if (cfg.longa) s1.classList.add('s1-hlonga');
@@ -2553,9 +2568,44 @@ function montarS5i() {
   if (p) p.textContent = txt[1];
 }
 
+/* As imagens das telas sao lazy: so baixam quando a tela aparece, e ai
+   surgiam do nada no meio da entrada. Ao abrir uma tela, as das proximas
+   (a seguinte no documento, a depois dela e os destinos dos botoes) ja vao
+   pro cache. Na primeira carga espera o load, pra nao disputar com a hero. */
+const jaPrecarregadas = new Set();
+function precarregarProximas(id) {
+  if (document.readyState !== 'complete') {
+    window.addEventListener('load', () => precarregarProximas(id), { once: true });
+    return;
+  }
+  const el = document.getElementById(id);
+  if (!el) return;
+  const i = SCREENS.indexOf(id);
+  const alvos = new Set([SCREENS[i + 1], SCREENS[i + 2], el.dataset.next]);
+  el.querySelectorAll('[data-next]').forEach(b => alvos.add(b.dataset.next));
+  alvos.forEach(alvo => {
+    const tela = alvo && document.getElementById(alvo);
+    if (!tela) return;
+    tela.querySelectorAll('img[src]').forEach(img => {
+      const url = img.src;
+      if (jaPrecarregadas.has(url)) return;
+      jaPrecarregadas.add(url);
+      const im = new Image();
+      im.decoding = 'async';
+      im.src = url;
+    });
+  });
+}
+/* A tela 1 ja nasce ativa no HTML, sem passar pelo showScreen. */
+window.addEventListener('load', function () {
+  const ativa = document.querySelector('.screen.active');
+  if (ativa) precarregarProximas(ativa.id);
+}, { once: true });
+
 function showScreen(id) {
   const el = document.getElementById(id);
   if (!el) return;
+  precarregarProximas(id);
   if (id === 's5i') montarS5i();
   if (id === 'svsl1') iniciarVSL();
   el.classList.add('active','entering');
@@ -3936,6 +3986,6 @@ document.addEventListener('click', (e) => {
   document.addEventListener('keydown', function(e){ if (e.key === 'Escape') abrir(false); });
 })();
 </script>
-<script src="https://www.youtube.com/iframe_api"></script>
+<script async src="https://www.youtube.com/iframe_api"></script>
 </body>
 </html>

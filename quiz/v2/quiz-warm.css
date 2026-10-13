@@ -5895,3 +5895,67 @@ body.com-rodape .wrap { padding-bottom: calc(var(--h-rodape, 84px) + 8px); }
 #svsl1.screen.active{ padding-bottom:0; }
 body:has(#svsl1.screen.active) .wrap{ padding-bottom:0; }
 #svsl1 .vsl-continuar{ margin-top:10px; min-height:58px; }
+
+/* ═══ Tela 42i · celular com as praticas do dia ═════════════════════════════
+   Desenho da referencia: o celular claro cortado embaixo pelo cartao, e por
+   cima dele a lista com cartoes MAIS LARGOS que a tela, como se saltassem
+   dela. O primeiro vem marcado. */
+.info__foto.info__foto--praticas { position: relative; background: #EFE7DA; aspect-ratio: 7 / 6; }
+@media (max-height: 760px) { .info__foto.info__foto--praticas { aspect-ratio: 4 / 3; } .pr-card:nth-child(3) { display: none; } }
+@media (max-height: 700px) { .info__foto.info__foto--praticas { aspect-ratio: 16 / 10; } .pr-lista { top: 26%; gap: 6px; } }
+.pr-fone {
+  position: absolute; left: 50%; top: 7%; transform: translateX(-50%);
+  width: 58%; height: 110%;
+  background: #FBF8F3; border: 6px solid #DCD6CC; border-radius: 30px;
+  box-shadow: 0 10px 26px rgba(43,26,16,0.12);
+}
+.pr-fone__barra { display: flex; align-items: center; justify-content: space-between; padding: 8px 14px 0; font-size: 10px; font-weight: 700; color: var(--ink); }
+.pr-fone__barra i { width: 34%; height: 13px; border-radius: 999px; background: #151515; margin-right: 26%; }
+.pr-fone__tit { text-align: center; font-weight: 700; font-size: 14px; color: var(--ink); margin-top: 12px; }
+.pr-lista { position: absolute; left: 7%; right: 7%; top: 30%; display: flex; flex-direction: column; gap: 8px; }
+.pr-card {
+  display: flex; align-items: center; gap: 10px;
+  background: #fff; border-radius: 12px; padding: 7px 10px 7px 7px;
+  box-shadow: 0 4px 14px rgba(43,26,16,0.10);
+}
+/* Com o prefixo do cartao: a regra '.info__foto img' (100% x 100%) e mais
+   especifica que a classe sozinha e esticava a miniatura. */
+.info__foto .pr-card__img { width: 46px; height: 46px; border-radius: 9px; object-fit: cover; flex: none; display: block; }
+.pr-card__txt { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.pr-card__txt b { font-size: 13px; line-height: 1.2; color: var(--ink); }
+.pr-card__txt span { font-size: 11px; color: rgba(43,26,16,0.55); }
+.pr-card__check { width: 16px; height: 16px; border-radius: 50%; border: 1.5px solid rgba(43,26,16,0.28); flex: none; }
+.pr-card__check--on {
+  border-color: var(--ink);
+  background: var(--ink) url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'><path d='M6 12.5l4 4 8-8'/></svg>") center / 10px no-repeat;
+}
+
+/* ═══ Tela 26e · centros de referencia ══════════════════════════════════════
+   Desenho dos "Especialistas certificados" da referencia: titulo centrado e
+   leve, tres cartoes bege com o quadrado da foto a esquerda (aqui um icone
+   em duotom do tema do estudo, num fundo com a cor dele), o nome em negrito
+   e o selo com a linha embaixo. */
+#s26e .ref-titulo {
+  text-align: center; margin: 6px auto 20px; max-width: 18ch;
+  font-family: 'DM Sans', sans-serif; font-weight: 600;
+  font-size: clamp(24px, 6.4vw, 28px); line-height: 1.22; letter-spacing: -0.01em;
+}
+.ref-lista { display: flex; flex-direction: column; gap: 10px; }
+.ref-card {
+  display: flex; align-items: center; gap: 14px;
+  background: var(--card-active); border-radius: 16px; padding: 10px 14px 10px 10px;
+}
+.ref-card__ico {
+  width: 64px; height: 64px; flex: none; border-radius: 14px;
+  display: flex; align-items: center; justify-content: center;
+  /* Selo: o marrom da marca com o dourado por cima e um fio dourado por
+     dentro. Escuro e metalico le como instituicao; cor pastel lia como app. */
+  background: linear-gradient(150deg, #4A2C1C, #2B1A10);
+  color: #D8B47A;
+  box-shadow: inset 0 0 0 1.5px rgba(216,180,122,0.45), 0 3px 10px rgba(43,26,16,0.18);
+}
+.ref-card__ico svg { width: 36px; height: 36px; }
+.ref-card__txt { display: flex; flex-direction: column; gap: 5px; min-width: 0; }
+.ref-card__txt b { font-size: 16px; line-height: 1.25; color: var(--ink); }
+.ref-card__selo { display: flex; align-items: flex-start; gap: 6px; font-size: 13px; line-height: 1.3; color: var(--ink-soft); }
+.ref-card__selo svg { width: 14px; height: 14px; flex: none; margin-top: 1px; color: var(--ink); }

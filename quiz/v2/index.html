@@ -56,7 +56,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"/>
-  <link rel="stylesheet" href="quiz-warm.css?v=482"/>
+  <link rel="stylesheet" href="quiz-warm.css?v=491"/>
 
   <!-- Anti-flicker do teste A/B.
        O script que troca a headline mora no fim do <body>, então num aparelho
@@ -887,10 +887,36 @@
   <section class="screen" id="s42" data-step="26" data-section="Conexão e Propósito" data-icon="heart">
     <h2 class="q-title">Você costuma se culpar quando o ciclo não vem como esperado?</h2>
     <div class="simple-list">
-      <button class="simple-opt" data-val="nao" data-score="0" data-next="s20">Sim, muito, me sinto traidora de mim mesma</button>
-      <button class="simple-opt" data-val="as-vezes" data-score="1" data-next="s20">Às vezes</button>
-      <button class="simple-opt" data-val="raramente" data-score="2" data-next="s20">Raramente</button>
-      <button class="simple-opt" data-val="sim" data-score="3" data-next="s20">Não, aceito com calma</button>
+      <button class="simple-opt" data-val="nao" data-score="0" data-next="s42i">Sim, muito, me sinto traidora de mim mesma</button>
+      <button class="simple-opt" data-val="as-vezes" data-score="1" data-next="s42i">Às vezes</button>
+      <button class="simple-opt" data-val="raramente" data-score="2" data-next="s42i">Raramente</button>
+      <button class="simple-opt" data-val="sim" data-score="3" data-next="s42i">Não, aceito com calma</button>
+    </div>
+  </section>
+
+  <!-- ═══════ 42i. FECHO DE CONEXAO E PROPOSITO ═══════
+       Molde da referencia "Emagreca com um plano alimentar personalizado": o
+       celular com a lista do dia, os cartoes maiores que a tela dele. Aqui a
+       lista sao tres praticas reais do pilar (fotos e nomes do app). Mockup
+       em HTML, nao print: o desenho dos cartoes e da referencia. Sem
+       data-section (fora da barra). data-etapa 46 — linha na `etapas` como
+       vsl, ordem 26.5. -->
+  <section class="screen" id="s42i" data-step="26" data-etapa="46" data-section="" data-icon="heart" data-next="s20">
+    <div class="info">
+      <h2 class="q-title info__titulo">Recupere a confiança no seu corpo</h2>
+      <p class="info__texto">Confiar em si mesma é fundamental para <b>o corpo sair do modo sobrevivência</b>.</p>
+      <p class="info__texto">Receba práticas rápidas, sozinha e com o seu parceiro, para atravessar a espera com mais calma.</p>
+      <div class="info__foto info__foto--praticas" aria-hidden="true">
+        <div class="pr-fone">
+          <div class="pr-fone__barra"><span>9:41</span><i></i></div>
+          <div class="pr-fone__tit">Suas práticas</div>
+        </div>
+        <div class="pr-lista">
+          <div class="pr-card"><img class="pr-card__img" src="Images/pr-ritual.webp" alt="" decoding="async" loading="lazy"/><div class="pr-card__txt"><b>Ritual de domingo</b><span>Propósito · 10 min</span></div><i class="pr-card__check pr-card__check--on"></i></div>
+          <div class="pr-card"><img class="pr-card__img" src="Images/pr-varredura.webp" alt="" decoding="async" loading="lazy"/><div class="pr-card__txt"><b>Varredura corporal</b><span>Propósito · 10 min</span></div><i class="pr-card__check"></i></div>
+          <div class="pr-card"><img class="pr-card__img" src="Images/pr-ancora.webp" alt="" decoding="async" loading="lazy"/><div class="pr-card__txt"><b>Âncora sensorial</b><span>Propósito · quando precisar</span></div><i class="pr-card__check"></i></div>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -1034,6 +1060,23 @@
       </div>
       <p class="campo-ajuda">Digite <b>dia</b>, <b>mês</b> e <b>ano</b> da sua última menstruação</p>
       <input type="hidden" id="occasionDate"/>
+    </div>
+  </section>
+
+  <!-- ═══════ 26e. CENTROS DE REFERENCIA ═══════
+       No lugar dos "Especialistas certificados" da referencia, que pediria
+       pessoas reais com registro: as instituicoes dos tres estudos que ja
+       sustentam a tela 2 (Chavarro/Harvard 2007, LIFE/NIH 2014,
+       PRESTO/Boston University 2019). Icone generico, sem logo: logo e marca
+       e sugeriria parceria. "Baseado em", nunca "em parceria com". Sem
+       data-section (fora da barra); o CONTINUAR segue a ordem do documento.
+       data-etapa 47 — linha na `etapas` como vsl, ordem 31.5. -->
+  <section class="screen" id="s26e" data-step="31" data-etapa="47" data-section="" data-icon="person">
+    <h2 class="q-title ref-titulo">Baseado em pesquisas de centros de referência</h2>
+    <div class="ref-lista">
+      <div class="ref-card"><span class="ref-card__ico"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M20 5L5 12.5h30z" fill="currentColor"/><path d="M7 15h26" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M10 17.5v11M16.7 17.5v11M23.3 17.5v11M30 17.5v11" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/><path d="M6 31.5h28M4 35h32" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span><div class="ref-card__txt"><b>Harvard T.H. Chan School of Public Health</b><span class="ref-card__selo"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2l2.4 2.1 3.1-.4 1 3 2.9 1.3-.7 3.1 1.6 2.7-2.4 2.1.2 3.2-3.1.6-1.7 2.7-2.9-1.3-2.9 1.3-1.7-2.7-3.1-.6.2-3.2L1.7 14.8l1.6-2.7-.7-3.1L5.5 7.7l1-3 3.1.4z"/><path d="M8 12.3l2.6 2.5L16 9.6" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Alimentação e ovulação · 17.544 mulheres</span></div></div>
+      <div class="ref-card"><span class="ref-card__ico"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M20 4l13 5v9.5c0 8.4-5.6 14.6-13 17.5C12.6 33.1 7 26.9 7 18.5V9z" fill="currentColor" opacity=".18"/><path d="M20 4l13 5v9.5c0 8.4-5.6 14.6-13 17.5C12.6 33.1 7 26.9 7 18.5V9z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M20 12.5v13M13.5 19h13" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg></span><div class="ref-card__txt"><b>NIH · Instituto Nacional de Saúde dos EUA</b><span class="ref-card__selo"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2l2.4 2.1 3.1-.4 1 3 2.9 1.3-.7 3.1 1.6 2.7-2.4 2.1.2 3.2-3.1.6-1.7 2.7-2.9-1.3-2.9 1.3-1.7-2.7-3.1-.6.2-3.2L1.7 14.8l1.6-2.7-.7-3.1L5.5 7.7l1-3 3.1.4z"/><path d="M8 12.3l2.6 2.5L16 9.6" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Estresse e infertilidade · estudo LIFE</span></div></div>
+      <div class="ref-card"><span class="ref-card__ico"><svg viewBox="0 0 40 40" aria-hidden="true"><rect x="17" y="4" width="7" height="16" rx="2" transform="rotate(-28 20.5 12)" fill="currentColor"/><path d="M12 33h18M8 36.5h26" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><path d="M27.5 19.5a9 9 0 0 1-9.5 13.3" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><path d="M14 25.5h7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><circle cx="23.5" cy="21" r="2" fill="currentColor"/></svg></span><div class="ref-card__txt"><b>Boston University School of Public Health</b><span class="ref-card__selo"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2l2.4 2.1 3.1-.4 1 3 2.9 1.3-.7 3.1 1.6 2.7-2.4 2.1.2 3.2-3.1.6-1.7 2.7-2.9-1.3-2.9 1.3-1.7-2.7-3.1-.6.2-3.2L1.7 14.8l1.6-2.7-.7-3.1L5.5 7.7l1-3 3.1.4z"/><path d="M8 12.3l2.6 2.5L16 9.6" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Sono e chance de engravidar · 6.873 mulheres</span></div></div>
     </div>
   </section>
 

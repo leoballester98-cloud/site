@@ -56,7 +56,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"/>
-  <link rel="stylesheet" href="quiz-warm.css?v=494"/>
+  <link rel="stylesheet" href="quiz-warm.css?v=500"/>
 
   <!-- Anti-flicker do teste A/B.
        O script que troca a headline mora no fim do <body>, então num aparelho
@@ -1366,7 +1366,7 @@
     <!-- O foco nao e escolha dela, a duracao e. Separar as duas numa frase
          evita que os tres cards pareçam tres produtos diferentes: eles sao o
          mesmo plano, em tres tamanhos. -->
-    <p class="plans-foco">Seu plano tem foco em <b id="planoFoco">Sinais do Ciclo</b>. Escolha a duração:</p>
+    <p class="plans-foco">Seu plano com foco em <b id="planoFoco">Sinais do Ciclo</b> está pronto!</p>
     <div class="plans plans--tri">
       <div class="plan-card" data-tier="essencial" data-semanas="4">
         <div class="plan-card__radio"></div>
@@ -1421,10 +1421,10 @@
     <h3 class="section-heading section-heading--center" style="margin-top:32px;">O que está incluído no seu plano</h3>
     <div class="phones-carousel">
       <div class="phones-row">
-        <div class="imgbox imgbox--phone phone--side"><img loading="lazy" src="Images/app-tela1-biblioteca.webp" alt="Base de aprendizado do app"/></div>
+        <div class="imgbox imgbox--phone phone--side"><img loading="lazy" src="Images/app-tela1-biblioteca.webp?v=2" alt="Base de aprendizado do app"/></div>
         <div class="imgbox imgbox--phone phone--center"><img loading="lazy" src="Images/app-tela2-jornada.webp?v=2" alt="As semanas do seu plano"/></div>
         <div class="imgbox imgbox--phone phone--center"><img loading="lazy" src="Images/app-tela3-semana.webp?v=2" alt="As atividades do dia"/></div>
-        <div class="imgbox imgbox--phone phone--side"><img loading="lazy" src="Images/app-tela4-atividade.webp" alt="Uma atividade por dentro"/></div>
+        <div class="imgbox imgbox--phone phone--side"><img loading="lazy" src="Images/app-tela4-atividade.webp?v=2" alt="Uma atividade por dentro"/></div>
         <div class="imgbox imgbox--phone phone--side"><img loading="lazy" src="Images/app-tela5-progresso.webp?v=2" alt="Qualidade da ovulação ao longo do plano"/></div>
       </div>
       <div class="phones-dots"><span class="phones-dot active"></span><span class="phones-dot"></span><span class="phones-dot"></span><span class="phones-dot"></span><span class="phones-dot"></span></div>
@@ -1436,27 +1436,27 @@
          havia aqui, ninguem le depois de ver o preco. -->
     <ul class="beneficios">
       <li class="beneficio">
-        <span class="beneficio__icone"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="8"/><path d="M12 9.5V13l2.5 1.5"/><path d="M9 2h6"/></svg></span>
+        <span class="beneficio__icone"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="1.5" width="6" height="2.4" rx="1.2" fill="currentColor"/><rect x="11" y="3" width="2" height="2.5" fill="currentColor"/><path d="M18.4 5.6l1.5 1.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><circle cx="12" cy="13.6" r="8.4" fill="currentColor"/><path d="M12 9.4v4.5l2.8 1.9" fill="none" stroke="#EAE2D7" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
         <span class="beneficio__txt"><b>Atividades de 5 a 15 minutos</b><span>para caber num dia que já está cheio</span></span>
       </li>
       <li class="beneficio">
-        <span class="beneficio__icone"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6.5l2 2 3.5-3.5"/><path d="M3 17.5l2 2 3.5-3.5"/><path d="M12 6.5h9"/><path d="M12 12h9"/><path d="M12 17.5h9"/></svg></span>
+        <span class="beneficio__icone"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="3.5" width="6" height="6" rx="1.8" fill="currentColor"/><path d="M4 6.6l1.3 1.3 2-2.2" fill="none" stroke="#EAE2D7" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><rect x="2.5" y="14.5" width="6" height="6" rx="1.8" fill="currentColor"/><path d="M4 17.6l1.3 1.3 2-2.2" fill="none" stroke="#EAE2D7" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><rect x="11" y="5" width="10.5" height="3" rx="1.5" fill="currentColor"/><rect x="11" y="16" width="10.5" height="3" rx="1.5" fill="currentColor"/></svg></span>
         <span class="beneficio__txt"><b>As 4 de hoje, escolhidas pra você</b><span>o app mostra só as do dia, não uma lista de 98</span></span>
       </li>
       <li class="beneficio">
-        <span class="beneficio__icone"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3s6 6.4 6 10.2A6 6 0 0 1 6 13.2C6 9.4 12 3 12 3z"/></svg></span>
+        <span class="beneficio__icone"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.2c.4.5 7 7.5 7 12.1a7 7 0 0 1-14 0C5 9.7 11.6 2.7 12 2.2z" fill="currentColor"/><path d="M9.2 14.6a3 3 0 0 0 2.6 2.9" fill="none" stroke="#EAE2D7" stroke-width="1.8" stroke-linecap="round"/></svg></span>
         <span class="beneficio__txt"><b>Leitura dos sinais do seu ciclo</b><span>muco, temperatura e dor, pra parar de adivinhar a janela fértil</span></span>
       </li>
       <li class="beneficio">
-        <span class="beneficio__icone"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 10.5L12 4l8.5 6.5"/><path d="M5.5 9.8V20h13V9.8"/><path d="M9.8 20v-5.4h4.4V20"/></svg></span>
+        <span class="beneficio__icone"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d="M11 2.8a1.6 1.6 0 0 1 2 0l8 6.5c.6.5.2 1.5-.6 1.5H19v9a1.7 1.7 0 0 1-1.7 1.7H6.7A1.7 1.7 0 0 1 5 19.8v-9H3.6c-.8 0-1.2-1-.6-1.5zM10 21.5h4v-5.2a2 2 0 0 0-4 0z"/></svg></span>
         <span class="beneficio__txt"><b>Tudo feito em casa</b><span>sem clínica, sem consulta, sem exame novo</span></span>
       </li>
       <li class="beneficio">
-        <span class="beneficio__icone"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17"/><path d="M8 3v4M16 3v4"/></svg></span>
+        <span class="beneficio__icone"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="1.8" width="2.4" height="4.6" rx="1.2" fill="currentColor"/><rect x="14.6" y="1.8" width="2.4" height="4.6" rx="1.2" fill="currentColor"/><rect x="3" y="4.2" width="18" height="17" rx="3" fill="currentColor"/><rect x="5" y="9.4" width="14" height="10" rx="1.4" fill="#EAE2D7"/><rect x="6.8" y="11.2" width="3" height="2.6" rx=".6" fill="currentColor"/><rect x="10.5" y="11.2" width="3" height="2.6" rx=".6" fill="currentColor"/><rect x="14.2" y="11.2" width="3" height="2.6" rx=".6" fill="currentColor"/><rect x="6.8" y="15" width="3" height="2.6" rx=".6" fill="currentColor"/><rect x="10.5" y="15" width="3" height="2.6" rx=".6" fill="currentColor"/></svg></span>
         <span class="beneficio__txt"><b>Semana a semana, na ordem</b><span>a próxima abre quando você fecha a de agora</span></span>
       </li>
       <li class="beneficio">
-        <span class="beneficio__icone"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19V5"/><path d="M4 19h16"/><path d="M7.5 15.5l4-4.5 3 2.5 5-6"/><path d="M16 6.5h3.5V10"/></svg></span>
+        <span class="beneficio__icone"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="12.5" width="4" height="7" rx="1.2" fill="currentColor"/><rect x="10" y="8.5" width="4" height="11" rx="1.2" fill="currentColor"/><rect x="16" y="4" width="4" height="15.5" rx="1.2" fill="currentColor"/><rect x="3" y="21" width="18" height="1.8" rx=".9" fill="currentColor"/></svg></span>
         <span class="beneficio__txt"><b>Seu índice de ovulação à vista</b><span>o número sobe conforme você faz</span></span>
       </li>
     </ul>
@@ -1490,7 +1490,7 @@
           <div class="dia dia--longo"><span class="dia__n">Dia 15</span><span class="dia__b">Dor leve<br/>lateral</span></div>
           <div class="dia dia--longo"><span class="dia__n">Dia 16</span><span class="dia__b">Libido<br/>alta</span></div>
       </div>
-      <div class="progresso__foto"><img loading="lazy" src="Images/essa9_sem_fundo.webp" alt="Mulher grávida sorrindo"/></div>
+      <div class="progresso__foto"><img loading="lazy" src="Images/s30-gravida.webp" alt="Mulher grávida sorrindo"/></div>
     </div>
 
     <!-- ═══ BLOCO DA LOJA ═══
@@ -1528,7 +1528,7 @@
 
     <!-- Resultados. Trilha com encaixe de rolagem em vez de JS: o arrastar e
          o do proprio sistema, e o cartao seguinte aparece pela borda sozinho.
-         Por ora ha um resultado; para somar outro, repetir o cartao abaixo. -->
+         Tres resultados; para somar outro, repetir o cartao. -->
     <h3 class="section-heading section-heading--center" style="margin-top:34px;">Resultados que nos deixam orgulhosos</h3>
     <div class="resultados">
       <div class="resultados__trilha">
@@ -1539,6 +1539,29 @@
             <p class="resultado__txt">Tentei por quase 2 anos. Em 6 semanas com o plano, entendi meu ciclo pela primeira vez. No mês seguinte, engravidei.</p>
           </div>
         </article>
+        <!-- Clientes reais (confirmado pelo Leo em 12/10), fotos enviadas por
+             elas; o logo do teste foi borrado. Relatos nas palavras delas. -->
+        <article class="resultado">
+          <div class="resultado__foto"><img loading="lazy" src="Images/resultado-2.webp" alt="Cliente segurando o teste de gravidez positivo"/></div>
+          <div class="resultado__corpo">
+            <p class="resultado__nome">Fernanda Cunha, Paraná</p>
+            <p class="resultado__txt">Depois de meses tentando engravidar, comecei a usar o app e finalmente consegui entender melhor meu ciclo. Melhorei meus hábitos e, alguns meses depois, veio o tão sonhado positivo! ❤️</p>
+          </div>
+        </article>
+        <article class="resultado">
+          <div class="resultado__foto"><img loading="lazy" src="Images/resultado-3.webp" alt="Casal segurando o teste de gravidez positivo"/></div>
+          <div class="resultado__corpo">
+            <p class="resultado__nome">Marina Campos, Espírito Santo</p>
+            <p class="resultado__txt">Nunca vou esquecer o dia em que vi as duas listrinhas no teste! Meu positivo finalmente chegou! ❤️✨</p>
+          </div>
+        </article>
+      </div>
+      <!-- Passador: setas pra quem nao sabe que da pra arrastar, pontos pra
+           mostrar quantos sao e em qual esta. Os pontos o JS monta. -->
+      <div class="resultados__nav">
+        <button type="button" class="resultados__seta" data-dir="-1" aria-label="Depoimento anterior"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button>
+        <div class="resultados__pontos"></div>
+        <button type="button" class="resultados__seta" data-dir="1" aria-label="Próximo depoimento"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></button>
       </div>
     </div>
 
@@ -3849,6 +3872,47 @@ document.addEventListener('click', (e) => {
 })();
 </script>
 <script>
+/* Passador dos resultados. A trilha continua sendo rolagem nativa; aqui so
+   se le em qual cartao ela parou e se manda pro vizinho. */
+(function(){
+  var caixa = document.querySelector('.resultados');
+  if (!caixa) return;
+  var trilha = caixa.querySelector('.resultados__trilha');
+  var cartoes = [].slice.call(trilha.querySelectorAll('.resultado'));
+  var nav = caixa.querySelector('.resultados__nav');
+  if (cartoes.length < 2) { nav.hidden = true; return; }
+  var pontos = nav.querySelector('.resultados__pontos');
+  var setas = nav.querySelectorAll('.resultados__seta');
+  var atual = 0;
+  cartoes.forEach(function(_, i){
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'resultados__ponto';
+    b.setAttribute('aria-label', 'Depoimento ' + (i + 1));
+    b.addEventListener('click', function(){ ir(i); });
+    pontos.appendChild(b);
+  });
+  function centro(r){ return r.left + r.width / 2; }
+  function ir(i){
+    i = Math.max(0, Math.min(cartoes.length - 1, i));
+    var t = trilha.getBoundingClientRect();
+    trilha.scrollBy({ left: centro(cartoes[i].getBoundingClientRect()) - centro(t) });
+  }
+  function marcar(){
+    var meio = centro(trilha.getBoundingClientRect()), melhor = Infinity;
+    cartoes.forEach(function(c, i){
+      var d = Math.abs(centro(c.getBoundingClientRect()) - meio);
+      if (d < melhor) { melhor = d; atual = i; }
+    });
+    [].forEach.call(pontos.children, function(p, i){ p.classList.toggle('ativo', i === atual); });
+    setas[0].disabled = atual === 0;
+    setas[1].disabled = atual === cartoes.length - 1;
+  }
+  setas.forEach(function(b){ b.addEventListener('click', function(){ ir(atual + Number(b.dataset.dir)); }); });
+  trilha.addEventListener('scroll', marcar, { passive: true });
+  marcar();
+})();
+
 /* Menu do cabecalho. Fecha ao clicar fora, no Esc e ao escolher um item —
    os tres jeitos que a pessoa espera. O `hidden` e a fonte da verdade; o
    aria-expanded so acompanha. */

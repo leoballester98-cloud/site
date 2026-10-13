@@ -2720,6 +2720,47 @@ button:focus-visible, .row-card:focus-visible, .simple-opt:focus-visible,
   display: block;
 }
 .resultado__corpo { padding: 14px 15px 16px; }
+/* Passador: setas nas pontas, pontos no meio; o ponto ativo estica. */
+.resultados__nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 14px;
+}
+.resultados__seta {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 1px solid var(--hair-strong);
+  background: transparent;
+  color: var(--ink);
+  display: grid;
+  place-items: center;
+  padding: 0;
+  cursor: pointer;
+  transition: opacity .2s;
+}
+.resultados__seta svg { width: 16px; height: 16px; }
+.resultados__seta:disabled { opacity: .3; cursor: default; }
+.resultados__pontos { display: flex; align-items: center; gap: 2px; }
+/* O botao e maior que o ponto pra dar pra acertar com o dedo. */
+.resultados__ponto {
+  border: 0;
+  background: transparent;
+  padding: 10px 3px;
+  cursor: pointer;
+}
+.resultados__ponto::after {
+  content: '';
+  display: block;
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: var(--ink-mute);
+  transition: width .25s, background .25s;
+}
+.resultados__ponto.ativo::after { width: 20px; background: var(--blue-d); }
 .resultado__nome {
   font-size: 15px;
   font-weight: 700;
@@ -2898,36 +2939,43 @@ button:focus-visible, .row-card:focus-visible, .simple-opt:focus-visible,
 }
 .beneficio {
   display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  padding: 13px 0;
+  align-items: center;
+  gap: 14px;
 }
-.beneficio + .beneficio {
+/* O fio entre os itens comeca na coluna do texto, nao embaixo do icone,
+   como na referencia. */
+.beneficio + .beneficio .beneficio__txt {
   border-top: 1px solid rgba(43,26,16,0.09);
 }
+/* Ladrilho e glifo da referencia: quadrado bege so um tom abaixo do fundo,
+   cantos de 12px, e o icone CHEIO (nao contorno) em marrom escuro,
+   pequeno no meio do ladrilho. Os detalhes "recortados" do icone usam a
+   cor do ladrilho (#EAE2D7). */
 .beneficio__icone {
   flex-shrink: 0;
-  width: 38px;
-  height: 38px;
-  border-radius: 10px;
-  background: var(--card-active);
-  color: var(--ink);
+  width: 46px;
+  height: 46px;
+  border-radius: 12px;
+  background: #EAE2D7;
+  color: #3B2F27;
   display: flex;
   align-items: center;
   justify-content: center;
 }
-.beneficio__icone svg { width: 20px; height: 20px; display: block; }
+.beneficio__icone svg { width: 22px; height: 22px; display: block; }
 .beneficio__txt {
   display: flex;
   flex-direction: column;
+  justify-content: center;
   gap: 2px;
   min-width: 0;
-  /* Alinha a primeira linha do texto com o centro do ladrilho. */
-  padding-top: 2px;
+  flex: 1;
+  padding: 14px 0;
+  min-height: 46px;
 }
 .beneficio__txt b {
-  font-size: 15px;
-  font-weight: 700;
+  font-size: 15.5px;
+  font-weight: 600;
   color: var(--ink);
   line-height: 1.25;
   letter-spacing: -0.01em;
@@ -4860,11 +4908,19 @@ body.marca-solta:has(#s1.screen.active) .header__inner::after {
 }
 
 /* A frase do foco, logo acima da escada de planos. */
+/* A frase do foco, logo acima da escada de planos, no formato do titulo da
+   referencia ("Your Calisthenics Workout Plan is ready!"): grande,
+   centrado, peso medio, com ar acima (depois do comparativo) e pouco abaixo
+   (encostando nos planos). O foco vai em cobre pra saltar da frase. */
 .plans-foco {
-  font-size: 13.5px; line-height: 1.45; color: var(--ink-soft);
-  text-align: center; margin: 0 0 12px;
+  font-family: 'DM Sans', sans-serif; font-weight: 600;
+  font-size: clamp(23px, 6.3vw, 28px); line-height: 1.2; letter-spacing: -0.015em;
+  color: var(--ink); text-align: center;
+  /* Mesmo respiro em cima e embaixo (28px): o comparativo acima ja da 22px
+     de margem, entao aqui em cima so faltam 6. */
+  margin: 6px auto 28px;
 }
-.plans-foco b { color: var(--ink); font-weight: 800; }
+.plans-foco b { color: #9A5B33; font-weight: 700; white-space: nowrap; }
 
 
 /* ═══ VSL 1 · player provisorio do YouTube ════════════════════════════════

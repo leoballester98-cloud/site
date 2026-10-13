@@ -6066,7 +6066,7 @@ body:has(#svsl1.screen.active) .wrap{ padding-bottom:0; }
     line-height: 1.08;
     letter-spacing: -0.03em;
     max-width: 552px;
-    margin: 56px auto 32px;
+    margin: 28px auto 32px;
   }
   .q-title + .q-sub, .q-title + .q-hint { margin-top: -16px; margin-bottom: 32px; font-size: 18px; max-width: 552px; }
 
@@ -6095,7 +6095,7 @@ body:has(#svsl1.screen.active) .wrap{ padding-bottom:0; }
     letter-spacing: -0.03em;
     text-align: center;
     max-width: 552px;
-    margin: 56px auto 32px;
+    margin: 28px auto 32px;
   }
 
   /* Pergunta com foto (sono, alimentacao, inchaco, acompanhada): como o
@@ -6206,8 +6206,8 @@ body:has(#svsl1.screen.active) .wrap{ padding-bottom:0; }
     max-width: 744px;
   }
   #s2 > .q-title-lg { font-size: 28px; }
-  .analise__titulo, .proj__titulo, .raspa__titulo { margin-top: 48px; }
-  #s25 .q-title-lg { margin: 48px auto 28px; }
+  .analise__titulo, .proj__titulo, .raspa__titulo { margin-top: 28px; }
+  #s25 .q-title-lg { margin: 28px auto 28px; }
 
   body:has(#s28.screen.active) .wrap { max-width: 1200px; }
   #s28.screen.active {
@@ -6223,9 +6223,12 @@ body:has(#svsl1.screen.active) .wrap{ padding-bottom:0; }
   #s28 > .proj-nota { grid-column: 1; grid-row: 4; }
   #s28 > .proj-citacao { grid-column: 2; grid-row: 3 / 5; align-self: center; margin: 0; }
 
-  /* Mapa do corpo (s7): com o titulo de 40px em 3 linhas ele passava 43px
-     do rodape. O quadrado cede pela altura da janela. */
-  #s7 .bodymap { max-width: min(460px, calc(100svh - 500px)); }
+  /* Mapa do corpo (s7): o titulo em 3 linhas de 40px pesava e espremia a
+     imagem. Mais largo e um pouco menor ele cabe em 2, e o quadrado fica com
+     a altura que sobra ate o rodape. */
+  #s7 .q-title { font-size: 34px; max-width: 744px; margin-top: 28px; }
+  #s7 .q-title + .q-sub { margin-bottom: 20px; }
+  #s7 .bodymap { max-width: min(560px, calc(100svh - var(--h-cabecalho, 88px) - 290px)); margin-top: 0; }
 }
 
 /* ═══ Desktop · pagina de oferta (s30) ═════════════════════════════════════
@@ -6253,4 +6256,11 @@ body:has(#svsl1.screen.active) .wrap{ padding-bottom:0; }
 
   /* Depoimentos em duas colunas: sao quatro, e em tres sobrava um sozinho. */
   #s30 .reviews { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; align-items: start; }
+}
+
+/* Primeiras telas com a marca no cabecalho (h=6 a 11): elas reservavam 66px
+   fixos no topo, a medida do cabecalho antigo. O de 88px cobria o comeco da
+   tela (o selo URGENTE da h=8 saia cortado). Agora reserva a altura medida. */
+@media (min-width: 900px) {
+  body.marca-solta:has(#s1.screen.active) .wrap { padding-top: calc(var(--h-cabecalho, 84px) + 12px); }
 }

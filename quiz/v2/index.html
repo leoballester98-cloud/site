@@ -1058,7 +1058,7 @@
         <span class="date-sep">/</span>
         <input type="number" class="date-field date-field--year" id="dateYear" placeholder="AAAA" min="2020" max="2099"/>
       </div>
-      <p class="campo-ajuda">Digite <b>dia</b>, <b>mês</b> e <b>ano</b> da sua última menstruação</p>
+      <p class="campo-ajuda" id="dateAjuda">Digite <b>dia</b>, <b>mês</b> e <b>ano</b> da sua última menstruação</p>
       <input type="hidden" id="occasionDate"/>
     </div>
   </section>
@@ -1196,8 +1196,8 @@
     <blockquote class="proj-citacao">
       <span class="proj-citacao__aspas">“</span>
       <div class="proj-citacao__texto">
-        <p>Nosso Plano Ciclo Fértil ajudará você a alcançar resultados a longo prazo.</p>
-        <p>Ele combina a leitura dos sinais do seu ciclo com nutrição e rotina para garantir seu progresso.</p>
+        <p>Cada semana do programa cuida de uma parte do seu corpo, e os efeitos se somam ciclo após ciclo.</p>
+        <p>Sinais do ciclo, alimentação, sono e emocional trabalham juntos, e você vê a sua evolução no app.</p>
       </div>
     </blockquote>
   </section>
@@ -1780,7 +1780,10 @@ function restaurarSelecoes() {
   const cn = document.getElementById('campoNome'); if (cn && answers.nome) cn.value = answers.nome;
   if (answers.lastPeriodDate) {
     const m = String(answers.lastPeriodDate).match(/^(\d{4})-(\d{2})-(\d{2})/);
-    if (m) {
+    /* Data salva antes da validacao (ou que envelheceu): descarta em vez de
+       reabrir o grafico com ano absurdo. */
+    if (!m || !dataUltimaValida(m[1], m[2], m[3])) delete answers.lastPeriodDate;
+    else {
       const d = document.getElementById('dateDay'), mo = document.getElementById('dateMonth');
       const y = document.getElementById('dateYear'), oc = document.getElementById('occasionDate');
       if (d) d.value = m[3];
@@ -2337,11 +2340,24 @@ function updateChrome(screenId) {
     progresso.style.display = 'none';
   } else {
     progresso.style.display = '';
-    const i = SECOES.indexOf(section);
-    // Secao sem nome (as telas de transicao) mantem o ultimo estado.
+    /* Tela sem secao (informativas, e-mail, nome) herda o progresso da
+       ultima tela COM secao antes dela na ordem do documento, contando essa
+       tela como concluida. Antes ela "mantinha o ultimo estado" — que nao
+       existe quando a pessoa chega ali recarregando a pagina: a barra
+       aparecia vazia no fim do quiz. */
+    let secao = section, alvo = screenId, depois = 0;
+    if (!secao) {
+      let k = SCREENS.indexOf(screenId) - 1;
+      while (k >= 0) {
+        const t = document.getElementById(SCREENS[k]);
+        if (t && t.dataset.section) { secao = t.dataset.section; alvo = SCREENS[k]; depois = 1; break; }
+        k--;
+      }
+    }
+    const i = SECOES.indexOf(secao);
     if (i >= 0) {
-      const lista = TELAS_DA_SECAO[section] || [];
-      const pos = lista.indexOf(screenId);
+      const lista = TELAS_DA_SECAO[secao] || [];
+      const pos = Math.min(lista.length, lista.indexOf(alvo) + depois);
       /* pos, e nao pos+1: a barra conta telas CONCLUIDAS. Na primeira tela do
          quiz ela nasce zerada e so comeca a andar depois da primeira resposta;
          na primeira tela de cada secao o segmento anterior fecha e o novo
@@ -2870,22 +2886,36 @@ setupBigNumber('targetValue', 'libidoDays', true); // 0 digitado é válido: "se
 setupBigNumber('ageValue', 'age');
 
 // Salva a data da última menstruação (s26) a partir dos três campos DD/MM/AAAA
+/* So aceita data que existe (sem 31/02, mes 1-12), que nao esta no futuro e
+   que e dos ultimos 6 meses. Antes qualquer numero passava: 22/22/2222 virava
+   "alta chance de positivo ate dezembro de 2223" no grafico da s28. */
+const DATA_AJUDA_PADRAO = 'Digite <b>dia</b>, <b>mês</b> e <b>ano</b> da sua última menstruação';
+function dataUltimaValida(y, m, d) {
+  const Y = +y, M = +m, D = +d;
+  if (!Y || !M || !D || M > 12 || D > 31) return null;
+  const dt = new Date(Y, M - 1, D, 12);
+  if (dt.getFullYear() !== Y || dt.getMonth() !== M - 1 || dt.getDate() !== D) return null;
+  const hoje = new Date(); hoje.setHours(23, 59, 59, 999);
+  const limite = new Date(); limite.setMonth(limite.getMonth() - 6); limite.setHours(0, 0, 0, 0);
+  if (dt > hoje || dt < limite) return null;
+  return Y + '-' + String(M).padStart(2, '0') + '-' + String(D).padStart(2, '0');
+}
 function syncDateFields() {
-  const d = document.getElementById('dateDay')?.value.padStart(2, '0');
-  const m = document.getElementById('dateMonth')?.value.padStart(2, '0');
+  const d = document.getElementById('dateDay')?.value;
+  const m = document.getElementById('dateMonth')?.value;
   const y = document.getElementById('dateYear')?.value;
-  if (d && m && y && y.length === 4) {
-    const iso = y + '-' + m + '-' + d;
-    document.getElementById('occasionDate').value = iso;
-    answers.lastPeriodDate = iso;
-    if (document.getElementById('s26').classList.contains('active')) {
-      primaryBtn.disabled = false;
-    }
-  } else {
-    if (document.getElementById('s26').classList.contains('active')) {
-      primaryBtn.disabled = true;
-    }
+  const ajuda = document.getElementById('dateAjuda');
+  const ativa = document.getElementById('s26').classList.contains('active');
+  const completa = d && m && y && y.length === 4;
+  const iso = completa ? dataUltimaValida(y, m, d) : null;
+  document.getElementById('occasionDate').value = iso || '';
+  if (iso) answers.lastPeriodDate = iso; else delete answers.lastPeriodDate;
+  if (ajuda) {
+    const erro = completa && !iso;
+    ajuda.classList.toggle('fora', erro);
+    ajuda.innerHTML = erro ? 'Confira a data: ela precisa ser dos <b>últimos 6 meses</b>.' : DATA_AJUDA_PADRAO;
   }
+  if (ativa) primaryBtn.disabled = !iso;
 }
 
 // Limita dígitos, avança foco automaticamente e sincroniza
@@ -3000,6 +3030,14 @@ function calcFertileWindow() {
 
   const cycleLen = (answers.cycleDays && answers.cycleDays > 0) ? answers.cycleDays : 28;
   const cycles   = PLANO_SEMANAS ? PLANO_SEMANAS / 4 : getProtocolCycles();
+
+  /* Ancora no ciclo ATUAL, nao na menstruacao digitada: com ela de meses
+     atras, a conta caia no passado ("alta chance ate agosto" em outubro).
+     Avanca de ciclo em ciclo ate o comeco do ciclo em que hoje esta. */
+  const agora = new Date();
+  while (lastPeriodStart.getTime() + cycleLen * 864e5 <= agora.getTime()) {
+    lastPeriodStart.setDate(lastPeriodStart.getDate() + cycleLen);
+  }
 
   // Fim do protocolo = última menstruação + (ciclos × duração do ciclo)
   const protocolEndDate = new Date(lastPeriodStart);

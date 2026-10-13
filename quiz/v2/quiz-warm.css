@@ -6264,3 +6264,24 @@ body:has(#svsl1.screen.active) .wrap{ padding-bottom:0; }
 @media (min-width: 900px) {
   body.marca-solta:has(#s1.screen.active) .wrap { padding-top: calc(var(--h-cabecalho, 84px) + 12px); }
 }
+
+/* ═══ Desktop · perfil (s25) em duas colunas ══════════════════════════════
+   A foto ficava numa celula larga e baixa, e o object-fit cortava a mulher
+   nos ombros. Aqui ela vira a coluna da direita do cartao, da borda de cima a
+   de baixo, como a foto ao lado dos dados na referencia; os dados ficam na
+   coluna da esquerda. O .perfil__grade some da arvore (display: contents)
+   pra linhas e foto entrarem direto na grade do cartao. */
+@media (min-width: 900px) {
+  body:has(#s25.active) .wrap { max-width: 1000px; }
+  #s25 .q-title-lg { font-size: 40px; line-height: 1.08; margin: 28px auto 28px; }
+  #s25 .perfil {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 340px;
+    column-gap: 28px;
+    padding: 22px 0 0 24px;
+  }
+  #s25 .perfil > :not(.perfil__grade) { grid-column: 1; }
+  #s25 .perfil__grade { display: contents; }
+  #s25 .perfil__linhas { grid-column: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 14px 18px; padding-bottom: 22px; }
+  #s25 .perfil__foto { grid-column: 2; grid-row: 1 / span 4; margin-top: -22px; min-height: 420px; }
+}

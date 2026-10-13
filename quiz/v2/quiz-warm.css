@@ -6227,3 +6227,30 @@ body:has(#svsl1.screen.active) .wrap{ padding-bottom:0; }
      do rodape. O quadrado cede pela altura da janela. */
   #s7 .bodymap { max-width: min(460px, calc(100svh - 500px)); }
 }
+
+/* ═══ Desktop · pagina de oferta (s30) ═════════════════════════════════════
+   Como a da referencia: blocos de texto numa coluna de 744px; planos,
+   resultados e depoimentos numa faixa de 1128px, um ao lado do outro. A barra
+   do topo segue presa e larga, so com o mesmo recuo de 60px do cabecalho. */
+@media (min-width: 900px) {
+  body.screen--sales .wrap { max-width: 1176px; }
+  #s30 > :not(.sticky-discount-bar) { width: 100%; max-width: 744px; margin-inline: auto; }
+  #s30 > .plans--tri, #s30 > .resultados, #s30 > .reviews { max-width: 1128px; }
+  /* A linha da garantia traz a margem no style do HTML, que venceria o auto. */
+  #s30 > [style*="margin"] { margin-left: auto !important; margin-right: auto !important; }
+  .sticky-discount-bar { padding-left: 60px; padding-right: 60px; }
+
+  /* Tres planos lado a lado, bases alinhadas: o MAIS POPULAR sobe pela faixa. */
+  #s30 .plans--tri { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; align-items: end; }
+  #s30 .plans--tri .plan-card { min-height: 96px; }
+
+  #s30 > a.price-cta { max-width: 335px; min-height: 50px; display: flex; align-items: center; justify-content: center; font-size: 15px; }
+
+  /* Resultados: os tres cartoes inteiros, sem precisar passar. */
+  #s30 .resultado { flex-basis: calc((100% - 24px) / 3); }
+  #s30 .resultados__trilha { margin-inline: 0; padding-inline: 0; }
+  #s30 .resultados__nav { display: none; }
+
+  /* Depoimentos em duas colunas: sao quatro, e em tres sobrava um sozinho. */
+  #s30 .reviews { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; align-items: start; }
+}

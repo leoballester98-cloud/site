@@ -947,10 +947,12 @@
     <p class="q-sub">Se você não percebe, digite 0. Esse é um dos sinais secundários da ovulação.</p>
     <div class="big-number">
       <!-- Nasce vazio, com o mesmo "Duracao" das outras telas; 0 digitado e valido. -->
-      <span class="big-number__value vazio" id="targetValue" contenteditable="true" inputmode="numeric" data-empty="true" data-placeholder="Duração" data-min="0" data-max="31">Duração</span>
+      <span class="big-number__value vazio" id="targetValue" contenteditable="true" inputmode="numeric" data-empty="true" data-placeholder="Duração" data-min="0" data-max="10">Duração</span>
       <span class="big-number__unit">dias</span>
     </div>
-    <p class="campo-ajuda" id="targetAjuda">Digite um valor entre <b>0</b> e <b>31</b> dias</p>
+    <!-- 0 a 10: o desejo sobe nos dias ferteis, uns 5 a 6 em volta da
+         ovulacao. Acima de 10 ja nao e pico; 31 seria o mes inteiro. -->
+    <p class="campo-ajuda" id="targetAjuda">Digite um valor entre <b>0</b> e <b>10</b> dias</p>
     <div class="info-box" style="margin-top:20px;">
       <span class="info-box__icon">☝️</span>
       <div class="info-box__body">

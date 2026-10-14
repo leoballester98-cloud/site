@@ -59,7 +59,7 @@
        folha so era descoberto depois de baixar os 220 KB dela; ele continua
        la pras paginas tiktok e espanhol, e aqui cai no cache. -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=Manrope:wght@700;800&display=swap"/>
-  <link rel="stylesheet" href="quiz-warm.css?v=514"/>
+  <link rel="stylesheet" href="quiz-warm.css?v=515"/>
 
   <!-- Anti-flicker do teste A/B.
        O script que troca a headline mora no fim do <body>, então num aparelho
@@ -2661,6 +2661,7 @@ function showScreen(id) {
   if (wrap) wrap.style.paddingTop = (id === 's30') ? '0' : '';
 
   if (id === 's30') {
+    if (window.__prepararCheckout) window.__prepararCheckout();
     reservarTopoS30();
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(reservarTopoS30);
     startCountdown();
@@ -4013,6 +4014,104 @@ document.addEventListener('click', (e) => {
     if (!menu.hidden && !menu.contains(e.target) && e.target !== btn) abrir(false);
   });
   document.addEventListener('keydown', function(e){ if (e.key === 'Escape') abrir(false); });
+})();
+</script>
+<!-- Checkout embutido da Stripe: o card que abre em cima da oferta, como o
+     da BetterMe, em vez de mandar pra outra pagina. -->
+<div class="checkout-modal" id="checkoutModal" hidden role="dialog" aria-modal="true" aria-labelledby="checkoutTitulo">
+  <div class="checkout-modal__fundo" data-fechar></div>
+  <div class="checkout-modal__card">
+    <button type="button" class="checkout-modal__fechar" data-fechar aria-label="Fechar">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+    <h2 class="checkout-modal__titulo" id="checkoutTitulo">Finalize sua compra</h2>
+    <p class="checkout-modal__sub">Pagamento seguro pela Stripe · cartão, Pix, Apple Pay ou Google Pay</p>
+    <div class="checkout-modal__stripe" id="checkoutStripe"></div>
+    <p class="checkout-modal__carregando" id="checkoutCarregando">Carregando o pagamento seguro…</p>
+  </div>
+</div>
+<script>
+/* Abre o checkout da Stripe dentro do card. A sessao e criada na hora pela
+   funcao criar-checkout (com o plano escolhido, o foco e o e-mail dela); o
+   preco sai do servidor, nao daqui. Se qualquer coisa falhar (Stripe.js nao
+   carregou, funcao fora do ar), cai no link de pagamento de antes — a venda
+   nunca trava por causa do card. Com ?pag=kiwify o card nao abre. */
+(function () {
+  if (!PAGAMENTO_STRIPE) return;
+  var TESTE = MODO_PAGAMENTO === 'teste';
+  var CHAVE_PUBLICA = TESTE
+    ? 'pk_test_51R6y8CJkQwZ9vEOTBipXI1HF3WZLrY0T6t1LjCI46KYKtn2D2sWqlpOHBYc30n69WG64rFjLpgX4n6kMKmEAwHRv00KtHu725E'
+    : 'pk_live_51R6y8CJkQwZ9vEOT72HyjHyyc34frbwuvkBe2MdmAAXFqFIEl7pwyV3cQ1NRCAMC0LcXVBbYmJkmk9kfjuNILdZ800pLfZ0591';
+  var FUNCAO = 'https://lfmjvgkbvkkexwytkfeg.supabase.co/functions/v1/criar-checkout';
+  var modal = document.getElementById('checkoutModal');
+  var alvo = document.getElementById('checkoutStripe');
+  var carregando = document.getElementById('checkoutCarregando');
+  var stripe = null, checkout = null, abrindo = false;
+
+  function carregarStripe() {
+    if (window.Stripe) return Promise.resolve();
+    return new Promise(function (ok, erro) {
+      var s = document.createElement('script');
+      s.src = 'https://js.stripe.com/v3/';
+      s.onload = ok; s.onerror = erro;
+      document.head.appendChild(s);
+    });
+  }
+  /* Chamado quando a oferta abre: quando ela clicar, o Stripe.js ja chegou. */
+  window.__prepararCheckout = function () { carregarStripe().catch(function () {}); };
+
+  function fechar() {
+    if (checkout) { try { checkout.destroy(); } catch (e) {} checkout = null; }
+    modal.hidden = true;
+    document.documentElement.classList.remove('checkout-aberto');
+  }
+  modal.addEventListener('click', function (e) { if (e.target.closest('[data-fechar]')) fechar(); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !modal.hidden) fechar(); });
+
+  function abrir(linkReserva) {
+    if (abrindo) return;
+    abrindo = true;
+    modal.hidden = false;
+    carregando.hidden = false;
+    document.documentElement.classList.add('checkout-aberto');
+    var card = document.querySelector('.plans--tri .plan-card.selected');
+    var dados = {
+      plano: (card && card.dataset.tier) || 'avancado',
+      foco: focoDela(),
+      marca: AB && AB.marca ? String(AB.marca) : '',
+      email: answers.email || '',
+      modo: TESTE ? 'teste' : 'real'
+    };
+    /* A sessao e buscada aqui, antes de montar: erro dentro do
+       fetchClientSecret do Stripe.js nao chega neste .catch, e o card ficaria
+       preso em "Carregando". 12s sem resposta tambem vale como falha. */
+    var limite = new Promise(function (_, erro) { setTimeout(function () { erro(new Error('tempo esgotado')); }, 12000); });
+    var sessao = fetch(FUNCAO, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(dados) })
+      .then(function (r) { if (!r.ok) throw new Error('criar-checkout ' + r.status); return r.json(); })
+      .then(function (j) { if (!j.clientSecret) throw new Error('sem clientSecret'); return j.clientSecret; });
+    Promise.race([Promise.all([carregarStripe(), sessao]), limite]).then(function (res) {
+      var segredo = res[1];
+      if (!stripe) stripe = window.Stripe(CHAVE_PUBLICA);
+      return stripe.initEmbeddedCheckout({ fetchClientSecret: function () { return Promise.resolve(segredo); } });
+    }).then(function (c) {
+      checkout = c;
+      checkout.mount('#checkoutStripe');
+      carregando.hidden = true;
+      abrindo = false;
+    }).catch(function (err) {
+      console.error('[checkout] caiu no link', err);
+      abrindo = false;
+      fechar();
+      location.href = linkReserva;
+    });
+  }
+
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest('a.price-cta, a.sticky-discount-bar__btn');
+    if (!a) return;
+    e.preventDefault();
+    abrir(a.href);
+  });
 })();
 </script>
 <script async src="https://www.youtube.com/iframe_api"></script>

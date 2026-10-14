@@ -3943,10 +3943,6 @@ async function verFunil() {
     '<div class="kpis">' + kpi('Visitantes', dA.visitantes) + kpi('Chegaram ao fim', A.pctFim + '%') +
       kpi('Conversão do quiz', A.pctCompra + '%') +
       kpi('Maior queda no corpo', A.maiorQueda.tela ? ('Tela ' + A.maiorQueda.tela) : '—') +
-      /* Enquanto houver VSL no funil, o numero que importa e o preco dela:
-         quanto do funil ela custa. Sem isso voce leria a queda na lista e
-         compararia de cabeca com o que era antes. */
-      A.vsls.map(v => kpi('Custo da ' + v.nome.replace(/^\u25b6\s*/, '').split(' \u00b7 ')[0], v.drop + ' pts')).join('') +
       '</div>' +
     (A.alertas.length ? '<div class="alerta-box">⚠ ' + A.alertas.length + ' tela(s) do corpo com queda acima de ' +
         THRESH + ' pts: <b>tela ' + A.alertas.join(', ') + '</b>. Vale revisar a pergunta.</div>' : '') +

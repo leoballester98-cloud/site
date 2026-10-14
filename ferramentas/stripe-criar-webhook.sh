@@ -15,14 +15,20 @@ URL="https://$PROJETO.supabase.co/functions/v1/purchase-webhook-stripe"
 
 STRIPE_KEY=$(pbpaste | tr -d '[:space:]')
 printf '' | pbcopy
+# Teste guarda em STRIPE_WEBHOOK_SECRET; real (sk_live_ + --live) em
+# STRIPE_WEBHOOK_SECRET_LIVE. O webhook aceita os dois, entao o teste continua
+# funcionando depois da virada.
 case "$STRIPE_KEY" in
-  sk_test_*|rk_test_*) ;;
-  *) echo "O que esta copiado nao e uma chave de teste (sk_test_...). Nada foi criado."; exit 1 ;;
+  sk_test_*|rk_test_*) VAR=STRIPE_WEBHOOK_SECRET; SUF=teste ;;
+  sk_live_*|rk_live_*)
+    if [ "${1:-}" != "--live" ]; then echo "Chave REAL sem --live. Nada foi criado."; exit 1; fi
+    VAR=STRIPE_WEBHOOK_SECRET_LIVE; SUF=live ;;
+  *) echo "O que esta copiado nao e uma chave da Stripe. Nada foi criado."; exit 1 ;;
 esac
 
 resposta=$(curl -sS --fail-with-body https://api.stripe.com/v1/webhook_endpoints \
   -u "$STRIPE_KEY:" \
-  -H "Idempotency-Key: cf-webhook-quiz-v1" \
+  -H "Idempotency-Key: cf-webhook-quiz-$SUF-v1" \
   --data-urlencode "url=$URL" \
   -d "enabled_events[]=checkout.session.completed" \
   -d "enabled_events[]=checkout.session.async_payment_succeeded" \
@@ -38,10 +44,10 @@ fi
 
 tmp=$(mktemp); chmod 600 "$tmp"
 trap 'rm -f "$tmp"' EXIT
-printf 'STRIPE_WEBHOOK_SECRET=%s\n' "$segredo" > "$tmp"
+printf '%s=%s\n' "$VAR" "$segredo" > "$tmp"
 unset segredo
 npx --yes supabase secrets set --env-file "$tmp" --project-ref "$PROJETO"
 
 echo
 echo "✓ Webhook cadastrado na Stripe: $URL"
-echo "✓ Segredo guardado no Supabase como STRIPE_WEBHOOK_SECRET"
+echo "✓ Segredo guardado no Supabase como $VAR"

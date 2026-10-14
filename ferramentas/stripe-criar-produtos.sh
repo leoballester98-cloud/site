@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Cria na Stripe os 3 planos do quiz (pagamento unico, em reais) e um link de
-# pagamento pra cada um. Roda no MODO TESTE: recusa chave sk_live_.
+# pagamento pra cada um. Teste com sk_test_; real com sk_live_ E --live:
+#   bash stripe-criar-produtos.sh --clipboard --live
 #
 # A chave e pedida na hora (ou lida da area de transferencia com --clipboard)
 # e nao fica salva em lugar nenhum, nem no historico do terminal. O que sai no fim sao so os IDs e os links, que nao sao segredo,
@@ -19,13 +20,19 @@ else
   read -rsp "Cole a chave secreta de TESTE da Stripe (sk_test_...) e aperte Enter: " STRIPE_KEY
   echo
 fi
+# Modo pela propria chave: sk_test_ cria no teste, sk_live_ no real (e so
+# com --live junto, pra chave real nunca entrar por engano).
 case "$STRIPE_KEY" in
-  sk_test_*|rk_test_*) ;;
-  *) echo "Essa nao e uma chave de teste. Nada foi criado."; exit 1 ;;
+  sk_test_*|rk_test_*) MODO=teste ;;
+  sk_live_*|rk_live_*)
+    if [ "${2:-}" != "--live" ]; then echo "Chave REAL sem --live. Nada foi criado."; exit 1; fi
+    MODO=live ;;
+  *) echo "Isso nao e uma chave da Stripe. Nada foi criado."; exit 1 ;;
 esac
+echo "Modo: $MODO"
 
 API=https://api.stripe.com/v1
-SAIDA="$(cd "$(dirname "$0")" && pwd)/stripe-links-teste.json"
+SAIDA="$(cd "$(dirname "$0")" && pwd)/stripe-links-$MODO.json"
 # Pra onde ela vai depois de pagar. Cada link soma &plano=<tier>, que a pagina
 # de obrigado usa pra contar a venda com o valor certo nos pixels.
 OBRIGADO='https://plano.ciclofertil.com.br/quiz/v2/obrigado.html?session_id={CHECKOUT_SESSION_ID}'
@@ -40,19 +47,19 @@ campo() { python3 -c "import sys,json; print(json.load(sys.stdin)['$1'])"; }
 echo '{' > "$SAIDA"
 primeiro=1
 while IFS='|' read -r plano semanas nome centavos; do
-  produto=$(stripe products "cf-produto-$plano-v1" \
+  produto=$(stripe products "cf-produto-$plano-$MODO-v1" \
     --data-urlencode "name=$nome" \
     --data-urlencode "description=Plano Ciclo Fértil de $semanas semanas. Acesso pelo app." \
     -d "metadata[plan]=$plano" \
     -d "metadata[semanas]=$semanas" | campo id)
 
-  preco=$(stripe prices "cf-preco-$plano-v1" \
+  preco=$(stripe prices "cf-preco-$plano-$MODO-v1" \
     -d "product=$produto" \
     -d "currency=brl" \
     -d "unit_amount=$centavos" \
     -d "metadata[plan]=$plano" | campo id)
 
-  link_json=$(stripe payment_links "cf-link-$plano-v1" \
+  link_json=$(stripe payment_links "cf-link-$plano-$MODO-v1" \
     -d "line_items[0][price]=$preco" \
     -d "line_items[0][quantity]=1" \
     -d "metadata[plan]=$plano" \

@@ -10,9 +10,21 @@
 # Precisa do login no Supabase feito antes (npx supabase login).
 set -euo pipefail
 
+# Diz o que estava copiado sem mostrar a chave: so o tipo pelo comeco.
+explicar() {
+  case "$1" in
+    "") echo "A area de transferencia estava vazia. Copie a chave sk_live_ na Stripe e rode de novo." ;;
+    pk_*) echo "Isso e a chave PUBLICAVEL (pk_). Precisa da SECRETA, que comeca com sk_live_." ;;
+    whsec_*) echo "Isso e um segredo de webhook (whsec_). Precisa da chave secreta sk_live_." ;;
+    *) echo "O que esta copiado nao comeca com sk_ (tem ${#1} caracteres). Copie a chave secreta sk_live_." ;;
+  esac
+  echo "Nada foi criado."
+}
+
 PROJETO=lfmjvgkbvkkexwytkfeg
 URL="https://$PROJETO.supabase.co/functions/v1/purchase-webhook-stripe"
 
+read -rp "Copie a chave secreta (sk_live_... ou sk_test_...) na Stripe e aperte Enter aqui: " _
 STRIPE_KEY=$(pbpaste | tr -d '[:space:]')
 printf '' | pbcopy
 # Teste guarda em STRIPE_WEBHOOK_SECRET; real (sk_live_ + --live) em
@@ -23,7 +35,7 @@ case "$STRIPE_KEY" in
   sk_live_*|rk_live_*)
     if [ "${1:-}" != "--live" ]; then echo "Chave REAL sem --live. Nada foi criado."; exit 1; fi
     VAR=STRIPE_WEBHOOK_SECRET_LIVE; SUF=live ;;
-  *) echo "O que esta copiado nao e uma chave da Stripe. Nada foi criado."; exit 1 ;;
+  *) explicar "$STRIPE_KEY"; exit 1 ;;
 esac
 
 resposta=$(curl -sS --fail-with-body https://api.stripe.com/v1/webhook_endpoints \

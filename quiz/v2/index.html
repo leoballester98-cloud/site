@@ -1296,7 +1296,7 @@
           <span class="sticky-timer__cap">segundos</span>
         </span>
       </div>
-      <a href="https://pay.kiwify.com.br/dALiRrx" target="_blank" class="sticky-discount-bar__btn" onclick="trackCheckout();">RECEBER MEU PLANO</a>
+      <a href="https://buy.stripe.com/7sY9AUg9Qewjauz4QpfEk01" target="_blank" class="sticky-discount-bar__btn" onclick="trackCheckout();">RECEBER MEU PLANO</a>
     </div>
 
     <!-- O comparativo nao e um cartao. So o cabecalho e as avatares ficam num
@@ -1403,7 +1403,7 @@
     <!-- Mesmo botao da barra do topo, so que na largura da secao. Antes aqui
          havia o aviso vermelho de expiracao: contar o tempo ja e trabalho do
          timer la em cima, e no fim da pagina o que falta e o pedido. -->
-    <a href="https://pay.kiwify.com.br/dALiRrx" target="_blank" class="price-cta" onclick="trackCheckout();">RECEBER MEU PLANO</a>
+    <a href="https://buy.stripe.com/7sY9AUg9Qewjauz4QpfEk01" target="_blank" class="price-cta" onclick="trackCheckout();">RECEBER MEU PLANO</a>
     <p style="text-align:center; font-size:13px; color:var(--ink-soft); margin:6px 0 0;"><span style="border-bottom: 1.5px solid var(--ink-soft); padding-bottom:2px;">Garantia de reembolso em 7 dias</span></p>
 
     <!-- As bandeiras logo abaixo do botao, e nao so no rodape: a duvida de
@@ -1660,7 +1660,7 @@
         <div class="plan-card__day"><b>R$1,18</b><span>por dia</span></div>
       </div>
     </div>
-    <a href="https://pay.kiwify.com.br/dALiRrx" target="_blank" class="price-cta" onclick="trackCheckout();">RECEBER MEU PLANO</a>
+    <a href="https://buy.stripe.com/7sY9AUg9Qewjauz4QpfEk01" target="_blank" class="price-cta" onclick="trackCheckout();">RECEBER MEU PLANO</a>
 
     <!-- ═══ BEFORE/AFTER ═══ -->
 
@@ -1946,16 +1946,23 @@ const LINKS = {
 
 /* Stripe: um link por plano. O foco nao escolhe link, vai junto no
    client_reference_id ("f2", ou "f2__marca" no teste A/B), que o webhook le
-   pra liberar o conteudo certo; o e-mail da tela 28a vai preenchido. Liga com
-   ?pag=stripe enquanto so existem os links de TESTE — sem o parametro segue
-   a Kiwify. Na virada: trocar os tres links pelos reais e PAGAMENTO_STRIPE
-   pra true. */
-const LINKS_STRIPE = {
+   pra liberar o conteudo certo; o e-mail da tela 28a vai preenchido.
+   A Stripe e o checkout padrao desde 13/10/2026. ?pag=teste usa os links do
+   modo teste (compra com o cartao 4242); ?pag=kiwify volta pra Kiwify, como
+   saida de emergencia. */
+const LINKS_STRIPE_REAL = {
+  essencial: 'https://buy.stripe.com/fZudRa8Ho3RF7in6YxfEk00',
+  avancado:  'https://buy.stripe.com/7sY9AUg9Qewjauz4QpfEk01',
+  imersao:   'https://buy.stripe.com/9B65kEbTAdsf0TZ6YxfEk02',
+};
+const LINKS_STRIPE_TESTE = {
   essencial: 'https://buy.stripe.com/test_fZudRa8Ho3RF7in6YxfEk00',
   avancado:  'https://buy.stripe.com/test_7sY9AUg9Qewjauz4QpfEk01',
   imersao:   'https://buy.stripe.com/test_9B65kEbTAdsf0TZ6YxfEk02',
 };
-const PAGAMENTO_STRIPE = new URLSearchParams(location.search).get('pag') === 'stripe';
+const MODO_PAGAMENTO = new URLSearchParams(location.search).get('pag');
+const PAGAMENTO_STRIPE = MODO_PAGAMENTO !== 'kiwify';
+const LINKS_STRIPE = MODO_PAGAMENTO === 'teste' ? LINKS_STRIPE_TESTE : LINKS_STRIPE_REAL;
 
 /* As variantes de cartao com foto dividem o MESMO layout de propósito: a
    headline é a única coisa que muda entre elas, e é ela que o teste mede.

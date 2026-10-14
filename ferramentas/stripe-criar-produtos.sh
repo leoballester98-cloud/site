@@ -11,9 +11,22 @@
 # idempotencia fixa, e a Stripe devolve o mesmo objeto da primeira vez.
 set -euo pipefail
 
+# Diz o que estava copiado sem mostrar a chave: so o tipo pelo comeco.
+explicar() {
+  case "$1" in
+    "") echo "A area de transferencia estava vazia. Copie a chave sk_live_ na Stripe e rode de novo." ;;
+    pk_*) echo "Isso e a chave PUBLICAVEL (pk_). Precisa da SECRETA, que comeca com sk_live_." ;;
+    whsec_*) echo "Isso e um segredo de webhook (whsec_). Precisa da chave secreta sk_live_." ;;
+    *) echo "O que esta copiado nao comeca com sk_ (tem ${#1} caracteres). Copie a chave secreta sk_live_." ;;
+  esac
+  echo "Nada foi criado."
+}
+
 # Com --clipboard a chave vem do que foi copiado (Cmd+C) e a area de
 # transferencia e limpa logo depois. Sem o argumento, pede pra colar.
 if [ "${1:-}" = "--clipboard" ]; then
+  # Espera a chave ser copiada: o comando pode ser colado no terminal antes.
+  read -rp "Copie a chave secreta (sk_live_... ou sk_test_...) na Stripe e aperte Enter aqui: " _
   STRIPE_KEY=$(pbpaste | tr -d '[:space:]')
   printf '' | pbcopy
 else
@@ -27,7 +40,7 @@ case "$STRIPE_KEY" in
   sk_live_*|rk_live_*)
     if [ "${2:-}" != "--live" ]; then echo "Chave REAL sem --live. Nada foi criado."; exit 1; fi
     MODO=live ;;
-  *) echo "Isso nao e uma chave da Stripe. Nada foi criado."; exit 1 ;;
+  *) explicar "$STRIPE_KEY"; exit 1 ;;
 esac
 echo "Modo: $MODO"
 

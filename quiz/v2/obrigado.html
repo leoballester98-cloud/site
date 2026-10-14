@@ -68,10 +68,6 @@
     .passos li { display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center; font-size: 14px; line-height: 1.3; font-weight: 500; padding: 0 6px; counter-increment: passo; position: relative; }
     .passos li + li::after { content: ''; position: absolute; left: 0; top: 4px; bottom: 4px; width: 1px; background: rgba(43,26,16,0.12); }
     .passos li::before { content: counter(passo); width: 26px; height: 26px; border-radius: 50%; background: var(--ink); color: #fff; font-weight: 700; font-size: 13px; display: flex; align-items: center; justify-content: center; }
-    .vsl-lugar { margin: 28px auto 0; width: min(100%, calc((100svh - 140px) * 9 / 16)); aspect-ratio: 9 / 16; border-radius: 20px; background: repeating-linear-gradient(135deg, #E6DDD1 0 14px, #EDE5DA 14px 28px); border: 2px dashed rgba(43,26,16,0.22); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; color: rgba(43,26,16,0.55); }
-    .vsl-lugar svg { width: 64px; height: 64px; padding: 16px; border-radius: 50%; background: rgba(43,26,16,0.10); color: var(--ink); margin-bottom: 8px; }
-    .vsl-lugar b { font-size: 18px; color: var(--ink); }
-    .vsl-lugar span { font-size: 14px; }
     .ajuda { margin-top: 10px; font-size: 13.5px; line-height: 1.45; color: var(--ink-soft); text-align: center; }
     .ajuda a { color: #1D5BD6; font-weight: 700; }
     @media (min-width: 900px) { .topo { height: 88px; } main { padding-top: 72px; } }
@@ -93,13 +89,6 @@
     </ol>
     <p class="ajuda">Não achou o e-mail? Veja em Promoções e Spam. Não chegou em 15 minutos? Escreva para <a href="mailto:contato@metodociclofertil.com.br">contato@metodociclofertil.com.br</a>.</p>
 
-    <!-- PROVISORIO: so mostra onde a VSL de upsell entra. Tirar antes de
-         publicar se a VSL ainda nao existir. Vertical 9:16, como a VSL 1. -->
-    <div class="vsl-lugar" aria-hidden="true">
-      <svg viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5z" fill="currentColor"/></svg>
-      <b>VSL do upsell</b>
-      <span>vídeo vertical · 2:18</span>
-    </div>
 
 
     <!-- Lugar da VSL do app (R$67), quando ela existir. -->

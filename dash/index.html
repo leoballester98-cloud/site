@@ -961,7 +961,10 @@ const SUPABASE_URL = 'https://lfmjvgkbvkkexwytkfeg.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_YMHtH3C0VuB5X8BFXADwBw_E7FcBFgE';
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-const BODY_INI = 3, BODY_FIM = 29, PITCH = 30, THRESH = 5;
+/* Posições no caminho real (ordem da tabela etapas desde 14/10/2026): o corpo
+   do quiz vai da 3 (já tenta?) à 35 (desejo sexual); da 36 (análise) em
+   diante é pitch. */
+const BODY_INI = 3, BODY_FIM = 35, PITCH = 36, THRESH = 5;
 const META_CRIATIVOS = 25, MIN_SESSOES = 200, MAX_LINHAS = 6;
 
 /* Os nomes das telas saiam daqui — uma lista posicional de 34 itens. Agora
@@ -3893,7 +3896,10 @@ function calcFunil(d, p) {
 
     const linha = { n: e.n, nome: e.nome || ('Tela ' + e.n), tipo: e.tipo || 'tela',
                     ret: r, drop, alerta, vazio, pitch: tela && e.n >= PITCH };
-    if (e.tipo === 'vsl' && !vazio) vsls.push(linha);
+    /* Card de custo só pra VSL de verdade (nome com ▶). O tipo 'vsl' também
+       marca as telas que contam só quem viu (fora de sequência, ramos, fechos
+       de bloco), e cada uma virava um card. */
+    if (e.tipo === 'vsl' && !vazio && /^\u25b6/.test(e.nome || '')) vsls.push(linha);
     linhas.push(linha);
   });
 

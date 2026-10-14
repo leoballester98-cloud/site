@@ -3883,10 +3883,12 @@ function calcFunil(d, p) {
        estava errado antes, só não aparecia porque as etapas eram todas
        inteiras e seguidas. Linha sem número não serve de referência: nesse
        caso pula pra última que tinha. */
+    /* Ramo (um dos lados de uma bifurcação) nem tem queda, nem serve de
+       referência: cada lado tem só parte das pessoas, por desenho. */
     let ref = null;
-    for (let k = i - 1; k >= 0; k--) if (linhas[k].ret !== null) { ref = linhas[k].ret; break; }
+    for (let k = i - 1; k >= 0; k--) if (linhas[k].ret !== null && linhas[k].tipo !== 'ramo') { ref = linhas[k].ret; break; }
     if (i === 0) ref = 100;
-    const drop = (r === null || ref === null) ? 0 : Math.round((ref - r) * 10) / 10;
+    const drop = (r === null || ref === null || e.tipo === 'ramo') ? 0 : Math.round((ref - r) * 10) / 10;
 
     const tela   = e.tipo === 'tela';
     const corpo  = tela && e.n >= BODY_INI && e.n <= BODY_FIM;

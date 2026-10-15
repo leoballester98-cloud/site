@@ -59,7 +59,7 @@
        folha so era descoberto depois de baixar os 220 KB dela; ele continua
        la pras paginas tiktok e espanhol, e aqui cai no cache. -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=Manrope:wght@700;800&display=swap"/>
-  <link rel="stylesheet" href="quiz-warm.css?v=521"/>
+  <link rel="stylesheet" href="quiz-warm.css?v=537"/>
 
   <!-- Anti-flicker do teste A/B.
        O script que troca a headline mora no fim do <body>, então num aparelho
@@ -352,31 +352,64 @@
 
     <!-- Tela 11: pergunta no grupo de tentantes, com a resposta da equipe.
          A pergunta tem que ser REAL (das respostas do quiz ou dos comentários
-         dos anúncios) antes de mandar tráfego. Sem contagem de reações: número
-         inventado aqui seria prova social falsa. -->
+         dos anúncios) antes de mandar tráfego. As contagens de reações,
+         comentários e compartilhamentos são ilustrativas: o Leo decidiu
+         colocar em 14/10, sabendo que não vêm de um post real.
+         Desenho do post de grupo no app do Facebook (iPhone), sem logo nem nome
+         dele: o link vai num cartão de prévia embaixo do balão, que é como o app
+         mostra, e o cartão inteiro leva pro quiz. -->
     <div class="fmt" id="tela11" hidden>
-      <div class="f11-grupo"><i></i><div><b>Tentantes · Comunidade Ciclo Fértil</b><span>Grupo privado</span></div></div>
-      <div class="f11-post">
-        <div class="f11-autor"><i>M</i><div><b>Membro anônimo</b><span>3 h · 🔒</span></div></div>
-        <p>Meninas, tô há 1 ano e 3 meses tentando. Fiz hormônios, ultrassom, tireoide, tudo normal. A médica disse que é só esperar. Alguém passou por isso? Não aguento mais ver negativo 😔</p>
-        <div class="f11-acoes" aria-hidden="true"><span>Curtir</span><span>Comentar</span><span>Enviar</span></div>
-      </div>
-      <div class="f11-resposta">
-        <div class="f11-fixado">📌 Comentário fixado</div>
-        <div class="f11-com">
-          <i></i>
-          <div class="f11-balao">
-            <b>Equipe Ciclo Fértil <em>Moderação</em></b>
-            <p>Exame normal mostra que o corpo consegue ovular, não que está ovulando todo mês. <span>Sono, estresse e alimentação travam a ovulação sem aparecer em exame.</span> Esse teste mostra qual pesa no seu ciclo:</p>
-            <div class="f11-cartao">
-              <div class="f11-cartao__img"></div>
-              <div class="f11-cartao__txt"><small>ciclofertil · teste gratuito</small><b>O que está travando a sua ovulação?</b></div>
-              <button class="f11-btn fmt-cta" type="button">Fazer o teste →</button>
+      <div class="f11-tela">
+        <div class="f11-nav" aria-hidden="true">
+          <svg class="f11-ico" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg>
+          <span class="f11-nav__grupo"><i></i><b>Comunidade de Tentantes Ciclo Fértil</b></span>
+          <span class="f11-nav__dir">
+            <svg class="f11-ico" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg>
+            <svg class="f11-ico" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.4" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.4" fill="currentColor" stroke="none"/><circle cx="19" cy="12" r="1.4" fill="currentColor" stroke="none"/></svg>
+          </span>
+        </div>
+        <div class="f11-post">
+          <div class="f11-autor">
+            <i class="f11-autor__foto"></i>
+            <div class="f11-autor__nome"><b>Claudia Vaz</b><span>3 h · <svg class="f11-ico" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><path d="M3.5 19c.6-3.2 2.9-5 5.5-5s4.9 1.8 5.5 5"/><circle cx="17" cy="9" r="2.4"/><path d="M16.5 14c2.3.2 3.7 1.8 4 4.5"/></svg></span></div>
+            <span class="f11-mais" aria-hidden="true">⋯</span>
+          </div>
+          <p>Gente, todo mês fico ansiosa achando que a barriga inchadinha, o seio doendo e qualquer enjoo vão ser gravidez… e todo mês vem a menstruação. Tô desanimada 😔</p>
+          <div class="f11-reacoes" aria-hidden="true">
+            <span class="f11-reacoes__ic"><i class="f11-r-like"><svg viewBox="0 0 24 24"><path d="M7.5 10.5V20H4.5v-9.5h3zM7.5 10.5L11.3 3.8c1.2 0 2.1 1 1.9 2.2l-.6 3.6h5.9a2 2 0 0 1 2 2.3l-1.1 6.3A2.2 2.2 0 0 1 17.2 20H7.5" fill="currentColor"/></svg></i><i class="f11-r-amor"><svg viewBox="0 0 24 24"><path d="M12 20s-7.5-4.6-7.5-10A4.3 4.3 0 0 1 12 7.4 4.3 4.3 0 0 1 19.5 10c0 5.4-7.5 10-7.5 10z" fill="currentColor"/></svg></i><i class="f11-r-triste">😢</i>127</span>
+            <span>19 comentários · 2 compartilhamentos</span>
+          </div>
+          <div class="f11-acoes" aria-hidden="true">
+            <span><svg class="f11-ico" viewBox="0 0 24 24"><path d="M7.5 10.5V20H4.5v-9.5h3zM7.5 10.5L11.3 3.8c1.2 0 2.1 1 1.9 2.2l-.6 3.6h5.9a2 2 0 0 1 2 2.3l-1.1 6.3A2.2 2.2 0 0 1 17.2 20H7.5"/></svg>Curtir</span>
+            <span><svg class="f11-ico" viewBox="0 0 24 24"><path d="M12 4c4.7 0 8.5 3.2 8.5 7.2s-3.8 7.2-8.5 7.2c-1 0-2-.1-2.9-.4L5 20l1-3.6c-1.5-1.4-2.5-3.2-2.5-5.2C3.5 7.2 7.3 4 12 4z"/></svg>Comentar</span>
+            <span><svg class="f11-ico" viewBox="0 0 24 24"><path d="M20.5 3.5L10 14"/><path d="M20.5 3.5l-6.3 17-4.2-6.5-6.5-4.2z"/></svg>Enviar</span>
+          </div>
+        </div>
+        <div class="f11-comentarios">
+          <div class="f11-ordem" aria-hidden="true">Mais relevantes <svg class="f11-ico" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></div>
+          <div class="f11-com">
+            <i></i>
+            <div class="f11-com__corpo">
+              <div class="f11-balao">
+                <b>juliana.ciclofertil</b>
+                <small><svg class="f11-ico" viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 4.5-3 8.2-7 10-4-1.8-7-5.5-7-10V6z"/></svg>Moderador(a)</small>
+                <p>amiga, te entendo demais 🥺 todo mês a gente fica nessa de achar q é, né? mas esses sintomas aparecem até sem gravidez, então não dá pra confiar neles</p>
+                <p>o q ajuda de vdd é entender a qualidade da sua ovulação. tem um teste aqui q mostra o q pode estar travando, é rapidinho, faz e me conta 👇 <span class="f11-url fmt-cta">plano.ciclofertil.com.br</span></p>
+              </div>
+              <button class="f11-cartao fmt-cta" type="button">
+                <span class="f11-cartao__img"></span>
+                <span class="f11-cartao__rodape">
+                  <span class="f11-cartao__txt"><small>plano.ciclofertil.com.br</small><b>O que pode estar travando o seu ciclo?</b></span>
+                  <span class="f11-cartao__btn">Fazer o teste</span>
+                </span>
+              </button>
+              <div class="f11-meta" aria-hidden="true"><span>2 h</span><b>Curtir</b><b>Responder</b></div>
+              <div class="f11-vermais" aria-hidden="true">Ver mais comentários</div>
             </div>
           </div>
         </div>
+        <div class="f11-escrever" aria-hidden="true"><i></i><span>Escreva um comentário…</span></div>
       </div>
-      <div class="fmt-termos"></div>
     </div>
 
     <!-- A grade 2x2 compartilhada pelas três. age-row de propósito: o handler

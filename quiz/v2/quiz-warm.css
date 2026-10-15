@@ -5881,38 +5881,80 @@ body.fmt-t10:has(#s1.screen.active) { background: #2E1712; }
 @media (max-height: 740px) { .f10-corpo { gap: 12px; } .f10-adesivo__txt { padding: 12px 16px 14px; } }
 @media (max-height: 640px) { .f10-adesivo__txt { font-size: 16px; padding: 10px 14px 12px; } .f10-resp { font-size: 17px; } }
 
-/* ── Tela 11: pergunta no grupo de tentantes ─────────────────────────────── */
-body.fmt-t11:has(#s1.screen.active) { background: #F0F2F5; }
-#tela11 { --f11-ink: #1C1E21; --f11-soft: #65676B; --f11-hair: #E4E6EB; --f11-fundo: #F0F2F5; background: var(--f11-fundo); color: var(--f11-ink); max-width: 520px; margin: 0 auto; }
-#s1 #tela11 .terms { color: var(--f11-ink); padding: 0 14px 12px; }
-.f11-grupo { background: #fff; padding: 10px 14px; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid var(--f11-hair); }
-.f11-grupo i { width: 36px; height: 36px; border-radius: 10px; background: #F5EFE8 url('favicon.png') center/20px no-repeat; flex: none; }
-.f11-grupo b { font-size: 15px; display: block; }
-.f11-grupo span { font-size: 12px; color: var(--f11-soft); }
-.f11-post { background: #fff; margin-top: 8px; padding: 12px 14px 8px; }
-.f11-autor { display: flex; align-items: center; gap: 9px; }
-.f11-autor i { width: 38px; height: 38px; border-radius: 50%; background: #D8C4B6; color: #fff; font-style: normal; font-weight: 700; display: grid; place-items: center; font-size: 15px; flex: none; }
-.f11-autor b { font-size: 14.5px; display: block; }
-.f11-autor span { font-size: 12px; color: var(--f11-soft); }
-.f11-post p { font-size: 15.5px; line-height: 1.42; margin-top: 10px; }
-.f11-acoes { display: flex; justify-content: space-around; font-size: 13.5px; font-weight: 600; color: var(--f11-soft); margin-top: 10px; padding-top: 8px; border-top: 1px solid var(--f11-hair); }
-.f11-resposta { background: #fff; padding: 4px 14px 14px; }
-.f11-fixado { font-size: 12px; color: var(--f11-soft); font-weight: 600; padding: 8px 0 6px; }
+/* ── Tela 11: pergunta no grupo de tentantes ─────────────────────────────── 
+   Post de grupo como o app do Facebook mostra no iPhone: fonte do sistema,
+   os cinzas e o azul do app, link com cartão de prévia embaixo do balão e a
+   barra de comentar no pé. Sem logo nem nome do Facebook. */
+body.fmt-t11:has(#s1.screen.active) { background: #fff; }
+#tela11 { --f11-ink: #080809; --f11-soft: #65676B; --f11-hair: #CED0D4; --f11-fundo: #F0F2F5; --f11-azul: #0866FF;
+  background: #fff; color: var(--f11-ink); max-width: 520px; margin: 0 auto;
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Roboto, Arial, sans-serif; }
+.f11-tela { min-height: 100svh; display: flex; flex-direction: column; }
+.f11-ico { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; flex: none; }
+/* Dentro do grupo o app põe o nome do grupo na barra de cima, e o post mostra
+   só quem escreveu. */
+.f11-nav { display: flex; align-items: center; gap: 10px; height: 48px; padding: 0 12px; }
+.f11-nav__grupo { flex: 1; min-width: 0; display: flex; align-items: center; gap: 8px; }
+.f11-nav__grupo i { width: 28px; height: 28px; flex: none; border-radius: 7px; background: #F5EFE8 url('favicon.png') center/16px no-repeat; }
+.f11-nav__grupo b { font-size: 15px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.f11-nav__dir { display: flex; gap: 18px; }
+.f11-post { padding: 4px 12px 0; }
+.f11-autor { display: flex; align-items: center; gap: 10px; }
+.f11-autor__foto { width: 40px; height: 40px; flex: none; border-radius: 50%; background: #BCC0C4 url('Images/perfil-claudia.webp') center/cover no-repeat; }
+.f11-autor__nome { flex: 1; min-width: 0; }
+.f11-autor__nome b { display: block; font-size: 15px; font-weight: 600; line-height: 1.25; }
+.f11-autor__nome span { display: flex; align-items: center; gap: 4px; font-size: 13px; color: var(--f11-soft); margin-top: 2px; }
+.f11-autor__nome .f11-ico { width: 13px; height: 13px; stroke-width: 2.2; }
+.f11-mais { align-self: flex-start; font-size: 20px; line-height: 1; color: var(--f11-soft); }
+.f11-post p { font-size: 15px; line-height: 1.34; margin-top: 10px; }
+.f11-reacoes { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: 12px; font-size: 14px; color: var(--f11-soft); }
+.f11-reacoes__ic { display: flex; align-items: center; }
+.f11-reacoes__ic i { width: 19px; height: 19px; border-radius: 50%; border: 2px solid #fff; display: grid; place-items: center; color: #fff; font-style: normal; font-size: 15px; line-height: 1; }
+.f11-reacoes__ic i + i { margin-left: -5px; }
+.f11-reacoes__ic i:last-child { margin-right: 5px; }
+.f11-reacoes__ic svg { width: 10px; height: 10px; }
+.f11-r-like { background: var(--f11-azul); }
+.f11-r-amor { background: #F33E58; }
+.f11-r-triste { background: #FFD972; }
+.f11-acoes { display: flex; justify-content: space-around; margin-top: 8px; padding: 9px 0; border-top: 1px solid var(--f11-hair); border-bottom: 1px solid var(--f11-hair); font-size: 15px; font-weight: 600; color: var(--f11-soft); }
+.f11-acoes span { display: flex; align-items: center; gap: 6px; }
+.f11-acoes .f11-ico { width: 20px; height: 20px; stroke-width: 1.8; }
+.f11-comentarios { padding: 12px 12px 10px; }
+.f11-ordem { display: flex; align-items: center; gap: 2px; font-size: 15px; font-weight: 600; margin-bottom: 10px; }
+.f11-ordem .f11-ico { width: 16px; height: 16px; stroke-width: 2.4; }
 .f11-com { display: flex; gap: 8px; }
-.f11-com > i { width: 32px; height: 32px; border-radius: 50%; background: #F5EFE8 url('favicon.png') center/18px no-repeat; flex: none; }
-.f11-balao { background: var(--f11-fundo); border-radius: 16px; padding: 8px 12px 10px; flex: 1; }
-.f11-balao b { font-size: 13.5px; }
-.f11-balao b em { font-style: normal; font-size: 11px; font-weight: 700; color: #2D6CDF; background: #E7F0FD; padding: 2px 6px; border-radius: 999px; margin-left: 4px; }
-.f11-balao p { font-size: 14.5px; line-height: 1.42; margin-top: 3px; }
-.f11-cartao { margin-top: 8px; border: 1px solid var(--f11-hair); border-radius: 12px; overflow: hidden; background: #fff; }
-.f11-cartao__img { height: 70px; background: url('Images/t8-prova-1.webp') center/cover; }
-.f11-cartao__txt { padding: 8px 12px 10px; }
-.f11-cartao__txt small { font-size: 11px; color: var(--f11-soft); text-transform: uppercase; letter-spacing: .4px; }
-.f11-cartao__txt b { display: block; font-size: 14.5px; margin-top: 2px; }
-.f11-btn { display: flex; align-items: center; justify-content: center; width: calc(100% - 24px); margin: 0 12px 12px; min-height: 48px; border: 0; border-radius: 8px; background: #2F6B3A; color: #fff; font: 700 16px 'DM Sans', sans-serif; cursor: pointer; }
-@media (max-height: 830px) { .f11-cartao__img { display: none; } }
-@media (max-height: 760px) { .f11-acoes { display: none; } }
-@media (max-height: 700px) { .f11-balao p span, .f11-fixado { display: none; } .f11-resposta { padding-top: 10px; } }
+.f11-com > i { width: 36px; height: 36px; flex: none; border-radius: 50%; background: #F5EFE8 url('Images/avatar3.webp') center 30%/cover no-repeat; }
+.f11-com__corpo { flex: 1; min-width: 0; }
+.f11-balao { background: var(--f11-fundo); border-radius: 18px; padding: 8px 12px 9px; }
+.f11-balao b { display: block; font-size: 13px; font-weight: 600; }
+.f11-balao small { display: flex; align-items: center; gap: 3px; font-size: 12px; color: var(--f11-soft); margin-top: 1px; }
+.f11-balao small .f11-ico { width: 12px; height: 12px; stroke-width: 2.2; }
+.f11-balao p { font-size: 15px; line-height: 1.34; margin-top: 4px; }
+.f11-balao p + p { margin-top: 8px; }
+.f11-url { color: var(--f11-azul); cursor: pointer; }
+.f11-cartao { display: block; width: 100%; margin-top: 6px; padding: 0; border: 0; border-radius: 12px; overflow: hidden; background: var(--f11-fundo); color: inherit; font: inherit; text-align: left; cursor: pointer; }
+.f11-cartao__img { display: block; aspect-ratio: 1.91 / 1; background: url('Images/t8-prova-1.webp') center/cover; }
+.f11-cartao__rodape { display: block; padding: 10px 12px 12px; }
+.f11-cartao__txt small { display: block; font-size: 12px; color: var(--f11-soft); text-transform: uppercase; letter-spacing: .2px; }
+.f11-cartao__txt b { display: block; font-size: 15px; font-weight: 600; line-height: 1.25; margin-top: 2px; }
+/* Azul cheio do app, largura toda: é o botão que mais chama atenção sem sair
+   do desenho do Facebook. */
+.f11-cartao__btn { display: flex; align-items: center; justify-content: center; min-height: 44px; margin-top: 10px; background: var(--f11-azul); color: #fff; font-size: 16px; font-weight: 600; border-radius: 8px; }
+.f11-meta { display: flex; gap: 14px; padding: 5px 12px 0; font-size: 12px; color: var(--f11-soft); }
+.f11-meta b { font-weight: 600; }
+.f11-vermais { padding: 10px 0 0; font-size: 15px; font-weight: 600; color: var(--f11-soft); }
+/* Sem o aceite dos termos nesta tela (decisão do Leo, 14/10): sem a vaga
+   .fmt-termos o parágrafo fica solto na #s1, e aqui ele some. */
+body.fmt-t11 #s1 > .terms { display: none; }
+.f11-escrever { margin-top: auto; display: flex; align-items: center; gap: 8px; padding: 8px 12px calc(8px + env(safe-area-inset-bottom)); border-top: 1px solid var(--f11-hair); }
+.f11-escrever i { width: 32px; height: 32px; flex: none; border-radius: 50%; background: #BCC0C4 url('Images/perfil-voce.webp') center/cover no-repeat; }
+.f11-escrever span { flex: 1; background: var(--f11-fundo); border-radius: 20px; padding: 9px 14px; font-size: 15px; color: var(--f11-soft); }
+@media (max-height: 940px) { .f11-cartao__img { aspect-ratio: 2.5 / 1; } }
+@media (max-height: 860px) { .f11-cartao__img { aspect-ratio: 3.4 / 1; } .f11-vermais { display: none; } }
+@media (max-height: 760px) { .f11-cartao__img { display: none; } .f11-nav { height: 40px; } }
+@media (max-height: 700px) { .f11-post p, .f11-balao p { font-size: 14px; line-height: 1.3; } }
+@media (max-height: 690px) { .f11-ordem { display: none; } .f11-comentarios { padding-top: 10px; } }
+@media (max-height: 660px) { .f11-meta, .f11-escrever { display: none; } .f11-acoes { margin-top: 10px; padding: 7px 0; } }
 
 /* ═══ Tela 2: "Baseado em pesquisas publicadas em" ═════════════════════════
    O lugar do "Como visto em" da referência. Os nomes das revistas fazem o

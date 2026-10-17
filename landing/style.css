@@ -1,0 +1,642 @@
+/*
+ * O site do Ciclo Fértil.
+ *
+ * Os tokens são os mesmos do app, copiados de .design/canvas/tokens.py e de
+ * src/design/tokens.ts — não uma paleta parecida. O site existe para
+ * apresentar o app; se as duas coisas não forem a mesma marca, a pessoa que
+ * baixa depois de ver o site abre outra coisa.
+ */
+
+/*
+ * As fontes ficam hospedadas aqui, e não no Google Fonts.
+ *
+ * São as mesmas cinco que o app carrega. Servi-las do nosso domínio evita uma
+ * requisição a terceiro em toda visita — o que seria estranho num site cuja
+ * política de privacidade promete que não repassamos nada — e tira o site da
+ * dependência de um serviço externo estar no ar. Subsetadas ao latino, as
+ * cinco somam 86 KB.
+ */
+@font-face {
+  font-family: 'Barlow Condensed';
+  src: url('fonts/BarlowCondensed_700Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Barlow Condensed';
+  src: url('fonts/BarlowCondensed_800ExtraBold.woff2') format('woff2');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'DM Sans';
+  src: url('fonts/DMSans_400Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'DM Sans';
+  src: url('fonts/DMSans_500Medium.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'DM Sans';
+  src: url('fonts/DMSans_700Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --base: #f5efe6;
+  --surface: #ffffff;
+  --elevated: #ede8e0;
+  --border: #e4d8c8;
+  --ink: #1e0d06;
+  --ink2: #5c4030;
+  --muted: #8b6b52;
+  --inverse: #f5efe6;
+  --brown: #592508;
+  --copper: #c4956a;
+  --forest: #3d5535;
+  --burnt: #8b4a1c;
+
+  --display: 'Barlow Condensed', ui-sans-serif, system-ui, sans-serif;
+  --body: 'DM Sans', ui-sans-serif, system-ui, sans-serif;
+
+  --gut: 24px;
+  --max: 1120px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--base);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 17px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+img {
+  max-width: 100%;
+  /* Os <img> carregam width/height para o navegador reservar o espaço e a
+     página não pular ao carregar. Sem height:auto, o atributo vira a altura de
+     layout e a imagem estica quando a largura vem do CSS. */
+  height: auto;
+  display: block;
+}
+
+a {
+  color: var(--burnt);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+.wrap {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 0 var(--gut);
+}
+
+/* ── tipografia ───────────────────────────────────────────────────────── */
+
+h1,
+h2,
+h3 {
+  font-family: var(--display);
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  line-height: 0.94;
+  margin: 0;
+  text-wrap: balance;
+}
+
+h1 {
+  font-size: clamp(52px, 9vw, 104px);
+}
+
+h2 {
+  font-size: clamp(38px, 5.6vw, 64px);
+}
+
+h3 {
+  font-family: var(--body);
+  font-weight: 700;
+  font-size: 19px;
+  line-height: 1.3;
+  letter-spacing: 0;
+}
+
+p {
+  margin: 0;
+  text-wrap: pretty;
+}
+
+.eyebrow {
+  font-family: var(--body);
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--copper);
+  margin: 0;
+}
+
+.lead {
+  font-size: clamp(18px, 2.2vw, 22px);
+  line-height: 1.5;
+  color: var(--ink2);
+  max-width: 46ch;
+}
+
+.cap {
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+/* ── o topo ───────────────────────────────────────────────────────────── */
+
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: rgba(245, 239, 230, 0.86);
+  backdrop-filter: saturate(1.6) blur(14px);
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.2s;
+}
+
+.nav.stuck {
+  border-bottom-color: var(--border);
+}
+
+.nav .wrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 68px;
+  gap: 20px;
+}
+
+.mark {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: var(--ink);
+}
+
+.mark svg {
+  width: 30px;
+  height: 30px;
+  flex: none;
+}
+
+.mark span {
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: 23px;
+  letter-spacing: 0.01em;
+  line-height: 1;
+}
+
+.navlinks {
+  display: flex;
+  gap: 26px;
+  align-items: center;
+}
+
+.navlinks a {
+  color: var(--ink2);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 15px;
+}
+
+.navlinks a:hover {
+  color: var(--ink);
+}
+
+@media (max-width: 720px) {
+  .navlinks {
+    display: none;
+  }
+}
+
+/* ── botões ───────────────────────────────────────────────────────────── */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  height: 54px;
+  padding: 0 26px;
+  border-radius: 999px;
+  background: var(--brown);
+  color: var(--inverse);
+  font-family: var(--body);
+  font-weight: 700;
+  font-size: 15px;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.btn:hover {
+  background: #461c05;
+  color: var(--inverse);
+}
+
+.btn.ghost {
+  background: transparent;
+  color: var(--ink);
+  border: 1px solid var(--border);
+}
+
+.btn.ghost:hover {
+  background: var(--elevated);
+  color: var(--ink);
+}
+
+/*
+ * O botão de loja fica desabilitado enquanto o app não sai. Um link morto que
+ * parece vivo é pior do que um botão que diz que ainda não é hora.
+ */
+.store {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  height: 60px;
+  padding: 0 24px;
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--ink);
+  text-decoration: none;
+  cursor: default;
+}
+
+.store svg {
+  width: 26px;
+  height: 26px;
+  flex: none;
+  fill: var(--ink);
+}
+
+.store b {
+  display: block;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.15;
+}
+
+.store small {
+  display: block;
+  font-size: 11.5px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* ── o frame de celular ───────────────────────────────────────────────── */
+
+/*
+ * A moldura é desenhada em CSS e não é uma imagem: assim a captura por dentro
+ * pode trocar sem alguém ter que refazer um PNG. A borda escura, o raio de
+ * 44px e o brilho de um pixel na borda interna são o que faz o retângulo
+ * parecer um aparelho e não um cartão.
+ */
+.phone {
+  position: relative;
+  width: 268px;
+  flex: none;
+  border-radius: 44px;
+  padding: 9px;
+  background: linear-gradient(160deg, #2b1a10, #1e0d06 42%, #3a2417);
+  box-shadow:
+    0 2px 4px rgba(30, 13, 6, 0.16),
+    0 34px 70px -28px rgba(30, 13, 6, 0.5);
+}
+
+.phone::after {
+  content: '';
+  position: absolute;
+  inset: 8px;
+  border-radius: 36px;
+  border: 1px solid rgba(245, 239, 230, 0.14);
+  pointer-events: none;
+}
+
+.phone img {
+  border-radius: 36px;
+  width: 100%;
+  display: block;
+}
+
+/* O recorte da câmera, do tamanho que a Dynamic Island tem no aparelho. */
+.phone i {
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 84px;
+  height: 24px;
+  border-radius: 999px;
+  background: #120803;
+  z-index: 2;
+}
+
+.phone.sm {
+  width: 228px;
+  border-radius: 38px;
+}
+
+.phone.sm img,
+.phone.sm::after {
+  border-radius: 31px;
+}
+
+.phone.sm i {
+  width: 72px;
+  height: 21px;
+  top: 17px;
+}
+
+/* ── seções ───────────────────────────────────────────────────────────── */
+
+/*
+ * O respiro entre seções.
+ *
+ * 92px em cima e embaixo dão 184px entre uma seção e a próxima: quatro vezes
+ * o maior espaço interno de uma seção (os 46px entre o texto e o conteúdo),
+ * que é o suficiente para separar sem abrir um vazio.
+ */
+section {
+  padding: clamp(60px, 6.4vw, 92px) 0;
+}
+
+.rule {
+  border: 0;
+  border-top: 1px solid var(--border);
+  margin: 0;
+}
+
+.paper {
+  background: linear-gradient(155deg, #fffdf9, #f2ece2);
+  border: 1.5px solid var(--ink);
+  border-radius: 22px;
+  padding: 26px 24px;
+}
+
+/* ── rodapé ───────────────────────────────────────────────────────────── */
+
+footer {
+  background: var(--ink);
+  color: var(--inverse);
+  padding: 64px 0 44px;
+}
+
+footer .mark {
+  color: var(--inverse);
+}
+
+footer a {
+  color: rgba(245, 239, 230, 0.72);
+  text-decoration: none;
+}
+
+footer a:hover {
+  color: var(--inverse);
+}
+
+.footgrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 40px 64px;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.footlinks {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-size: 15px;
+}
+
+.disclaimer {
+  margin-top: 44px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(245, 239, 230, 0.16);
+  font-size: 13px;
+  line-height: 1.6;
+  color: rgba(245, 239, 230, 0.58);
+  max-width: 68ch;
+}
+
+/* ── páginas legais ───────────────────────────────────────────────────── */
+
+.legal {
+  max-width: 720px;
+  padding-top: clamp(48px, 7vw, 84px);
+  padding-bottom: 96px;
+}
+
+.legal h1 {
+  font-size: clamp(46px, 7vw, 76px);
+}
+
+.legal h2 {
+  font-size: 27px;
+  font-family: var(--body);
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: 0;
+  margin: 52px 0 14px;
+  scroll-margin-top: 88px;
+}
+
+.legal h3 {
+  font-size: 17px;
+  margin: 28px 0 8px;
+}
+
+.legal p,
+.legal li {
+  color: var(--ink2);
+  font-size: 16.5px;
+  line-height: 1.65;
+}
+
+/* Um parágrafo depois de uma lista ou de uma tabela precisa do mesmo respiro
+   que depois de outro parágrafo — sem isto ele encostava na última linha. */
+.legal p + p,
+.legal ul + p,
+.legal ol + p,
+.legal .tablewrap + p,
+.legal table + p {
+  margin-top: 14px;
+}
+
+.legal ul {
+  margin: 14px 0 0;
+  padding-left: 20px;
+}
+
+.legal li + li {
+  margin-top: 9px;
+}
+
+.legal .updated {
+  margin-top: 18px;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+/*
+ * "A versão curta": as quatro linhas que respondem o que a maioria veio
+ * saber, antes das treze seções. Quem quiser o detalhe continua rolando.
+ */
+.resumo {
+  margin-top: 34px;
+  padding: 26px 28px;
+  background: var(--ink);
+  color: var(--inverse);
+  border-radius: 20px;
+}
+
+.resumo p:first-child {
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--copper);
+  margin-bottom: 14px;
+}
+
+.resumo ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+}
+
+.resumo li {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  color: rgba(245, 239, 230, 0.86);
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.resumo svg {
+  width: 19px;
+  height: 19px;
+  flex: none;
+  margin-top: 3px;
+  stroke: var(--copper);
+  fill: none;
+  stroke-width: 2.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* A tabela de dados: o que a Apple pede que esteja explícito. */
+.legal table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 18px;
+  font-size: 15.5px;
+}
+
+.legal th,
+.legal td {
+  text-align: left;
+  vertical-align: top;
+  padding: 12px 14px 12px 0;
+  border-bottom: 1px solid var(--border);
+  color: var(--ink2);
+}
+
+.legal th {
+  font-weight: 700;
+  color: var(--ink);
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.legal td:first-child {
+  font-weight: 600;
+  color: var(--ink);
+  width: 38%;
+}
+
+.tablewrap {
+  overflow-x: auto;
+}
+
+.toc {
+  margin-top: 34px;
+  padding: 22px 24px;
+  background: var(--elevated);
+  border-radius: 18px;
+}
+
+.toc p {
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 12px;
+}
+
+.toc ol {
+  margin: 0;
+  padding-left: 20px;
+  columns: 2;
+  column-gap: 32px;
+}
+
+.toc li {
+  font-size: 15px;
+  margin-bottom: 6px;
+  break-inside: avoid;
+}
+
+.toc a {
+  color: var(--ink2);
+  text-decoration: none;
+}
+
+.toc a:hover {
+  color: var(--burnt);
+  text-decoration: underline;
+}
+
+@media (max-width: 560px) {
+  .toc ol {
+    columns: 1;
+  }
+}
